@@ -16,7 +16,7 @@ signOutLink: "/onboarding/sign-out-confirmation",
 navigationItems: [
 { href: "/library.html", text: "Forms library", id: "nav-library" },
 { href: "/cph-overview/draft/complete-clean.html", text: "Overview", id: "nav-overview" },
-{ href: "/redesigntest/listing", text: "Editor", id: "nav-editor" }
+{ href: "/form-editor/listing", text: "Editor", id: "nav-editor" }
 ],
 activeLinkId: "nav-editor"
 }) }}
@@ -41,48 +41,48 @@ href: "javascript:window.history.back()"
         <form class="form" action="/question-number" method="post">
             <div class="govuk-form-group" id="question-page-radio-group">
                 {{ govukRadios({
-                    name: "questionnumber",
-                    fieldset: {
-                        legend: {
-                            text: "How many questions will you add to this page?",
-                            isPageHeading: true,
-                            classes: "govuk-fieldset__legend--l"
-                        }
-                    },
-                    items: [
-                        {
-                            value: "once",
-                            text: "1 question",
-                            hint: {
-                                text: "This is recommended"
-                            }
-                        },
-                        {
-                            value: "morethan1",
-                            text: "More than 1 question",
-                            hint: {
-                                text: "If you need to ask for multiple related things on a page, like a passport number and expiry date"
-                            }
-                        },
-                        {
-                            divider: "or"
-                        },
-                        {
-                            value: "guidance",
-                            text: "None (guidance only)",
-                            hint: {
-                                text: "If you need to add guidance without asking a question"
-                            }
-                        }
-                    ],
-                    attributes: {
-                        id: "question-page-radio-group"
-                    }
+                name: "questionnumber",
+                fieldset: {
+                legend: {
+                text: "How many questions will you add to this page?",
+                isPageHeading: true,
+                classes: "govuk-fieldset__legend--l"
+                }
+                },
+                items: [
+                {
+                value: "once",
+                text: "1 question",
+                hint: {
+                text: "This is recommended"
+                }
+                },
+                {
+                value: "morethan1",
+                text: "More than 1 question",
+                hint: {
+                text: "If you need to ask for multiple related things on a page, like a passport number and expiry date"
+                }
+                },
+                {
+                divider: "or"
+                },
+                {
+                value: "guidance",
+                text: "None (guidance only)",
+                hint: {
+                text: "If you need to add guidance without asking a question"
+                }
+                }
+                ],
+                attributes: {
+                id: "question-page-radio-group"
+                }
                 }) }}
             </div>
             {{ govukButton({
-                text: "Save and continue",
-                type: "submit"
+            text: "Save and continue",
+            type: "submit"
             }) }}
         </form>
 

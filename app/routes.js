@@ -9,7 +9,7 @@ const router = govukPrototypeKit.requests.setupRouter();
 // import lists stuff
 
 router.get("/form-editor/new-list", (req, res) => {
-  res.render("form-editor/new-list");
+  res.render("form-editor/lists/new");
 });
 router.post("/form-editor/new-list", require("./routes/lists.js").post);
 router.get("/form-editor/list-manager", require("./routes/lists.js").get);
@@ -48,10 +48,10 @@ const express = require("express");
 
 // **** LISTING AND SETUP ROUTES ****************************************************
 //--------------------------------------
-// 2. GET /form-editor/listing.html
+// 2. GET /form-editor/listing
 //    Show the initial listing page
 //--------------------------------------
-router.get("/form-editor/listing.html", function (req, res) {
+router.get("/form-editor/listing", function (req, res) {
   const formPages = req.session.data["formPages"] || [];
 
   // Ensure each question inside each page has its own options array
@@ -69,7 +69,7 @@ router.get("/form-editor/listing.html", function (req, res) {
     formPages
   );
 
-  res.render("form-editor/listing.html", {
+  res.render("form-editor/listing/index", {
     formPages,
   });
 });

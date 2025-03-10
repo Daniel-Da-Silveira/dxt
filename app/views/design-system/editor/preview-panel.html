@@ -31,7 +31,7 @@ activeLinkId: "components"
         {# {{ govukBackLink({
         classes: "govuk-back-link--inverse govuk-!-margin-bottom-0",
         text: "Back to add and edit pages",
-        href: "/redesigntest/listing.html"
+        href: "/form-editor/listing.html"
         }) }} #}
 
         {#
@@ -175,7 +175,7 @@ activeLinkId: "components"
                                     <a href="#" class="govuk-link govuk-link--no-visited-state"
                                         rel="noreferrer noopener" target="_blank">Preview this page in a new tab</a>
                                 </p>
-                                {% include "/redesigntest/templates/previews/numbers/edit.html" %}
+                                {% include "/form-editor/templates/previews/numbers/edit.html" %}
                                 <a href="#edit-page" class="govuk-skip-link" style="margin-bottom: 30px!important;"
                                     data-module="govuk-skip-link">Skip to edit page</a>
                             </div>
@@ -198,7 +198,7 @@ activeLinkId: "components"
                                                 whole number</a></li>
                                         <h3 class="govuk-heading-s">If you set answer limits:</h3>
                                         <li><a id="too-long-input-error-shorttext" class="govuk-error-message"><span
-                                                    id="error-dynamic-text-long">[Short description]</span> must be
+                                                    id="error-dynamic-text-long">[Short description]</span> must
                                                 <span id="max-length">[lowest number]</span> or more</a></li>
                                         <li><a id="too-short-input-error-shorttext" class="govuk-error-message"><span
                                                     id="error-dynamic-text-short">[Short description]</span> must be
@@ -222,7 +222,7 @@ activeLinkId: "components"
                     <ul class="govuk-list govuk-list--bullet">
                         <li>The panel is styled to be visually distinct with a green outline, shadow, and sticky
                             positioning to stay visible when scrolling.</li>
-                        <li>It's split into two main sections: a “Previews” header at the top and tabbed content
+                        <li>It's split into two main sections: a "Previews" header at the top and tabbed content
                             below.</li>
                     </ul>
 
@@ -235,7 +235,7 @@ activeLinkId: "components"
                     </ul>
 
                     <h3 class="govuk-heading-m">Skip links</h3>
-                    <p class="govuk-body">Both tabs include “skip links” for accessibility, allowing users to jump
+                    <p class="govuk-body">Both tabs include "skip links" for accessibility, allowing users to jump
                         directly to edit sections related to the content, such as editing the page or correcting
                         error messages.</p>
                     <p class="govuk-body">To view the skip link, click inside this example above and press tab.</p>
