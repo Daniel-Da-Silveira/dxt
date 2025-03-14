@@ -5,6 +5,13 @@
 
 const govukPrototypeKit = require("govuk-prototype-kit");
 const router = govukPrototypeKit.requests.setupRouter();
+const terms = require("./data/dictionary.json");
+
+// Add middleware to make terms available to all templates
+router.use((req, res, next) => {
+  res.locals.commonTerms = terms;
+  next();
+});
 
 // import lists stuff
 
@@ -79,7 +86,9 @@ router.get("/form-editor/listing", function (req, res) {
 //    Show the page type selection form
 //--------------------------------------
 router.get("/form-editor/page-type.html", function (req, res) {
-  res.render("form-editor/page-type.html");
+  res.render("form-editor/page-type.html", {
+    commonTerms: terms,
+  });
 });
 
 // **** CREATE A NEW PAGE (QUESTION OR GUIDANCE) ****************************************************
@@ -1522,15 +1531,6 @@ router.post("/create-new-form/policy-sme", (req, res) => {
 /* dictionary stuff */
 
 const path = require("path");
-
-// Import the JSON data for common terms
-const terms = require("./data/dictionary.json");
-
-// Middleware to make terms globally available in all routes
-router.use(function (req, res, next) {
-  res.locals.commonTerms = terms;
-  next();
-});
 
 // Finally, export the router
 module.exports = router;

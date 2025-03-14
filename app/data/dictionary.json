@@ -1,5 +1,100 @@
 {
   "back_to": "",
+  "form_editor": {
+    "common": {
+      "back": "Back",
+      "continue": "Save and continue",
+      "save": "Save changes",
+      "cancel": "Cancel",
+      "delete": "Delete",
+      "edit": "Edit",
+      "add": "Add"
+    },
+    "page_type": {
+      "back": "Back to add and edit pages",
+      "title": "What type of page do you want to add?",
+      "question_page": "Question page",
+      "question_page_hint": "A page that asks users for information",
+      "guidance_page": "Guidance page",
+      "guidance_page_hint": "A page that provides users with information"
+    },
+    "information_type": {
+      "back": "Back to add and edit pages",
+      "title": "What information do you need from users?",
+      "hint": "You can ask for more information later",
+      "written": {
+        "title": "Written answer",
+        "hint": "A short or long answer as text or number",
+        "types": {
+          "title": "Type of written answer",
+          "short": "Short answer (a single line)",
+          "long": "Long answer (more than a single line)",
+          "numbers": "Numbers only"
+        }
+      },
+      "date": {
+        "title": "Date",
+        "hint": "A day, month and year or month and year only",
+        "types": {
+          "title": "Type of date",
+          "full": "Day, month and year",
+          "partial": "Month and year"
+        }
+      },
+      "address": {
+        "title": "UK address",
+        "hint": "A street address, town or city and postcode"
+      },
+      "phone": {
+        "title": "Phone number",
+        "hint": "A UK phone number, for example, 07700 900 982 or +44 808 157 0192"
+      },
+      "file": {
+        "title": "Supporting evidence",
+        "hint": "A document, for example, DOC, PDF, CSV, Excel"
+      },
+      "email": {
+        "title": "Email address",
+        "hint": "An email address, for example, name@example.com"
+      },
+      "list": {
+        "title": "A list of options that users can choose from",
+        "types": {
+          "title": "Type of list",
+          "yes_no": {
+            "title": "Yes or No",
+            "hint": "Allow users to answer either 'Yes' or 'No'"
+          },
+          "checkboxes": {
+            "title": "Checkboxes",
+            "hint": "A list for users to select multiple answers"
+          },
+          "radios": {
+            "title": "Radios",
+            "hint": "A list for users to select one answer"
+          },
+          "select": {
+            "title": "Autocomplete",
+            "hint": "A list of options revealed to users as they type"
+          }
+        }
+      }
+    },
+    "listing": {
+      "title": "Form pages",
+      "add_page": "Add a new page",
+      "reorder_pages": "Reorder pages",
+      "preview_form": "Preview form",
+      "no_pages": "No pages added yet"
+    },
+    "delete": {
+      "title": "Delete this page",
+      "confirm_message": "Are you sure you want to delete this page?",
+      "warning": "You cannot recover deleted pages",
+      "confirm_button": "Yes, delete this page",
+      "cancel_button": "Cancel"
+    }
+  },
   "add_new_page": "",
   "reorder_pages": "",
   "preview_form": "",

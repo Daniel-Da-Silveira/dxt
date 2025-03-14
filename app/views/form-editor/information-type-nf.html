@@ -28,8 +28,11 @@ start: "<span class='govuk-heading-s'>Licence to Import an Animal Pathogen/Carri
 
 <div class="x-govuk-masthead x-govuk-masthead--large">
   <div class="govuk-width-container">
-    {{ govukBackLink({ classes: "govuk-back-link--inverse govuk-!-margin-bottom-0", text: "Back to add
-    and edit pages", href: "/form-editor/listing.html" }) }}
+    {{ govukBackLink({
+    classes: "govuk-back-link--inverse govuk-!-margin-bottom-0",
+    text: commonTerms.form_editor.information_type.back,
+    href: "/form-editor/listing.html"
+    }) }}
 
     <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible"
       style="border-bottom: 1px solid white; margin-bottom: 0" />
@@ -93,7 +96,7 @@ start: "<span class='govuk-heading-s'>Licence to Import an Animal Pathogen/Carri
                           name: "dateType",
                           fieldset: {
                           legend: {
-                          text: "Type of date",
+                          text: commonTerms.form_editor.information_type.date.types.title,
                           isPageHeading: true,
                           classes: "govuk-fieldset__legend"
                           }
@@ -101,11 +104,11 @@ start: "<span class='govuk-heading-s'>Licence to Import an Animal Pathogen/Carri
                           items: [
                           {
                           value: "day-month-year",
-                          text: "Day, month and year"
+                          text: commonTerms.form_editor.information_type.date.types.full
                           },
                           {
                           value: "month-year",
-                          text: "Month and year"
+                          text: commonTerms.form_editor.information_type.date.types.partial
                           }
                           ]
                           }) }}
@@ -116,22 +119,21 @@ start: "<span class='govuk-heading-s'>Licence to Import an Animal Pathogen/Carri
                           name: "written",
                           fieldset: {
                           legend: {
-                          text: "Type of written answer"
+                          text: commonTerms.form_editor.information_type.written.types.title
                           }
                           },
                           items: [
                           {
                           value: "short-answer-nf",
-                          text: "Short answer (a single line)"
-
+                          text: commonTerms.form_editor.information_type.written.types.short
                           },
                           {
                           value: "long-answer",
-                          text: "Long answer (more than a single line)"
+                          text: commonTerms.form_editor.information_type.written.types.long
                           },
                           {
                           value: "numbers",
-                          text: "Numbers only"
+                          text: commonTerms.form_editor.information_type.written.types.numbers
                           }
                           ]
                           }) }}
@@ -142,38 +144,37 @@ start: "<span class='govuk-heading-s'>Licence to Import an Animal Pathogen/Carri
                           name: "listType",
                           fieldset: {
                           legend: {
-                          text: "Type of list",
+                          text: commonTerms.form_editor.information_type.list.types.title,
                           classes: "govuk-fieldset__legend"
                           }
                           },
                           items: [
                           {
                           value: "yes-no",
-                          text: "Yes or No",
+                          text: commonTerms.form_editor.information_type.list.types.yes_no.title,
                           hint: {
-                          text: "Allow users to answer either 'Yes' or 'No'"
+                          text: commonTerms.form_editor.information_type.list.types.yes_no.hint
                           }
                           },
                           {
                           value: "checkboxes",
-                          text: "Checkboxes",
+                          text: commonTerms.form_editor.information_type.list.types.checkboxes.title,
                           hint: {
-                          text: "A list for users to select multiple answers"
+                          text: commonTerms.form_editor.information_type.list.types.checkboxes.hint
                           }
                           },
                           {
                           value: "radios",
-                          text: "Radios",
+                          text: commonTerms.form_editor.information_type.list.types.radios.title,
                           hint: {
-                          text: "A list for users to select one answer"
+                          text: commonTerms.form_editor.information_type.list.types.radios.hint
                           }
                           },
                           {
                           value: "select",
-                          text: "Autocomplete",
+                          text: commonTerms.form_editor.information_type.list.types.select.title,
                           hint: {
-                          text: "A list of options revealed to users as they type"
-
+                          text: commonTerms.form_editor.information_type.list.types.select.hint
                           }
                           }
                           ]
@@ -185,20 +186,20 @@ start: "<span class='govuk-heading-s'>Licence to Import an Animal Pathogen/Carri
                           name: "informationQuestion1",
                           fieldset: {
                           legend: {
-                          text: "What information do you need from users?",
+                          text: commonTerms.form_editor.information_type.title,
                           isPageHeading: true,
                           classes: "govuk-fieldset__legend--l"
                           }
                           },
                           hint: {
-                          text: "You can ask for more information later"
+                          text: commonTerms.form_editor.information_type.hint
                           },
                           items: [
                           {
                           value: "text",
-                          text: "Written answer",
+                          text: commonTerms.form_editor.information_type.written.title,
                           hint: {
-                          text: "A short or long answer as text or number"
+                          text: commonTerms.form_editor.information_type.written.hint
                           },
                           conditional: {
                           html: writtenHtml
@@ -206,9 +207,9 @@ start: "<span class='govuk-heading-s'>Licence to Import an Animal Pathogen/Carri
                           },
                           {
                           value: "date",
-                          text: "Date",
+                          text: commonTerms.form_editor.information_type.date.title,
                           hint: {
-                          text: "A day, month and year or month and year only"
+                          text: commonTerms.form_editor.information_type.date.hint
                           },
                           conditional: {
                           html: dateHtml
@@ -216,30 +217,30 @@ start: "<span class='govuk-heading-s'>Licence to Import an Animal Pathogen/Carri
                           },
                           {
                           value: "address",
-                          text: "UK address",
+                          text: commonTerms.form_editor.information_type.address.title,
                           hint: {
-                          text: "A street address, town or city and postcode"
+                          text: commonTerms.form_editor.information_type.address.hint
                           }
                           },
                           {
                           value: "phone",
-                          text: "Phone number",
+                          text: commonTerms.form_editor.information_type.phone.title,
                           hint: {
-                          text: "A UK phone number, for example, 07700 900 982 or +44 808 157 0192"
+                          text: commonTerms.form_editor.information_type.phone.hint
                           }
                           },
                           {
                           value: "file",
-                          text: "Supporting evidence",
+                          text: commonTerms.form_editor.information_type.file.title,
                           hint: {
-                          text: "A document, for example, DOC, PDF, CSV, Excel "
+                          text: commonTerms.form_editor.information_type.file.hint
                           }
                           },
                           {
                           value: "email",
-                          text: "Email address",
+                          text: commonTerms.form_editor.information_type.email.title,
                           hint: {
-                          text: "An email address, for example, name@example.com"
+                          text: commonTerms.form_editor.information_type.email.hint
                           }
                           },
                           {
@@ -247,17 +248,16 @@ start: "<span class='govuk-heading-s'>Licence to Import an Animal Pathogen/Carri
                           },
                           {
                           value: "list",
-                          text: "A list of options that users can choose from",
+                          text: commonTerms.form_editor.information_type.list.title,
                           conditional: {
                           html: list2Html
                           }
-
                           }
                           ]
                           }) }}
 
                           {{ govukButton({
-                          text: "Save and continue",
+                          text: commonTerms.form_editor.common.continue,
                           type: "submit",
                           id: "add-question-button"
                           }) }}
@@ -279,24 +279,24 @@ start: "<span class='govuk-heading-s'>Licence to Import an Animal Pathogen/Carri
 
           // Function to show the relevant preview and hide others
           function showPreview(selectedType) {
-            console.log("Showing preview for:", selectedType); // Debugging line
+            console.log("Showing preview for:", selectedType);
             document.querySelectorAll(".preview-content").forEach((content) => {
-              content.classList.remove("active"); // Hide all previews
+              content.classList.remove("active");
             });
 
             const selectedPreview = document.querySelector(`.${selectedType}-preview`);
             if (selectedPreview) {
-              console.log("Found preview to show:", selectedPreview); // Debugging line
-              selectedPreview.classList.add("active"); // Show the selected preview
+              console.log("Found preview to show:", selectedPreview);
+              selectedPreview.classList.add("active");
             } else {
               console.log("No matching preview found for:", selectedType);
             }
           }
 
-          // Listen for changes to the radio buttons in the `informationQuestion1` group
+          // Listen for changes to the radio buttons
           document.querySelectorAll("input[name='informationQuestion1']").forEach((radio) => {
             radio.addEventListener("change", function () {
-              console.log("Radio changed:", this.value); // Debugging line
+              console.log("Radio changed:", this.value);
               showPreview(this.value);
             });
           });
@@ -304,7 +304,7 @@ start: "<span class='govuk-heading-s'>Licence to Import an Animal Pathogen/Carri
           // Listen for changes to sub-options
           document.querySelectorAll("input[name='written'], input[name='dateType'], input[name='listType']").forEach((subRadio) => {
             subRadio.addEventListener("change", function () {
-              console.log("Sub-option changed:", this.value); // Debugging line
+              console.log("Sub-option changed:", this.value);
               showPreview(this.value);
             });
           });
@@ -312,7 +312,7 @@ start: "<span class='govuk-heading-s'>Licence to Import an Animal Pathogen/Carri
           // Show the preview for the initially selected radio button (if any)
           const initialSelection = document.querySelector("input[name='informationQuestion1']:checked");
           if (initialSelection) {
-            console.log("Initial selection found:", initialSelection.value); // Debugging line
+            console.log("Initial selection found:", initialSelection.value);
             showPreview(initialSelection.value);
           }
         });

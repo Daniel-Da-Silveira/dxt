@@ -22,8 +22,8 @@ activeLinkId: "nav-editor"
 
 <div class="x-govuk-masthead x-govuk-masthead--large">
   <div class="govuk-width-container">
-    {{ govukBackLink({ classes: "govuk-back-link--inverse govuk-!-margin-bottom-0", text: "Back to add
-    and edit pages", href: "/form-editor/listing.html" }) }}
+    {{ govukBackLink({ classes: "govuk-back-link--inverse govuk-!-margin-bottom-0", text:
+    commonTerms.form_editor.information_type.back, href: "/form-editor/listing.html" }) }}
 
     <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible"
       style="border-bottom: 1px solid white; margin-bottom: 0" />
@@ -31,13 +31,8 @@ activeLinkId: "nav-editor"
     <div class="govuk-grid-row">
       <div class="govuk-grid-column-full-from-desktop">
         <h1 class="x-govuk-masthead__title">
-          {# <span class="govuk-caption-l" style="color: white">
-            Apply for a county parish holding certificate
-          </span> #}
           Food order form (user research)
         </h1>
-
-        {# #}
       </div>
     </div>
   </div>
@@ -73,24 +68,22 @@ activeLinkId: "nav-editor"
 
                         <div class="govuk-summary-card__title-wrapper govuk-!-padding-top-0"></div>
 
-                        {# <span class="govuk-caption-l">Page 1</span> #}
                         <h2 class="govuk-heading-l">Edit page 7</h2>
 
                         <form id="s" action="/question-configuration-save" method="post">
                           <!-- Question Label Input -->
                           <div class="govuk-form-group">
                             <label class="govuk-label govuk-label--m" for="question-label-input-email">
-                              Question
+                              {{ commonTerms.question }}
                             </label>
                             <input class="govuk-input" id="question-label-input-email" name="questionLabelInputEmail"
                               type="text" value="">
                           </div>
 
-
                           <!-- Hint Text Input -->
                           {{ govukTextarea({
                           label: {
-                          text: "Hint text (optional)",
+                          text: commonTerms.hint_title,
                           classes: "govuk-label--m"
                           },
                           id: "hint-text-input-email",
@@ -108,7 +101,7 @@ activeLinkId: "nav-editor"
                                 <input class="govuk-checkboxes__input" id="make-optional" name="makeOptional"
                                   type="checkbox" value="optional">
                                 <label class="govuk-label govuk-checkboxes__label" for="make-optional">
-                                  Make this question optional
+                                  {{ commonTerms.optional_question }}
                                 </label>
                               </div>
                             </div>
@@ -116,13 +109,12 @@ activeLinkId: "nav-editor"
 
                           {{ govukInput({
                           label: {
-                          text: "Short description",
+                          text: commonTerms.short_description_title,
                           classes: "govuk-label--m",
                           isPageHeading: false
                           },
                           hint: {
-                          text: "Enter a short description for this question like 'licence period'. Short descriptions
-                          are used in error messages and on the check your answers page."
+                          text: commonTerms.short_description_hint
                           },
                           id: "error-message-input-email",
                           name: "errorMessageInputEmail"
@@ -132,24 +124,21 @@ activeLinkId: "nav-editor"
                           <details class="govuk-details" data-module="govuk-details">
                             <summary class="govuk-details__summary">
                               <span class="govuk-details__summary-text">
-                                Set answer limits (optional)
+                                {{ commonTerms.answer_limits }}
                               </span>
                             </summary>
                             <div class="govuk-details__text">
                               <!-- Default Content for Question 1 -->
                               <div id="question-1-content" class="question-content" style="margin-top: 10px;">
-
                                 {% include "/form-editor/answer-limits/classes.html" %}
-
                               </div>
                           </details>
-
 
                           <!-- Section Break -->
                           <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
 
                           <!-- Question Settings Summary List -->
-                          <h2 class="govuk-heading-m">Question settings</h2>
+                          <h2 class="govuk-heading-m">{{ commonTerms.question_setting_h }}</h2>
 
                           {{ govukSummaryList({
                           "rows": [
@@ -158,13 +147,13 @@ activeLinkId: "nav-editor"
                           "text": "Type of information"
                           },
                           "value": {
-                          "html": "Email address"
+                          "html": commonTerms.form_editor.information_type.email.title
                           },
                           "actions": {
                           "items": [
                           {
                           "href": "/form-editor/question-type/information-type.html",
-                          "text": "Change",
+                          "text": commonTerms.question_setting_link,
                           "visuallyHiddenText": " type"
                           }
                           ]
@@ -175,13 +164,10 @@ activeLinkId: "nav-editor"
 
                           <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
 
-
-                          <!-- Other form elements... -->
-
                           <!-- Submit Button -->
                           <div class="moj-button-action">
                             {{ govukButton({
-                            text: 'Save and continue',
+                            text: commonTerms.form_editor.common.continue,
                             type: 'submit'
                             }) }}
                           </div>

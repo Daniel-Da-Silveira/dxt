@@ -200,11 +200,11 @@ class FormPreview {
                     <legend class="govuk-fieldset__legend govuk-fieldset__legend--${labelSize}">
                         ${question.label}
                     </legend>
-                    ${
-                      question.hint
-                        ? `<div class="govuk-hint">${question.hint}</div>`
-                        : ""
-                    }
+                ${
+                  question.hint
+                    ? `<div class="govuk-hint">${question.hint}</div>`
+                    : ""
+                }
                     <div class="govuk-radios">
                         ${options
                           .map(
@@ -215,17 +215,17 @@ class FormPreview {
                             }">
                                 <label class="govuk-label govuk-radios__label" for="${id}-${index}">
                                     ${option.label}
-                                </label>
+                    </label>
                                 ${
                                   option.hint
                                     ? `<div class="govuk-hint govuk-radios__hint">${option.hint}</div>`
                                     : ""
                                 }
-                            </div>
+                </div>
                         `
                           )
                           .join("")}
-                    </div>
+                </div>
                 </fieldset>
             </div>
         `;
@@ -234,85 +234,85 @@ class FormPreview {
   renderCheckboxes(question, id, labelSize) {
     const options = question.options || [];
     return `
-            <div class="govuk-form-group">
-                <fieldset class="govuk-fieldset">
+                <div class="govuk-form-group">
+                    <fieldset class="govuk-fieldset">
                     <legend class="govuk-fieldset__legend govuk-fieldset__legend--${labelSize}">
                         ${question.label}
-                    </legend>
-                    ${
-                      question.hint
-                        ? `<div class="govuk-hint">${question.hint}</div>`
-                        : ""
-                    }
+                        </legend>
+                        ${
+                          question.hint
+                            ? `<div class="govuk-hint">${question.hint}</div>`
+                            : ""
+                        }
                     <div class="govuk-checkboxes">
                         ${options
                           .map(
                             (option, index) => `
-                            <div class="govuk-checkboxes__item">
+                                <div class="govuk-checkboxes__item">
                                 <input class="govuk-checkboxes__input" id="${id}-${index}" name="${id}" type="checkbox" value="${
                               option.value
                             }">
                                 <label class="govuk-label govuk-checkboxes__label" for="${id}-${index}">
                                     ${option.label}
-                                </label>
-                                ${
-                                  option.hint
-                                    ? `<div class="govuk-hint govuk-checkboxes__hint">${option.hint}</div>`
-                                    : ""
-                                }
-                            </div>
-                        `
+                                    </label>
+                                    ${
+                                      option.hint
+                                        ? `<div class="govuk-hint govuk-checkboxes__hint">${option.hint}</div>`
+                                        : ""
+                                    }
+                                </div>
+                            `
                           )
                           .join("")}
-                    </div>
-                </fieldset>
-            </div>
-        `;
+                        </div>
+                    </fieldset>
+                </div>
+            `;
   }
 
   renderYesNo(question, id, labelSize) {
     return `
-            <div class="govuk-form-group">
-                <fieldset class="govuk-fieldset">
+                <div class="govuk-form-group">
+                    <fieldset class="govuk-fieldset">
                     <legend class="govuk-fieldset__legend govuk-fieldset__legend--${labelSize}">
                         ${question.label}
-                    </legend>
-                    ${
-                      question.hint
-                        ? `<div class="govuk-hint">${question.hint}</div>`
-                        : ""
-                    }
+                        </legend>
+                        ${
+                          question.hint
+                            ? `<div class="govuk-hint">${question.hint}</div>`
+                            : ""
+                        }
                     <div class="govuk-radios govuk-radios--inline">
-                        <div class="govuk-radios__item">
+                                <div class="govuk-radios__item">
                             <input class="govuk-radios__input" id="${id}-yes" name="${id}" type="radio" value="yes">
                             <label class="govuk-label govuk-radios__label" for="${id}-yes">
                                 Yes
-                            </label>
-                        </div>
+                                    </label>
+                                </div>
                         <div class="govuk-radios__item">
                             <input class="govuk-radios__input" id="${id}-no" name="${id}" type="radio" value="no">
                             <label class="govuk-label govuk-radios__label" for="${id}-no">
                                 No
                             </label>
                         </div>
-                    </div>
-                </fieldset>
-            </div>
-        `;
+                        </div>
+                    </fieldset>
+                </div>
+            `;
   }
 
   renderDate(question, id, labelSize) {
     return `
-            <div class="govuk-form-group">
+                <div class="govuk-form-group">
                 <fieldset class="govuk-fieldset" role="group" aria-describedby="${id}-hint">
                     <legend class="govuk-fieldset__legend govuk-fieldset__legend--${labelSize}">
                         ${question.label}
-                    </legend>
-                    ${
-                      question.hint
-                        ? `<div id="${id}-hint" class="govuk-hint">${question.hint}</div>`
-                        : ""
-                    }
+                        </legend>
+                        ${
+                          question.hint
+                            ? `<div id="${id}-hint" class="govuk-hint">${question.hint}</div>`
+                            : ""
+                        }
                     <div class="govuk-date-input" id="${id}">
                         <div class="govuk-date-input__item">
                             <div class="govuk-form-group">
@@ -337,11 +337,11 @@ class FormPreview {
                                 </label>
                                 <input class="govuk-input govuk-date-input__input govuk-input--width-4" id="${id}-year" name="${id}-year" type="text" pattern="[0-9]*" inputmode="numeric">
                             </div>
+                            </div>
                         </div>
-                    </div>
-                </fieldset>
-            </div>
-        `;
+                    </fieldset>
+                </div>
+            `;
   }
 
   renderEmail(question, id, labelSize) {
@@ -388,7 +388,7 @@ class FormPreview {
                     : ""
                 }
                 <input class="govuk-file-upload" id="${id}" name="${id}" type="file">
-            </div>
+          </div>
         `;
   }
 
@@ -418,12 +418,12 @@ class FormPreview {
 
     this.mainContainer.innerHTML = `
             <div class="govuk-width-container">
-                <div class="govuk-error-summary" role="alert" tabindex="-1">
+            <div class="govuk-error-summary" role="alert" tabindex="-1">
                     <h2 class="govuk-error-summary__title">
                         There is a problem
                     </h2>
-                    <div class="govuk-error-summary__body">
-                        <p>${message}</p>
+                <div class="govuk-error-summary__body">
+                    <p>${message}</p>
                     </div>
                 </div>
             </div>

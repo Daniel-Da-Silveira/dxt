@@ -140,52 +140,18 @@ activeLinkId: "nav-editor"
 
 
 
-                          <!-- Answer Limits -->
-
-                          <!-- Answer Limits -->
-                          <details class="govuk-details govuk-!-margin-top-6">
+                          <!-- Answer limits -->
+                          <details class="govuk-details" data-module="govuk-details">
                             <summary class="govuk-details__summary">
-                              <span class="govuk-details__summary-text">Set answer limits (optional) </span>
+                              <span class="govuk-details__summary-text">
+                                {{ commonTerms.answer_limits }}
+                              </span>
                             </summary>
                             <div class="govuk-details__text">
-
-                              {{ govukInput({
-                              label: {
-                              text: "Max days in the past (optional)",
-                              classes: "govuk-label--m",
-                              isPageHeading: false
-                              },
-                              hint: {
-                              text: "Determines the earliest date users can enter"
-                              },
-                              classes: "govuk-input--width-3",
-
-                              id: "max-past",
-                              name: "maxPast",
-                              inputmode: "numeric",
-                              spellcheck: false
-                              }) }}
-
-                              {{ govukInput({
-                              label: {
-                              text: "Max days in the future (optional)",
-                              classes: "govuk-label--m",
-                              isPageHeading: false
-                              },
-                              hint: {
-                              text: "Determines the latest date users can enter"
-                              },
-                              classes: "govuk-input--width-3",
-
-                              id: "max-future",
-                              name: "maxFuture",
-                              inputmode: "numeric",
-                              spellcheck: false
-                              }) }}
-
-                              {% include "/form-editor/answer-limits/classes.html" %}
-
-
+                              <!-- Default Content for Question 1 -->
+                              <div id="question-1-content" class="question-content" style="margin-top: 10px;">
+                                {% include "/form-editor/answer-limits/classes.html" %}
+                              </div>
                             </div>
                           </details>
 
