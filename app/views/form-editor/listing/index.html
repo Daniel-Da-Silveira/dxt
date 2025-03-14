@@ -249,11 +249,11 @@ activeLinkId: "nav-editor"
                                         Page {{ loop.index }}:
                                         {% if page.pageType == 'guidance' %}
                                         {{ page.guidanceOnlyHeadingInput }}
-                                        {% elif page.questions and page.questions.length == 1 %}
-                                        {{ page.questions[0].label }}
                                         {% else %}
                                         {% if page.pageHeading %}
                                         {{ page.pageHeading }}
+                                        {% elif page.questions and page.questions.length == 1 %}
+                                        {{ page.questions[0].label }}
                                         {% else %}
                                         {{ page.pageType | capitalize }}
                                         {% endif %}

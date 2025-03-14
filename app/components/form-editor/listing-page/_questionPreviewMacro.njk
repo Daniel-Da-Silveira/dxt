@@ -1,6 +1,13 @@
-{% macro questionPreview(question) %}
+{% macro questionPreview(question, currentPage) %}
   {% set basePath = "/form-editor/question-type/questions/previews/" %}
   {% set templatePath = "" %}
+
+  {# Determine label size based on page heading and number of questions #}
+  {% if currentPage.pageHeading %}
+    {% set labelSize = "m" %}
+  {% else %}
+    {% set labelSize = (currentPage.questions and currentPage.questions.length == 1) ? "l" : "m" %}
+  {% endif %}
 
   {% if question.type == "phone" %}
     {% set templatePath = basePath + "phone-preview.html" %}
@@ -36,5 +43,5 @@
     {% endif %}
   {% endif %}
 
-  {% include templatePath %}
+  {% include templatePath with { labelSize: labelSize } %}
 {% endmacro %}

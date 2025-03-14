@@ -1,3 +1,5 @@
+{% set labelSize = labelSize or "m" %}
+
 <div class="govuk-form-group">
   <fieldset class="govuk-fieldset">
     <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
@@ -16,10 +18,20 @@
     <!-- autocomplete preview -->
 
     <div class="govuk-form-group">
-      <label id="autocomplete-label" class="govuk-label" for="autocomplete-input">
-        Start typing to select an option
+      <label class="govuk-label govuk-label--{{ labelSize }}" for="autocomplete">
+        {{ question.label }}
       </label>
-      <div id="autocomplete-container"></div>
+      {% if question.hint %}
+      <div id="autocomplete-hint" class="govuk-hint">
+        {{ question.hint }}
+      </div>
+      {% endif %}
+      <select class="govuk-select" id="autocomplete" name="autocomplete" aria-describedby="autocomplete-hint">
+        <option value="">Please select</option>
+        {% for option in question.options %}
+        <option value="{{ option.value }}">{{ option.label }}</option>
+        {% endfor %}
+      </select>
     </div>
 
     <!-- autocomplete preview -->

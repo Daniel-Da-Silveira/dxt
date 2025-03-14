@@ -1,26 +1,25 @@
-<div class="govuk-form-group">
-    <fieldset class="govuk-fieldset" aria-describedby="generic-question-hint">
-        <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
-            <div class="govuk-form-group">
-                <h1 class="govuk-label-wrapper">
-                    <label class="govuk-label govuk-label--l" for="text-input-field" id="question-label-legend">
-                        {{ question.label or data['questionLabelInputYesNo'] or '' }}
+{% set labelSize = labelSize or "m" %}
 
-                    </label>
-                </h1>
+<div class="govuk-form-group">
+    <fieldset class="govuk-fieldset">
+        <legend class="govuk-fieldset__legend govuk-fieldset__legend--{{ labelSize }}">
+            {{ question.label }}
         </legend>
-        <div id="hint-text-output" class="govuk-hint"> {{ data['hintTextInputYesno'] or '' }}
+        {% if question.hint %}
+        <div id="yesno-hint" class="govuk-hint">
+            {{ question.hint }}
         </div>
-        <div class="govuk-radios govuk-radios--inline" data-module="govuk-radios">
+        {% endif %}
+        <div class="govuk-radios govuk-radios--inline">
             <div class="govuk-radios__item">
-                <input class="govuk-radios__input" id="yes-option" name="generic-question" type="radio" value="yes">
-                <label class="govuk-label govuk-radios__label" for="yes-option">
+                <input class="govuk-radios__input" id="yesno-yes" name="yesno" type="radio" value="yes">
+                <label class="govuk-label govuk-radios__label" for="yesno-yes">
                     Yes
                 </label>
             </div>
             <div class="govuk-radios__item">
-                <input class="govuk-radios__input" id="no-option" name="generic-question" type="radio" value="no">
-                <label class="govuk-label govuk-radios__label" for="no-option">
+                <input class="govuk-radios__input" id="yesno-no" name="yesno" type="radio" value="no">
+                <label class="govuk-label govuk-radios__label" for="yesno-no">
                     No
                 </label>
             </div>

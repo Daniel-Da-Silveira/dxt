@@ -101,7 +101,14 @@ router.post("/question-number", function (req, res) {
   const newPage = {
     pageId: Date.now(), // unique ID
     pageType: pageType === "guidance" ? "guidance" : "question",
+    pageHeading: "",
     questions: [],
+    hasGuidance: false,
+    guidanceTextarea: "",
+    allowMultipleResponses: false,
+    setName: "",
+    minResponseCount: "",
+    maxResponseCount: "",
   };
 
   // Push it into formPages
@@ -115,7 +122,7 @@ router.post("/question-number", function (req, res) {
   // Decide where to go next
   if (pageType === "oncenf") {
     // If user chose "question" page
-    return res.redirect("/form-editor/question-type/information-type-nf.html");
+    return res.redirect("/form-editor/information-type-nf.html");
   } else if (pageType === "guidance") {
     // If user chose "guidance" page
     return res.redirect(
@@ -421,7 +428,7 @@ router.get("/page-overview", function (req, res) {
 
   console.log("📌 Current Page ID:", currentPage.pageId); // Debug log for page ID
 
-  res.render("form-editor/question-type/page-overview", {
+  res.render("form-editor/page-overview", {
     currentPage,
   });
 });
@@ -519,18 +526,24 @@ router.post("/page-overview", function (req, res) {
 
   const pageIndex = req.session.data["currentPageIndex"] || 0;
   const formPages = req.session.data["formPages"] || [];
-  const currentPage = formPages[pageIndex] || { questions: [] };
+  const currentPage = formPages[pageIndex] || {
+    questions: [],
+    pageType: "question",
+    pageHeading: "",
+    hasGuidance: false,
+    guidanceTextarea: "",
+    allowMultipleResponses: false,
+    setName: "",
+    minResponseCount: "",
+    maxResponseCount: "",
+  };
 
   // The page heading & guidance text
   const pageHeading = req.body.pageHeading || "";
   const guidanceTextarea = req.body.guidanceTextarea || "";
 
   // If "guidance" checkbox is checked, req.body.guidance === "guidance"
-  if (req.body.guidance === "guidance") {
-    currentPage.hasGuidance = true;
-  } else {
-    currentPage.hasGuidance = false;
-  }
+  currentPage.hasGuidance = req.body.guidance === "guidance";
 
   // The rest of your multiple responses logic
   let allowMultipleResponses = req.body.allowMultipleResponses;
@@ -539,28 +552,31 @@ router.post("/page-overview", function (req, res) {
   const maxResponseCount = req.body.maxResponseCount || "";
 
   if (Array.isArray(allowMultipleResponses)) {
-    if (allowMultipleResponses.includes("true")) {
-      allowMultipleResponses = "true";
-    } else {
-      allowMultipleResponses = "false";
-    }
+    allowMultipleResponses = allowMultipleResponses.includes("true")
+      ? "true"
+      : "false";
   }
 
+  // Update all page fields
   currentPage.pageHeading = pageHeading;
   currentPage.guidanceTextarea = guidanceTextarea;
+  currentPage.allowMultipleResponses = allowMultipleResponses === "true";
+  currentPage.setName = currentPage.allowMultipleResponses
+    ? questionSetName
+    : "";
+  currentPage.minResponseCount = currentPage.allowMultipleResponses
+    ? minResponseCount
+    : "";
+  currentPage.maxResponseCount = currentPage.allowMultipleResponses
+    ? maxResponseCount
+    : "";
 
-  if (allowMultipleResponses === "true") {
-    currentPage.allowMultipleResponses = true;
-    currentPage.setName = questionSetName;
-    currentPage.minResponseCount = minResponseCount;
-    currentPage.maxResponseCount = maxResponseCount;
-  } else {
-    currentPage.allowMultipleResponses = false;
-    currentPage.setName = "";
-    currentPage.minResponseCount = "";
-    currentPage.maxResponseCount = "";
+  // Ensure we have a pageType
+  if (!currentPage.pageType) {
+    currentPage.pageType = "question";
   }
 
+  // Save back to session
   formPages[pageIndex] = currentPage;
   req.session.data["formPages"] = formPages;
 
@@ -992,7 +1008,7 @@ router.get("/conditions/:pageId", function (req, res) {
   // Store current page ID in session
   req.session.data["currentPageId"] = pageId;
 
-  res.render("form-editor/question-type/conditions.html", {
+  res.render("form-editor/conditions.html", {
     currentPage: currentPage,
     pageId: pageId,
     question: {
@@ -1368,6 +1384,152 @@ router.get("/form-editor/preview", function (req, res) {
       formPages: formPages,
     },
   });
+});
+
+// Form creation flow - simple routes without validation
+router.get("/create-new-form/form-name", (req, res) => {
+  // Initialize session data if it doesn't exist
+  req.session.data = req.session.data || {};
+
+  // Generate form ID if not already exists
+  if (!req.session.data.formId) {
+    req.session.data.formId = `FORM-${Date.now()}`;
+  }
+
+  // Log current session data
+  console.log("Current session data:", req.session.data);
+
+  res.render("create-new-form/form-name", {
+    data: req.session.data,
+  });
+});
+
+router.post("/create-new-form/form-name", (req, res) => {
+  // Initialize session data if it doesn't exist
+  req.session.data = req.session.data || {};
+
+  // Store form name from the request body
+  const formName = req.body.formName;
+
+  // Update session data
+  req.session.data = {
+    ...req.session.data,
+    formId: req.session.data.formId || `FORM-${Date.now()}`,
+    formName: formName,
+    formDetails: {
+      id: req.session.data.formId || `FORM-${Date.now()}`,
+      name: formName,
+      createdAt: new Date().toISOString(),
+      status: "draft",
+    },
+  };
+
+  // Log the updated session data
+  console.log("Updated session data after form name:", req.session.data);
+
+  res.redirect("/create-new-form/organisation-name");
+});
+
+router.get("/create-new-form/organisation-name", (req, res) => {
+  // Initialize session data if it doesn't exist
+  req.session.data = req.session.data || {};
+
+  // Log current session data
+  console.log("Current session data:", req.session.data);
+
+  // Check if we have a form name before proceeding
+  if (!req.session.data.formName) {
+    return res.redirect("/create-new-form/form-name");
+  }
+
+  res.render("create-new-form/organisation-name", {
+    data: req.session.data,
+  });
+});
+
+router.post("/create-new-form/organisation-name", (req, res) => {
+  // Initialize session data if it doesn't exist
+  req.session.data = req.session.data || {};
+
+  // Store organisation name from the request body
+  const organisationName = req.body.organisationName;
+
+  // Update session data
+  req.session.data = {
+    ...req.session.data,
+    organisationName: organisationName,
+    formDetails: {
+      ...req.session.data.formDetails,
+      organisation: organisationName,
+    },
+  };
+
+  // Log the updated session data
+  console.log("Updated session data after organisation:", req.session.data);
+
+  res.redirect("/create-new-form/policy-sme");
+});
+
+router.get("/create-new-form/policy-sme", (req, res) => {
+  // Initialize session data if it doesn't exist
+  req.session.data = req.session.data || {};
+
+  // Log current session data
+  console.log("Current session data:", req.session.data);
+
+  // Check if we have the required data before proceeding
+  if (!req.session.data.formName || !req.session.data.organisationName) {
+    return res.redirect("/create-new-form/form-name");
+  }
+
+  res.render("create-new-form/policy-sme", {
+    data: req.session.data,
+  });
+});
+
+router.post("/create-new-form/policy-sme", (req, res) => {
+  // Initialize session data if it doesn't exist
+  req.session.data = req.session.data || {};
+
+  // Store team details from the request body
+  // Ensure we get the first value if it's an array, or the value itself if it's a string
+  const teamName = Array.isArray(req.body.teamName)
+    ? req.body.teamName[0]
+    : req.body.teamName;
+  const email = Array.isArray(req.body.email)
+    ? req.body.email[0]
+    : req.body.email;
+
+  // Update session data
+  req.session.data = {
+    ...req.session.data,
+    teamName: teamName,
+    email: email,
+    formDetails: {
+      ...req.session.data.formDetails,
+      teamName: teamName,
+      email: email,
+      lastUpdated: new Date().toISOString(),
+    },
+  };
+
+  // Log the final session data
+  console.log("Final session data:", req.session.data);
+
+  res.redirect("/cph-overview/draft/default");
+});
+
+/* dictionary stuff */
+
+const path = require("path");
+
+// Import the JSON data for common terms
+const terms = require("./data/dictionary.json");
+
+// Middleware to make terms globally available in all routes
+router.use(function (req, res, next) {
+  res.locals.commonTerms = terms;
+  next();
 });
 
 // Finally, export the router

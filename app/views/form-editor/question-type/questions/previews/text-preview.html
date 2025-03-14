@@ -1,7 +1,14 @@
 <!-- Preview for Text Question -->
+{% set labelSize = labelSize or "m" %}
+
 <div class="govuk-form-group">
-    <label class="govuk-label govuk-label--l" for="question-input" id="question-label-legend">
-        {{ question.label or 'Fallback Label' }}
+    <label class="govuk-label govuk-label--{{ labelSize }}" for="text">
+        {{ question.label }}
     </label>
-    <input class="govuk-input" id="question-input" name="question-input" type="text" autocomplete="off">
+    {% if question.hint %}
+    <div id="text-hint" class="govuk-hint">
+        {{ question.hint }}
+    </div>
+    {% endif %}
+    <input class="govuk-input" id="text" name="text" type="text" aria-describedby="text-hint">
 </div>

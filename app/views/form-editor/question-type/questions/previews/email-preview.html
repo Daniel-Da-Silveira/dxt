@@ -2,17 +2,19 @@
 <p>No questions have been added yet.</p>
 {% else %}
 {% for question in currentPage.questions %} #}
+{% set labelSize = labelSize or "m" %}
+
 <div class="govuk-form-group">
-    <label class="govuk-label govuk-label--l" for="email-input-field" id="question-label-legend">
-        {{ question.label or 'Default Label' }}
+    <label class="govuk-label govuk-label--{{ labelSize }}" for="email">
+        {{ question.label }}
     </label>
-
-    <div id="hint-text-output" class="govuk-hint">
-        {{ question.hint or '' }}
+    {% if question.hint %}
+    <div id="email-hint" class="govuk-hint">
+        {{ question.hint }}
     </div>
-
-    <input class="govuk-input" id="email" name="email" type="email" spellcheck="false" aria-describedby="email-hint"
-        autocomplete="email">
+    {% endif %}
+    <input class="govuk-input" id="email" name="email" type="email" spellcheck="false" autocomplete="email"
+        aria-describedby="email-hint">
 </div>
 {# {% endfor %}
 {% endif %} #}

@@ -1,24 +1,35 @@
+{% set labelSize = labelSize or "m" %}
+
 <div class="preview-item" data-id="question-{{ question.questionId }}">
     <fieldset class="govuk-fieldset">
-        <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
+        <legend class="govuk-fieldset__legend govuk-fieldset__legend--{{ labelSize }}">
             {{ question.label }}
         </legend>
-        {% if question.options | length > 0 %}
-        {% for option in question.options %}
-        <div class="govuk-radios__item">
-            <input class="govuk-radios__input" id="option-{{ loop.index }}" name="previewRadios" type="radio"
-                value="{{ option.value }}">
-            <label class="govuk-label govuk-radios__label" for="option-{{ loop.index }}">
-                {{ option.label }}
-            </label>
-            {% if option.hint %}
-            <div class="govuk-hint govuk-radios__hint">{{ option.hint }}</div>
+        {% if question.hint %}
+        <div id="radios-hint" class="govuk-hint">
+            {{ question.hint }}
+        </div>
+        {% endif %}
+        <div class="govuk-radios">
+            {% if question.options | length > 0 %}
+            {% for option in question.options %}
+            <div class="govuk-radios__item">
+                <input class="govuk-radios__input" id="radio-{{ loop.index }}" name="radio-group" type="radio"
+                    value="{{ option.value }}">
+                <label class="govuk-label govuk-radios__label" for="radio-{{ loop.index }}">
+                    {{ option.label }}
+                </label>
+                {% if option.hint %}
+                <div id="radio-{{ loop.index }}-hint" class="govuk-hint govuk-radios__hint">
+                    {{ option.hint }}
+                </div>
+                {% endif %}
+            </div>
+            {% endfor %}
+            {% else %}
+            <p class="govuk-body">No options available.</p>
             {% endif %}
         </div>
-        {% endfor %}
-        {% else %}
-        <p class="govuk-body">No options available.</p>
-        {% endif %}
     </fieldset>
 </div>
 

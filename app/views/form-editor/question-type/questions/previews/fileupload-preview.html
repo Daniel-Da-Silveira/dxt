@@ -1,4 +1,18 @@
-<div class="govuk-form-group"></div>
+{% set labelSize = labelSize or "m" %}
+
+<div class="govuk-form-group">
+    <label class="govuk-label govuk-label--{{ labelSize }}" for="file-upload">
+        {{ question.label }}
+    </label>
+    {% if question.hint %}
+    <div id="file-upload-hint" class="govuk-hint">
+        {{ question.hint }}
+    </div>
+    {% endif %}
+    <input class="govuk-file-upload" id="file-upload" name="file-upload" type="file"
+        aria-describedby="file-upload-hint">
+</div>
+
 <h1 class="govuk-label-wrapper">
     <label class="govuk-label govuk-label--l" for="text-input-field" id="question-label-legend">
         {{ question.label or '' }}

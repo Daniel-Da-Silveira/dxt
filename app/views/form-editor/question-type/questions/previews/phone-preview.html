@@ -3,16 +3,19 @@
 {% else %}
 {% for question in currentPage.questions %} #}
 
+{% set labelSize = labelSize or "m" %}
 
 <div class="govuk-form-group">
-    <label class="govuk-label govuk-label--l" for="phone-number-input" id="question-label-legend">
-        {{ question.label or data['questionLabelInputPhone'] or '' }}
+    <label class="govuk-label govuk-label--{{ labelSize }}" for="phone">
+        {{ question.label }}
     </label>
-    <div id="hint-text-output" class="govuk-hint">
-        {{ question.hint or '' }}
+    {% if question.hint %}
+    <div id="phone-hint" class="govuk-hint">
+        {{ question.hint }}
     </div>
-    <input class="govuk-input govuk-input--width-20" id="phone-number-input" name="phoneNumber" type="tel"
-        autocomplete="tel">
+    {% endif %}
+    <input class="govuk-input govuk-input--width-20" id="phone" name="phone" type="tel" autocomplete="tel"
+        aria-describedby="phone-hint">
 </div>
 {# {% endfor %}
 {% endif %} #}

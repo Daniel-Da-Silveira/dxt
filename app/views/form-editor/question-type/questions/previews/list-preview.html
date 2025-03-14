@@ -1,7 +1,16 @@
 <!-- Preview for Text Question -->
+{% set labelSize = labelSize or "m" %}
+
 <div class="govuk-form-group">
-    <label class="govuk-label govuk-label--l" for="question-input" id="question-label-legend">
-        {{ question.label or 'Fallback Label' }}
+    <label class="govuk-label govuk-label--{{ labelSize }}" for="list">
+        {{ question.label }}
     </label>
-    <input class="govuk-input" id="question-input" name="question-input" type="text" autocomplete="off">
+    {% if question.hint %}
+    <div id="list-hint" class="govuk-hint">
+        {{ question.hint }}
+    </div>
+    {% endif %}
+    <select class="govuk-select" id="list" name="list" aria-describedby="list-hint">
+        <option value="">Please select</option>
+    </select>
 </div>

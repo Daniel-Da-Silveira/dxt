@@ -39,8 +39,8 @@ activeLinkId: "form-library"
           Create or search for a form.</p>
         <div class="govuk-button-group">
 
-          <a href="/new-form/form-name.html" role="button" draggable="false" class="govuk-button govuk-button--inverse"
-            data-module="govuk-button">
+          <a href="/create-new-form/form-name.html" role="button" draggable="false"
+            class="govuk-button govuk-button--inverse" data-module="govuk-button">
             Create a new form
           </a>
         </div>
@@ -94,10 +94,10 @@ formLibrary.items %}
         <h2 id="search-filters-heading" class="govuk-heading-m govuk-!-margin-bottom-4">Search</h2>
 
         {{ govukInput({
-          label: { text: "Form name" },
-          id: "name",
-          name: "name",
-          value: data["name"]
+        label: { text: "Form name" },
+        id: "name",
+        name: "name",
+        value: data["name"]
         }) }}
 
         {% set hasFilters = data["name"] or data["author"] or data["organisation"] or data["status"] %}
@@ -107,290 +107,283 @@ formLibrary.items %}
           <h3 id="applied-filters-heading" class="govuk-heading-s">Applied filters:</h3>
           <ul class="govuk-list govuk-list--bullet govuk-list--spaced">
             {% if data["name"] %}
-              <li><strong>Name: </strong>{{ data["name"] }}</li>
+            <li><strong>Name: </strong>{{ data["name"] }}</li>
             {% endif %}
 
             {% if data["author"] %}
             {% if data["author"] is string %}
-              {% set authors = [data["author"]] %}
+            {% set authors = [data["author"]] %}
             {% elseif data["author"] is iterable %}
-              {% set authors = data["author"] %}
+            {% set authors = data["author"] %}
             {% else %}
-              {% set authors = [] %}
+            {% set authors = [] %}
             {% endif %}
             {% for author in authors %}
-              <li><strong>Author:</strong> {{ author }}</li>
+            <li><strong>Author:</strong> {{ author }}</li>
             {% endfor %}
-          {% endif %}
+            {% endif %}
 
             {% if data["organisation"] %}
-              {% if data["organisation"] is string %}
-                {% set organisations = [data["organisation"]] %}
-              {% else %}
-                {% set organisations = data["organisation"] %}
-              {% endif %}
-              {% for organisation in organisations %}
-                <li><strong>Organisation:</strong> {{ organisation }}</li>
-              {% endfor %}
+            {% if data["organisation"] is string %}
+            {% set organisations = [data["organisation"]] %}
+            {% else %}
+            {% set organisations = data["organisation"] %}
+            {% endif %}
+            {% for organisation in organisations %}
+            <li><strong>Organisation:</strong> {{ organisation }}</li>
+            {% endfor %}
             {% endif %}
             {% if data["status"] %}
-              {% if data["status"] is string %}
-                {% set statuses = [data["status"]] %}
-              {% else %}
-                {% set statuses = data["status"] %}
-              {% endif %}
-              {% for status in statuses %}
-                <li><strong>State:</strong> {{ status }}</li>
-              {% endfor %}
+            {% if data["status"] is string %}
+            {% set statuses = [data["status"]] %}
+            {% else %}
+            {% set statuses = data["status"] %}
+            {% endif %}
+            {% for status in statuses %}
+            <li><strong>State:</strong> {{ status }}</li>
+            {% endfor %}
             {% endif %}
           </ul>
           {# <a href="?page=1&name=&author=&organisation=&status=&sort=updated-newest"
-          class="govuk-link govuk-link--no-visited-state govuk-link--secondary">
-         Clear filters
-       </a> #}
+            class="govuk-link govuk-link--no-visited-state govuk-link--secondary">
+            Clear filters
+          </a> #}
 
-                  </div>
+        </div>
         {% endif %}
 
         <div id="search-buttons--header" class="govuk-button-group govuk-!-margin-bottom-4">
           {{ govukButton({ text: "Apply filters" }) }}
           {{ govukButton({
-            text: "Clear filters",
-            href: "?page=1&name=&author=&organisation=&status=&sort=updated-newest",
-            classes: "govuk-button--secondary"
+          text: "Clear filters",
+          href: "?page=1&name=&author=&organisation=&status=&sort=updated-newest",
+          classes: "govuk-button--secondary"
           }) }}
         </div>
       </aside>
-    {# </div> #}
+      {#
+    </div> #}
 
 
-        <h3 class="govuk-heading-m govuk-!-margin-bottom-1">Advanced search</h3>
-        <p class="govuk-body">Apply additional filters</p>
+    <h3 class="govuk-heading-m govuk-!-margin-bottom-1">Advanced search</h3>
+    <p class="govuk-body">Apply additional filters</p>
 
-        {{ govukAccordion({
-        id: "search-filters-advanced",
+    {{ govukAccordion({
+    id: "search-filters-advanced",
 
-        items: [
-        {
-        heading: { text: "Authors" },
-        expanded: true or (data["author"] | length > 1 or (data["author"] | length == 1 and data["author"][0] != "")),
-        content: {
-        html: govukRadios({
-        name: "author",
+    items: [
+    {
+    heading: { text: "Authors" },
+    expanded: true or (data["author"] | length > 1 or (data["author"] | length == 1 and data["author"][0] != "")),
+    content: {
+    html: govukRadios({
+    name: "author",
 
-        classes: "govuk-radios--small",
+    classes: "govuk-radios--small",
 
-        fieldset: {
-        legend: {
-        text: "Select all authors that apply",
-        isPageHeading: false
-        }
-        },
-        items: formAuthor.items,
-        values: data["author"] or [""]
-        }) | safe
-        }
-        },
-        {
-        heading: { text: "Organisation" },
-        expanded: data["organisation"] | length > 0,
-        content: {
-        html: govukCheckboxes({
-        name: "organisation",
-        classes: "govuk-checkboxes--small",
+    fieldset: {
+    legend: {
+    text: "Select all authors that apply",
+    isPageHeading: false
+    }
+    },
+    items: formAuthor.items,
+    values: data["author"] or [""]
+    }) | safe
+    }
+    },
+    {
+    heading: { text: "Organisation" },
+    expanded: data["organisation"] | length > 0,
+    content: {
+    html: govukCheckboxes({
+    name: "organisation",
+    classes: "govuk-checkboxes--small",
 
-        fieldset: {
-        legend: {
-        text: "Select all organisations that apply",
-        isPageHeading: false
-        }
-        },
-        items: formOrganisation.items,
-        values: data["organisation"]
-        }) | safe
-        }
-        },
-        {
-        heading: { text: "State" },
-        expanded: data["status"] | length > 0,
-        content: {
-        html: govukCheckboxes({
-        name: "status",
-        classes: "govuk-checkboxes--small",
+    fieldset: {
+    legend: {
+    text: "Select all organisations that apply",
+    isPageHeading: false
+    }
+    },
+    items: formOrganisation.items,
+    values: data["organisation"]
+    }) | safe
+    }
+    },
+    {
+    heading: { text: "State" },
+    expanded: data["status"] | length > 0,
+    content: {
+    html: govukCheckboxes({
+    name: "status",
+    classes: "govuk-checkboxes--small",
 
-        fieldset: {
-        legend: {
-        text: "Select all states that apply",
-        isPageHeading: false,
-        classes: "govuk-fieldset__legend"
-        }
-        },
-        items: formStatus.items,
-        values: data["status"]
-        }) | safe
-        }
-        }
-        ]
-        }) | safe }}
+    fieldset: {
+    legend: {
+    text: "Select all states that apply",
+    isPageHeading: false,
+    classes: "govuk-fieldset__legend"
+    }
+    },
+    items: formStatus.items,
+    values: data["status"]
+    }) | safe
+    }
+    }
+    ]
+    }) | safe }}
 
-        <div id="search-buttons--header" class="govuk-button-group govuk-!-margin-bottom-4">
-          {{ govukButton({ text: "Apply filters" }) }}
-          {{ govukButton({
-            text: "Clear filters",
-            href: "?page=1&name=&author=&organisation=&status=&sort=updated-newest",
-            classes: "govuk-button--secondary"
-          }) }}
-        </div>
-        {# {{ searchButtons | safe }} #}
-      </aside>
+    <div id="search-buttons--header" class="govuk-button-group govuk-!-margin-bottom-4">
+      {{ govukButton({ text: "Apply filters" }) }}
+      {{ govukButton({
+      text: "Clear filters",
+      href: "?page=1&name=&author=&organisation=&status=&sort=updated-newest",
+      classes: "govuk-button--secondary"
+      }) }}
     </div>
+    {# {{ searchButtons | safe }} #}
+    </aside>
+  </div>
 
-<!-- Results -->
-<main id="search-results" class="app-search__results govuk-grid-column-two-thirds-from-desktop">
-  <h2 class="govuk-heading-m">
-    <span class="govuk-visually-hidden">Search results</span>
-    {{ formItems.length }}
-    forms
-  </h2>
+  <!-- Results -->
+  <main id="search-results" class="app-search__results govuk-grid-column-two-thirds-from-desktop">
+    <h2 class="govuk-heading-m">
+      <span class="govuk-visually-hidden">Search results</span>
+      {{ formItems.length }}
+      forms
+    </h2>
 
-  <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
+    <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
 
-  {# <a href="#search-results" class="govuk-skip-link">Skip to results</a>
-<a href="#search-filters" class="govuk-skip-link">Skip to filters</a> #}
+    {# <a href="#search-results" class="govuk-skip-link">Skip to results</a>
+    <a href="#search-filters" class="govuk-skip-link">Skip to filters</a> #}
 
 
-  {% if formItems.length > 0 %}
+    {% if formItems.length > 0 %}
     <!-- Sort by menu -->
     <div class="app-field-group">
       <div class="app-field-group__item">
         <input type="hidden" name="page" value="1">
         {{ govukSelect({
-          id: "sort",
-          name: "sort",
-          label: {
-            text: "Sort by",
-            classes: "app-field-group__label"
-          },
-          classes: "app-field-group__input",
-          items: [
-            { value: "updated-newest", text: "Updated (newest)", selected: true },
-            { value: "updated-oldest", text: "Updated (oldest)" },
-            { value: "name-ascending", text: "Form name (A to Z)" },
-            { value: "name-descending", text: "Form name (Z to A)" }
-          ],
-          value: data["sort"]
+        id: "sort",
+        name: "sort",
+        label: {
+        text: "Sort by",
+        classes: "app-field-group__label"
+        },
+        classes: "app-field-group__input",
+        items: [
+        { value: "updated-newest", text: "Updated (newest)", selected: true },
+        { value: "updated-oldest", text: "Updated (oldest)" },
+        { value: "name-ascending", text: "Form name (A to Z)" },
+        { value: "name-descending", text: "Form name (Z to A)" }
+        ],
+        value: data["sort"]
         }) }}
       </div>
       <div class="app-field-group__item">
         {{ govukButton({
-          text: "Sort forms",
-          classes: "govuk-button--secondary app-field-group__button"
+        text: "Sort forms",
+        classes: "govuk-button--secondary app-field-group__button"
         }) }}
       </div>
     </div>
 
-    {% set formsByPage = (formItems | sort(attribute = sortBy, reverse = sortReverse) if sortBy else formItems) | slice(pageCount) %}
+    {% set formsByPage = (formItems | sort(attribute = sortBy, reverse = sortReverse) if sortBy else formItems) |
+    slice(pageCount) %}
 
     <!-- Initialize rows -->
     {% set formRowsMobile = [] %}
     {% set formRowsDesktop = [] %}
 
     {% for formItem in formsByPage[pageCurrent - 1] %}
-      {% set formHref = formItem.href if formItem.href else "/form-designer-v2/" + formItem.path %}
+    {% set formHref = formItem.href if formItem.href else "/form-designer-v2/" + formItem.path %}
 
-      {% set formName %}
-      <a href="{{ formHref }}" class="govuk-link govuk-link--no-visited-state">
-        {{ formItem.name }}
-      </a>
-      {% endset %}
+    {% set formName %}
+    <a href="{{ formHref }}" class="govuk-link govuk-link--no-visited-state">
+      {{ formItem.name }}
+    </a>
+    {% endset %}
 
-      {% set formUpdated %}
-      <span class="app-display-until-desktop">Updated</span>
-      {{ formItem.updated.date | govukDate("truncate") }}<br>by {{ formItem.updated.name }}
-      {% endset %}
+    {% set formUpdated %}
+    <span class="app-display-until-desktop">Updated</span>
+    {{ formItem.updated.date | govukDate("truncate") }}<br>by {{ formItem.updated.name }}
+    {% endset %}
 
-      {% set formNameUpdated %}
-      {{ formName | safe }}
-      <p class="govuk-!-margin-top-2 govuk-!-margin-bottom-1">
-        {{ formUpdated | safe }}
-      </p>
-      {% endset %}
+    {% set formNameUpdated %}
+    {{ formName | safe }}
+    <p class="govuk-!-margin-top-2 govuk-!-margin-bottom-1">
+      {{ formUpdated | safe }}
+    </p>
+    {% endset %}
 
-      {% set formStatus %}
-      {% set tagDraft = govukTag({ text: "Draft", classes: "govuk-tag--orange govuk-!-margin-bottom-1" }) %}
-      {% set tagLive = govukTag({ text: "Live", classes: "govuk-tag--green govuk-!-margin-top-1" }) %}
+    {% set formStatus %}
+    {% set tagDraft = govukTag({ text: "Draft", classes: "govuk-tag--orange govuk-!-margin-bottom-1" }) %}
+    {% set tagLive = govukTag({ text: "Live", classes: "govuk-tag--green govuk-!-margin-top-1" }) %}
 
-      {% switch formItem.status %}
-        {% case "draft" %}{{ tagDraft }}
-        {% case "draft-live" %}{{ tagDraft }} {{ tagLive }}
-        {% case "live" %}{{ tagLive }}
-      {% endswitch %}
-      {% endset %}
+    {% switch formItem.status %}
+    {% case "draft" %}{{ tagDraft }}
+    {% case "draft-live" %}{{ tagDraft }} {{ tagLive }}
+    {% case "live" %}{{ tagLive }}
+    {% endswitch %}
+    {% endset %}
 
-      {% set formRowsMobile = (formRowsMobile.push([
-        { html: formNameUpdated },
-        { html: formStatus }
-      ]), formRowsMobile) %}
+    {% set formRowsMobile = (formRowsMobile.push([
+    { html: formNameUpdated },
+    { html: formStatus }
+    ]), formRowsMobile) %}
 
-      {% set formRowsDesktop = (formRowsDesktop.push([
-        { html: formName },
-        { html: formUpdated },
-        { html: formStatus }
-      ]), formRowsDesktop) %}
+    {% set formRowsDesktop = (formRowsDesktop.push([
+    { html: formName },
+    { html: formUpdated },
+    { html: formStatus }
+    ]), formRowsDesktop) %}
     {% endfor %}
 
     {% if formsByPage[pageCurrent - 1] | length > 0 %}
-      <!-- Display tables -->
-      {{ govukTable({
-        classes: "app-display-until-desktop",
-        head: [
-          { text: "Name", classes: "govuk-!-width-three-quarters" },
-          { text: "Status" }
-        ],
-        rows: formRowsMobile
-      }) }}
+    <!-- Display tables -->
+    {{ govukTable({
+    classes: "app-display-until-desktop",
+    head: [
+    { text: "Name", classes: "govuk-!-width-three-quarters" },
+    { text: "Status" }
+    ],
+    rows: formRowsMobile
+    }) }}
 
-      {{ govukTable({
-        classes: "app-display-from-desktop",
-        head: [
-          { text: "Name", classes: "govuk-!-width-one-half" },
-          { text: "Last updated" },
-          { text: "Status" }
-        ],
-        rows: formRowsDesktop
-      }) }}
+    {{ govukTable({
+    classes: "app-display-from-desktop",
+    head: [
+    { text: "Name", classes: "govuk-!-width-one-half" },
+    { text: "Last updated" },
+    { text: "Status" }
+    ],
+    rows: formRowsDesktop
+    }) }}
     {% endif %}
 
     <!-- Pagination -->
     {% set pageItems = [] %}
     {% for forms in formsByPage %}
-      {% set isPrevious = loop.index - pageCurrent == -1 %}
-      {% set isUpcoming = loop.index >= pageCurrent and loop.index - pageCurrent <= 2 %}
-      {% if loop.first or loop.last or isPrevious or isUpcoming %}
-        {% set pageItems=(pageItems.push({ number: loop.index, href: "?page=" + loop.index, current: loop.index==pageCurrent }), pageItems) %}
-      {% else %}
-        {% set pageItems=(pageItems.push({ellipsis: true}), pageItems) %}
-      {% endif %}
-    {% endfor %}
-    {% if pageCount > 1 %}
+    {% set isPrevious = loop.index - pageCurrent == -1 %}
+    {% set isUpcoming = loop.index >= pageCurrent and loop.index - pageCurrent <= 2 %} {% if loop.first or loop.last or
+      isPrevious or isUpcoming %} {% set pageItems=(pageItems.push({ number: loop.index, href: "?page=" + loop.index,
+      current: loop.index==pageCurrent }), pageItems) %} {% else %} {% set pageItems=(pageItems.push({ellipsis: true}),
+      pageItems) %} {% endif %} {% endfor %} {% if pageCount> 1 %}
       {{ govukPagination({
-        previous: { href: "?page=" + (pageCurrent - 1) } if pageCurrent > 1,
-        next: { href: "?page=" + (pageCurrent + 1) } if pageCurrent < pageCount,
-        items: pageItems
-      }) }}
-    {% endif %}
-  {% else %}
-    <!-- No results message -->
-    <h3 id="search-results-heading" class="govuk-heading-m govuk-!-padding-top-4">
-      There are no matching forms
-    </h3>
-    <p class="govuk-body">Improve your search results by removing filters.</p>
-    <a href="?page=1&name=&author=&organisation=&status=&sort=updated-newest"
-       class="govuk-link--no-visited-state">
-      Clear filters
-    </a>
-  {% endif %}
-</main>
+      previous: { href: "?page=" + (pageCurrent - 1) } if pageCurrent > 1,
+      next: { href: "?page=" + (pageCurrent + 1) } if pageCurrent < pageCount, items: pageItems }) }} {% endif %} {%
+        else %} <!-- No results message -->
+        <h3 id="search-results-heading" class="govuk-heading-m govuk-!-padding-top-4">
+          There are no matching forms
+        </h3>
+        <p class="govuk-body">Improve your search results by removing filters.</p>
+        <a href="?page=1&name=&author=&organisation=&status=&sort=updated-newest" class="govuk-link--no-visited-state">
+          Clear filters
+        </a>
+        {% endif %}
+  </main>
 
 
   </div>

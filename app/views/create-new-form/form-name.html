@@ -1,0 +1,39 @@
+{% extends "layouts/main.html" %}
+
+{% block pageTitle %}
+What is the name of your form? - Create a new form
+{% endblock %}
+
+{% block beforeContent %}
+{{ govukBackLink({
+text: "Back",
+href: "/library"
+}) }}
+{% endblock %}
+
+{% block content %}
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <form class="form" action="/create-new-form/form-name" method="post">
+      {{ govukInput({
+      label: {
+      text: "What is the name of your form?",
+      classes: "govuk-label--l",
+      isPageHeading: true
+      },
+      hint: {
+      text: "This will be displayed at the top of your form and in the forms library."
+      },
+      id: "form-name",
+      name: "formName",
+      value: data.formName,
+      errorMessage: errors.formName
+      }) }}
+
+      {{ govukButton({
+      text: "Continue"
+      }) }}
+    </form>
+  </div>
+</div>
+{% endblock %}
