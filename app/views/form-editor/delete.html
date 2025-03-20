@@ -2,7 +2,8 @@
 
 {% from "components/service-header/macro.njk" import serviceHeader %}
 
-{% set pageName = "Are you sure you want to delete page # - Apply for a county parish holding number in England" %}
+{% set pageName = "Are you sure you want to delete page " + pageNumber + " - Apply for a county parish holding number in
+England" %}
 
 {% block header %}
 {{ serviceHeader({
@@ -23,8 +24,8 @@ activeLinkId: "nav-editor"
 
 <div class="x-govuk-masthead x-govuk-masthead--large">
   <div class="govuk-width-container">
-    {{ govukBackLink({ classes: "govuk-back-link--inverse govuk-!-margin-bottom-0", text: "Back to edit page #", href:
-    "javascript:window.history.back()" }) }}
+    {{ govukBackLink({ classes: "govuk-back-link--inverse govuk-!-margin-bottom-0", text: "Back to edit page " +
+    pageNumber, href: "/form-editor/listing.html" }) }}
 
     <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible"
       style="border-bottom: 1px solid white; margin-bottom: 0" />
@@ -32,10 +33,9 @@ activeLinkId: "nav-editor"
     <div class="govuk-grid-row">
       <div class="govuk-grid-column-full-from-desktop">
         <h1 class="x-govuk-masthead__title">
-          {# <span class="govuk-caption-l" style="color: white">
-            Apply for a county parish holding certificate
-          </span> #}
-          Food order form (user research)
+          <span class="govuk-caption-l" style="color: white">
+            {{ form.name }}
+          </span>
         </h1>
 
         {# #}

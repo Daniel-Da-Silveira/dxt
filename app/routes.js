@@ -60,12 +60,12 @@ const express = require("express");
 //--------------------------------------
 router.get("/form-editor/listing", function (req, res) {
   const formPages = req.session.data["formPages"] || [];
+  const formData = req.session.data || {};
 
   // Ensure each question inside each page has its own options array
   formPages.forEach((page) => {
     page.questions.forEach((question) => {
       if (question.subType === "radios" || question.subType === "checkboxes") {
-        // Add checkboxes here
         question.options = question.options || [];
       }
     });
@@ -78,6 +78,9 @@ router.get("/form-editor/listing", function (req, res) {
 
   res.render("form-editor/listing/index", {
     formPages,
+    form: {
+      name: formData.formName || "Form name",
+    },
   });
 });
 
@@ -86,8 +89,12 @@ router.get("/form-editor/listing", function (req, res) {
 //    Show the page type selection form
 //--------------------------------------
 router.get("/form-editor/page-type.html", function (req, res) {
+  const formData = req.session.data || {};
   res.render("form-editor/page-type.html", {
     commonTerms: terms,
+    form: {
+      name: formData.formName || "Form name",
+    },
   });
 });
 
@@ -170,6 +177,8 @@ router.post("/information-type-answer-nf", function (req, res) {
 
   // Get the current page
   const currentPage = formPages[pageIndex];
+  const questionIndex = req.session.data["currentQuestionIndex"] || 0;
+  const questionNumber = questionIndex + 1; // Convert 0-based index to 1-based question number
 
   // 3. Store question type and subtypes in session
   req.session.data["currentQuestionType"] = mainType;
@@ -204,6 +213,12 @@ router.post("/information-type-answer-nf", function (req, res) {
 //    Render different templates depending on the user's choice
 //--------------------------------------
 router.get("/question-configuration", function (req, res) {
+  const formData = req.session.data || {};
+  const pageIndex = req.session.data["currentPageIndex"] || 0;
+  const pageNumber = pageIndex + 1; // Convert 0-based index to 1-based page number
+  const questionIndex = req.session.data["currentQuestionIndex"] || 0;
+  const questionNumber = questionIndex + 1; // Convert 0-based index to 1-based question number
+
   // Retrieve the stored type choices from session
   const mainType = req.session.data["currentQuestionType"];
   const writtenSubType = req.session.data["writtenSubType"];
@@ -215,24 +230,18 @@ router.get("/question-configuration", function (req, res) {
 
   // Decide which template to render based on mainType & subType
   if (mainType === "text") {
-    // Choose the template based on writtenSubType
     if (writtenSubType === "short-answer-nf") {
       templateToRender = "/form-editor/question-type/shorttext/edit-nf.html";
     } else if (writtenSubType === "long-answer") {
       templateToRender = "/form-editor/question-type/textarea/edit-nf.html";
     } else if (writtenSubType === "numbers") {
       templateToRender = "/form-editor/question-type/numbers/edit-nf.html";
-    } else {
-      // Fallback for an unknown sub-type
-      templateToRender = "/form-editor/question-type/default.html";
     }
   } else if (mainType === "date") {
     if (dateSubType === "day-month-year") {
       templateToRender = "/form-editor/question-type/date/edit-nf.html";
     } else if (dateSubType === "month-year") {
       templateToRender = "/form-editor/question-type/date-mmyy/edit-nf.html";
-    } else {
-      templateToRender = "/form-editor/question-type/default.html";
     }
   } else if (mainType === "address") {
     templateToRender = "/form-editor/question-type/address/edit-nf.html";
@@ -246,18 +255,22 @@ router.get("/question-configuration", function (req, res) {
     if (listSubType === "yes-no") {
       templateToRender = "/form-editor/question-type/yesno/edit-nf.html";
     } else if (listSubType === "checkboxes") {
-      templateToRender = "/form-editor/question-type/checkboxes-nf/add.html";
+      templateToRender = "/form-editor/question-type/checkboxes-nf/edit.html";
     } else if (listSubType === "radios") {
-      templateToRender = "/form-editor/question-type/radios-nf/add.html";
+      templateToRender = "/form-editor/question-type/radios-nf/edit.html";
     } else if (listSubType === "select") {
       templateToRender = "/form-editor/question-type/autocomplete-nf/edit.html";
-    } else {
-      templateToRender = "/form-editor/question-type/default.html";
     }
   }
 
-  // Finally, render the chosen template
-  res.render(templateToRender);
+  // Render the template with both page and question numbers
+  res.render(templateToRender, {
+    form: {
+      name: formData.formName || "Form name",
+    },
+    pageNumber: pageNumber,
+    questionNumber: questionNumber,
+  });
 });
 
 // **** SAVING QUESTION CONFIGURATION ****
@@ -407,38 +420,15 @@ router.post("/question-configuration-save", function (req, res) {
 //    Display a summary of the questions on the current page
 //--------------------------------------
 router.get("/page-overview", function (req, res) {
+  const formData = req.session.data || {};
   const pageIndex = req.session.data["currentPageIndex"] || 0;
-  const formPages = req.session.data["formPages"] || [];
+  const pageNumber = pageIndex + 1;
 
-  if (!formPages[pageIndex]) {
-    console.log("⚠️ No current page found, redirecting...");
-    return res.redirect("/form-editor/listing.html");
-  }
-
-  const currentPage = formPages[pageIndex];
-
-  // Ensure the page has an ID
-  if (!currentPage.pageId) {
-    currentPage.pageId = Date.now(); // Generate an ID if one doesn't exist
-    formPages[pageIndex] = currentPage;
-    req.session.data["formPages"] = formPages;
-  }
-
-  // 🔍 Debugging: Log the questions and options before rendering
-  currentPage.questions.forEach((question, index) => {
-    console.log(
-      `📌 Question #${index + 1}:`,
-      JSON.stringify(question, null, 2)
-    );
-    if (question.type === "list" && question.subType === "radios") {
-      console.log("✅ Radio Options:", question.options || []);
-    }
-  });
-
-  console.log("📌 Current Page ID:", currentPage.pageId); // Debug log for page ID
-
-  res.render("form-editor/page-overview", {
-    currentPage,
+  res.render("form-editor/page-overview.html", {
+    form: {
+      name: formData.formName || "Form name",
+    },
+    pageNumber: pageNumber,
   });
 });
 
@@ -935,98 +925,16 @@ function findQuestionById(formPages, questionId) {
   return null;
 }
 
-router.get("/conditions/:pageId", function (req, res) {
-  const pageId = parseInt(req.params.pageId, 10);
-  const formPages = req.session.data["formPages"] || [];
-
-  // Find the current page
-  const currentPage = formPages.find((page) => page.pageId === pageId);
-
-  if (!currentPage) {
-    console.log("Page not found:", pageId);
-    return res.redirect("/form-editor/listing.html");
-  }
-
-  // Get the page index and create a label
-  const pageIndex = formPages.indexOf(currentPage);
-
-  // Get the page heading based on page type
-  let pageLabel;
-  if (currentPage.pageType === "guidance") {
-    pageLabel = `Page ${pageIndex + 1}: ${
-      currentPage.guidanceOnlyHeadingInput
-    }`;
-  } else if (currentPage.pageHeading) {
-    pageLabel = `Page ${pageIndex + 1}: ${currentPage.pageHeading}`;
-  } else if (currentPage.questions && currentPage.questions.length > 0) {
-    pageLabel = `Page ${pageIndex + 1}: ${currentPage.questions[0].label}`;
-  } else {
-    pageLabel = `Page ${pageIndex + 1}`;
-  }
-
-  // Get available questions for conditions
-  let availableQuestions = [];
-  formPages.forEach((page) => {
-    if (page.questions) {
-      page.questions.forEach((question) => {
-        if (["yes-no", "radios", "checkboxes"].includes(question.subType)) {
-          availableQuestions.push({
-            value: question.questionId,
-            text: question.label,
-            type: question.subType,
-            options: question.options || [],
-          });
-        }
-      });
-    }
-  });
-
-  // Collect all conditions from all pages except current page
-  let allConditions = [];
-  formPages.forEach((page) => {
-    if (page.conditions && page.pageId !== pageId) {
-      page.conditions.forEach((condition) => {
-        allConditions.push({
-          value: condition.id,
-          text: condition.conditionName,
-          hint: condition.rules
-            .map(
-              (rule) => `${rule.questionText} ${rule.operator} ${rule.value}`
-            )
-            .join(" AND "),
-        });
-      });
-    }
-  });
-
-  // For the dropdowns
-  const defaultExistingOption = {
-    value: "",
-    text: "Select an existing condition",
-    selected: true,
-  };
-  const defaultNewOption = {
-    value: "",
-    text: "Select a question",
-    selected: true,
-  };
-
-  const combinedExistingConditions = [defaultExistingOption, ...allConditions];
-  const combinedQuestions = [defaultNewOption, ...availableQuestions];
-
-  // Store current page ID in session
-  req.session.data["currentPageId"] = pageId;
+router.get("/form-editor/conditions/:pageId", function (req, res) {
+  const formData = req.session.data || {};
+  const pageIndex = req.session.data["currentPageIndex"] || 0;
+  const pageNumber = pageIndex + 1;
 
   res.render("form-editor/conditions.html", {
-    currentPage: currentPage,
-    pageId: pageId,
-    question: {
-      label: pageLabel,
+    form: {
+      name: formData.formName || "Form name",
     },
-    availableQuestions: combinedQuestions,
-    availableConditions: combinedExistingConditions,
-    conditions: currentPage.conditions || [],
-    isGuidancePage: currentPage.pageType === "guidance",
+    pageNumber: pageNumber,
   });
 });
 
@@ -1205,7 +1113,13 @@ router.post("/conditions-remove", function (req, res) {
 
 router.get("/form-editor/reorder/main.html", function (req, res) {
   const formPages = req.session.data["formPages"] || [];
-  res.render("form-editor/reorder/main.html", { formPages: formPages });
+  const formData = req.session.data || {};
+  res.render("form-editor/reorder/main.html", {
+    formPages: formPages,
+    form: {
+      name: formData.formName || "Form name",
+    },
+  });
 });
 
 router.post("/update-page-order", function (req, res) {
@@ -1244,29 +1158,15 @@ router.post("/update-page-order", function (req, res) {
 
 // Update the delete page route
 router.get("/form-editor/delete/:pageId", function (req, res) {
-  const pageId = parseInt(req.params.pageId, 10);
-  const formPages = req.session.data["formPages"] || [];
+  const formData = req.session.data || {};
+  const pageIndex = req.session.data["currentPageIndex"] || 0;
+  const pageNumber = pageIndex + 1;
 
-  console.log("Delete confirmation page:", {
-    requestedPageId: pageId,
-    availablePages: formPages.map((p) => p.pageId),
-  });
-
-  const currentPage = formPages.find((page) => page.pageId === pageId);
-
-  if (!currentPage) {
-    console.log("Page not found:", pageId);
-    return res.redirect("/form-editor/listing.html");
-  }
-
-  console.log("Found page to delete:", {
-    pageId: currentPage.pageId,
-    heading: currentPage.pageHeading,
-  });
-
-  res.render("form-editor/delete", {
-    currentPage: currentPage,
-    pageTitle: currentPage.pageHeading || "Untitled page",
+  res.render("form-editor/delete.html", {
+    form: {
+      name: formData.formName || "Form name",
+    },
+    pageNumber: pageNumber,
   });
 });
 
@@ -1313,6 +1213,8 @@ router.get(
   function (req, res) {
     const formPages = req.session.data["formPages"] || [];
     const pageIndex = req.session.data["currentPageIndex"];
+    const formData = req.session.data || {};
+    const pageNumber = pageIndex + 1;
 
     // Get the current page from the session
     const currentPage = formPages[pageIndex];
@@ -1327,9 +1229,13 @@ router.get(
 
     console.log("Rendering guidance config with page:", currentPage);
 
-    res.render("form-editor/question-type/guidance-configuration", {
+    res.render("form-editor/question-type/guidance-configuration.html", {
       currentPage: currentPage,
       data: req.session.data,
+      form: {
+        name: formData.formName || "Form name",
+      },
+      pageNumber: pageNumber,
     });
   }
 );
@@ -1387,10 +1293,14 @@ router.post("/delete-page", function (req, res) {
 // Add preview route
 router.get("/form-editor/preview", function (req, res) {
   const formPages = req.session.data["formPages"] || [];
+  const formData = req.session.data || {};
   console.log("Rendering preview with form pages:", formPages);
   res.render("form-editor/preview", {
     data: {
       formPages: formPages,
+    },
+    form: {
+      name: formData.formName || "Form name",
     },
   });
 });
@@ -1555,7 +1465,7 @@ router.get("/form-overview/draft/overview", (req, res) => {
 
   // Create the form object that the templates expect
   const form = {
-    name: formData.formName || "Untitled form",
+    name: formData.formName || "Form name",
     status: {
       text: status,
       color: statusColor,
@@ -1591,7 +1501,7 @@ router.get("/form-overview/draft/support/phone", (req, res) => {
   const formData = req.session.data || {};
   res.render("form-overview/draft/support/phone", {
     form: {
-      name: formData.formName || "Untitled form",
+      name: formData.formName || "Form name",
       support: {
         phone: formData.formDetails?.support?.phone || "",
       },
@@ -1622,7 +1532,7 @@ router.get("/form-overview/draft/support/email", (req, res) => {
   const formData = req.session.data || {};
   res.render("form-overview/draft/support/email", {
     form: {
-      name: formData.formName || "Untitled form",
+      name: formData.formName || "Form name",
       support: {
         email: formData.formDetails?.support?.email || "",
       },
@@ -1653,7 +1563,7 @@ router.get("/form-overview/draft/support/link", (req, res) => {
   const formData = req.session.data || {};
   res.render("form-overview/draft/support/link", {
     form: {
-      name: formData.formName || "Untitled form",
+      name: formData.formName || "Form name",
       support: {
         link: formData.formDetails?.support?.link || "",
       },
@@ -1684,7 +1594,7 @@ router.get("/form-overview/draft/support/address", (req, res) => {
   const formData = req.session.data || {};
   res.render("form-overview/support/add-address", {
     form: {
-      name: formData.formName || "Untitled form",
+      name: formData.formName || "Form name",
       support: {
         address: formData.formDetails?.support?.address || {
           line1: "",
@@ -1728,7 +1638,7 @@ router.get("/form-overview/draft/support/next-steps", (req, res) => {
   const formData = req.session.data || {};
   res.render("form-overview/support/next-steps", {
     form: {
-      name: formData.formName || "Untitled form",
+      name: formData.formName || "Form name",
       nextSteps: formData.formDetails?.nextSteps || "",
     },
     pageName: "What happens next",
@@ -1755,7 +1665,7 @@ router.get("/form-overview/draft/support/privacy-notice", (req, res) => {
   const formData = req.session.data || {};
   res.render("form-overview/support/privacy-notice", {
     form: {
-      name: formData.formName || "Untitled form",
+      name: formData.formName || "Form name",
       privacyNotice: formData.formDetails?.privacyNotice || "",
     },
     pageName: "Add privacy notice link",
@@ -1782,7 +1692,7 @@ router.get("/form-overview/draft/support/notification-email", (req, res) => {
   const formData = req.session.data || {};
   res.render("form-overview/support/notification-email", {
     form: {
-      name: formData.formName || "Untitled form",
+      name: formData.formName || "Form name",
       notificationEmail: formData.formDetails?.notificationEmail || "",
     },
     pageName: "Email address for submitted forms",
@@ -1810,3 +1720,45 @@ const path = require("path");
 
 // Finally, export the router
 module.exports = router;
+
+router.get("/form-editor/information-type-nf.html", function (req, res) {
+  const formData = req.session.data || {};
+  const pageIndex = req.session.data["currentPageIndex"] || 0;
+  const pageNumber = pageIndex + 1; // Convert 0-based index to 1-based page number
+  const questionIndex = req.session.data["currentQuestionIndex"] || 0;
+  const questionNumber = questionIndex + 1; // Convert 0-based index to 1-based question number
+
+  res.render("form-editor/information-type-nf.html", {
+    form: {
+      name: formData.formName || "Form name",
+    },
+    pageNumber: pageNumber,
+    questionNumber: questionNumber,
+  });
+});
+
+router.get("/form-editor/errors/info-type-lower.html", function (req, res) {
+  const formData = req.session.data || {};
+  const pageIndex = req.session.data["currentPageIndex"] || 0;
+  const pageNumber = pageIndex + 1;
+
+  res.render("form-editor/errors/info-type-lower.html", {
+    form: {
+      name: formData.formName || "Form name",
+    },
+    pageNumber: pageNumber,
+  });
+});
+
+router.get("/form-editor/errors/information-type.html", function (req, res) {
+  const formData = req.session.data || {};
+  const pageIndex = req.session.data["currentPageIndex"] || 0;
+  const pageNumber = pageIndex + 1;
+
+  res.render("form-editor/errors/information-type.html", {
+    form: {
+      name: formData.formName || "Form name",
+    },
+    pageNumber: pageNumber,
+  });
+});

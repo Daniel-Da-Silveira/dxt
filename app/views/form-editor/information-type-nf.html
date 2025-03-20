@@ -1,7 +1,7 @@
 {% extends "layouts/main.html" %}
 {% from "components/service-header/macro.njk" import serviceHeader %}
-{% set pageName = "What information do you need from users? - Page # - Apply for a county parish holding number in
-England" %}
+{% set pageName = "What information do you need from users? - Page " + pageNumber + " - Apply for a county parish
+holding number in England" %}
 {% set headingPlaceholder = "Page heading" %}
 {% set guidancePlaceholder = "" %}
 {# #}
@@ -40,8 +40,8 @@ start: "<span class='govuk-heading-s'>Licence to Import an Animal Pathogen/Carri
     <div class="govuk-grid-row">
       <div class="govuk-grid-column-full-from-desktop">
         <h1 class="x-govuk-masthead__title">
-          {# <span class="govuk-caption-l" style="color: white">Apply for a county parish holding certificate</span> #}
-          Food order form (user research)
+          {# <span class="govuk-caption-l" style="color: white">{{ form.name }}</span> #}
+          {{ form.name }}
         </h1>
 
       </div>
@@ -74,15 +74,11 @@ start: "<span class='govuk-heading-s'>Licence to Import an Animal Pathogen/Carri
                         <nav class="moj-sub-navigation govuk-!-padding-top-0 govuk-!-margin-bottom-2 "
                           aria-label="Sub navigation">
                           <ul class="moj-sub-navigation__list" id="nav-list2">
-                            <!-- Question Link -->
-                            {# <li class="moj-sub-navigation__item">
-                              <a class="moj-sub-navigation__link" href="/form-editor/templates/1-question/settings">Page
-                                settings</a>
-                            </li> #}
 
                             <li class="moj-sub-navigation__item">
-                              <a class="moj-sub-navigation__link" aria-current="page" href="#overview-noquestions">Page
-                                #</a>
+                              <a class="moj-sub-navigation__link" aria-current="page"
+                                href="#overview-noquestions">Question
+                                {{ questionNumber }}</a>
                             </li>
 
                           </ul>
@@ -182,7 +178,7 @@ start: "<span class='govuk-heading-s'>Licence to Import an Animal Pathogen/Carri
                           }) }}
                           {% endset -%}
 
-                          <span class="govuk-caption-l">Page #</span>
+                          <span class="govuk-caption-l">Page {{ pageNumber }}: question {{ questionNumber }}</span>
                           {{ govukRadios({
                           name: "informationQuestion1",
                           fieldset: {

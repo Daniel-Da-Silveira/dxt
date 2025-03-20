@@ -34,7 +34,7 @@ activeLinkId: "nav-editor"
           {# <span class="govuk-caption-l" style="color: white">
             Apply for a county parish holding certificate
           </span> #}
-          Food order form (user research)
+          {{ form.name }}
         </h1>
 
 
@@ -73,15 +73,15 @@ activeLinkId: "nav-editor"
                             </li> #}
                             <li class="moj-sub-navigation__item">
                               <a class="moj-sub-navigation__link" aria-current="page"
-                                href="#question-1-information-type">Page #</a>
+                                href="#question-1-information-type">Question {{ questionNumber }}</a>
                             </li>
                           </ul>
                         </nav>
 
                         <div class="govuk-summary-card__title-wrapper govuk-!-padding-top-0"></div>
 
-                        <span class="govuk-caption-l">Page #</span>
-                        <h2 class="govuk-heading-l">Edit question #</h2>
+                        <span class="govuk-caption-l">Page {{ pageNumber }}</span>
+                        <h2 class="govuk-heading-l">Edit question {{ questionNumber }}</h2>
 
                         <form id="s" action="/question-configuration-save" method="post"> {% from
                           "govuk/components/input/macro.njk" import govukInput %}

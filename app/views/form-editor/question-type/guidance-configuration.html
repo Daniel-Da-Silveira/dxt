@@ -32,7 +32,7 @@ activeLinkId: "nav-editor"
       <div class="govuk-grid-column-full-from-desktop">
         <h1 class="x-govuk-masthead__title">
           {# <span class="govuk-caption-l" style="color: white">Apply for a county parish holding certificate</span> #}
-          Food order form (user research)
+          {{ form.name }}
         </h1>
 
         <a href="/form-editor/page-type.html" role="button" draggable="false" class="govuk-button govuk-button--inverse"
@@ -79,7 +79,7 @@ activeLinkId: "nav-editor"
 
 
 
-                        <span class="govuk-caption-l">Page #</span>
+                        <span class="govuk-caption-l">Page {{ pageNumber }}</span>
                         <h1 class="govuk-heading-l">Edit guidance page</h1>
 
                         <form class="form" action="/form-editor/guidance/overview" method="post">
