@@ -15,14 +15,14 @@ signOutLink: "/onboarding/sign-out-confirmation",
 navigationItems: [
 { href: "/library.html", text: "Forms library", id: "nav-library" },
 { href: "/cph-overview/draft/complete-clean.html", text: "Overview", id: "nav-overview" },
-{ href: "/redesigntest/listing", text: "Editor", id: "nav-editor" } ],
+{ href: "/form-editor/listing", text: "Editor", id: "nav-editor" } ],
 activeLinkId: "nav-editor"
 }) }}
 
 <div class="x-govuk-masthead x-govuk-masthead--large">
   <div class="govuk-width-container">
-    {{ govukBackLink({ classes: "govuk-back-link--inverse govuk-!-margin-bottom-0", text: "Back to add
-    and edit pages", href: "/redesigntest/listing.html" }) }}
+    {{ govukBackLink({ classes: "govuk-back-link--inverse govuk-!-margin-bottom-0", text:
+    commonTerms.form_editor.information_type.back, href: "/form-editor/listing.html" }) }}
 
     <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible"
       style="border-bottom: 1px solid white; margin-bottom: 0" />
@@ -64,8 +64,8 @@ activeLinkId: "nav-editor"
                               <a class="moj-sub-navigation__link" href="#question-1-information-type">Question 10</a>
                             </li> #}
                             <li class="moj-sub-navigation__item">
-                              <a class="moj-sub-navigation__link" aria-current="page" href="#overview-noquestions">Add
-                                checkbox option</a>
+                              <a class="moj-sub-navigation__link" aria-current="page" href="#overview-noquestions">{{
+                                commonTerms.form_editor.information_type.list.types.checkboxes.add_option }}</a>
                             </li>
                           </ul>
                         </nav>
@@ -73,7 +73,8 @@ activeLinkId: "nav-editor"
                         <div class="govuk-summary-card__title-wrapper govuk-!-padding-top-0"></div>
 
                         <span class="govuk-caption-l">Page #: question #</span>
-                        <h2 class="govuk-heading-l">Add checkbox option</h2>
+                        <h2 class="govuk-heading-l">{{
+                          commonTerms.form_editor.information_type.list.types.checkboxes.add_option }}</h2>
 
                         <form method="post" id="checkbox-options-form" action="/configure-checkbox-nf">
 
@@ -84,24 +85,33 @@ activeLinkId: "nav-editor"
                               <div class="radio-option-config">
                                 <!-- Option Value (Label) -->
                                 <div class="govuk-form-group">
-                                  <label class="govuk-label govuk-label--s" for="option-label">Option text</label>
-                                  <div class="govuk-hint">Enter an option for your list</div>
+                                  <label class="govuk-label govuk-label--s" for="option-label">{{
+                                    commonTerms.form_editor.information_type.list.types.checkboxes.option.text.label
+                                    }}</label>
+                                  <div class="govuk-hint">{{
+                                    commonTerms.form_editor.information_type.list.types.checkboxes.option.text.hint }}
+                                  </div>
                                   <input class="govuk-input" id="option-label" name="label" type="text" value="">
                                 </div>
 
                                 <!-- Hint Text -->
                                 <div class="govuk-form-group">
-                                  <label class="govuk-label govuk-label--s" for="option-hint">Hint text
-                                    (optional)</label>
-                                  <div class="govuk-hint">Provide additional information about this option</div>
+                                  <label class="govuk-label govuk-label--s" for="option-hint">{{
+                                    commonTerms.form_editor.information_type.list.types.checkboxes.option.hint.label
+                                    }}</label>
+                                  <div class="govuk-hint">{{
+                                    commonTerms.form_editor.information_type.list.types.checkboxes.option.hint.hint }}
+                                  </div>
                                   <input class="govuk-input" id="option-hint" name="hint" type="text" value="">
                                 </div>
 
                                 <!-- Additional Value -->
                                 <div class="govuk-form-group">
-                                  <label class="govuk-label govuk-label--s" for="option-value">Option value</label>
-                                  <div class="govuk-hint">You can keep this the same as the option text unless you call
-                                    it something different in your backend system
+                                  <label class="govuk-label govuk-label--s" for="option-value">{{
+                                    commonTerms.form_editor.information_type.list.types.checkboxes.option.value.label
+                                    }}</label>
+                                  <div class="govuk-hint">{{
+                                    commonTerms.form_editor.information_type.list.types.checkboxes.option.value.hint }}
                                   </div>
                                   <input class="govuk-input" id="option-value" name="value" type="text" value="">
                                 </div>
@@ -112,10 +122,9 @@ activeLinkId: "nav-editor"
 
                           <div class="moj-button-action">
                             {{ govukButton({
-                            text: 'Save option',
+                            text: commonTerms.form_editor.common.save,
                             type: 'submit'
                             }) }}
-                            <!--<a class="govuk-button" href="edit.html">Save option</a>-->
                           </div>
                         </form>
                       </div>
@@ -148,7 +157,8 @@ activeLinkId: "nav-editor"
             </h2>
             <ul class="govuk-tabs__list">
               <li class="govuk-tabs__list-item govuk-tabs__list-item--selected">
-                <a class="govuk-tabs__tab" href="#tab-one">Checkbox option preview</a>
+                <a class="govuk-tabs__tab" href="#tab-one">{{
+                  commonTerms.form_editor.information_type.list.types.checkboxes.add_option }}</a>
               </li>
             </ul>
 
@@ -156,7 +166,7 @@ activeLinkId: "nav-editor"
               <!-- Page Preview Content -->
               <p class="govuk-body-s" style="margin-bottom: 30px; border-bottom: #008938 1px;">
                 <a href="#" class="govuk-link govuk-link--no-visited-state" rel="noreferrer noopener" target="_blank">
-                  Preview this page in a new tab
+                  {{ commonTerms.form_editor.common.preview }}
                 </a>
               </p>
 
@@ -167,7 +177,7 @@ activeLinkId: "nav-editor"
 
               <a href="#edit-page" class="govuk-skip-link" style="margin-bottom: 30px!important;"
                 data-module="govuk-skip-link">
-                Skip to edit page
+                {{ commonTerms.form_editor.common.skip_to_edit }}
               </a>
             </div>
           </div>

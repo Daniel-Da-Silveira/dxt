@@ -22,8 +22,8 @@ activeLinkId: "nav-editor"
 
 <div class="x-govuk-masthead x-govuk-masthead--large">
   <div class="govuk-width-container">
-    {{ govukBackLink({ classes: "govuk-back-link--inverse govuk-!-margin-bottom-0", text: "Back to add
-    and edit pages", href: "/form-editor/listing.html" }) }}
+    {{ govukBackLink({ classes: "govuk-back-link--inverse govuk-!-margin-bottom-0", text:
+    commonTerms.form_editor.information_type.back, href: "/form-editor/listing.html" }) }}
 
     <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible"
       style="border-bottom: 1px solid white; margin-bottom: 0" />
@@ -88,7 +88,7 @@ activeLinkId: "nav-editor"
                           <!-- Question Label Input -->
                           <div class="govuk-form-group">
                             <label class="govuk-label govuk-label--m" for="question-label-input-file">
-                              Question
+                              {{ commonTerms.form_editor.question_settings.question }}
                             </label>
                             <input class="govuk-input" id="question-label-input-file" name="questionLabelInputFile"
                               type="text" value="">
@@ -98,7 +98,7 @@ activeLinkId: "nav-editor"
                           <!-- Hint Text Input -->
                           {{ govukTextarea({
                           label: {
-                          text: "Hint text (optional)",
+                          text: commonTerms.form_editor.question_settings.hint,
                           classes: "govuk-label--m"
                           },
                           id: "hint-text-input-file",
@@ -116,26 +116,240 @@ activeLinkId: "nav-editor"
                                 <input class="govuk-checkboxes__input" id="make-optional" name="makeOptional"
                                   type="checkbox" value="optional">
                                 <label class="govuk-label govuk-checkboxes__label" for="make-optional">
-                                  Make this question optional
+                                  {{ commonTerms.form_editor.question_settings.optional }}
                                 </label>
                               </div>
                             </div>
                           </div>
 
 
+                          <!-- Answer Limits -->
+
+
+                          {% set documentsHtml %}
+                          {{ govukCheckboxes({
+                          name: "contactByDocuments",
+                          items: [
+                          {
+                          value: "documents",
+                          text: commonTerms.form_editor.information_type.file.types.documents
+                          }
+                          ]
+                          }) }}
+                          {% endset -%}
+
+                          {% set imagesHtml %}
+                          {{ govukCheckboxes({
+                          name: "contactByImages",
+                          items: [
+                          {
+                          value: "images",
+                          text: commonTerms.form_editor.information_type.file.types.images
+                          }
+                          ]
+                          }) }}
+                          {% endset -%}
+
+                          {% set tabularHtml %}
+                          {{ govukCheckboxes({
+                          name: "contactByTabular",
+                          items: [
+                          {
+                          value: "tabular",
+                          text: commonTerms.form_editor.information_type.file.types.tabular
+                          }
+                          ]
+                          }) }}
+                          {% endset -%}
+
+                          {% set documentslHtml %}
+                          {{ govukCheckboxes({
+                          name: "documentsOptions",
+                          items: [
+                          {
+                          value: "pdf",
+                          text: commonTerms.form_editor.information_type.file.options.documents.types.pdf,
+                          id: "documents-option-pdf"
+                          },
+                          {
+                          value: "doc",
+                          text: commonTerms.form_editor.information_type.file.options.documents.types.doc,
+                          id: "documents-option-doc"
+                          },
+                          {
+                          value: "docx",
+                          text: commonTerms.form_editor.information_type.file.options.documents.types.docx,
+                          id: "documents-option-docx"
+                          },
+                          {
+                          value: "odt",
+                          text: commonTerms.form_editor.information_type.file.options.documents.types.odt,
+                          id: "documents-option-odt"
+                          },
+                          {
+                          value: "txt",
+                          text: commonTerms.form_editor.information_type.file.options.documents.types.txt,
+                          id: "documents-option-txt"
+                          }
+                          ]
+                          }) }}
+                          {% endset %}
+
+
+                          {% set imagesHtml %}
+                          {{ govukCheckboxes({
+                          name: "imagesOptions",
+                          items: [
+                          {
+                          value: "jpeg",
+                          text: commonTerms.form_editor.information_type.file.options.images.types.jpeg,
+                          id: "images-option-jpeg"
+                          },
+                          {
+                          value: "jpg",
+                          text: commonTerms.form_editor.information_type.file.options.images.types.jpg,
+                          id: "images-option-jpg"
+                          },
+                          {
+                          value: "png",
+                          text: commonTerms.form_editor.information_type.file.options.images.types.png,
+                          id: "images-option-png"
+                          }
+                          ]
+                          }) }}
+                          {% endset %}
+
+
+                          {% set tabularHtml %}
+                          {{ govukCheckboxes({
+                          name: "tabularOptions",
+                          items: [
+                          {
+                          value: "xls",
+                          text: commonTerms.form_editor.information_type.file.options.tabular.types.xls,
+                          id: "tabular-option-xls"
+                          },
+                          {
+                          value: "xlsx",
+                          text: commonTerms.form_editor.information_type.file.options.tabular.types.xlsx,
+                          id: "tabular-option-xlsx"
+                          },
+                          {
+                          value: "csv",
+                          text: commonTerms.form_editor.information_type.file.options.tabular.types.csv,
+                          id: "tabular-option-csv"
+                          },
+                          {
+                          value: "ods",
+                          text: commonTerms.form_editor.information_type.file.options.tabular.types.ods,
+                          id: "tabular-option-ods"
+                          }
+                          ]
+                          }) }}
+                          {% endset %}
+
+
+                          {{ govukCheckboxes({
+                          name: "contact",
+                          fieldset: {
+                          legend: {
+                          text: commonTerms.form_editor.information_type.file.select_title,
+                          isPageHeading: true,
+                          classes: "govuk-fieldset__legend--m"
+                          }
+                          },
+                          items: [
+                          {
+                          value: "documents",
+                          id: "top-level-documents",
+                          dataGroup: "documents",
+                          text: commonTerms.form_editor.information_type.file.types.documents,
+                          conditional: {
+                          html: documentslHtml
+                          }
+                          },
+                          {
+                          value: "images",
+                          id: "top-level-images",
+                          dataGroup: "images",
+                          text: commonTerms.form_editor.information_type.file.types.images,
+                          conditional: {
+                          html: imagesHtml
+                          }
+                          },
+                          {
+                          value: "tabular",
+                          id: "top-level-tabular",
+                          dataGroup: "tabular",
+                          text: commonTerms.form_editor.information_type.file.types.tabular,
+                          conditional: {
+                          html: tabularHtml
+                          }
+                          }
+                          ]
+                          }) }}
+
+
+                          {{ govukInput({
+                          label: {
+                          text: commonTerms.form_editor.question_settings.short_description.title,
+                          classes: "govuk-label--m",
+                          isPageHeading: false
+                          },
+                          hint: {
+                          text: commonTerms.form_editor.question_settings.short_description.hint
+                          },
+                          id: "error-message-input-shorttext",
+                          name: "errorMessageInputShorttext"
+                          }) }}
+
+
                           <!-- Answer limits -->
                           <details class="govuk-details" data-module="govuk-details">
                             <summary class="govuk-details__summary">
                               <span class="govuk-details__summary-text">
-                                {{ commonTerms.answer_limits }}
+                                {{ commonTerms.form_editor.question_settings.answer_limits.title }}
                               </span>
                             </summary>
                             <div class="govuk-details__text">
                               <!-- Default Content for Question 1 -->
                               <div id="question-1-content" class="question-content" style="margin-top: 10px;">
-                                {% include "/form-editor/answer-limits/classes.html" %}
+
+                                <!-- Page Heading Input -->
+                                {% from "govuk/components/input/macro.njk" import govukInput %}
+
+                                {{ govukInput({
+                                label: {
+                                text: commonTerms.form_editor.question_settings.answer_limits.min_length.title,
+                                classes: "govuk-label--m",
+                                isPageHeading: false
+                                },
+                                classes: "govuk-input--width-3",
+                                hint: {
+                                text: commonTerms.form_editor.question_settings.answer_limits.min_length.hint
+                                },
+                                id: "min-files",
+                                name: "minFiles",
+                                inputmode: "numeric",
+                                spellcheck: false
+                                }) }}
+
+                                {{ govukInput({
+                                label: {
+                                text: commonTerms.form_editor.question_settings.answer_limits.max_length.title,
+                                classes: "govuk-label--m",
+                                isPageHeading: false
+                                },
+                                classes: "govuk-input--width-3",
+                                hint: {
+                                text: commonTerms.form_editor.question_settings.answer_limits.max_length.hint
+                                },
+                                id: "min-files",
+                                name: "minFiles",
+                                inputmode: "numeric",
+                                spellcheck: false
+                                }) }}
                               </div>
-                            </div>
                           </details>
 
 
@@ -144,7 +358,7 @@ activeLinkId: "nav-editor"
                           <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
 
                           <!-- Question Settings Summary List -->
-                          <h2 class="govuk-heading-m">Question settings</h2>
+                          <h2 class="govuk-heading-m">{{ commonTerms.form_editor.question_settings.title }}</h2>
 
                           {{ govukSummaryList({
                           "rows": [
@@ -153,13 +367,13 @@ activeLinkId: "nav-editor"
                           "text": "Type of information"
                           },
                           "value": {
-                          "html": "Supporting evidence"
+                          "html": commonTerms.form_editor.information_type.file.title
                           },
                           "actions": {
                           "items": [
                           {
-                          "href": "/form-editor/1-question/information-type.html",
-                          "text": "Change",
+                          "href": "/form-editor/templates/1-question/information-type.html",
+                          "text": commonTerms.form_editor.common.edit,
                           "visuallyHiddenText": " type"
                           }
                           ]
@@ -176,7 +390,7 @@ activeLinkId: "nav-editor"
                           <!-- Submit Button -->
                           <div class="moj-button-action">
                             {{ govukButton({
-                            text: 'Save and continue',
+                            text: commonTerms.form_editor.common.continue,
                             type: 'submit'
                             }) }}
                           </div>

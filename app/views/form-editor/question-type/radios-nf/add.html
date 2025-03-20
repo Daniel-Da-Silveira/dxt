@@ -21,8 +21,8 @@ activeLinkId: "nav-editor"
 
 <div class="x-govuk-masthead x-govuk-masthead--large">
 	<div class="govuk-width-container">
-		{{ govukBackLink({ classes: "govuk-back-link--inverse govuk-!-margin-bottom-0", text: "Back to add
-		and edit pages", href: "/form-editor/listing.html" }) }}
+		{{ govukBackLink({ classes: "govuk-back-link--inverse govuk-!-margin-bottom-0", text:
+		commonTerms.form_editor.information_type.back, href: "/form-editor/listing.html" }) }}
 
 		<hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible"
 			style="border-bottom: 1px solid white; margin-bottom: 0" />
@@ -74,7 +74,9 @@ activeLinkId: "nav-editor"
 														</li> #}
 														<li class="moj-sub-navigation__item">
 															<a class="moj-sub-navigation__link" aria-current="page"
-																href="#overview-noquestions">Add radio option</a>
+																href="#overview-noquestions">{{
+																commonTerms.form_editor.information_type.list.types.radios.add_option
+																}}</a>
 														</li>
 
 													</ul>
@@ -84,7 +86,9 @@ activeLinkId: "nav-editor"
 												</div>
 
 												<span class="govuk-caption-l">Page #: question #</span>
-												<h2 class="govuk-heading-l">Add radio option</h2>
+												<h2 class="govuk-heading-l">{{
+													commonTerms.form_editor.information_type.list.types.radios.add_option
+													}}</h2>
 
 												<form method="post" id="radio-options-form"
 													action="/configure-radio-nf">
@@ -105,10 +109,12 @@ activeLinkId: "nav-editor"
 																<!-- Option Value (Label) -->
 																<div class="govuk-form-group">
 																	<label class="govuk-label govuk-label--m"
-																		for="option-label">Option text
-																	</label>
-																	<div class="govuk-hint">Enter an option for your
-																		list</div>
+																		for="option-label">{{
+																		commonTerms.form_editor.information_type.list.types.radios.option.text.label
+																		}}</label>
+																	<div class="govuk-hint">{{
+																		commonTerms.form_editor.information_type.list.types.radios.option.text.hint
+																		}}</div>
 																	<input class="govuk-input" id="option-label"
 																		name="label" type="text" value="">
 																</div>
@@ -116,9 +122,12 @@ activeLinkId: "nav-editor"
 																<!-- Hint Text -->
 																<div class="govuk-form-group">
 																	<label class="govuk-label govuk-label--m"
-																		for="option-hint">Hint text (optional)</label>
-																	<div class="govuk-hint">Provide additional
-																		information about this option</div>
+																		for="option-hint">{{
+																		commonTerms.form_editor.information_type.list.types.radios.option.hint.label
+																		}}</label>
+																	<div class="govuk-hint">{{
+																		commonTerms.form_editor.information_type.list.types.radios.option.hint.hint
+																		}}</div>
 																	<input class="govuk-input" id="option-hint"
 																		name="hint" type="text" value="">
 																</div>
@@ -126,11 +135,12 @@ activeLinkId: "nav-editor"
 																<!-- Additional Value -->
 																<div class="govuk-form-group">
 																	<label class="govuk-label govuk-label--m"
-																		for="option-value">Option value</label>
-																	<div class="govuk-hint">You can keep this the same
-																		as the option text unless you call it something
-																		different in your backend system
-																	</div>
+																		for="option-value">{{
+																		commonTerms.form_editor.information_type.list.types.radios.option.value.label
+																		}}</label>
+																	<div class="govuk-hint">{{
+																		commonTerms.form_editor.information_type.list.types.radios.option.value.hint
+																		}}</div>
 																	<input class="govuk-input" id="option-value"
 																		name="value" type="text" value="">
 																</div>
@@ -211,12 +221,12 @@ activeLinkId: "nav-editor"
 													<div class="govuk-button-group">
 
 														{{ govukButton({
-														text: 'Save option',
+														text: commonTerms.form_editor.common.save,
 														type: 'submit'
 														}) }}
 
-														<a class="govuk-link"
-															href="javascript:window.history.back()">Cancel</a>
+														<a class="govuk-link" href="javascript:window.history.back()">{{
+															commonTerms.form_editor.common.cancel }}</a>
 
 														<!--<a class="govuk-button" href="edit.html">Save option</a>-->
 													</div>
@@ -259,22 +269,21 @@ activeLinkId: "nav-editor"
 		<div class="govuk-grid-column-one-half-from-desktop" id="second-container"
 			style="outline: solid 1px #008938; height: 100%; position: sticky; top: 0; padding: 20px; box-shadow: 5px 10px #008938;">
 			<!-- Before content -->
-			<div id="before-content" style=" background-color:  #cce2d8;">
-				<p class="govuk-body-s" style="margin-bottom: 0; color: #005a30; padding: 2px 8px 3px;
-	  text-align: center;"> Previews
-				</p>
+			<div id="before-content" style="background-color: #cce2d8;">
+				<p class="govuk-body-s"
+					style="margin-bottom: 0; color: #005a30; padding: 2px 8px 3px; text-align: center;">{{
+					commonTerms.form_editor.common.preview }}</p>
 			</div>
 
 			<div style="margin-top: 60px;">
 				{% from "govuk/components/tabs/macro.njk" import govukTabs %}
 
 				<div class="govuk-tabs" data-module="govuk-tabs">
-					<h2 class="govuk-tabs__title">
-						Contents
-					</h2>
+					<h2 class="govuk-tabs__title">{{ commonTerms.form_editor.common.contents }}</h2>
 					<ul class="govuk-tabs__list">
 						<li class="govuk-tabs__list-item govuk-tabs__list-item--selected">
-							<a class="govuk-tabs__tab" href="#tab-one">Radio option preview</a>
+							<a class="govuk-tabs__tab" href="#tab-one">{{
+								commonTerms.form_editor.information_type.list.types.radios.add_option }}</a>
 						</li>
 
 					</ul>
@@ -286,7 +295,7 @@ activeLinkId: "nav-editor"
 						<p class="govuk-body-s" style="margin-bottom: 30px; border-bottom: #008938 1px;">
 							<a href="#" class="govuk-link govuk-link--no-visited-state" rel="noreferrer noopener"
 								target="_blank">
-								Preview this page in a new tab
+								{{ commonTerms.form_editor.common.preview }}
 							</a>
 						</p>
 
@@ -294,7 +303,7 @@ activeLinkId: "nav-editor"
 
 						<a href="#edit-page" class="govuk-skip-link" style="margin-bottom: 30px!important;"
 							data-module="govuk-skip-link">
-							Skip to edit page
+							{{ commonTerms.form_editor.common.skip_to_edit }}
 						</a>
 					</div>
 

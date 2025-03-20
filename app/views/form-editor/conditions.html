@@ -23,8 +23,8 @@ activeLinkId: "nav-editor"
 
 <div class="x-govuk-masthead x-govuk-masthead--large">
   <div class="govuk-width-container">
-    {{ govukBackLink({ classes: "govuk-back-link--inverse govuk-!-margin-bottom-0", text: "Back to add and edit pages",
-    href: "/form-editor/listing.html" }) }}
+    {{ govukBackLink({ classes: "govuk-back-link--inverse govuk-!-margin-bottom-0", text:
+    commonTerms.form_editor.navigation.back_to_add_edit_pages, href: "/form-editor/listing.html" }) }}
 
     <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible"
       style="border-bottom: 1px solid white; margin-bottom: 0" />
@@ -153,13 +153,11 @@ activeLinkId: "nav-editor"
 
                           <div class="govuk-form-group">
                             {{ govukSelect({
-                            id: "condition-operator",
-                            name: "operator",
-                            label: { text: "Operator" },
+                            label: { text: commonTerms.form_editor.conditions.operator.label },
                             items: [
-                            { value: "", text: "Select an operator", selected: true },
-                            { value: "is", text: "is" },
-                            { value: "is-not", text: "is not" }
+                            { value: "", text: commonTerms.form_editor.conditions.operator.select, selected: true },
+                            { value: "is", text: commonTerms.form_editor.conditions.operator.is },
+                            { value: "is-not", text: commonTerms.form_editor.conditions.operator.is_not }
                             ]
                             }) }}
                           </div>
@@ -207,9 +205,9 @@ activeLinkId: "nav-editor"
                             <div class="condition-item">
                               <div class="govuk-form-group">
                                 {{ govukInput({
+                                label: { text: commonTerms.form_editor.conditions.name.label },
                                 id: "condition-name",
                                 name: "conditionName",
-                                label: { text: "Condition name" },
                                 hint: { text: "Choose a name that makes it easy to understand what the condition is
                                 about.
                                 For example, 'Not a farmer'." }
@@ -242,13 +240,11 @@ activeLinkId: "nav-editor"
                           conditional: {
                           html:
                           govukSelect({
-                          id: "existing-condition",
-                          name: "existingCondition",
-                          label: { text: "Select an existing condition" },
-                          items: availableConditions
+                          label: { text: commonTerms.form_editor.conditions.select_existing },
+                          items: []
                           }) +
                           govukButton({
-                          text: "Add existing condition",
+                          text: commonTerms.form_editor.conditions.add_existing_button,
                           id: "add-existing-condition",
                           classes: "govuk-button--inverse govuk-!-margin-top-6"
                           })

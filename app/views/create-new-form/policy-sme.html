@@ -16,7 +16,6 @@ navigationItems: [{
 href: "/library.html",
 text: "Forms library",
 id: "overview"
-
 }],
 activeLinkId: ""
 }) }}
@@ -24,10 +23,9 @@ activeLinkId: ""
 
 {% block beforeContent %}
 {{ govukBackLink({
-text: "Back",
+text: commonTerms.form_editor.create_new_form.team_details.back,
 href: "javascript:window.history.back()"
 }) }}
-
 {% endblock %}
 
 {% block content %}
@@ -42,14 +40,14 @@ href: "javascript:window.history.back()"
 
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
-      <h1 class="govuk-heading-l">Team details</h1>
+      <h1 class="govuk-heading-l">{{ commonTerms.form_editor.create_new_form.team_details.title }}</h1>
 
       {{ govukInput({
       label: {
-      text: "Name of team"
+      text: commonTerms.form_editor.create_new_form.team_details.team_name.label
       },
       hint: {
-      text: "Enter the name of the policy team or business area responsible for this form"
+      text: commonTerms.form_editor.create_new_form.team_details.team_name.hint
       },
       id: "team-name",
       name: "teamName"
@@ -57,10 +55,10 @@ href: "javascript:window.history.back()"
 
       {{ govukInput({
       label: {
-      text: "Shared team email address"
+      text: commonTerms.form_editor.create_new_form.team_details.email.label
       },
       hint: {
-      text: "You can only create forms using a shared team email address. Don't enter your personal email address."
+      text: commonTerms.form_editor.create_new_form.team_details.email.hint
       },
       id: "email",
       name: "email",
@@ -70,7 +68,7 @@ href: "javascript:window.history.back()"
       }) }}
 
       {{ govukButton({
-      text: "Save and continue",
+      text: commonTerms.form_editor.create_new_form.team_details.save,
       type: "submit"
       }) }}
 </form>
@@ -84,18 +82,17 @@ href: "javascript:window.history.back()"
   <div class="govuk-details__text">
     {% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
 
-    {% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
     <p class="govuk-body-l">Missing string</p>
 
     {{ govukErrorSummary({
-    titleText: "There is a problem",
+    titleText: commonTerms.form_editor.create_new_form.team_details.error.title,
     errorList: [
     {
-    text: "Enter name of team",
+    text: commonTerms.form_editor.create_new_form.team_details.team_name.error.missing,
     href: "#"
     },
     {
-    text: "Enter a shared team email address",
+    text: commonTerms.form_editor.create_new_form.team_details.email.error.missing,
     href: "#"
     }
     ]
@@ -103,13 +100,13 @@ href: "javascript:window.history.back()"
 
     {{ govukInput({
     label: {
-    text: "Name of team"
+    text: commonTerms.form_editor.create_new_form.team_details.team_name.label
     },
     errorMessage: {
-    text: "Enter name of team"
+    text: commonTerms.form_editor.create_new_form.team_details.team_name.error.missing
     },
     hint: {
-    text: "Enter the name of the policy team or business area responsible for this form"
+    text: commonTerms.form_editor.create_new_form.team_details.team_name.hint
     },
     id: "team-name",
     name: "teamName"
@@ -117,14 +114,13 @@ href: "javascript:window.history.back()"
 
     {{ govukInput({
     label: {
-    text: "Shared team email address"
-
+    text: commonTerms.form_editor.create_new_form.team_details.email.label
     },
     errorMessage: {
-    text: "Enter a shared team email address"
+    text: commonTerms.form_editor.create_new_form.team_details.email.error.missing
     },
     hint: {
-    text: "You can only create forms using a shared team email address. Don't enter your personal email address."
+    text: commonTerms.form_editor.create_new_form.team_details.email.hint
     },
     id: "email",
     name: "email",
@@ -135,23 +131,21 @@ href: "javascript:window.history.back()"
 
     <p class="govuk-body-l">Incorrect email format</p>
     {{ govukErrorSummary({
-    titleText: "There is a problem",
+    titleText: commonTerms.form_editor.create_new_form.team_details.error.title,
     errorList: [
     {
-    text: "Enter a shared team email address in the correct format",
+    text: commonTerms.form_editor.create_new_form.team_details.email.error.invalid_format,
     href: "#"
-
     }
     ]
     }) }}
 
     {{ govukInput({
     label: {
-    text: "Name of team"
+    text: commonTerms.form_editor.create_new_form.team_details.team_name.label
     },
-
     hint: {
-    text: "Enter the name of the policy team or business area responsible for this form"
+    text: commonTerms.form_editor.create_new_form.team_details.team_name.hint
     },
     id: "team-name",
     name: "teamName"
@@ -159,14 +153,13 @@ href: "javascript:window.history.back()"
 
     {{ govukInput({
     label: {
-    text: "Shared team email address"
-
+    text: commonTerms.form_editor.create_new_form.team_details.email.label
     },
     errorMessage: {
-    text: "Enter a shared team email address in the correct format"
+    text: commonTerms.form_editor.create_new_form.team_details.email.error.invalid_format
     },
     hint: {
-    text: "You can only create forms using a shared team email address. Don't enter your personal email address."
+    text: commonTerms.form_editor.create_new_form.team_details.email.hint
     },
     id: "email",
     name: "email",
@@ -178,10 +171,10 @@ href: "javascript:window.history.back()"
     <p class="govuk-body-l">100 characters or more for team name</p>
 
     {{ govukErrorSummary({
-    titleText: "There is a problem",
+    titleText: commonTerms.form_editor.create_new_form.team_details.error.title,
     errorList: [
     {
-    text: "Name of team must be 100 characters or less",
+    text: commonTerms.form_editor.create_new_form.team_details.team_name.error.too_long,
     href: "#"
     }
     ]
@@ -189,13 +182,13 @@ href: "javascript:window.history.back()"
 
     {{ govukInput({
     label: {
-    text: "Name of team"
+    text: commonTerms.form_editor.create_new_form.team_details.team_name.label
     },
     errorMessage: {
-    text: "Name of team must be 100 characters or less"
+    text: commonTerms.form_editor.create_new_form.team_details.team_name.error.too_long
     },
     hint: {
-    text: "Enter the name of the policy team or business area responsible for this form"
+    text: commonTerms.form_editor.create_new_form.team_details.team_name.hint
     },
     id: "team-name",
     name: "teamName"
@@ -203,10 +196,10 @@ href: "javascript:window.history.back()"
 
     {{ govukInput({
     label: {
-    text: "Shared team email address"
+    text: commonTerms.form_editor.create_new_form.team_details.email.label
     },
     hint: {
-    text: "You can only create forms using a shared team email address. Don't enter your personal email address."
+    text: commonTerms.form_editor.create_new_form.team_details.email.hint
     },
     id: "email",
     name: "email",

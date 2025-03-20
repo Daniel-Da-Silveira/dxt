@@ -74,7 +74,7 @@ activeLinkId: "nav-editor"
                           <!-- Question Label Input -->
                           <div class="govuk-form-group">
                             <label class="govuk-label govuk-label--m" for="question-label-input-email">
-                              {{ commonTerms.question }}
+                              {{ commonTerms.form_editor.question_settings.question }}
                             </label>
                             <input class="govuk-input" id="question-label-input-email" name="questionLabelInputEmail"
                               type="text" value="">
@@ -83,7 +83,7 @@ activeLinkId: "nav-editor"
                           <!-- Hint Text Input -->
                           {{ govukTextarea({
                           label: {
-                          text: commonTerms.hint_title,
+                          text: commonTerms.form_editor.question_settings.hint,
                           classes: "govuk-label--m"
                           },
                           id: "hint-text-input-email",
@@ -101,7 +101,7 @@ activeLinkId: "nav-editor"
                                 <input class="govuk-checkboxes__input" id="make-optional" name="makeOptional"
                                   type="checkbox" value="optional">
                                 <label class="govuk-label govuk-checkboxes__label" for="make-optional">
-                                  {{ commonTerms.optional_question }}
+                                  {{ commonTerms.form_editor.question_settings.optional }}
                                 </label>
                               </div>
                             </div>
@@ -109,12 +109,12 @@ activeLinkId: "nav-editor"
 
                           {{ govukInput({
                           label: {
-                          text: commonTerms.short_description_title,
+                          text: commonTerms.form_editor.question_settings.short_description.title,
                           classes: "govuk-label--m",
                           isPageHeading: false
                           },
                           hint: {
-                          text: commonTerms.short_description_hint
+                          text: commonTerms.form_editor.question_settings.short_description.hint
                           },
                           id: "error-message-input-email",
                           name: "errorMessageInputEmail"
@@ -124,21 +124,33 @@ activeLinkId: "nav-editor"
                           <details class="govuk-details" data-module="govuk-details">
                             <summary class="govuk-details__summary">
                               <span class="govuk-details__summary-text">
-                                {{ commonTerms.answer_limits }}
+                                {{ commonTerms.form_editor.question_settings.answer_limits.title }}
                               </span>
                             </summary>
                             <div class="govuk-details__text">
                               <!-- Default Content for Question 1 -->
                               <div id="question-1-content" class="question-content" style="margin-top: 10px;">
-                                {% include "/form-editor/answer-limits/classes.html" %}
-                              </div>
+                                {{ govukTextarea({
+                                label: {
+                                text: commonTerms.form_editor.question_settings.answer_limits.classes.title,
+                                classes: "govuk-label--m",
+                                isPageHeading: false
+                                },
+                                hint: {
+                                text: commonTerms.form_editor.question_settings.answer_limits.classes.hint
+                                },
+                                id: "classes",
+                                rows: "1",
+                                name: "classes",
+                                spellcheck: false
+                                }) }} </div>
                           </details>
 
                           <!-- Section Break -->
                           <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
 
                           <!-- Question Settings Summary List -->
-                          <h2 class="govuk-heading-m">{{ commonTerms.question_setting_h }}</h2>
+                          <h2 class="govuk-heading-m">{{ commonTerms.form_editor.question_settings.title }}</h2>
 
                           {{ govukSummaryList({
                           "rows": [
@@ -153,7 +165,7 @@ activeLinkId: "nav-editor"
                           "items": [
                           {
                           "href": "/form-editor/question-type/information-type.html",
-                          "text": commonTerms.question_setting_link,
+                          "text": commonTerms.form_editor.common.edit,
                           "visuallyHiddenText": " type"
                           }
                           ]

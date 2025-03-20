@@ -15,15 +15,15 @@ signOutLink: "/onboarding/sign-out-confirmation",
 navigationItems: [
 { href: "/library.html", text: "Forms library", id: "nav-library" },
 { href: "/cph-overview/draft/complete-clean.html", text: "Overview", id: "nav-overview" },
-{ href: "/redesigntest/listing", text: "Editor", id: "nav-editor" }
+{ href: "/form-editor/listing", text: "Editor", id: "nav-editor" }
 ],
 activeLinkId: "nav-editor"
 }) }}
 
 <div class="x-govuk-masthead x-govuk-masthead--large">
 	<div class="govuk-width-container">
-		{{ govukBackLink({ classes: "govuk-back-link--inverse govuk-!-margin-bottom-0", text: "Back to add and edit
-		pages", href: "/redesigntest/listing.html" }) }}
+		{{ govukBackLink({ classes: "govuk-back-link--inverse govuk-!-margin-bottom-0", text:
+		commonTerms.form_editor.information_type.back, href: "/form-editor/listing.html" }) }}
 
 		<hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible"
 			style="border-bottom: 1px solid white; margin-bottom: 0" />
@@ -72,7 +72,9 @@ activeLinkId: "nav-editor"
 												</div>
 
 												<span class="govuk-caption-l">Page #</span>
-												<h2 class="govuk-heading-l">Edit question #</h2>
+												<h2 class="govuk-heading-l">{{
+													commonTerms.form_editor.information_type.list.types.radios.edit_title
+													}}</h2>
 
 												<form id="s" action="/question-configuration-save" method="post">
 
@@ -88,7 +90,7 @@ activeLinkId: "nav-editor"
 
 													{{ govukInput({
 													label: {
-													text: "Question",
+													text: commonTerms.form_editor.question_settings.question,
 													classes: "govuk-label--m",
 													isPageHeading: false
 													},
@@ -100,7 +102,7 @@ activeLinkId: "nav-editor"
 													<!-- Hint Text Area -->
 													{{ govukTextarea({
 													label: {
-													text: "Hint text (optional)",
+													text: commonTerms.form_editor.question_settings.hint,
 													classes: "govuk-label--m"
 													},
 													id: "multi-question-hint-text-input-radios",
@@ -115,7 +117,9 @@ activeLinkId: "nav-editor"
 													<!-- List config -->
 													<div class="govuk-form-group">
 														<h2 class="govuk-heading-m moj-add-another__heading"
-															tabindex="-1">Create and edit your list of options</h2>
+															tabindex="-1">{{
+															commonTerms.form_editor.information_type.list.types.radios.edit_title
+															}}</h2>
 
 														<!-- Options Container -->
 														<ol class="gem-c-reorderable-list js-enabled"
@@ -149,24 +153,34 @@ activeLinkId: "nav-editor"
 																	<div class="gem-c-reorderable-list__actions">
 																		<button
 																			class="gem-c-button govuk-button govuk-button--secondary js-reorderable-list-up"
-																			type="button" aria-label="Move option up"
-																			style="display: none;">Up</button>
+																			type="button"
+																			aria-label="{{ commonTerms.form_editor.common.move_up }}"
+																			style="display: none;">{{
+																			commonTerms.form_editor.common.move_up
+																			}}</button>
 																		<button
 																			class="gem-c-button govuk-button govuk-button--secondary js-reorderable-list-down"
-																			type="button" aria-label="Move option down"
-																			style="display: inline-block;">Down</button>
+																			type="button"
+																			aria-label="{{ commonTerms.form_editor.common.move_down }}"
+																			style="display: inline-block;">{{
+																			commonTerms.form_editor.common.move_down
+																			}}</button>
 																		<a href="#"
 																			class="govuk-link govuk-link--destructive js-remove-option"
 																			role="button"
-																			aria-label="Remove option">Remove</a>
+																			aria-label="{{ commonTerms.form_editor.common.remove_option }}">{{
+																			commonTerms.form_editor.common.remove_option
+																			}}</a>
 
 																	</div>
 																	<div class="edit-item">
 																		<a class="govuk-link govuk-link--no-visited-state"
 																			href="editoption.html?index={{ loop.index }}">
-																			Edit
+																			{{ commonTerms.form_editor.common.edit }}
 																			<span class="govuk-visually-hidden">
-																				option number {{ loop.index }}
+																				{{
+																				commonTerms.form_editor.common.option_number
+																				}} {{ loop.index }}
 																				{% if radio.label %} - {{ radio.label
 																				}}{% endif %}
 																			</span>
@@ -182,16 +196,16 @@ activeLinkId: "nav-editor"
 															<button id="add-option-button" type="button"
 																class="govuk-button moj-add-another__add-button govuk-!-margin-bottom-4 govuk-!-margin-bottom-6">
 																{% if data.radioList and data.radioList.length > 0 %}
-																Add another option
+																{{ commonTerms.form_editor.common.add_another_option }}
 																{% else %}
-																Add option
+																{{ commonTerms.form_editor.common.add_option }}
 																{% endif %}
 															</button>
 
 															<!-- Edit List Button -->
 															<button id="edit-options-button" type="button"
 																class="govuk-button govuk-button--inverse">
-																Edit list
+																{{ commonTerms.form_editor.common.edit_list }}
 															</button>
 														</div>
 
@@ -206,7 +220,9 @@ activeLinkId: "nav-editor"
 																		value="{{ data['optional-label-q1'] }}">
 																	<label class="govuk-label govuk-checkboxes__label"
 																		for="makeOptional">
-																		Make this question optional
+																		{{
+																		commonTerms.form_editor.question_settings.optional
+																		}}
 																	</label>
 																</div>
 															</div>
@@ -217,14 +233,14 @@ activeLinkId: "nav-editor"
 														<!-- Error Message Input -->
 														{{ govukInput({
 														label: {
-														text: "Short description",
+														text:
+														commonTerms.form_editor.question_settings.short_description.title,
 														classes: "govuk-label--m",
 														isPageHeading: false
 														},
 														hint: {
-														text: "Enter a short description for this question like 'licence
-														period'. Short descriptions are used in error messages and on
-														the check your answers page."
+														text:
+														commonTerms.form_editor.question_settings.short_description.hint
 														},
 														id: "error-message-input",
 														name: "errorMessageInput"
@@ -235,7 +251,8 @@ activeLinkId: "nav-editor"
 																class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
 
 															<!-- The dynamic summary list will be populated here -->
-															<h2 class="govuk-heading-m">Question settings</h2>
+															<h2 class="govuk-heading-m">{{
+																commonTerms.form_editor.question_settings.title }}</h2>
 
 															{{ govukSummaryList({
 															classes: "govuk-summary-list govuk-section-break
@@ -252,7 +269,7 @@ activeLinkId: "nav-editor"
 															items: [
 															{
 															href:
-															"/redesigntest/templates/1-question/information-type.html",
+															"/form-editor/templates/1-question/information-type.html",
 															text: "Change",
 															visuallyHiddenText: "name"
 															}
@@ -264,7 +281,7 @@ activeLinkId: "nav-editor"
 														</div>
 														<div class="moj-button-action">
 															{{ govukButton({
-															text: 'Save and continue',
+															text: commonTerms.form_editor.common.continue,
 															type: 'submit'
 															}) }}
 														</div>
@@ -286,20 +303,23 @@ activeLinkId: "nav-editor"
 				<!-- Before content -->
 				<div id="before-content" style="background-color: #cce2d8;">
 					<p class="govuk-body-s"
-						style="margin-bottom: 0; color: #005a30; padding: 2px 8px 3px; text-align: center;">Previews</p>
+						style="margin-bottom: 0; color: #005a30; padding: 2px 8px 3px; text-align: center;">{{
+						commonTerms.form_editor.common.previews }}</p>
 				</div>
 
 				<div style="margin-top: 60px;">
 					{% from "govuk/components/tabs/macro.njk" import govukTabs %}
 
 					<div class="govuk-tabs" data-module="govuk-tabs">
-						<h2 class="govuk-tabs__title">Contents</h2>
+						<h2 class="govuk-tabs__title">{{ commonTerms.form_editor.common.contents }}</h2>
 						<ul class="govuk-tabs__list">
 							<li class="govuk-tabs__list-item govuk-tabs__list-item--selected">
-								<a class="govuk-tabs__tab" href="#tab-one">Page preview</a>
+								<a class="govuk-tabs__tab" href="#tab-one">{{
+									commonTerms.form_editor.common.page_preview }}</a>
 							</li>
 							<li class="govuk-tabs__list-item">
-								<a class="govuk-tabs__tab" href="#tab-two">Error messages</a>
+								<a class="govuk-tabs__tab" href="#tab-two">{{
+									commonTerms.form_editor.common.error_messages }}</a>
 							</li>
 						</ul>
 
@@ -307,7 +327,7 @@ activeLinkId: "nav-editor"
 							<!-- Page Preview Content -->
 							<p class="govuk-body-s" style="margin-bottom: 30px; border-bottom: #008938 1px;">
 								<a href="#" class="govuk-link govuk-link--no-visited-state" rel="noreferrer noopener"
-									target="_blank">Preview this page in a new tab</a>
+									target="_blank">{{ commonTerms.form_editor.common.preview }}</a>
 							</p>
 
 
@@ -315,18 +335,19 @@ activeLinkId: "nav-editor"
 							{% include "/form-editor/question-type/radios-nf/previews/edit-v2.html" %}
 
 							<a href="#edit-page" class="govuk-skip-link" style="margin-bottom: 30px!important;"
-								data-module="govuk-skip-link">Skip to edit page</a>
+								data-module="govuk-skip-link">{{ commonTerms.form_editor.common.skip_to_edit }}</a>
 						</div>
 
 						<div class="govuk-tabs__panel" id="tab-two">
 							<p class="govuk-body-s" style="margin-bottom: 30px; border-bottom: #008938 1px;">
 								<a href="#" class="govuk-link govuk-link--no-visited-state" rel="noreferrer noopener"
-									target="_blank">Preview error messages in a new tab</a>
+									target="_blank">{{ commonTerms.form_editor.common.preview_error }}</a>
 							</p>
 							<!-- Error Messages Content -->
 							<!-- Error Messages Section -->
 							<div class="govuk-error-summary" data-disable-auto-focus="true">
-								<h2 class="govuk-error-summary__title">There is a problem</h2>
+								<h2 class="govuk-error-summary__title">{{
+									commonTerms.form_editor.common.there_is_a_problem }}</h2>
 								<ul class="govuk-list govuk-error-summary__list">
 									<!-- List of errors -->
 									<li><a id="empty-input-error-shorttext" class="govuk-error-message">Select <span
@@ -334,8 +355,8 @@ activeLinkId: "nav-editor"
 								</ul>
 							</div>
 							<a href="#error-message-input-shorttext" class="govuk-skip-link"
-								style="margin-bottom: 30px!important;" data-module="govuk-skip-link">Skip to edit short
-								description</a>
+								style="margin-bottom: 30px!important;" data-module="govuk-skip-link">{{
+								commonTerms.form_editor.common.skip_to_short_description }}</a>
 						</div>
 					</div>
 				</div> <!-- Closing the govuk-tabs div -->
@@ -593,7 +614,7 @@ activeLinkId: "nav-editor"
 
 			// Redirect to add.html on clicking Add Another Option
 			domElements.addOptionButton.addEventListener('click', () => {
-				window.location.href = '/redesigntest/templates/1-question/radios-nf/add';
+				window.location.href = '/form-editor/templates/1-question/radios-nf/add';
 			});
 
 			// Handle edit mode toggle
@@ -715,7 +736,7 @@ activeLinkId: "nav-editor"
 				const optionId = removeButton.closest('.gem-c-reorderable-list__item').dataset.index;
 
 				// Construct the confirmation URL with the index
-				const confirmationUrl = `/redesigntest/templates/1-question/radios/delete-option.html?index=${optionId}`;
+				const confirmationUrl = `/form-editor/templates/1-question/radios/delete-option.html?index=${optionId}`;
 
 				// Redirect the user to the confirmation URL
 				window.location.href = confirmationUrl;

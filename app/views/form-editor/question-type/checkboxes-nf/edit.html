@@ -15,7 +15,7 @@ signOutLink: "/onboarding/sign-out-confirmation",
 navigationItems: [
 { href: "/library.html", text: "Forms library", id: "nav-library" },
 { href: "/cph-overview/draft/complete-clean.html", text: "Overview", id: "nav-overview" },
-{ href: "/redesigntest/listing", text: "Editor", id: "nav-editor" }
+{ href: "/form-editor/listing", text: "Editor", id: "nav-editor" }
 ],
 activeLinkId: "nav-editor"
 }) }}
@@ -23,7 +23,7 @@ activeLinkId: "nav-editor"
 <div class="x-govuk-masthead x-govuk-masthead--large">
 	<div class="govuk-width-container">
 		{{ govukBackLink({ classes: "govuk-back-link--inverse govuk-!-margin-bottom-0", text: "Back to add and edit
-		pages", href: "/redesigntest/listing.html" }) }}
+		pages", href: "/form-editor/listing.html" }) }}
 
 		<hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible"
 			style="border-bottom: 1px solid white; margin-bottom: 0" />
@@ -72,7 +72,9 @@ activeLinkId: "nav-editor"
 												</div>
 
 												<span class="govuk-caption-l">Page #</span>
-												<h2 class="govuk-heading-l">Edit question #</h2>
+												<h2 class="govuk-heading-l" tabindex="-1">{{
+													commonTerms.form_editor.information_type.list.types.checkboxes.edit_title
+													}}</h2>
 
 												<form id="s" action="/question-configuration-save" method="post">
 
@@ -264,7 +266,7 @@ activeLinkId: "nav-editor"
 															items: [
 															{
 															href:
-															"/redesigntest/templates/1-question/information-type.html",
+															"/form-editor/templates/1-question/information-type.html",
 															text: "Change",
 															visuallyHiddenText: "name"
 															}
@@ -323,7 +325,7 @@ activeLinkId: "nav-editor"
 							</p>
 
 							<!-- Ensure this included template contains the #radio-list .govuk-radios element -->
-							{% include "/form-editor/previews/radios/edit-v2.html" %}
+							{% include "/form-editor/question-type/checkboxes-nf/preview/edit.html" %}
 
 							<a href="#edit-page" class="govuk-skip-link" style="margin-bottom: 30px!important;"
 								data-module="govuk-skip-link">Skip to edit page</a>

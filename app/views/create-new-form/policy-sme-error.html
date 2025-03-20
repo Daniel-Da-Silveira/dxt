@@ -5,19 +5,19 @@
 {% set pageName = "Content page template" %}
 
 {% block header %}
-  {{ serviceHeader({
-    organisationName: "Defra",
-    productName: "Forms designer",
-    serviceName: "",
-    accountName: "Chris Smith",
-    homepageLink: "/",
-    signOutLink: "/form-designer-mvp2/onboarding/sign-out-confirmation",
-    navigationItems: [{
-      href: "/",
-      text: "Library",
-      id: "library"
-    }]
-  }) }}
+{{ serviceHeader({
+organisationName: "Defra",
+productName: "Forms designer",
+serviceName: "",
+accountName: "Chris Smith",
+homepageLink: "/",
+signOutLink: "/form-designer-mvp2/onboarding/sign-out-confirmation",
+navigationItems: [{
+href: "/",
+text: "Library",
+id: "library"
+}]
+}) }}
 {% endblock %}
 
 {% block beforeContent %}
@@ -34,9 +34,7 @@ href: "javascript:window.history.back()"
 {% from "govuk/components/table/macro.njk" import govukTable %}
 
 <!-- <main class="govuk-main-wrapper" id="main-content" role="main"> -->
-<form class="form"
-  action="/new-edition/name-of-form"
-  method="post">
+<form class="form" action="/create-new-form/form-name" method="post">
 
   {% from "govuk/components/input/macro.njk" import govukInput %}
 
@@ -47,27 +45,27 @@ href: "javascript:window.history.back()"
 
       {% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
 
-{{ govukErrorSummary({
-  titleText: "There is a problem",
-  errorList: [
-    {
+      {{ govukErrorSummary({
+      titleText: "There is a problem",
+      errorList: [
+      {
       text: "Enter the name of the SME/Policy team",
       href: "#"
-    }
-  ]
-}) }}
+      }
+      ]
+      }) }}
 
       {{ govukInput({
-        label: {
-          text: "Enter the name of the SME/Policy team",
-          classes: "govuk-label--l",
-          isPageHeading: true
-        },
-        id: "event-name",
-        name: "eventName",
-        errorMessage: {
-          text: "Enter the name name of the SME/Policy team"
-        }
+      label: {
+      text: "Enter the name of the SME/Policy team",
+      classes: "govuk-label--l",
+      isPageHeading: true
+      },
+      id: "event-name",
+      name: "eventName",
+      errorMessage: {
+      text: "Enter the name name of the SME/Policy team"
+      }
       }) }}
 
       {{ govukButton({

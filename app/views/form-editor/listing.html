@@ -16,9 +16,10 @@ accountName: "Chris Smith",
 homepageLink: "/",
 signOutLink: "/onboarding/sign-out-confirmation",
 navigationItems: [
-{ href: "/library.html", text: "Forms library", id: "nav-library" },
-{ href: "/cph-overview/draft/complete-clean.html", text: "Overview", id: "nav-overview" },
-{ href: "/form-editor/listing", text: "Editor", id: "nav-editor" }
+{ href: "/library.html", text: commonTerms.form_editor.navigation.forms_library, id: "nav-library" },
+{ href: "/cph-overview/draft/complete-clean.html", text: commonTerms.form_editor.navigation.overview, id: "nav-overview"
+},
+{ href: "/form-editor/listing", text: commonTerms.form_editor.navigation.editor, id: "nav-editor" }
 ],
 activeLinkId: "nav-editor"
 }) }}
@@ -27,8 +28,8 @@ activeLinkId: "nav-editor"
     <div class="govuk-width-container">
         {{ govukBackLink({
         classes: "govuk-back-link--inverse govuk-!-margin-bottom-0",
-        text: "Back to overview",
-        href: "#"
+        text: commonTerms.form_editor.navigation.back_to_overview,
+        href: "/cph-overview/draft/complete-clean.html"
         }) }}
 
         <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible"
@@ -82,7 +83,7 @@ activeLinkId: "nav-editor"
             {% set items = [] %}
             {% set items = (items.push({
             value: "show-all",
-            text: "Show all pages",
+            text: commonTerms.form_editor.filters.show_all_pages,
             behaviour: "exclusive"
             }), items) %}
 
@@ -94,15 +95,21 @@ activeLinkId: "nav-editor"
             }), items) %}
             {% endfor %}
 
-            {{ govukDetails({
-            id: "filter-details",
-            summaryText: "Filter pages by condition",
+            {{ govukAccordion({
+            id: "filter-accordion",
+            items: [
+            {
+            heading: { text: commonTerms.form_editor.filters.filter_by_condition },
+            content: {
             html: govukCheckboxes({
             idPrefix: "condition-filter",
             name: "condition-filter",
             classes: "govuk-checkboxes--small",
             items: items
             })
+            }
+            }
+            ]
             }) }}
         </div>
     </div>
@@ -813,14 +820,14 @@ CHECK ANSWERS PAGE
                             <!-- Conditional Button -->
                             {% if data['checkAnswersGuidanceTextInput'] %}
                             {{ govukButton({
-                            text: "Accept and send",
+                            text: commonTerms.form_editor.actions.accept_and_send,
                             classes: "govuk-button govuk-!-margin-top-3",
                             id: "accept-and-send-button",
                             disabled: true
                             }) }}
                             {% else %}
                             {{ govukButton({
-                            text: "Send",
+                            text: commonTerms.form_editor.actions.send,
                             classes: "govuk-button govuk-!-margin-top-3",
                             id: "send-button",
                             disabled: true

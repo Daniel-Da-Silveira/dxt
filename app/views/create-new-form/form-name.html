@@ -1,12 +1,12 @@
 {% extends "layouts/main.html" %}
 
 {% block pageTitle %}
-What is the name of your form? - Create a new form
+{{ commonTerms.form_editor.create_new_form.form_name.title }} - Create a new form
 {% endblock %}
 
 {% block beforeContent %}
 {{ govukBackLink({
-text: "Back",
+text: commonTerms.form_editor.create_new_form.form_name.back,
 href: "/library"
 }) }}
 {% endblock %}
@@ -17,12 +17,12 @@ href: "/library"
     <form class="form" action="/create-new-form/form-name" method="post">
       {{ govukInput({
       label: {
-      text: "What is the name of your form?",
+      text: commonTerms.form_editor.create_new_form.form_name.title,
       classes: "govuk-label--l",
       isPageHeading: true
       },
       hint: {
-      text: "This will be displayed at the top of your form and in the forms library."
+      text: commonTerms.form_editor.create_new_form.form_name.hint
       },
       id: "form-name",
       name: "formName",
@@ -31,7 +31,7 @@ href: "/library"
       }) }}
 
       {{ govukButton({
-      text: "Continue"
+      text: commonTerms.form_editor.create_new_form.form_name.continue
       }) }}
     </form>
   </div>

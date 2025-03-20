@@ -14,9 +14,10 @@ accountName: "Chris Smith",
 homepageLink: "/",
 signOutLink: "/onboarding/sign-out-confirmation",
 navigationItems: [
-{ href: "/library.html", text: "Forms library", id: "nav-library" },
-{ href: "/cph-overview/draft/complete-clean.html", text: "Overview", id: "nav-overview" },
-{ href: "/form-editor/listing", text: "Editor", id: "nav-editor" }
+{ href: "/library.html", text: commonTerms.form_editor.navigation.forms_library, id: "nav-library" },
+{ href: "/cph-overview/draft/complete-clean.html", text: commonTerms.form_editor.navigation.overview, id: "nav-overview"
+},
+{ href: "/form-editor/listing", text: commonTerms.form_editor.navigation.editor, id: "nav-editor" }
 ],
 activeLinkId: "nav-editor"
 }) }}
@@ -25,7 +26,7 @@ activeLinkId: "nav-editor"
   <div class="govuk-width-container">
     {{ govukBackLink({
     classes: "govuk-back-link--inverse govuk-!-margin-bottom-0",
-    text: "Back to add and edit pages",
+    text: commonTerms.form_editor.navigation.back_to_add_edit_pages,
     href: "/form-editor/listing.html"
     }) }}
 
@@ -180,7 +181,7 @@ activeLinkId: "nav-editor"
                                 <div id="question-1-content" class="question-content" style="margin-top: 10px;">
                                   {{ govukInput({
                                   label: {
-                                  text: "Page heading",
+                                  text: commonTerms.form_editor.page_settings.heading,
                                   classes: "govuk-label govuk-label--m govuk-!-margin-top-0"
                                   },
                                   hint: {
@@ -196,11 +197,11 @@ activeLinkId: "nav-editor"
                                   }) }}
 
                                   {{ govukTextarea({
-                                  label: { text: "Guidance text (optional)", classes: "govuk-label govuk-label--m" },
-                                  hint: { text: "Use Markdown to format the content or add hyperlinks", id:
-                                  "guidance-textarea-hint" },
-                                  id: "guidance-textarea",
-                                  name: "guidanceTextarea",
+                                  label: { text: commonTerms.form_editor.guidance.title, classes: "govuk-label
+                                  govuk-label--m" },
+                                  hint: { text: commonTerms.form_editor.guidance.hint },
+                                  id: "guidance-text",
+                                  name: "guidanceText",
                                   rows: 5,
                                   value: currentPage.guidanceTextarea or "",
                                   attributes: { 'aria-describedby': "guidance-textarea-hint", 'data-preview-target':
@@ -227,7 +228,7 @@ activeLinkId: "nav-editor"
                                     {# Build an inputOptions object to pass to govukInput #}
                                     {% set inputOptions = {
                                     label: {
-                                    text: "Page heading",
+                                    text: commonTerms.form_editor.page_settings.heading,
                                     classes: "govuk-label govuk-label--m govuk-!-margin-top-0"
                                     },
                                     hint: {
@@ -246,11 +247,11 @@ activeLinkId: "nav-editor"
                                     {{ govukInput(inputOptions) }}
 
                                     {{ govukTextarea({
-                                    label: { text: "Guidance text (optional)", classes: "govuk-label govuk-label--m" },
-                                    hint: { text: "Use Markdown to format the content or add hyperlinks", id:
-                                    "guidance-textarea-hint" },
-                                    id: "guidance-textarea",
-                                    name: "guidanceTextarea",
+                                    label: { text: commonTerms.form_editor.guidance.title, classes: "govuk-label
+                                    govuk-label--m" },
+                                    hint: { text: commonTerms.form_editor.guidance.hint },
+                                    id: "guidance-text",
+                                    name: "guidanceText",
                                     rows: 5,
                                     value: currentPage.guidanceTextarea or "",
                                     attributes: { 'aria-describedby':
@@ -334,7 +335,7 @@ activeLinkId: "nav-editor"
                                     <!-- Set Name Input for the response group -->
                                     {{ govukInput({
                                     label: {
-                                    text: "Give this set of questions a name",
+                                    text: commonTerms.form_editor.page_settings.question_set_name,
                                     classes: "govuk-label",
                                     isPageHeading: true
                                     },
@@ -345,7 +346,7 @@ activeLinkId: "nav-editor"
                                     },
                                     id: "question-set-name",
                                     name: "questionSetName",
-                                    value: currentPage.setName or ""
+                                    value: currentPage.questionSetName or ""
                                     }) }}
                                   </div>
                                 </div>
@@ -356,7 +357,7 @@ activeLinkId: "nav-editor"
 
                           <div class="govuk-button-group govuk-!-margin-top-6">
                             <button class="govuk-button" type="submit" name="saveChanges">
-                              Save changes
+                              {{ commonTerms.form_editor.actions.continue }}
                             </button>
 
 
@@ -408,7 +409,7 @@ activeLinkId: "nav-editor"
                       {% from "govuk/components/button/macro.njk" import govukButton %}
 
                       {{ govukButton({
-                      text: "Manage conditions",
+                      text: commonTerms.form_editor.page_settings.manage_conditions,
                       href: "/conditions/" + currentPage.pageId
                       }) }}
 
@@ -460,7 +461,7 @@ activeLinkId: "nav-editor"
               <!-- Set Name Preview Caption -->
               <!-- The dynamic caption that is toggled by JS -->
               <span id="dynamic-caption" class="govuk-caption-xl" style="display: none;">
-                {{ currentPage.setName | capitalize }} 1
+                {{ currentPage.questionSetName | capitalize }} 1
               </span>
 
               <h1 class="govuk-heading-xl"
@@ -546,7 +547,7 @@ activeLinkId: "nav-editor"
             <button class="govuk-button" id="add-another-set-button" style="display: none;">
               Add another
               <span style="text-transform: lowercase;">
-                {{ currentPage.setName or '[question set name]' }}
+                {{ currentPage.questionSetName or '[question set name]' }}
               </span>
             </button>
 
@@ -997,7 +998,7 @@ activeLinkId: "nav-editor"
     const guidanceSection = document.getElementById('conditional-guidance');
     const pageHeadingInput = document.getElementById('page-heading-input');
     const dynamicHeading = document.getElementById('dynamic-heading');
-    const guidanceTextarea = document.getElementById('guidance-textarea');
+    const guidanceTextarea = document.getElementById('guidance-text');
     const guidanceParagraph = document.getElementById('guidance-paragraph');
 
     // Placeholders

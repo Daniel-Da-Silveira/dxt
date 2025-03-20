@@ -79,7 +79,7 @@ activeLinkId: "nav-editor"
                           <!-- Question Label Input -->
                           <div class="govuk-form-group">
                             <label class="govuk-label govuk-label--m" for="question-label-input-address">
-                              {{ commonTerms.question }}
+                              {{ commonTerms.form_editor.question_settings.question }}
                             </label>
                             <input class="govuk-input" id="question-label-input-address"
                               name="questionLabelInputAddress" type="text" value="">
@@ -88,7 +88,7 @@ activeLinkId: "nav-editor"
                           <!-- Hint Text Input -->
                           {{ govukTextarea({
                           label: {
-                          text: commonTerms.hint_title,
+                          text: commonTerms.form_editor.question_settings.hint,
                           classes: "govuk-label--m"
                           },
                           id: "hint-text-input-address",
@@ -106,7 +106,7 @@ activeLinkId: "nav-editor"
                                 <input class="govuk-checkboxes__input" id="make-optional" name="makeOptional"
                                   type="checkbox" value="optional">
                                 <label class="govuk-label govuk-checkboxes__label" for="make-optional">
-                                  {{ commonTerms.optional_question }}
+                                  {{ commonTerms.form_editor.question_settings.optional }}
                                 </label>
                               </div>
                             </div>
@@ -114,12 +114,12 @@ activeLinkId: "nav-editor"
 
                           {{ govukInput({
                           label: {
-                          text: commonTerms.short_description_title,
+                          text: commonTerms.form_editor.question_settings.short_description.title,
                           classes: "govuk-label--m",
                           isPageHeading: false
                           },
                           hint: {
-                          text: commonTerms.short_description_hint
+                          text: commonTerms.form_editor.question_settings.short_description.hint
                           },
                           id: "error-message-input-address",
                           name: "errorMessageInputAddress"
@@ -129,7 +129,7 @@ activeLinkId: "nav-editor"
                           <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
 
                           <!-- Question Settings Summary List -->
-                          <h2 class="govuk-heading-m">{{ commonTerms.question_setting_h }}</h2>
+                          <h2 class="govuk-heading-m">{{ commonTerms.form_editor.question_settings.title }}</h2>
 
                           {{ govukSummaryList({
                           "rows": [
@@ -144,7 +144,7 @@ activeLinkId: "nav-editor"
                           "items": [
                           {
                           "href": "/form-editor/1-question/information-type.html",
-                          "text": commonTerms.question_setting_link,
+                          "text": commonTerms.form_editor.common.edit,
                           "visuallyHiddenText": " type"
                           }
                           ]

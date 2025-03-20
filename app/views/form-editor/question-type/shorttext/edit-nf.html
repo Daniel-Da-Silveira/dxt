@@ -31,13 +31,8 @@ activeLinkId: "nav-editor"
     <div class="govuk-grid-row">
       <div class="govuk-grid-column-full-from-desktop">
         <h1 class="x-govuk-masthead__title">
-          {# <span class="govuk-caption-l" style="color: white">
-            Apply for a county parish holding certificate
-          </span> #}
           Food order form (user research)
         </h1>
-
-
       </div>
     </div>
   </div>
@@ -88,17 +83,16 @@ activeLinkId: "nav-editor"
                           <!-- Question Label Input -->
                           <div class="govuk-form-group">
                             <label class="govuk-label govuk-label--m" for="question-label-input-shorttext">
-                              {{ commonTerms.question }}
+                              {{ commonTerms.form_editor.question_settings.question }}
                             </label>
                             <input class="govuk-input" id="question-label-input-shorttext"
                               name="questionLabelInputShortText" type="text" value="">
                           </div>
 
-
                           <!-- Hint Text Input -->
                           {{ govukTextarea({
                           label: {
-                          text: commonTerms.hint_title,
+                          text: commonTerms.form_editor.question_settings.hint,
                           classes: "govuk-label--m"
                           },
                           id: "hint-text-input-shorttext",
@@ -116,23 +110,20 @@ activeLinkId: "nav-editor"
                                 <input class="govuk-checkboxes__input" id="make-optional" name="makeOptional"
                                   type="checkbox" value="optional">
                                 <label class="govuk-label govuk-checkboxes__label" for="make-optional">
-                                  {{ commonTerms.optional_question }}
+                                  {{ commonTerms.form_editor.question_settings.optional }}
                                 </label>
                               </div>
                             </div>
                           </div>
 
-
-
-
                           {{ govukInput({
                           label: {
-                          text: commonTerms.short_description_title,
+                          text: commonTerms.form_editor.question_settings.short_description.title,
                           classes: "govuk-label--m",
                           isPageHeading: false
                           },
                           hint: {
-                          text: commonTerms.short_description_hint
+                          text: commonTerms.form_editor.question_settings.short_description.hint
                           },
                           id: "error-message-input-shorttext",
                           name: "errorMessageInputShorttext"
@@ -142,16 +133,74 @@ activeLinkId: "nav-editor"
                           <details class="govuk-details" data-module="govuk-details">
                             <summary class="govuk-details__summary">
                               <span class="govuk-details__summary-text">
-                                {{ commonTerms.answer_limits }}
+                                {{ commonTerms.form_editor.question_settings.answer_limits.title }}
                               </span>
                             </summary>
                             <div class="govuk-details__text">
                               <!-- Default Content for Question 1 -->
                               <div id="question-1-content" class="question-content" style="margin-top: 10px;">
-                                {% include "/form-editor/answer-limits/classes.html" %}
-                                {% include "/form-editor/answer-limits/regex.html" %}
-                                {% include "/form-editor/answer-limits/min-max-chars.html" %}
-                              </div>
+
+                                {{ govukInput({
+                                label: {
+                                text: commonTerms.form_editor.question_settings.answer_limits.min_length.title,
+                                classes: "govuk-label--m",
+                                isPageHeading: false
+                                },
+                                classes: "govuk-input--width-3",
+                                hint: {
+                                text: commonTerms.form_editor.question_settings.answer_limits.min_length.hint
+                                },
+                                id: "min-characters",
+                                name: "minCharacters",
+                                inputmode: "numeric",
+                                spellcheck: false
+                                }) }}
+
+                                {{ govukInput({
+                                label: {
+                                text: commonTerms.form_editor.question_settings.answer_limits.max_length.title,
+                                classes: "govuk-label--m",
+                                isPageHeading: false
+                                },
+                                classes: "govuk-input--width-3",
+                                hint: {
+                                text: commonTerms.form_editor.question_settings.answer_limits.max_length.hint
+                                },
+                                id: "max-characters",
+                                name: "minCharacters",
+                                inputmode: "numeric",
+                                spellcheck: false
+                                }) }}
+
+                                {{ govukTextarea({
+                                label: {
+                                text: commonTerms.form_editor.question_settings.answer_limits.classes.title,
+                                classes: "govuk-label--m",
+                                isPageHeading: false
+                                },
+                                hint: {
+                                text: commonTerms.form_editor.question_settings.answer_limits.classes.hint
+                                },
+                                id: "classes",
+                                rows: "1",
+                                name: "classes",
+                                spellcheck: false
+                                }) }}
+
+                                {{ govukTextarea({
+                                label: {
+                                text: commonTerms.form_editor.question_settings.answer_limits.regex.title,
+                                classes: "govuk-label--m",
+                                isPageHeading: false
+                                },
+                                hint: {
+                                text: commonTerms.form_editor.question_settings.answer_limits.regex.hint
+                                },
+                                id: "regex",
+                                rows: "3",
+                                name: "regex",
+                                spellcheck: false
+                                }) }} </div>
                           </details>
 
                           <a href="#tab-two" class="govuk-skip-link" style="margin-bottom: 30px!important;"
@@ -162,7 +211,7 @@ activeLinkId: "nav-editor"
                           <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
 
                           <!-- Question Settings Summary List -->
-                          <h2 class="govuk-heading-m">{{ commonTerms.question_setting_h }}</h2>
+                          <h2 class="govuk-heading-m">{{ commonTerms.form_editor.question_settings.title }}</h2>
 
                           {{ govukSummaryList({
                           "rows": [
@@ -171,13 +220,13 @@ activeLinkId: "nav-editor"
                           "text": "Type of information"
                           },
                           "value": {
-                          "html": commonTerms.form_editor.information_type.text.types.short
+                          "html": commonTerms.form_editor.information_type.written.types.short
                           },
                           "actions": {
                           "items": [
                           {
                           "href": "/form-editor/1-question/information-type.html",
-                          "text": commonTerms.question_setting_link,
+                          "text": commonTerms.form_editor.common.edit,
                           "visuallyHiddenText": " type"
                           }
                           ]
@@ -187,9 +236,6 @@ activeLinkId: "nav-editor"
                           }) }}
 
                           <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
-
-
-                          <!-- Other form elements... -->
 
                           <!-- Submit Button -->
                           <div class="moj-button-action">
@@ -294,26 +340,6 @@ activeLinkId: "nav-editor"
                 </a>
               </li>
             </ul>
-
-            {# <h3 class="govuk-heading-s">If you set answer limits:</h3>
-            <ul class="govuk-list govuk-error-summary__list">
-              <!-- Too long input error -->
-              <li>
-                <a id="too-long-input-error-textarea" class="govuk-error-message">
-                  <span class="govuk-visually-hidden">Error:</span>
-                  <span id="error-dynamic-text-long">[Short description]</span> must be on or after <span
-                    id="max-past">[max days in the past]</span>
-                </a>
-              </li>
-              <!-- Too short input error -->
-              <li>
-                <a id="too-short-input-error-textarea" class="govuk-error-message">
-                  <span class="govuk-visually-hidden">Error:</span>
-                  <span id="error-dynamic-text-short">[Short description]</span> must be on or before <span
-                    id="max-future">[max days in the future]</span>
-                </a>
-              </li>
-            </ul> #}
             <a href="#edit-page" class="govuk-skip-link" style="margin-bottom: 30px!important;"
               data-module="govuk-skip-link">
               Skip to edit page
@@ -554,17 +580,6 @@ activeLinkId: "nav-editor"
           const validationMessage = domElements.validationMessageInputRegex.value || '[Short description]';
           domElements.validationMessagePreviewRegex.textContent = validationMessage;
         }
-
-        function updateErrorMessages() {
-          const shortDescription = domElements.errorMessageInputShorttext.value || '[Short description]';
-          domElements.errorMessagePreviewElements.forEach(element => {
-            // Only update elements other than the regex validation message
-            if (element.id !== 'error-dynamic-text-regex') {
-              element.textContent = shortDescription;
-            }
-          });
-        }
-
 
         function updateCharacterLimits() {
           const minCharacters = domElements.minCharactersInput.value || '[min length]';

@@ -421,51 +421,65 @@ activeLinkId: "nav-editor"
                                                 {% for question in page.questions %}
                                                 <div class="preview-item" data-id="question-{{ question.questionId }}">
                                                     {# Set the preview template based on question type and subtype #}
-                                                    {% set previewTemplate =
-                                                    '/form-editor/question-type/questions/previews/' %}
+                                                    {% set previewTemplate = '' %}
                                                     {% if question.type == 'phone' %}
-                                                    {% set previewTemplate = previewTemplate ~ 'phone-preview.html'
+                                                    {% set previewTemplate =
+                                                    '/form-editor/question-type/questions/previews/phone-preview.html'
                                                     %}
                                                     {% elif question.type == 'address' %}
-                                                    {% set previewTemplate = previewTemplate ~
-                                                    'address-preview.html' %}
+                                                    {% set previewTemplate =
+                                                    '/form-editor/question-type/questions/previews/address-preview.html'
+                                                    %}
                                                     {% elif question.type == 'file' %}
-                                                    {% set previewTemplate = previewTemplate ~
-                                                    'fileupload-preview.html'
+                                                    {% set previewTemplate =
+                                                    '/form-editor/question-type/questions/previews/fileupload-preview.html'
                                                     %}
                                                     {% elif question.type == 'email' %}
-                                                    {% set previewTemplate = previewTemplate ~ 'email-preview.html'
+                                                    {% set previewTemplate =
+                                                    '/form-editor/question-type/questions/previews/email-preview.html'
                                                     %}
                                                     {% elif question.type == 'text' %}
                                                     {% if question.subType == 'short-answer-nf' %}
-                                                    {% set previewTemplate = previewTemplate ~
-                                                    'shorttext-preview.html'
+                                                    {% set previewTemplate =
+                                                    '/form-editor/question-type/questions/previews/shorttext-preview.html'
                                                     %}
                                                     {% elif question.subType == 'long-answer' %}
-                                                    {% set previewTemplate = previewTemplate ~
-                                                    'textarea-preview.html'
+                                                    {% set previewTemplate =
+                                                    '/form-editor/question-type/questions/previews/textarea-preview.html'
                                                     %}
                                                     {% elif question.subType == 'numbers' %}
-                                                    {% set previewTemplate = previewTemplate ~
-                                                    'numbers-preview.html' %}
-                                                    {% else %}
-                                                    {% set previewTemplate = previewTemplate ~ 'text-preview.html'
+                                                    {% set previewTemplate =
+                                                    '/form-editor/question-type/questions/previews/numbers-preview.html'
                                                     %}
+                                                    {% else %}
+                                                    {% set previewTemplate =
+                                                    '/form-editor/question-type/questions/previews/text-preview.html' %}
                                                     {% endif %}
                                                     {% elif question.type == 'list' %}
                                                     {% if question.subType == 'radios' %}
-                                                    {% set previewTemplate = previewTemplate ~ 'radios-preview.html' %}
+                                                    {% set previewTemplate =
+                                                    '/form-editor/question-type/questions/previews/radios-preview.html'
+                                                    %}
                                                     {% elif question.subType == 'checkboxes' %}
-                                                    {% set previewTemplate = previewTemplate ~ 'checkboxes-preview.html'
+                                                    {% set previewTemplate =
+                                                    '/form-editor/question-type/questions/previews/checkboxes-preview.html'
                                                     %}
                                                     {% elif question.subType == 'yes-no' %}
-                                                    {% set previewTemplate = previewTemplate ~ 'yesno-preview.html' %}
+                                                    {% set previewTemplate =
+                                                    '/form-editor/question-type/questions/previews/yesno-preview.html'
+                                                    %}
                                                     {% elif question.subType == 'select' %}
-                                                    {% set previewTemplate = previewTemplate ~
-                                                    'autocomplete-preview.html' %}
+                                                    {% set previewTemplate =
+                                                    '/form-editor/question-type/questions/previews/autocomplete-preview.html'
+                                                    %}
                                                     {% else %}
-                                                    {% set previewTemplate = previewTemplate ~ 'list-preview.html' %}
+                                                    {% set previewTemplate =
+                                                    '/form-editor/question-type/questions/previews/list-preview.html' %}
                                                     {% endif %}
+                                                    {% else %}
+                                                    {% set previewTemplate =
+                                                    '/form-editor/question-type/questions/previews/default-preview.html'
+                                                    %}
                                                     {% endif %}
                                                     {% include previewTemplate %}
                                                 </div>

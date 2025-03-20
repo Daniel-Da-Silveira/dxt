@@ -7,16 +7,87 @@
       "save": "Save changes",
       "cancel": "Cancel",
       "delete": "Delete",
-      "edit": "Edit",
-      "add": "Add"
+      "edit": "Change",
+      "add": "Add",
+      "preview": "Preview this page in a new tab",
+      "skip_to_edit": "Skip to edit page",
+      "previews": "Previews",
+      "contents": "Contents",
+      "page_preview": "Page preview",
+      "error_messages": "Error messages",
+      "preview_error": "Preview error messages in a new tab",
+      "skip_to_short_description": "Skip to edit short description",
+      "there_is_a_problem": "There is a problem",
+      "no_options": "No checkbox options added yet",
+      "add_another_option": "Add another option",
+      "add_option": "Add option",
+      "edit_list": "Edit list",
+      "move_up": "Move option up",
+      "move_down": "Move option down",
+      "remove_option": "Remove option",
+      "edit_option": "Edit",
+      "option_number": "option number"
+    },
+    "navigation": {
+      "forms_library": "Forms library",
+      "overview": "Overview",
+      "editor": "Editor",
+      "back_to_overview": "Back to overview",
+      "back_to_edit_page": "Back to edit page #",
+      "back_to_add_edit_pages": "Back to add and edit pages"
+    },
+    "conditions": {
+      "title": "Add or create conditions for this page",
+      "add_existing": "Add an existing condition",
+      "create_new": "Create a new condition",
+      "select_existing": "Select an existing condition",
+      "add_existing_button": "Add existing condition",
+      "operator": {
+        "label": "Operator",
+        "select": "Select an operator",
+        "is": "is",
+        "is_not": "is not"
+      },
+      "name": {
+        "label": "Condition name"
+      }
+    },
+    "preview": {
+      "title": "Previews",
+      "page_preview": "Page preview",
+      "error_messages": "Error messages",
+      "preview_in_new_tab": "Preview this page in a new tab",
+      "preview_error_in_new_tab": "Preview error messages in a new tab",
+      "skip_to_edit": "Skip to edit page",
+      "skip_to_short_description": "Skip to edit short description",
+      "preview_page": "Preview of page"
+    },
+    "guidance": {
+      "title": "Guidance text (optional)",
+      "hint": "Use Markdown to format the content or add hyperlinks"
+    },
+    "page_settings": {
+      "heading": "Page heading",
+      "question_set_name": "Give this set of questions a name",
+      "manage_conditions": "Manage conditions"
+    },
+    "actions": {
+      "accept_and_send": "Accept and send",
+      "send": "Send",
+      "continue": "Continue",
+      "add_another": "Add another"
+    },
+    "filters": {
+      "show_all_pages": "Show all pages",
+      "filter_by_condition": "Filter pages by condition"
     },
     "page_type": {
       "back": "Back to add and edit pages",
       "title": "What type of page do you want to add?",
       "question_page": "Question page",
-      "question_page_hint": "A page that asks users for information",
+      "question_page_hint": "A page to hold one or more related questions",
       "guidance_page": "Guidance page",
-      "guidance_page_hint": "A page that provides users with information"
+      "guidance_page_hint": "If you need to add guidance without asking a question"
     },
     "information_type": {
       "back": "Back to add and edit pages",
@@ -51,7 +122,45 @@
       },
       "file": {
         "title": "Supporting evidence",
-        "hint": "A document, for example, DOC, PDF, CSV, Excel"
+        "hint": "A document, for example, DOC, PDF, CSV, Excel",
+        "select_title": "Select the file types you accept",
+        "types": {
+          "documents": "Documents",
+          "images": "Images",
+          "tabular": "Tabular data"
+        },
+        "options": {
+          "documents": {
+            "title": "Document types",
+            "hint": "Select the document types you accept",
+            "types": {
+              "pdf": "PDF",
+              "doc": "DOC",
+              "docx": "DOCX",
+              "odt": "ODT",
+              "txt": "TXT"
+            }
+          },
+          "images": {
+            "title": "Image types",
+            "hint": "Select the image types you accept",
+            "types": {
+              "jpeg": "JPEG",
+              "jpg": "JPG",
+              "png": "PNG"
+            }
+          },
+          "tabular": {
+            "title": "Tabular data types",
+            "hint": "Select the tabular data types you accept",
+            "types": {
+              "xls": "XLS",
+              "xlsx": "XLSX",
+              "csv": "CSV",
+              "ods": "ODS"
+            }
+          }
+        }
       },
       "email": {
         "title": "Email address",
@@ -67,15 +176,61 @@
           },
           "checkboxes": {
             "title": "Checkboxes",
-            "hint": "A list for users to select multiple answers"
+            "hint": "A list for users to select multiple answers",
+            "add_option": "Add checkbox option",
+            "edit_title": "Create and edit your list of options",
+            "option": {
+              "text": {
+                "label": "Option text",
+                "hint": "Enter an option for your list"
+              },
+              "hint": {
+                "label": "Hint text (optional)",
+                "hint": "Provide additional information about this option"
+              },
+              "value": {
+                "label": "Option value",
+                "hint": "You can keep this the same as the option text unless you call it something different in your backend system"
+              }
+            }
           },
           "radios": {
             "title": "Radios",
-            "hint": "A list for users to select one answer"
+            "hint": "A list for users to select one answer",
+            "add_option": "Add radio option",
+            "edit_title": "Create and edit your list of options",
+            "option": {
+              "text": {
+                "label": "Option text",
+                "hint": "Enter an option for your list"
+              },
+              "hint": {
+                "label": "Hint text (optional)",
+                "hint": "Provide additional information about this option"
+              },
+              "value": {
+                "label": "Option value",
+                "hint": "You can keep this the same as the option text unless you call it something different in your backend system"
+              }
+            }
           },
           "select": {
             "title": "Autocomplete",
             "hint": "A list of options revealed to users as they type"
+          }
+        },
+        "autocomplete": {
+          "title": "Autocomplete",
+          "hint": "A list of options revealed to users as they type",
+          "options": {
+            "title": "Create and edit your list of autocomplete options",
+            "hint": "Add each option on a new line",
+            "value_hint": "To optionally set an input value for each item, separate the option text and value with a colon (e.g English:en-gb)",
+            "optional": "Make this question optional",
+            "error": {
+              "label": "Short description",
+              "hint": "Enter a short description for this question like 'licence period'. Short descriptions are used in error messages and on the check your answers page."
+            }
           }
         }
       }
@@ -93,100 +248,89 @@
       "warning": "You cannot recover deleted pages",
       "confirm_button": "Yes, delete this page",
       "cancel_button": "Cancel"
+    },
+    "question_settings": {
+      "title": "Question settings",
+      "question": "Question",
+      "hint": "Hint text (optional)",
+      "optional": "Make this question optional",
+      "short_description": {
+        "title": "Short description",
+        "hint": "Enter a short description for this question like 'licence period'. Short descriptions are used in error messages and on the check your answers page."
+      },
+      "answer_limits": {
+        "title": "Set answer limits (optional)",
+        "min_length": {
+          "title": "Minimum character length (optional)",
+          "hint": "The minimum number of characters users can enter"
+        },
+        "max_length": {
+          "title": "Maximum character length (optional)",
+          "hint": "The maximum number of characters users can enter"
+        },
+        "classes": {
+          "title": "Classes (optional)",
+          "hint": "Apply CSS classes to this field. For example, 'govuk-input govuk-!-width-full'"
+        },
+        "regex": {
+          "title": "Regex (optional)",
+          "hint": "Specifies a regular expression to validate users' inputs. Use JavaScript syntax"
+        },
+        "max_words": {
+          "title": "Max words (optional)",
+          "hint": "Specifies the maximum number of words users can enter"
+        },
+        "rows": {
+          "title": "Rows (optional)",
+          "hint": "Specifies the number of textarea rows (default is 5 rows)"
+        }
+      }
+    },
+    "create_new_form": {
+      "form_name": {
+        "title": "Enter name of your form",
+        "hint": "Use an appropriate name for your form. You cannot change the form name once your form is live",
+        "back": "Back",
+        "continue": "Save and continue",
+        "error": {
+          "title": "There is a problem",
+          "exists": "The name your entered already exists",
+          "message": "This name already exists. Enter a different name"
+        }
+      },
+      "organisation": {
+        "title": "Choose a lead organisation for this form",
+        "back": "Back",
+        "continue": "Save and continue",
+        "error": {
+          "title": "There is a problem",
+          "missing_selection": "Select a lead organisation"
+        }
+      },
+      "team_details": {
+        "title": "Team details",
+        "team_name": {
+          "label": "Name of team",
+          "hint": "Enter the name of the policy team or business area responsible for this form",
+          "error": {
+            "missing": "Enter name of team",
+            "too_long": "Name of team must be 100 characters or less"
+          }
+        },
+        "email": {
+          "label": "Shared team email address",
+          "hint": "You can only create forms using a shared team email address. Don't enter your personal email address.",
+          "error": {
+            "missing": "Enter a shared team email address",
+            "invalid_format": "Enter a shared team email address in the correct format"
+          }
+        },
+        "save": "Save and continue",
+        "back": "Back",
+        "error": {
+          "title": "There is a problem"
+        }
+      }
     }
-  },
-  "add_new_page": "",
-  "reorder_pages": "",
-  "preview_form": "",
-  "delete_page_h1": "Are you sure you want to delete this page?",
-  "delete_page_h1_dynamic": "Are you sure you want to delete [page heading]?",
-  "delete_page_paragraph": "You cannot recover deleted pages.",
-  "delete_page_primary_button": "Delete page",
-  "delete_page_secondary_button": "Cancel",
-  "delete_question_h1": "Are you sure you want to delete this question?",
-  "delete_question_paragraph": "You cannot recover deleted pages.",
-  "delete_question_primary_button": "Delete question",
-  "delete_question_secondary_button": "Cancel",
-  "question_setting_h": "Question settings",
-  "question_setting_link": "Change",
-  "info_types_title": "What information do you need from users?",
-  "info_types_hint": "You can ask for more information later",
-  "info_type_1": "Written answer",
-  "info_type_1_hint": "A short or long answer as text or number",
-  "info_type_1_condition": "Type of written answer",
-  "info_type_1a": "Short answer (a single line)",
-  "info_type_1b": "Long answer (more than a single line)",
-  "info_type_1c": "Numbers only",
-  "info_type_2": "Date",
-  "info_type_2_hint": "A day, month and year or month and year only",
-  "info_type_2a": "Day, month and year",
-  "info_type_2b": "Month and year",
-  "info_type_3": "UK address",
-  "info_type_4": "Phone number",
-  "info_type_4_hint": "A UK phone number, for example, 07700 900 982 or +44 808 157 0192",
-  "info_type_5": "Supporting evidence",
-  "info_type_5_hint": "A document, for example, DOC, PDF, CSV, Excel",
-  "info_type_6": "Email address",
-  "info_type_6_hint": "An email address, for example, name@example.com",
-  "list_option": "A list of options users can choose from",
-  "list_option_hint": "Type of list",
-  "list_type_1": "Yes or No",
-  "list_type_1_hint": "Allow users to answer either \u2018Yes\u2019 or \u2018No\u2019",
-  "list_type_2": "Checkboxes",
-  "list_type_2_hint": "A list for users to select multiple answers",
-  "list_type_3": "Radios",
-  "list_type_3_hint": "A list for users to select one answer",
-  "autocomplete": "A list of options revealed to users as they type",
-  "page_heading": "Page heading",
-  "question": "Question",
-  "hint_title": "Hint text (optional)",
-  "guidance_text": "Guidance text",
-  "optional_question": "Make this question optional",
-  "short_description_title": "Short description",
-  "short_description_hint": "Enter a short description for this question like 'licence period'.",
-  "answer_limits": "Set answer limits (optional)",
-  "min_character_title": "Minimum character length (optional)",
-  "min_character_hint": "The minimum number of characters users can enter",
-  "max_character_title": "Maximum character length (optional)",
-  "max_character_hint": "The maximum number of characters users can enter",
-  "regex_title": "Regex (optional)",
-  "regex_hint": "Specifies a regular expression to validate users\u2019 inputs.",
-  "classes_title": "Classes (optional)",
-  "classes_hint": "Apply CSS classes to this field.",
-  "max_words_title": "Max words (optional)",
-  "max_words_hint": "Specifies the maximum number of words users can enter",
-  "rows_title": "Rows (optional)",
-  "rows_hint": "Specifies the number of textarea rows (default is 5 rows)",
-  "precision_title": "Precision (optional)",
-  "precision_hint": "Specifies the number of decimal places users can enter.",
-  "prefix_title": "Prefix (optional)",
-  "prefix_hint": "For example, a symbol like '\u00a3'",
-  "suffix_title": "Suffix (optional)",
-  "suffix_hint": "For example, a unit like 'Kg'",
-  "lowest_number_title": "Lowest number users can enter (optional)",
-  "highest_number_title": "Highest number users can enter (optional)",
-  "max_days_title": "Max days in the past (optional)",
-  "max_days_hint": "Determines the earliest date users can enter",
-  "min_days_title": "Max days in the future (optional)",
-  "min_days_hint": "Determines the latest date users can enter",
-  "min_file_title": "Minimum file count",
-  "min_file_hint": "The minimum number of files users can upload",
-  "max_file_title": "Maximum file count",
-  "max_file_hint": "The maximum number of files users can upload",
-  "file_types_title": "Select the file types you accept",
-  "file_type_1": "Documents",
-  "file_type_1a": "PDF",
-  "file_type_1b": "DOC",
-  "file_type_1c": "DOCX",
-  "file_type_1d": "ODT",
-  "file_type_1e": "TXT",
-  "file_type_2": "Images",
-  "file_type_2a": "JPEG",
-  "file_type_2b": "JPG",
-  "file_type_2c": "PNG",
-  "file_type_3": "Tabular data",
-  "file_type_3a": "XLS",
-  "file_type_3b": "XLSX",
-  "file_type_3c": "CSV",
-  "file_type_3d": "ODS"
+  }
 }
