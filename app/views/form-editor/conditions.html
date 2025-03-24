@@ -53,7 +53,6 @@ activeLinkId: "nav-editor"
               <div class="govuk-summary-list__row">
                 <dd class="govuk-summary-list__value">
 
-                  <!-- Add this temporarily near the top of your content block to debug -->
 
                   <!-- Dynamic Summary List -->
                   <!-- Question Settings Container -->
@@ -65,8 +64,9 @@ activeLinkId: "nav-editor"
                           aria-label="Sub navigation">
                           <ul class="moj-sub-navigation__list" id="nav-list2">
                             <li class="moj-sub-navigation__item">
-                              <a class="moj-sub-navigation__link" href="#question-1-information-type">Page {{ pageNumber
-                                }}</a>
+                              <a class="moj-sub-navigation__link" href="/edit-page/{{ currentPage.pageId }}">
+                                Page {{ pageNumber }}
+                              </a>
                             </li>
                             <li class="moj-sub-navigation__item">
                               <a class="moj-sub-navigation__link" aria-current="page"
@@ -78,11 +78,8 @@ activeLinkId: "nav-editor"
                         <div class="govuk-summary-card__title-wrapper govuk-!-padding-top-0"></div>
 
                         <span class="govuk-caption-l">{{ question.label }}</span>
-                        <h2 class="govuk-heading-l">Control who can see this page based on previous answers</h2>
-
-
-
-
+                        <h2 class="govuk-heading-l">Control who can see this page based on previous answers
+                        </h2>
 
                         <!-- Notification Banner (Hidden by Default) -->
                         <div id="success-banner" class="govuk-visually-hidden">
@@ -141,10 +138,11 @@ activeLinkId: "nav-editor"
                           <div class="govuk-form-group">
                             <label class="govuk-label" for="condition-question">Select a question</label>
                             <select class="govuk-select" id="condition-question" name="question">
+                              <option value="" selected>Select a question</option>
                               {% for question in availableQuestions %}
                               <option value="{{ question.value }}" data-type="{{ question.type }}"
                                 data-options="{{ question.options | dump | e }}">
-                                {{ question.text }} ({{ question.type }})
+                                {{ question.text }}
                               </option>
                               {% endfor %}
                             </select>
@@ -156,7 +154,7 @@ activeLinkId: "nav-editor"
                             label: { text: commonTerms.form_editor.conditions.operator.label },
                             items: [
                             { value: "", text: commonTerms.form_editor.conditions.operator.select, selected: true },
-                            { value: "is", text: commonTerms.form_editor.conditions.operator.is },
+                            { value: "is", text: commonTerms.form_editor.conditions.operator.is, selected: true },
                             { value: "is-not", text: commonTerms.form_editor.conditions.operator.is_not }
                             ]
                             }) }}
@@ -208,9 +206,9 @@ activeLinkId: "nav-editor"
                                 label: { text: commonTerms.form_editor.conditions.name.label },
                                 id: "condition-name",
                                 name: "conditionName",
-                                hint: { text: "Choose a name that makes it easy to understand what the condition is
-                                about.
-                                For example, 'Not a farmer'." }
+                                hint: { text: "Use a name that makes it easy to understand what the condition is about,
+                                for example, 'Not a farmer'. Condition names
+                                help you to identify conditions in your form. Users will not see condition names." }
                                 }) }}
                               </div>
                             </div>
@@ -224,40 +222,51 @@ activeLinkId: "nav-editor"
                           {% endset %}
 
                           {# Step 2: Use newConditionMarkup in the "new" item of govukRadios #}
-                          {{ govukRadios({
-                          name: "conditionType",
-                          fieldset: {
-                          legend: {
-                          text: "Add or create conditions for this page",
-                          isPageHeading: true,
-                          classes: "govuk-fieldset__legend--m"
-                          }
-                          },
-                          items: [
-                          {
+                          {% set radioItems = [] %}
+                          {% set hasConditions = false %}
+                          {% for page in formPages %}
+                          {% if page.conditions and page.conditions | length > 0 %}
+                          {% set hasConditions = true %}
+                          {% endif %}
+                          {% endfor %}
+
+                          {% if hasConditions %}
+                          {% set _ = radioItems.push({
                           value: "existing",
-                          text: "Add an existing condition",
+                          text: "Use existing conditions",
                           conditional: {
-                          html:
-                          govukSelect({
+                          html: govukSelect({
                           label: { text: commonTerms.form_editor.conditions.select_existing },
-                          items: []
-                          }) +
-                          govukButton({
+                          id: "existing-condition",
+                          items: [
+                          { value: "", text: "Select a condition" }
+                          ].concat(existingConditions)
+                          }) + govukButton({
                           text: commonTerms.form_editor.conditions.add_existing_button,
                           id: "add-existing-condition",
-                          classes: "govuk-button--inverse govuk-!-margin-top-6"
+                          classes: "govuk-button govuk-!-margin-top-6"
                           })
                           }
-                          },
-                          {
+                          }) %}
+                          {% endif %}
+                          {% set _ = radioItems.push({
                           value: "new",
                           text: "Create a new condition",
                           conditional: {
                           html: newConditionMarkup | safe
                           }
+                          }) %}
+
+                          {{ govukRadios({
+                          name: "conditionType",
+                          fieldset: {
+                          legend: {
+                          text: "Create or use existing conditions",
+                          isPageHeading: true,
+                          classes: "govuk-fieldset__legend--m"
                           }
-                          ]
+                          },
+                          items: radioItems
                           }) }}
 
                         </div>
@@ -811,7 +820,7 @@ activeLinkId: "nav-editor"
                   <label class="govuk-label" for="condition-operator-${conditionCount}">Operator</label>
                   <select class="govuk-select" id="condition-operator-${conditionCount}" name="operator-${conditionCount}">
                       <option value="">Select an operator</option>
-                      <option value="is">is</option>
+                      <option value="is" selected>is</option>
                       <option value="is-not">is not</option>
                   </select>
               </div>
@@ -1024,7 +1033,8 @@ activeLinkId: "nav-editor"
           // Create hidden inputs for the form data
           const inputs = {
             'conditionType': 'existing',
-            'existingConditionId': selectedConditionId
+            'existingConditionId': selectedConditionId,
+            'currentPageId': '{{ currentPage.pageId }}'  // Add the current page ID
           };
 
           // Add all inputs to form

@@ -1119,11 +1119,34 @@ router.get("/form-editor/conditions/:pageId", function (req, res) {
   // Get all available questions for conditions
   const availableQuestions = formPages
     .flatMap((page) => page.questions)
+    .filter((question) => {
+      const type = question.subType || question.type;
+      return ["radios", "checkboxes", "yes-no"].includes(type);
+    })
     .map((question) => ({
       value: question.questionId,
       text: question.label,
       type: question.subType || question.type,
       options: question.options,
+    }));
+
+  // Collect all existing conditions from other pages
+  const existingConditions = formPages
+    .filter((page) => String(page.pageId) !== pageId) // Exclude current page
+    .flatMap((page) => page.conditions || [])
+    .map((condition) => ({
+      value: condition.id.toString(),
+      text: condition.conditionName,
+      hint: {
+        text: condition.rules
+          .map(
+            (rule) =>
+              `${rule.questionText} ${rule.operator} ${
+                Array.isArray(rule.value) ? rule.value.join(" or ") : rule.value
+              }`
+          )
+          .join(" AND "),
+      },
     }));
 
   res.render("form-editor/conditions.html", {
@@ -1134,6 +1157,8 @@ router.get("/form-editor/conditions/:pageId", function (req, res) {
     currentPage: currentPage,
     availableQuestions: availableQuestions,
     conditions: currentPage.conditions || [],
+    formPages: formPages,
+    existingConditions: existingConditions, // Add this line to pass existing conditions
   });
 });
 

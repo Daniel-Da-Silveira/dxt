@@ -36,7 +36,7 @@
       "back_to_add_edit_pages": "Back to add and edit pages"
     },
     "conditions": {
-      "title": "Add or create conditions for this page",
+      "title": "Create or use existing conditions",
       "add_existing": "Add an existing condition",
       "create_new": "Create a new condition",
       "select_existing": "Select an existing condition",
