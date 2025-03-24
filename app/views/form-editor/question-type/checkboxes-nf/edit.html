@@ -73,12 +73,11 @@ activeLinkId: "nav-editor"
 												</div>
 
 												<span class="govuk-caption-l">Page {{ pageNumber }}</span>
-												<h2 class="govuk-heading-l" tabindex="-1">{{
-													commonTerms.form_editor.information_type.list.types.checkboxes.edit_title
-													}}</h2>
+												<h2 class="govuk-heading-l">Edit question {{ questionNumber }}</h2>
 
-												<form id="s" action="/question-configuration-save" method="post">
-
+												<form id="question-form"
+													action="/form-editor/question-type/checkboxes-nf/checkboxes-finalize"
+													method="post">
 													{% from "govuk/components/input/macro.njk" import govukInput %}
 													{% from "govuk/components/textarea/macro.njk" import govukTextarea
 													%}
@@ -88,72 +87,90 @@ activeLinkId: "nav-editor"
 													{% from "govuk/components/summary-list/macro.njk" import
 													govukSummaryList %}
 
+													<!-- Hidden inputs for question type and configuration -->
+													<input type="hidden" name="questionType" value="list">
+													<input type="hidden" name="questionSubType" value="checkboxes">
+													<input type="hidden" name="pageId" value="{{ pageId }}">
+													<input type="hidden" name="questionId" value="{{ questionId }}">
+													<input type="hidden" name="questionNumber"
+														value="{{ questionNumber }}">
+													<input type="hidden" id="checkbox-options-data"
+														name="checkboxOptionsData" value="[]">
+
+													<!-- Question Label Input -->
 													{{ govukInput({
 													label: {
-													text: "Question",
-													classes: "govuk-label--m",
-													isPageHeading: false
-													},
-													id: "multi-question-label-input-checkboxes",
-													value: data['multi-question-label-input-checkboxes'],
-													name: "multiQuestionLabelInputCheckboxes"
-													}) }}
-
-													<!-- Hint Text Area -->
-													{{ govukTextarea({
-													label: {
-													text: "Hint text (optional)",
+													text: commonTerms.form_editor.question_settings.question,
 													classes: "govuk-label--m"
 													},
-													id: "multi-question-hint-text-input-radios",
-													name: "multiQuestionHintTextInputRadios",
-													value: data['multi-question-hint-text-input-radios'],
-													classes: "govuk-textarea",
-													rows: 3,
-													describedBy: "multi-question-hint-text-input-radios"
+													id: "question-label-input-checkboxes",
+													name: "questionLabelInputCheckboxes",
+													value: data['question-label-input-checkboxes']
 													}) }}
 
-													<!-- List config -->
+													<!-- Hidden input for question label -->
+													<input type="hidden" name="questionLabel"
+														value="{{ data['question-label-input-checkboxes'] }}">
+
+													<!-- Hint Text Input -->
+													{{ govukTextarea({
+													label: {
+													text: commonTerms.form_editor.question_settings.hint,
+													classes: "govuk-label--m"
+													},
+													id: "question-hint-text-input-checkboxes",
+													name: "questionHintTextInputCheckboxes",
+													value: data['question-hint-text-input-checkboxes'],
+													rows: 3
+													}) }}
+
+													<!-- Make Optional Checkbox -->
+													<div class="govuk-form-group">
+														<div class="govuk-checkboxes--small">
+															<div class="govuk-checkboxes__item">
+																<input class="govuk-checkboxes__input" type="checkbox"
+																	id="makeOptional" name="makeOptional"
+																	value="{{ data['optional-label-q1'] }}">
+																<label class="govuk-label govuk-checkboxes__label"
+																	for="makeOptional">
+																	{{
+																	commonTerms.form_editor.question_settings.optional
+																	}}
+																</label>
+															</div>
+														</div>
+													</div>
+
+
+													<!-- Hidden input for hint text -->
+													<input type="hidden" name="hintText"
+														value="{{ data['question-hint-text-input-checkboxes'] }}">
+
+													<!-- Checkbox Options List -->
 													<div class="govuk-form-group">
 														<h2 class="govuk-heading-m moj-add-another__heading"
-															tabindex="-1">Create and edit your list of options</h2>
-
-														<!-- Options Container -->
+															tabindex="-1">Create and edit list items</h2>
 														<ol class="gem-c-reorderable-list js-enabled"
 															id="options-container" data-module="reorderable-list">
-															{% if
-															data.formPages[data.currentPageIndex].questions[data.currentQuestionIndex].options
-															and
-															data.formPages[data.currentPageIndex].questions[data.currentQuestionIndex].options.length
-															> 0 %}
-															{% for option in
-															data.formPages[data.currentPageIndex].questions[data.currentQuestionIndex].options
-															%}
+															{% for checkbox in checkboxList %}
 															<li class="gem-c-reorderable-list__item" draggable="true"
 																data-index="{{ loop.index }}">
 																<div class="gem-c-reorderable-list__wrapper">
 																	<div class="gem-c-reorderable-list__content">
-																		<!-- Display Paragraph with 'fauxlabel' -->
 																		<p class="govuk-body fauxlabel option-label-display"
 																			id="option-{{ loop.index }}-label-display">
-																			{{ option.label }}
-																		</p>
-
-																		<!-- Hidden Input with Distinct Class -->
+																			{{ checkbox.label }}</p>
 																		<input type="hidden"
 																			id="option-{{ loop.index }}-label"
 																			name="option[{{ loop.index }}][option_label]"
-																			value="{{ option.label }}"
+																			value="{{ checkbox.label }}"
 																			class="option-label-input-hidden">
-
-																		<!-- Hidden Hint Input -->
 																		<input class="option-hint-input" type="hidden"
 																			id="option-{{ loop.index }}-hint"
 																			name="option[{{ loop.index }}][option_hint]"
-																			value="{{ option.hint }}">
+																			value="{{ checkbox.hint }}">
 																	</div>
 
-																	<!-- Action buttons -->
 																	<div class="gem-c-reorderable-list__actions">
 																		<button
 																			class="gem-c-button govuk-button govuk-button--secondary js-reorderable-list-up"
@@ -163,201 +180,255 @@ activeLinkId: "nav-editor"
 																			class="gem-c-button govuk-button govuk-button--secondary js-reorderable-list-down"
 																			type="button" aria-label="Move option down"
 																			style="display: inline-block;">Down</button>
-																		<button
-																			class="gem-c-button govuk-button govuk-button--warning js-remove-option"
-																			type="button"
-																			aria-label="Remove option">Remove</button>
-
 																	</div>
-																	<div class="edit-item">
-																		<a class="govuk-link govuk-link--no-visited-state"
-																			href="editoption.html?index={{ loop.index }}">
-																			Edit
-																			<span class="govuk-visually-hidden">
-																				option number {{ loop.index }}
-																				{% if checkbox.label %} - {{
-																				checkbox.label }}{% endif %}
-																			</span>
-																		</a>
-																	</div>
-																</div>
-															</li>
-															{% endfor %}
-															{% else %}
-															<li class="gem-c-reorderable-list__item">
-																<p class="govuk-body">No checkbox options added yet.</p>
-															</li>
-															{% endif %}
-														</ol>
 
-
-														<div class="govuk-button-group">
-															<!-- Add Option Button -->
-															<button type="button"
-																class="govuk-button govuk-button moj-add-another__add-button govuk-!-margin-bottom-4 govuk-!-margin-bottom-6"
-																id="add-option-button">
-																{% if data.checkboxList and data.checkboxList.length > 0
-																%}
-																Add another option
-																{% else %}
-																Add option
-																{% endif %}
-															</button>
-
-															<!-- Edit List Button -->
-															<button type="button"
-																class="govuk-button govuk-button--inverse"
-																id="edit-options-button">
-																Edit list
-															</button>
-														</div>
-
-														<!-- Make Optional Checkbox -->
-														<div class="govuk-form-group">
-															<div class="govuk-checkboxes--small">
-																<div class="govuk-checkboxes__item">
-																	<input class="govuk-checkboxes__input"
-																		type="checkbox" id="makeOptional"
-																		name="makeOptional"
-																		value="{{ data['optional-label-q1'] }}">
-																	<label class="govuk-label govuk-checkboxes__label"
-																		for="makeOptional">
-																		Make this question optional
-																	</label>
-																</div>
-															</div>
-														</div>
-
-
-														<!-- Error Message Input -->
-														{{ govukInput({
-														label: {
-														text: "Short description",
-														classes: "govuk-label--m",
-														isPageHeading: false
-														},
-														hint: {
-														text: "Enter a short description for this question like 'licence
-														period'. Short descriptions are used in error messages and on
-														the check your answers page."
-														},
-														id: "error-message-input",
-														name: "errorMessageInput"
-														}) }}
-
-														<div id="summary-container">
-															<hr
-																class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
-
-															<!-- The dynamic summary list will be populated here -->
-															<h2 class="govuk-heading-m">Question settings</h2>
-
-															{{ govukSummaryList({
-															classes: "govuk-summary-list govuk-section-break
-															govuk-section-break--visible govuk-!-margin-bottom-6",
-															rows: [
-															{
-															key: {
-															text: "Type of information"
-															},
-															value: {
-															html: "List: checkboxes"
-															},
-															actions: {
-															items: [
-															{
-															href:
-															"/form-editor/templates/1-question/information-type.html",
-															text: "Change",
-															visuallyHiddenText: "name"
-															}
-															]
-															}
-															}
-															]
-															}) }}
-														</div>
-														<div class="moj-button-action">
-															{{ govukButton({
-															text: 'Save and continue',
-															type: 'submit'
-															}) }}
-														</div>
-													</div>
-												</form>
+																	<div class="govuk-summary-list__row">
+								<dd class="govuk-summary-list__actions">
+									<ul class="govuk-summary-list__actions-list">
+										<li class="govuk-summary-list__actions-list-item">
+											<div class="edit-item">
+												<a class="govuk-link govuk-link--no-visited-state"
+													href="editoption.html?index={{ loop.index }}">
+													Edit<span class="govuk-visually-hidden">option {{ loop.index
+														}}</span>
+												</a>
 											</div>
-										</div>
-									</div>
+										</li>
+
+										{# <li class="govuk-summary-list__actions-list-item">
+											<a class="govuk-link govuk-link--destructive" href="#"
+												onclick="if (confirm('Are you sure you want to delete this option?')) { window.location.href='delete.html?index={{ loop.index }}'; return false; }">
+												Delete<span class="govuk-visually-hidden"> option {{ loop.index }}{% if
+													checkbox.label %} - {{ checkbox.label }}{% endif %}</span>
+											</a>
+										</li> #}
+									</ul>
 								</dd>
 							</div>
-						</dl>
 					</div>
-				</div>
-			</div>
-
-			<!-- Right Column for Preview -->
-			<div class="govuk-grid-column-one-half-from-desktop" id="second-container"
-				style="outline: solid 1px #008938; height: 100%; position: sticky; top: 0; padding: 20px; box-shadow: 5px 10px #008938;">
-				<!-- Before content -->
-				<div id="before-content" style="background-color: #cce2d8;">
-					<p class="govuk-body-s"
-						style="margin-bottom: 0; color: #005a30; padding: 2px 8px 3px; text-align: center;">Previews</p>
+					</li>
+					{% endfor %}
+					</ol>
 				</div>
 
-				<div style="margin-top: 60px;">
-					{% from "govuk/components/tabs/macro.njk" import govukTabs %}
+				<!-- Add Option Form (Initially Hidden) -->
+				<div id="add-option-form" class="govuk-!-margin-bottom-6 gem-c-reorderable-list__item"
+					style="display: none; ">
+					<h2 class="govuk-heading-m">Add new option</h2>
 
-					<div class="govuk-tabs" data-module="govuk-tabs">
-						<h2 class="govuk-tabs__title">Contents</h2>
-						<ul class="govuk-tabs__list">
-							<li class="govuk-tabs__list-item govuk-tabs__list-item--selected">
-								<a class="govuk-tabs__tab" href="#tab-one">Page preview</a>
-							</li>
-							<li class="govuk-tabs__list-item">
-								<a class="govuk-tabs__tab" href="#tab-two">Error messages</a>
-							</li>
-						</ul>
+					<!-- Option Value (Label) -->
+					<div class="govuk-form-group">
+						<label class="govuk-label govuk-label--m" for="new-option-label">Item</label>
+						<input class="govuk-input" id="new-option-label" name="label" type="text" value="">
+					</div>
 
-						<div class="govuk-tabs__panel" id="tab-one">
-							<!-- Page Preview Content -->
-							<p class="govuk-body-s" style="margin-bottom: 30px; border-bottom: #008938 1px;">
-								<a href="#" class="govuk-link govuk-link--no-visited-state" rel="noreferrer noopener"
-									target="_blank">Preview this page in a new tab</a>
-							</p>
+					<!-- Hint Text -->
+					<div class="govuk-form-group">
+						<label class="govuk-label govuk-label--m" for="new-option-hint">Hint text (optional)</label>
+						<div class="govuk-hint">Use single short sentence without a
+							full stop</div>
+						<input class="govuk-input" id="new-option-hint" name="hint" type="text" value="">
+					</div>
 
-							<!-- Ensure this included template contains the #radio-list .govuk-radios element -->
-							{% include "/form-editor/question-type/checkboxes-nf/preview/edit.html" %}
-
-							<a href="#edit-page" class="govuk-skip-link" style="margin-bottom: 30px!important;"
-								data-module="govuk-skip-link">Skip to edit page</a>
-						</div>
-
-						<div class="govuk-tabs__panel" id="tab-two">
-							<p class="govuk-body-s" style="margin-bottom: 30px; border-bottom: #008938 1px;">
-								<a href="#" class="govuk-link govuk-link--no-visited-state" rel="noreferrer noopener"
-									target="_blank">Preview error messages in a new tab</a>
-							</p>
-							<!-- Error Messages Content -->
-							<!-- Error Messages Section -->
-							<div class="govuk-error-summary" data-disable-auto-focus="true">
-								<h2 class="govuk-error-summary__title">There is a problem</h2>
-								<ul class="govuk-list govuk-error-summary__list">
-									<!-- List of errors -->
-									<li><a id="empty-input-error-shorttext" class="govuk-error-message">Select <span
-												id="error-dynamic-text">[short description]</span></a></li>
-								</ul>
+					<!-- Advanced Features Section -->
+					<details class="govuk-details" data-module="govuk-details">
+						<summary class="govuk-details__summary">
+							<span class="govuk-details__summary-text">Advanced
+								features</span>
+						</summary>
+						<div class="govuk-details__text">
+							<!-- Additional Value -->
+							<div class="govuk-form-group">
+								<label class="govuk-label govuk-label--m" for="new-option-value">Unique identifier
+									(optional)</label>
+								<div class="govuk-hint">Used in databases to
+									identify the item</div>
+								<input class="govuk-input" id="new-option-value" name="value" type="text" value="">
 							</div>
-							<a href="#error-message-input-shorttext" class="govuk-skip-link"
-								style="margin-bottom: 30px!important;" data-module="govuk-skip-link">Skip to edit short
-								description</a>
 						</div>
-					</div>
-				</div> <!-- Closing the govuk-tabs div -->
+					</details>
 
+					<div class="govuk-button-group">
+						<button type="button" class="govuk-button" id="save-new-option">Save item</button>
+						<a class="govuk-link" href="#" id="cancel-add-option">Cancel</a>
+					</div>
+				</div>
+
+				<!-- Buttons -->
+				<div class="govuk-button-group">
+					<!-- Add Another Option Button -->
+					<button id="add-option-button" type="button"
+						class="govuk-button moj-add-another__add-button govuk-!-margin-bottom-4 govuk-!-margin-bottom-6">
+						{% if checkboxList and checkboxList.length > 0 %}
+						Add another option
+						{% else %}
+						Add item
+						{% endif %}
+					</button>
+
+					<!-- Edit List Button -->
+					{% if checkboxList and checkboxList.length > 1 %}
+					<button id="edit-options-button" type="button" class="govuk-button govuk-button--inverse">
+						Edit list
+					</button>
+					{% endif %}
+				</div>
+
+
+				<!-- Error Message Input -->
+				{{ govukInput({
+				label: {
+				text:
+				commonTerms.form_editor.question_settings.short_description.title,
+				classes: "govuk-label--m",
+				isPageHeading: false
+				},
+				hint: {
+				text:
+				commonTerms.form_editor.question_settings.short_description.hint
+				},
+				id: "error-message-input",
+				name: "errorMessageInput"
+				}) }}
+
+				<!-- Hidden input for checkbox options -->
+				<input type="hidden" name="checkboxOptions" id="checkbox-options-data" value="">
+
+				<div id="summary-container">
+					<hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
+
+					<!-- The dynamic summary list will be populated here -->
+					<h2 class="govuk-heading-m">{{
+						commonTerms.form_editor.question_settings.title }}</h2>
+
+					{{ govukSummaryList({
+					classes: "govuk-summary-list govuk-section-break
+					govuk-section-break--visible govuk-!-margin-bottom-6",
+					rows: [
+					{
+					key: {
+					text: "Type of information"
+					},
+					value: {
+					html: "List: checkboxes"
+					},
+					actions: {
+					items: [
+					{
+					href:
+					"/form-editor/templates/1-question/information-type.html",
+					text: "Change",
+					visuallyHiddenText: "name"
+					}
+					]
+					}
+					}
+					]
+					}) }}
+				</div>
+				<div class="moj-button-action">
+					{{ govukButton({
+					text: commonTerms.form_editor.common.continue,
+					type: 'submit'
+					}) }}
+				</div>
+				</form>
 			</div>
 		</div>
-
 	</div>
+	</dd>
+</div>
+</dl>
+</div>
+</div>
+</div>
+
+<!-- Right Column for Preview -->
+<div class="govuk-grid-column-one-half-from-desktop" id="second-container"
+	style="outline: solid 1px #008938; height: 100%; position: sticky; top: 0; padding: 20px; box-shadow: 5px 10px #008938;">
+	<!-- Before content -->
+	<div id="before-content" style="background-color: #cce2d8;">
+		<p class="govuk-body-s" style="margin-bottom: 0; color: #005a30; padding: 2px 8px 3px; text-align: center;">
+			Previews</p>
+	</div>
+
+	<div style="margin-top: 60px;">
+		{% from "govuk/components/tabs/macro.njk" import govukTabs %}
+
+		<div class="govuk-tabs" data-module="govuk-tabs">
+			<h2 class="govuk-tabs__title">Contents</h2>
+			<ul class="govuk-tabs__list">
+				<li class="govuk-tabs__list-item govuk-tabs__list-item--selected">
+					<a class="govuk-tabs__tab" href="#tab-one">Page preview</a>
+				</li>
+				<li class="govuk-tabs__list-item">
+					<a class="govuk-tabs__tab" href="#tab-two">Error messages</a>
+				</li>
+			</ul>
+
+			<div class="govuk-tabs__panel" id="tab-one">
+				<!-- Page Preview Content -->
+				<p class="govuk-body-s" style="margin-bottom: 30px; border-bottom: #008938 1px;">
+					<a href="#" class="govuk-link govuk-link--no-visited-state" rel="noreferrer noopener"
+						target="_blank">Preview this page in a new tab</a>
+				</p>
+
+				<!-- Ensure this included template contains the #checkbox-list .govuk-checkboxes element -->
+				<div id="checkbox-list">
+					<fieldset class="govuk-fieldset">
+						<legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
+							<h1 class="govuk-fieldset__heading" id="question-label-preview">
+								Question text
+							</h1>
+						</legend>
+
+						<!-- Hint text -->
+						<div id="question-hint-preview" class="govuk-hint" style="display: none;"></div>
+
+						<!-- Checkboxes container -->
+						<div class="govuk-checkboxes" data-module="govuk-checkboxes">
+							{% if not checkboxList or checkboxList.length == 0 %}
+							<div class="govuk-inset-text">
+								<p class="govuk-body">You haven't added any checkbox items yet. They'll appear here as
+									you add them.
+								</p>
+							</div>
+							{% endif %}
+							<!-- Dynamically generated checkbox items will go here -->
+						</div>
+					</fieldset>
+				</div>
+
+				<a href="#edit-page" class="govuk-skip-link" style="margin-bottom: 30px!important;"
+					data-module="govuk-skip-link">Skip to edit page</a>
+			</div>
+
+			<div class="govuk-tabs__panel" id="tab-two">
+				<p class="govuk-body-s" style="margin-bottom: 30px; border-bottom: #008938 1px;">
+					<a href="#" class="govuk-link govuk-link--no-visited-state" rel="noreferrer noopener"
+						target="_blank">Preview error messages in a new tab</a>
+				</p>
+				<!-- Error Messages Content -->
+				<!-- Error Messages Section -->
+				<div class="govuk-error-summary" data-disable-auto-focus="true">
+					<h2 class="govuk-error-summary__title">There is a problem</h2>
+					<ul class="govuk-list govuk-error-summary__list">
+						<!-- List of errors -->
+						<li><a id="empty-input-error-shorttext" class="govuk-error-message">Select <span
+									id="error-dynamic-text">[short description]</span></a></li>
+					</ul>
+				</div>
+				<a href="#error-message-input-shorttext" class="govuk-skip-link" style="margin-bottom: 30px!important;"
+					data-module="govuk-skip-link">Skip to edit short
+					description</a>
+			</div>
+		</div>
+	</div> <!-- Closing the govuk-tabs div -->
+
+</div>
+</div>
+
+</div>
 </div>
 </div>
 
@@ -489,416 +560,647 @@ activeLinkId: "nav-editor"
 		border-left: 10px solid #ffb266;
 		padding-left: 20px;
 	}
+
+	/* Add styles for sortable items */
+	.sortable-enabled:hover {
+		background-color: #f0f0f0 !important;
+		cursor: move !important;
+	}
+
+	/* Add new styles for the action links */
+	.govuk-summary-list__actions-list {
+		margin: 0;
+		padding: 0;
+	}
+
+	.govuk-summary-list__actions-list-item {
+		display: inline-block;
+		margin-right: 10px;
+	}
+
+	.govuk-summary-list__actions-list-item:last-child {
+		margin-right: 0;
+	}
+
+	.edit-item {
+		margin-left: 15px;
+		white-space: nowrap;
+	}
+
+	.edit-item .govuk-summary-list__actions-list-item:not(:last-child):after {
+		content: "|";
+		margin-left: 10px;
+		color: #b1b4b6;
+	}
 </style>
 
 <!-- Consolidated and Updated JavaScript -->
 <script>
 	document.addEventListener('DOMContentLoaded', function () {
-		// DOM Elements
-		const domElements = {
-			multiQuestionLabelInputCheckboxes: document.getElementById('multi-question-label-input-checkboxes'),
-			multiQuestionOutputRadios: document.getElementById('multi-question-output-radios'),
-			hintTextInput: document.getElementById('multi-question-hint-text-input-radios'),
-			multiQuestionHintTextOutputRadios: document.getElementById('multi-question-hint-text-output-radios'),
-			makeOptionalCheckbox: document.getElementById('makeOptional'),
-			pageHeadingInputRadios: document.getElementById('page-heading-input-radios'),
-			dynamicHeading: document.getElementById('dynamic-heading'),
-			guidanceTextareaRadios: document.getElementById('guidance-textarea-radios'),
-			guidanceParagraph: document.getElementById('guidance-paragraph'),
-			errorMessageInput: document.getElementById('error-message-input'),
-			errorDynamicText: document.getElementById('error-dynamic-text'),
-			optionsContainer: document.getElementById('options-container'),
-			addOptionButton: document.getElementById('add-option-button'),
-			addOptionContainer: document.querySelector('.moj-button-action'), // Parent container
-			editOptionsButton: document.getElementById('edit-options-button'),
-			radioList: document.querySelector('#radio-list .govuk-radios') // Ensure #radio-list exists in included template
-		};
+		// Get form elements
+		const addOptionForm = document.querySelector('#add-option-form');
+		const addOptionButton = document.querySelector('#add-option-button');
+		const editOptionsButton = document.querySelector('#edit-options-button');
+		const saveItemButton = document.querySelector('#save-new-option');
+		const cancelButton = document.querySelector('#cancel-add-option');
+		const newOptionLabel = document.querySelector('#new-option-label');
+		const newOptionHint = document.querySelector('#new-option-hint');
+		const newOptionValue = document.querySelector('#new-option-value');
+		const optionsContainer = document.querySelector('#options-container');
+		const checkboxList = document.querySelector('#checkbox-list .govuk-checkboxes');
+		const questionForm = document.getElementById('question-form');
 
-		let sortableInstance;
-		let editMode = false; // Track whether edit mode is active
-		let draggedOptionIndex = null; // To track the index of the dragged option
+		// Main question elements
+		const questionLabelInput = document.querySelector('#question-label-input-checkboxes');
+		const questionHintInput = document.querySelector('#question-hint-text-input-checkboxes');
+		const questionLabelPreview = document.querySelector('#question-label-preview');
+		const questionHintPreview = document.querySelector('#question-hint-preview');
 
-		// Initialize all functionality
-		initializeEventListeners();
-		initializeOptionsFunctionality();
-
-		function initializeEventListeners() {
-			// Update question label
-			if (domElements.multiQuestionLabelInputCheckboxes && domElements.multiQuestionOutputRadios) {
-				domElements.multiQuestionLabelInputCheckboxes.addEventListener('input', updateQuestionLabel);
-				applyHighlightOnFocus(domElements.multiQuestionLabelInputCheckboxes, domElements.multiQuestionOutputRadios);
+		// Initialize question label and hint text
+		function initializeQuestionPreview() {
+			if (questionLabelInput && questionLabelPreview) {
+				const labelValue = questionLabelInput.value.trim();
+				questionLabelPreview.textContent = labelValue || 'Question text';
 			}
 
-			// Update hint text
-			if (domElements.hintTextInput && domElements.multiQuestionHintTextOutputRadios) {
-				domElements.hintTextInput.addEventListener('input', updateHintText);
-				applyHighlightOnFocus(domElements.hintTextInput, domElements.multiQuestionHintTextOutputRadios);
-				domElements.hintTextInput.addEventListener('focus', showPlaceholderHint);
-				domElements.hintTextInput.addEventListener('blur', clearPlaceholderHint);
-			}
-
-			// Update error message
-			if (domElements.errorMessageInput && domElements.errorDynamicText) {
-				domElements.errorMessageInput.addEventListener('input', updateErrorMessage);
-				applyHighlightOnFocus(domElements.errorMessageInput, domElements.errorDynamicText);
-			}
-
-			// Redirect to add.html on clicking Add Another Option
-			domElements.addOptionButton.addEventListener('click', () => {
-				window.location.href = 'add.html';
-			});
-
-			// Handle edit mode toggle
-			domElements.editOptionsButton.addEventListener('click', toggleEditMode);
-		}
-
-		function updateQuestionLabel() {
-			const suffix = domElements.makeOptionalCheckbox && domElements.makeOptionalCheckbox.checked ? ' (optional)' : '';
-			domElements.multiQuestionOutputRadios.textContent = (domElements.multiQuestionLabelInputCheckboxes.value || 'Question') + suffix;
-		}
-
-		function updateHintText() {
-			domElements.multiQuestionHintTextOutputRadios.textContent = domElements.hintTextInput.value || '';
-		}
-
-		function updateErrorMessage() {
-			domElements.errorDynamicText.textContent = domElements.errorMessageInput.value.trim() || '[short description]';
-		}
-
-		function showPlaceholderHint() {
-			if (!domElements.hintTextInput.value) {
-				domElements.multiQuestionHintTextOutputRadios.textContent = 'Hint text';
-			}
-		}
-
-		function clearPlaceholderHint() {
-			if (!domElements.hintTextInput.value) {
-				domElements.multiQuestionHintTextOutputRadios.textContent = '';
-			}
-		}
-
-		function applyHighlightOnFocus(inputElement, targetElement) {
-			if (inputElement && targetElement) {
-				inputElement.addEventListener('focus', () => targetElement.classList.add('highlight'));
-				inputElement.addEventListener('blur', () => targetElement.classList.remove('highlight'));
-
-				if (document.activeElement === inputElement) {
-					targetElement.classList.add('highlight');
+			if (questionHintInput && questionHintPreview) {
+				const hintValue = questionHintInput.value.trim();
+				if (hintValue) {
+					questionHintPreview.textContent = hintValue;
+					questionHintPreview.style.display = 'block';
+				} else {
+					questionHintPreview.style.display = 'none';
 				}
 			}
 		}
 
-		function initializeOptionsFunctionality() {
-			// Build preview for pre-rendered options
-			const preRenderedItems = document.querySelectorAll('#options-container .gem-c-reorderable-list__item');
-			preRenderedItems.forEach((item, index) => {
-				const labelValue = item.querySelector('.option-label-display').textContent || `Option ${index + 1}`;
-				const hintValue = item.querySelector('.option-hint-input') ? item.querySelector('.option-hint-input').value : '';
-				addOptionToPreview(index, labelValue, hintValue);
-				addOptionEventListeners(item, index);
+		// Add event listeners for main question label and hint
+		if (questionLabelInput && questionLabelPreview) {
+			questionLabelInput.addEventListener('input', () => {
+				const value = questionLabelInput.value.trim();
+				questionLabelPreview.textContent = value || 'Question text';
 			});
 
-			// Initialize sortable functionality
-			initializeSortable();
+			questionLabelInput.addEventListener('focus', () => {
+				questionLabelPreview.classList.add('highlight');
+			});
+
+			questionLabelInput.addEventListener('blur', () => {
+				questionLabelPreview.classList.remove('highlight');
+			});
 		}
 
-		function addOptionEventListeners(item, index) {
-			const upButton = item.querySelector('.js-reorderable-list-up');
-			const downButton = item.querySelector('.js-reorderable-list-down');
-			const removeButton = item.querySelector('.js-remove-option');
-			const editButton = item.querySelector('.js-edit-option'); // New Edit Button
+		if (questionHintInput && questionHintPreview) {
+			questionHintInput.addEventListener('input', () => {
+				const value = questionHintInput.value.trim();
+				questionHintPreview.textContent = value || 'Hint text';
+				questionHintPreview.style.display = value || document.activeElement === questionHintInput ? 'block' : 'none';
+			});
 
-			// Click event listener for Move Up button
-			upButton.addEventListener('click', function (event) {
-				if (!editMode) return; // Only allow in edit mode
-				const prevItem = item.previousElementSibling;
-				if (prevItem) {
-					item.parentNode.insertBefore(item, prevItem);
-					// The new index is the index of the item after moving up
-					const newIndex = Array.from(item.parentNode.children).indexOf(item);
-					updatePreview(newIndex);
-					// Use setTimeout to ensure DOM updates before setting focus and highlighting
-					setTimeout(() => {
-						const upBtn = item.querySelector('.js-reorderable-list-up');
-						const downBtn = item.querySelector('.js-reorderable-list-down');
-						if (upBtn && upBtn.style.display !== 'none') {
-							upBtn.focus();
-						} else if (downBtn && downBtn.style.display !== 'none') {
-							downBtn.focus();
-						}
-					}, 0);
+			questionHintInput.addEventListener('focus', () => {
+				questionHintPreview.classList.add('highlight');
+				questionHintPreview.style.display = 'block';
+				if (!questionHintInput.value.trim()) {
+					questionHintPreview.textContent = 'Hint text';
 				}
 			});
 
-			// Click event listener for Move Down button
-			downButton.addEventListener('click', function (event) {
-				if (!editMode) return; // Only allow in edit mode
-				const nextItem = item.nextElementSibling;
-				if (nextItem) {
-					item.parentNode.insertBefore(nextItem, item);
-					// The new index is the index of the item after moving down
-					const newIndex = Array.from(item.parentNode.children).indexOf(item);
-					updatePreview(newIndex);
-					// Use setTimeout to ensure DOM updates before setting focus and highlighting
-					setTimeout(() => {
-						const upBtn = item.querySelector('.js-reorderable-list-up');
-						const downBtn = item.querySelector('.js-reorderable-list-down');
-						if (upBtn && upBtn.style.display !== 'none') {
-							upBtn.focus();
-						} else if (downBtn && downBtn.style.display !== 'none') {
-							downBtn.focus();
-						}
-					}, 0);
+			questionHintInput.addEventListener('blur', () => {
+				questionHintPreview.classList.remove('highlight');
+				if (!questionHintInput.value.trim()) {
+					questionHintPreview.style.display = 'none';
 				}
 			});
-
-			// Click event listener for Remove button
-			removeButton.addEventListener('click', function (event) {
-				if (!editMode) return; // Only allow in edit mode
-				item.parentNode.removeChild(item);
-				removeOptionFromPreview(index);
-				updatePreview();
-				// No need to set focus here as the button is removed
-			});
-
-			// Click event listener for Edit button
-			if (editButton) {
-				editButton.addEventListener('click', function () {
-					const newLabel = prompt('Edit option label:', item.querySelector('.option-label-display').textContent);
-					if (newLabel !== null && newLabel.trim() !== "") {
-						item.querySelector('.option-label-display').textContent = newLabel;
-						item.querySelector('.option-label-input-hidden').value = newLabel;
-						updateOptionPreview(index, newLabel);
-					} else {
-						alert('Option label cannot be empty.');
-					}
-				});
-			}
-
-			// **New Code Start: Add focus and blur event listeners to action buttons **
-			// Function to handle highlighting the corresponding preview item
-			function handleActionFocus() {
-				// Find the current index of the item
-				const currentIndex = Array.from(domElements.optionsContainer.children).indexOf(item);
-				if (currentIndex === -1) return; // Item might have been removed
-
-				// Find the corresponding preview item
-				const previewItem = document.getElementById(`preview-option-${currentIndex}`);
-				if (previewItem) {
-					previewItem.classList.add('highlight');
-				}
-			}
-
-			function handleActionBlur() {
-				// Find the current index of the item
-				const currentIndex = Array.from(domElements.optionsContainer.children).indexOf(item);
-				if (currentIndex === -1) return; // Item might have been removed
-
-				// Find the corresponding preview item
-				const previewItem = document.getElementById(`preview-option-${currentIndex}`);
-				if (previewItem) {
-					previewItem.classList.remove('highlight');
-				}
-			}
-
-			// Attach focus and blur event listeners to all action buttons within this item
-			const actionButtons = [upButton, downButton, removeButton];
-			actionButtons.forEach(button => {
-				button.addEventListener('focus', handleActionFocus);
-				button.addEventListener('blur', handleActionBlur);
-			});
-
-			// If there's an Edit button, attach the same listeners
-			if (editButton) {
-				editButton.addEventListener('focus', handleActionFocus);
-				editButton.addEventListener('blur', handleActionBlur);
-			}
-			// **New Code End **
 		}
 
-		function toggleEditMode() {
-			editMode = !editMode; // Toggle edit mode
+		// Initialize the question preview
+		initializeQuestionPreview();
 
-			// Update the text of the Edit button
-			domElements.editOptionsButton.textContent = editMode ? 'Save changes' : 'Edit list';
+		// Add option button click
+		addOptionButton.addEventListener('click', function (e) {
+			e.preventDefault();
+			addOptionForm.style.display = 'block';
+			addOptionButton.style.display = 'none';
+			newOptionLabel.focus();
+			updatePreview(); // Show initial preview
+		});
 
-			// Update the class of the Edit button
-			domElements.editOptionsButton.className = editMode
-				? 'govuk-button govuk-button'
-				: 'govuk-button govuk-button--inverse';
+		// Cancel button click
+		cancelButton.addEventListener('click', function (e) {
+			e.preventDefault();
+			hideForm();
+		});
 
-			// Show or hide actions (up/down/remove buttons) for reordering and deleting
-			document.querySelectorAll('.gem-c-reorderable-list__actions').forEach(actions => {
-				actions.style.display = editMode ? 'flex' : 'none';
-			});
+		// Add live preview event listeners
+		newOptionLabel.addEventListener('input', updatePreview);
+		newOptionHint.addEventListener('input', updatePreview);
+		newOptionValue.addEventListener('input', updatePreview);
 
-			// Show or hide edit-item links
-			document.querySelectorAll('.edit-item').forEach(editItem => {
-				editItem.style.display = editMode ? 'none' : '';
-			});
+		// Add focus/blur event listeners for highlighting
+		newOptionLabel.addEventListener('focus', () => applyHighlight('label'));
+		newOptionLabel.addEventListener('blur', () => removeHighlight('label'));
+		newOptionHint.addEventListener('focus', () => {
+			applyHighlight('hint');
+			showHintPlaceholder();
+		});
+		newOptionHint.addEventListener('blur', () => {
+			removeHighlight('hint');
+			removeHintPlaceholder();
+		});
 
-			// Enable or disable sortable based on edit mode
-			if (sortableInstance) {
-				sortableInstance.option('disabled', !editMode);
-			}
+		// Save item button click
+		saveItemButton.addEventListener('click', function (e) {
+			e.preventDefault();
+			const labelValue = newOptionLabel.value.trim();
 
-			// Manage up and down buttons based on the state
-			manageUpDownButtons();
-
-			// Hide or show the "Add another option" button
-			if (domElements.addOptionButton) {
-				domElements.addOptionButton.style.display = editMode ? 'none' : 'inline-block';
-			}
-
-			// Set focus to the first "Move Down" button in edit mode
-			if (editMode) {
-				const firstMoveDownButton = document.querySelector('.js-reorderable-list-down');
-				if (firstMoveDownButton) {
-					firstMoveDownButton.focus();
-				}
-			}
-		}
-
-
-
-		function updatePreview(highlightIndex = null) {
-			const items = document.querySelectorAll('#options-container .gem-c-reorderable-list__item');
-			const previewContainer = domElements.radioList;
-
-			if (!previewContainer) {
-				console.warn("Preview container ('#radio-list .govuk-radios') not found. Ensure the included template contains this element.");
+			if (!labelValue) {
+				alert('Please enter an option label');
 				return;
 			}
 
-			// Clear existing preview
-			previewContainer.innerHTML = '';
+			// Add the new option
+			const currentOptions = optionsContainer.querySelectorAll('.gem-c-reorderable-list__item');
+			const newIndex = currentOptions.length;
 
-			// Rebuild preview and collect preview items
-			const previewItems = [];
+			const newOptionHTML = `
+				<li class="gem-c-reorderable-list__item" draggable="true" data-index="${newIndex + 1}">
+					<div class="gem-c-reorderable-list__wrapper">
+						<div class="gem-c-reorderable-list__content">
+							<p class="govuk-body fauxlabel option-label-display" id="option-${newIndex + 1}-label-display">
+								${labelValue}
+							</p>
+							<input type="hidden" id="option-${newIndex + 1}-label" class="option-label-input-hidden" 
+								name="option[${newIndex + 1}][option_label]" value="${labelValue}">
+							<input type="hidden" id="option-${newIndex + 1}-hint" class="option-hint-input"
+								name="option[${newIndex + 1}][option_hint]" value="${newOptionHint.value}">
+						</div>
+						<div class="gem-c-reorderable-list__actions">
+							<button class="gem-c-button govuk-button govuk-button--secondary js-reorderable-list-up"
+								type="button" aria-label="Move option up">Up</button>
+							<button class="gem-c-button govuk-button govuk-button--secondary js-reorderable-list-down"
+								type="button" aria-label="Move option down">Down</button>
+						</div>
+						<div class="govuk-summary-list__row">
+							<dd class="govuk-summary-list__actions">
+								<ul class="govuk-summary-list__actions-list">
+									<li class="govuk-summary-list__actions-list-item">
+										<a class="govuk-link" href="editoption.html?index=${newIndex + 1}">
+											Edit<span class="govuk-visually-hidden">option ${newIndex + 1}</span>
+										</a>
+									</li>
+									<li class="govuk-summary-list__actions-list-item">
+										<a class="govuk-link govuk-link--destructive" href="#" onclick="if (confirm('Are you sure you want to delete this option?')) { window.location.href='delete.html?index=${newIndex + 1}'; return false; }">
+											Delete<span class="govuk-visually-hidden">option ${newIndex + 1}</span>
+										</a>
+									</li>
+								</ul>
+							</dd>
+						</div>
+					</div>
+				</li>
+			`;
+
+			optionsContainer.insertAdjacentHTML('beforeend', newOptionHTML);
+			hideForm();
+			updateAllOptionsPreview();
+			updateHiddenOptionsData(); // Update the hidden input with all options
+		});
+
+		function hideForm() {
+			addOptionForm.style.display = 'none';
+			addOptionButton.style.display = 'inline-block';
+			newOptionLabel.value = '';
+			newOptionHint.value = '';
+			newOptionValue.value = '';
+			removeHighlight('label');
+			removeHighlight('hint');
+			updateAllOptionsPreview(); // Show the full list without the preview
+		}
+
+		// Function to update the preview of all existing options
+		function updateAllOptionsPreview() {
+			if (!checkboxList) return;
+
+			const items = optionsContainer.querySelectorAll('.gem-c-reorderable-list__item');
+			checkboxList.innerHTML = '';
+
+			if (items.length === 0) {
+				checkboxList.innerHTML = `
+					<div class="govuk-inset-text">
+						<p class="govuk-body">No items added yet. Your items will appear here as you add them.</p>
+					</div>
+				`;
+				return;
+			}
+
 			items.forEach((item, index) => {
-				// Update data-index attributes to keep them consistent
-				item.setAttribute('data-index', index);
+				const label = item.querySelector('.option-label-display').textContent.trim();
+				const hint = item.querySelector('input[name$="[option_hint]"]').value;
 
-				const labelValue = item.querySelector('.option-label-display').textContent || `Option ${index + 1}`;
-				const hintValue = item.querySelector('.option-hint-input') ? item.querySelector('.option-hint-input').value : '';
-				addOptionToPreview(index, labelValue, hintValue);
-
-				// Collect preview items for later highlighting
-				previewItems.push(document.getElementById(`preview-option-${index}`));
+				const checkboxHTML = `
+					<div class="govuk-checkboxes__item">
+						<input class="govuk-checkboxes__input" id="listPreview-option${index}" name="listPreview" type="checkbox" value="${label}">
+						<label class="govuk-label govuk-checkboxes__label" for="listPreview-option${index}">${label}</label>
+						${hint ? `<div class="govuk-hint govuk-checkboxes__hint">${hint}</div>` : ''}
+					</div>
+				`;
+				checkboxList.insertAdjacentHTML('beforeend', checkboxHTML);
 			});
+		}
 
-			// Remove 'highlight' from all preview items
-			previewItems.forEach(item => {
-				if (item) {
-					item.classList.remove('highlight');
+		// Function to update the live preview of the option being added
+		function updatePreview() {
+			if (!checkboxList || addOptionForm.style.display === 'none') return;
+
+			const labelValue = newOptionLabel.value.trim();
+			const hintValue = newOptionHint.value.trim();
+			const valueAttr = newOptionValue.value.trim() || labelValue;
+
+			// Get existing options
+			const existingOptions = Array.from(optionsContainer.querySelectorAll('.gem-c-reorderable-list__item'));
+
+			// Start with existing options HTML
+			let allOptionsHTML = '';
+
+			if (existingOptions.length === 0 && !labelValue) {
+				allOptionsHTML = `
+					<div class="govuk-inset-text">
+						<p class="govuk-body">No items added yet. Your items will appear here as you add them.</p>
+					</div>
+				`;
+			} else {
+				allOptionsHTML = existingOptions.map((item, index) => {
+					const label = item.querySelector('.option-label-display').textContent.trim();
+					const hint = item.querySelector('input[name$="[option_hint]"]').value;
+					return `
+						<div class="govuk-checkboxes__item">
+							<input class="govuk-checkboxes__input" id="listPreview-option${index}" name="listPreview" type="checkbox" value="${label}">
+							<label class="govuk-label govuk-checkboxes__label" for="listPreview-option${index}">${label}</label>
+							${hint ? `<div class="govuk-hint govuk-checkboxes__hint">${hint}</div>` : ''}
+						</div>
+					`;
+				}).join('');
+
+				// Add the new option preview if there's input
+				if (labelValue || document.activeElement === newOptionLabel) {
+					const newOptionPreview = `
+						<div class="govuk-checkboxes__item">
+							<input class="govuk-checkboxes__input" id="listPreview-option-new" name="listPreview" type="checkbox" value="${valueAttr}">
+							<label class="govuk-label govuk-checkboxes__label" for="listPreview-option-new">${labelValue || 'Option text'}</label>
+							${hintValue || document.activeElement === newOptionHint ? `<div class="govuk-hint govuk-checkboxes__hint">${hintValue || 'Hint text'}</div>` : ''}
+						</div>
+					`;
+					allOptionsHTML += newOptionPreview;
+				}
+			}
+
+			checkboxList.innerHTML = allOptionsHTML;
+
+			// Reapply highlights if needed
+			if (document.activeElement === newOptionLabel) {
+				applyHighlight('label');
+			} else if (document.activeElement === newOptionHint) {
+				applyHighlight('hint');
+			}
+		}
+
+		// Function to apply highlight to the preview
+		function applyHighlight(type) {
+			if (!checkboxList) return;
+			const lastOption = checkboxList.querySelector('.govuk-checkboxes__item:last-child');
+			if (!lastOption) return;
+
+			const elementToHighlight = type === 'label'
+				? lastOption.querySelector('.govuk-checkboxes__label')
+				: lastOption.querySelector('.govuk-checkboxes__hint');
+
+			if (elementToHighlight) {
+				elementToHighlight.classList.add('highlight');
+			} else if (type === 'hint') {
+				// If hint element doesn't exist, create it
+				const hintElement = document.createElement('div');
+				hintElement.className = 'govuk-hint govuk-checkboxes__hint highlight';
+				hintElement.textContent = 'Hint text';
+				lastOption.appendChild(hintElement);
+			}
+		}
+
+		// Function to remove highlight from the preview
+		function removeHighlight(type) {
+			if (!checkboxList) return;
+			const lastOption = checkboxList.querySelector('.govuk-checkboxes__item:last-child');
+			if (!lastOption) return;
+
+			const elementToUnhighlight = type === 'label'
+				? lastOption.querySelector('.govuk-checkboxes__label')
+				: lastOption.querySelector('.govuk-checkboxes__hint');
+
+			if (elementToUnhighlight) {
+				elementToUnhighlight.classList.remove('highlight');
+				// Remove empty hint element if it was just a placeholder
+				if (type === 'hint' && !newOptionHint.value.trim() && elementToUnhighlight.textContent === 'Hint text') {
+					elementToUnhighlight.remove();
+				}
+			}
+		}
+
+		// Function to show hint placeholder
+		function showHintPlaceholder() {
+			if (!checkboxList || newOptionHint.value.trim()) return;
+			const lastOption = checkboxList.querySelector('.govuk-checkboxes__item:last-child');
+			if (!lastOption) return;
+
+			let hintElement = lastOption.querySelector('.govuk-checkboxes__hint');
+			if (!hintElement) {
+				hintElement = document.createElement('div');
+				hintElement.className = 'govuk-hint govuk-checkboxes__hint highlight';
+				lastOption.appendChild(hintElement);
+			}
+			hintElement.textContent = 'Hint text';
+		}
+
+		// Function to remove hint placeholder
+		function removeHintPlaceholder() {
+			if (!checkboxList || newOptionHint.value.trim()) return;
+			const lastOption = checkboxList.querySelector('.govuk-checkboxes__item:last-child');
+			if (!lastOption) return;
+
+			const hintElement = lastOption.querySelector('.govuk-checkboxes__hint');
+			if (hintElement && !newOptionHint.value.trim()) {
+				hintElement.remove();
+			}
+		}
+
+		// Initialize the preview
+		updateAllOptionsPreview();
+
+		// Add event delegation for edit form hint text inputs
+		document.addEventListener('focus', function (e) {
+			if (e.target.classList.contains('option-hint-input')) {
+				const optionIndex = e.target.closest('.gem-c-reorderable-list__item').dataset.index;
+				const previewOption = checkboxList.querySelector(`#listPreview-option${optionIndex - 1}`).closest('.govuk-checkboxes__item');
+				let hintElement = previewOption.querySelector('.govuk-checkboxes__hint');
+
+				if (!hintElement) {
+					hintElement = document.createElement('div');
+					hintElement.className = 'govuk-hint govuk-checkboxes__hint highlight';
+					hintElement.textContent = 'Hint text';
+					previewOption.appendChild(hintElement);
+				} else {
+					hintElement.classList.add('highlight');
+				}
+			}
+		}, true);
+
+		document.addEventListener('blur', function (e) {
+			if (e.target.classList.contains('option-hint-input')) {
+				const optionIndex = e.target.closest('.gem-c-reorderable-list__item').dataset.index;
+				const previewOption = checkboxList.querySelector(`#listPreview-option${optionIndex - 1}`).closest('.govuk-checkboxes__item');
+				const hintElement = previewOption.querySelector('.govuk-checkboxes__hint');
+
+				if (hintElement) {
+					hintElement.classList.remove('highlight');
+					if (!e.target.value.trim() && hintElement.textContent === 'Hint text') {
+						hintElement.remove();
+					}
+				}
+			}
+		}, true);
+
+		// Function to update the hidden input with all current options
+		function updateHiddenOptionsData() {
+			const options = [];
+			const optionItems = optionsContainer.querySelectorAll('.gem-c-reorderable-list__item');
+
+			optionItems.forEach((item, index) => {
+				const labelInput = item.querySelector('.option-label-input-hidden');
+				const hintInput = item.querySelector('.option-hint-input');
+
+				if (labelInput) {
+					const label = labelInput.value;
+					const hint = hintInput ? hintInput.value : '';
+					const value = label.toLowerCase().replace(/\s+/g, '-');
+
+					options.push({
+						label: label,
+						hint: hint,
+						value: value
+					});
 				}
 			});
 
-			// Add 'highlight' to the specified preview item
-			if (highlightIndex !== null && previewItems[highlightIndex]) {
-				previewItems[highlightIndex].classList.add('highlight');
-			}
-
-			manageUpDownButtons();
+			document.getElementById('checkbox-options-data').value = JSON.stringify(options);
 		}
 
-		function removeOptionFromPreview(index) {
-			const previewOption = document.getElementById(`preview-option-${index}`);
-			if (previewOption) {
-				previewOption.parentNode.removeChild(previewOption);
-			}
-			// After removal, update all preview items to ensure accurate indexing
-			updatePreview();
-		}
+		// Form submission handler
+		questionForm.addEventListener('submit', function (e) {
+			updateHiddenOptionsData(); // Ensure options are up to date before submitting
+			return true;
+		});
 
-		function manageUpDownButtons() {
-			const items = document.querySelectorAll('#options-container .gem-c-reorderable-list__item');
-			items.forEach((item, index) => {
-				const upButton = item.querySelector('.js-reorderable-list-up');
-				const downButton = item.querySelector('.js-reorderable-list-down');
-				upButton.style.display = editMode && index > 0 ? 'inline-block' : 'none';
-				downButton.style.display = editMode && index < items.length - 1 ? 'inline-block' : 'none';
-			});
-		}
-
-		function initializeSortable() {
-			sortableInstance = new Sortable(domElements.optionsContainer, {
+		// Initialize Sortable for the options container
+		const sortableContainer = document.getElementById('options-container');
+		if (sortableContainer) {
+			new Sortable(sortableContainer, {
 				animation: 150,
-				handle: '.gem-c-reorderable-list__wrapper',
-				draggable: '.gem-c-reorderable-list__item',
 				ghostClass: 'sortable-ghost',
-				disabled: true, // Disabled by default until edit mode is active
-				onStart: function (evt) {
-					const index = Array.from(evt.from.children).indexOf(evt.item);
-					draggedOptionIndex = index;
-					highlightDraggedOption(index);
-				},
-				onMove: function (evt) {
-					// Optionally, you can highlight potential drop targets here
-				},
-				onEnd: function (evt) {
-					unhighlightDraggedOption(draggedOptionIndex);
-					draggedOptionIndex = null;
-					// After reordering, determine the new index of the moved item
-					const newIndex = Array.from(evt.from.children).indexOf(evt.item);
-					updatePreview(newIndex);
+				chosenClass: 'sortable-chosen',
+				dragClass: 'highlight-dragging',
+				onEnd: function () {
+					// Update the preview after reordering
+					updateAllOptionsPreview();
+					updateHiddenOptionsData();
 				}
 			});
 		}
 
-		function highlightDraggedOption(index) {
-			const previewItem = document.getElementById(`preview-option-${index}`);
+		// Add edit options button functionality
+		editOptionsButton.addEventListener('click', function () {
+			const listItems = document.querySelectorAll('.gem-c-reorderable-list__item');
+			const actionButtons = document.querySelectorAll('.gem-c-reorderable-list__actions');
+			const summaryActions = document.querySelectorAll('.govuk-summary-list__actions');
+
+			// Toggle button text
+			const isEditing = editOptionsButton.textContent.trim() === 'Done';
+			editOptionsButton.textContent = isEditing ? 'Edit list' : 'Done';
+
+			// Toggle action buttons visibility
+			actionButtons.forEach(actions => {
+				actions.style.display = isEditing ? 'none' : 'flex';
+			});
+
+			// Toggle summary actions (Edit/Delete links) visibility and layout
+			summaryActions.forEach(actions => {
+				if (isEditing) {
+					// When returning to normal mode
+					actions.style.display = 'block';
+					const actionsList = actions.querySelector('.govuk-summary-list__actions-list');
+					if (actionsList) {
+						actionsList.style.display = 'flex';
+						actionsList.style.gap = '20px';
+						actionsList.style.alignItems = 'center';
+					}
+				} else {
+					// When entering edit mode
+					actions.style.display = 'none';
+				}
+			});
+
+			// Update cursor style and hover effect
+			listItems.forEach(item => {
+				if (isEditing) {
+					item.style.cursor = 'default';
+					item.classList.remove('sortable-enabled');
+				} else {
+					item.style.cursor = 'move';
+					item.classList.add('sortable-enabled');
+				}
+			});
+
+			// Enable/disable sorting
+			if (sortableContainer) {
+				sortableContainer.sortable = !isEditing;
+			}
+		});
+
+		// Function to convert a list item to editable form
+		function makeItemEditable(listItem) {
+			const labelDisplay = listItem.querySelector('.option-label-display');
+			const labelInput = listItem.querySelector('.option-label-input-hidden');
+			const hintInput = listItem.querySelector('.option-hint-input');
+			const editLink = listItem.querySelector('.edit-item a');
+
+			// Create the edit form HTML
+			const editFormHTML = `
+				<div class="edit-option-form govuk-!-margin-bottom-6">
+					<h2 class="govuk-heading-m">Edit option</h2>
+					
+					<!-- Option Value (Label) -->
+					<div class="govuk-form-group">
+						<label class="govuk-label govuk-label--m" for="edit-option-label">Item</label>
+						<input class="govuk-input" id="edit-option-label" name="edit-label" type="text" 
+							value="${labelInput.value}">
+					</div>
+
+					<!-- Hint Text -->
+					<div class="govuk-form-group">
+						<label class="govuk-label govuk-label--m" for="edit-option-hint">Hint text (optional)</label>
+						<div class="govuk-hint">Use single short sentence without a full stop</div>
+						<input class="govuk-input" id="edit-option-hint" name="edit-hint" type="text" 
+							value="${hintInput.value}">
+					</div>
+
+					<div class="govuk-button-group">
+						<button type="button" class="govuk-button save-edit-button">Save changes</button>
+						<a class="govuk-link cancel-edit-link" href="#">Cancel</a>
+					</div>
+				</div>
+			`;
+
+			// Hide the display elements
+			labelDisplay.style.display = 'none';
+			editLink.style.display = 'none';
+
+			// Insert the edit form
+			listItem.querySelector('.gem-c-reorderable-list__content').insertAdjacentHTML('beforeend', editFormHTML);
+
+			// Add event listeners for the new form
+			const editForm = listItem.querySelector('.edit-option-form');
+			const saveButton = editForm.querySelector('.save-edit-button');
+			const cancelButton = editForm.querySelector('.cancel-edit-link');
+			const editLabelInput = editForm.querySelector('#edit-option-label');
+			const editHintInput = editForm.querySelector('#edit-option-hint');
+
+			// Focus the label input
+			editLabelInput.focus();
+
+			// Save changes
+			saveButton.addEventListener('click', () => {
+				const newLabel = editLabelInput.value.trim();
+				const newHint = editHintInput.value.trim();
+
+				if (!newLabel) {
+					alert('Please enter an option label');
+					return;
+				}
+
+				// Update the values
+				labelDisplay.textContent = newLabel;
+				labelInput.value = newLabel;
+				hintInput.value = newHint;
+
+				// Restore the display
+				restoreItemDisplay(listItem);
+
+				// Update the preview
+				updateAllOptionsPreview();
+				updateHiddenOptionsData();
+			});
+
+			// Cancel editing
+			cancelButton.addEventListener('click', (e) => {
+				e.preventDefault();
+				restoreItemDisplay(listItem);
+			});
+
+			// Add preview updating on input
+			editLabelInput.addEventListener('input', () => {
+				updateEditPreview(listItem, editLabelInput.value, editHintInput.value);
+			});
+
+			editHintInput.addEventListener('input', () => {
+				updateEditPreview(listItem, editLabelInput.value, editHintInput.value);
+			});
+		}
+
+		// Function to restore item to display mode
+		function restoreItemDisplay(listItem) {
+			const labelDisplay = listItem.querySelector('.option-label-display');
+			const editLink = listItem.querySelector('.edit-item a');
+			const editForm = listItem.querySelector('.edit-option-form');
+
+			if (editForm) {
+				editForm.remove();
+			}
+
+			labelDisplay.style.display = 'block';
+			editLink.style.display = 'inline-block';
+		}
+
+		// Function to update preview while editing
+		function updateEditPreview(listItem, labelValue, hintValue) {
+			const index = listItem.dataset.index - 1;
+			const previewItem = checkboxList.querySelector(`#listPreview-option${index}`).closest('.govuk-checkboxes__item');
+
 			if (previewItem) {
-				previewItem.classList.add('highlight-dragging');
-			}
-		}
+				const label = previewItem.querySelector('.govuk-checkboxes__label');
+				let hint = previewItem.querySelector('.govuk-checkboxes__hint');
 
-		function unhighlightDraggedOption(index) {
-			const previewItem = document.getElementById(`preview-option-${index}`);
-			if (previewItem) {
-				previewItem.classList.remove('highlight-dragging');
-			}
-		}
+				label.textContent = labelValue || 'Option text';
 
-		function addOptionToPreview(index, labelValue, hintValue) {
-			const radioList = domElements.radioList;
-			const hintHTML = hintValue ? `<div class="govuk-hint govuk-checkboxes__hint">${hintValue}</div>` : '';
-			const newRadioHTML = `
-		  <div class="govuk-checkboxes__item" id="preview-option-${index}">
-			<input class="govuk-checkboxes__input" id="listPreview-option${index}" name="listPreview" type="checkbox" value="option${index}">
-			<label class="govuk-label govuk-checkboxes__label" for="listPreview-option${index}">${labelValue || `Option ${parseInt(index) + 1}`}</label>
-			${hintHTML}
-		  </div>
-		`;
-			radioList.insertAdjacentHTML('beforeend', newRadioHTML);
-		}
-
-		function updateOptionPreview(index, value) {
-			const radioLabel = domElements.radioList.querySelector(`label[for="listPreview-option${index}"]`);
-			const hiddenInput = document.querySelector(`#options-container .gem-c-reorderable-list__item[data-index="${index}"] .option-label-input-hidden`);
-			const hintInput = document.querySelector(`#options-container .gem-c-reorderable-list__item[data-index="${index}"] .option-hint-input`);
-			const hintValue = hintInput ? hintInput.value : '';
-			const hintElement = domElements.radioList.querySelector(`#preview-option-${index} .govuk-hint`);
-
-			if (radioLabel) {
-				radioLabel.textContent = value || `Option ${parseInt(index) + 1}`;
-			}
-
-			if (hiddenInput) {
-				hiddenInput.value = value;
-			}
-
-			if (hintElement) {
-				hintElement.textContent = hintValue || '';
-			} else if (hintValue) {
-				// If hintElement doesn't exist but there is hintValue, create the hint element
-				const parentDiv = domElements.radioList.querySelector(`#preview-option-${index}`);
-				if (parentDiv) {
-					const hintHTML = `<div class="govuk-hint govuk-checkboxes__hint">${hintValue}</div>`;
-					parentDiv.insertAdjacentHTML('beforeend', hintHTML);
+				if (hintValue) {
+					if (!hint) {
+						hint = document.createElement('div');
+						hint.className = 'govuk-hint govuk-checkboxes__hint';
+						previewItem.appendChild(hint);
+					}
+					hint.textContent = hintValue;
+				} else if (hint) {
+					hint.remove();
 				}
 			}
 		}
+
+		// Add click handler for edit links
+		document.addEventListener('click', function (e) {
+			if (e.target.closest('.edit-option-link')) {
+				e.preventDefault();
+				const listItem = e.target.closest('.gem-c-reorderable-list__item');
+				if (listItem) {
+					makeItemEditable(listItem);
+				}
+			}
+		});
 	});
 </script>
 

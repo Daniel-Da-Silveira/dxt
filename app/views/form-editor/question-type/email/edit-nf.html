@@ -1,6 +1,6 @@
 {% extends "layouts/main.html" %}
 {% from "components/service-header/macro.njk" import serviceHeader %}
-{% set pageName = "Edit email question - Apply for a county parish holding number in England" %}
+{% set pageName %}Edit page {{ pageNumber }}: question {{ questionNumber }} - {{ form.name }}{% endset %}
 {% set headingPlaceholder = "Page heading" %}
 {% set guidancePlaceholder = "" %}
 

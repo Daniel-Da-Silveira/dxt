@@ -195,6 +195,17 @@ router.post("/information-type-answer-nf", function (req, res) {
     options: [], // Initialize empty options array
   };
 
+  // Initialize checkbox-specific properties if needed
+  if (mainType === "list" && listSubType === "checkboxes") {
+    newQuestion.type = "list";
+    newQuestion.subType = "checkboxes";
+    newQuestion.options = [];
+    // Initialize the checkboxList on the current page if it doesn't exist
+    if (!currentPage.checkboxList) {
+      currentPage.checkboxList = [];
+    }
+  }
+
   // Add the question to the current page
   currentPage.questions.push(newQuestion);
 
@@ -207,9 +218,9 @@ router.post("/information-type-answer-nf", function (req, res) {
   // 6. Redirect based on question type
   if (mainType === "list") {
     if (listSubType === "radios") {
-      return res.redirect("/form-editor/question-type/radios-nf/add.html");
+      return res.redirect("/form-editor/question-type/radios-nf/edit");
     } else if (listSubType === "checkboxes") {
-      return res.redirect("/form-editor/question-type/checkboxes-nf/add.html");
+      return res.redirect("/form-editor/question-type/checkboxes/edit");
     }
   }
 
@@ -264,7 +275,7 @@ router.get("/question-configuration", function (req, res) {
     if (listSubType === "yes-no") {
       templateToRender = "/form-editor/question-type/yesno/edit-nf.html";
     } else if (listSubType === "checkboxes") {
-      templateToRender = "/form-editor/question-type/checkboxes-nf/edit.html";
+      templateToRender = "/form-editor/question-type/checkboxes/edit.html";
     } else if (listSubType === "radios") {
       templateToRender = "/form-editor/question-type/radios-nf/edit.html";
     } else if (listSubType === "select") {
@@ -279,6 +290,7 @@ router.get("/question-configuration", function (req, res) {
     },
     pageNumber: pageNumber,
     questionNumber: questionNumber,
+    data: formData, // Include full form data in case templates need it
   });
 });
 
@@ -444,6 +456,42 @@ router.get("/page-overview", function (req, res) {
     minResponseCount: "",
     maxResponseCount: "",
   };
+
+  // Enhanced logging for debugging
+  console.log("🔍 Page Overview Debug:", {
+    sessionData: {
+      pageIndex,
+      formPagesCount: formPages.length,
+      currentPageQuestions: currentPage.questions?.length || 0,
+    },
+    currentPage: {
+      pageType: currentPage.pageType,
+      pageHeading: currentPage.pageHeading,
+      questions: currentPage.questions?.map((q) => ({
+        id: q.questionId,
+        type: q.type,
+        subType: q.subType,
+        label: q.label,
+        optionsCount: q.options?.length || 0,
+      })),
+    },
+  });
+
+  // Ensure each question has its options if it's a radio or checkbox type
+  currentPage.questions = currentPage.questions.map((question) => {
+    if (question.type === "list") {
+      if (question.subType === "radios" || question.subType === "checkboxes") {
+        if (!question.options) {
+          question.options = [];
+        }
+        // Ensure type and subType are correct
+        question.type = "list";
+        question.subType =
+          question.subType === "radios" ? "radios" : "checkboxes";
+      }
+    }
+    return question;
+  });
 
   res.render("form-editor/page-overview.html", {
     form: {
@@ -628,155 +676,232 @@ router.post("/test-form", (req, res) => {
 // **** CHECKBOXES (ADD/EDIT/FINALIZE) ****************************************************
 // Configure checkbox option route
 router.post("/configure-checkbox-nf", function (req, res) {
-  const currentPageIndex = req.session.data["currentPageIndex"];
-  const questionIndex = req.session.data["currentQuestionIndex"];
-  const formPages = req.session.data["formPages"];
-  const currentPage = formPages[currentPageIndex];
-  const currentQuestion = currentPage.questions[questionIndex];
+  const formPages = req.session.data["formPages"] || [];
+  const pageIndex = req.session.data["currentPageIndex"];
 
-  // Get the values from the form
-  const label = req.body.label;
-  const hint = req.body.hint;
-  const value = req.body.value || label;
+  // Ensure we have a valid page
+  if (!formPages[pageIndex]) {
+    formPages[pageIndex] = { questions: [], checkboxList: [] };
+  }
 
-  // **Add a unique optionId here**
-  const newOption = {
-    optionId: Date.now(), // <---- UNIQUE ID
+  const currentPage = formPages[pageIndex];
+
+  // Ensure checkboxList exists on the page object
+  if (!currentPage.checkboxList) {
+    currentPage.checkboxList = [];
+  }
+
+  // Create new checkbox option
+  const checkboxOption = {
     label: req.body.label,
-    value: value,
-    hint: hint,
+    value: req.body.value || req.body.label.toLowerCase().replace(/\s+/g, "-"),
+    hint: req.body.hint || "",
   };
 
-  // Initialize options array if it doesn't exist
-  if (!currentQuestion.options) {
-    currentQuestion.options = [];
-  }
-
-  // Add the option to the question's options array
-  currentQuestion.options.push(newOption);
+  // Add to checkboxList
+  currentPage.checkboxList.push(checkboxOption);
 
   // Save back to session
+  formPages[pageIndex] = currentPage;
   req.session.data["formPages"] = formPages;
 
+  // Log the state after adding option
   console.log("✅ Added checkbox option:", {
-    questionId: currentQuestion.questionId,
-    newOption,
-    allOptions: currentQuestion.options,
+    checkboxOption,
+    currentPage,
+    checkboxList: currentPage.checkboxList,
   });
 
-  res.redirect("/form-editor/question-type/checkboxes-nf/edit");
+  res.redirect("/form-editor/question-type/checkboxes/edit");
 });
 
-// Route to save the checkbox option
-router.post("/save-checkbox-option", (req, res) => {
-  const optionId = parseInt(req.body.optionId, 10); // The unique ID from the form
-  const currentPageIndex = req.session.data["currentPageIndex"];
-  const questionIndex = req.session.data["currentQuestionIndex"];
-  const formPages = req.session.data["formPages"];
-  const currentQuestion = formPages[currentPageIndex].questions[questionIndex];
-
-  // Find the matching option by `optionId`
-  const foundIndex = currentQuestion.options.findIndex(
-    (opt) => opt.optionId === optionId
-  );
-  if (foundIndex !== -1) {
-    currentQuestion.options[foundIndex].label = req.body["option-label"];
-    currentQuestion.options[foundIndex].hint = req.body["option-hint"];
-    currentQuestion.options[foundIndex].value = req.body["option-value"];
-  }
-
-  // Save back to session
-  req.session.data["formPages"] = formPages;
-
-  res.redirect("/form-editor/question-type/checkboxes-nf/edit");
-});
-
-// Route to save the checkbox option
-router.post("/save-option", (req, res) => {
-  const index = parseInt(req.body.index, 10); // Get the index from the form
-  const checkboxList = req.session.data.checkboxList; // Access the checkboxList array
-
-  if (checkboxList && checkboxList[index]) {
-    // Update the data at the specified index
-    checkboxList[index].label = req.body["option-label"];
-    checkboxList[index].hint = req.body["option-hint"];
-    checkboxList[index].value = req.body["option-value"];
-  }
-
-  // Redirect back to the edit page for checkboxes
-  res.redirect("/form-editor/question-type/checkboxes-nf/edit");
-});
-
-/// Route to access the edit page for checkboxes
-router.get(
-  "/form-editor/question-type/checkboxes-nf/edit",
+// Route to finalize checkbox question configuration
+router.post(
+  "/form-editor/question-type/checkboxes/checkboxes-finalize",
   function (req, res) {
     const formPages = req.session.data["formPages"] || [];
     const pageIndex = req.session.data["currentPageIndex"];
     const questionIndex = req.session.data["currentQuestionIndex"];
 
-    console.log("Loading edit page:", {
+    console.log("📝 Processing checkbox finalization:", {
       pageIndex,
       questionIndex,
-      formPages,
+      body: req.body,
     });
 
+    // Get the current page and question
     const currentPage = formPages[pageIndex];
-    if (!currentPage) {
-      console.error("Page not found");
-      return res.redirect("/form-editor/listing.html");
-    }
-
     const currentQuestion = currentPage.questions[questionIndex];
-    if (!currentQuestion) {
-      console.error("Question not found");
-      return res.redirect("/form-editor/question-type/checkboxes-nf/add.html");
+
+    // Update the question with the label and hint
+    currentQuestion.label =
+      req.body.questionLabelInputCheckboxes || "Checkbox question";
+    currentQuestion.hint = req.body.questionHintTextInputCheckboxes || "";
+
+    // Parse the checkbox options from the form data
+    let options = [];
+    try {
+      if (req.body.checkboxOptionsData) {
+        options = JSON.parse(req.body.checkboxOptionsData);
+        console.log("✅ Parsed checkbox options:", options);
+      }
+    } catch (e) {
+      console.error("❌ Error parsing checkbox options:", e);
+      options = [];
     }
 
-    res.render("form-editor/question-type/checkboxes-nf/edit.html", {
-      currentPageIndex: pageIndex,
-      currentQuestionIndex: questionIndex,
-      formPages: formPages,
+    // Update the question's type, subType and options
+    currentQuestion.type = "list";
+    currentQuestion.subType = "checkboxes";
+    currentQuestion.options = options;
+
+    // Clear the checkboxList since we've moved the options to the question
+    currentPage.checkboxList = [];
+
+    // Save back to session
+    formPages[pageIndex] = currentPage;
+    req.session.data["formPages"] = formPages;
+
+    console.log("✅ Finalized checkbox question:", {
+      questionId: currentQuestion.questionId,
+      label: currentQuestion.label,
+      hint: currentQuestion.hint,
+      type: currentQuestion.type,
+      subType: currentQuestion.subType,
+      options: currentQuestion.options,
     });
+
+    // Redirect to the page overview
+    return res.redirect("/page-overview");
   }
 );
 
-// -------------
-//  /checkboxes-finalize
-// -------------
-router.post("/checkboxes-finalize", function (req, res) {
+// Edit page for checkbox options
+router.get("/form-editor/question-type/checkboxes/edit", (req, res) => {
   const formPages = req.session.data["formPages"] || [];
-  const pageIndex = req.session.data["currentPageIndex"];
-  const questionIndex = req.session.data["currentQuestionIndex"];
+  const pageIndex = req.session.data["currentPageIndex"] || 0;
+  const pageNumber = pageIndex + 1; // Convert 0-based index to 1-based page number
+  const questionIndex = req.session.data["currentQuestionIndex"] || 0;
+  const questionNumber = questionIndex + 1; // Convert 0-based index to 1-based question number
+  const formData = req.session.data || {};
 
-  console.log(
-    "Before finalize - Current question:",
-    formPages[pageIndex].questions[questionIndex]
+  // First try to get checkboxList from the current page
+  let checkboxList = [];
+  if (formPages[pageIndex]) {
+    const currentPage = formPages[pageIndex];
+    checkboxList = currentPage.checkboxList || [];
+  }
+
+  // If no checkboxList found in current page, try to get it from session data
+  if (checkboxList.length === 0) {
+    checkboxList = req.session.data?.checkboxList || [];
+  }
+
+  // Render the edit page with the checkboxList
+  console.log("Current checkbox options:", checkboxList);
+
+  res.render("form-editor/question-type/checkboxes/edit.html", {
+    checkboxList: checkboxList,
+    pageNumber: pageNumber,
+    questionNumber: questionNumber,
+    form: {
+      name: formData.formName || "Form name",
+    },
+  });
+});
+
+// Edit individual checkbox option
+router.get("/form-editor/question-type/checkboxes/editoption", (req, res) => {
+  const formPages = req.session.data["formPages"] || [];
+  const pageIndex = req.session.data["currentPageIndex"] || 0;
+  const index = parseInt(req.query.index) - 1;
+
+  // Get the current page and find the checkbox question
+  const currentPage = formPages[pageIndex];
+
+  // Ensure currentPage and questions array exist
+  if (!currentPage || !currentPage.questions) {
+    return res.redirect("/form-editor/question-type/checkboxes/edit");
+  }
+
+  const checkboxQuestion = currentPage.questions.find(
+    (q) => q.questionType === "list" && q.questionSubType === "checkboxes"
   );
 
-  // Get the current question
-  const currentQuestion = formPages[pageIndex].questions[questionIndex];
+  if (!checkboxQuestion) {
+    return res.redirect("/form-editor/question-type/checkboxes/edit");
+  }
 
-  // IMPORTANT: Keep the existing options array
-  const existingOptions = currentQuestion.options || [];
+  // Ensure configuration exists
+  if (!checkboxQuestion.configuration) {
+    checkboxQuestion.configuration = {};
+  }
 
-  // Update the question with final values while preserving options
-  formPages[pageIndex].questions[questionIndex] = {
-    ...currentQuestion,
-    label: req.body.multiQuestionLabelInputCheckboxes || "Checkboxes question",
-    hint: req.body.questionHintTextInputCheckboxes || "",
-    options: existingOptions, // Preserve the options array
+  // Get the checkboxList from the question configuration
+  const checkboxList = checkboxQuestion.configuration.checkboxList || [];
+
+  // Get the option to edit
+  const option = checkboxList[index];
+
+  // Render the edit page with the option data
+  res.render("form-editor/question-type/checkboxes/editoption.html", {
+    data: {
+      index: index + 1,
+      checkboxList: checkboxList,
+      option: option,
+    },
+    pageNumber: pageIndex + 1,
+    questionNumber: checkboxQuestion.questionNumber,
+  });
+});
+
+// Save checkbox option changes
+router.post("/form-editor/question-type/checkboxes/save-option", (req, res) => {
+  const formPages = req.session.data["formPages"] || [];
+  const pageIndex = req.session.data["currentPageIndex"] || 0;
+  const index = parseInt(req.body.index);
+
+  // Get the current page and find the checkbox question
+  const currentPage = formPages[pageIndex];
+
+  // Ensure currentPage and questions array exist
+  if (!currentPage || !currentPage.questions) {
+    return res.redirect("/form-editor/question-type/checkboxes/edit");
+  }
+
+  const checkboxQuestion = currentPage.questions.find(
+    (q) => q.questionType === "list" && q.questionSubType === "checkboxes"
+  );
+
+  if (!checkboxQuestion) {
+    return res.redirect("/form-editor/question-type/checkboxes/edit");
+  }
+
+  // Ensure configuration exists
+  if (!checkboxQuestion.configuration) {
+    checkboxQuestion.configuration = {};
+  }
+
+  // Get the checkboxList from the question configuration
+  const checkboxList = checkboxQuestion.configuration.checkboxList || [];
+
+  // Update the option
+  checkboxList[index] = {
+    label: req.body["option-label"],
+    hint: req.body["option-hint"],
+    value:
+      req.body["option-value"] ||
+      req.body["option-label"].toLowerCase().replace(/\s+/g, "-"),
   };
 
-  // Save back to session
+  // Save the updated checkboxList back to the question configuration
+  checkboxQuestion.configuration.checkboxList = checkboxList;
+
+  // Update the session data
   req.session.data["formPages"] = formPages;
 
-  console.log(
-    "After finalize - Updated question:",
-    formPages[pageIndex].questions[questionIndex]
-  );
-
-  res.redirect("/page-overview");
+  // Redirect back to the edit page
+  res.redirect("/form-editor/question-type/checkboxes/edit");
 });
 
 // **** RADIOS ROUTES (ADD/EDIT/FINALIZE) ****************************************************
@@ -785,6 +910,10 @@ router.post("/checkboxes-finalize", function (req, res) {
 router.post("/configure-radio-nf", function (req, res) {
   const formPages = req.session.data["formPages"] || [];
   const pageIndex = req.session.data["currentPageIndex"];
+
+  // Debug logging
+  console.log("Adding radio option - Current page index:", pageIndex);
+  console.log("Current form pages:", formPages);
 
   // Ensure we have a valid page
   if (!formPages[pageIndex]) {
@@ -817,15 +946,81 @@ router.post("/configure-radio-nf", function (req, res) {
     radioOption,
     currentPage,
     radioList: currentPage.radioList,
+    radioListLength: currentPage.radioList.length,
   });
 
   res.redirect("/form-editor/question-type/radios-nf/edit");
 });
 
+// Route to finalize radio question configuration
+router.post(
+  "/form-editor/question-type/radios-nf/radios-finalize",
+  function (req, res) {
+    const formPages = req.session.data["formPages"] || [];
+    const pageIndex = req.session.data["currentPageIndex"];
+    const questionIndex = req.session.data["currentQuestionIndex"];
+
+    console.log("📝 Processing radio finalization:", {
+      pageIndex,
+      questionIndex,
+      body: req.body,
+    });
+
+    // Get the current page and question
+    const currentPage = formPages[pageIndex];
+    const currentQuestion = currentPage.questions[questionIndex];
+
+    // Update the question with the label and hint
+    currentQuestion.label =
+      req.body.questionLabelInputRadios || "Radio question";
+    currentQuestion.hint = req.body.questionHintTextInputRadios || "";
+
+    // Parse the radio options from the form data
+    let options = [];
+    try {
+      if (req.body.radioOptions) {
+        options = JSON.parse(req.body.radioOptions);
+        console.log("✅ Parsed radio options:", options);
+      }
+    } catch (e) {
+      console.error("❌ Error parsing radio options:", e);
+      options = [];
+    }
+
+    // Update the question's type, subType and options
+    currentQuestion.type = "list";
+    currentQuestion.subType = "radios";
+    currentQuestion.options = options;
+
+    // Clear the radioList since we've moved the options to the question
+    currentPage.radioList = [];
+
+    // Save back to session
+    formPages[pageIndex] = currentPage;
+    req.session.data["formPages"] = formPages;
+
+    console.log("✅ Finalized radio question:", {
+      questionId: currentQuestion.questionId,
+      label: currentQuestion.label,
+      hint: currentQuestion.hint,
+      type: currentQuestion.type,
+      subType: currentQuestion.subType,
+      options: currentQuestion.options,
+    });
+
+    // Redirect to the page overview with the correct path
+    return res.redirect("/page-overview");
+  }
+);
+
 // Edit page for radio options
 router.get("/form-editor/question-type/radios-nf/edit", (req, res) => {
   const formPages = req.session.data["formPages"] || [];
   const pageIndex = req.session.data["currentPageIndex"] || 0;
+  const pageNumber = pageIndex + 1; // Convert 0-based index to 1-based page number
+  const questionIndex = req.session.data["currentQuestionIndex"] || 0;
+  const questionNumber = questionIndex + 1; // Convert 0-based index to 1-based question number
+  const formData = req.session.data || {};
 
   // First try to get radioList from the current page
   let radioList = [];
@@ -839,17 +1034,19 @@ router.get("/form-editor/question-type/radios-nf/edit", (req, res) => {
     radioList = req.session.data?.radioList || [];
   }
 
-  // If still no radioList, redirect to add page
-  if (radioList.length === 0) {
-    console.log("⚠️ No radio options found, redirecting to add page...");
-    return res.redirect("/form-editor/question-type/radios-nf/add.html");
-  }
-
+  // Debug logging
+  console.log("Current page index:", pageIndex);
   console.log("Current radio options:", radioList);
+  console.log("Radio list length:", radioList.length);
 
   // Render the edit page with the radioList
   res.render("form-editor/question-type/radios-nf/edit.html", {
     radioList: radioList,
+    pageNumber: pageNumber,
+    questionNumber: questionNumber,
+    form: {
+      name: formData.formName || "Form name",
+    },
   });
 });
 
@@ -871,62 +1068,6 @@ router.post("/update-radio-label", function (req, res) {
   // Update the session with the provided label
   req.session.data.currentRadioQuestionLabel = req.body.label || "";
   res.json({ success: true });
-});
-
-// -------------
-//  /radios-finalize
-// -------------
-router.post("/radios-finalize", (req, res) => {
-  const questionLabel = req.body.questionLabelInputRadios || "Radios question";
-
-  // Ensure formPages exist
-  req.session.data["formPages"] = req.session.data["formPages"] || [];
-
-  // Ensure currentPage exists
-  const pageIndex = req.session.data["currentPageIndex"];
-  if (pageIndex === undefined || !req.session.data["formPages"][pageIndex]) {
-    console.log("⚠️ No current page found, creating a new one...");
-    req.session.data["formPages"].push({
-      pageId: Date.now(),
-      pageType: "question",
-      questions: [],
-      radioList: [],
-    });
-    req.session.data["currentPageIndex"] =
-      req.session.data["formPages"].length - 1;
-  }
-
-  const currentPage =
-    req.session.data["formPages"][req.session.data["currentPageIndex"]];
-
-  // 🔥 Ensure `radioList` is defined for this page
-  currentPage.radioList = currentPage.radioList || [];
-
-  // ✅ Move `radioList` into the new question
-  const newQuestion = {
-    questionId: Date.now(),
-    label: questionLabel,
-    hint: "",
-    type: "list",
-    subType: "radios",
-    options: [...currentPage.radioList], // ✅ FIX: Store options properly
-  };
-
-  // Push the new question into the questions array
-  currentPage.questions.push(newQuestion);
-
-  // ✅ Save back to session
-  req.session.data["formPages"] = req.session.data["formPages"];
-
-  // ✅ Clear `radioList` **only after** assigning it to `options`
-  currentPage.radioList = [];
-
-  console.log(
-    "✅ Final Question Object (with options):",
-    JSON.stringify(newQuestion, null, 2)
-  );
-
-  res.redirect("/page-overview");
 });
 
 // **** CONDITIONS ROUTES ****************************************************
@@ -1697,21 +1838,6 @@ router.get("/form-overview/draft/support/next-steps", (req, res) => {
   });
 });
 
-router.post("/form-overview/draft/support/next-steps", (req, res) => {
-  const formData = req.session.data || {};
-  const nextSteps = req.body.nextSteps;
-
-  // Update the form details with the next steps
-  formData.formDetails = {
-    ...formData.formDetails,
-    nextSteps: nextSteps,
-    lastUpdated: new Date().toISOString(),
-  };
-
-  req.session.data = formData;
-  res.redirect("/form-overview/draft/overview");
-});
-
 // Privacy notice support
 router.get("/form-overview/draft/support/privacy-notice", (req, res) => {
   const formData = req.session.data || {};
@@ -1813,4 +1939,73 @@ router.get("/form-editor/errors/information-type.html", function (req, res) {
     },
     pageNumber: pageNumber,
   });
+});
+
+// Add route for inline radio option addition
+router.post("/form-editor/question-type/radios-nf/add-inline", (req, res) => {
+  const { label, hint, value } = req.body;
+  const formPages = req.session.formPages;
+  const currentPageIndex = req.session.currentPageIndex;
+  const currentQuestionIndex = req.session.currentQuestionIndex;
+
+  if (!formPages || !formPages[currentPageIndex]) {
+    return res.status(400).json({ error: "Invalid page or question" });
+  }
+
+  const currentPage = formPages[currentPageIndex];
+  const currentQuestion = currentPage.questions[currentQuestionIndex];
+
+  // Initialize radioList if it doesn't exist
+  if (!currentQuestion.radioList) {
+    currentQuestion.radioList = [];
+  }
+
+  // Add new radio option
+  currentQuestion.radioList.push({
+    label: label,
+    hint: hint || "",
+    value: value || label.toLowerCase().replace(/\s+/g, "-"),
+  });
+
+  // Save to session
+  req.session.formPages = formPages;
+
+  // Return success response
+  res.json({ success: true });
+});
+
+router.post("/form-editor/question-type/radios-nf/add", function (req, res) {
+  const formPages = req.session.data["formPages"] || [];
+  const pageIndex = req.session.data["currentPageIndex"];
+
+  // Get the current page
+  const currentPage = formPages[pageIndex];
+
+  // Initialize radioList if it doesn't exist
+  if (!currentPage.radioList) {
+    currentPage.radioList = [];
+  }
+
+  // Create new radio option
+  const radioOption = {
+    label: req.body.label,
+    value: req.body.value || req.body.label.toLowerCase().replace(/\s+/g, "-"),
+    hint: req.body.hint || "",
+  };
+
+  // Add to radioList
+  currentPage.radioList.push(radioOption);
+
+  // Save back to session
+  formPages[pageIndex] = currentPage;
+  req.session.data["formPages"] = formPages;
+
+  // Log the state after adding option
+  console.log("✅ Added radio option:", {
+    radioOption,
+    currentPage,
+    radioList: currentPage.radioList,
+  });
+
+  res.redirect("/form-editor/question-type/radios-nf/edit");
 });

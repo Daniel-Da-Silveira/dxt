@@ -6,21 +6,22 @@
             {{ question.label }}
         </legend>
         {% if question.hint %}
-        <div id="radios-hint" class="govuk-hint">
+        <div id="radios-hint-{{ question.questionId }}" class="govuk-hint">
             {{ question.hint }}
         </div>
         {% endif %}
-        <div class="govuk-radios">
-            {% if question.options | length > 0 %}
+        <div class="govuk-radios" data-module="govuk-radios">
+            {% if question.options and question.options.length > 0 %}
             {% for option in question.options %}
             <div class="govuk-radios__item">
-                <input class="govuk-radios__input" id="radio-{{ loop.index }}" name="radio-group" type="radio"
-                    value="{{ option.value }}">
-                <label class="govuk-label govuk-radios__label" for="radio-{{ loop.index }}">
+                <input class="govuk-radios__input" id="radio-{{ question.questionId }}-{{ loop.index }}"
+                    name="radio-group-{{ question.questionId }}" type="radio" value="{{ option.value }}" {% if
+                    option.hint %}aria-describedby="radio-{{ question.questionId }}-{{ loop.index }}-hint" {% endif %}>
+                <label class="govuk-label govuk-radios__label" for="radio-{{ question.questionId }}-{{ loop.index }}">
                     {{ option.label }}
                 </label>
                 {% if option.hint %}
-                <div id="radio-{{ loop.index }}-hint" class="govuk-hint govuk-radios__hint">
+                <div id="radio-{{ question.questionId }}-{{ loop.index }}-hint" class="govuk-hint govuk-radios__hint">
                     {{ option.hint }}
                 </div>
                 {% endif %}

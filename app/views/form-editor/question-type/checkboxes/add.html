@@ -1,6 +1,6 @@
 {% extends "layouts/main.html" %}
 {% from "components/service-header/macro.njk" import serviceHeader %}
-{% set pageName = "Edit radio question - Apply for a county parish holding number in England" %}
+{% set pageName = "Add radio question - Apply for a county parish holding number in England" %}
 {% set headingPlaceholder = "Page heading" %}
 {% set guidancePlaceholder = "" %}
 {% block header %}
@@ -15,14 +15,14 @@ signOutLink: "/onboarding/sign-out-confirmation",
 navigationItems: [
 { href: "/library.html", text: "Forms library", id: "nav-library" },
 { href: "/cph-overview/draft/complete-clean.html", text: "Overview", id: "nav-overview" },
-{ href: "/redesigntest/listing", text: "Editor", id: "nav-editor" } ],
+{ href: "/form-editor/listing", text: "Editor", id: "nav-editor" } ],
 activeLinkId: "nav-editor"
 }) }}
 
 <div class="x-govuk-masthead x-govuk-masthead--large">
 	<div class="govuk-width-container">
-		{{ govukBackLink({ classes: "govuk-back-link--inverse govuk-!-margin-bottom-0", text: "Back to add
-		and edit pages", href: "/redesigntest/listing.html" }) }}
+		{{ govukBackLink({ classes: "govuk-back-link--inverse govuk-!-margin-bottom-0", text:
+		commonTerms.form_editor.information_type.back, href: "/form-editor/listing.html" }) }}
 
 		<hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible"
 			style="border-bottom: 1px solid white; margin-bottom: 0" />
@@ -63,176 +63,175 @@ activeLinkId: "nav-editor"
 													aria-label="Sub navigation">
 													<ul class="moj-sub-navigation__list" id="nav-list2">
 														<!-- Question Link -->
-														<li class="moj-sub-navigation__item">
+														{# <li class="moj-sub-navigation__item">
 															<a class="moj-sub-navigation__link" href="#question-1">Page
 																settings</a>
-														</li>
+														</li> #}
 
-														<li class="moj-sub-navigation__item">
+														{# <li class="moj-sub-navigation__item">
 															<a class="moj-sub-navigation__link"
 																href="#question-1-information-type">Question 10</a>
-														</li>
+														</li> #}
 														<li class="moj-sub-navigation__item">
 															<a class="moj-sub-navigation__link" aria-current="page"
-																href="#overview-noquestions">Edit radio option</a>
+																href="#overview-noquestions">{{
+																commonTerms.form_editor.information_type.list.types.radios.add_option
+																}}</a>
 														</li>
+
 													</ul>
 												</nav>
 
 												<div class="govuk-summary-card__title-wrapper govuk-!-padding-top-0">
 												</div>
 
-												<span class="govuk-caption-l">Page 2</span>
-												<h2 class="govuk-heading-l">Edit radio option</h2>
+												<span class="govuk-caption-l">Page #: question #</span>
+												<h2 class="govuk-heading-l">{{
+													commonTerms.form_editor.information_type.list.types.radios.add_option
+													}}</h2>
 
-												{% from "govuk/components/input/macro.njk" import govukInput %}
-												{% from "govuk/components/textarea/macro.njk" import govukTextarea %}
-												{% from "govuk/components/fieldset/macro.njk" import govukFieldset %}
-												{% from "govuk/components/button/macro.njk" import govukButton %}
-												{% from "govuk/components/summary-list/macro.njk" import
-												govukSummaryList %}
+												<form method="post" id="radio-options-form"
+													action="/configure-radio-nf">
+													{% from "govuk/components/input/macro.njk" import govukInput %}
+													{% from "govuk/components/textarea/macro.njk" import govukTextarea
+													%}
+													{% from "govuk/components/fieldset/macro.njk" import govukFieldset
+													%}
+													{% from "govuk/components/button/macro.njk" import govukButton %}
+													{% from "govuk/components/summary-list/macro.njk" import
+													govukSummaryList %}
 
-												<!-- List config -->
-												<div class="govuk-form-group">
+													<!-- List config -->
+													<div class="govuk-form-group">
 
-													<div id="options-edit-container">
-														<div class="govuk-form-group">
-															{% set index = data.index %}
-															{% set option = data.radioList[index] %}
-
-															<form method="POST" action="/save-radio-option" novalidate>
-																<input type="hidden" name="index" value="{{ index }}">
-
+														<div id="options-container">
+															<div class="radio-option-config">
 																<!-- Option Value (Label) -->
 																<div class="govuk-form-group">
 																	<label class="govuk-label govuk-label--m"
-																		for="option-label">Option label</label>
+																		for="option-label">{{
+																		commonTerms.form_editor.information_type.list.types.radios.option.text.label
+																		}}</label>
 																	<div class="govuk-hint">{{
 																		commonTerms.form_editor.information_type.list.types.radios.option.text.hint
 																		}}</div>
 																	<input class="govuk-input" id="option-label"
-																		name="option-label" type="text"
-																		value="{{ option.label }}" />
+																		name="label" type="text" value="">
 																</div>
 
 																<!-- Hint Text -->
 																<div class="govuk-form-group">
 																	<label class="govuk-label govuk-label--m"
-																		for="option-hint">Hint text</label>
-																	<span id="option-hint-hint" class="govuk-hint">{{
+																		for="option-hint">{{
+																		commonTerms.form_editor.information_type.list.types.radios.option.hint.label
+																		}}</label>
+																	<div class="govuk-hint">{{
 																		commonTerms.form_editor.information_type.list.types.radios.option.hint.hint
-																		}}</span>
+																		}}</div>
 																	<input class="govuk-input" id="option-hint"
-																		name="option-hint" type="text"
-																		value="{{ option.hint }}" />
+																		name="hint" type="text" value="">
 																</div>
 
 																<!-- Additional Value -->
 																<div class="govuk-form-group">
 																	<label class="govuk-label govuk-label--m"
-																		for="option-value">Option value</label>
+																		for="option-value">{{
+																		commonTerms.form_editor.information_type.list.types.radios.option.value.label
+																		}}</label>
 																	<div class="govuk-hint">{{
 																		commonTerms.form_editor.information_type.list.types.radios.option.value.hint
 																		}}</div>
 																	<input class="govuk-input" id="option-value"
-																		name="option-value" type="text"
-																		value="{{ option.value }}" />
+																		name="value" type="text" value="">
 																</div>
-
-																<!-- Submit Button -->
-																<div class="govuk-button-group">
-																	<button type="submit" class="govuk-button">Save
-																		changes</button>
-
-																	<a class="govuk-link"
-																		href="javascript:window.history.back()">Cancel</a>
-
-																</div>
-															</form>
+															</div>
 														</div>
 													</div>
-												</div>
 
+													<!-- Error Message Input -->
+													{# <div class="govuk-form-group" style="margin-top: 20px">
+														{{ govukInput({
+														label: {
+														text: "Short description",
+														classes: "govuk-label--m",
+														isPageHeading: false
+														},
+														hint: {
+														text: "Enter a short description for this question like 'licence
+														period'. Short descriptions are used in error messages and on
+														the check your answers page."
+														},
+														id: "error-message-input",
+														name: "errorMessageInput"
+														}) }}
+													</div> #}
 
-												<!-- Error Message Input -->
-												{# <div class="govuk-form-group" style="margin-top: 20px">
-													{{ govukInput({
-													label: {
-													text: "Short description",
-													classes: "govuk-label--m",
-													isPageHeading: false
-													},
-													hint: {
-													text: "Enter a short description for this question like 'licence
-													period'. Short descriptions are used in error messages and on the
-													check your answers page."
-													},
-													id: "error-message-input",
-													name: "errorMessageInput"
-													}) }}
-												</div> #}
+													{# <!-- Add guidance above this question -->
+													<details class="govuk-details" data-module="govuk-details">
+														<summary class="govuk-details__summary">
+															<span class="govuk-details__summary-text">
+																Add guidance above this question (optional)
+															</span>
+														</summary>
+														<div class="govuk-details__text">
+															<!-- Default Content for Question 1 -->
+															<div id="question-1-content" class="question-content"
+																style="margin-top: 10px;">
+																<!-- Page Heading Input -->
+																{{ govukInput({
+																label: {
+																text: "Page heading",
+																classes: "govuk-label govuk-label--m
+																govuk-!-margin-top-0"
+																},
+																hint: {
+																text: "Page headings should be a statement and not a
+																question. For example, 'Passport information'",
+																id: "page-heading-input-hint"
+																},
+																id: "page-heading-input-radios",
+																name: "pageHeadingInputRadios",
+																type: "text",
+																attributes: {
+																'aria-describedby': "page-heading-input-hint"
+																}
+																}) }}
 
-												{# <!-- Add guidance above this question -->
-												<details class="govuk-details" data-module="govuk-details">
-													<summary class="govuk-details__summary">
-														<span class="govuk-details__summary-text">
-															Add guidance above this question (optional)
-														</span>
-													</summary>
-													<div class="govuk-details__text">
-														<!-- Default Content for Question 1 -->
-														<div id="question-1-content" class="question-content"
-															style="margin-top: 10px;">
-															<!-- Page Heading Input -->
-															{{ govukInput({
-															label: {
-															text: "Page heading",
-															classes: "govuk-label govuk-label--m govuk-!-margin-top-0"
-															},
-															hint: {
-															text: "Page headings should be a statement and not a
-															question. For example, 'Passport information'",
-															id: "page-heading-input-hint"
-															},
-															id: "page-heading-input-radios",
-															name: "pageHeadingInputRadios",
-															type: "text",
-															attributes: {
-															'aria-describedby': "page-heading-input-hint"
-															}
-															}) }}
-
-															<!-- Guidance Text Textarea -->
-															{{ govukTextarea({
-															label: {
-															text: "Guidance text (optional)",
-															classes: "govuk-label govuk-label--m"
-															},
-															hint: {
-															text: "Use Markdown to format the content or add
-															hyperlinks",
-															id: "guidance-textarea-hint"
-															},
-															id: "guidance-textarea-radios",
-															name: "guidanceTextareaRadios",
-															rows: 5,
-															attributes: {
-															'aria-describedby': "guidance-textarea-hint"
-															}
-															}) }}
+																<!-- Guidance Text Textarea -->
+																{{ govukTextarea({
+																label: {
+																text: "Guidance text (optional)",
+																classes: "govuk-label govuk-label--m"
+																},
+																hint: {
+																text: "Use Markdown to format the content or add
+																hyperlinks",
+																id: "guidance-textarea-hint"
+																},
+																id: "guidance-textarea-radios",
+																name: "guidanceTextareaRadios",
+																rows: 5,
+																attributes: {
+																'aria-describedby': "guidance-textarea-hint"
+																}
+																}) }}
+															</div>
 														</div>
-													</div>
-												</details> #}
+													</details> #}
+													<div class="govuk-button-group">
 
-												<div class="moj-button-action">
-													{# {{ govukButton({
-													text: 'Continue',
-													type: 'submit'
-													}) }} #}
-													<!--<a class="govuk-button" href="edit.html">Save changes</a>-->
-												</div>
+														{{ govukButton({
+														text: commonTerms.form_editor.common.save,
+														type: 'submit'
+														}) }}
+
+														<a class="govuk-link" href="javascript:window.history.back()">{{
+															commonTerms.form_editor.common.cancel }}</a>
+
+														<!--<a class="govuk-button" href="edit.html">Save option</a>-->
+													</div>
 											</div>
-
+											</form>
 										</div>
 									</div>
 							</div>
@@ -266,30 +265,25 @@ activeLinkId: "nav-editor"
 			</div>
 		</div> #}
 
-
-
-
-
 		<!-- Right Column for Preview -->
 		<div class="govuk-grid-column-one-half-from-desktop" id="second-container"
 			style="outline: solid 1px #008938; height: 100%; position: sticky; top: 0; padding: 20px; box-shadow: 5px 10px #008938;">
 			<!-- Before content -->
-			<div id="before-content" style=" background-color:  #cce2d8;">
-				<p class="govuk-body-s" style="margin-bottom: 0; color: #005a30; padding: 2px 8px 3px;
-	  text-align: center;"> Previews
-				</p>
+			<div id="before-content" style="background-color: #cce2d8;">
+				<p class="govuk-body-s"
+					style="margin-bottom: 0; color: #005a30; padding: 2px 8px 3px; text-align: center;">{{
+					commonTerms.form_editor.common.preview }}</p>
 			</div>
 
 			<div style="margin-top: 60px;">
 				{% from "govuk/components/tabs/macro.njk" import govukTabs %}
 
 				<div class="govuk-tabs" data-module="govuk-tabs">
-					<h2 class="govuk-tabs__title">
-						Contents
-					</h2>
+					<h2 class="govuk-tabs__title">{{ commonTerms.form_editor.common.contents }}</h2>
 					<ul class="govuk-tabs__list">
 						<li class="govuk-tabs__list-item govuk-tabs__list-item--selected">
-							<a class="govuk-tabs__tab" href="#tab-one">Radio option preview</a>
+							<a class="govuk-tabs__tab" href="#tab-one">{{
+								commonTerms.form_editor.information_type.list.types.radios.add_option }}</a>
 						</li>
 
 					</ul>
@@ -301,7 +295,7 @@ activeLinkId: "nav-editor"
 						<p class="govuk-body-s" style="margin-bottom: 30px; border-bottom: #008938 1px;">
 							<a href="#" class="govuk-link govuk-link--no-visited-state" rel="noreferrer noopener"
 								target="_blank">
-								Preview this page in a new tab
+								{{ commonTerms.form_editor.common.preview }}
 							</a>
 						</p>
 
@@ -309,7 +303,7 @@ activeLinkId: "nav-editor"
 
 						<a href="#edit-page" class="govuk-skip-link" style="margin-bottom: 30px!important;"
 							data-module="govuk-skip-link">
-							Skip to edit page
+							{{ commonTerms.form_editor.common.skip_to_edit }}
 						</a>
 					</div>
 
@@ -318,7 +312,6 @@ activeLinkId: "nav-editor"
 			</div>
 
 		</div>
-
 
 		<style>
 			.fauxlabel {
@@ -351,7 +344,7 @@ activeLinkId: "nav-editor"
 		<!-- Updated JavaScript -->
 		<script>
 			document.addEventListener('DOMContentLoaded', function () {
-				// DOM Elements for both previous functionality and new dynamic preview
+				// DOM Elements for dynamic preview and placeholders
 				const domElements = {
 					multiQuestionLabelInputRadios: document.getElementById('multi-question-label-input-radios'),
 					multiQuestionOutputRadios: document.getElementById('multi-question-output-radios'),
@@ -373,149 +366,120 @@ activeLinkId: "nav-editor"
 					optionValueInput: document.getElementById('option-value') // Additional value input
 				};
 
-				// Ensure that the DOM elements exist
+				// Ensure required DOM elements exist
 				if (!domElements.radioList || !domElements.optionLabelInput || !domElements.optionHintInput || !domElements.optionValueInput) {
 					console.error("One or more required elements not found");
 					return; // Exit early if the required elements are not found
 				}
-				// Listen for changes in the input fields (for preview update)
-				domElements.optionLabelInput.addEventListener('input', () => {
-					updatePreview();
-					applyHighlight('.govuk-radios__label');
-				});
-				domElements.optionHintInput.addEventListener('input', () => {
-					updatePreview();
-					applyHighlight('.govuk-radios__hint');
-				});
-				domElements.optionValueInput.addEventListener('input', updatePreview);
-
-				// Add focus/blur events for maintaining highlight
-				domElements.optionLabelInput.addEventListener('focus', () => applyHighlight('.govuk-radios__label'));
-				domElements.optionLabelInput.addEventListener('blur', () => removeHighlight('.govuk-radios__label'));
-
-				domElements.optionHintInput.addEventListener('focus', () => applyHighlight('.govuk-radios__hint'));
-				domElements.optionHintInput.addEventListener('blur', () => removeHighlight('.govuk-radios__hint'));
 
 				// Initial preview update
 				updatePreview();
 
-				// Function to update the preview based on the input values
+				// Add event listeners for placeholder and preview functionality
+				domElements.optionLabelInput.addEventListener('input', () => {
+					updatePreview();
+					applyHighlight('label');
+				});
+				domElements.optionHintInput.addEventListener('input', () => {
+					updateHintPreview();
+					applyHighlight('hint');
+				});
+				domElements.optionValueInput.addEventListener('input', updatePreview);
+
+				// Focus/blur handlers for placeholder text and highlights
+				domElements.optionLabelInput.addEventListener('focus', () => {
+					applyHighlight('label');
+				});
+				domElements.optionLabelInput.addEventListener('blur', () => {
+					removeHighlight('label');
+				});
+
+				domElements.optionHintInput.addEventListener('focus', () => {
+					applyHighlight('hint');
+					showHintPlaceholderInPreview("Hint text");
+				});
+				domElements.optionHintInput.addEventListener('blur', () => {
+					removeHighlight('hint');
+					removeHintPlaceholderFromPreview();
+				});
+
+				// Function to update the preview dynamically
 				function updatePreview() {
-					// Get values from the input fields
 					const optionLabelValue = domElements.optionLabelInput.value.trim();
-					const optionHintValue = domElements.optionHintInput.value.trim();
 					const optionValue = domElements.optionValueInput.value.trim();
 
 					// Clear the current preview
 					domElements.radioList.innerHTML = '';
 
-					// Only update if there is a value in the option label
-					if (optionLabelValue !== '') {
-						const newOptionHTML = `
-            <div class="govuk-radios__item">
-                <input class="govuk-radios__input" id="preview-option-1" name="listPreview" type="radio" value="${optionValue}" aria-describedby="preview-option-1-hint">
-                <label class="govuk-label govuk-radios__label" for="preview-option-1">
-                    ${optionLabelValue}
-                </label>
-                <div id="preview-option-1-hint" class="govuk-hint govuk-radios__hint">
-                    ${optionHintValue}
-                </div>
-            </div>
-        `;
-						// Add the new radio option to the preview
-						domElements.radioList.insertAdjacentHTML('beforeend', newOptionHTML);
-					} else {
-						// If the input is empty, show a placeholder message
-						domElements.radioList.innerHTML = '<p>Please enter an option label.</p>';
+					const newOptionHTML = `
+				<div class="govuk-radios__item">
+					<input
+						class="govuk-radios__input"
+						id="preview-option-1"
+						name="listPreview"
+						type="radio"
+						value="${optionValue || 'default-value'}"
+					>
+					<label class="govuk-label govuk-radios__label" for="preview-option-1">
+						${optionLabelValue || 'Option text'}
+					</label>
+					<div id="preview-option-1-hint" class="govuk-hint govuk-radios__hint"></div>
+				</div>
+			`;
+					domElements.radioList.insertAdjacentHTML('beforeend', newOptionHTML);
+
+					// Update the hint preview
+					updateHintPreview();
+				}
+
+				// Function to update the hint preview
+				function updateHintPreview() {
+					const optionHintValue = domElements.optionHintInput.value.trim();
+					const hintElement = domElements.radioList.querySelector('.govuk-radios__hint');
+
+					if (hintElement) {
+						hintElement.textContent = optionHintValue || '';
 					}
 				}
 
-				// Function to apply a highlight to the preview elements
-				function applyHighlight(selector) {
-					const targetElement = domElements.radioList.querySelector(selector);
+				// Function to show hint placeholder in the preview
+				function showHintPlaceholderInPreview(placeholderText) {
+					const hintElement = domElements.radioList.querySelector('.govuk-radios__hint');
+					if (hintElement && domElements.optionHintInput.value.trim() === '') {
+						hintElement.textContent = placeholderText;
+					}
+				}
+
+				// Function to remove hint placeholder from the preview
+				function removeHintPlaceholderFromPreview() {
+					const hintElement = domElements.radioList.querySelector('.govuk-radios__hint');
+					if (hintElement && domElements.optionHintInput.value.trim() === '') {
+						hintElement.textContent = '';
+					}
+				}
+
+				// Functions to apply/remove highlights
+				function applyHighlight(type) {
+					const targetElement = type === 'label'
+						? domElements.radioList.querySelector('.govuk-radios__label')
+						: domElements.radioList.querySelector('.govuk-radios__hint');
+
 					if (targetElement) {
 						targetElement.classList.add('highlight');
 					}
 				}
 
-				// Function to remove a highlight from the preview elements
-				function removeHighlight(selector) {
-					const targetElement = domElements.radioList.querySelector(selector);
+				function removeHighlight(type) {
+					const targetElement = type === 'label'
+						? domElements.radioList.querySelector('.govuk-radios__label')
+						: domElements.radioList.querySelector('.govuk-radios__hint');
+
 					if (targetElement) {
 						targetElement.classList.remove('highlight');
 					}
 				}
-
-
-				// Function to update the question label dynamically
-				function updateQuestionLabel() {
-					const suffix = domElements.makeOptionalCheckbox && domElements.makeOptionalCheckbox.checked ? ' (optional)' : '';
-					domElements.multiQuestionOutputRadios.textContent = (domElements.multiQuestionLabelInputRadios.value || 'Question') + suffix;
-				}
-
-				// Function to update the hint text dynamically
-				function updateHintText() {
-					domElements.multiQuestionHintTextOutputRadios.textContent = domElements.hintTextInput.value || '';
-				}
-
-				// Function to update the error message dynamically
-				function updateErrorMessage() {
-					domElements.errorDynamicText.textContent = domElements.errorMessageInput.value.trim() || '[short description]';
-				}
-
-				// Function to show placeholder hint for the input field
-				function showPlaceholderHint() {
-					if (!domElements.hintTextInput.value) {
-						domElements.multiQuestionHintTextOutputRadios.textContent = 'Hint text';
-					}
-				}
-
-				// Function to clear placeholder hint when input field is blurred
-				function clearPlaceholderHint() {
-					if (!domElements.hintTextInput.value) {
-						domElements.multiQuestionHintTextOutputRadios.textContent = '';
-					}
-				}
-
-				// Function to apply highlighting to focus elements
-				function applyHighlightOnFocus(inputElement, targetElement) {
-					if (inputElement && targetElement) {
-						inputElement.addEventListener('focus', () => targetElement.classList.add('highlight'));
-						inputElement.addEventListener('blur', () => targetElement.classList.remove('highlight'));
-
-						if (document.activeElement === inputElement) {
-							targetElement.classList.add('highlight');
-						}
-					}
-				}
-
-				// Listen for changes in the input fields for question label and dynamic text updates
-				function initializeEventListeners() {
-					if (domElements.multiQuestionLabelInputRadios && domElements.multiQuestionOutputRadios) {
-						domElements.multiQuestionLabelInputRadios.addEventListener('input', updateQuestionLabel);
-						applyHighlightOnFocus(domElements.multiQuestionLabelInputRadios, domElements.multiQuestionOutputRadios);
-					}
-
-					if (domElements.hintTextInput && domElements.multiQuestionHintTextOutputRadios) {
-						domElements.hintTextInput.addEventListener('input', updateHintText);
-						applyHighlightOnFocus(domElements.hintTextInput, domElements.multiQuestionHintTextOutputRadios);
-						domElements.hintTextInput.addEventListener('focus', showPlaceholderHint);
-						domElements.hintTextInput.addEventListener('blur', clearPlaceholderHint);
-					}
-
-					if (domElements.errorMessageInput && domElements.errorDynamicText) {
-						domElements.errorMessageInput.addEventListener('input', updateErrorMessage);
-						applyHighlightOnFocus(domElements.errorMessageInput, domElements.errorDynamicText);
-					}
-				}
-
-
-
-				// Initialize event listeners for question labels, hints, and error message updates
-				initializeEventListeners();
 			});
 		</script>
-
 
 
 		<script>
@@ -536,6 +500,7 @@ activeLinkId: "nav-editor"
 			});
 
 		</script>
+
 
 		<style>
 			.highlight {

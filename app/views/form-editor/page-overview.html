@@ -357,7 +357,7 @@ activeLinkId: "nav-editor"
 
                           <div class="govuk-button-group govuk-!-margin-top-6">
                             <button class="govuk-button" type="submit" name="saveChanges">
-                              {{ commonTerms.form_editor.actions.continue }}
+                              {{ commonTerms.form_editor.common.save }}
                             </button>
 
 
@@ -380,8 +380,7 @@ activeLinkId: "nav-editor"
                       </h1>
 
                       <p class="govuk-body">
-                        The selected conditions will be evaluated when the user reaches this page. If the conditions are
-                        not met then users will not be shown this page.
+                        Control whether this page is shown to users based on their answer to a previous question
                       </p>
 
                       {% if currentPage.conditions and currentPage.conditions.length > 0 %}

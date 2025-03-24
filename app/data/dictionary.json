@@ -20,12 +20,11 @@
       "there_is_a_problem": "There is a problem",
       "no_options": "No checkbox options added yet",
       "add_another_option": "Add another option",
-      "add_option": "Add option",
-      "edit_list": "Edit list",
+      "add_option": "Add item",
+      "edit_list": "Re-order",
       "move_up": "Move option up",
       "move_down": "Move option down",
       "remove_option": "Remove option",
-      "edit_option": "Edit",
       "option_number": "option number"
     },
     "navigation": {
@@ -177,40 +176,42 @@
           "checkboxes": {
             "title": "Checkboxes",
             "hint": "A list for users to select multiple answers",
-            "add_option": "Add checkbox option",
-            "edit_title": "Create and edit your list of options",
+            "add_option": "Add item",
+            "edit_title": "Create and edit list items",
+            "hint_text": "Use single short sentence without a full stop",
             "option": {
               "text": {
-                "label": "Option text",
-                "hint": "Enter an option for your list"
+                "label": "Item",
+                "hint": ""
               },
               "hint": {
                 "label": "Hint text (optional)",
-                "hint": "Provide additional information about this option"
+                "hint": "Use single short sentence without a full stop  "
               },
               "value": {
-                "label": "Option value",
-                "hint": "You can keep this the same as the option text unless you call it something different in your backend system"
+                "label": "Unique identifier (optional)",
+                "hint": "Used in databases to identify the item"
               }
             }
           },
           "radios": {
             "title": "Radios",
             "hint": "A list for users to select one answer",
-            "add_option": "Add radio option",
-            "edit_title": "Create and edit your list of options",
+            "add_option": "Add item",
+            "edit_title": "Create and edit list items",
+            "hint_text": "Use single short sentence without a full stop",
             "option": {
               "text": {
-                "label": "Option text",
-                "hint": "Enter an option for your list"
+                "label": "Item",
+                "hint": ""
               },
               "hint": {
                 "label": "Hint text (optional)",
-                "hint": "Provide additional information about this option"
+                "hint": "Use single short sentence without a full stop"
               },
               "value": {
-                "label": "Option value",
-                "hint": "You can keep this the same as the option text unless you call it something different in your backend system"
+                "label": "Unique identifier (optional)",
+                "hint": "Used in databases to identify the item"
               }
             }
           },
@@ -229,7 +230,7 @@
             "optional": "Make this question optional",
             "error": {
               "label": "Short description",
-              "hint": "Enter a short description for this question like 'licence period'. Short descriptions are used in error messages and on the check your answers page."
+              "hint": "Enter a short description for this question like 'fave animal'. Short descriptions are used in error messages and on the check your answers page."
             }
           }
         }
@@ -256,7 +257,7 @@
       "optional": "Make this question optional",
       "short_description": {
         "title": "Short description",
-        "hint": "Enter a short description for this question like 'licence period'. Short descriptions are used in error messages and on the check your answers page."
+        "hint": "Enter a short description for this question like 'fave animal'. Short descriptions are used in error messages and on the check your answers page."
       },
       "answer_limits": {
         "title": "Set answer limits (optional)",

@@ -1,27 +1,39 @@
-<div class="preview-item" data-id="question-{{ question.questionId }}">
-    <fieldset class="govuk-fieldset">
-        <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
-            {{ question.label or 'Default Label' }}
-        </legend>
+{% from "govuk/components/checkboxes/macro.njk" import govukCheckboxes %}
 
-        <div class="govuk-checkboxes" data-module="govuk-checkboxes">
-            {% if question.options and question.options | length > 0 %}
-            {% for option in question.options %}
-            <div class="govuk-checkboxes__item">
-                <input class="govuk-checkboxes__input" id="checkbox-{{ loop.index }}" name="previewCheckboxes"
-                    type="checkbox" value="{{ option.value }}">
-                <label class="govuk-label govuk-checkboxes__label" for="checkbox-{{ loop.index }}">
-                    {{ option.label }}
-                </label>
+{% if question %}
+{% set checkboxItems = [] %}
+{% if question.options and question.options.length > 0 %}
+{% for option in question.options %}
+{% set item = {
+"value": option.value if option.value else option.label,
+"text": option.label,
+"hint": {
+"text": option.hint
+} if option.hint else {}
+} %}
+{% set checkboxItems = (checkboxItems.push(item), checkboxItems) %}
+{% endfor %}
+{% endif %}
 
-                {% if option.hint %}
-                <div class="govuk-hint govuk-checkboxes__hint">{{ option.hint }}</div>
-                {% endif %}
-            </div>
-            {% endfor %}
-            {% else %}
-            <p class="govuk-body">No options available.</p>
-            {% endif %}
-        </div>
-    </fieldset>
-</div>
+{{ govukCheckboxes({
+idPrefix: "question-" + question.id,
+name: "question-" + question.id,
+fieldset: {
+legend: {
+text: question.label,
+isPageHeading: false,
+classes: "govuk-fieldset__legend--m"
+}
+},
+hint: {
+text: question.hint
+} if question.hint else {},
+items: checkboxItems if checkboxItems.length > 0 else [{
+text: "No options available",
+value: "no-options",
+disabled: true
+}]
+}) }}
+{% else %}
+<p class="govuk-body">No question data available to preview</p>
+{% endif %}
