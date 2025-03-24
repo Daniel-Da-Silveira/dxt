@@ -62,9 +62,10 @@ activeLinkId: "nav-editor"
 {% block content %}
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-full">
-        <div id="selected-filters" class="govuk-body govuk-!-margin-top-2" style="display: none;">
-            <span class="govuk-!-font-weight-bold">Active filters: </span>
-            <span id="filter-summary"></span>
+        <div id="selected-filters" class="govuk-inset-text govuk-!-margin-top-2" style="display: none;">
+            <h3 id="applied-filters-heading" class="govuk-heading-s">Applied filters:</h3>
+            <ul class="govuk-list govuk-list--bullet govuk-list--spaced" id="filter-summary">
+            </ul>
         </div>
     </div>
 </div>
@@ -83,10 +84,16 @@ activeLinkId: "nav-editor"
 
 <script>
     document.addEventListener('DOMContentLoaded', function () {
+        const filterButton = document.getElementById('apply-filter');
         const checkboxes = document.querySelectorAll('input[name="condition-filter"]');
         const filterSummary = document.getElementById('filter-summary');
         const selectedFilters = document.getElementById('selected-filters');
         const pageCards = document.querySelectorAll('.app-page-card');
+
+        if (!filterButton) {
+            console.error('Filter button not found');
+            return;
+        }
 
         function updatePages() {
             const selectedConditions = Array.from(checkboxes)
@@ -95,10 +102,13 @@ activeLinkId: "nav-editor"
 
             // Show/hide the filter summary
             if (selectedConditions.length > 0) {
-                filterSummary.textContent = selectedConditions.join(', ');
+                filterSummary.innerHTML = selectedConditions.map(condition =>
+                    `<li>${condition}</li>`
+                ).join('');
                 selectedFilters.style.display = 'block';
             } else {
                 selectedFilters.style.display = 'none';
+                filterSummary.innerHTML = '';
             }
 
             // Update page visibility
@@ -115,14 +125,28 @@ activeLinkId: "nav-editor"
 
                 card.style.display = shouldShow ? 'block' : 'none';
             });
+
+            // Update counter
+            const totalPages = pageCards.length;
+            const visiblePages = Array.from(pageCards).filter(card => card.style.display !== 'none').length;
+
+            const counterElement = document.getElementById('visible-pages-counter') ||
+                document.createElement('p');
+            counterElement.id = 'visible-pages-counter';
+            counterElement.className = 'govuk-body';
+            counterElement.innerHTML = selectedConditions.length > 0 ?
+                `Showing ${visiblePages} of ${totalPages} pages with selected conditions` :
+                `Showing all ${totalPages} pages`;
+
+            if (!document.getElementById('visible-pages-counter')) {
+                document.querySelector('.govuk-form-group').after(counterElement);
+            }
         }
 
-        // Handle checkboxes
-        checkboxes.forEach(checkbox => {
-            checkbox.addEventListener('change', updatePages);
-        });
+        // Only handle filter button click
+        filterButton.addEventListener('click', updatePages);
 
-        // Initial update
+        // Initial update to show all pages
         updatePages();
     });
 </script>
@@ -130,6 +154,7 @@ activeLinkId: "nav-editor"
 <div class="govuk-grid-row">
     <!-- Left column for filters -->
     <div class="govuk-grid-column-one-quarter">
+
         <aside id="search-filters" aria-describedby="search-filters-heading" class="app-search__filters">
             {% set uniqueConditions = [] %}
             {% for page in formPages %}
@@ -167,7 +192,7 @@ activeLinkId: "nav-editor"
             </div>
 
             <div id="search-buttons--header" class="govuk-button-group govuk-!-margin-bottom-4">
-                {{ govukButton({ text: "Apply filters" }) }}
+                {{ govukButton({ text: "Apply filters", id: "apply-filter" }) }}
                 {{ govukButton({
                 text: "Clear filters",
                 href: "?page=1&name=&author=&organisation=&status=&sort=updated-newest",
@@ -419,10 +444,6 @@ activeLinkId: "nav-editor"
                                                     {% if question.subType == 'radios' %}
                                                     {% set previewTemplate =
                                                     '/form-editor/question-type/questions/previews/radios-preview.html'
-                                                    %}
-                                                    {% elif question.subType == 'checkboxes' %}
-                                                    {% set previewTemplate =
-                                                    '/form-editor/question-type/questions/previews/checkboxes-preview.html'
                                                     %}
                                                     {% elif question.type == 'yes-no' %}
                                                     {% set previewTemplate =
@@ -952,208 +973,6 @@ activeLinkId: "nav-editor"
                     targetElement.focus();
                 }
             });
-        });
-    });
-</script>
-
-<script>
-    document.addEventListener("DOMContentLoaded", function () {
-        const dynamicCaption = document.getElementById("dynamic-caption");
-        const setName = dynamicCaption ? dynamicCaption.getAttribute("data-setname") : null;
-
-        if (!setName && dynamicCaption) {
-            dynamicCaption.style.display = "none";
-        }
-    });
-</script>
-
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        const filterButton = document.getElementById('apply-filter');
-        if (!filterButton) {
-            console.error('Filter button not found');
-            return;
-        }
-
-        const newFilterButton = filterButton.cloneNode(true);
-        filterButton.parentNode.replaceChild(newFilterButton, filterButton);
-
-        newFilterButton.addEventListener('click', function () {
-            const selectedCondition = document.getElementById('condition-filter').value;
-
-            // Get all edit links to identify pages
-            const editLinks = document.querySelectorAll('a[href^="/edit-page/"]');
-            console.log('Found pages:', editLinks.length);
-
-            editLinks.forEach(editLink => {
-                const pageId = editLink.getAttribute('href').split('/').pop();
-                const pageElement = editLink.closest('.page-row');
-
-                if (!pageElement) {
-                    console.log(`No page element found for ID ${pageId}`);
-                    return;
-                }
-
-                console.log(`\n=== Checking page ID: ${pageId} ===`);
-                console.log('Current display style:', pageElement.style.display);
-
-                // If no condition is selected, show all pages
-                if (!selectedCondition) {
-                    pageElement.style.display = '';
-                    console.log('No condition selected - showing page');
-                    return;
-                }
-
-                // Check if this page has conditions
-                const conditionsSection = pageElement.querySelector('.govuk-summary-list__row dt.govuk-summary-list__key');
-                const hasConditions = conditionsSection &&
-                    conditionsSection.textContent.trim() === 'Page shown when';
-
-                console.log('Has conditions section:', hasConditions);
-
-                // If page has no conditions, always show it
-                if (!hasConditions) {
-                    console.log(`Page ${pageId} has no conditions - explicitly setting to visible`);
-                    pageElement.style.removeProperty('display');
-                    return;
-                }
-
-                // Get all conditions for this page
-                const conditions = Array.from(pageElement.querySelectorAll('span[class*="font-weight-bold"]'))
-                    .map(span => span.textContent.trim());
-
-                console.log(`Page ${pageId} conditions:`, conditions);
-
-                // Show page if it has the selected condition
-                const hasMatchingCondition = conditions.includes(selectedCondition);
-                console.log(`Page ${pageId} matches condition: ${hasMatchingCondition}`);
-
-                if (hasMatchingCondition) {
-                    pageElement.style.removeProperty('display');
-                } else {
-                    pageElement.style.display = 'none';
-                }
-
-                console.log('Final display style:', pageElement.style.display);
-            });
-
-            // Update counter
-            const totalPages = editLinks.length;
-            const visiblePages = Array.from(document.querySelectorAll('.page-row'))
-                .filter(row => row.style.display !== 'none').length;
-
-            const counterElement = document.getElementById('visible-pages-counter') ||
-                document.createElement('p');
-            counterElement.id = 'visible-pages-counter';
-            counterElement.className = 'govuk-body';
-            counterElement.innerHTML = selectedCondition ?
-                `Showing ${visiblePages} of ${totalPages} pages with condition "${selectedCondition}"` :
-                `Showing all ${totalPages} pages`;
-
-            if (!document.getElementById('visible-pages-counter')) {
-                document.querySelector('.govuk-form-group').after(counterElement);
-            }
-        });
-    });
-</script>
-
-<script>
-    document.addEventListener("DOMContentLoaded", function () {
-        const dynamicCaption = document.getElementById("dynamic-caption");
-        const setName = dynamicCaption ? dynamicCaption.getAttribute("data-setname") : null;
-
-        if (!setName && dynamicCaption) {
-            dynamicCaption.style.display = "none";
-        }
-    });
-</script>
-
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        const filterButton = document.getElementById('apply-filter');
-        if (!filterButton) {
-            console.error('Filter button not found');
-            return;
-        }
-
-        const newFilterButton = filterButton.cloneNode(true);
-        filterButton.parentNode.replaceChild(newFilterButton, filterButton);
-
-        newFilterButton.addEventListener('click', function () {
-            const selectedCondition = document.getElementById('condition-filter').value;
-
-            // Get all edit links to identify pages
-            const editLinks = document.querySelectorAll('a[href^="/edit-page/"]');
-            console.log('Found pages:', editLinks.length);
-
-            editLinks.forEach(editLink => {
-                const pageId = editLink.getAttribute('href').split('/').pop();
-                const pageElement = editLink.closest('.page-row');
-
-                if (!pageElement) {
-                    console.log(`No page element found for ID ${pageId}`);
-                    return;
-                }
-
-                console.log(`\n=== Checking page ID: ${pageId} ===`);
-                console.log('Current display style:', pageElement.style.display);
-
-                // If no condition is selected, show all pages
-                if (!selectedCondition) {
-                    pageElement.style.display = '';
-                    console.log('No condition selected - showing page');
-                    return;
-                }
-
-                // Check if this page has conditions
-                const conditionsSection = pageElement.querySelector('.govuk-summary-list__row dt.govuk-summary-list__key');
-                const hasConditions = conditionsSection &&
-                    conditionsSection.textContent.trim() === 'Page shown when';
-
-                console.log('Has conditions section:', hasConditions);
-
-                // If page has no conditions, always show it
-                if (!hasConditions) {
-                    console.log(`Page ${pageId} has no conditions - explicitly setting to visible`);
-                    pageElement.style.removeProperty('display');
-                    return;
-                }
-
-                // Get all conditions for this page
-                const conditions = Array.from(pageElement.querySelectorAll('span[class*="font-weight-bold"]'))
-                    .map(span => span.textContent.trim());
-
-                console.log(`Page ${pageId} conditions:`, conditions);
-
-                // Show page if it has the selected condition
-                const hasMatchingCondition = conditions.includes(selectedCondition);
-                console.log(`Page ${pageId} matches condition: ${hasMatchingCondition}`);
-
-                if (hasMatchingCondition) {
-                    pageElement.style.removeProperty('display');
-                } else {
-                    pageElement.style.display = 'none';
-                }
-
-                console.log('Final display style:', pageElement.style.display);
-            });
-
-            // Update counter
-            const totalPages = editLinks.length;
-            const visiblePages = Array.from(document.querySelectorAll('.page-row'))
-                .filter(row => row.style.display !== 'none').length;
-
-            const counterElement = document.getElementById('visible-pages-counter') ||
-                document.createElement('p');
-            counterElement.id = 'visible-pages-counter';
-            counterElement.className = 'govuk-body';
-            counterElement.innerHTML = selectedCondition ?
-                `Showing ${visiblePages} of ${totalPages} pages with condition "${selectedCondition}"` :
-                `Showing all ${totalPages} pages`;
-
-            if (!document.getElementById('visible-pages-counter')) {
-                document.querySelector('.govuk-form-group').after(counterElement);
-            }
         });
     });
 </script>
