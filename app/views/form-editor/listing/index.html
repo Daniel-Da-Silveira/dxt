@@ -78,6 +78,7 @@ activeLinkId: "nav-editor"
         const selectedFilters = document.getElementById('selected-filters');
         const filterSummary = document.getElementById('filter-summary');
         const pageCards = document.querySelectorAll('.app-page-card');
+        const pagesCountElement = document.getElementById('pages-count');
 
         if (!applyFiltersButton) {
             console.error('Filter button not found');
@@ -117,17 +118,9 @@ activeLinkId: "nav-editor"
                 if (shouldShow) visiblePages++;
             });
 
-            // Update counter
-            const counterElement = document.getElementById('visible-pages-counter') ||
-                document.createElement('p');
-            counterElement.id = 'visible-pages-counter';
-            counterElement.className = 'govuk-body';
-            counterElement.innerHTML = selectedConditions.length > 0 ?
-                `Showing ${visiblePages} of ${pageCards.length} pages with selected conditions` :
-                `Showing all ${pageCards.length} pages`;
-
-            if (!document.getElementById('visible-pages-counter')) {
-                document.querySelector('.govuk-form-group').after(counterElement);
+            // Update the pages count heading
+            if (pagesCountElement) {
+                pagesCountElement.textContent = selectedConditions.length > 0 ? visiblePages : pageCards.length;
             }
         }
 
@@ -212,6 +205,14 @@ activeLinkId: "nav-editor"
 
     <!-- Right column for pages -->
     <div class="govuk-grid-column-three-quarters">
+        <h2 class="govuk-heading-m" id="pages-count-heading">
+            <span class="govuk-visually-hidden">Pages</span>
+            <span id="pages-count">{{ formPages.length }}</span>
+            pages
+        </h2>
+
+        <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
+
         {% if formPages.length %}
         {% for page in formPages %}
         {% if page.questions and page.questions.length > 0 or page.pageType == 'guidance' %}

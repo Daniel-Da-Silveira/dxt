@@ -1245,6 +1245,22 @@ activeLinkId: "nav-editor"
 							value="${hintInput.value}">
 					</div>
 
+					<!-- Advanced Features Section -->
+					<details class="govuk-details" data-module="govuk-details">
+						<summary class="govuk-details__summary">
+							<span class="govuk-details__summary-text">Advanced features</span>
+						</summary>
+						<div class="govuk-details__text">
+							<!-- Additional Value -->
+							<div class="govuk-form-group">
+								<label class="govuk-label govuk-label--m" for="edit-option-value">Unique identifier (optional)</label>
+								<div class="govuk-hint">Used in databases to identify the item</div>
+								<input class="govuk-input" id="edit-option-value" name="edit-value" type="text" 
+									value="${listItem.querySelector('.option-value-input')?.value || ''}">
+							</div>
+						</div>
+					</details>
+
 					<div class="govuk-button-group">
 						<button type="button" class="govuk-button save-edit-button">Save changes</button>
 						<a class="govuk-link cancel-edit-link" href="#">Cancel</a>
@@ -1255,6 +1271,7 @@ activeLinkId: "nav-editor"
 			// Hide the display elements
 			labelDisplay.style.display = 'none';
 			editLink.style.display = 'none';
+			listItem.querySelector('.delete-option-link').style.display = 'none';
 
 			// Insert the edit form
 			listItem.querySelector('.gem-c-reorderable-list__content').insertAdjacentHTML('beforeend', editFormHTML);
@@ -1273,11 +1290,23 @@ activeLinkId: "nav-editor"
 			saveButton.addEventListener('click', () => {
 				const newLabel = editLabelInput.value.trim();
 				const newHint = editHintInput.value.trim();
+				const newValue = editForm.querySelector('#edit-option-value')?.value.trim() || '';
 
 				// Update the values
 				labelDisplay.textContent = newLabel;
 				labelInput.value = newLabel;
 				hintInput.value = newHint;
+
+				// Update or create the value input
+				let valueInput = listItem.querySelector('.option-value-input');
+				if (!valueInput) {
+					valueInput = document.createElement('input');
+					valueInput.type = 'hidden';
+					valueInput.className = 'option-value-input';
+					valueInput.name = `option[${listItem.dataset.index}][option_value]`;
+					listItem.querySelector('.gem-c-reorderable-list__content').appendChild(valueInput);
+				}
+				valueInput.value = newValue;
 
 				// Restore the display
 				restoreItemDisplay(listItem);
@@ -1301,12 +1330,75 @@ activeLinkId: "nav-editor"
 			editHintInput.addEventListener('input', () => {
 				updateEditPreview(listItem, editLabelInput.value, editHintInput.value);
 			});
+
+			// Add focus/blur event listeners for highlighting
+			editLabelInput.addEventListener('focus', () => {
+				const previewItem = document.querySelector(`#listPreview-option${listItem.dataset.index - 1}`).closest('.govuk-radios__item');
+				if (previewItem) {
+					const labelElement = previewItem.querySelector('.govuk-radios__label');
+					if (labelElement) {
+						labelElement.classList.add('highlight');
+					}
+				}
+			});
+
+			editLabelInput.addEventListener('blur', () => {
+				const previewItem = document.querySelector(`#listPreview-option${listItem.dataset.index - 1}`).closest('.govuk-radios__item');
+				if (previewItem) {
+					const labelElement = previewItem.querySelector('.govuk-radios__label');
+					if (labelElement) {
+						labelElement.classList.remove('highlight');
+					}
+				}
+			});
+
+			editHintInput.addEventListener('focus', () => {
+				const previewItem = document.querySelector(`#listPreview-option${listItem.dataset.index - 1}`).closest('.govuk-radios__item');
+				if (previewItem) {
+					let hintElement = previewItem.querySelector('.govuk-radios__hint');
+					if (!hintElement) {
+						hintElement = document.createElement('div');
+						hintElement.className = 'govuk-hint govuk-radios__hint';
+						hintElement.textContent = editHintInput.value || 'Hint text';
+						previewItem.appendChild(hintElement);
+					}
+					hintElement.classList.add('highlight');
+				}
+			});
+
+			editHintInput.addEventListener('blur', () => {
+				const previewItem = document.querySelector(`#listPreview-option${listItem.dataset.index - 1}`).closest('.govuk-radios__item');
+				if (previewItem) {
+					const hintElement = previewItem.querySelector('.govuk-radios__hint');
+					if (hintElement) {
+						hintElement.classList.remove('highlight');
+						if (!editHintInput.value.trim() && hintElement.textContent === 'Hint text') {
+							hintElement.remove();
+						}
+					}
+				}
+			});
+
+			// Update preview immediately to show current state
+			updateEditPreview(listItem, editLabelInput.value, editHintInput.value);
+
+			// If label input is already focused, apply highlight immediately
+			if (document.activeElement === editLabelInput) {
+				const previewItem = document.querySelector(`#listPreview-option${listItem.dataset.index - 1}`).closest('.govuk-radios__item');
+				if (previewItem) {
+					const labelElement = previewItem.querySelector('.govuk-radios__label');
+					if (labelElement) {
+						labelElement.classList.add('highlight');
+					}
+				}
+			}
 		}
 
 		// Function to restore item to display mode
 		function restoreItemDisplay(listItem) {
 			const labelDisplay = listItem.querySelector('.option-label-display');
 			const editLink = listItem.querySelector('.edit-item a');
+			const deleteLink = listItem.querySelector('.delete-option-link');
 			const editForm = listItem.querySelector('.edit-option-form');
 
 			if (editForm) {
@@ -1315,6 +1407,9 @@ activeLinkId: "nav-editor"
 
 			labelDisplay.style.display = 'block';
 			editLink.style.display = 'inline-block';
+			if (deleteLink) {
+				deleteLink.style.display = 'inline-block';
+			}
 		}
 
 		// Function to update preview while editing

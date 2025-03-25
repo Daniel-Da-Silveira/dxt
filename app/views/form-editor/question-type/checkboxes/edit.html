@@ -1273,6 +1273,11 @@ activeLinkId: "nav-editor"
 					editItem.style.display = 'none';
 				}
 
+				const deleteLink = listItem.querySelector('.delete-option-link');
+				if (deleteLink) {
+					deleteLink.style.display = 'none';
+				}
+
 				const index = listItem.dataset.index;
 				const labelDisplay = listItem.querySelector('.option-label-display');
 				const labelInput = listItem.querySelector('.option-label-input-hidden');
@@ -1331,25 +1336,21 @@ activeLinkId: "nav-editor"
 				// Add event listeners for the edit form
 				const saveButton = document.getElementById(`save-edit-${index}`);
 				const cancelButton = document.getElementById(`cancel-edit-${index}`);
-				const newLabelInput = document.getElementById(`edit-option-label-${index}`);
-				const newHintInput = document.getElementById(`edit-option-hint-${index}`);
+				const editLabelInput = document.getElementById(`edit-option-label-${index}`);
+				const editHintInput = document.getElementById(`edit-option-hint-${index}`);
 				const newValueInput = document.getElementById(`edit-option-value-${index}`);
 
-				if (!saveButton || !cancelButton || !newLabelInput || !newHintInput || !newValueInput) {
+				if (!saveButton || !cancelButton || !editLabelInput || !editHintInput || !newValueInput) {
 					console.error('Form elements not found'); // Debug log
 					return;
 				}
 
 				// Function to update preview for the edited item
-				function updateEditPreview() {
+				function updateEditPreview(listItem, labelValue, hintValue) {
 					const checkboxList = document.querySelector('#checkbox-list .govuk-checkboxes');
 					if (!checkboxList) return;
 
-					const labelValue = newLabelInput.value.trim();
-					const hintValue = newHintInput.value.trim();
-
-					// Update the preview item
-					const previewItem = checkboxList.querySelector(`#listPreview-option${index - 1}`).closest('.govuk-checkboxes__item');
+					const previewItem = checkboxList.querySelector(`#listPreview-option${listItem.dataset.index - 1}`).closest('.govuk-checkboxes__item');
 					if (previewItem) {
 						const labelElement = previewItem.querySelector('.govuk-checkboxes__label');
 						const hintElement = previewItem.querySelector('.govuk-checkboxes__hint');
@@ -1358,7 +1359,7 @@ activeLinkId: "nav-editor"
 							labelElement.textContent = labelValue || 'Option text';
 						}
 
-						if (hintValue || document.activeElement === newHintInput) {
+						if (hintValue || document.activeElement === editHintInput) {
 							if (!hintElement) {
 								const newHintElement = document.createElement('div');
 								newHintElement.className = 'govuk-hint govuk-checkboxes__hint';
@@ -1374,12 +1375,12 @@ activeLinkId: "nav-editor"
 				}
 
 				// Add live preview event listeners
-				newLabelInput.addEventListener('input', updateEditPreview);
-				newHintInput.addEventListener('input', updateEditPreview);
+				editLabelInput.addEventListener('input', () => updateEditPreview(listItem, editLabelInput.value, editHintInput.value));
+				editHintInput.addEventListener('input', () => updateEditPreview(listItem, editLabelInput.value, editHintInput.value));
 
 				// Add focus/blur event listeners for highlighting
-				newLabelInput.addEventListener('focus', () => {
-					const previewItem = document.querySelector(`#listPreview-option${index - 1}`).closest('.govuk-checkboxes__item');
+				editLabelInput.addEventListener('focus', () => {
+					const previewItem = document.querySelector(`#listPreview-option${listItem.dataset.index - 1}`).closest('.govuk-checkboxes__item');
 					if (previewItem) {
 						const labelElement = previewItem.querySelector('.govuk-checkboxes__label');
 						if (labelElement) {
@@ -1388,8 +1389,8 @@ activeLinkId: "nav-editor"
 					}
 				});
 
-				newLabelInput.addEventListener('blur', () => {
-					const previewItem = document.querySelector(`#listPreview-option${index - 1}`).closest('.govuk-checkboxes__item');
+				editLabelInput.addEventListener('blur', () => {
+					const previewItem = document.querySelector(`#listPreview-option${listItem.dataset.index - 1}`).closest('.govuk-checkboxes__item');
 					if (previewItem) {
 						const labelElement = previewItem.querySelector('.govuk-checkboxes__label');
 						if (labelElement) {
@@ -1398,27 +1399,27 @@ activeLinkId: "nav-editor"
 					}
 				});
 
-				newHintInput.addEventListener('focus', () => {
-					const previewItem = document.querySelector(`#listPreview-option${index - 1}`).closest('.govuk-checkboxes__item');
+				editHintInput.addEventListener('focus', () => {
+					const previewItem = document.querySelector(`#listPreview-option${listItem.dataset.index - 1}`).closest('.govuk-checkboxes__item');
 					if (previewItem) {
 						let hintElement = previewItem.querySelector('.govuk-checkboxes__hint');
 						if (!hintElement) {
 							hintElement = document.createElement('div');
 							hintElement.className = 'govuk-hint govuk-checkboxes__hint';
-							hintElement.textContent = 'Hint text';
+							hintElement.textContent = editHintInput.value || 'Hint text';
 							previewItem.appendChild(hintElement);
 						}
 						hintElement.classList.add('highlight');
 					}
 				});
 
-				newHintInput.addEventListener('blur', () => {
-					const previewItem = document.querySelector(`#listPreview-option${index - 1}`).closest('.govuk-checkboxes__item');
+				editHintInput.addEventListener('blur', () => {
+					const previewItem = document.querySelector(`#listPreview-option${listItem.dataset.index - 1}`).closest('.govuk-checkboxes__item');
 					if (previewItem) {
 						const hintElement = previewItem.querySelector('.govuk-checkboxes__hint');
 						if (hintElement) {
 							hintElement.classList.remove('highlight');
-							if (!newHintInput.value.trim() && hintElement.textContent === 'Hint text') {
+							if (!editHintInput.value.trim() && hintElement.textContent === 'Hint text') {
 								hintElement.remove();
 							}
 						}
@@ -1427,8 +1428,8 @@ activeLinkId: "nav-editor"
 
 				// Save changes
 				saveButton.addEventListener('click', function () {
-					const newLabel = newLabelInput.value.trim();
-					const newHint = newHintInput.value.trim();
+					const newLabel = editLabelInput.value.trim();
+					const newHint = editHintInput.value.trim();
 					const newValue = newValueInput.value.trim();
 
 					// Update the display and hidden inputs
@@ -1443,6 +1444,7 @@ activeLinkId: "nav-editor"
 					const deleteLink = listItem.querySelector('.delete-option-link');
 					if (deleteLink) {
 						deleteLink.href = `delete-option.html?index=${index}&text=${encodeURIComponent(newLabel)}`;
+						deleteLink.style.display = 'inline-block';
 					}
 
 					// Show the edit and delete links again
@@ -1462,11 +1464,14 @@ activeLinkId: "nav-editor"
 					if (editItem) {
 						editItem.style.display = 'block';
 					}
+					if (deleteLink) {
+						deleteLink.style.display = 'inline-block';
+					}
 					updateAllOptionsPreview(); // Restore the original preview state
 				});
 
 				// Focus on the label input
-				newLabelInput.focus();
+				editLabelInput.focus();
 			}
 		});
 	});

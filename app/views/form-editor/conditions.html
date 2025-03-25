@@ -93,12 +93,7 @@ activeLinkId: "nav-editor"
                           class="{% if conditions and conditions | length %}govuk-!-margin-top-4{% else %}govuk-visually-hidden{% endif %}"
                           style="background-color: white; padding: 15px; border-left: #008938 solid 5px; margin-bottom: 30px !important;">
                           <h2 class="govuk-heading-m">
-                            <svg class="govuk-!-margin-right-2" style="position: relative; top: 2px" width="24"
-                              height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                              <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2" />
-                              <circle cx="12" cy="12" r="4" fill="currentColor" />
-                            </svg>
-                            <span id="condition-counter">{{ conditions | length }}</span> Added conditions
+                            <span id="condition-counter">{{ conditions | length }}</span> added conditions
                           </h2>
                           <dl id="conditions-list" class="govuk-summary-list">
                             {% for condition in conditions %}
@@ -231,6 +226,13 @@ activeLinkId: "nav-editor"
                           {% endif %}
                           {% endfor %}
 
+                          {% set _ = radioItems.push({
+                          value: "new",
+                          text: "Create a new condition",
+                          conditional: {
+                          html: newConditionMarkup | safe
+                          }
+                          }) %}
                           {% if hasConditions %}
                           {% set _ = radioItems.push({
                           value: "existing",
@@ -240,7 +242,7 @@ activeLinkId: "nav-editor"
                           label: { text: commonTerms.form_editor.conditions.select_existing },
                           id: "existing-condition",
                           items: [
-                          { value: "", text: "Select a condition" }
+                          { value: "", text: "Select existing condition" }
                           ].concat(existingConditions)
                           }) + govukButton({
                           text: commonTerms.form_editor.conditions.add_existing_button,
@@ -250,13 +252,6 @@ activeLinkId: "nav-editor"
                           }
                           }) %}
                           {% endif %}
-                          {% set _ = radioItems.push({
-                          value: "new",
-                          text: "Create a new condition",
-                          conditional: {
-                          html: newConditionMarkup | safe
-                          }
-                          }) %}
 
                           {{ govukRadios({
                           name: "conditionType",
@@ -275,11 +270,7 @@ activeLinkId: "nav-editor"
 
                         </div>
 
-                        <!-- Save Condition Button (Always Present) -->
-                        {# <button class="govuk-button govuk-button--inverse govuk-!-margin-top-6"
-                          id="add-new-condition">
-                          Save condition
-                        </button> #}
+
                       </div>
 
                       <a href="#tab-one" class="govuk-skip-link" style="margin-bottom: 30px!important;"
