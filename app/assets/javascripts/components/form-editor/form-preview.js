@@ -215,6 +215,9 @@ class FormPreview {
       case "file":
         html = this.renderFileUpload(question, questionId, labelSize);
         break;
+      case "address":
+        html = this.renderAddress(question, questionId, labelSize);
+        break;
       default:
         html = this.renderTextInput(question, questionId, labelSize);
     }
@@ -452,6 +455,58 @@ class FormPreview {
                 <input class="govuk-file-upload" id="${id}" name="${id}" type="file">
           </div>
         `;
+  }
+
+  renderAddress(question, id, labelSize) {
+    return `
+      <div class="govuk-form-group">
+        <fieldset class="govuk-fieldset">
+          <legend class="govuk-fieldset__legend govuk-fieldset__legend--${labelSize}">
+            ${question.label}
+          </legend>
+          ${
+            question.hint
+              ? `<div id="${id}-hint" class="govuk-hint">${question.hint}</div>`
+              : ""
+          }
+          
+          <div class="govuk-form-group">
+            <label class="govuk-label" for="${id}-line-1">
+              Building and street <span class="govuk-visually-hidden">line 1 of 2</span>
+            </label>
+            <input class="govuk-input" id="${id}-line-1" name="${id}-line-1" type="text">
+          </div>
+
+          <div class="govuk-form-group">
+            <label class="govuk-label" for="${id}-line-2">
+              <span class="govuk-visually-hidden">Building and street line 2 of 2</span>
+            </label>
+            <input class="govuk-input" id="${id}-line-2" name="${id}-line-2" type="text">
+          </div>
+
+          <div class="govuk-form-group">
+            <label class="govuk-label" for="${id}-town">
+              Town or city
+            </label>
+            <input class="govuk-input govuk-!-width-two-thirds" id="${id}-town" name="${id}-town" type="text">
+          </div>
+
+          <div class="govuk-form-group">
+            <label class="govuk-label" for="${id}-county">
+              County
+            </label>
+            <input class="govuk-input govuk-!-width-two-thirds" id="${id}-county" name="${id}-county" type="text">
+          </div>
+
+          <div class="govuk-form-group">
+            <label class="govuk-label" for="${id}-postcode">
+              Postcode
+            </label>
+            <input class="govuk-input govuk-input--width-10" id="${id}-postcode" name="${id}-postcode" type="text">
+          </div>
+        </fieldset>
+      </div>
+    `;
   }
 
   handleContinue() {

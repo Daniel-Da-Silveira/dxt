@@ -335,7 +335,7 @@ activeLinkId: "nav-editor"
 														text: "Type of information"
 														},
 														value: {
-														html: "List: radios"
+														html: "List: checkboxes"
 														},
 														actions: {
 														items: [
@@ -449,7 +449,7 @@ activeLinkId: "nav-editor"
 		border: 0;
 		/* font-size: 1rem; */
 		margin: 0;
-		padding: 0.5rem;
+
 	}
 
 	.govuk-radios__item label {
@@ -699,7 +699,7 @@ activeLinkId: "nav-editor"
 				checkboxList.innerHTML = `
 					<div class="govuk-checkboxes__item">
 						<input class="govuk-checkboxes__input" id="listPreview-option-new" name="listPreview" type="checkbox">
-						<label class="govuk-label govuk-checkboxes__label" for="listPreview-option-new">Option text</label>
+						<label class="govuk-label govuk-checkboxes__label" for="listPreview-option-new">Item text</label>
 					</div>
 				`;
 				applyHighlight('label');
@@ -742,9 +742,15 @@ activeLinkId: "nav-editor"
 				// Edit existing item
 				const listItem = document.querySelector(`.gem-c-reorderable-list__item[data-index="${editIndex}"]`);
 				if (listItem) {
-					listItem.querySelector('.option-label-display').textContent = labelValue;
-					listItem.querySelector('.option-label-input-hidden').value = labelValue;
-					listItem.querySelector('.option-hint-input').value = hintValue;
+					const contentDiv = listItem.querySelector('.gem-c-reorderable-list__content');
+					contentDiv.innerHTML = `
+						<div class="govuk-!-margin-bottom-2">
+							<p class="govuk-body fauxlabel option-label-display" id="option-${editIndex}-label-display">${labelValue}</p>
+							${hintValue ? `<p class="govuk-body govuk-!-margin-top-0 govuk-!-margin-bottom-0" style="color: #505a5f;">${hintValue}</p>` : ''}
+						</div>
+						<input type="hidden" id="option-${editIndex}-label" class="option-label-input-hidden" name="option[${editIndex}][option_label]" value="${labelValue}">
+						<input type="hidden" id="option-${editIndex}-hint" class="option-hint-input" name="option[${editIndex}][option_hint]" value="${hintValue}">
+					`;
 
 					// Update the delete link with the new text
 					const deleteLink = listItem.querySelector('.delete-option-link');
@@ -764,19 +770,16 @@ activeLinkId: "nav-editor"
 					<li class="gem-c-reorderable-list__item" draggable="true" data-index="${newIndex + 1}">
 						<div class="gem-c-reorderable-list__wrapper">
 							<div class="gem-c-reorderable-list__content">
-								<p class="govuk-body fauxlabel option-label-display" id="option-${newIndex + 1}-label-display">
-									${labelValue}
-								</p>
-								<input type="hidden" id="option-${newIndex + 1}-label" class="option-label-input-hidden" 
-									name="option[${newIndex + 1}][option_label]" value="${labelValue}">
-								<input type="hidden" id="option-${newIndex + 1}-hint" class="option-hint-input"
-									name="option[${newIndex + 1}][option_hint]" value="${hintValue}">
+								<div class="govuk-!-margin-bottom-2">
+									<p class="govuk-body fauxlabel option-label-display" id="option-${newIndex + 1}-label-display">${labelValue}</p>
+									${hintValue ? `<p class="govuk-body-s govuk-!-margin-top-0 govuk-!-margin-bottom-0" style="color: #505a5f;">${hintValue}</p>` : ''}
+								</div>
+								<input type="hidden" id="option-${newIndex + 1}-label" class="option-label-input-hidden" name="option[${newIndex + 1}][option_label]" value="${labelValue}">
+								<input type="hidden" id="option-${newIndex + 1}-hint" class="option-hint-input" name="option[${newIndex + 1}][option_hint]" value="${hintValue}">
 							</div>
 							<div class="gem-c-reorderable-list__actions">
-								<button class="gem-c-button govuk-button govuk-button--secondary js-reorderable-list-up"
-									type="button" aria-label="Move option up">Up</button>
-								<button class="gem-c-button govuk-button govuk-button--secondary js-reorderable-list-down"
-									type="button" aria-label="Move option down">Down</button>
+								<button class="gem-c-button govuk-button govuk-button--secondary js-reorderable-list-up" type="button" aria-label="Move option up">Up</button>
+								<button class="gem-c-button govuk-button govuk-button--secondary js-reorderable-list-down" type="button" aria-label="Move option down">Down</button>
 							</div>
 							<div class="edit-item">
 								<ul class="govuk-summary-list__actions-list">
@@ -872,7 +875,7 @@ activeLinkId: "nav-editor"
 					const newOptionPreview = `
 						<div class="govuk-checkboxes__item">
 							<input class="govuk-checkboxes__input" id="listPreview-option-new" name="listPreview" type="checkbox" value="${valueAttr}">
-							<label class="govuk-label govuk-checkboxes__label" for="listPreview-option-new">${labelValue || 'Option text'}</label>
+							<label class="govuk-label govuk-checkboxes__label" for="listPreview-option-new">${labelValue || 'Item text'}</label>
 							${hintValue || document.activeElement === newOptionHint ? `<div class="govuk-hint govuk-checkboxes__hint">${hintValue || 'Hint text'}</div>` : ''}
 						</div>
 					`;
@@ -1356,7 +1359,7 @@ activeLinkId: "nav-editor"
 						const hintElement = previewItem.querySelector('.govuk-checkboxes__hint');
 
 						if (labelElement) {
-							labelElement.textContent = labelValue || 'Option text';
+							labelElement.textContent = labelValue || 'Item text';
 						}
 
 						if (hintValue || document.activeElement === editHintInput) {
@@ -1434,10 +1437,12 @@ activeLinkId: "nav-editor"
 
 					// Update the display and hidden inputs
 					contentDiv.innerHTML = `
-						<p class="govuk-body fauxlabel option-label-display" id="option-${index}-label-display">${newLabel}</p>
+						<div class="govuk-!-margin-bottom-2">
+							<p class="govuk-body fauxlabel option-label-display" id="option-${index}-label-display">${newLabel}</p>
+							${newHint ? `<p class="govuk-body-s govuk-!-margin-top-0 govuk-!-margin-bottom-0" style="color: #505a5f;">${newHint}</p>` : ''}
+						</div>
 						<input type="hidden" id="option-${index}-label" class="option-label-input-hidden" name="option[${index}][option_label]" value="${newLabel}">
 						<input type="hidden" id="option-${index}-hint" class="option-hint-input" name="option[${index}][option_hint]" value="${newHint}">
-						<input type="hidden" id="option-${index}-value" class="option-value-input" name="option[${index}][option_value]" value="${newValue}">
 					`;
 
 					// Update the delete link with the new text
@@ -1476,7 +1481,6 @@ activeLinkId: "nav-editor"
 		});
 	});
 </script>
-
 <script>
 	document.addEventListener('DOMContentLoaded', function () {
 		const urlParams = new URLSearchParams(window.location.search);
@@ -1519,6 +1523,4 @@ activeLinkId: "nav-editor"
 			console.log("second-container or border-left-container-textarea not found");
 		}
 	});
-</script>
-
-{% endblock %}
+</script>{% endblock %}

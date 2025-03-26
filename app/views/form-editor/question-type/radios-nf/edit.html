@@ -178,9 +178,18 @@ activeLinkId: "nav-editor"
 																data-index="{{ loop.index }}">
 																<div class="gem-c-reorderable-list__wrapper">
 																	<div class="gem-c-reorderable-list__content">
-																		<p class="govuk-body fauxlabel option-label-display"
-																			id="option-{{ loop.index }}-label-display">
-																			{{ radio.label }}</p>
+																		<div class="govuk-!-margin-bottom-2">
+																			<p class="govuk-body fauxlabel option-label-display"
+																				id="option-{{ loop.index }}-label-display">
+																				{{ radio.label }}
+																			</p>
+																			{% if radio.hint %}
+																			<p class="govuk-body-s govuk-!-margin-top-0 govuk-!-margin-bottom-0"
+																				style="color: #505a5f;">
+																				{{ radio.hint }}
+																			</p>
+																			{% endif %}
+																		</div>
 																		<input type="hidden"
 																			id="option-{{ loop.index }}-label"
 																			name="option[{{ loop.index }}][option_label]"
@@ -433,7 +442,7 @@ activeLinkId: "nav-editor"
 		border: 0;
 		/* font-size: 1rem; */
 		margin: 0;
-		padding: 0.5rem;
+
 	}
 
 	.govuk-radios__item label {
@@ -611,7 +620,7 @@ activeLinkId: "nav-editor"
 		function initializeQuestionPreview() {
 			if (questionLabelInput && questionLabelPreview) {
 				const labelValue = questionLabelInput.value.trim();
-				questionLabelPreview.textContent = labelValue || 'Question text';
+				questionLabelPreview.textContent = labelValue || 'Question';
 			}
 
 			if (questionHintInput && questionHintPreview) {
@@ -629,7 +638,7 @@ activeLinkId: "nav-editor"
 		if (questionLabelInput && questionLabelPreview) {
 			questionLabelInput.addEventListener('input', () => {
 				const value = questionLabelInput.value.trim();
-				questionLabelPreview.textContent = value || 'Question text';
+				questionLabelPreview.textContent = value || 'Question';
 			});
 
 			questionLabelInput.addEventListener('focus', () => {
@@ -683,7 +692,7 @@ activeLinkId: "nav-editor"
 				radioList.innerHTML = `
 					<div class="govuk-radios__item">
 						<input class="govuk-radios__input" id="listPreview-option-new" name="listPreview" type="radio">
-						<label class="govuk-label govuk-radios__label" for="listPreview-option-new">Option text</label>
+						<label class="govuk-label govuk-radios__label" for="listPreview-option-new">Item text</label>
 					</div>
 				`;
 				applyHighlight('label');
@@ -730,6 +739,11 @@ activeLinkId: "nav-editor"
 							<p class="govuk-body fauxlabel option-label-display" id="option-${newIndex + 1}-label-display">
 								${labelValue}
 							</p>
+							${newOptionHint.value.trim() ? `
+							<p class="govuk-body fauxlabel option-label-display" style="color: #505a5f;">
+								${newOptionHint.value}
+							</p>
+							` : ''}
 							<input type="hidden" id="option-${newIndex + 1}-label" class="option-label-input-hidden" 
 								name="option[${newIndex + 1}][option_label]" value="${labelValue}">
 							<input type="hidden" id="option-${newIndex + 1}-hint" class="option-hint-input"
@@ -832,7 +846,7 @@ activeLinkId: "nav-editor"
 					const newOptionPreview = `
 						<div class="govuk-radios__item">
 							<input class="govuk-radios__input" id="listPreview-option-new" name="listPreview" type="radio" value="${valueAttr}">
-							<label class="govuk-label govuk-radios__label" for="listPreview-option-new">${labelValue || 'Option text'}</label>
+							<label class="govuk-label govuk-radios__label" for="listPreview-option-new">${labelValue || 'Item text'}</label>
 							${hintValue || document.activeElement === newOptionHint ? `<div class="govuk-hint govuk-radios__hint">${hintValue || 'Hint text'}</div>` : ''}
 						</div>
 					`;
@@ -1083,7 +1097,7 @@ activeLinkId: "nav-editor"
 		// Add hover handlers for list items in edit mode
 		document.addEventListener('mouseover', function (e) {
 			const listItem = e.target.closest('.gem-c-reorderable-list__item');
-			if (listItem && editOptionsButton.textContent.trim() === 'Edit list') {
+			if (listItem && editOptionsButton.textContent.trim() === 'Re-order') {
 				const index = Array.from(listItem.parentNode.children).indexOf(listItem);
 				highlightPreviewItem(index);
 			}
@@ -1091,7 +1105,7 @@ activeLinkId: "nav-editor"
 
 		document.addEventListener('mouseout', function (e) {
 			const listItem = e.target.closest('.gem-c-reorderable-list__item');
-			if (listItem && editOptionsButton.textContent.trim() === 'Edit list') {
+			if (listItem && editOptionsButton.textContent.trim() === 'Re-order') {
 				removePreviewHighlights();
 			}
 		});
@@ -1107,9 +1121,9 @@ activeLinkId: "nav-editor"
 
 				// Toggle button text and state
 				const isEditing = editOptionsButton.textContent.trim() === 'Done';
-				editOptionsButton.textContent = isEditing ? 'Edit list' : 'Done';
+				editOptionsButton.textContent = isEditing ? 'Re-order' : 'Done';
 
-				// Toggle button style - add inverse when NOT editing (showing "Edit list")
+				// Toggle button style - add inverse when NOT editing (showing "Re-order")
 				if (isEditing) {
 					editOptionsButton.classList.add('govuk-button--inverse');
 				} else {
@@ -1421,7 +1435,7 @@ activeLinkId: "nav-editor"
 				const label = previewItem.querySelector('.govuk-radios__label');
 				let hint = previewItem.querySelector('.govuk-radios__hint');
 
-				label.textContent = labelValue || 'Option text';
+				label.textContent = labelValue || 'Item text';
 
 				if (hintValue) {
 					if (!hint) {

@@ -326,6 +326,8 @@ router.post("/question-configuration-save", function (req, res) {
     finalSubType = dateSubType;
   } else if (questionType === "list") {
     finalSubType = listSubType;
+  } else if (questionType === "address") {
+    finalSubType = "address";
   }
 
   // 5. Capture the question label
@@ -382,7 +384,12 @@ router.post("/question-configuration-save", function (req, res) {
   }
 
   // 6. Capture the question hint
-  let questionHint = req.body["questionHintInput"] || "";
+  let questionHint = "";
+  if (questionType === "address") {
+    questionHint = req.body["hintTextInputAddress"] || "";
+  } else {
+    questionHint = req.body["questionHintInput"] || "";
+  }
 
   // 7. Capture the options (For Radio and Checkbox lists)
   let questionOptions = [];
@@ -1446,6 +1453,9 @@ router.post("/form-editor/guidance/overview", function (req, res) {
   res.render("form-editor/question-type/guidance-configuration", {
     currentPage: guidancePage,
     data: req.session.data,
+    form: {
+      name: req.session.data.formName || "Food takeaway (user research)",
+    },
   });
 });
 
