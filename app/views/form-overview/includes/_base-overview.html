@@ -17,7 +17,7 @@ text: commonTerms.form_editor.navigation.forms_library,
 id: "nav-library"
 },
 {
-href: "/form-overview/draft/overview",
+href: "/form-overview/index",
 text: commonTerms.form_editor.navigation.overview,
 id: "nav-overview"
 },
@@ -46,12 +46,12 @@ href: "/library.html"
     <div class="govuk-grid-column-two-thirds">
         <h1 class="govuk-heading-xl">{{ form.name }}</h1>
 
-        {% include "form-overview/draft/_form-status.html" %}
-        {% include "form-overview/draft/_submission-details.html" %}
-        {% include "form-overview/draft/_support-details.html" %}
-        {% include "form-overview/draft/_next-steps.html" %}
-        {% include "form-overview/draft/_data-protection.html" %}
-        {% include "form-overview/draft/_organisation-details.html" %}
+        {% include "form-overview/includes/_form-status.html" %}
+        {% include "form-overview/includes/_submission-details.html" %}
+        {% include "form-overview/includes/_support-details.html" %}
+        {% include "form-overview/includes/_next-steps.html" %}
+        {% include "form-overview/includes/_data-protection.html" %}
+        {% include "form-overview/includes/_organisation-details.html" %}
     </div>
 
     <div class="govuk-grid-column-one-third-from-desktop">

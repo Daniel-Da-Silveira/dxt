@@ -42,6 +42,24 @@ router.get(
   require("./routes/lists.js").getListAPI
 );
 
+// Section routes
+router.use("/form-editor", require("./routes/sections.js"));
+
+// Sections management page
+router.get("/form-editor/sections", function (req, res) {
+  const formData = req.session.data || {};
+  const sections = formData.sections || [];
+  const formPages = formData.formPages || [];
+
+  res.render("form-editor/sections.html", {
+    form: {
+      name: formData.formName || "Food takeaway (user research)",
+    },
+    sections: sections,
+    formPages: formPages,
+  });
+});
+
 // Preview lists
 router.get(
   "/form-editor/view-list/:name",
@@ -71,13 +89,22 @@ router.get("/form-editor/listing", function (req, res) {
     });
   });
 
+  // Get all sections
+  const sections = formData.sections || [];
+
   console.log(
     "✅ Passing formPages with radio and checkbox options:",
     formPages
   );
 
+  // Clear the success flag after showing it
+  if (formData.showUploadSuccess) {
+    delete req.session.data.showUploadSuccess;
+  }
+
   res.render("form-editor/listing/index", {
     formPages,
+    sections,
     form: {
       name: formData.formName || "Food takeaway (user research)",
     },
@@ -449,56 +476,15 @@ router.post("/question-configuration-save", function (req, res) {
 //--------------------------------------
 router.get("/page-overview", function (req, res) {
   const formData = req.session.data || {};
-  const pageIndex = req.session.data["currentPageIndex"] || 0;
+  const formPages = formData.formPages || [];
+  const pageIndex = formData.currentPageIndex || 0;
   const pageNumber = pageIndex + 1;
-  const formPages = req.session.data["formPages"] || [];
-  const currentPage = formPages[pageIndex] || {
-    questions: [],
-    pageType: "question",
-    pageHeading: "",
-    hasGuidance: false,
-    guidanceTextarea: "",
-    allowMultipleResponses: false,
-    setName: "",
-    minResponseCount: "",
-    maxResponseCount: "",
-  };
 
-  // Enhanced logging for debugging
-  console.log("🔍 Page Overview Debug:", {
-    sessionData: {
-      pageIndex,
-      formPagesCount: formPages.length,
-      currentPageQuestions: currentPage.questions?.length || 0,
-    },
-    currentPage: {
-      pageType: currentPage.pageType,
-      pageHeading: currentPage.pageHeading,
-      questions: currentPage.questions?.map((q) => ({
-        id: q.questionId,
-        type: q.type,
-        subType: q.subType,
-        label: q.label,
-        optionsCount: q.options?.length || 0,
-      })),
-    },
-  });
+  // Get the current page
+  const currentPage = formPages[pageIndex];
 
-  // Ensure each question has its options if it's a radio or checkbox type
-  currentPage.questions = currentPage.questions.map((question) => {
-    if (question.type === "list") {
-      if (question.subType === "radios" || question.subType === "checkboxes") {
-        if (!question.options) {
-          question.options = [];
-        }
-        // Ensure type and subType are correct
-        question.type = "list";
-        question.subType =
-          question.subType === "radios" ? "radios" : "checkboxes";
-      }
-    }
-    return question;
-  });
+  // Get all sections
+  const sections = formData.sections || [];
 
   res.render("form-editor/page-overview.html", {
     form: {
@@ -506,6 +492,7 @@ router.get("/page-overview", function (req, res) {
     },
     pageNumber: pageNumber,
     currentPage: currentPage,
+    sections: sections,
   });
 });
 
@@ -616,7 +603,7 @@ router.post("/page-overview", function (req, res) {
 
   // The page heading & guidance text
   const pageHeading = req.body.pageHeading || "";
-  const guidanceTextarea = req.body.guidanceTextarea || "";
+  const guidanceTextarea = req.body.guidanceText || "";
 
   // If "guidance" checkbox is checked, req.body.guidance === "guidance"
   currentPage.hasGuidance = req.body.guidance === "guidance";
@@ -631,6 +618,23 @@ router.post("/page-overview", function (req, res) {
     allowMultipleResponses = allowMultipleResponses.includes("true")
       ? "true"
       : "false";
+  }
+
+  // Handle section data
+  const sectionId = req.body.section;
+  if (sectionId) {
+    // Find the section in the sections array
+    const sections = req.session.data.sections || [];
+    const section = sections.find((s) => s.id === sectionId);
+    if (section) {
+      currentPage.section = {
+        id: section.id,
+        name: section.name,
+      };
+    }
+  } else {
+    // If no section is selected, remove the section from the page
+    currentPage.section = null;
   }
 
   // Update all page fields
@@ -1688,11 +1692,11 @@ router.post("/create-new-form/policy-sme", (req, res) => {
   // Log the final session data
   console.log("Final session data:", req.session.data);
 
-  res.redirect("/form-overview/draft/overview");
+  res.redirect("/form-overview/index");
 });
 
 // Overview page route
-router.get("/form-overview/draft/overview", (req, res) => {
+router.get("/form-overview/index", (req, res) => {
   // Get the form data from the session
   const formData = req.session.data || {};
 
@@ -1742,16 +1746,60 @@ router.get("/form-overview/draft/overview", (req, res) => {
     notificationEmail: formData.formDetails?.notificationEmail,
   };
 
-  res.render("form-overview/draft/overview", {
+  res.render("form-overview/index", {
     form: form,
     pageName: `Overview - ${form.name}`,
   });
 });
 
-// Support pages routes
-router.get("/form-overview/draft/support/phone", (req, res) => {
+// Add POST route handler for saving page changes
+router.post("/form-overview/index", (req, res) => {
   const formData = req.session.data || {};
-  res.render("form-overview/draft/support/phone", {
+  const formPages = formData.formPages || [];
+  const pageIndex = formData.currentPageIndex || 0;
+
+  // Get the current page
+  const currentPage = formPages[pageIndex];
+
+  // Update the current page with the new values
+  formPages[pageIndex] = {
+    ...currentPage,
+    pageHeading: req.body.pageHeading || currentPage.pageHeading,
+    guidanceTextarea: req.body.guidanceText || currentPage.guidanceTextarea,
+    hasGuidance: req.body.guidance === "guidance",
+    allowMultipleResponses: req.body.allowMultipleResponses === "true",
+    minResponseCount: req.body.minResponseCount || currentPage.minResponseCount,
+    maxResponseCount: req.body.maxResponseCount || currentPage.maxResponseCount,
+    questionSetName: req.body.questionSetName || currentPage.questionSetName,
+    section: req.body.section
+      ? {
+          id: req.body.section,
+          name:
+            formData.sections?.find((s) => s.id === req.body.section)?.name ||
+            "",
+        }
+      : null,
+    lastUpdated: new Date().toISOString(),
+  };
+
+  // Update the session data
+  req.session.data = {
+    ...formData,
+    formPages: formPages,
+    formDetails: {
+      ...formData.formDetails,
+      lastUpdated: new Date().toISOString(),
+    },
+  };
+
+  // Redirect back to the page overview
+  res.redirect("/form-editor/page-overview");
+});
+
+// Support pages routes
+router.get("/form-overview/index/support/phone", (req, res) => {
+  const formData = req.session.data || {};
+  res.render("form-overview/support/phone", {
     form: {
       name: formData.formName || "Food takeaway (user research)",
       support: {
@@ -1762,7 +1810,7 @@ router.get("/form-overview/draft/support/phone", (req, res) => {
   });
 });
 
-router.post("/form-overview/draft/support/phone", (req, res) => {
+router.post("/form-overview/index/support/phone", (req, res) => {
   const formData = req.session.data || {};
   const phoneDetails = req.body.moreDetail;
 
@@ -1777,12 +1825,12 @@ router.post("/form-overview/draft/support/phone", (req, res) => {
   };
 
   req.session.data = formData;
-  res.redirect("/form-overview/draft/overview");
+  res.redirect("/form-overview/index");
 });
 
-router.get("/form-overview/draft/support/email", (req, res) => {
+router.get("/form-overview/index/support/email", (req, res) => {
   const formData = req.session.data || {};
-  res.render("form-overview/draft/support/email", {
+  res.render("form-overview/support/email", {
     form: {
       name: formData.formName || "Food takeaway (user research)",
       support: {
@@ -1793,7 +1841,7 @@ router.get("/form-overview/draft/support/email", (req, res) => {
   });
 });
 
-router.post("/form-overview/draft/support/email", (req, res) => {
+router.post("/form-overview/index/support/email", (req, res) => {
   const formData = req.session.data || {};
   const emailAddress = req.body.emailAddress;
 
@@ -1808,12 +1856,12 @@ router.post("/form-overview/draft/support/email", (req, res) => {
   };
 
   req.session.data = formData;
-  res.redirect("/form-overview/draft/overview");
+  res.redirect("/form-overview/index");
 });
 
-router.get("/form-overview/draft/support/link", (req, res) => {
+router.get("/form-overview/index/support/link", (req, res) => {
   const formData = req.session.data || {};
-  res.render("form-overview/draft/support/link", {
+  res.render("form-overview/support/link", {
     form: {
       name: formData.formName || "Food takeaway (user research)",
       support: {
@@ -1824,7 +1872,7 @@ router.get("/form-overview/draft/support/link", (req, res) => {
   });
 });
 
-router.post("/form-overview/draft/support/link", (req, res) => {
+router.post("/form-overview/index/support/link", (req, res) => {
   const formData = req.session.data || {};
   const contactLink = req.body.contactLink;
 
@@ -1839,10 +1887,10 @@ router.post("/form-overview/draft/support/link", (req, res) => {
   };
 
   req.session.data = formData;
-  res.redirect("/form-overview/draft/overview");
+  res.redirect("/form-overview/index");
 });
 
-router.get("/form-overview/draft/support/address", (req, res) => {
+router.get("/form-overview/index/support/address", (req, res) => {
   const formData = req.session.data || {};
   res.render("form-overview/support/add-address", {
     form: {
@@ -1861,7 +1909,7 @@ router.get("/form-overview/draft/support/address", (req, res) => {
   });
 });
 
-router.post("/form-overview/draft/support/address", (req, res) => {
+router.post("/form-overview/index/support/address", (req, res) => {
   const formData = req.session.data || {};
   const addressDetails = {
     line1: req.body.addressLine1,
@@ -1882,11 +1930,11 @@ router.post("/form-overview/draft/support/address", (req, res) => {
   };
 
   req.session.data = formData;
-  res.redirect("/form-overview/draft/overview");
+  res.redirect("/form-overview/index");
 });
 
 // Next steps support
-router.get("/form-overview/draft/support/next-steps", (req, res) => {
+router.get("/form-overview/index/support/next-steps", (req, res) => {
   const formData = req.session.data || {};
   res.render("form-overview/support/next-steps", {
     form: {
@@ -1897,8 +1945,23 @@ router.get("/form-overview/draft/support/next-steps", (req, res) => {
   });
 });
 
+router.post("/form-overview/index/support/next-steps", (req, res) => {
+  const formData = req.session.data || {};
+  const nextSteps = req.body.nextSteps;
+
+  // Update the form details with the next steps
+  formData.formDetails = {
+    ...formData.formDetails,
+    nextSteps: nextSteps,
+    lastUpdated: new Date().toISOString(),
+  };
+
+  req.session.data = formData;
+  res.redirect("/form-overview/index");
+});
+
 // Privacy notice support
-router.get("/form-overview/draft/support/privacy-notice", (req, res) => {
+router.get("/form-overview/index/support/privacy-notice", (req, res) => {
   const formData = req.session.data || {};
   res.render("form-overview/support/privacy-notice", {
     form: {
@@ -1909,7 +1972,7 @@ router.get("/form-overview/draft/support/privacy-notice", (req, res) => {
   });
 });
 
-router.post("/form-overview/draft/support/privacy-notice", (req, res) => {
+router.post("/form-overview/index/support/privacy-notice", (req, res) => {
   const formData = req.session.data || {};
   const privacyLink = req.body.privacyLink;
 
@@ -1921,11 +1984,11 @@ router.post("/form-overview/draft/support/privacy-notice", (req, res) => {
   };
 
   req.session.data = formData;
-  res.redirect("/form-overview/draft/overview");
+  res.redirect("/form-overview/index");
 });
 
 // Notification email routes
-router.get("/form-overview/draft/support/notification-email", (req, res) => {
+router.get("/form-overview/index/support/notification-email", (req, res) => {
   const formData = req.session.data || {};
   res.render("form-overview/support/notification-email", {
     form: {
@@ -1936,7 +1999,7 @@ router.get("/form-overview/draft/support/notification-email", (req, res) => {
   });
 });
 
-router.post("/form-overview/draft/support/notification-email", (req, res) => {
+router.post("/form-overview/index/support/notification-email", (req, res) => {
   const formData = req.session.data || {};
   const notificationEmail = req.body.notificationEmail;
 
@@ -1948,7 +2011,7 @@ router.post("/form-overview/draft/support/notification-email", (req, res) => {
   };
 
   req.session.data = formData;
-  res.redirect("/form-overview/draft/overview");
+  res.redirect("/form-overview/index");
 });
 
 /* dictionary stuff */
@@ -2067,4 +2130,13 @@ router.post("/form-editor/question-type/radios-nf/add", function (req, res) {
   });
 
   res.redirect("/form-editor/question-type/radios-nf/edit");
+});
+
+// Add upload success route
+router.post("/form-editor/upload-success", (req, res) => {
+  // Set the success flag in the session
+  req.session.data.showUploadSuccess = true;
+
+  // Redirect to the listing page
+  res.redirect("/form-editor/listing");
 });

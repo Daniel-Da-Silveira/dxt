@@ -2,6 +2,7 @@
 {# {% set containerClasses = "app-width-container--full-width" %} #}
 
 {% from "components/service-header/macro.njk" import serviceHeader %}
+{% from "govuk/components/notification-banner/macro.njk" import govukNotificationBanner %}
 
 {% set pageName = "Add and edit your pages - Apply for a county parish holding number in England" %}
 
@@ -16,7 +17,7 @@ homepageLink: "/",
 signOutLink: "/onboarding/sign-out-confirmation",
 navigationItems: [
 { href: "/library.html", text: "Forms library", id: "nav-library" },
-{ href: "/cph-overview/draft/complete-clean.html", text: "Overview", id: "nav-overview" },
+{ href: "/form-overview/index.html", text: "Overview", id: "nav-overview" },
 { href: "/form-editor/listing", text: "Editor", id: "nav-editor" }
 ],
 activeLinkId: "nav-editor"
@@ -60,6 +61,29 @@ activeLinkId: "nav-editor"
 {% endblock %}
 
 {% block content %}
+{% if data.showUploadSuccess %}
+<div class="govuk-grid-row" id="success-notification">
+    <div class="govuk-grid-column-one-third">
+        {{ govukNotificationBanner({
+        type: "success",
+        text: "Form uploaded successfully",
+        titleText: "Success",
+        classes: "govuk-!-margin-bottom-4"
+        }) }}
+    </div>
+</div>
+
+<script>
+    // Hide the notification after 15 seconds
+    setTimeout(function () {
+        const notification = document.getElementById('success-notification');
+        if (notification) {
+            notification.style.display = 'none';
+        }
+    }, 15000);
+</script>
+{% endif %}
+
 <style>
     .guidance-card {
         border-left: 10px solid #b1b4b6;
@@ -200,20 +224,61 @@ activeLinkId: "nav-editor"
                 }) }}
             </div>
             {% endif %}
+            {%- from "moj/components/button-menu/macro.njk" import mojButtonMenu -%}
+
+
         </aside>
     </div>
 
-    <!-- Right column for pages -->
-    <div class="govuk-grid-column-three-quarters">
-        {% if formPages.length %}
-        <h2 class="govuk-heading-m" id="pages-count-heading">
-            <span class="govuk-visually-hidden">Pages</span>
-            <span id="pages-count">{{ formPages.length }}</span>
-            pages
-        </h2>
 
-        <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
-        {% endif %}
+    <!-- Right column for pages -->
+    <div
+        class="govuk-grid-column-three-quarters-from-desktop govuk-grid-column-full-from-tablet govuk-grid-column-full">
+        {# {% if formPages.length %} #}
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-full-from-desktop govuk-grid-column-full-from-tablet govuk-grid-column-full">
+                <h2 class="govuk-heading-m" id="pages-count-heading">
+                    <span class="govuk-visually-hidden">Pages</span>
+                    <span id="pages-count">{{ formPages.length }}</span>
+                    pages
+                    <div style="float: right;">
+                        <input type="file" id="form-upload" style="display: none;" accept=".json,.xlsx,.xls,.csv">
+                        <input type="file" id="form-download" style="display: none;" accept=".json,.xlsx,.xls,.csv">
+
+                        {%- from "moj/components/button-menu/macro.njk" import mojButtonMenu -%}
+
+                        {{ mojButtonMenu({
+                        button: {
+                        text: "Actions",
+                        classes: "govuk-button--secondary"
+                        },
+                        alignMenu: "right",
+                        items: [
+                        {
+                        text: "Upload a form",
+                        href: "/form-editor/upload-confirmation",
+                        attributes: {
+                        "onclick": "return true;"
+                        }
+                        },
+                        {
+                        text: "Download this form",
+                        href: "#",
+                        attributes: {
+                        "onclick": "downloadForm(); return false;"
+                        }
+                        }
+                        ]
+                        }) }}
+
+                    </div>
+                    <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
+
+                </h2>
+            </div>
+        </div>
+
+        {# {% endif %} #}
 
         {% if formPages.length %}
         {% for page in formPages %}
@@ -223,34 +288,39 @@ activeLinkId: "nav-editor"
             <div class="govuk-grid-row">
                 <!-- Left Column: Summary Card -->
                 <div class="govuk-grid-column-one-half">
-                    <div class="govuk-summary-card" {% if page.isExitPage %} style="border-left: 10px solid #6b1c40;" {%
-                        else %} style="border-left: 10px solid #008938;" {% endif %}>
-                        <div class="govuk-summary-card__title-wrapper">
-                            <div class="govuk-grid-row">
-                                <div class="govuk-grid-column-full">
-                                    <h2 class="govuk-summary-card__title" style="margin: 0;">
-                                        {% if page.isExitPage %}
-                                        <span class="govuk-tag govuk-tag--pink"
-                                            style="margin-right: 10px; max-width: 100%;">Exit
-                                            page</span>
-                                        {% endif %}
-                                        Page {{ loop.index }}:
-                                        {% if page.pageType == 'guidance' %}
-                                        {{ page.guidanceOnlyHeadingInput }}
-                                        {% else %}
-                                        {% if page.pageHeading %}
-                                        {{ page.pageHeading }}
-                                        {% elif page.questions and page.questions.length == 1 %}
-                                        {{ page.questions[0].label }}
-                                        {% else %}
-                                        {{ page.pageType | capitalize }}
-                                        {% endif %}
-                                        {% endif %}
-                                    </h2>
-                                </div>
+                    <div class="govuk-summary-card govuk-!-margin-bottom-4" {% if page.isExitPage %}
+                        style="border-left: 10px solid #6b1c40;" {% else %} style="border-left: 10px solid #008938;" {%
+                        endif %}>
+                        <div class="govuk-summary-card__title-wrapper"
+                            style="display: flex; justify-content: space-between; align-items: center;">
+                            <div style="flex: 1;">
+                                {% if page.section %}
+                                <span class="govuk-tag govuk-tag--green"
+                                    style="margin-bottom: 10px; display: block; width: fit-content;">
+                                    {{ page.section.name }}</span>
+                                {% endif %}
+                                {% if page.isExitPage %}
+                                <span class="govuk-tag govuk-tag--pink"
+                                    style="margin-bottom: 10px; display: block; width: fit-content;">Exit page</span>
+                                {% endif %}
+                                <h2 class="govuk-summary-card__title" style="margin: 0;">
+                                    Page {{ loop.index }}:
+                                    {% if page.pageType == 'guidance' %}
+                                    {{ page.guidanceOnlyHeadingInput }}
+                                    {% else %}
+                                    {% if page.pageHeading %}
+                                    {{ page.pageHeading }}
+                                    {% elif page.questions and page.questions.length == 1 %}
+                                    {{ page.questions[0].label }}
+                                    {% else %}
+                                    {{ page.pageType | capitalize }}
+                                    {% endif %}
+                                    {% endif %}
+                                </h2>
                             </div>
-                            <ul class="govuk-summary-card__actions">
-                                <li class="govuk-summary-card__action">
+                            <ul class="govuk-summary-card__actions" style="margin: 0; padding-left: 15px;">
+                                <li class="govuk-summary-card__action"
+                                    style="display: inline-block; margin-right: 10px;">
                                     <a class="govuk-link govuk-link--no-visited-state" href="{% if page.pageType == 'guidance' %}
                                             /form-editor/edit-guidance?pageId={{ page.pageId }}
                                         {% else %}
@@ -259,26 +329,23 @@ activeLinkId: "nav-editor"
                                         Edit<span class="govuk-visually-hidden"> page {{ page.pageId }}</span>
                                     </a>
                                 </li>
-                                <li class="govuk-summary-card__action">
+                                <li class="govuk-summary-card__action" style="display: inline-block;">
                                     <a class="govuk-link govuk-link--no-visited-state preview-link"
                                         data-preview="preview-{{ page.pageId }}" href="#">
-                                        Preview<span class="govuk-visually-hidden"> page {{ page.pageId
-                                            }}</span>
+                                        Preview<span class="govuk-visually-hidden"> page {{ page.pageId }}</span>
                                     </a>
                                     <a class="govuk-link close-link" data-preview="preview-{{ page.pageId }}"
                                         id="close-before-content-{{ page.pageId }}" style="display: none;" href="#">
-                                        Close Preview<span class="govuk-visually-hidden"> page {{ page.pageId
-                                            }}</span>
+                                        Close Preview<span class="govuk-visually-hidden"> page {{ page.pageId }}</span>
                                     </a>
                                 </li>
                             </ul>
                         </div>
                         {% if not (page.questions and page.questions.length == 1) or (page.conditions and
-                        page.conditions.length > 0) or
-                        page.pageType == 'guidance' %}
+                        page.conditions.length > 0) or page.pageType == 'guidance' or page.pageHeading %}
                         <div class="govuk-summary-card__content">
                             <dl class="govuk-summary-list">
-                                {% if page.questions and page.questions.length > 1 %}
+                                {% if page.questions %}
                                 {% for question in page.questions %}
                                 <div class="govuk-summary-list__row">
                                     <dt class="govuk-summary-list__key">Question {{ loop.index }}</dt>
@@ -289,8 +356,7 @@ activeLinkId: "nav-editor"
 
                                 {% if page.pageType == 'guidance' %}
                                 <div class="govuk-summary-list__row">
-                                    <dt class="govuk-summary-list__key" style="white-space: nowrap;">Guidance
-                                    </dt>
+                                    <dt class="govuk-summary-list__key" style="white-space: nowrap;">Guidance</dt>
                                     <dd class="govuk-summary-list__value">
                                         {% if (page.guidanceOnlyGuidanceTextInput or '').length > 150 %}
                                         {{ (page.guidanceOnlyGuidanceTextInput or '').substring(0, 150) }}...
@@ -300,7 +366,6 @@ activeLinkId: "nav-editor"
                                     </dd>
                                 </div>
                                 {% endif %}
-
 
                                 {% if page.setName %}
                                 <div class="govuk-summary-list__row">
@@ -346,8 +411,8 @@ activeLinkId: "nav-editor"
                         <div id="dynamic-preview-content-{{ page.pageId }}">
                             <!-- Preview Header -->
                             <div id="before-content"
-                                style="background-color: #cce2d8; display: flex; justify-content: space-between; align-items: left;">
-                                <p class="govuk-body-s" style="margin-bottom: 0; color: #005a30; padding: 2px 8px 2px;">
+                                style="background-color: #cce2d8; display: flex; justify-content: space-between; align-items: center; padding: 8px;">
+                                <p class="govuk-body-s" style="margin-bottom: 0; color: #005a30;">
                                     Preview of page {{ loop.index }}
                                 </p>
                                 <a href="#" id="close-before-content-{{ page.pageId }}" class="govuk-link"
@@ -390,10 +455,13 @@ activeLinkId: "nav-editor"
                                             </span>
                                             {% endif %}
 
+                                            <!-- Section Name Caption -->
+                                            {% if page.section %}
+                                            <span class="govuk-caption-l">{{ page.section.name }}</span>
+                                            {% endif %}
+
                                             {% if page.pageType == 'guidance' %}
-                                            <h1 class="govuk-heading-l">{{ page.guidanceOnlyHeadingInput or ''
-                                                }}
-                                            </h1>
+                                            <h1 class="govuk-heading-l">{{ page.guidanceOnlyHeadingInput or '' }}</h1>
                                             <div class="govuk-body guidance-content"
                                                 id="guidance-content-{{ page.pageId }}">
                                                 {{ page.guidanceOnlyGuidanceTextInput or '' }}
@@ -405,6 +473,12 @@ activeLinkId: "nav-editor"
                                             {% endif %}
                                         </div>
 
+                                        <!-- Guidance Paragraph -->
+                                        {% if page.guidanceTextarea %}
+                                        <p class="govuk-body" id="guidance-paragraph-{{ page.pageId }}">
+                                            {{ page.guidanceTextarea }}
+                                        </p>
+                                        {% endif %}
 
                                         <!-- Render each question's preview -->
                                         <div id="preview-container-inner-{{ page.pageId }}">
@@ -1175,5 +1249,129 @@ activeLinkId: "nav-editor"
             updateMoveButtons();
         });
     });
+</script>
+
+<script>
+    document.getElementById('form-upload').addEventListener('change', function (e) {
+        const file = e.target.files[0];
+        if (file) {
+            // Here you can handle the file upload
+            console.log('File selected:', file.name);
+            // You can add your file upload logic here
+        }
+    });
+
+    document.getElementById('form-download').addEventListener('change', function (e) {
+        const file = e.target.files[0];
+        if (file) {
+            // Here you can handle the file download
+            console.log('File selected for download:', file.name);
+            // You can add your file download logic here
+        }
+    });
+</script>
+
+<script>
+    function downloadForm() {
+        // Get all page cards
+        const pageCards = document.querySelectorAll('.app-page-card');
+        const formPages = [];
+
+        // Collect data from all pages
+        pageCards.forEach((card, index) => {
+            // Get the summary card title
+            const titleElement = card.querySelector('.govuk-summary-card__title');
+            const title = titleElement ? titleElement.textContent.trim().replace(/^Page \d+:\s*/, '') : '';
+
+            // Determine if it's a guidance page
+            const isGuidance = card.querySelector('.govuk-summary-card').style.borderLeft.includes('b1b4b6') ||
+                card.querySelector('.guidance-card');
+
+            // Get page ID from the edit link
+            const editLink = card.querySelector('a[href*="/edit-page/"], a[href*="/edit-guidance"]');
+            if (!editLink) {
+                console.warn(`No edit link found for card ${index + 1}`);
+                return;
+            }
+
+            // Extract page ID from the edit link
+            let pageId;
+            if (isGuidance) {
+                pageId = new URLSearchParams(editLink.href.split('?')[1]).get('pageId');
+            } else {
+                pageId = editLink.href.split('/edit-page/')[1];
+            }
+
+            // Get questions data
+            const questions = [];
+            if (!isGuidance) {
+                const questionRows = card.querySelectorAll('.govuk-summary-list__row');
+                questionRows.forEach(row => {
+                    const key = row.querySelector('.govuk-summary-list__key')?.textContent.trim();
+                    const value = row.querySelector('.govuk-summary-list__value')?.textContent.trim();
+
+                    // Only add if it's a question (not metadata like conditions)
+                    if (key && !key.includes('Page shown when')) {
+                        questions.push({
+                            questionId: Date.now() + Math.random(),
+                            label: key.startsWith('Question') ? value : key,
+                            hint: '',
+                            type: 'text',
+                            subType: 'short-answer-nf',
+                            options: []
+                        });
+                    }
+                });
+            }
+
+            // Get guidance content
+            let guidanceContent = '';
+            if (isGuidance) {
+                const guidanceRow = card.querySelector('.govuk-summary-list__row');
+                if (guidanceRow) {
+                    guidanceContent = guidanceRow.querySelector('.govuk-summary-list__value')?.textContent.trim() || '';
+                }
+            }
+
+            // Create the page object
+            const pageData = {
+                pageId: pageId || Date.now() + Math.random(),
+                pageType: isGuidance ? 'guidance' : 'question',
+                title: title,
+                pageHeading: title,
+                guidanceTextarea: guidanceContent,
+                guidanceOnlyHeadingInput: isGuidance ? title : '',
+                guidanceOnlyGuidanceTextInput: guidanceContent,
+                questions: questions,
+                order: index + 1
+            };
+
+            formPages.push(pageData);
+        });
+
+        if (formPages.length === 0) {
+            alert('No pages found to download. Please add some pages first.');
+            return;
+        }
+
+        // Create the complete form data object
+        const formData = {
+            name: "Form Export",
+            version: "1.0",
+            lastExported: new Date().toISOString(),
+            pages: formPages
+        };
+
+        // Convert the data to a string
+        const dataStr = JSON.stringify(formData, null, 2);
+        const dataUri = 'data:application/json;charset=utf-8,' + encodeURIComponent(dataStr);
+
+        // Create a link element
+        const exportFileDefaultName = 'form-export.json';
+        const linkElement = document.createElement('a');
+        linkElement.setAttribute('href', dataUri);
+        linkElement.setAttribute('download', exportFileDefaultName);
+        linkElement.click();
+    }
 </script>
 {% endblock %}

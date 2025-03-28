@@ -118,6 +118,14 @@ class FormPreview {
 
     form.appendChild(notificationBanner);
 
+    // Add section caption if exists
+    if (currentPage.section) {
+      const sectionCaption = document.createElement("span");
+      sectionCaption.className = "govuk-caption-l";
+      sectionCaption.textContent = currentPage.section.name;
+      form.appendChild(sectionCaption);
+    }
+
     // Add page heading
     const heading = document.createElement("h1");
     heading.className = "govuk-heading-l";

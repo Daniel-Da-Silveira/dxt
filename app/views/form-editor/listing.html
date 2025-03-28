@@ -17,7 +17,7 @@ homepageLink: "/",
 signOutLink: "/onboarding/sign-out-confirmation",
 navigationItems: [
 { href: "/library.html", text: commonTerms.form_editor.navigation.forms_library, id: "nav-library" },
-{ href: "/form-overview/draft/complete-clean.html", text: commonTerms.form_editor.navigation.overview, id:
+{ href: "/form-overview/index", text: commonTerms.form_editor.navigation.overview, id:
 "nav-overview" },
 { href: "/form-editor/listing", text: commonTerms.form_editor.navigation.editor, id: "nav-editor" }
 ],
@@ -29,7 +29,7 @@ activeLinkId: "nav-editor"
         {{ govukBackLink({
         classes: "govuk-back-link--inverse govuk-!-margin-bottom-0",
         text: commonTerms.form_editor.navigation.back_to_overview,
-        href: "/form-overview/draft/complete-clean.html"
+        href: "/form-overview/index"
         }) }}
 
         <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible"
@@ -410,6 +410,10 @@ activeLinkId: "nav-editor"
                                                 {{ page.setName | capitalize }} {{ loop.index }}
                                             </span>
                                             {% endif %}
+
+                                            <!-- Section Name Caption -->
+                                            {% include "components/section-caption.html" with { section: page.section }
+                                            %}
 
                                             {% if page.pageType == 'guidance' %}
                                             <h1 class="govuk-heading-l">{{ page.guidanceOnlyHeadingInput or '' }}</h1>

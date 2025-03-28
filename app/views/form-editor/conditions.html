@@ -314,9 +314,13 @@ activeLinkId: "nav-editor"
 
             <div id="preview-container">
               <div id="preview-items">
+                {% if currentPage.pageHeading %}
+                <h1 class="govuk-heading-xl">{{ currentPage.pageHeading }}</h1>
+                {% endif %}
                 {% if currentPage.questions.length > 0 %}
                 {% for question in currentPage.questions %}
                 <div class="preview-item" data-id="question-{{ question.questionId }}">
+
                   {% set previewTemplate = '/form-editor/question-type/questions/previews/' %}
 
                   {% if question.type == 'phone' %}

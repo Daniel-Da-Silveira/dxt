@@ -1,6 +1,10 @@
 {# {% set labelSize = labelSize or "m" %} #}
 
 <div class="preview-item" data-id="page-{{ currentPage.pageId }}">
+    <!-- Section Name Caption -->
+    {% set captionContext = { section: currentPage.section } %}
+    {% include "components/section-caption.html" %}
+
     <h1 class="govuk-heading-{{ labelSize }}" id="dynamic-heading-more-than-1">
         {{ data['guidanceOnlyHeadingInput'] or currentPage.guidanceOnlyHeadingInput or 'Page heading' }}
     </h1>

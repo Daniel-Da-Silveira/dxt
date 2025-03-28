@@ -63,14 +63,20 @@ activeLinkId: "nav-editor"
                     <div id="question-1">
                       <div class="govuk-summary-card__content" style="margin-bottom: 0">
                         <!-- Sub Navigation for Question -->
-                        <nav class="moj-sub-navigation" aria-label="Sub navigation">
+                        <nav class="moj-sub-navigation govuk-!-padding-top-0 govuk-!-margin-bottom-2"
+                          aria-label="Sub navigation">
                           <ul class="moj-sub-navigation__list" id="nav-list2">
                             <!-- Question Link -->
                             <li class="moj-sub-navigation__item">
                               <a class="moj-sub-navigation__link" aria-current="page" href="#question-1">Page
                                 settings</a>
                             </li>
-
+                            <li class="moj-sub-navigation__item">
+                              <a class="moj-sub-navigation__link"
+                                href="/form-editor/conditions/{{ currentPage.pageId }}">
+                                Conditions
+                              </a>
+                            </li>
                           </ul>
                         </nav>
 
@@ -233,7 +239,7 @@ activeLinkId: "nav-editor"
                         {% if currentPage and currentPage.pageId %}
                         {{ govukButton({
                         text: "Manage conditions",
-                        href: "/conditions/" + currentPage.pageId,
+                        href: "/form-editor/conditions/" + currentPage.pageId,
                         classes: "govuk-button"
                         }) }}
                         {% else %}

@@ -9,6 +9,9 @@
     {% set labelSize = (currentPage.questions and currentPage.questions.length == 1) ? "l" : "m" %}
   {% endif %}
 
+  <!-- Section Name Caption -->
+  {% include "components/section-caption.html" with { section: currentPage.section } %}
+
   {% if question.type == "phone" %}
     {% set templatePath = basePath + "phone-preview.html" %}
   {% elif question.type == "address" %}
