@@ -232,8 +232,9 @@ activeLinkId: "nav-editor"
 
 
     <!-- Right column for pages -->
-    <div
+    {# <div
         class="govuk-grid-column-three-quarters-from-desktop govuk-grid-column-full-from-tablet govuk-grid-column-full">
+        #}
         {# {% if formPages.length %} #}
         <div class="govuk-grid-row">
             <div class="govuk-grid-column-full-from-desktop govuk-grid-column-full-from-tablet govuk-grid-column-full">
@@ -301,7 +302,8 @@ activeLinkId: "nav-editor"
             data-conditions="{% for condition in page.conditions %}{{ condition.conditionName }}{% if not loop.last %},{% endif %}{% endfor %}">
             <div class="govuk-grid-row">
                 <!-- Left Column: Summary Card -->
-                <div class="govuk-grid-column-one-half">
+                <div
+                    class="govuk-grid-column-one-half-from-desktop govuk-grid-column-full-from-tablet govuk-grid-column-full-from-mobile">
                     <div class="govuk-summary-card govuk-!-margin-bottom-4" {% if page.isExitPage %}
                         style="border-left: 10px solid #6b1c40;" {% else %} style="border-left: 10px solid #008938;" {%
                         endif %}>
@@ -420,7 +422,8 @@ activeLinkId: "nav-editor"
                 </div>
 
                 <!-- Right Column: Preview Panel -->
-                <div class="govuk-grid-column-one-half">
+                <div
+                    class="govuk-grid-column-one-half-from-desktop govuk-grid-column-full-from-tablet govuk-grid-column-full-from-mobile">
                     <div class="preview-container govuk-!-margin-top-1" id="preview-{{ page.pageId }}">
                         <div id="dynamic-preview-content-{{ page.pageId }}">
                             <!-- Preview Header -->
