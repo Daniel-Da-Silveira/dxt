@@ -172,7 +172,7 @@ activeLinkId: "nav-editor"
 
 <div class="govuk-grid-row">
     <!-- Left column for filters -->
-    <div class="govuk-grid-column-one-quarter" style="position: sticky; top: 0; height: fit-content;">
+    <div class="govuk-grid-column-one-quarter">
         <div id="selected-filters" class="govuk-inset-text govuk-!-margin-top-2" style="display: none;">
             <h3 id="applied-filters-heading" class="govuk-heading-s">Applied filters:</h3>
             <ul class="govuk-list govuk-list--bullet govuk-list--spaced" id="filter-summary">
@@ -237,11 +237,17 @@ activeLinkId: "nav-editor"
         {# {% if formPages.length %} #}
         <div class="govuk-grid-row">
             <div class="govuk-grid-column-full-from-desktop govuk-grid-column-full-from-tablet govuk-grid-column-full">
+                {% if formPages.length > 0 %}
                 <h2 class="govuk-heading-m" id="pages-count-heading">
                     <span class="govuk-visually-hidden">Pages</span>
                     <span id="pages-count">{{ formPages.length }}</span>
                     pages
+                    {% else %}
+                    <h2 class="govuk-heading-m" id="pages-count-heading"></h2>
+                    {% endif %}
+
                     <div style="float: right;">
+
                         <input type="file" id="form-upload" style="display: none;" accept=".json,.xlsx,.xls,.csv">
                         <input type="file" id="form-download" style="display: none;" accept=".json,.xlsx,.xls,.csv">
 
@@ -255,14 +261,21 @@ activeLinkId: "nav-editor"
                         alignMenu: "right",
                         items: [
                         {
-                        text: "Upload a form",
+                        text: "Manage conditions",
+                        href: "/form-editor/conditions-manager",
+                        attributes: {
+                        "onclick": "return true;"
+                        }
+                        },
+                        {
+                        text: "Upload form",
                         href: "/form-editor/upload-confirmation",
                         attributes: {
                         "onclick": "return true;"
                         }
                         },
                         {
-                        text: "Download this form",
+                        text: "Download form",
                         href: "#",
                         attributes: {
                         "onclick": "downloadForm(); return false;"
@@ -272,8 +285,9 @@ activeLinkId: "nav-editor"
                         }) }}
 
                     </div>
+                    {% if formPages.length > 0 %}
                     <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
-
+                    {% endif %}
                 </h2>
             </div>
         </div>
@@ -529,18 +543,17 @@ activeLinkId: "nav-editor"
                                                     {% set previewTemplate =
                                                     '/form-editor/question-type/questions/previews/radios-preview.html'
                                                     %}
-                                                    {% elif question.type == 'yes-no' %}
+                                                    {% elif question.subType == 'yes-no' %}
                                                     {% set previewTemplate =
                                                     '/form-editor/question-type/questions/previews/yesno-preview.html'
                                                     %}
-                                                    {% elif question.type == 'select' %}
+                                                    {% elif question.subType == 'select' %}
                                                     {% set previewTemplate =
                                                     '/form-editor/question-type/questions/previews/autocomplete-preview.html'
                                                     %}
                                                     {% else %}
                                                     {% set previewTemplate =
-                                                    '/form-editor/question-type/questions/previews/list-preview.html'
-                                                    %}
+                                                    '/form-editor/question-type/questions/previews/list-preview.html' %}
                                                     {% endif %}
                                                     {% else %}
                                                     {% set previewTemplate =

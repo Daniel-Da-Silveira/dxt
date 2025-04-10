@@ -16,7 +16,7 @@ signOutLink: "/onboarding/sign-out-confirmation",
 navigationItems: [
 { href: "/library.html", text: "Forms library", id: "nav-library" },
 { href: "/cph-overview/draft/complete-clean.html", text: "Overview", id: "nav-overview" },
-{ href: "/redesigntest/listing", text: "Editor", id: "nav-editor" }
+{ href: "/form-editor/listing", text: "Editor", id: "nav-editor" }
 ],
 activeLinkId: "nav-editor"
 }) }}
@@ -24,7 +24,7 @@ activeLinkId: "nav-editor"
 <div class="x-govuk-masthead x-govuk-masthead--large">
   <div class="govuk-width-container">
     {{ govukBackLink({ classes: "govuk-back-link--inverse govuk-!-margin-bottom-0", text: "Back to edit page 2", href:
-    "/redesigntest/listing.html" }) }}
+    "/form-editor/listing.html" }) }}
 
     <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible"
       style="border-bottom: 1px solid white; margin-bottom: 0" />
@@ -53,7 +53,7 @@ activeLinkId: "nav-editor"
 
     {% from "govuk/components/radios/macro.njk" import govukRadios %}
 
-    <form class="form" action="/redesigntest/listing" method="post">
+    <form class="form" action="/form-editor/listing" method="post">
 
       <h2 class="govuk-heading-l">
         Are you sure you want to delete page 2?

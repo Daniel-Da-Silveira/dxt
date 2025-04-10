@@ -281,18 +281,13 @@ text-align: center;"> Previews
         document.addEventListener('DOMContentLoaded', function () {
           // DOM Elements
           const domElements = {
-            // Existing elements
-            questionLabelInputNumbers: document.getElementById('question-label-input-numbers'),
-            questionLabelLegendNumbers: document.getElementById('question-label-legend-numbers'),
-            hintTextInputNumbers: document.getElementById('hint-text-input-numbers'),
-            hintTextOutputNumbers: document.getElementById('hint-text-output-numbers'),
+            questionLabelInput: document.getElementById('question-label-input-number'),
+            questionLabelLegend: document.getElementById('question-label-legend-numbers'),
+            hintTextInput: document.getElementById('hint-text-input-number'),
+            hintTextOutput: document.getElementById('hint-text-output-numbers'),
             makeOptionalCheckbox: document.getElementById('make-optional'),
-
-            // New elements for page heading and guidance text
-            pageHeadingInputNumbers: document.getElementById('page-heading-input-numbers'),
-            dynamicHeading: document.getElementById('dynamic-heading'),
-            guidanceNumbers: document.getElementById('guidance-numbers'),
-            guidanceParagraph: document.getElementById('guidance-paragraph')
+            errorMessageInput: document.getElementById('error-message-input-number'),
+            errorMessagePreviewElements: document.querySelectorAll("#error-dynamic-text, #error-dynamic-text-long, #error-dynamic-text-short")
           };
 
           // Initialize event listeners
@@ -300,108 +295,79 @@ text-align: center;"> Previews
 
           function initializeEventListeners() {
             // Update question label
-            if (domElements.questionLabelInputNumbers && domElements.questionLabelLegendNumbers) {
-              domElements.questionLabelInputNumbers.addEventListener('input', updateQuestionLabel);
+            if (domElements.questionLabelInput && domElements.questionLabelLegend) {
+              domElements.questionLabelInput.addEventListener('input', updateQuestionLabel);
+              applyHighlightOnFocus(domElements.questionLabelInput, domElements.questionLabelLegend);
             }
 
-            // Update hint text and handle placeholder
-            if (domElements.hintTextInputNumbers && domElements.hintTextOutputNumbers) {
-              domElements.hintTextInputNumbers.addEventListener('input', updateHintText);
-              domElements.hintTextInputNumbers.addEventListener('focus', showPlaceholderHint);
-              domElements.hintTextInputNumbers.addEventListener('blur', clearPlaceholderHint);
+            // Update hint text
+            if (domElements.hintTextInput && domElements.hintTextOutput) {
+              domElements.hintTextInput.addEventListener('input', updateHintText);
+              domElements.hintTextInput.addEventListener('focus', showPlaceholderHint);
+              domElements.hintTextInput.addEventListener('blur', clearPlaceholderHint);
+              applyHighlightOnFocus(domElements.hintTextInput, domElements.hintTextOutput);
             }
 
-            // Update page heading and handle placeholder
-            if (domElements.pageHeadingInputNumbers && domElements.dynamicHeading) {
-              domElements.pageHeadingInputNumbers.addEventListener('input', updatePageHeading);
-              domElements.pageHeadingInputNumbers.addEventListener('focus', showPlaceholderHeading);
-              domElements.pageHeadingInputNumbers.addEventListener('blur', clearPlaceholderHeading);
+            // Update error messages
+            if (domElements.errorMessageInput && domElements.errorMessagePreviewElements.length) {
+              domElements.errorMessageInput.addEventListener('input', updateErrorMessages);
+              applyHighlightOnFocus(domElements.errorMessageInput, domElements.errorMessagePreviewElements);
             }
 
-            // Update guidance text and handle placeholder
-            if (domElements.guidanceNumbers && domElements.guidanceParagraph) {
-              domElements.guidanceNumbers.addEventListener('input', updateGuidanceText);
-              domElements.guidanceNumbers.addEventListener('focus', showPlaceholderGuidance);
-              domElements.guidanceNumbers.addEventListener('blur', clearPlaceholderGuidance);
+            // Update optional state
+            if (domElements.makeOptionalCheckbox) {
+              domElements.makeOptionalCheckbox.addEventListener('change', updateQuestionLabel);
             }
-
-            // Apply focus/blur highlighting
-            applyHighlightOnFocus(domElements.questionLabelInputNumbers, domElements.questionLabelLegendNumbers);
-            applyHighlightOnFocus(domElements.hintTextInputNumbers, domElements.hintTextOutputNumbers);
-            applyHighlightOnFocus(domElements.pageHeadingInputNumbers, domElements.dynamicHeading);
-            applyHighlightOnFocus(domElements.guidanceNumbers, domElements.guidanceParagraph);
           }
 
           function updateQuestionLabel() {
-            const suffix = domElements.makeOptionalCheckbox.checked ? ' (optional)' : '';
-            domElements.questionLabelLegendNumbers.textContent = domElements.questionLabelInputNumbers.value || 'Question';
-            domElements.questionLabelLegendNumbers.textContent += suffix;
-          }
-
-          function updateHintText() {
-            domElements.hintTextOutputNumbers.textContent = domElements.hintTextInputNumbers.value;
-          }
-
-          function updatePageHeading() {
-            domElements.dynamicHeading.textContent = domElements.pageHeadingInputNumbers.value;
-          }
-
-          function updateGuidanceText() {
-            domElements.guidanceParagraph.textContent = domElements.guidanceNumbers.value;
-          }
-
-          function applyHighlightOnFocus(inputElement, targetElement) {
-            if (inputElement && targetElement) {
-              inputElement.addEventListener('focus', function () {
-                targetElement.classList.add('highlight');
-              });
-              inputElement.addEventListener('blur', function () {
-                targetElement.classList.remove('highlight');
-              });
-
-              // If the input is already focused
-              if (document.activeElement === inputElement) {
-                targetElement.classList.add('highlight');
-              }
+            const suffix = domElements.makeOptionalCheckbox?.checked ? ' (optional)' : '';
+            if (domElements.questionLabelLegend) {
+              domElements.questionLabelLegend.textContent = (domElements.questionLabelInput?.value || 'Question') + suffix;
             }
           }
 
-          // Placeholder handling for hint text
+          function updateHintText() {
+            if (domElements.hintTextOutput) {
+              domElements.hintTextOutput.textContent = domElements.hintTextInput?.value || '';
+            }
+          }
+
+          function updateErrorMessages() {
+            const shortDescription = domElements.errorMessageInput?.value || '[Short description]';
+            domElements.errorMessagePreviewElements.forEach(element => {
+              element.textContent = shortDescription;
+            });
+          }
+
           function showPlaceholderHint() {
-            if (!domElements.hintTextInputNumbers.value) {
-              domElements.hintTextOutputNumbers.textContent = 'Hint text';
+            if (domElements.hintTextOutput && !domElements.hintTextInput?.value) {
+              domElements.hintTextOutput.textContent = 'Hint text';
             }
           }
 
           function clearPlaceholderHint() {
-            if (!domElements.hintTextInputNumbers.value) {
+            if (domElements.hintTextOutput && !domElements.hintTextInput?.value) {
               domElements.hintTextOutput.textContent = '';
             }
           }
 
-          // Placeholder handling for page heading
-          function showPlaceholderHeading() {
-            if (!domElements.pageHeadingInputNumbers.value) {
-              domElements.dynamicHeading.textContent = 'Page heading';
-            }
-          }
+          function applyHighlightOnFocus(inputElement, targetElements) {
+            if (!inputElement || !targetElements) return;
 
-          function clearPlaceholderHeading() {
-            if (!domElements.pageHeadingInputNumbers.value) {
-              domElements.dynamicHeading.textContent = '';
-            }
-          }
+            const targets = Array.isArray(targetElements) ? targetElements : [targetElements];
 
-          // Placeholder handling for guidance text
-          function showPlaceholderGuidance() {
-            if (!domElements.guidanceNumbers.value) {
-              domElements.guidanceParagraph.textContent = 'Guidance text';
-            }
-          }
+            inputElement.addEventListener('focus', function () {
+              targets.forEach(target => target?.classList?.add('highlight'));
+            });
 
-          function clearPlaceholderGuidance() {
-            if (!domElements.guidanceNumbers.value) {
-              domElements.guidanceParagraph.textContent = '';
+            inputElement.addEventListener('blur', function () {
+              targets.forEach(target => target?.classList?.remove('highlight'));
+            });
+
+            // If the input is already focused
+            if (document.activeElement === inputElement) {
+              targets.forEach(target => target?.classList?.add('highlight'));
             }
           }
         });

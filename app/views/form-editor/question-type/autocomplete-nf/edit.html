@@ -18,14 +18,14 @@ signOutLink: "/onboarding/sign-out-confirmation",
 navigationItems: [
 { href: "/library.html", text: "Forms library", id: "nav-library" },
 { href: "/cph-overview/draft/complete-clean.html", text: "Overview", id: "nav-overview" },
-{ href: "/redesigntest/listing", text: "Editor", id: "nav-editor" } ],
+{ href: "/form-editor/listing", text: "Editor", id: "nav-editor" } ],
 activeLinkId: "nav-editor"
 }) }}
 
 <div class="x-govuk-masthead x-govuk-masthead--large">
   <div class="govuk-width-container">
     {{ govukBackLink({ classes: "govuk-back-link--inverse govuk-!-margin-bottom-0", text:
-    commonTerms.form_editor.information_type.back, href: "/redesigntest/listing.html" }) }}
+    commonTerms.form_editor.information_type.back, href: "/form-editor/listing.html" }) }}
 
     <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible"
       style="border-bottom: 1px solid white; margin-bottom: 0" />
@@ -199,7 +199,7 @@ activeLinkId: "nav-editor"
 
       <!-- Right Column for Preview -->
       <div class="govuk-grid-column-one-half-from-desktop" id="second-container"
-        style="outline: solid 1px #008938; height: 100%; position: sticky; top: 0; padding: 20px; box-shadow: 5px 10px #008938;">
+        style="outline: solid 1px #008938; height: 100%; position: sticky; top: 0; padding: 20px; box-shadow: 5px 10px #008938; overflow-y: auto; max-height: 100vh;">
         <!-- Before content -->
         <div id="before-content" style=" background-color:  #cce2d8;">
           <p class="govuk-body-s" style="margin-bottom: 0; color: #005a30; padding: 2px 8px 3px;
@@ -393,215 +393,96 @@ activeLinkId: "nav-editor"
     <script>
       document.addEventListener('DOMContentLoaded', function () {
         const domElements = {
-          questionLabelInputAutocomplete: document.getElementById('question-label-input-autocomplete'),
-          hintTextInputAutocomplete: document.getElementById('hint-text-input-autocomplete'),
+          questionLabelInput: document.getElementById('question-label-input-autocomplete'),
+          questionLabelLegend: document.getElementById('question-label-legend-q1'),
+          hintTextInput: document.getElementById('hint-text-input-autocomplete'),
           hintTextOutput: document.getElementById('listPreview-hint'),
           makeOptionalCheckbox: document.getElementById('makeOptional'),
-
-          editOptionsButton: document.getElementById('edit-options-button'),
-          optionsContainer: document.getElementById('options-container'),
-          radioList: document.getElementById('radio-list')
+          errorMessageInput: document.getElementById('error-message-input-autocomplete'),
+          errorMessagePreviewElements: document.querySelectorAll("#error-dynamic-text")
         };
 
-        let optionIndex = 0; // Start at 0 for the first option
+        // Initialize event listeners
+        initializeEventListeners();
 
-        // initialise event listeners
-        initialiseEventListeners();
-
-        function initialiseEventListeners() {
-          // Update question label and apply highlight to legend
-          if (domElements.questionLabelInputAutocomplete) {
-            domElements.questionLabelInputAutocomplete.addEventListener('input', updateQuestionLabel);
-            applyHighlightOnFocus(domElements.questionLabelInputAutocomplete, getQuestionLabelLegend());
+        function initializeEventListeners() {
+          // Update question label
+          if (domElements.questionLabelInput && domElements.questionLabelLegend) {
+            domElements.questionLabelInput.addEventListener('input', updateQuestionLabel);
+            applyHighlightOnFocus(domElements.questionLabelInput, domElements.questionLabelLegend);
           }
 
-          // initialise the reordering functionality
-          initialiseOptionsReordering();
-        }
+          // Update hint text
+          if (domElements.hintTextInput && domElements.hintTextOutput) {
+            domElements.hintTextInput.addEventListener('input', updateHintText);
+            domElements.hintTextInput.addEventListener('focus', showPlaceholderHint);
+            domElements.hintTextInput.addEventListener('blur', clearPlaceholderHint);
+            applyHighlightOnFocus(domElements.hintTextInput, domElements.hintTextOutput);
+          }
 
-        // Dynamically fetch the legend element to ensure it exists
-        function getQuestionLabelLegend() {
-          return document.querySelector('legend[for="question-label-input-autocomplete"]');
+          // Update error messages
+          if (domElements.errorMessageInput && domElements.errorMessagePreviewElements.length) {
+            domElements.errorMessageInput.addEventListener('input', updateErrorMessages);
+            applyHighlightOnFocus(domElements.errorMessageInput, domElements.errorMessagePreviewElements);
+          }
+
+          // Update optional state
+          if (domElements.makeOptionalCheckbox) {
+            domElements.makeOptionalCheckbox.addEventListener('change', updateQuestionLabel);
+          }
         }
 
         function updateQuestionLabel() {
-          const questionLabelLegend = getQuestionLabelLegend();
-          if (questionLabelLegend) {
-            const suffix = domElements.makeOptionalCheckbox && domElements.makeOptionalCheckbox.checked ? ' (optional)' : '';
-            questionLabelLegend.textContent = (domElements.questionLabelInputAutocomplete.value || 'Question') + suffix;
+          const suffix = domElements.makeOptionalCheckbox?.checked ? ' (optional)' : '';
+          if (domElements.questionLabelLegend) {
+            domElements.questionLabelLegend.textContent = (domElements.questionLabelInput?.value || 'Question') + suffix;
           }
         }
 
-
-        function applyHighlightOnFocus(inputElement, targetElement) {
-          if (inputElement && targetElement) {
-            inputElement.addEventListener('focus', () => targetElement.classList.add('highlight'));
-            inputElement.addEventListener('blur', () => targetElement.classList.remove('highlight'));
-            if (document.activeElement === inputElement) targetElement.classList.add('highlight');
+        function updateHintText() {
+          if (domElements.hintTextOutput) {
+            domElements.hintTextOutput.textContent = domElements.hintTextInput?.value || '';
           }
         }
 
-        function initialiseOptionsReordering() {
-          let editMode = false;
-
-          function createOptionItem(index, labelValue = '') {
-            const li = document.createElement('li');
-            li.className = 'gem-c-reorderable-list__item';
-            li.setAttribute('draggable', 'true');
-            li.setAttribute('data-index', index);
-
-            li.innerHTML = `
-        <div class="gem-c-reorderable-list__wrapper">
-          <div class="gem-c-reorderable-list__content">
-            <p class="gem-c-reorderable-list__title">
-              <span class="option-number">Option ${index + 1}:</span>
-              <input class="govuk-input option-label-input" type="text" id="option-${index}-label" name="options[${index}][label]" value="${labelValue}" placeholder="Option label">
-            </p>
-          </div>
-          <div class="gem-c-reorderable-list__actions">
-            <button class="gem-c-button govuk-button govuk-button--secondary js-reorderable-list-up" type="button">Up</button>
-            <button class="gem-c-button govuk-button govuk-button--secondary js-reorderable-list-down" type="button">Down</button>
-            <button class="gem-c-button govuk-button govuk-button--warning js-remove-option" type="button">Remove</button>
-          </div>
-        </div>
-      `;
-            return li;
-          }
-
-          function updateOptionNumbers() {
-            const items = document.querySelectorAll('#options-container .gem-c-reorderable-list__item');
-            const previewContainer = document.getElementById('radio-list');
-            previewContainer.innerHTML = '';
-
-            items.forEach((item, index) => {
-              const optionNumberSpan = item.querySelector('.option-number');
-              optionNumberSpan.textContent = `Option ${index + 1}:`;
-              item.setAttribute('data-index', index);
-              const input = item.querySelector('.option-label-input');
-              input.setAttribute('name', `options[${index}][label]`);
-              input.id = `option-${index}-label`;
-
-              const labelValue = input.value || `Option ${index + 1}`;
-              addOptionToPreview(index, labelValue);
-              applyHighlightOnFocusForOptions(input.id, `listPreview-option${index}`);
-            });
-
-            optionIndex = items.length;
-            manageUpDownButtons();
-          }
-
-          function manageUpDownButtons() {
-            const items = document.querySelectorAll('#options-container .gem-c-reorderable-list__item');
-            items.forEach((item, index) => {
-              const upButton = item.querySelector('.js-reorderable-list-up');
-              const downButton = item.querySelector('.js-reorderable-list-down');
-              upButton.style.display = index === 0 ? 'none' : 'inline-block';
-              downButton.style.display = index === items.length - 1 ? 'none' : 'inline-block';
-            });
-          }
-
-          let sortableInstance;
-          function initialiseSortable() {
-            sortableInstance = new Sortable(document.getElementById('options-container'), {
-              animation: 150,
-              handle: ".gem-c-reorderable-list__wrapper",
-              draggable: ".gem-c-reorderable-list__item",
-              ghostClass: "sortable-ghost",
-              onEnd: updateOptionNumbers,
-              disabled: true
-            });
-          }
-
-          function addOptionEventListeners(item) {
-            const upButton = item.querySelector('.js-reorderable-list-up');
-            const downButton = item.querySelector('.js-reorderable-list-down');
-            const removeButton = item.querySelector('.js-remove-option');
-
-            upButton.addEventListener('click', () => {
-              const prevItem = item.previousElementSibling;
-              if (prevItem) item.parentNode.insertBefore(item, prevItem);
-              updateOptionNumbers();
-            });
-
-            downButton.addEventListener('click', () => {
-              const nextItem = item.nextElementSibling;
-              if (nextItem) item.parentNode.insertBefore(nextItem, item);
-              updateOptionNumbers();
-            });
-
-            removeButton.addEventListener('click', () => {
-              item.parentNode.removeChild(item);
-              updateOptionNumbers();
-            });
-
-            const inputElement = item.querySelector('.option-label-input');
-            inputElement.addEventListener('input', () => {
-              updateOptionPreview(item.getAttribute('data-index'), inputElement.value);
-            });
-
-            applyHighlightOnFocusForOptions(inputElement.id, `listPreview-option${item.getAttribute('data-index')}`);
-          }
-
-          function updateOptionPreview(index, value) {
-            const previewOptionLabel = document.querySelector(`label[for="listPreview-option${index}"]`);
-            if (previewOptionLabel) {
-              previewOptionLabel.textContent = value || `Option ${parseInt(index) + 1}`;
-              previewOptionLabel.classList.add('highlight');
-              setTimeout(() => previewOptionLabel.classList.remove('highlight'), 300);
-            }
-          }
-
-          function addOptionToPreview(index, labelValue) {
-            const radioList = document.getElementById('radio-list');
-            const newRadioHTML = `
-        <div class="govuk-radios__item" id="preview-option-${index}">
-          <input class="govuk-radios__input" id="listPreview-option${index}" name="listPreview" type="radio" value="option${index}">
-          <label class="govuk-label govuk-radios__label" for="listPreview-option${index}">${labelValue || `Option ${parseInt(index) + 1}`}</label>
-        </div>
-      `;
-            radioList.insertAdjacentHTML('beforeend', newRadioHTML);
-          }
-
-          document.getElementById('add-option-button').addEventListener('click', () => {
-            const newItem = createOptionItem(optionIndex);
-            document.getElementById('options-container').appendChild(newItem);
-            addOptionEventListeners(newItem);
-            addOptionToPreview(optionIndex, newItem.querySelector('.option-label-input').value);
-            optionIndex++;
-            manageUpDownButtons();
-          });
-
-          const initialItem = createOptionItem(optionIndex);
-          document.getElementById('options-container').appendChild(initialItem);
-          addOptionEventListeners(initialItem);
-          addOptionToPreview(optionIndex, '');
-          optionIndex++;
-
-          initialiseSortable();
-
-          domElements.editOptionsButton.addEventListener('click', () => {
-            editMode = !editMode;
-            domElements.editOptionsButton.textContent = editMode ? 'Save changes' : 'Re-order list';
-            document.querySelectorAll('.gem-c-reorderable-list__actions').forEach(actions => {
-              actions.style.display = editMode ? 'flex' : 'none';
-            });
-            sortableInstance.option('disabled', !editMode);
-            manageUpDownButtons();
+        function updateErrorMessages() {
+          const shortDescription = domElements.errorMessageInput?.value || '[short description]';
+          domElements.errorMessagePreviewElements.forEach(element => {
+            element.textContent = shortDescription;
           });
         }
 
-        function applyHighlightOnFocusForOptions(inputElementId, radioElementId) {
-          const inputElement = document.getElementById(inputElementId);
-          const radioLabel = document.querySelector(`label[for="${radioElementId}"]`);
-          if (inputElement && radioLabel) {
-            inputElement.addEventListener('focus', () => radioLabel.classList.add('highlight'));
-            inputElement.addEventListener('blur', () => radioLabel.classList.remove('highlight'));
-            if (document.activeElement === inputElement) radioLabel.classList.add('highlight');
+        function showPlaceholderHint() {
+          if (domElements.hintTextOutput && !domElements.hintTextInput?.value) {
+            domElements.hintTextOutput.textContent = 'Hint text';
+          }
+        }
+
+        function clearPlaceholderHint() {
+          if (domElements.hintTextOutput && !domElements.hintTextInput?.value) {
+            domElements.hintTextOutput.textContent = '';
+          }
+        }
+
+        function applyHighlightOnFocus(inputElement, targetElements) {
+          if (!inputElement || !targetElements) return;
+
+          const targets = Array.isArray(targetElements) ? targetElements : [targetElements];
+
+          inputElement.addEventListener('focus', function () {
+            targets.forEach(target => target?.classList?.add('highlight'));
+          });
+
+          inputElement.addEventListener('blur', function () {
+            targets.forEach(target => target?.classList?.remove('highlight'));
+          });
+
+          // If the input is already focused
+          if (document.activeElement === inputElement) {
+            targets.forEach(target => target?.classList?.add('highlight'));
           }
         }
       });
-
-
     </script>
 
     {# TESTING #}

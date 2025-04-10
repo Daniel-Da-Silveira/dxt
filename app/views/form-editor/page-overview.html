@@ -510,7 +510,7 @@ activeLinkId: "nav-editor"
 
       <!-- Right Column for Preview -->
       <div class="govuk-grid-column-one-half-from-desktop" id="second-container"
-        style="outline: solid 1px #008938; height: 100%; position: sticky; top: 0; padding: 20px; box-shadow: 5px 10px #008938;">
+        style="outline: solid 1px #008938; height: 100%; position: sticky; top: 0; padding: 20px; box-shadow: 5px 10px #008938; overflow-y: auto; max-height: 100vh;">
         <!-- Before content -->
         <div id="before-content" style="background-color: #cce2d8;">
           <p class="govuk-body-s" style="margin-bottom: 0; color: #005a30; padding: 2px 8px 3px; text-align: center;">
@@ -1399,6 +1399,10 @@ activeLinkId: "nav-editor"
         if (!pageHeadingInput.value.trim()) {
           dynamicHeading.textContent = "";
         }
+        // If no guidance typed, remove from preview
+        if (!guidanceTextarea.value.trim()) {
+          guidanceParagraph.textContent = "";
+        }
       }
     }
 
@@ -1420,6 +1424,27 @@ activeLinkId: "nav-editor"
         if (guidanceTextarea.value.trim()) {
           guidanceParagraph.textContent = guidanceTextarea.value;
         } else {
+          guidanceParagraph.textContent = "";
+        }
+      });
+
+      // Add focus/blur handlers for highlighting and placeholders
+      pageHeadingInput.addEventListener('focus', () => {
+        dynamicHeading.classList.add('highlight');
+      });
+      pageHeadingInput.addEventListener('blur', () => {
+        dynamicHeading.classList.remove('highlight');
+      });
+
+      guidanceTextarea.addEventListener('focus', () => {
+        guidanceParagraph.classList.add('highlight');
+        if (!guidanceTextarea.value.trim()) {
+          guidanceParagraph.textContent = guidancePlaceholder;
+        }
+      });
+      guidanceTextarea.addEventListener('blur', () => {
+        guidanceParagraph.classList.remove('highlight');
+        if (!guidanceTextarea.value.trim()) {
           guidanceParagraph.textContent = "";
         }
       });

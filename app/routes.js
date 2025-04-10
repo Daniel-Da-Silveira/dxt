@@ -1158,27 +1158,20 @@ function findQuestionById(formPages, questionId) {
 
 router.get("/form-editor/conditions/:pageId", function (req, res) {
   const formData = req.session.data || {};
-  const formPages = req.session.data["formPages"] || [];
+  const formPages = req.session.data.formPages || [];
   const pageId = req.params.pageId;
 
-  // Find the current page by pageId
+  // Find the current page
   const currentPage = formPages.find((page) => String(page.pageId) === pageId);
-
   if (!currentPage) {
-    console.error("Page not found:", pageId);
     return res.redirect("/form-editor/listing");
   }
 
-  // Store the current page ID in session for other routes
-  req.session.data.currentPageId = pageId;
+  // Get page number
+  const pageNumber =
+    formPages.findIndex((page) => String(page.pageId) === pageId) + 1;
 
-  // Find the page index for numbering
-  const pageIndex = formPages.findIndex(
-    (page) => String(page.pageId) === pageId
-  );
-  const pageNumber = pageIndex + 1;
-
-  // Get all available questions for conditions
+  // Get available questions for conditions
   const availableQuestions = formPages
     .flatMap((page) => page.questions)
     .filter((question) => {
@@ -1192,24 +1185,56 @@ router.get("/form-editor/conditions/:pageId", function (req, res) {
       options: question.options,
     }));
 
-  // Collect all existing conditions from other pages
-  const existingConditions = formPages
+  // Get existing conditions from form-level and other pages
+  const existingConditions = [];
+
+  // Add form-level conditions first
+  if (formData.conditions) {
+    existingConditions.push(
+      ...formData.conditions.map((condition) => ({
+        value: condition.id.toString(),
+        text: condition.conditionName,
+        hint: {
+          text: condition.rules
+            .map(
+              (rule) =>
+                `${rule.questionText} ${rule.operator} ${
+                  Array.isArray(rule.value)
+                    ? rule.value.join(" or ")
+                    : rule.value
+                }`
+            )
+            .join(" AND "),
+        },
+      }))
+    );
+  }
+
+  // Add page-level conditions from other pages
+  formPages
     .filter((page) => String(page.pageId) !== pageId) // Exclude current page
-    .flatMap((page) => page.conditions || [])
-    .map((condition) => ({
-      value: condition.id.toString(),
-      text: condition.conditionName,
-      hint: {
-        text: condition.rules
-          .map(
-            (rule) =>
-              `${rule.questionText} ${rule.operator} ${
-                Array.isArray(rule.value) ? rule.value.join(" or ") : rule.value
-              }`
-          )
-          .join(" AND "),
-      },
-    }));
+    .forEach((page) => {
+      if (page.conditions) {
+        existingConditions.push(
+          ...page.conditions.map((condition) => ({
+            value: condition.id.toString(),
+            text: condition.conditionName,
+            hint: {
+              text: condition.rules
+                .map(
+                  (rule) =>
+                    `${rule.questionText} ${rule.operator} ${
+                      Array.isArray(rule.value)
+                        ? rule.value.join(" or ")
+                        : rule.value
+                    }`
+                )
+                .join(" AND "),
+            },
+          }))
+        );
+      }
+    });
 
   res.render("form-editor/conditions.html", {
     form: {
@@ -1217,10 +1242,11 @@ router.get("/form-editor/conditions/:pageId", function (req, res) {
     },
     pageNumber: pageNumber,
     currentPage: currentPage,
+    question: currentPage.questions[0], // Add the first question as the current question
     availableQuestions: availableQuestions,
     conditions: currentPage.conditions || [],
     formPages: formPages,
-    existingConditions: existingConditions, // Add this line to pass existing conditions
+    existingConditions: existingConditions,
   });
 });
 
@@ -1229,6 +1255,7 @@ router.get("/form-editor/conditions/:pageId", function (req, res) {
 //    Add a new condition or copy an existing one
 //--------------------------------------
 router.post("/conditions-add", function (req, res) {
+  const formData = req.session.data || {};
   const formPages = req.session.data.formPages || [];
   const currentPageId = req.body.currentPageId;
 
@@ -1250,19 +1277,28 @@ router.post("/conditions-add", function (req, res) {
   currentPage.conditions = currentPage.conditions || [];
 
   if (req.body.conditionType === "existing") {
-    // Handle existing condition
     const existingConditionId = req.body.existingConditionId;
-    let existingCondition = null;
+    console.log("Looking for existing condition with ID:", existingConditionId);
 
-    // Find the existing condition in any page
-    for (const page of formPages) {
-      if (page.conditions) {
-        const found = page.conditions.find(
-          (c) => c.id.toString() === existingConditionId
-        );
-        if (found) {
-          existingCondition = found;
-          break;
+    // Find the existing condition from form-level conditions first
+    let existingCondition = null;
+    if (formData.conditions) {
+      existingCondition = formData.conditions.find(
+        (c) => String(c.id) === String(existingConditionId)
+      );
+    }
+
+    // If not found in form-level, look in page-level conditions
+    if (!existingCondition) {
+      for (const page of formPages) {
+        if (page.conditions) {
+          const found = page.conditions.find(
+            (c) => String(c.id) === String(existingConditionId)
+          );
+          if (found) {
+            existingCondition = found;
+            break;
+          }
         }
       }
     }
@@ -1270,27 +1306,33 @@ router.post("/conditions-add", function (req, res) {
     console.log("Found existing condition:", existingCondition);
 
     if (existingCondition) {
-      // Create a deep copy of the existing condition with a new ID
-      const newCondition = {
-        id: Date.now(),
-        conditionName: existingCondition.conditionName,
-        rules: existingCondition.rules.map((rule) => ({
-          questionText: rule.questionText,
-          operator: rule.operator,
-          value: rule.value,
-          logicalOperator: rule.logicalOperator,
-        })),
-        text: existingCondition.text,
-      };
+      // Check if condition already exists in current page
+      const alreadyExists = currentPage.conditions.some(
+        (c) => String(c.id) === String(existingConditionId)
+      );
 
-      console.log("New condition created from existing:", newCondition);
-      currentPage.conditions.push(newCondition);
+      if (!alreadyExists) {
+        // Add a deep copy of the condition to avoid reference issues
+        currentPage.conditions.push(
+          JSON.parse(JSON.stringify(existingCondition))
+        );
+      }
     } else {
       console.error(
         "Could not find existing condition with ID:",
         existingConditionId
       );
     }
+
+    console.log("Updated page conditions:", currentPage.conditions);
+
+    // Save back to session
+    req.session.data.formPages = formPages;
+
+    // Fix the redirect URL to include the form-editor prefix
+    const returnUrl = `/form-editor/conditions/${currentPageId}`;
+    console.log("Redirecting to:", returnUrl);
+    return res.redirect(returnUrl);
   } else {
     // Handle new condition
     let rules;
@@ -1355,7 +1397,7 @@ router.post("/conditions-add", function (req, res) {
   // Fix the redirect URL to include the form-editor prefix
   const returnUrl = `/form-editor/conditions/${currentPageId}`;
   console.log("Redirecting to:", returnUrl);
-  res.redirect(returnUrl);
+  return res.redirect(returnUrl);
 });
 
 //--------------------------------------
@@ -2223,4 +2265,662 @@ router.post("/form-overview/manage-form/delete-draft/confirm", (req, res) => {
 
   // Redirect to library
   res.redirect("/library");
+});
+
+//--------------------------------------
+// Form-level conditions management
+//--------------------------------------
+router.get("/form-editor/conditions-manager", function (req, res) {
+  const formData = req.session.data || {};
+  const formPages = req.session.data["formPages"] || [];
+  const conditions = formData.conditions || [];
+
+  // Get all available questions for conditions
+  const availableQuestions = formPages
+    .flatMap((page) => page.questions)
+    .filter((question) => {
+      const type = question.subType || question.type;
+      return ["radios", "checkboxes", "yes-no"].includes(type);
+    })
+    .map((question) => ({
+      value: question.questionId,
+      text: question.label,
+      type: question.subType || question.type,
+      options: question.options,
+    }));
+
+  res.render("form-editor/conditions-manager.html", {
+    form: {
+      name: formData.formName || "Food takeaway (user research)",
+    },
+    availableQuestions: availableQuestions,
+    conditions: conditions,
+    formPages: formPages,
+  });
+});
+
+//--------------------------------------
+// Add/Edit form-level condition
+//--------------------------------------
+router.post("/form-editor/conditions-manager/add", function (req, res) {
+  const formData = req.session.data || {};
+  if (!formData.conditions) {
+    formData.conditions = [];
+  }
+
+  // Parse rules if it's a string, or use directly if it's already an object
+  let rules;
+  try {
+    if (req.body.rules) {
+      rules =
+        typeof req.body.rules === "string"
+          ? JSON.parse(req.body.rules)
+          : req.body.rules;
+      if (!Array.isArray(rules)) {
+        rules = [rules];
+      }
+    } else {
+      console.error("No rules provided in request");
+      rules = [];
+    }
+  } catch (e) {
+    console.error("Error handling rules:", e);
+    rules = [];
+  }
+
+  // Create the new condition
+  const newCondition = {
+    id: Date.now(),
+    conditionName: req.body.conditionName,
+    rules: rules.map((rule) => ({
+      questionText: rule.questionText,
+      operator: rule.operator,
+      value: rule.value,
+      logicalOperator: rule.logicalOperator,
+    })),
+    text: rules
+      .map((rule) => {
+        const valueText = Array.isArray(rule.value)
+          ? rule.value.map((v) => `'${v}'`).join(" or ")
+          : `'${rule.value}'`;
+        return `${rule.questionText} ${rule.operator} ${valueText}`;
+      })
+      .join(" "),
+  };
+
+  // Add the condition to the global conditions list only
+  formData.conditions.push(newCondition);
+
+  // Save back to session
+  req.session.data = formData;
+
+  res.redirect("/form-editor/conditions-manager");
+});
+
+//--------------------------------------
+// Remove form-level condition
+//--------------------------------------
+router.post("/form-editor/conditions-manager/remove", function (req, res) {
+  const formData = req.session.data || {};
+  const formPages = req.session.data.formPages || [];
+  const conditionId = req.body.conditionId;
+  const conditionIds = req.body.conditionIds
+    ? JSON.parse(req.body.conditionIds)
+    : null;
+
+  // Function to remove condition by ID
+  const removeConditionById = (id) => {
+    // Remove from form-level conditions if they exist
+    if (formData.conditions) {
+      formData.conditions = formData.conditions.filter(
+        (c) => c.id.toString() !== id.toString()
+      );
+    }
+
+    // Remove from any pages that use this condition
+    formPages.forEach((page) => {
+      if (page.conditions) {
+        page.conditions = page.conditions.filter(
+          (c) => c.id.toString() !== id.toString()
+        );
+      }
+      // Also check if this condition is used in any page's conditional routing
+      if (page.conditionalRouting) {
+        page.conditionalRouting = page.conditionalRouting.filter(
+          (route) => route.conditionId.toString() !== id.toString()
+        );
+      }
+    });
+  };
+
+  // Handle single condition removal
+  if (conditionId) {
+    removeConditionById(conditionId);
+  }
+
+  // Handle multiple conditions removal
+  if (conditionIds) {
+    conditionIds.forEach((id) => removeConditionById(id));
+  }
+
+  // Save back to session
+  req.session.data = formData;
+
+  res.redirect("/form-editor/conditions-manager");
+});
+
+//--------------------------------------
+// Join conditions
+//--------------------------------------
+router.post("/form-editor/conditions-manager/join", function (req, res) {
+  const formData = req.session.data || {};
+  const formPages = req.session.data.formPages || [];
+  const conditionIds = JSON.parse(req.body.conditionIds);
+  const operator = req.body.operator;
+  const newConditionName = req.body.newConditionName;
+
+  // Initialize form-level conditions array if it doesn't exist
+  if (!formData.conditions) {
+    formData.conditions = [];
+  }
+
+  // Find all the conditions to be joined
+  const conditionsToJoin = [];
+
+  // First check form-level conditions
+  if (formData.conditions) {
+    formData.conditions.forEach((condition) => {
+      if (
+        conditionIds.includes(condition.id.toString()) &&
+        !conditionsToJoin.some((c) => c.id === condition.id)
+      ) {
+        conditionsToJoin.push(condition);
+      }
+    });
+  }
+
+  // Then check page-level conditions
+  formPages.forEach((page) => {
+    if (page.conditions) {
+      page.conditions.forEach((condition) => {
+        if (
+          conditionIds.includes(condition.id.toString()) &&
+          !conditionsToJoin.some((c) => c.id === condition.id)
+        ) {
+          conditionsToJoin.push(condition);
+        }
+      });
+    }
+  });
+
+  // Sort conditions to match the order of conditionIds
+  conditionsToJoin.sort((a, b) => {
+    return (
+      conditionIds.indexOf(a.id.toString()) -
+      conditionIds.indexOf(b.id.toString())
+    );
+  });
+
+  // Create the new joined condition
+  const newCondition = {
+    id: Date.now(),
+    conditionName: newConditionName,
+    rules: [],
+  };
+
+  // Add rules from all conditions with the specified operator
+  conditionsToJoin.forEach((condition, index) => {
+    condition.rules.forEach((rule, ruleIndex) => {
+      newCondition.rules.push({
+        ...rule,
+        // First rule of first condition doesn't need an operator
+        logicalOperator: index === 0 && ruleIndex === 0 ? null : operator,
+      });
+    });
+  });
+
+  // Create the text representation of the joined condition
+  newCondition.text = newCondition.rules
+    .map((rule, index) => {
+      const valueText = Array.isArray(rule.value)
+        ? rule.value.map((v) => `'${v}'`).join(" or ")
+        : `'${rule.value}'`;
+
+      return index === 0
+        ? `${rule.questionText} ${rule.operator} ${valueText}`
+        : `${rule.logicalOperator} ${rule.questionText} ${rule.operator} ${valueText}`;
+    })
+    .join(" ");
+
+  // Check if a condition with this name already exists at form level
+  const existingConditionIndex = formData.conditions.findIndex(
+    (c) => c.conditionName === newConditionName
+  );
+
+  if (existingConditionIndex !== -1) {
+    // Replace the existing condition
+    formData.conditions[existingConditionIndex] = newCondition;
+  } else {
+    // Add the new condition to form-level conditions
+    formData.conditions.push(newCondition);
+  }
+
+  // Remove any duplicate conditions from pages
+  formPages.forEach((page) => {
+    if (page.conditions) {
+      // Remove any conditions that were used in the join
+      page.conditions = page.conditions.filter(
+        (c) => !conditionIds.includes(c.id.toString())
+      );
+    }
+  });
+
+  // Save back to session
+  req.session.data = formData;
+
+  res.redirect("/form-editor/conditions-manager");
+});
+
+// Handle adding conditions to a page
+router.post("/conditions-add", function (req, res) {
+  const formData = req.session.data || {};
+  const formPages = req.session.data.formPages || [];
+  const currentPageId = req.body.currentPageId;
+
+  // Find the current page by pageId
+  const currentPage = formPages.find(
+    (page) => String(page.pageId) === String(currentPageId)
+  );
+
+  if (!currentPage) {
+    console.error("Page not found:", currentPageId);
+    return res.redirect("/form-editor/listing");
+  }
+
+  // Initialize conditions array if it doesn't exist
+  currentPage.conditions = currentPage.conditions || [];
+
+  if (req.body.conditionType === "existing") {
+    const existingConditionId = req.body.existingConditionId;
+
+    // Find the existing condition from form-level conditions first
+    let existingCondition = null;
+    if (formData.conditions) {
+      existingCondition = formData.conditions.find(
+        (c) => String(c.id) === String(existingConditionId)
+      );
+    }
+
+    // If not found in form-level, look in page-level conditions
+    if (!existingCondition) {
+      for (const page of formPages) {
+        if (page.conditions) {
+          const found = page.conditions.find(
+            (c) => String(c.id) === String(existingConditionId)
+          );
+          if (found) {
+            existingCondition = found;
+            break;
+          }
+        }
+      }
+    }
+
+    if (existingCondition) {
+      // Check if condition already exists in current page
+      const existingIndex = currentPage.conditions.findIndex(
+        (c) => String(c.id) === String(existingConditionId)
+      );
+
+      if (existingIndex !== -1) {
+        // Update the existing condition
+        currentPage.conditions[existingIndex] = JSON.parse(
+          JSON.stringify(existingCondition)
+        );
+      } else {
+        // Add a deep copy of the condition
+        currentPage.conditions.push(
+          JSON.parse(JSON.stringify(existingCondition))
+        );
+      }
+    }
+  } else {
+    // Handle new condition creation
+    let rules;
+    try {
+      if (req.body.rules) {
+        // Debug log to see what's coming in
+        console.log("Form data received:", {
+          conditionName: req.body.conditionName,
+          rules: req.body.rules,
+          entireBody: req.body,
+        });
+
+        // Parse rules if it's a string, or use directly if it's already an object
+        rules =
+          typeof req.body.rules === "string"
+            ? JSON.parse(req.body.rules)
+            : req.body.rules;
+
+        if (!Array.isArray(rules)) {
+          rules = [rules];
+        }
+      } else {
+        console.error("No rules provided in request");
+        rules = [];
+      }
+    } catch (e) {
+      console.error("Error handling rules:", e);
+      console.error(e);
+      rules = [];
+    }
+
+    // Create the new condition
+    const newCondition = {
+      id: Date.now(),
+      conditionName: req.body.conditionName,
+      rules: rules.map((rule) => ({
+        questionText: rule.questionText,
+        operator: rule.operator,
+        value: rule.value,
+        logicalOperator: rule.logicalOperator,
+      })),
+      text: rules
+        .map((rule) => {
+          // Only use "or" formatting for checkbox values (which come as arrays)
+          const valueText = Array.isArray(rule.value)
+            ? rule.value.map((v) => `'${v}'`).join(" or ")
+            : `'${rule.value}'`;
+          return `${rule.questionText} ${rule.operator} ${valueText}`;
+        })
+        .join(" AND "),
+    };
+
+    console.log("New condition created:", newCondition);
+    currentPage.conditions.push(newCondition);
+  }
+
+  // Save back to session
+  req.session.data.formPages = formPages;
+
+  // Redirect back to conditions page
+  return res.redirect(`/form-editor/conditions/${currentPageId}`);
+});
+
+// Edit condition page
+router.get("/form-editor/edit-condition/:id", function (req, res) {
+  const formData = req.session.data || {};
+  const formPages = req.session.data.formPages || [];
+  const conditionId = req.params.id;
+
+  // Check if we have any form pages
+  if (!formPages || formPages.length === 0) {
+    console.error("No form pages found in session");
+    return res.redirect("/form-editor/listing");
+  }
+
+  // First check form-level conditions
+  let condition = null;
+  let foundInPage = null;
+
+  if (formData.conditions) {
+    condition = formData.conditions.find((c) => String(c.id) === conditionId);
+  }
+
+  // If not found in form-level conditions, check page-level conditions
+  if (!condition) {
+    for (const page of formPages) {
+      if (page.conditions) {
+        const found = page.conditions.find((c) => String(c.id) === conditionId);
+        if (found) {
+          condition = found;
+          foundInPage = page;
+          break;
+        }
+      }
+    }
+  }
+
+  if (!condition) {
+    console.error("Condition not found:", conditionId);
+    return res.redirect("/form-editor/conditions-manager");
+  }
+
+  // Get all available questions for conditions
+  const availableQuestions = formPages
+    .flatMap((page) => page.questions)
+    .filter((question) => {
+      const type = question.subType || question.type;
+      return ["radios", "checkboxes", "yes-no"].includes(type);
+    })
+    .map((question) => ({
+      value: question.questionId,
+      text: question.label,
+      type: question.subType || question.type,
+      options: question.options,
+    }));
+
+  if (!availableQuestions || availableQuestions.length === 0) {
+    console.error("No available questions found for condition editing");
+    return res.redirect("/form-editor/conditions-manager");
+  }
+
+  // Calculate pagesWithCondition with pageNumber
+  const pagesWithCondition = formPages
+    .filter(
+      (page) =>
+        page.conditions &&
+        page.conditions.some((c) => String(c.id) === conditionId)
+    )
+    .map((page, index) => ({ ...page, pageNumber: index + 1 }));
+
+  // Render the template with pagesWithCondition
+  res.render("form-editor/edit-condition.html", {
+    condition,
+    availableQuestions,
+    pageName: foundInPage ? foundInPage.pageHeading : null,
+    pagesWithCondition,
+    formName: formData.formName || "Default Form Name", // Ensure formName is passed
+  });
+});
+
+// Handle the POST request for editing conditions
+router.post("/form-editor/conditions-manager/edit", function (req, res) {
+  const formData = req.session.data || {};
+  const formPages = req.session.data.formPages || [];
+  const conditionId = req.body.conditionId;
+
+  // Find the original condition before updating
+  let originalCondition = null;
+  let foundInFormLevel = false;
+
+  // First check form-level conditions
+  if (formData.conditions) {
+    const formLevelIndex = formData.conditions.findIndex(
+      (c) => String(c.id) === conditionId
+    );
+    if (formLevelIndex !== -1) {
+      originalCondition = JSON.parse(
+        JSON.stringify(formData.conditions[formLevelIndex])
+      ); // Deep copy
+      foundInFormLevel = true;
+    }
+  }
+
+  // If not found in form-level, check page-level conditions
+  if (!originalCondition) {
+    for (const page of formPages) {
+      if (page.conditions) {
+        const found = page.conditions.find((c) => String(c.id) === conditionId);
+        if (found) {
+          originalCondition = JSON.parse(JSON.stringify(found)); // Deep copy
+          break;
+        }
+      }
+    }
+  }
+
+  if (!originalCondition) {
+    console.error("Condition not found:", conditionId);
+    return res.redirect("/form-editor/conditions-manager");
+  }
+
+  // Parse rules if it's a string, or use directly if it's already an object
+  let rules;
+  try {
+    if (req.body.rules) {
+      rules =
+        typeof req.body.rules === "string"
+          ? JSON.parse(req.body.rules)
+          : req.body.rules;
+      if (!Array.isArray(rules)) {
+        rules = [rules];
+      }
+    } else {
+      console.error("No rules provided in request");
+      rules = [];
+    }
+  } catch (e) {
+    console.error("Error handling rules:", e);
+    rules = [];
+  }
+
+  // Create the updated condition
+  const updatedCondition = {
+    id: conditionId,
+    conditionName: req.body.conditionName,
+    rules: rules.map((rule) => ({
+      questionText: rule.questionText,
+      operator: rule.operator,
+      value: rule.value,
+      logicalOperator: rule.logicalOperator,
+    })),
+    text: rules
+      .map((rule, index) => {
+        const valueText = Array.isArray(rule.value)
+          ? rule.value.map((v) => `'${v}'`).join(" or ")
+          : `'${rule.value}'`;
+        return index === 0
+          ? `${rule.questionText} ${rule.operator} ${valueText}`
+          : `${rule.logicalOperator} ${rule.questionText} ${rule.operator} ${valueText}`;
+      })
+      .join(" "),
+  };
+
+  // Update the condition in the appropriate location
+  if (foundInFormLevel) {
+    // Update in form-level conditions
+    const formLevelIndex = formData.conditions.findIndex(
+      (c) => String(c.id) === conditionId
+    );
+    if (formLevelIndex !== -1) {
+      formData.conditions[formLevelIndex] = updatedCondition;
+    }
+  }
+
+  // Also update in any pages that use this condition
+  formPages.forEach((page) => {
+    if (page.conditions) {
+      const pageIndex = page.conditions.findIndex(
+        (c) => String(c.id) === conditionId
+      );
+      if (pageIndex !== -1) {
+        page.conditions[pageIndex] = updatedCondition;
+      }
+    }
+  });
+
+  // Store the original and updated conditions in the session for the success page
+  req.session.data.originalCondition = originalCondition;
+  req.session.data.updatedCondition = updatedCondition;
+
+  // Save back to session
+  req.session.data = formData;
+
+  // Redirect to the success page
+  res.redirect("/form-editor/edit-condition-success");
+});
+
+// Add route for the success page
+router.get("/form-editor/edit-condition-success", function (req, res) {
+  const originalCondition = req.session.data.originalCondition;
+  const updatedCondition = req.session.data.updatedCondition;
+
+  if (!originalCondition || !updatedCondition) {
+    return res.redirect("/form-editor/conditions-manager");
+  }
+
+  res.render("form-editor/edit-condition-success", {
+    originalCondition,
+    updatedCondition,
+  });
+
+  // Clear the conditions from session after rendering
+  delete req.session.data.originalCondition;
+  delete req.session.data.updatedCondition;
+});
+
+// Add this route to handle the delete condition page
+router.get("/form-editor/delete-condition/:conditionId", (req, res) => {
+  console.log("Delete condition page accessed");
+  const conditionId = req.params.conditionId;
+  const formData = req.session.data || {};
+  const formPages = req.session.data.formPages || [];
+
+  // Find the condition details
+  const condition =
+    formData.conditions.find(
+      (c) => c.id.toString() === conditionId.toString()
+    ) ||
+    formPages
+      .flatMap((page) => page.conditions || [])
+      .find((c) => c.id.toString() === conditionId.toString());
+
+  if (!condition) {
+    return res.redirect("/form-editor/conditions-manager");
+  }
+
+  // Find all pages that use this condition
+  const pagesWithCondition = [];
+  formPages.forEach((page, index) => {
+    if (page.conditions) {
+      const usesCondition = page.conditions.some(
+        (c) => c.id.toString() === conditionId.toString()
+      );
+      if (usesCondition) {
+        pagesWithCondition.push({
+          pageNumber: index + 1,
+          pageHeading: page.pageHeading || `Page ${page.pageId}`,
+        });
+      }
+    }
+  });
+
+  // Render the delete condition page
+  res.render("form-editor/delete-condition", {
+    form: formData,
+    conditionName: condition.conditionName,
+    conditionId: conditionId,
+    pagesWithCondition: pagesWithCondition,
+    formName: formData.name || "Untitled form",
+  });
+});
+
+// Add route handler for information-type-nf.html
+router.get("/form-editor/information-type-nf.html", function (req, res) {
+  const formData = req.session.data || {};
+  const formPages = req.session.data["formPages"] || [];
+  const pageIndex = req.session.data["currentPageIndex"] || 0;
+  const pageNumber = pageIndex + 1; // Convert 0-based index to 1-based page number
+  const questionIndex = req.session.data["currentQuestionIndex"] || 0;
+  const questionNumber = questionIndex + 1; // Convert 0-based index to 1-based question number
+
+  res.render("form-editor/information-type-nf.html", {
+    form: {
+      name: formData.formName || "Food takeaway (user research)",
+    },
+    pageNumber: pageNumber,
+    questionNumber: questionNumber,
+    data: formData,
+  });
 });

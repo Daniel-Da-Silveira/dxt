@@ -39,8 +39,8 @@
       "title": "Create or use existing conditions",
       "add_existing": "Add an existing condition",
       "create_new": "Create a new condition",
-      "select_existing": "Select an existing condition",
-      "add_existing_button": "Add existing condition",
+      "select_existing": "Add an existing condition to this page",
+      "add_existing_button": "Add condition",
       "operator": {
         "label": "Condition type",
         "select": "Select a condition type",
