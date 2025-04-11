@@ -255,9 +255,9 @@ activeLinkId: "nav-editor"
                         class="govuk-grid-column-full-from-desktop govuk-grid-column-full-from-tablet govuk-grid-column-full">
                         {% if formPages.length > 0 %}
                         <h2 class="govuk-heading-m" id="pages-count-heading">
-                            <span class="govuk-visually-hidden">Pages</span>
+                            <span class="govuk-visually-hidden">pages</span>
                             <span id="pages-count">{{ formPages.length }}</span>
-                            pages
+                            {% if formPages.length == 1 %}page{% else %}pages{% endif %}
                             {% else %}
                             <h2 class="govuk-heading-m" id="pages-count-heading"></h2>
                             {% endif %}
@@ -306,6 +306,7 @@ activeLinkId: "nav-editor"
                             <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
                             {% endif %}
                         </h2>
+
                     </div>
                 </div>
 
