@@ -1330,7 +1330,7 @@ router.post("/conditions-add", function (req, res) {
     req.session.data.formPages = formPages;
 
     // Fix the redirect URL to include the form-editor prefix
-    const returnUrl = `/form-editor/conditions/${currentPageId}`;
+    const returnUrl = `/form-editor/conditions/page-level/${currentPageId}`;
     console.log("Redirecting to:", returnUrl);
     return res.redirect(returnUrl);
   } else {
@@ -2644,7 +2644,7 @@ router.post("/conditions-add", function (req, res) {
   req.session.data.formPages = formPages;
 
   // Redirect back to conditions page
-  return res.redirect(`/form-editor/conditions/${currentPageId}`);
+  return res.redirect(`/form-editor/conditions/page-level/${currentPageId}`);
 });
 
 // Edit condition page
