@@ -67,13 +67,12 @@ activeLinkId: "nav-editor"
 
 
 
-                <h2 class="govuk-heading-l govuk-!-margin-top-6">Edit condition</h2>
+                {# <h2 class="govuk-heading-l govuk-!-margin-top-6">Edit condition</h2> #}
 
 
-                <div class="govuk-summary-card govuk-!-margin-bottom-6"">
+                <div class="govuk-summary-card govuk-!-margin-bottom-6 govuk-!-margin-top-6">
                     <div class=" govuk-summary-card__title-wrapper"">
-                    <div class="govuk-summary-card__title">
-
+                    <div class=" govuk-summary-card__title">
                         Original
                         condition
                     </div>
@@ -99,170 +98,153 @@ activeLinkId: "nav-editor"
                 </div>
             </div>
 
-            {% if pagesWithCondition | length > 0 %}
-            <div class="govuk-warning-text govuk-!-margin-bottom-2">
-                <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
-                <strong class="govuk-warning-text__text">
-                    <span class="govuk-visually-hidden">Warning</span>
-                    Changes to this condition will affect the following pages:
-
-                    <ul class="govuk-list govuk-list--bullet govuk-!-font-weight-bold govuk-!-margin-top-2">
-                        {% for page in pagesWithCondition %}
-                        <li>Page {{ page.pageNumber }}</li>
-                        {% endfor %}
-                    </ul>
-                </strong>
-            </div>
-            {% endif %}
-
             <form id="condition-form" method="post" action="/form-editor/conditions-manager/edit"
                 data-initial-condition="{{ condition | dump | safe | replace("'", "&#39;") | replace('"', '&quot;') }}">
-                <input type="hidden" name="conditionId" value="{{ condition.id }}">
 
-                <div class="govuk-form-group">
-                    <label class="govuk-label" for="questionSelect">
-                        Select a question
-                    </label>
-                    <select class="govuk-select" id="questionSelect" name="question" required
-                        data-available-questions='{{ availableQuestions | dump | safe }}'>
-                        <option value="">Choose a question</option>
-                        {% for question in availableQuestions %}
-                        <option value="{{ question.value }}" data-type="{{ question.type }}"
-                            data-options='{{ question.options | dump | safe }}' {% if
-                            question.text===condition.rules[0].questionText %}selected{% endif %}>
-                            {{ question.text }}
-                        </option>
+                <div class="govuk-form-group app-form-container">
+
+                    <input type="hidden" name="conditionId" value="{{ condition.id }}">
+
+                    <div class="govuk-form-group">
+                        <label class="govuk-label" for="questionSelect">
+                            Select a question
+                        </label>
+                        <select class="govuk-select" id="questionSelect" name="question" required
+                            data-available-questions='{{ availableQuestions | dump | safe }}'>
+                            <option value="">Choose a question</option>
+                            {% for question in availableQuestions %}
+                            <option value="{{ question.value }}" data-type="{{ question.type }}"
+                                data-options='{{ question.options | dump | safe }}' {% if
+                                question.text===condition.rules[0].questionText %}selected{% endif %}>
+                                {{ question.text }}
+                            </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <div class="govuk-form-group">
+                        <label class="govuk-label" for="operatorSelect">
+                            Condition type
+                        </label>
+                        <select class="govuk-select" id="operatorSelect" name="operator" required>
+                            <option value="is" {% if condition.rules[0].operator==='is' %}selected{% endif %}>is
+                            </option>
+                            <option value="is-not" {% if condition.rules[0].operator==='is-not' %}selected{% endif %}>is
+                                not</option>
+                        </select>
+                    </div>
+
+                    <div class="govuk-form-group" id="valueContainer" style="display: none;">
+                        <label class="govuk-label" for="condition-value">Select a value</label>
+                        <!-- Value inputs will be dynamically populated here -->
+                    </div>
+
+                    <div id="additional-conditions">
+                        <!-- Additional conditions will be added here -->
+                        {% for rule in condition.rules %}
+                        {% if not loop.first %}
+                        <div class="condition-item app-form-container">
+                            <button
+                                class="govuk-button govuk-button--secondary govuk-button--warning remove-condition-link"
+                                style="position: absolute; top: 15px; right: 15px;">
+                                <svg class="govuk-!-margin-right-1" style="position: relative; top: 2px" width="12"
+                                    height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M10.5 1.5L1.5 10.5" stroke="currentColor" stroke-width="2" />
+                                    <path d="M1.5 1.5L10.5 10.5" stroke="currentColor" stroke-width="2" />
+                                </svg>
+                                Remove condition
+                            </button>
+
+                            <fieldset class="govuk-fieldset">
+                                <legend class="govuk-fieldset__legend govuk-fieldset__legend--s">
+                                    Additional condition
+                                </legend>
+
+                                <div class="govuk-form-group">
+                                    <label class="govuk-label">Select a question</label>
+                                    <select class="govuk-select condition-question" name="question-{{ loop.index }}"
+                                        required data-available-questions='{{ availableQuestions | dump | safe }}'>
+                                        {% for question in availableQuestions %}
+                                        <option value="{{ question.value }}" data-type="{{ question.type }}"
+                                            data-options='{{ question.options | dump | safe }}' {% if
+                                            question.text===rule.questionText %}selected{% endif %}>
+                                            {{ question.text }}
+                                        </option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+
+                                <div class="govuk-form-group">
+                                    <label class="govuk-label">Condition type</label>
+                                    <select class="govuk-select" name="operator-{{ loop.index }}">
+                                        <option value="is" {% if rule.operator==='is' %}selected{% endif %}>is</option>
+                                        <option value="is-not" {% if rule.operator==='is-not' %}selected{% endif %}>is
+                                            not
+                                        </option>
+                                    </select>
+                                </div>
+
+                                <div class="govuk-form-group condition-value-container">
+                                    <label class="govuk-label">Select a value</label>
+                                    <!-- Value inputs will be dynamically populated here -->
+                                </div>
+                        </div>
+                        {% endif %}
                         {% endfor %}
-                    </select>
-                </div>
-
-                <div class="govuk-form-group">
-                    <label class="govuk-label" for="operatorSelect">
-                        Condition type
-                    </label>
-                    <select class="govuk-select" id="operatorSelect" name="operator" required>
-                        <option value="is" {% if condition.rules[0].operator==='is' %}selected{% endif %}>is
-                        </option>
-                        <option value="is-not" {% if condition.rules[0].operator==='is-not' %}selected{% endif %}>is
-                            not</option>
-                    </select>
-                </div>
-
-                <div class="govuk-form-group" id="valueContainer" style="display: none;">
-                    <label class="govuk-label" for="condition-value">Select a value</label>
-                    <!-- Value inputs will be dynamically populated here -->
-                </div>
-
-                <div id="additional-conditions">
-                    <!-- Additional conditions will be added here -->
-                    {% for rule in condition.rules %}
-                    {% if not loop.first %}
-                    <div class="condition-item"
-                        style="background: #f3f2f1; padding: 20px; margin-bottom: 15px; position: relative; border-left: 5px solid #008938;">
-                        <a href="#"
-                            class="govuk-link govuk-link--no-visited-state govuk-link--destructive govuk-!-font-size-16 remove-condition-link"
-                            style="position: absolute; top: 15px; right: 15px;">
-                            <svg class="govuk-!-margin-right-1" style="position: relative; top: 2px" width="12"
-                                height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M10.5 1.5L1.5 10.5" stroke="currentColor" stroke-width="2" />
-                                <path d="M1.5 1.5L10.5 10.5" stroke="currentColor" stroke-width="2" />
-                            </svg>
-                            Remove condition
-                        </a>
-
-                        <div class="govuk-form-group">
-                            <label class="govuk-label">Combine with</label>
-                            <select class="govuk-select" name="logical-operator-{{ loop.index }}">
-                                <option value="AND" {% if rule.logicalOperator==='AND' %}selected{% endif %}>AND
-                                </option>
-                                <option value="OR" {% if rule.logicalOperator==='OR' %}selected{% endif %}>OR
-                                </option>
-                            </select>
-                        </div>
-
-                        <div class="govuk-form-group">
-                            <label class="govuk-label">Select a question</label>
-                            <select class="govuk-select condition-question" name="question-{{ loop.index }}" required
-                                data-available-questions='{{ availableQuestions | dump | safe }}'>
-                                {% for question in availableQuestions %}
-                                <option value="{{ question.value }}" data-type="{{ question.type }}"
-                                    data-options='{{ question.options | dump | safe }}' {% if
-                                    question.text===rule.questionText %}selected{% endif %}>
-                                    {{ question.text }}
-                                </option>
-                                {% endfor %}
-                            </select>
-                        </div>
-
-                        <div class="govuk-form-group">
-                            <label class="govuk-label">Condition type</label>
-                            <select class="govuk-select" name="operator-{{ loop.index }}">
-                                <option value="is" {% if rule.operator==='is' %}selected{% endif %}>is</option>
-                                <option value="is-not" {% if rule.operator==='is-not' %}selected{% endif %}>is not
-                                </option>
-                            </select>
-                        </div>
-
-                        <div class="govuk-form-group condition-value-container">
-                            <label class="govuk-label">Select a value</label>
-                            <!-- Value inputs will be dynamically populated here -->
-                        </div>
                     </div>
-                    {% endif %}
-                    {% endfor %}
-                </div>
 
-                <button class="govuk-button govuk-button--secondary" id="add-condition-link">
-                    <svg class="govuk-!-margin-right-1" style="position: relative; top: 2px" width="12" height="12"
-                        viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M6 1V11" stroke="currentColor" stroke-width="2"></path>
-                        <path d="M1 6H11" stroke="currentColor" stroke-width="2"></path>
-                    </svg>
-                    Add another condition
-                </button>
+                    <button class="govuk-button govuk-button--inverse" id="add-condition-link">
+                        <svg class="govuk-!-margin-right-1" style="position: relative; top: 2px" width="12" height="12"
+                            viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M6 1V11" stroke="currentColor" stroke-width="2"></path>
+                            <path d="M1 6H11" stroke="currentColor" stroke-width="2"></path>
+                        </svg>
+                        Add another condition
+                    </button>
 
-                <div class="govuk-form-group" id="logicalOperatorGroup" style="display: none;">
-                    <fieldset class="govuk-fieldset">
-                        <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">
-                            How do you want to combine these conditions?
-                        </legend>
-                        <div class="govuk-radios govuk-radios--inline" data-module="govuk-radios">
-                            <div class="govuk-radios__item">
-                                <input class="govuk-radios__input" id="logical-operator-and" name="logicalOperator"
-                                    type="radio" value="AND" checked>
-                                <label class="govuk-label govuk-radios__label" for="logical-operator-and">
-                                    All conditions must be met (AND)
-                                </label>
+                    <div class="govuk-form-group" id="logicalOperatorGroup" style="display: none;">
+                        <fieldset class="govuk-fieldset">
+                            <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">
+                                How do you want to combine these conditions?
+                            </legend>
+                            <div class="govuk-radios govuk-radios--inline" data-module="govuk-radios">
+                                <div class="govuk-radios__item">
+                                    <input class="govuk-radios__input" id="logical-operator-and" name="logicalOperator"
+                                        type="radio" value="AND" checked>
+                                    <label class="govuk-label govuk-radios__label" for="logical-operator-and">
+                                        All conditions must be met (AND)
+                                    </label>
+                                </div>
+                                <div class="govuk-radios__item">
+                                    <input class="govuk-radios__input" id="logical-operator-or" name="logicalOperator"
+                                        type="radio" value="OR">
+                                    <label class="govuk-label govuk-radios__label" for="logical-operator-or">
+                                        Any condition can be met (OR)
+                                    </label>
+                                </div>
                             </div>
-                            <div class="govuk-radios__item">
-                                <input class="govuk-radios__input" id="logical-operator-or" name="logicalOperator"
-                                    type="radio" value="OR">
-                                <label class="govuk-label govuk-radios__label" for="logical-operator-or">
-                                    Any condition can be met (OR)
-                                </label>
-                            </div>
-                        </div>
-                    </fieldset>
-                </div>
-                <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
-
-                <div class="govuk-form-group">
-                    <label class="govuk-label govuk-label--m" for="conditionName">
-                        Condition name
-                    </label>
-                    <div class="govuk-hint">
-                        Condition names help you to identify conditions in your form, for
-                        example, 'Not a farmer'.
-                        Users will not see condition names.
+                        </fieldset>
                     </div>
-                    <input class="govuk-input" id="conditionName" name="conditionName" type="text" required
-                        value="{{ condition.conditionName }}">
-                </div>
+                    <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
 
-                <div class="govuk-button-group">
-                    <button type="submit" class="govuk-button">Save changes</button>
-                    <a href="/form-editor/conditions/manager" class="govuk-link govuk-link--no-visited-state">Cancel</a>
-                </div>
+                    <div class="govuk-form-group">
+                        <label class="govuk-label govuk-label--m" for="conditionName">
+                            Condition name
+                        </label>
+                        <div class="govuk-hint">
+                            Condition names help you to identify conditions in your form, for
+                            example, 'Not a farmer'.
+                            Users will not see condition names.
+                        </div>
+                        <input class="govuk-input" id="conditionName" name="conditionName" type="text" required
+                            value="{{ condition.conditionName }}">
+                    </div>
+
+                    <div class="govuk-button-group">
+                        <button type="submit" class="govuk-button">Continue</button>
+                        <a href="/form-editor/conditions/manager"
+                            class="govuk-link govuk-link--no-visited-state">Cancel</a>
+                    </div>
             </form>
         </div>
     </div>
@@ -284,7 +266,7 @@ activeLinkId: "nav-editor"
     const operatorSelect = document.getElementById('operatorSelect');
 
     // Function to update value container based on question type
-    function updateValueContainer(container, questionSelect, initialValue = null) {
+    function updateValueContainer(container, questionSelect, initialValue = null, conditionIndex = 0) {
         container.innerHTML = '<label class="govuk-label" for="condition-value">Select a value</label>';
         const selectedOption = questionSelect.options[questionSelect.selectedIndex];
         if (!selectedOption || !selectedOption.value) {
@@ -305,7 +287,8 @@ activeLinkId: "nav-editor"
         console.log('Updating value container:', {
             questionType,
             options,
-            initialValue
+            initialValue,
+            conditionIndex
         });
 
         // Create appropriate input based on question type
@@ -317,8 +300,8 @@ activeLinkId: "nav-editor"
                 const radio = document.createElement('div');
                 radio.className = 'govuk-radios__item';
                 radio.innerHTML = `
-                    <input class="govuk-radios__input" type="radio" name="value" value="${value}" id="value-${value.toLowerCase()}" ${initialValue && initialValue.toLowerCase() === value.toLowerCase() ? 'checked' : ''}>
-                    <label class="govuk-label govuk-radios__label" for="value-${value.toLowerCase()}">${value}</label>
+                    <input class="govuk-radios__input" type="radio" name="value-${conditionIndex}" value="${value}" id="value-${conditionIndex}-${value.toLowerCase()}" ${initialValue && initialValue.toLowerCase() === value.toLowerCase() ? 'checked' : ''}>
+                    <label class="govuk-label govuk-radios__label" for="value-${conditionIndex}-${value.toLowerCase()}">${value}</label>
                 `;
                 radioGroup.appendChild(radio);
             });
@@ -333,8 +316,8 @@ activeLinkId: "nav-editor"
                 const radio = document.createElement('div');
                 radio.className = 'govuk-radios__item';
                 radio.innerHTML = `
-                    <input class="govuk-radios__input" type="radio" name="value" value="${value}" id="value-${index}" ${initialValue === value ? 'checked' : ''}>
-                    <label class="govuk-label govuk-radios__label" for="value-${index}">${label}</label>
+                    <input class="govuk-radios__input" type="radio" name="value-${conditionIndex}" value="${value}" id="value-${conditionIndex}-${index}" ${initialValue === value ? 'checked' : ''}>
+                    <label class="govuk-label govuk-radios__label" for="value-${conditionIndex}-${index}">${label}</label>
                 `;
                 radioGroup.appendChild(radio);
             });
@@ -351,8 +334,8 @@ activeLinkId: "nav-editor"
                 const checkbox = document.createElement('div');
                 checkbox.className = 'govuk-checkboxes__item';
                 checkbox.innerHTML = `
-                    <input class="govuk-checkboxes__input" type="checkbox" name="value" value="${value}" id="value-${index}" ${initialValues.includes(value) ? 'checked' : ''}>
-                    <label class="govuk-label govuk-checkboxes__label" for="value-${index}">${label}</label>
+                    <input class="govuk-checkboxes__input" type="checkbox" name="value-${conditionIndex}" value="${value}" id="value-${conditionIndex}-${index}" ${initialValues.includes(value) ? 'checked' : ''}>
+                    <label class="govuk-label govuk-checkboxes__label" for="value-${conditionIndex}-${index}">${label}</label>
                 `;
                 checkboxGroup.appendChild(checkbox);
             });
@@ -381,15 +364,15 @@ activeLinkId: "nav-editor"
         }
 
         // Update the value container with the initial value
-        updateValueContainer(mainValueContainer, mainQuestionSelect, initialCondition.rules[0].value);
+        updateValueContainer(mainValueContainer, mainQuestionSelect, initialCondition.rules[0].value, 0);
     }
 
     // Add event listeners for main condition
     if (mainQuestionSelect) {
-        mainQuestionSelect.addEventListener('change', () => updateValueContainer(mainValueContainer, mainQuestionSelect));
+        mainQuestionSelect.addEventListener('change', () => updateValueContainer(mainValueContainer, mainQuestionSelect, null, 0));
     }
     if (operatorSelect) {
-        operatorSelect.addEventListener('change', () => updateValueContainer(mainValueContainer, mainQuestionSelect, initialCondition.rules[0].value));
+        operatorSelect.addEventListener('change', () => updateValueContainer(mainValueContainer, mainQuestionSelect, initialCondition.rules[0].value, 0));
     }
 
     document.addEventListener('DOMContentLoaded', function () {
@@ -399,10 +382,10 @@ activeLinkId: "nav-editor"
             const questionSelect = item.querySelector('.condition-question');
             const valueContainer = item.querySelector('.condition-value-container');
             if (questionSelect && valueContainer && initialCondition.rules && initialCondition.rules[index + 1]) {
-                updateValueContainer(valueContainer, questionSelect, initialCondition.rules[index + 1].value);
+                updateValueContainer(valueContainer, questionSelect, initialCondition.rules[index + 1].value, index + 1);
 
                 // Add change event listener
-                questionSelect.addEventListener('change', () => updateValueContainer(valueContainer, questionSelect));
+                questionSelect.addEventListener('change', () => updateValueContainer(valueContainer, questionSelect, null, index + 1));
             }
         });
 
@@ -444,7 +427,6 @@ activeLinkId: "nav-editor"
                 additionalConditions.forEach((conditionItem, index) => {
                     const questionSelect = conditionItem.querySelector('.condition-question');
                     const operatorSelect = conditionItem.querySelector('select[name^="operator-"]');
-                    const logicalOperator = conditionItem.querySelector('select[name^="logical-operator-"]');
                     const valueContainer = conditionItem.querySelector('.condition-value-container');
 
                     const questionText = questionSelect.options[questionSelect.selectedIndex].text;
@@ -459,11 +441,14 @@ activeLinkId: "nav-editor"
                         value = selectedRadio ? selectedRadio.value : '';
                     }
 
+                    // Get the logical operator from the radio buttons
+                    const logicalOperator = document.querySelector('input[name="logicalOperator"]:checked')?.value || 'AND';
+
                     rules.push({
                         questionText: questionText,
                         operator: operatorSelect.value,
                         value: value,
-                        logicalOperator: logicalOperator.value
+                        logicalOperator: logicalOperator
                     });
                 });
 
@@ -588,7 +573,7 @@ activeLinkId: "nav-editor"
                                     input.className = 'govuk-radios__input';
                                     input.type = 'radio';
                                     input.id = `additional-value-${conditionCount}-${value}`;
-                                    input.name = `additional-value-${conditionCount}`;
+                                    input.name = `value-${conditionCount}`;
                                     input.value = value;
 
                                     const label = document.createElement('label');
@@ -697,4 +682,52 @@ activeLinkId: "nav-editor"
         });
     });
 </script>
+
+<style>
+    /* New styles for the form container */
+    .app-form-container {
+        border-left: 4px solid #008938;
+        background-color: #f8f8f8;
+        outline: 1px solid #b1b4b6;
+        padding: 30px;
+        position: relative;
+        margin-bottom: 20px;
+    }
+
+    .app-form-container__title {
+        font-size: 24px;
+        font-weight: bold;
+        margin-bottom: 20px;
+        margin-top: 0;
+    }
+
+    #join-conditions-form-container {
+        outline: 1px solid #b1b4b6;
+        outline-offset: -1px;
+        padding: 20px;
+        margin: 0;
+    }
+
+    /* Styles for condition items */
+    .condition-item {
+        background: #f3f2f1;
+        padding: 20px;
+        margin-bottom: 15px;
+        position: relative;
+        border-left: 5px solid #008938;
+        outline: 1px solid #b1b4b6;
+    }
+
+    /* Ensure proper spacing between conditions */
+    #additional-conditions {
+        margin-top: 20px;
+    }
+
+    /* Style for the remove button */
+    .remove-condition-link {
+        position: absolute;
+        top: 15px;
+        right: 15px;
+    }
+</style>
 {% endblock %}

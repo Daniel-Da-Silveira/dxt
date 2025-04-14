@@ -21,7 +21,7 @@ router.use((req, res, next) => {
     req.session.data = {};
   }
   if (!req.session.data.formName) {
-    req.session.data.formName = "Food takeaway (user research)";
+    req.session.data.formName = "Form name";
   }
   next();
 });
@@ -66,7 +66,7 @@ router.get("/form-editor/sections", function (req, res) {
 
   res.render("form-editor/sections.html", {
     form: {
-      name: formData.formName || "Food takeaway (user research)",
+      name: formData.formName || "Form name",
     },
     sections: sections,
     formPages: formPages,
@@ -119,7 +119,7 @@ router.get("/form-editor/listing", function (req, res) {
     formPages,
     sections,
     form: {
-      name: formData.formName || "Food takeaway (user research)",
+      name: formData.formName || "Form name",
     },
   });
 });
@@ -133,7 +133,7 @@ router.get("/form-editor/page-type.html", function (req, res) {
   res.render("form-editor/page-type.html", {
     commonTerms: terms,
     form: {
-      name: formData.formName || "Food takeaway (user research)",
+      name: formData.formName || "Form name",
     },
   });
 });
@@ -326,7 +326,7 @@ router.get("/question-configuration", function (req, res) {
   // Render the template with both page and question numbers
   res.render(templateToRender, {
     form: {
-      name: formData.formName || "Food takeaway (user research)",
+      name: formData.formName || "Form name",
     },
     pageNumber: pageNumber,
     questionNumber: questionNumber,
@@ -501,7 +501,7 @@ router.get("/page-overview", function (req, res) {
 
   res.render("form-editor/page-overview.html", {
     form: {
-      name: formData.formName || "Food takeaway (user research)",
+      name: formData.formName || "Form name",
     },
     pageNumber: pageNumber,
     currentPage: currentPage,
@@ -829,10 +829,7 @@ router.get("/form-editor/question-type/checkboxes/edit", (req, res) => {
     pageNumber: pageNumber,
     questionNumber: questionNumber,
     form: {
-      name:
-        formData.formDetails?.name ||
-        formData.formName ||
-        "Food takeaway (user research)",
+      name: formData.formDetails?.name || formData.formName || "Form name",
     },
   });
 });
@@ -1101,10 +1098,7 @@ router.get("/form-editor/question-type/radios-nf/edit", (req, res) => {
     pageNumber: pageNumber,
     questionNumber: questionNumber,
     form: {
-      name:
-        formData.formDetails?.name ||
-        formData.formName ||
-        "Food takeaway (user research)",
+      name: formData.formDetails?.name || formData.formName || "Form name",
     },
     commonTerms: terms,
     availableQuestions: availableQuestions,
@@ -1238,7 +1232,7 @@ router.get("/form-editor/conditions/page-level/:pageId", function (req, res) {
 
   res.render("form-editor/conditions/page-level.html", {
     form: {
-      name: formData.formName || "Food takeaway (user research)",
+      name: formData.formName || "Form name",
     },
     pageNumber: pageNumber,
     currentPage: currentPage,
@@ -1439,7 +1433,7 @@ router.get("/form-editor/reorder/main.html", function (req, res) {
   res.render("form-editor/reorder/main.html", {
     formPages: formPages,
     form: {
-      name: formData.formName || "Food takeaway (user research)",
+      name: formData.formName || "Form name",
     },
   });
 });
@@ -1487,7 +1481,7 @@ router.get("/form-editor/delete/:pageId", function (req, res) {
 
   res.render("form-editor/delete.html", {
     form: {
-      name: formData.formName || "Food takeaway (user research)",
+      name: formData.formName || "Form name",
     },
     pageNumber: pageNumber,
     pageId: pageId,
@@ -1547,7 +1541,7 @@ router.post("/form-editor/guidance/overview", function (req, res) {
     currentPage: guidancePage,
     data: req.session.data,
     form: {
-      name: req.session.data.formName || "Food takeaway (user research)",
+      name: req.session.data.formName || "Form name",
     },
   });
 });
@@ -1578,7 +1572,7 @@ router.get(
       currentPage: currentPage,
       data: req.session.data,
       form: {
-        name: formData.formName || "Food takeaway (user research)",
+        name: formData.formName || "Form name",
       },
       pageNumber: pageNumber,
     });
@@ -1645,7 +1639,7 @@ router.get("/form-editor/preview", function (req, res) {
       formPages: formPages,
     },
     form: {
-      name: formData.formName || "Food takeaway (user research)",
+      name: formData.formName || "Form name",
     },
   });
 });
@@ -1840,7 +1834,7 @@ router.get("/form-overview/index", (req, res) => {
 
   // Create the form object that the templates expect
   const form = {
-    name: formData.formName || "Food takeaway (user research)",
+    name: formData.formName || "Form name",
     status: {
       text: status,
       color: statusColor,
@@ -1920,7 +1914,7 @@ router.get("/form-overview/index/support/phone", (req, res) => {
   const formData = req.session.data || {};
   res.render("form-overview/support/add-telephone", {
     form: {
-      name: formData.formName || "Food takeaway (user research)",
+      name: formData.formName || "Form name",
       support: {
         phone: formData.formDetails?.support?.phone || "",
       },
@@ -1951,7 +1945,7 @@ router.get("/form-overview/index/support/email", (req, res) => {
   const formData = req.session.data || {};
   res.render("form-overview/support/add-email", {
     form: {
-      name: formData.formName || "Food takeaway (user research)",
+      name: formData.formName || "Form name",
       support: {
         email: formData.formDetails?.support?.email || "",
       },
@@ -1984,7 +1978,7 @@ router.get("/form-overview/index/support/link", (req, res) => {
   const formData = req.session.data || {};
   res.render("form-overview/support/add-contact-link", {
     form: {
-      name: formData.formName || "Food takeaway (user research)",
+      name: formData.formName || "Form name",
       support: {
         link: formData.formDetails?.support?.link || "",
       },
@@ -2017,7 +2011,7 @@ router.get("/form-overview/index/support/notification-email", (req, res) => {
   const formData = req.session.data || {};
   res.render("form-overview/support/notification-email", {
     form: {
-      name: formData.formName || "Food takeaway (user research)",
+      name: formData.formName || "Form name",
     },
     data: {
       notificationEmail: formData.formDetails?.notificationEmail || "",
@@ -2045,7 +2039,7 @@ router.get("/form-overview/index/support/next-steps", (req, res) => {
   const formData = req.session.data || {};
   res.render("form-overview/support/next-steps", {
     form: {
-      name: formData.formName || "Food takeaway (user research)",
+      name: formData.formName || "Form name",
       nextSteps: formData.formDetails?.nextSteps || "",
     },
     pageName: "Add next steps",
@@ -2071,7 +2065,7 @@ router.get("/form-overview/index/support/privacy-notice", (req, res) => {
   const formData = req.session.data || {};
   res.render("form-overview/support/privacy-notice", {
     form: {
-      name: formData.formName || "Food takeaway (user research)",
+      name: formData.formName || "Form name",
       privacyNotice: formData.formDetails?.privacyNotice || "",
     },
     pageName: "Add privacy notice",
@@ -2099,7 +2093,7 @@ router.get("/form-overview/live-draft", (req, res) => {
   const formData = req.session.data || {};
 
   // Create a URL-friendly version of the form name
-  const urlFriendlyName = (formData.formName || "Food takeaway (user research)")
+  const urlFriendlyName = (formData.formName || "Form name")
     .toLowerCase()
     .replace(/[^a-z0-9]+/g, "-")
     .replace(/(^-|-$)/g, "");
@@ -2110,7 +2104,7 @@ router.get("/form-overview/live-draft", (req, res) => {
 
   // Create the form object that the templates expect
   const form = {
-    name: formData.formName || "Food takeaway (user research)",
+    name: formData.formName || "Form name",
     status: {
       text: "Draft-Live",
       color: "blue",
@@ -2154,7 +2148,7 @@ router.get("/form-overview/manage-form/make-draft-live", (req, res) => {
 
   res.render("form-overview/manage-form/make-draft-live/index", {
     form: {
-      name: formData.formName || "Food takeaway (user research)",
+      name: formData.formName || "Form name",
       status: {
         text: "Draft-Live",
         color: "blue",
@@ -2188,7 +2182,7 @@ router.get(
 
     res.render("form-overview/manage-form/make-draft-live/passed-validation", {
       form: {
-        name: formData.formName || "Food takeaway (user research)",
+        name: formData.formName || "Form name",
         status: {
           text: "Live",
           color: "green",
@@ -2210,7 +2204,7 @@ router.get("/form-overview/live/index", (req, res) => {
     .replace(/(^-|-$)/g, "");
 
   const form = {
-    name: formData.formName || "Food takeaway (user research)",
+    name: formData.formName || "Form name",
     status: {
       text: "Live",
       color: "green",
@@ -2241,7 +2235,7 @@ router.get("/form-overview/manage-form/delete-draft", (req, res) => {
 
   res.render("form-overview/manage-form/delete-draft/index", {
     form: {
-      name: formData.formName || "Food takeaway (user research)",
+      name: formData.formName || "Form name",
       status: formData.formDetails?.status || {
         text: "Draft",
         color: "orange",
@@ -2291,7 +2285,7 @@ router.get("/form-editor/conditions/manager", function (req, res) {
 
   res.render("form-editor/conditions/manager.html", {
     form: {
-      name: formData.formName || "Food takeaway (user research)",
+      name: formData.formName || "Form name",
     },
     availableQuestions: availableQuestions,
     conditions: conditions,
@@ -2807,42 +2801,46 @@ router.post("/form-editor/conditions-manager/edit", function (req, res) {
       .join(" "),
   };
 
-  // Update the condition in the appropriate location
-  if (foundInFormLevel) {
-    // Update in form-level conditions
-    const formLevelIndex = formData.conditions.findIndex(
-      (c) => String(c.id) === conditionId
-    );
-    if (formLevelIndex !== -1) {
-      formData.conditions[formLevelIndex] = updatedCondition;
-    }
-  }
-
-  // Also update in any pages that use this condition
-  formPages.forEach((page) => {
-    if (page.conditions) {
-      const pageIndex = page.conditions.findIndex(
-        (c) => String(c.id) === conditionId
-      );
-      if (pageIndex !== -1) {
-        page.conditions[pageIndex] = updatedCondition;
-      }
-    }
-  });
-
-  // Store the original and updated conditions in the session for the success page
+  // Store the original and updated conditions in the session for the review page
   req.session.data.originalCondition = originalCondition;
   req.session.data.updatedCondition = updatedCondition;
 
-  // Save back to session
-  req.session.data = formData;
-
-  // Redirect to the success page
-  res.redirect("/form-editor/conditions/edit-success");
+  // Redirect to the review page
+  res.redirect("/form-editor/conditions/edit-review");
 });
 
-// Add route for the success page
-router.get("/form-editor/conditions/edit-success", function (req, res) {
+// Add route for the review page
+router.get("/form-editor/conditions/edit-review", function (req, res) {
+  const originalCondition = req.session.data.originalCondition;
+  const updatedCondition = req.session.data.updatedCondition;
+  const formPages = req.session.data.formPages || [];
+  const conditionId = originalCondition?.id;
+
+  if (!originalCondition || !updatedCondition) {
+    return res.redirect("/form-editor/conditions-manager");
+  }
+
+  // Calculate pagesWithCondition with pageNumber
+  const pagesWithCondition = formPages
+    .filter(
+      (page) =>
+        page.conditions &&
+        page.conditions.some((c) => String(c.id) === String(conditionId))
+    )
+    .map((page, index) => ({ ...page, pageNumber: index + 1 }));
+
+  res.render("form-editor/conditions/edit-review", {
+    originalCondition,
+    updatedCondition,
+    pagesWithCondition,
+    formName: req.session.data.formName || "Default Form Name",
+  });
+});
+
+// Add route to handle saving changes
+router.post("/form-editor/conditions/save-changes", function (req, res) {
+  const formData = req.session.data || {};
+  const formPages = req.session.data.formPages || [];
   const originalCondition = req.session.data.originalCondition;
   const updatedCondition = req.session.data.updatedCondition;
 
@@ -2850,14 +2848,41 @@ router.get("/form-editor/conditions/edit-success", function (req, res) {
     return res.redirect("/form-editor/conditions-manager");
   }
 
-  res.render("form-editor/conditions/edit-success", {
-    originalCondition,
-    updatedCondition,
+  const conditionId = originalCondition.id;
+  let foundInFormLevel = false;
+
+  // Update in form-level conditions if it exists there
+  if (formData.conditions) {
+    const formLevelIndex = formData.conditions.findIndex(
+      (c) => String(c.id) === String(conditionId)
+    );
+    if (formLevelIndex !== -1) {
+      formData.conditions[formLevelIndex] = updatedCondition;
+      foundInFormLevel = true;
+    }
+  }
+
+  // Update in any pages that use this condition
+  formPages.forEach((page) => {
+    if (page.conditions) {
+      const pageIndex = page.conditions.findIndex(
+        (c) => String(c.id) === String(conditionId)
+      );
+      if (pageIndex !== -1) {
+        page.conditions[pageIndex] = updatedCondition;
+      }
+    }
   });
 
-  // Clear the conditions from session after rendering
+  // Save back to session
+  req.session.data = formData;
+
+  // Clear the temporary condition data
   delete req.session.data.originalCondition;
   delete req.session.data.updatedCondition;
+
+  // Redirect back to the conditions manager
+  res.redirect("/form-editor/conditions/manager");
 });
 
 // Add this route to handle the delete condition page
@@ -2917,7 +2942,7 @@ router.get("/form-editor/information-type-nf.html", function (req, res) {
 
   res.render("form-editor/information-type-nf.html", {
     form: {
-      name: formData.formName || "Food takeaway (user research)",
+      name: formData.formName || "Form name",
     },
     pageNumber: pageNumber,
     questionNumber: questionNumber,

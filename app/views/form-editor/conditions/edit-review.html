@@ -1,6 +1,7 @@
 {% extends "layouts/main.html" %}
 {% from "components/service-header/macro.njk" import serviceHeader %}
-{% set pageName = "Edit condition - Apply for a county parish holding number in England" %}
+{% from "govuk/components/notification-banner/macro.njk" import govukNotificationBanner %}
+{% set pageName = "Review changes - Apply for a county parish holding number in England" %}
 
 {% block header %}
 {{ serviceHeader({
@@ -21,16 +22,18 @@ activeLinkId: "nav-editor"
 
 <div class="x-govuk-masthead x-govuk-masthead--large">
     <div class="govuk-width-container">
-        {{ govukBackLink({ classes: "govuk-back-link--inverse govuk-!-margin-bottom-0", text:
-        commonTerms.form_editor.navigation.back_to_add_edit_pages, href: "/form-editor/listing.html" }) }}
+        {{ govukBackLink({
+        classes: "govuk-back-link--inverse govuk-!-margin-bottom-0",
+        text: commonTerms.form_editor.navigation.back_to_add_edit_pages,
+        href: "/form-editor/listing.html"
+        }) }}
 
         <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible"
             style="border-bottom: 1px solid white; margin-bottom: 0" />
 
         <div class="govuk-grid-row">
             <div class="govuk-grid-column-full-from-desktop">
-                <h1 class="x-govuk-masthead__title">
-                    Edit condition
+                <h1 class="x-govuk-masthead__title">Manage conditions
                 </h1>
             </div>
         </div>
@@ -52,25 +55,29 @@ activeLinkId: "nav-editor"
                         </li>
                         <li class="moj-sub-navigation__item">
                             <a class="moj-sub-navigation__link" aria-current="page" href="#">
-                                Edit condition
+                                Check changes
                             </a>
                         </li>
                     </ul>
                 </nav>
 
-                <div class="govuk-notification-banner govuk-notification-banner--success" role="alert"
-                    aria-labelledby="govuk-notification-banner-title" data-module="govuk-notification-banner">
-                    <div class="govuk-notification-banner__header">
-                        <h2 class="govuk-notification-banner__title" id="govuk-notification-banner-title">
-                            Success
-                        </h2>
-                    </div>
-                    <div class="govuk-notification-banner__content">
-                        <p class="govuk-notification-banner__heading">
-                            Condition updated successfully
-                        </p>
-                    </div>
+                <h2 class="govuk-heading-m ">Check your changes before saving</h2>
+
+                {% if pagesWithCondition | length > 0 %}
+                <div class="govuk-warning-text govuk-!-margin-bottom-2">
+                    <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
+                    <strong class="govuk-warning-text__text">
+                        <span class="govuk-visually-hidden">Warning</span>
+                        Changes to this condition will affect the following pages:
+
+                        <ul class="govuk-list govuk-list--bullet govuk-!-font-weight-bold govuk-!-margin-top-2">
+                            {% for page in pagesWithCondition %}
+                            <li>Page {{ page.pageNumber }}</li>
+                            {% endfor %}
+                        </ul>
+                    </strong>
                 </div>
+                {% endif %}
 
                 <div class="govuk-summary-card govuk-!-margin-bottom-6">
                     <div class="govuk-summary-card__title-wrapper">
@@ -91,9 +98,9 @@ activeLinkId: "nav-editor"
                     </div>
                 </div>
 
-                <div class="govuk-summary-card govuk-!-margin-bottom-6" style="border-left: 5px solid #008938;">
+                <div class="govuk-summary-card govuk-!-margin-bottom-6" style="border-left: 5px solid #00703c;">
                     <div class="govuk-summary-card__title-wrapper">
-                        <h2 class="govuk-summary-card__title">Updated condition</h2>
+                        <h2 class="govuk-summary-card__title">New condition</h2>
                     </div>
                     <div class="govuk-summary-card__content">
                         <p class="govuk-body govuk-!-font-weight-bold">{{ updatedCondition.conditionName }}</p>
@@ -111,15 +118,23 @@ activeLinkId: "nav-editor"
                 </div>
 
                 <div class="govuk-button-group">
-                    <a href="/form-editor/conditions/manager" class="govuk-button" data-module="govuk-button">
-                        Finish editing condition
-                    </a>
+                    <button type="submit" class="govuk-button" data-module="govuk-button" form="save-changes-form">
+                        Save changes
+                    </button>
 
-                    <a href="/form-editor/conditions/edit/{{ updatedCondition.id }}" role="button" draggable="false"
-                        class="govuk-button govuk-button--secondary" data-module="govuk-button">
+                    <a href="/form-editor/conditions/edit/{{ updatedCondition.id }}"
+                        class="govuk-button govuk-button--secondary">
                         Continue editing
                     </a>
+
+                    <a href="/form-editor/conditions/manager" class="govuk-link">
+                        Cancel
+                    </a>
                 </div>
+
+                <form id="save-changes-form" method="post" action="/form-editor/conditions/save-changes"
+                    style="display: none;">
+                </form>
             </div>
         </div>
     </div>
