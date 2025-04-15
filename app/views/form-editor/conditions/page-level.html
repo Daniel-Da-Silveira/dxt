@@ -85,11 +85,13 @@ activeLinkId: "nav-editor"
                           <p class="govuk-body">
                             {% for rule in condition.rules %}
                             {% if loop.first %}
-                            '{{ rule.questionText }}' {{ rule.operator | replace("-", " ") }} '{{ rule.value }}'
+                            '{{ rule.questionText }}' {{ rule.operator | replace("-", " ") }} {% if rule.value | isArray
+                            %}'{{ rule.value | join("' or '") }}'{% else %}'{{ rule.value }}'{% endif %}
                             {% else %}
                             <span class="govuk-!-font-weight-bold">{{ rule.logicalOperator | default('AND')
                               }}</span>
-                            '{{ rule.questionText }}' {{ rule.operator | replace("-", " ") }} '{{ rule.value }}'
+                            '{{ rule.questionText }}' {{ rule.operator | replace("-", " ") }} {% if rule.value | isArray
+                            %}'{{ rule.value | join("' or '") }}'{% else %}'{{ rule.value }}'{% endif %}
                             {% endif %}
                             {% endfor %}
                           </p>

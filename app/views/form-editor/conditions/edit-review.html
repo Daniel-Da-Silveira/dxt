@@ -79,38 +79,43 @@ activeLinkId: "nav-editor"
                 </div>
                 {% endif %}
 
-                <div class="govuk-summary-card govuk-!-margin-bottom-6">
+                <div class="govuk-summary-card govuk-!-margin-bottom-6 ">
                     <div class="govuk-summary-card__title-wrapper">
-                        <h2 class="govuk-summary-card__title">Original condition</h2>
+                        <h2 class="govuk-summary-card__title ">Original condition</h2>
                     </div>
                     <div class="govuk-summary-card__content">
                         <p class="govuk-body govuk-!-font-weight-bold">{{ originalCondition.conditionName }}</p>
                         <p class="govuk-body">
                             {% for rule in originalCondition.rules %}
                             {% if loop.first %}
-                            '{{ rule.questionText }}' {{ rule.operator | replace("-", " ") }} '{{ rule.value }}'
+                            '{{ rule.questionText }}' {{ rule.operator | replace("-", " ") }} {% if rule.value | isArray
+                            %}'{{ rule.value | join("' or '") }}'{% else %}'{{ rule.value }}'{% endif %}
                             {% else %}
                             <span class="govuk-!-font-weight-bold">{{ rule.logicalOperator | default('AND') }}</span>
-                            '{{ rule.questionText }}' {{ rule.operator | replace("-", " ") }} '{{ rule.value }}'
+                            '{{ rule.questionText }}' {{ rule.operator | replace("-", " ") }} {% if rule.value | isArray
+                            %}'{{ rule.value | join("' or '") }}'{% else %}'{{ rule.value }}'{% endif %}
                             {% endif %}
                             {% endfor %}
                         </p>
                     </div>
                 </div>
 
-                <div class="govuk-summary-card govuk-!-margin-bottom-6" style="border-left: 5px solid #00703c;">
-                    <div class="govuk-summary-card__title-wrapper">
-                        <h2 class="govuk-summary-card__title">New condition</h2>
+                <div class="govuk-summary-card govuk-!-margin-bottom-6 "
+                    style="border-left: 10px solid govuk-tag--green;">
+                    <div class="govuk-summary-card__title-wrapper ">
+                        <h2 class="govuk-summary-card__title govuk-tag govuk-tag--green">New condition</h2>
                     </div>
                     <div class="govuk-summary-card__content">
                         <p class="govuk-body govuk-!-font-weight-bold">{{ updatedCondition.conditionName }}</p>
                         <p class="govuk-body">
                             {% for rule in updatedCondition.rules %}
                             {% if loop.first %}
-                            '{{ rule.questionText }}' {{ rule.operator | replace("-", " ") }} '{{ rule.value }}'
+                            '{{ rule.questionText }}' {{ rule.operator | replace("-", " ") }} {% if rule.value | isArray
+                            %}'{{ rule.value | join("' or '") }}'{% else %}'{{ rule.value }}'{% endif %}
                             {% else %}
                             <span class="govuk-!-font-weight-bold">{{ rule.logicalOperator | default('AND') }}</span>
-                            '{{ rule.questionText }}' {{ rule.operator | replace("-", " ") }} '{{ rule.value }}'
+                            '{{ rule.questionText }}' {{ rule.operator | replace("-", " ") }} {% if rule.value | isArray
+                            %}'{{ rule.value | join("' or '") }}'{% else %}'{{ rule.value }}'{% endif %}
                             {% endif %}
                             {% endfor %}
                         </p>

@@ -18,26 +18,41 @@
                     </h2>
                     <div class="govuk-error-summary__body">
                         <ul class="govuk-list govuk-error-summary__list">
+                            <!-- First condition errors -->
                             <li>
-                                <a href="#questionSelect">Select a question</a>
+                                <a href="#questionSelect">Select a question for condition 1</a>
                             </li>
                             <li>
-                                <a href="#operatorSelect">Select a condition type</a>
+                                <a href="#operatorSelect">Select a condition type for condition 1</a>
                             </li>
                             <li>
-                                <a href="#value-yes-no">Select a value</a>
+                                <a href="#value-yes-no">Select a value for condition 1</a>
+                            </li>
+                            <!-- Second condition errors -->
+                            <li>
+                                <a href="#condition-question-2">Select a question for condition 2</a>
                             </li>
                             <li>
-                                <a href="#value-radios">Select a value</a>
+                                <a href="#condition-operator-2">Select a condition type for condition 2</a>
                             </li>
                             <li>
-                                <a href="#value-checkboxes">Select a value</a>
+                                <a href="#condition-value-container-2">Select a value for condition 2</a>
                             </li>
+                            <!-- Condition name error -->
                             <li>
                                 <a href="#conditionName">Enter condition name</a>
                             </li>
+                            <!-- Duplicate condition name error -->
                             <li>
                                 <a href="#conditionName">Condition name already exists - use a unique condition name</a>
+                            </li>
+                            <!-- No conditions selected error -->
+                            <li>
+                                <a href="#existing-conditions">Select existing condition</a>
+                            </li>
+                            <!-- Logical operator error (when multiple conditions) -->
+                            <li>
+                                <a href="#logical-operator-group">Choose how you want to combine conditions</a>
                             </li>
                         </ul>
                     </div>
@@ -52,7 +67,7 @@
                     Select a question
                 </label>
                 <p id="questionSelect-error" class="govuk-error-message">
-                    <span class="govuk-visually-hidden">Error:</span> Select a question
+                    <span class="govuk-visually-hidden">Error:</span> Select a question for condition 1
                 </p>
                 <select class="govuk-select govuk-select--error" id="questionSelect" name="question">
                     <option value="">Choose a question</option>
@@ -67,7 +82,7 @@
                     Condition type
                 </label>
                 <p id="operatorSelect-error" class="govuk-error-message">
-                    <span class="govuk-visually-hidden">Error:</span> Select a condition type
+                    <span class="govuk-visually-hidden">Error:</span> Select a condition type for condition 1
                 </p>
                 <select class="govuk-select govuk-select--error" id="operatorSelect" name="operator">
                     <option value="">Select a condition type</option>
@@ -82,7 +97,7 @@
                     Select a value
                 </label>
                 <p id="value-error-yes-no" class="govuk-error-message">
-                    <span class="govuk-visually-hidden">Error:</span> Select a value
+                    <span class="govuk-visually-hidden">Error:</span> Select a value for condition 1
                 </p>
                 <div class="govuk-radios" data-module="govuk-radios">
                     <div class="govuk-radios__item">
@@ -102,7 +117,7 @@
                     Select a value
                 </label>
                 <p id="value-error-radios" class="govuk-error-message">
-                    <span class="govuk-visually-hidden">Error:</span> Select a value
+                    <span class="govuk-visually-hidden">Error:</span> Select a value for condition 1
                 </p>
                 <div class="govuk-radios" data-module="govuk-radios">
                     <div class="govuk-radios__item">
@@ -134,7 +149,7 @@
                     Select a value
                 </label>
                 <p id="value-error-checkboxes" class="govuk-error-message">
-                    <span class="govuk-visually-hidden">Error:</span> Select a value
+                    <span class="govuk-visually-hidden">Error:</span> Select a value for condition 1
                 </p>
                 <div class="govuk-checkboxes" data-module="govuk-checkboxes">
                     <div class="govuk-checkboxes__item">
@@ -173,6 +188,31 @@
                     <span class="govuk-visually-hidden">Error:</span> Enter condition name
                 </p>
                 <input class="govuk-input govuk-input--error" id="conditionName" name="conditionName" type="text">
+            </div>
+
+            <!-- Duplicate Condition Name -->
+            <div class="govuk-form-group govuk-form-group--error">
+                <label class="govuk-label" for="conditionName">
+                    Condition name
+                </label>
+                <p id="conditionName-duplicate-error" class="govuk-error-message">
+                    <span class="govuk-visually-hidden">Error:</span> Condition name already exists - use a unique
+                    condition name
+                </p>
+                <input class="govuk-input govuk-input--error" id="conditionName" name="conditionName" type="text">
+            </div>
+
+            <!-- No Conditions Selected -->
+            <div class="govuk-form-group govuk-form-group--error">
+                <label class="govuk-label" for="existing-conditions">
+                    Select existing condition
+                </label>
+                <p id="existing-conditions-error" class="govuk-error-message">
+                    <span class="govuk-visually-hidden">Error:</span> Select existing condition
+                </p>
+                <select class="govuk-select govuk-select--error" id="existing-conditions" name="existing-conditions">
+                    <option value="">Choose a condition</option>
+                </select>
             </div>
 
             <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
@@ -217,142 +257,95 @@
 
             <h3 class="govuk-heading-s">Additional conditions</h3>
             <div class="condition-item app-form-container">
-                <h4 class="govuk-heading-s">Additional condition</h4>
-                <p class="govuk-body">Uses the same question, operator, and value fields as above, with slightly
-                    modified error messages:</p>
-
-                <!-- Additional Condition - Empty Question -->
-                <div class="govuk-form-group govuk-form-group--error">
-                    <label class="govuk-label">Select a question</label>
-                    <p id="additional-question-error" class="govuk-error-message">
-                        <span class="govuk-visually-hidden">Error:</span> Select a question for the additional condition
-                    </p>
-                    <select class="govuk-select govuk-select--error" id="additional-question"
-                        name="additional-question">
-                        <option value="">Choose a question</option>
-                        <option value="1">Are you a farmer?</option>
-                        <option value="2">What type of livestock do you have?</option>
-                    </select>
-                </div>
-
-                <!-- Additional Condition - Empty Type -->
-                <div class="govuk-form-group govuk-form-group--error">
-                    <label class="govuk-label">Condition type</label>
-                    <p id="additional-operator-error" class="govuk-error-message">
-                        <span class="govuk-visually-hidden">Error:</span> Select a condition type for the additional
-                        condition
-                    </p>
-                    <select class="govuk-select govuk-select--error" id="additional-operator"
-                        name="additional-operator">
-                        <option value="">Select a condition type</option>
-                        <option value="is">is</option>
-                        <option value="is-not">is not</option>
-                    </select>
-                </div>
-
-                <!-- Additional Condition Value - Yes/No Question -->
-                <div class="govuk-form-group govuk-form-group--error">
-                    <label class="govuk-label" for="additional-value-yes-no">
-                        Select a value
-                    </label>
-                    <p id="additional-value-error-yes-no" class="govuk-error-message">
-                        <span class="govuk-visually-hidden">Error:</span> Select a value
-                    </p>
-                    <div class="govuk-radios" data-module="govuk-radios">
-                        <div class="govuk-radios__item">
-                            <input class="govuk-radios__input" type="radio" name="additional-value-yes-no"
-                                id="additional-value-yes" value="Yes">
-                            <label class="govuk-label govuk-radios__label" for="additional-value-yes">Yes</label>
-                        </div>
-                        <div class="govuk-radios__item">
-                            <input class="govuk-radios__input" type="radio" name="additional-value-yes-no"
-                                id="additional-value-no" value="No">
-                            <label class="govuk-label govuk-radios__label" for="additional-value-no">No</label>
-                        </div>
-                    </div>
-                </div>
-
-                <button class="govuk-button govuk-button--secondary govuk-button--warning remove-condition-link"
-                    style="position: absolute; top: 15px; right: 15px;">
-                    <svg class="govuk-!-margin-right-1" style="position: relative; top: 2px" width="12" height="12"
-                        viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M10.5 1.5L1.5 10.5" stroke="currentColor" stroke-width="2" />
-                        <path d="M1.5 1.5L10.5 10.5" stroke="currentColor" stroke-width="2" />
-                    </svg>
-                    Remove condition
-                </button>
-            </div>
-
-            <!-- Combining Conditions -->
-            <div class="govuk-form-group govuk-form-group--error">
                 <fieldset class="govuk-fieldset">
                     <legend class="govuk-fieldset__legend govuk-fieldset__legend--s">
-                        How do you want to combine these conditions?
+                        Additional condition 1
                     </legend>
-                    <p id="combine-conditions-error" class="govuk-error-message">
-                        <span class="govuk-visually-hidden">Error:</span> Choose how you want to combine conditions
-                    </p>
-                    <div class="govuk-radios" data-module="govuk-radios">
-                        <div class="govuk-radios__item">
-                            <input class="govuk-radios__input" id="logical-operator-and" name="logicalOperator"
-                                type="radio" value="AND">
-                            <label class="govuk-label govuk-radios__label" for="logical-operator-and">
-                                All conditions must be met (AND)
-                            </label>
-                        </div>
-                        <div class="govuk-radios__item">
-                            <input class="govuk-radios__input" id="logical-operator-or" name="logicalOperator"
-                                type="radio" value="OR">
-                            <label class="govuk-label govuk-radios__label" for="logical-operator-or">
-                                Any condition can be met (OR)
-                            </label>
-                        </div>
+
+                    <!-- Additional Condition - Empty Question -->
+                    <div class="govuk-form-group govuk-form-group--error">
+                        <label class="govuk-label" for="condition-question-1">Select a question</label>
+                        <p id="condition-question-1-error" class="govuk-error-message">
+                            <span class="govuk-visually-hidden">Error:</span> Select a question for condition 2
+                        </p>
+                        <select class="govuk-select govuk-select--error condition-question" id="condition-question-1"
+                            name="question-1">
+                            <option value="">Choose a question</option>
+                            <option value="1">Are you a farmer?</option>
+                            <option value="2">What type of livestock do you have?</option>
+                        </select>
+                    </div>
+
+                    <!-- Additional Condition - Empty Type -->
+                    <div class="govuk-form-group govuk-form-group--error">
+                        <label class="govuk-label" for="condition-operator-1">Condition type</label>
+                        <p id="condition-operator-1-error" class="govuk-error-message">
+                            <span class="govuk-visually-hidden">Error:</span> Select a condition type for condition 2
+                        </p>
+                        <select class="govuk-select govuk-select--error" id="condition-operator-1" name="operator-1">
+                            <option value="">Select a condition type</option>
+                            <option value="is">is</option>
+                            <option value="is-not">is not</option>
+                        </select>
+                    </div>
+
+                    <!-- Additional Condition - Empty Value -->
+                    <div class="govuk-form-group govuk-form-group--error condition-value-container"
+                        id="condition-value-container-1">
+                        <label class="govuk-label">Select a value</label>
+                        <p id="condition-value-1-error" class="govuk-error-message">
+                            <span class="govuk-visually-hidden">Error:</span> Select a value for condition 2
+                        </p>
+                        <!-- Value inputs will be dynamically populated -->
                     </div>
                 </fieldset>
             </div>
 
-            <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+            <!-- Example of a second additional condition -->
+            <div class="condition-item app-form-container">
+                <fieldset class="govuk-fieldset">
+                    <legend class="govuk-fieldset__legend govuk-fieldset__legend--s">
+                        Additional condition 2
+                    </legend>
 
-            <h2 class="govuk-heading-m">Review page errors</h2>
-
-            <!-- Sub Navigation for Review -->
-            <nav class="moj-sub-navigation govuk-!-padding-top-0 govuk-!-margin-bottom-2" aria-label="Sub navigation">
-                <ul class="moj-sub-navigation__list">
-                    <li class="moj-sub-navigation__item">
-                        <a class="moj-sub-navigation__link" href="/form-editor/conditions/manager">
-                            Conditions
-                        </a>
-                    </li>
-                    <li class="moj-sub-navigation__item">
-                        <a class="moj-sub-navigation__link" aria-current="page" href="#">
-                            Check changes
-                        </a>
-                    </li>
-                </ul>
-            </nav>
-
-            <!-- Error Summary for Review Page -->
-            {# <div class="govuk-error-summary" data-module="govuk-error-summary">
-                <div role="alert">
-                    <h2 class="govuk-error-summary__title">
-                        There is a problem
-                    </h2>
-                    <div class="govuk-error-summary__body">
-                        <ul class="govuk-list govuk-error-summary__list">
-                            <li>
-                                <a href="#save-changes-form">Unable to save changes - please try again</a>
-                            </li>
-                        </ul>
+                    <!-- Additional Condition - Empty Question -->
+                    <div class="govuk-form-group govuk-form-group--error">
+                        <label class="govuk-label" for="condition-question-2">Select a question</label>
+                        <p id="condition-question-2-error" class="govuk-error-message">
+                            <span class="govuk-visually-hidden">Error:</span> Select a question for condition 2
+                        </p>
+                        <select class="govuk-select govuk-select--error condition-question" id="condition-question-2"
+                            name="question-2">
+                            <option value="">Choose a question</option>
+                            <option value="1">Are you a farmer?</option>
+                            <option value="2">What type of livestock do you have?</option>
+                        </select>
                     </div>
-                </div>
-            </div> #}
 
-            <!-- Error Notification Banner -->
-            {# {{ govukNotificationBanner({
-            type: "error",
-            titleText: "Error",
-            text: "There was a problem saving your changes. Please try again."
-            }) }} #}
+                    <!-- Additional Condition - Empty Type -->
+                    <div class="govuk-form-group govuk-form-group--error">
+                        <label class="govuk-label" for="condition-operator-2">Condition type</label>
+                        <p id="condition-operator-2-error" class="govuk-error-message">
+                            <span class="govuk-visually-hidden">Error:</span> Select a condition type for condition 2
+                        </p>
+                        <select class="govuk-select govuk-select--error" id="condition-operator-2" name="operator-2">
+                            <option value="">Select a condition type</option>
+                            <option value="is">is</option>
+                            <option value="is-not">is not</option>
+                        </select>
+                    </div>
+
+                    <!-- Additional Condition - Empty Value -->
+                    <div class="govuk-form-group govuk-form-group--error condition-value-container"
+                        id="condition-value-container-2">
+                        <label class="govuk-label">Select a value</label>
+                        <p id="condition-value-2-error" class="govuk-error-message">
+                            <span class="govuk-visually-hidden">Error:</span> Select a value for condition 2
+                        </p>
+                        <!-- Value inputs will be dynamically populated -->
+                    </div>
+                </fieldset>
+            </div>
 
             <!-- Warning About Affected Pages -->
             <div class="govuk-warning-text govuk-!-margin-bottom-2">

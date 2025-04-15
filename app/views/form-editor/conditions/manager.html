@@ -1,6 +1,6 @@
 {% extends "layouts/main.html" %}
 {% from "components/service-header/macro.njk" import serviceHeader %}
-{% set pageName = "Manage conditions - Apply for a county parish holding number in England" %}
+{% set pageName %}Manage conditions - {{ form.name }}{% endset %}
 
 {% block header %}
 {{ serviceHeader({
@@ -13,7 +13,7 @@ homepageLink: "/",
 signOutLink: "/onboarding/sign-out-confirmation",
 navigationItems: [
 { href: "/library.html", text: "Forms library", id: "nav-library" },
-{ href: "/cph-overview/draft/complete-clean.html", text: "Overview", id: "nav-overview" },
+{ href: "/form-overview/index", text: "Overview", id: "nav-overview" },
 { href: "/form-editor/listing", text: "Editor", id: "nav-editor" }
 ],
 activeLinkId: "nav-editor"
@@ -101,13 +101,13 @@ activeLinkId: "nav-editor"
                                 <p class="govuk-body govuk-!-margin-bottom-0">
                                     {% for rule in condition.rules %}
                                     {% if loop.first %}
-                                    '{{ rule.questionText }}' {{ rule.operator | replace("-", " ")
-                                    }} '{{ rule.value }}'
+                                    '{{ rule.questionText }}' {{ rule.operator | replace("-", " ") }} {% if rule.value |
+                                    isArray %}'{{ rule.value | join("' or '") }}'{% else %}'{{ rule.value }}'{% endif %}
                                     {% else %}
-                                    <span class="govuk-!-font-weight-bold">{{ rule.logicalOperator |
-                                        default('AND') }}</span>
-                                    '{{ rule.questionText }}' {{ rule.operator | replace("-", " ")
-                                    }} '{{ rule.value }}'
+                                    <span class="govuk-!-font-weight-bold">{{ rule.logicalOperator | default('AND')
+                                        }}</span>
+                                    '{{ rule.questionText }}' {{ rule.operator | replace("-", " ") }} {% if rule.value |
+                                    isArray %}'{{ rule.value | join("' or '") }}'{% else %}'{{ rule.value }}'{% endif %}
                                     {% endif %}
                                     {% endfor %}
                                 </p>
@@ -138,7 +138,7 @@ activeLinkId: "nav-editor"
                                                 condition.conditionName }}</span></a>
                                     </li>
                                     <li class="govuk-summary-list__actions-list-item">
-                                        <a href="/form-editor/delete-condition/{{ condition.id }}"
+                                        <a href="/form-editor/conditions/delete/{{ condition.id }}"
                                             class="govuk-link govuk-link--no-visited-state govuk-link--destructive">Delete<span
                                                 class="govuk-visually-hidden"> {{
                                                 condition.conditionName }}</span></a>
@@ -561,8 +561,6 @@ activeLinkId: "nav-editor"
                     }
                 }
 
-                conditionCount++;
-
                 const newCondition = document.createElement('div');
                 newCondition.className = 'condition-item govuk-form-group';
                 newCondition.style.background = '#f3f2f1';
@@ -576,7 +574,7 @@ activeLinkId: "nav-editor"
                     <div class="govuk-form-group">
                         <fieldset class="govuk-fieldset">
                             <legend class="govuk-fieldset__legend govuk-fieldset__legend--s">
-                                Additional condition
+                                Additional condition ${conditionCount}
                             </legend>
 
                             <div class="govuk-form-group">
@@ -617,6 +615,7 @@ activeLinkId: "nav-editor"
                 `;
 
                 additionalConditions.appendChild(newCondition);
+                conditionCount++;
 
                 // Add change handler for the new question select
                 const newQuestionSelect = newCondition.querySelector('.condition-question');
@@ -744,327 +743,65 @@ activeLinkId: "nav-editor"
                 removeLink.addEventListener('click', function (e) {
                     e.preventDefault();
                     newCondition.remove();
-                });
-            });
-        }
+                    conditionCount--;
 
-        // Handle form submission with multiple conditions
-        const conditionForm = document.getElementById('condition-form');
-        if (conditionForm) {
-            conditionForm.addEventListener('submit', function (e) {
-                e.preventDefault();
+                    // Renumber all remaining conditions
+                    const remainingConditions = document.querySelectorAll('.condition-item');
+                    remainingConditions.forEach((condition, index) => {
+                        // Update the legend text
+                        const legend = condition.querySelector('.govuk-fieldset__legend');
+                        if (legend) {
+                            legend.textContent = `Additional condition ${index + 1}`;
+                        }
 
-                // Get form data
-                const formData = new FormData(conditionForm);
-                const conditionName = formData.get('conditionName');
-                const logicalOperator = formData.get('logicalOperator');
+                        // Update the IDs and names of the form elements
+                        const questionSelect = condition.querySelector('.condition-question');
+                        const operatorSelect = condition.querySelector('select[id^="condition-operator-"]');
+                        const valueContainer = condition.querySelector('.condition-value-container');
 
-                // Initialize rules array
-                const rules = [];
+                        if (questionSelect) {
+                            questionSelect.id = `condition-question-${index + 1}`;
+                            questionSelect.name = `question-${index + 1}`;
+                            const label = condition.querySelector(`label[for^="condition-question-"]`);
+                            if (label) {
+                                label.setAttribute('for', `condition-question-${index + 1}`);
+                            }
+                        }
 
-                // Get first condition
-                const firstQuestionSelect = document.getElementById('questionSelect');
-                const firstOperatorSelect = document.getElementById('operatorSelect');
-                const firstQuestionText = firstQuestionSelect.options[firstQuestionSelect.selectedIndex].text;
-                const firstQuestionType = firstQuestionSelect.options[firstQuestionSelect.selectedIndex].getAttribute('data-type');
+                        if (operatorSelect) {
+                            operatorSelect.id = `condition-operator-${index + 1}`;
+                            operatorSelect.name = `operator-${index + 1}`;
+                        }
 
-                // Get first condition value based on type
-                let firstValue;
-                if (firstQuestionType === 'checkboxes') {
-                    const checkedBoxes = valueContainer.querySelectorAll('input[type="checkbox"]:checked');
-                    firstValue = Array.from(checkedBoxes).map(cb => cb.value);
-                } else {
-                    const selectedRadio = valueContainer.querySelector('input[type="radio"]:checked');
-                    firstValue = selectedRadio ? selectedRadio.value : '';
-                }
-
-                // Add first rule
-                rules.push({
-                    questionText: firstQuestionText,
-                    operator: firstOperatorSelect.value,
-                    value: firstValue,
-                    logicalOperator: null
-                });
-
-                // Get additional conditions
-                const additionalConditions = document.querySelectorAll('#additional-conditions .condition-item');
-                additionalConditions.forEach((condition, index) => {
-                    const questionSelect = condition.querySelector('.condition-question');
-                    const operatorSelect = condition.querySelector('select[id^="condition-operator"]');
-                    const questionText = questionSelect.options[questionSelect.selectedIndex].text;
-                    const questionType = questionSelect.options[questionSelect.selectedIndex].getAttribute('data-type');
-
-                    // Get value based on type
-                    let value;
-                    if (questionType === 'checkboxes') {
-                        const checkedBoxes = condition.querySelectorAll('input[type="checkbox"]:checked');
-                        value = Array.from(checkedBoxes).map(cb => cb.value);
-                    } else {
-                        const selectedRadio = condition.querySelector('input[type="radio"]:checked');
-                        value = selectedRadio ? selectedRadio.value : '';
-                    }
-
-                    rules.push({
-                        questionText: questionText,
-                        operator: operatorSelect.value,
-                        value: value,
-                        logicalOperator: logicalOperator
+                        if (valueContainer) {
+                            valueContainer.id = `condition-value-container-${index + 1}`;
+                        }
                     });
                 });
-
-                // Create the form to submit
-                const form = document.createElement('form');
-                form.method = 'POST';
-                form.action = '/form-editor/conditions-manager/add';
-
-                // Add all inputs to form
-                const inputs = {
-                    'conditionName': conditionName,
-                    'rules': JSON.stringify(rules)
-                };
-
-                Object.entries(inputs).forEach(([name, value]) => {
-                    const input = document.createElement('input');
-                    input.type = 'hidden';
-                    input.name = name;
-                    input.value = value;
-                    form.appendChild(input);
-                });
-
-                // Add the form to the document and submit it
-                document.body.appendChild(form);
-                form.submit();
             });
         }
 
-        // Handle edit condition
-        const editButtons = document.querySelectorAll('.edit-condition');
-        editButtons.forEach(button => {
-            button.addEventListener('click', function (e) {
-                e.preventDefault();
-                const conditionId = this.getAttribute('data-condition-id');
-                // Add edit logic here
-            });
-        });
-
-        // Handle remove condition
-        const removeButtons = document.querySelectorAll('.remove-condition');
-        removeButtons.forEach(button => {
-            button.addEventListener('click', function (e) {
-                e.preventDefault();
-                const conditionId = this.getAttribute('data-condition-id');
-                window.location.href = `/form-editor/delete-condition/${conditionId}`;
-            });
-        });
-
-        // Handle remove selected conditions
-        const removeSelectedButton = document.getElementById('remove-selected-conditions');
-        if (removeSelectedButton) {
-            removeSelectedButton.addEventListener('click', function () {
-                const selectedCheckboxes = document.querySelectorAll('.govuk-checkboxes__input:checked');
-                const selectedIds = Array.from(selectedCheckboxes).map(cb => cb.value);
-
-                // Create a form to submit the data
-                const form = document.createElement('form');
-                form.method = 'POST';
-                form.action = '/form-editor/conditions-manager/remove';
-
-                // Add each selected condition ID
-                selectedIds.forEach(id => {
-                    const input = document.createElement('input');
-                    input.type = 'hidden';
-                    input.name = 'conditionIds[]';
-                    input.value = id;
-                    form.appendChild(input);
-                });
-
-                // Add the form to the document and submit it
-                document.body.appendChild(form);
-                form.submit();
-            });
-        }
-
-        // Join conditions functionality
-        if (joinButton) {
-            joinButton.addEventListener('click', function (e) {
-                e.preventDefault();
-                const selectedCheckboxes = document.querySelectorAll('.govuk-checkboxes__input:checked');
-
-                if (selectedCheckboxes.length < 2) {
-                    // Show error message using GOV.UK error summary
-                    const errorSummary = document.createElement('div');
-                    errorSummary.className = 'govuk-error-summary';
-                    errorSummary.setAttribute('aria-labelledby', 'error-summary-title');
-                    errorSummary.setAttribute('role', 'alert');
-                    errorSummary.setAttribute('tabindex', '-1');
-                    errorSummary.innerHTML = `
-                        <h2 class="govuk-error-summary__title" id="error-summary-title">
-                            There is a problem
-                        </h2>
-                        <div class="govuk-error-summary__body">
-                            <p>Please select at least 2 conditions to join</p>
-                        </div>
-                    `;
-
-                    // Insert error at the top of the page
-                    document.querySelector('.govuk-grid-column-two-thirds-from-desktop').insertBefore(
-                        errorSummary,
-                        document.querySelector('.govuk-summary-card')
-                    );
-
-                    // Focus on error summary
-                    errorSummary.focus();
-
-                    // Remove error after 5 seconds
-                    setTimeout(() => {
-                        errorSummary.remove();
-                    }, 5000);
-
-                    return;
-                }
-
-                // Hide the buttons
+        // Handle join conditions button
+        if (joinButton && joinFormContainer) {
+            joinButton.addEventListener('click', function () {
+                joinFormContainer.style.display = 'block';
                 joinButton.style.display = 'none';
                 if (addNewButton) {
                     addNewButton.style.display = 'none';
                 }
-
-                // Show the form
-                joinFormContainer.style.display = 'block';
-                document.getElementById('joined-condition-name').focus();
             });
         }
 
-        // Handle join form submission
-        if (joinForm) {
-            joinForm.addEventListener('submit', function (e) {
+        if (cancelJoinButton && joinFormContainer) {
+            cancelJoinButton.addEventListener('click', function (e) {
                 e.preventDefault();
-
-                const selectedCheckboxes = document.querySelectorAll('.govuk-checkboxes__input:checked');
-                const selectedConditions = Array.from(selectedCheckboxes).map(cb => cb.value);
-                const operator = document.querySelector('input[name="operator"]:checked').value;
-                const newConditionName = document.getElementById('joined-condition-name').value;
-
-                // Create the form to submit
-                const form = document.createElement('form');
-                form.method = 'POST';
-                form.action = '/form-editor/conditions-manager/join';
-
-                // Add the necessary inputs
-                const inputs = {
-                    'conditionIds': JSON.stringify(selectedConditions),
-                    'operator': operator,
-                    'newConditionName': newConditionName
-                };
-
-                Object.entries(inputs).forEach(([name, value]) => {
-                    const input = document.createElement('input');
-                    input.type = 'hidden';
-                    input.name = name;
-                    input.value = value;
-                    form.appendChild(input);
-                });
-
-                // Submit the form
-                document.body.appendChild(form);
-                form.submit();
-            });
-        }
-
-        // Handle cancel join
-        if (cancelJoinButton) {
-            cancelJoinButton.addEventListener('click', function () {
                 joinFormContainer.style.display = 'none';
                 joinButton.style.display = 'inline-flex';
                 if (addNewButton) {
-                    addNewButton.style.display = 'inline-flex';
+                    addNewButton.style.display = 'block';
                 }
             });
         }
     });
 </script>
-
-<style>
-    .highlight {
-        background-color: #ffe5cc;
-        border-bottom: 2px solid #ffb266;
-        color: black;
-    }
-
-    #before-content {
-        position: absolute;
-        top: 0;
-        left: 10 !important;
-        right: 0;
-        width: 100%;
-        padding: 10px !important;
-        box-sizing: border-box;
-        z-index: 1;
-        border-bottom: 1px solid #008938;
-        padding-left: 10px;
-    }
-
-    #second-container {
-        padding: 0;
-        box-sizing: border-box;
-    }
-
-    #second-container>* {
-        padding-left: 0px;
-        z-index: 2;
-    }
-
-    .with-arrow {
-        position: relative;
-        border: none;
-        height: 2px;
-        background-color: #b1b4b6;
-        margin: 1.5em 0;
-    }
-
-    .with-arrow::after {
-        content: "▼";
-        display: block;
-        position: absolute;
-        left: 2%;
-        transform: translateX(-50%);
-        top: -4px;
-        font-size: 18px;
-        color: #b1b4b6;
-        z-index: 10;
-    }
-
-    .govuk-summary-list__key p {
-        display: block !important;
-    }
-
-    .govuk-table__cell {
-        vertical-align: top;
-    }
-
-
-
-    /* New styles for the form container */
-    .app-form-container {
-        border-left: 4px solid #008938;
-        background-color: #f8f8f8;
-        outline: 1px solid #b1b4b6;
-        padding: 30px;
-        position: relative;
-    }
-
-    .app-form-container__title {
-        font-size: 24px;
-        font-weight: bold;
-        margin-bottom: 20px;
-        margin-top: 0;
-    }
-
-    #join-conditions-form-container {
-        outline: 1px solid #b1b4b6;
-        outline-offset: -1px;
-        padding: 20px;
-        margin: 0;
-    }
-</style>
 {% endblock %}
