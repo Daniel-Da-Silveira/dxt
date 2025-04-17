@@ -113,7 +113,7 @@ activeLinkId: "nav-editor"
                   <div class="govuk-form-group">
 
                     <span class="govuk-caption-m">Page {{pageNumber}}: {{question.label}}</span>
-                    <h2 class="govuk-heading-m">Control who can see this page based on previous answers</h2>
+                    <h2 class="govuk-heading-l">Control who can see this page based on previous answers</h2>
 
                     {% if existingConditions | length > 0 %}
                     {{ govukSelect({
@@ -271,13 +271,18 @@ activeLinkId: "nav-editor"
 
             <div id="preview-container">
               <div id="preview-items">
+                {% if currentPage.pageType == 'guidance' %}
+                <h1 class="govuk-heading-xl">{{ currentPage.guidanceOnlyHeadingInput or '' }}</h1>
+                <div class="govuk-body guidance-content">
+                  {{ currentPage.guidanceOnlyGuidanceTextInput or '' }}
+                </div>
+                {% else %}
                 {% if currentPage.pageHeading %}
                 <h1 class="govuk-heading-xl">{{ currentPage.pageHeading }}</h1>
                 {% endif %}
                 {% if currentPage.questions.length > 0 %}
                 {% for question in currentPage.questions %}
                 <div class="preview-item" data-id="question-{{ question.questionId }}">
-
                   {% set previewTemplate = '/form-editor/question-type/questions/previews/' %}
 
                   {% if question.type == 'phone' %}
@@ -334,6 +339,7 @@ activeLinkId: "nav-editor"
                 {% endfor %}
                 {% else %}
                 <p>No questions available to preview.</p>
+                {% endif %}
                 {% endif %}
               </div>
             </div>
@@ -404,4 +410,6 @@ activeLinkId: "nav-editor"
     display: block !important;
   }
 </style>
-{% endblock %}
+
+<form class="form" action="/form-editor/conditions/page-level/{{ currentPage.pageId }}" method="post">
+  {% endblock %}

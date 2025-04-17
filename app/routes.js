@@ -1,8 +1,3 @@
-//
-// For guidance on how to create routes see:
-// https://prototype-kit.service.gov.uk/docs/create-routes
-//
-
 const govukPrototypeKit = require("govuk-prototype-kit");
 const router = govukPrototypeKit.requests.setupRouter();
 const terms = require("./data/dictionary.json");
@@ -1230,6 +1225,14 @@ router.get("/form-editor/conditions/page-level/:pageId", function (req, res) {
       }
     });
 
+  // Ensure guidance data is properly set
+  if (currentPage.pageType === "guidance") {
+    currentPage.guidanceOnlyHeadingInput =
+      currentPage.guidanceOnlyHeadingInput || "";
+    currentPage.guidanceOnlyGuidanceTextInput =
+      currentPage.guidanceOnlyGuidanceTextInput || "";
+  }
+
   res.render("form-editor/conditions/page-level.html", {
     form: {
       name: formData.formName || "Form name",
@@ -1241,6 +1244,7 @@ router.get("/form-editor/conditions/page-level/:pageId", function (req, res) {
     conditions: currentPage.conditions || [],
     formPages: formPages,
     existingConditions: existingConditions,
+    data: formData, // Add formData to the template context
   });
 });
 
@@ -1513,37 +1517,26 @@ router.post("/form-editor/guidance/overview", function (req, res) {
   const formPages = req.session.data["formPages"] || [];
   const pageIndex = req.session.data["currentPageIndex"];
 
-  // Create or update the guidance page
-  const guidancePage = {
-    pageId: pageIndex !== undefined ? formPages[pageIndex]?.pageId : Date.now(),
+  // Get the current page
+  const currentPage = formPages[pageIndex];
+
+  // Update the guidance data while preserving other page properties
+  const updatedPage = {
+    ...currentPage,
     pageType: "guidance",
     guidanceOnlyHeadingInput: req.body.guidanceOnlyHeadingInput,
     guidanceOnlyGuidanceTextInput: req.body.guidanceOnlyGuidanceTextInput,
     isExitPage: Array.isArray(req.body.exitPage)
       ? req.body.exitPage.includes("true")
       : req.body.exitPage === "true",
-    questions: [],
-    conditions: [], // Initialize empty conditions array
   };
 
-  // Add or update the page
-  if (pageIndex !== undefined) {
-    formPages[pageIndex] = guidancePage;
-  } else {
-    formPages.push(guidancePage);
-    req.session.data["currentPageIndex"] = formPages.length - 1;
-  }
-
+  // Update the page in formPages
+  formPages[pageIndex] = updatedPage;
   req.session.data["formPages"] = formPages;
 
-  // Add this to pass the currentPage to the template
-  res.render("form-editor/question-type/guidance-configuration", {
-    currentPage: guidancePage,
-    data: req.session.data,
-    form: {
-      name: req.session.data.formName || "Form name",
-    },
-  });
+  // Redirect back to the guidance configuration page
+  res.redirect("/form-editor/question-type/guidance-configuration.html");
 });
 
 // Add this GET route for guidance configuration
@@ -2948,4 +2941,30 @@ router.get("/form-editor/information-type-nf.html", function (req, res) {
     questionNumber: questionNumber,
     data: formData,
   });
+});
+
+router.post("/form-editor/conditions/page-level/:pageId", function (req, res) {
+  const formData = req.session.data || {};
+  const formPages = req.session.data.formPages || [];
+  const pageId = req.params.pageId;
+
+  // Find the current page
+  const currentPage = formPages.find((page) => String(page.pageId) === pageId);
+  if (!currentPage) {
+    return res.redirect("/form-editor/listing");
+  }
+
+  // Update the guidance data
+  currentPage.guidanceOnlyHeadingInput = req.body.guidanceOnlyHeadingInput;
+  currentPage.guidanceOnlyGuidanceTextInput =
+    req.body.guidanceOnlyGuidanceTextInput;
+  currentPage.isExitPage = Array.isArray(req.body.exitPage)
+    ? req.body.exitPage.includes("true")
+    : req.body.exitPage === "true";
+
+  // Save back to session
+  req.session.data.formPages = formPages;
+
+  // Redirect back to the conditions page
+  res.redirect(`/form-editor/conditions/page-level/${pageId}`);
 });

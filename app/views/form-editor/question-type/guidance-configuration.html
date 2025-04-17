@@ -73,7 +73,7 @@ activeLinkId: "nav-editor"
                             </li>
                             <li class="moj-sub-navigation__item">
                               <a class="moj-sub-navigation__link"
-                                href="/form-editor/conditions/{{ currentPage.pageId }}">
+                                href="/form-editor/conditions/page-level/{{ currentPage.pageId }}">
                                 Conditions
                               </a>
                             </li>
@@ -239,7 +239,7 @@ activeLinkId: "nav-editor"
                         {% if currentPage and currentPage.pageId %}
                         {{ govukButton({
                         text: "Manage conditions",
-                        href: "/form-editor/conditions/" + currentPage.pageId,
+                        href: "/form-editor/conditions/page-level/" + currentPage.pageId,
                         classes: "govuk-button"
                         }) }}
                         {% else %}
@@ -340,10 +340,13 @@ activeLinkId: "nav-editor"
 
           initializeEventListeners();
 
-          // Set default placeholders on page load
-          domElements.dynamicHeading.textContent = "Page heading";
-          domElements.guidanceParagraph.textContent = "Guidance text"; // Set default guidance placeholder
-
+          // Set default placeholders on page load only if no content exists
+          if (!domElements.guidanceOnlyHeadingInput.value) {
+            domElements.dynamicHeading.textContent = "Page heading";
+          }
+          if (!domElements.guidanceEmail.value) {
+            domElements.guidanceParagraph.textContent = "Guidance text";
+          }
 
           function initializeEventListeners() {
             // Question Label Input
@@ -536,14 +539,26 @@ activeLinkId: "nav-editor"
 
       <script>
         document.addEventListener('DOMContentLoaded', function () {
-          // Get the textarea and the output paragraph elements
-          const textarea = document.getElementById('guidance-only-guidance-text-input');
-          const paragraph = document.getElementById('guidance-paragraph');
+          // Get the input elements
+          const headingInput = document.getElementById('guidance-only-page-heading-input');
+          const guidanceInput = document.getElementById('guidance-only-guidance-text-input');
 
-          // Listen for input events on the textarea
-          textarea.addEventListener('input', function () {
-            // Convert the textarea content using the marked library
-            paragraph.innerHTML = marked.parse(textarea.value);
+          // Get the preview elements
+          const headingPreview = document.getElementById('dynamic-heading-more-than-1');
+          const guidancePreview = document.getElementById('guidance-paragraph');
+
+          // Update heading preview
+          headingInput.addEventListener('input', function () {
+            headingPreview.textContent = this.value || 'Page heading';
+          });
+
+          // Update guidance preview with markdown conversion
+          guidanceInput.addEventListener('input', function () {
+            if (typeof marked !== 'undefined') {
+              guidancePreview.innerHTML = marked.parse(this.value || '');
+            } else {
+              guidancePreview.textContent = this.value || '';
+            }
           });
         });
       </script>

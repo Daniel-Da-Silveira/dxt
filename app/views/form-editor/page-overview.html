@@ -554,15 +554,16 @@ activeLinkId: "nav-editor"
                 <span class="govuk-caption-xl">{{ currentPage.section.name }}</span>
                 {% endif %}
 
-                <h1 class="govuk-heading-xl"
+                <h1
+                  class="govuk-heading-xl {% if not currentPage.pageHeading and currentPage.section %}govuk-!-margin-bottom-0{% endif %}"
                   style="word-wrap: break-word; white-space: normal; overflow-wrap: break-word;" id="dynamic-heading">
                   {{ currentPage.pageHeading }}
                 </h1>
               </div>
 
               <!-- Guidance Paragraph -->
-              <p class="govuk-body" style="word-wrap: break-word; white-space: normal; overflow-wrap: break-word;"
-                id="guidance-paragraph">
+              <p class="govuk-body govuk-!-padding-bottom-4"
+                style="word-wrap: break-word; white-space: normal; overflow-wrap: break-word;" id="guidance-paragraph">
                 {{ currentPage.guidanceTextarea }} </p>
 
 
