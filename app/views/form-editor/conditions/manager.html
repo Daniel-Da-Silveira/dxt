@@ -43,6 +43,7 @@ activeLinkId: "nav-editor"
 {% block content %}
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-full">
+        <div id="form-pages-data" data-form-pages='{{ formPages | dump | safe }}'></div>
         <div class="govuk-grid-row">
             <!-- Left Column for Form Controls -->
             <div class="govuk-grid-column-two-thirds-from-desktop" id="container"
@@ -191,16 +192,19 @@ activeLinkId: "nav-editor"
                         items: [
                         {
                         text: "Add to pages",
-                        href: "/form-editor/conditions/apply",
+                        href: "#",
                         attributes: {
+                        id: "add-condition-to-pages",
                         "data-action": "show-form",
                         "data-form-id": "add-condition-to-pages-form"
                         }
+
                         },
                         {
                         text: "Remove from pages",
-                        href: "/form-editor/conditions/remove",
+                        href: "#",
                         attributes: {
+                        id: "remove-condition-from-pages",
                         "data-action": "show-form",
                         "data-form-id": "remove-condition-from-pages-form"
                         }
@@ -630,6 +634,8 @@ activeLinkId: "nav-editor"
 
 <script>
     document.addEventListener("DOMContentLoaded", function () {
+        console.log('DOM loaded, setting up event handlers');
+
         // Show/hide new condition form
         const addNewButton = document.getElementById('add-new-condition');
         const newConditionForm = document.getElementById('new-condition-form');
@@ -638,6 +644,59 @@ activeLinkId: "nav-editor"
         const joinFormContainer = document.getElementById('join-conditions-form-container');
         const joinForm = document.getElementById('join-conditions-form');
         const cancelJoinButton = document.getElementById('cancel-join');
+
+        // Function to hide all forms and show all buttons
+        function resetFormsAndButtons() {
+            // Hide all forms
+            document.querySelectorAll(".app-form-container, #join-conditions-form-container, #new-condition-form").forEach(f => {
+                f.style.display = "none";
+            });
+
+            // Show all buttons
+            if (addNewButton) addNewButton.style.display = "block";
+            if (joinButton) joinButton.style.display = "inline-flex";
+        }
+
+        // Handle form show/hide for buttons with data-action="show-form"
+        document.body.addEventListener("click", function (e) {
+            const trigger = e.target.closest("[data-action='show-form']");
+            if (!trigger) return;
+
+            e.preventDefault();
+            const formId = trigger.getAttribute("data-form-id");
+            const form = document.getElementById(formId);
+            if (!form) return;
+
+            // Hide all forms and show all buttons first
+            resetFormsAndButtons();
+
+            // Then show the requested form and hide the buttons
+            form.style.display = "block";
+            if (addNewButton) addNewButton.style.display = "none";
+            if (joinButton) joinButton.style.display = "none";
+
+            // Update the appropriate list based on which form is shown
+            if (formId === "add-condition-to-pages-form") {
+                updateSelectedConditionsList();
+            } else if (formId === "remove-condition-from-pages-form") {
+                updateSelectedConditionsToRemoveList();
+            }
+        });
+
+        // Handle cancel buttons
+        document.body.addEventListener("click", function (e) {
+            const cancelButton = e.target.closest(".cancel-button, [id^='cancel-']");
+            if (!cancelButton) return;
+
+            e.preventDefault();
+            resetFormsAndButtons();
+
+            // Clear any selections
+            document.querySelectorAll(".condition-checkbox").forEach(cb => cb.checked = false);
+            document.getElementById("select-all-conditions").checked = false;
+            document.getElementById("selected-conditions-list").innerHTML = "";
+            document.getElementById("selected-conditions-to-remove-list").innerHTML = "";
+        });
 
         // Handle question selection and value input
         const questionSelect = document.getElementById('questionSelect');
@@ -1323,11 +1382,8 @@ activeLinkId: "nav-editor"
                 pagesInput.value = JSON.stringify(selectedPages);
                 applyConditionForm.appendChild(pagesInput);
 
-                // Log the data being sent
-                console.log('Submitting form with:', {
-                    conditionIds: conditionIds,
-                    pages: selectedPages
-                });
+                // Allow the form to submit normally
+                return true;
             });
         }
 
@@ -1338,7 +1394,7 @@ activeLinkId: "nav-editor"
         const removeConditionForm = document.getElementById('remove-condition-form');
         const selectedConditionsToRemoveList = document.getElementById('selected-conditions-to-remove-list');
 
-        const formPagesData = JSON.parse('{{ formPages | dump | safe }}');
+        const formPagesData = document.getElementById('form-pages-data').dataset.formPages ? JSON.parse(document.getElementById('form-pages-data').dataset.formPages) : [];
 
         function updateSelectedConditionsToRemoveList() {
             const selectedCheckboxes = document.querySelectorAll('.condition-checkbox:checked');
@@ -1464,6 +1520,9 @@ activeLinkId: "nav-editor"
                 const selectedPages = Array.from(document.querySelectorAll('#remove-condition-from-pages-form input[name="pages"]:checked'))
                     .map(checkbox => checkbox.value);
 
+                console.log('Selected checkboxes:', selectedCheckboxes);
+                console.log('Selected pages:', selectedPages);
+
                 if (selectedCheckboxes.length === 0) {
                     e.preventDefault();
                     alert('Please select at least one condition to remove');
@@ -1478,6 +1537,7 @@ activeLinkId: "nav-editor"
 
                 // Add selected condition IDs to form
                 const conditionIds = Array.from(selectedCheckboxes).map(checkbox => checkbox.value);
+                console.log('Condition IDs:', conditionIds);
                 const conditionIdsInput = document.createElement('input');
                 conditionIdsInput.type = 'hidden';
                 conditionIdsInput.name = 'conditionIds';
@@ -1489,45 +1549,13 @@ activeLinkId: "nav-editor"
                 pagesInput.type = 'hidden';
                 pagesInput.name = 'pages';
                 pagesInput.value = JSON.stringify(selectedPages);
+                console.log('Pages input value:', pagesInput.value);
                 removeConditionForm.appendChild(pagesInput);
 
-                // Log the data being sent
-                console.log('Submitting remove form with:', {
-                    conditionIds: conditionIds,
-                    pages: selectedPages
-                });
+                // Allow the form to submit normally
+                return true;
             });
         }
-
-        // Handle menu item clicks
-        document.querySelectorAll('[data-action="show-form"]').forEach(link => {
-            link.addEventListener('click', function (e) {
-                e.preventDefault();
-                const formId = this.getAttribute('data-form-id');
-                const form = document.getElementById(formId);
-
-                if (form) {
-                    // Hide all forms first
-                    document.querySelectorAll('.app-form-container').forEach(f => {
-                        f.style.display = 'none';
-                    });
-
-                    // Show the selected form
-                    form.style.display = 'block';
-
-                    // Hide other buttons
-                    if (addNewButton) addNewButton.style.display = 'none';
-                    if (joinButton) joinButton.style.display = 'none';
-
-                    // Update selected conditions list if needed
-                    if (formId === 'add-condition-to-pages-form') {
-                        updateSelectedConditionsList();
-                    } else if (formId === 'remove-condition-from-pages-form') {
-                        updateSelectedConditionsToRemoveList();
-                    }
-                }
-            });
-        });
     });
 </script>
 {% endblock %}

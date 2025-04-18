@@ -436,7 +436,21 @@ activeLinkId: "nav-editor"
                                                                 condition.conditionName
                                                                 }}</span>
                                                             <div class="govuk-!-margin-left-3 govuk-!-margin-top-1">
-                                                                {{ condition.text }}
+                                                                {% for rule in condition.rules %}
+                                                                {% if loop.first %}
+                                                                '{{ rule.questionText }}' {{ rule.operator |
+                                                                replace("-", " ") }} {% if rule.value | isArray %}'{{
+                                                                rule.value | join("' or '") }}'{% else %}'{{ rule.value
+                                                                }}'{% endif %}
+                                                                {% else %}
+                                                                <span class="govuk-!-font-weight-bold">{{
+                                                                    rule.logicalOperator | default('AND') }}</span>
+                                                                '{{ rule.questionText }}' {{ rule.operator |
+                                                                replace("-", " ") }} {% if rule.value | isArray %}'{{
+                                                                rule.value | join("' or '") }}'{% else %}'{{ rule.value
+                                                                }}'{% endif %}
+                                                                {% endif %}
+                                                                {% endfor %}
                                                             </div>
                                                         </div>
                                                     </li>

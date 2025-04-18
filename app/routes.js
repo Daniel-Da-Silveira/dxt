@@ -2985,11 +2985,21 @@ router.post("/form-editor/conditions/apply", function (req, res) {
       : [];
 
   // Clean up the pages array - remove any non-page IDs and parse JSON strings
-  const selectedPages = (
-    Array.isArray(req.body.pages) ? req.body.pages : JSON.parse(req.body.pages)
-  )
-    .filter((pageId) => pageId !== "_unchecked" && !pageId.startsWith("["))
-    .map((pageId) => String(pageId));
+  let selectedPages = [];
+  try {
+    selectedPages = (
+      Array.isArray(req.body.pages)
+        ? req.body.pages
+        : req.body.pages
+        ? JSON.parse(req.body.pages)
+        : []
+    )
+      .filter((pageId) => pageId !== "_unchecked" && !pageId.startsWith("["))
+      .map((pageId) => String(pageId));
+  } catch (e) {
+    console.error("Error parsing pages data:", e);
+    selectedPages = [];
+  }
 
   console.log("Parsed data:", {
     conditionIds,
@@ -3053,6 +3063,85 @@ router.post("/form-editor/conditions/apply", function (req, res) {
         console.log(`Page not found: ${pageId}`);
       }
     });
+  });
+
+  // Save updated pages back to session
+  req.session.data["formPages"] = formPages;
+  console.log(
+    "Updated form pages:",
+    formPages.map((p) => ({ id: p.pageId, conditions: p.conditions }))
+  );
+
+  res.redirect("/form-editor/conditions/manager");
+});
+
+// Remove conditions from pages
+router.post("/form-editor/conditions/remove", function (req, res) {
+  console.log("Received request body:", req.body);
+
+  const formData = req.session.data;
+  const formPages = req.session.data["formPages"] || [];
+
+  // Parse condition IDs - handle both string and array formats
+  const conditionIds =
+    typeof req.body.conditionIds === "string"
+      ? JSON.parse(req.body.conditionIds)
+      : Array.isArray(req.body.conditionIds)
+      ? req.body.conditionIds
+      : [];
+
+  // Clean up the pages array - remove any non-page IDs and parse JSON strings
+  let selectedPages = [];
+  try {
+    selectedPages = (
+      Array.isArray(req.body.pages)
+        ? req.body.pages
+        : req.body.pages
+        ? JSON.parse(req.body.pages)
+        : []
+    )
+      .filter((pageId) => pageId !== "_unchecked" && !pageId.startsWith("["))
+      .map((pageId) => String(pageId));
+  } catch (e) {
+    console.error("Error parsing pages data:", e);
+    selectedPages = [];
+  }
+
+  console.log("Parsed data:", {
+    conditionIds,
+    selectedPages,
+    formPages: formPages.map((p) => ({
+      id: p.pageId,
+      conditions: p.conditions,
+    })),
+  });
+
+  if (!formData || !conditionIds.length || !selectedPages.length) {
+    console.log("Missing required data:", {
+      formData,
+      conditionIds,
+      selectedPages,
+    });
+    return res.redirect("/form-editor/conditions/manager");
+  }
+
+  // Remove conditions from selected pages
+  selectedPages.forEach((pageId) => {
+    const page = formPages.find((p) => String(p.pageId) === pageId);
+    if (page) {
+      // Initialize conditions array if it doesn't exist
+      if (!page.conditions) {
+        page.conditions = [];
+      }
+
+      // Remove all selected conditions from this page
+      page.conditions = page.conditions.filter(
+        (condition) => !conditionIds.includes(String(condition.id))
+      );
+      console.log(`Removed conditions from page ${page.pageId}`);
+    } else {
+      console.log(`Page not found: ${pageId}`);
+    }
   });
 
   // Save updated pages back to session
