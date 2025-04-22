@@ -2261,6 +2261,7 @@ router.get("/form-editor/conditions/manager", function (req, res) {
   const formData = req.session.data || {};
   const formPages = req.session.data["formPages"] || [];
   const conditions = formData.conditions || [];
+  const conditionSaved = req.query.conditionSaved === "true";
 
   // Get all available questions for conditions
   const availableQuestions = formPages
@@ -2283,6 +2284,7 @@ router.get("/form-editor/conditions/manager", function (req, res) {
     availableQuestions: availableQuestions,
     conditions: conditions,
     formPages: formPages,
+    conditionSaved: conditionSaved,
   });
 });
 
@@ -2341,7 +2343,10 @@ router.post("/form-editor/conditions-manager/add", function (req, res) {
   // Save back to session
   req.session.data = formData;
 
-  res.redirect("/form-editor/conditions/manager");
+  // Redirect with the new condition ID
+  res.redirect(
+    `/form-editor/conditions/manager?conditionSaved=true&newConditionId=${newCondition.id}`
+  );
 });
 
 //--------------------------------------

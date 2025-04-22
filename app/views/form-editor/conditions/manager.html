@@ -1,6 +1,8 @@
 {% extends "layouts/main.html" %}
 {% from "components/service-header/macro.njk" import serviceHeader %}
 {% from "moj/components/button-menu/macro.njk" import mojButtonMenu %}
+{% from "govuk/components/notification-banner/macro.njk" import govukNotificationBanner %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
 {% set pageName %}Manage conditions - {{ form.name }}{% endset %}
 
 {% block header %}
@@ -43,7 +45,34 @@ activeLinkId: "nav-editor"
 {% block content %}
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-full">
-        <input type="hidden" id="form-pages-data" value="{{ formPages | dump | safe | replace('"', ' &quot;') }}" />
+
+        <div class="govuk-grid-column-two-thirds">
+
+            <input type="hidden" id="form-pages-data" value="{{ formPages | dump | safe | replace('"', ' &quot;') }}" />
+            <input type="hidden" id="new-condition-id" value="{{ newConditionId }}" />
+
+            <!-- Success Notification Banner -->
+            {% if conditionSaved %}
+            {% set html %}
+            <h3 class="govuk-notification-banner__heading">
+                Condition saved
+            </h3>
+            <p class="govuk-body">You can now add it to pages in your form</p>
+            <div class="govuk-button-group">
+                <button class="govuk-button" id="add-to-pages-from-notification" data-action="show-form"
+                    data-form-id="add-condition-to-pages-form">
+                    Add to pages
+                </button>
+            </div>
+            {% endset %}
+
+            {{ govukNotificationBanner({
+            html: html,
+            type: "success"
+            }) }}
+            {% endif %}
+        </div>
+
         <div class="govuk-grid-row">
             <!-- Left Column for Form Controls -->
             <div class="govuk-grid-column-two-thirds-from-desktop" id="container"
@@ -68,48 +97,7 @@ activeLinkId: "nav-editor"
                 </div>
 
                 {% if conditions | length > 0 %}
-                {# <div class="moj-button-group moj-button-group--inline">
 
-                    <button class="govuk-button" id="add-new-condition">
-                        Create new condition
-                    </button>
-
-                    {{ mojButtonMenu({
-                    button: {
-                    text: "Manage selected conditions",
-                    classes: "govuk-button--secondary"
-                    },
-                    items: [
-                    {
-                    text: "Add to pages",
-                    href: "#",
-                    attributes: {
-                    id: "add-condition-to-pages",
-                    "data-action": "show-form",
-                    "data-form-id": "add-condition-to-pages-form"
-                    }
-                    },
-                    {
-                    text: "Remove from pages",
-                    href: "#",
-                    attributes: {
-                    id: "remove-condition-from-pages",
-                    "data-action": "show-form",
-                    "data-form-id": "remove-condition-from-pages-form"
-                    }
-                    },
-                    {
-                    text: "Join selected conditions",
-                    href: "#",
-                    attributes: {
-                    id: "join-conditions-button",
-                    "data-action": "show-form",
-                    "data-form-id": "join-conditions-form-container"
-                    }
-                    }
-                    ]
-                    }) }}
-                </div> #}
                 <!-- Conditions Table -->
                 <table class="govuk-table" data-module="moj-multi-select" data-id-prefix="conditions-">
                     <thead class="govuk-table__head">
@@ -296,25 +284,6 @@ activeLinkId: "nav-editor"
                             </div>
                         </div>
 
-
-
-                        <div id="additional-conditions">
-                            <!-- Additional conditions will be added here -->
-                        </div>
-
-
-
-                        <div class="govuk-button-group">
-                            <button class="govuk-button govuk-button--inverse" id="add-condition-link">
-                                <svg class="govuk-!-margin-right-1" style="position: relative; top: 2px" width="12"
-                                    height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M6 1V11" stroke="currentColor" stroke-width="2" />
-                                    <path d="M1 6H11" stroke="currentColor" stroke-width="2" />
-                                </svg>
-                                Add another condition
-                            </button>
-                        </div>
-
                         <div class="govuk-form-group" id="logicalOperatorGroup" style="display: none;">
                             <fieldset class="govuk-fieldset">
                                 <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">
@@ -338,6 +307,27 @@ activeLinkId: "nav-editor"
                                 </div>
                             </fieldset>
                         </div>
+
+
+
+                        <div id="additional-conditions">
+                            <!-- Additional conditions will be added here -->
+                        </div>
+
+
+
+                        <div class="govuk-button-group">
+                            <button class="govuk-button govuk-button--inverse" id="add-condition-link">
+                                <svg class="govuk-!-margin-right-1" style="position: relative; top: 2px" width="12"
+                                    height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M6 1V11" stroke="currentColor" stroke-width="2" />
+                                    <path d="M1 6H11" stroke="currentColor" stroke-width="2" />
+                                </svg>
+                                Add another condition
+                            </button>
+                        </div>
+
+
 
                         <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
 
@@ -670,6 +660,13 @@ activeLinkId: "nav-editor"
     .moj-button-menu__items--left {
         left: 0;
     }
+
+    /* Add GOV.UK focus style */
+    .govuk-focus {
+        outline: 3px solid #ffdd00;
+        outline-offset: 0;
+        box-shadow: inset 0 0 0 2px #0b0c0c;
+    }
 </style>
 
 <script>
@@ -737,6 +734,27 @@ activeLinkId: "nav-editor"
             document.getElementById("selected-conditions-list").innerHTML = "";
             document.getElementById("selected-conditions-to-remove-list").innerHTML = "";
         });
+
+        if (addNewButton && newConditionForm) {
+            addNewButton.addEventListener('click', function () {
+                newConditionForm.style.display = 'block';
+                addNewButton.style.display = 'none';
+                if (joinButton) {
+                    joinButton.style.display = 'none';
+                }
+            });
+        }
+
+        if (cancelButton && newConditionForm) {
+            cancelButton.addEventListener('click', function (e) {
+                e.preventDefault();
+                newConditionForm.style.display = 'none';
+                addNewButton.style.display = 'block';
+                if (joinButton) {
+                    joinButton.style.display = 'inline-flex';
+                }
+            });
+        }
 
         // Handle question selection and value input
         const questionSelect = document.getElementById('questionSelect');
@@ -1260,6 +1278,10 @@ activeLinkId: "nav-editor"
                 rulesInput.value = JSON.stringify(rules);
                 conditionForm.appendChild(rulesInput);
 
+                // Add conditionSaved parameter to form action
+                const formAction = conditionForm.getAttribute('action');
+                conditionForm.setAttribute('action', formAction + '?conditionSaved=true');
+
                 // Submit the form
                 conditionForm.submit();
             });
@@ -1662,6 +1684,75 @@ activeLinkId: "nav-editor"
                 removeConditionForm.appendChild(pagesInput);
             });
         }
+
+        // Handle the "Add to pages" button in the notification
+        const addToPagesFromNotification = document.getElementById('add-to-pages-from-notification');
+        if (addToPagesFromNotification) {
+            addToPagesFromNotification.addEventListener('click', function (e) {
+                e.preventDefault();
+                const formId = this.getAttribute('data-form-id');
+                const form = document.getElementById(formId);
+                if (form) {
+                    // Get the new condition ID from the URL parameters
+                    const urlParams = new URLSearchParams(window.location.search);
+                    const newConditionId = urlParams.get('newConditionId');
+                    console.log('New condition ID from URL:', newConditionId); // Debug log
+
+                    // Uncheck all condition checkboxes first
+                    document.querySelectorAll('.condition-checkbox').forEach(checkbox => {
+                        checkbox.checked = false;
+                    });
+
+                    // Check the checkbox for the new condition
+                    const newConditionCheckbox = document.querySelector(`.condition-checkbox[value="${newConditionId}"]`);
+                    console.log('Found checkbox:', newConditionCheckbox); // Debug log
+                    if (newConditionCheckbox) {
+                        newConditionCheckbox.checked = true;
+                        console.log('Checkbox checked'); // Debug log
+                    }
+
+                    // Update the select all checkbox state
+                    const selectAllCheckbox = document.getElementById('select-all-conditions');
+                    if (selectAllCheckbox) {
+                        const allCheckboxes = document.querySelectorAll('.condition-checkbox');
+                        const allChecked = Array.from(allCheckboxes).every(checkbox => checkbox.checked);
+                        selectAllCheckbox.checked = allChecked;
+                    }
+
+                    // Hide all forms and show all buttons first
+                    resetFormsAndButtons();
+
+                    // Then show the requested form and hide the buttons
+                    form.style.display = "block";
+                    if (addNewButton) addNewButton.style.display = "none";
+                    if (joinButton) joinButton.style.display = "none";
+
+                    // Update the selected conditions list
+                    updateSelectedConditionsList();
+
+                    // Focus on the form using GOV.UK focus style
+                    setTimeout(() => {
+                        form.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                        // Add GOV.UK focus class
+                        form.classList.add('govuk-focus');
+                        // Remove the focus class after a delay
+                        setTimeout(() => {
+                            form.classList.remove('govuk-focus');
+                        }, 2000);
+                    }, 100);
+                }
+            });
+        }
+
+        // Ensure buttons are visible on page load
+        document.addEventListener('DOMContentLoaded', function () {
+            resetFormsAndButtons();
+        });
+
+        // Handle window resize to ensure buttons stay visible
+        window.addEventListener('resize', function () {
+            resetFormsAndButtons();
+        });
     });
 </script>
 {% endblock %}
