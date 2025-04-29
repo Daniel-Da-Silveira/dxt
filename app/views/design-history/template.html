@@ -1,0 +1,204 @@
+{% extends "layouts/main.html" %}
+
+{% from "components/service-header/macro.njk" import serviceHeader %}
+{% from "side-navigation/macro.njk" import dwpSideNavigation %}
+{% from "govuk/components/table/macro.njk" import govukTable %}
+{% from "govuk/components/tabs/macro.njk" import govukTabs %}
+
+{% block pageTitle %}
+{{ featureName }} - Design History
+{% endblock %}
+
+{% block head %}
+{{ super() }}
+<!-- Marked.js (for Markdown parsing) -->
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // Configure marked to preserve line breaks
+        marked.setOptions({
+            breaks: true
+        });
+
+        // Find all elements with data-markdown attribute
+        document.querySelectorAll('[data-markdown]').forEach(function (element) {
+            // Get the markdown content
+            const markdown = element.getAttribute('data-markdown');
+            // Render the markdown
+            element.innerHTML = marked.parse(markdown);
+        });
+    });
+</script>
+{% endblock %}
+
+{% block header %}
+{{ serviceHeader({
+organisationName: "Defra",
+productName: "Forms Designer",
+serviceName: "Design History",
+accountName: "Account",
+containerClasses: containerClasses,
+homepageLink: "/design-history/index.html",
+navigationItems: [
+{ href: "/index.html", text: "Prototypes", id: "prototype" }
+],
+activeLinkId: ""
+}) }}
+
+{{ xGovukMasthead({
+title: {
+text: featureName
+},
+description: {
+text: "History of how this feature has evolved over time."
+},
+startButton: {
+href: latestVersionLink,
+text: "Latest version of this journey",
+attributes: {
+target: "_blank",
+rel: "noopener noreferrer"
+}
+}
+}) }}
+{% endblock %}
+
+{% block content %}
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+
+        <h2 class="govuk-heading-m">Feature details</h2>
+        <dl class="govuk-summary-list">
+            <div class="govuk-summary-list__row">
+                <dt class="govuk-summary-list__key">Status</dt>
+                <dd class="govuk-summary-list__value">
+                    <strong class="govuk-tag govuk-tag--{{ statusColor }}">{{ status }}</strong>
+                </dd>
+            </div>
+            <div class="govuk-summary-list__row">
+                <dt class="govuk-summary-list__key">User need</dt>
+                <dd class="govuk-summary-list__value">{{ userNeed }}</dd>
+            </div>
+            <div class="govuk-summary-list__row">
+                <dt class="govuk-summary-list__key">Phase</dt>
+                <dd class="govuk-summary-list__value">{{ phase }}</dd>
+            </div>
+            <div class="govuk-summary-list__row">
+                <dt class="govuk-summary-list__key">Category</dt>
+                <dd class="govuk-summary-list__value">{{ category }}</dd>
+            </div>
+            <div class="govuk-summary-list__row">
+                <dt class="govuk-summary-list__key">Research rounds</dt>
+                <dd class="govuk-summary-list__value">
+                    <ul class="govuk-list govuk-list--bullet">
+                        {% for round in researchRounds %}
+                        <li>{{ round }}</li>
+                        {% endfor %}
+                    </ul>
+                </dd>
+            </div>
+            <div class="govuk-summary-list__row">
+                <dt class="govuk-summary-list__key">Key improvements in latest version</dt>
+                <dd class="govuk-summary-list__value">
+                    <ul class="govuk-list govuk-list--bullet">
+                        {% for improvement in improvements %}
+                        <li>{{ improvement }}</li>
+                        {% endfor %}
+                    </ul>
+                </dd>
+            </div>
+        </dl>
+
+        <h2 class="govuk-heading-m">Research history</h2>
+        {{ govukTable({
+        head: [
+        { text: "Round" },
+        { text: "Date" },
+        { text: "Research findings" },
+        { text: "Changes made" },
+        { text: "Prototype links" }
+        ],
+        rows: researchHistory
+        }) }}
+
+        <h2 class="govuk-heading-m">Detailed research summaries</h2>
+
+        <div class="timeline govuk-accordion" data-module="govuk-accordion" id="accordion-default">
+            {% for summary in researchSummaries %}
+            <div class="timeline__item govuk-accordion__section">
+                <div class="timeline__header govuk-accordion__section-header">
+                    <h3 class="timeline__title govuk-accordion__section-heading">
+                        <span class="govuk-accordion__section-button" id="accordion-default-heading-{{ loop.index }}">
+                            {{ summary.title }}
+                        </span>
+                    </h3>
+                    <div class="timeline__summary govuk-accordion__section-summary govuk-body"
+                        id="accordion-default-summary-{{ loop.index }}">
+                        {{ summary.summary }}
+                    </div>
+                </div>
+                <div id="accordion-default-content-{{ loop.index }}"
+                    class="timeline__content govuk-accordion__section-content"
+                    aria-labelledby="accordion-default-heading-{{ loop.index }}">
+                    <h4 class="govuk-heading-s">Research objectives</h4>
+                    <ul class="govuk-list govuk-list--bullet">
+                        {% for objective in summary.objectives %}
+                        <li>{{ objective }}</li>
+                        {% endfor %}
+                    </ul>
+
+                    <h4 class="govuk-heading-s">Key findings</h4>
+                    <ul class="govuk-list govuk-list--bullet">
+                        {% for finding in summary.findings %}
+                        <li>{{ finding }}</li>
+                        {% endfor %}
+                    </ul>
+
+                    <h4 class="govuk-heading-s">Recommendations</h4>
+                    <ul class="govuk-list govuk-list--bullet">
+                        {% for recommendation in summary.recommendations %}
+                        <li>{{ recommendation }}</li>
+                        {% endfor %}
+                    </ul>
+
+                    <h4 class="govuk-heading-s">Design examples</h4>
+                    <div class="govuk-grid-row app-prose-scope">
+                        {% for image in summary.images %}
+                        {% if image.src %}
+                        <div class="govuk-grid-column-{{ image.width | default('two-thirds') }}">
+                            {% if image.content %}
+                            <div data-markdown="{{ image.content | replace('"', ' &quot;') }}"></div>
+                            {% endif %}
+                            <figure class="govuk-image {% if image.classes %}{{ image.classes }}{% endif %}">
+                                {% if image.link %}
+                                <a href="{{ image.link }}" class="govuk-link">
+                                    {% endif %}
+                                    <img src="{{ image.src }}" alt="{{ image.alt }}" {% if image.scale
+                                        %}style="width: {{ image.scale }}%; height: auto;" {% endif %} {% if
+                                        image.widthPx %}width="{{ image.widthPx }}" {% endif %} {% if image.heightPx
+                                        %}height="{{ image.heightPx }}" {% endif %} {% if image.classes
+                                        %}class="{{ image.classes }}" {% endif %} />
+                                    {% if image.link %}
+                                </a>
+                                {% endif %}
+                                {% if image.caption %}
+                                <figcaption>
+                                    {{ image.caption }}
+                                </figcaption>
+                                {% endif %}
+                            </figure>
+                        </div>
+                        {% elif image.content %}
+                        <div class="govuk-grid-column-full">
+                            <div data-markdown="{{ image.content | replace('"', ' &quot;') }}"></div>
+                        </div>
+                        {% endif %}
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,164 @@
+{% extends "design-history/template.html" %}
+
+{% set featureName = "Adding form details when creating a new form" %}
+{% set latestVersionLink = "/titan-mvp-1/create-new-form/form-name.html" %}
+{% set status = "Tested" %}
+{% set statusColor = "green" %}
+{% set userNeed = "Users need to add form details when creating a new form so that they can manage their forms
+effectively." %}
+{% set phase = "Private beta" %}
+{% set category = "Form creation" %}
+
+{% set researchRounds = [
+"Round 1 - May 2024",
+"Round 3 - June 2024",
+"Round 4 - July 2024",
+"Round 7 - October 2024"
+] %}
+
+{% set improvements = [
+"Warning that you cannot change the form name once a form has gone live",
+"Warning to not add personal email address under team details"
+] %}
+
+{% set researchHistory = [
+[
+{ text: "1" },
+{ text: "May 2024" },
+{ text: "Users understood the basic form creation process but needed clearer guidance on required fields" },
+{ text: "Initial implementation of form details collection" },
+{ html: "<a href='/titan-mvp-1/create-new-form/form-name.html' target='_blank' rel='noopener noreferrer'>MVP 1</a>" }
+],
+[
+{ text: "3" },
+{ text: "June 2024" },
+{ text: "Users appreciated the validation feedback but needed more context about team details requirements" },
+{ text: "Added form name validation and improved team details section" },
+{ html: "<a href='/titan-mvp-3/create-new-form/form-name.html' target='_blank' rel='noopener noreferrer'>MVP 3</a>" }
+],
+[
+{ text: "4" },
+{ text: "July 2024" },
+{ text: "Users found the warning helpful but some were concerned about the permanence of form names" },
+{ text: "Introduced warning about form name changes after going live" },
+{ html: "<a href='/titan-mvp-4/create-new-form/form-name.html' target='_blank' rel='noopener noreferrer'>MVP 4</a>" }
+],
+[
+{ text: "7" },
+{ text: "October 2024" },
+{ text: "Users understood the security implications but needed clearer guidance on appropriate email addresses" },
+{ text: "Added warning about personal email addresses in team details" },
+{ html: "<a href='/titan-mvp-7/create-new-form/form-name.html' target='_blank' rel='noopener noreferrer'>MVP 7</a>" }
+]
+] %}
+
+{% set researchSummaries = [
+{
+title: "Round 1 - May 2024",
+summary: "Initial testing of form creation process with focus on basic user understanding and field requirements",
+objectives: [
+"Understand how users approach form creation",
+"Identify key information needed for form setup",
+"Test initial form details collection process"
+],
+findings: [
+"Users were generally confident with the basic form creation process",
+"Required fields were not clearly indicated, causing confusion",
+"Users wanted more context about why certain information was needed"
+],
+recommendations: [
+"Add clear indicators for required fields",
+"Include explanatory text for each section",
+"Provide examples of valid inputs"
+],
+images: [
+{
+content: "## Initial form creation interface\n\nThe first version of the form creation journey focused on collecting
+basic details. Users could enter a form name and team details, but there was little guidance on what was required."
+},
+{
+src: "/public/images/113.png",
+alt: "Initial form creation interface from Round 1 testing",
+caption: "Initial form creation interface from Round 1 testing"
+}
+]
+},
+{
+title: "Round 3 - June 2024",
+summary: "Testing of form name validation and team details improvements",
+objectives: [
+"Test form name validation implementation",
+"Evaluate team details section improvements",
+"Assess overall user experience"
+],
+findings: [
+"Validation feedback was clear and helpful",
+"Team details section needed more context about requirements",
+"Users wanted to understand the purpose of team information"
+],
+recommendations: [
+"Add explanatory text about team details purpose",
+"Include examples of valid team information",
+"Improve error messages for validation"
+],
+images: [
+{
+content: "### Improved validation and team details\n\nWe added validation for the form name and improved the team
+details section. Users received feedback if the form name was missing or invalid."
+}
+]
+},
+{
+title: "Round 4 - July 2024",
+summary: "Evaluation of form name change warnings and user understanding of form permanence",
+objectives: [
+"Test warning message about form name changes",
+"Evaluate user understanding of form permanence",
+"Assess impact on form creation process"
+],
+findings: [
+"Warning message was effective but caused some anxiety",
+"Users were concerned about not being able to change the form name after going live",
+"Some users wanted an option to edit the form name later"
+],
+recommendations: [
+"Clarify the permanence of form names",
+"Provide reassurance about the process",
+"Consider allowing limited edits before go-live"
+],
+images: [
+{
+content: "### Warning about form name changes\n\nA warning was introduced to inform users that the form name cannot be
+changed after the form goes live. This helped set expectations but also raised concerns.\n\n<div
+    class='govuk-inset-text'>\n <p>Once your form is live, you cannot change its name. Make sure the name is correct
+        before publishing.</p>\n</div>"
+}
+]
+},
+{
+title: "Round 7 - October 2024",
+summary: "Testing of warnings about personal email addresses in team details",
+objectives: [
+"Test warning about personal email addresses",
+"Evaluate user understanding of team details security",
+"Assess clarity of guidance provided"
+],
+findings: [
+"Users understood the security implications",
+"Some users still entered personal email addresses",
+"Guidance needed to be more prominent"
+],
+recommendations: [
+"Make warning about personal emails more prominent",
+"Provide examples of appropriate email addresses",
+"Reinforce security best practices"
+],
+images: [
+{
+content: "### Warning about personal email addresses\n\nA new warning was added to discourage users from entering
+personal email addresses in the team details section.\n\n<div class='govuk-inset-text'>\n <p>Do not use a personal email
+        address. Use a shared team or departmental email address instead.</p>\n</div>"
+}
+]
+}
+] %}

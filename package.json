@@ -14,6 +14,7 @@
     "@x-govuk/govuk-prototype-components": "^3.0.6",
     "@x-govuk/govuk-prototype-filters": "^1.4.0",
     "accessible-autocomplete": "^3.0.0",
+    "express": "^5.1.0",
     "glob": "^11.0.2",
     "govuk-frontend": "^5.7.1",
     "govuk-one-login-service-header": "github:govuk-one-login/service-header",
@@ -22,6 +23,7 @@
     "iframe-resizer": "4.4.2",
     "js-yaml": "^4.1.0",
     "marked": "^13.0.3",
+    "nunjucks": "^3.2.4",
     "puppeteer": "^24.4.0",
     "slugify": "^1.6.6",
     "sortablejs": "^1.15.2"

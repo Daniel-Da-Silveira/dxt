@@ -1,0 +1,189 @@
+{% extends "design-history/template.html" %}
+
+{% set featureName = "Form validation and error handling" %}
+{% set latestVersionLink = "/titan-mvp-7/form-validation/error-messages.html" %}
+{% set status = "In progress" %}
+{% set statusColor = "blue" %}
+{% set userNeed = "Users need clear feedback when they make mistakes in form fields so they can correct them easily." %}
+{% set phase = "Private beta" %}
+{% set category = "Form validation" %}
+
+{% set researchRounds = [
+"Round 2 - May 2024",
+"Round 5 - August 2024",
+"Round 6 - September 2024"
+] %}
+
+{% set improvements = [
+"Added inline validation for required fields",
+"Improved error message clarity and positioning",
+"Added visual indicators for field states"
+] %}
+
+{% set researchHistory = [
+[
+{ text: "2" },
+{ text: "May 2024" },
+{ text: "Users found error messages unclear and hard to locate" },
+{ text: "Initial implementation of form validation" },
+{ html: "<a href='/titan-mvp-2/form-validation/error-messages.html' target='_blank' rel='noopener noreferrer'>MVP 2</a>"
+}
+],
+[
+{ text: "5" },
+{ text: "August 2024" },
+{ text: "Users appreciated inline validation but needed clearer error messages" },
+{ text: "Improved error message clarity and positioning" },
+{ html: "<a href='/titan-mvp-5/form-validation/error-messages.html' target='_blank' rel='noopener noreferrer'>MVP 5</a>"
+}
+],
+[
+{ text: "6" },
+{ text: "September 2024" },
+{ text: "Users found visual indicators helpful but needed more context" },
+{ text: "Added visual indicators and improved field state feedback" },
+{ html: "<a href='/titan-mvp-6/form-validation/error-messages.html' target='_blank' rel='noopener noreferrer'>MVP 6</a>"
+}
+]
+] %}
+
+{% set researchSummaries = [
+{
+title: "Round 2 - May 2024",
+summary: "Initial testing of form validation with focus on error message clarity and positioning",
+objectives: [
+"Test initial error message implementation",
+"Evaluate user understanding of validation rules",
+"Assess error message visibility"
+],
+findings: [
+"Error messages were hard to locate on the page",
+"Users wanted more specific guidance on how to fix errors",
+"Validation timing was confusing for some users"
+],
+recommendations: [
+"Improve error message positioning",
+"Add more specific error guidance",
+"Consider inline validation"
+],
+images: [
+{
+content: "## Initial implementation
+
+This was our first attempt at form validation. We placed error messages below the form fields, but user testing showed
+this wasn't ideal.
+
+### User feedback
+
+> \"I couldn't easily see what was wrong with my form submission. The error messages were hidden at the bottom.\"
+
+### Key issues identified
+
+- Error messages were hard to locate
+- No visual connection between fields and errors
+- Messages appeared only after submission"
+},
+{
+src: "/public/images/validation-1.png",
+alt: "Initial error message implementation",
+caption: "First version of form validation showing error messages below the form",
+width: "full",
+scale: 100,
+link: "/titan-mvp-2/form-validation/error-messages.html"
+},
+{
+content: "### Improved error message placement
+
+Based on user feedback from Round 5, we moved the error messages above the form fields. This made them more visible and
+easier to scan.
+
+#### Changes made
+
+1. **Moved error messages** above fields
+2. Added *visual indicators* for invalid fields
+3. Improved message clarity
+
+[View the full implementation](/titan-mvp-5/form-validation/code.html)"
+},
+{
+src: "/public/images/sky.png",
+alt: "Improved error message implementation",
+caption: "Second version of form validation showing error messages above the form",
+width: "two-thirds",
+scale: 100,
+link: "/titan-mvp-5/form-validation/error-messages.html"
+},
+{
+content: "### Final implementation
+
+After multiple rounds of testing, we implemented inline validation with immediate feedback.
+
+> I like the inline validation, it's clear and helpful.
+
+Some markdown here
+
+<div class='govuk-inset-text'>
+    <p>I like the inline validation, it's clear and helpful.</p>
+</div>
+
+#### Key features
+
+- Real-time validation
+- Clear error states
+- Helpful guidance
+
+| Feature | Status | Notes |
+|---------|--------|-------|
+| Inline validation | ✅ | Implemented |
+| Error messages | ✅ | Above fields |
+| Visual indicators | ✅ | Color and icons |
+| Help text | 🚧 | In progress |"
+},
+{
+src: "/public/images/validation-3.png",
+alt: "Final implementation with inline validation",
+caption: "Third version showing inline validation",
+width: "two-thirds",
+scale: 100
+}
+]
+},
+{
+title: "Round 5 - August 2024",
+summary: "Testing of improved error messages and inline validation",
+objectives: [
+"Evaluate inline validation implementation",
+"Test new error message format",
+"Assess user satisfaction with validation feedback"
+],
+findings: [
+"Inline validation was well received",
+"New error message format was clearer",
+"Users wanted more visual feedback"
+],
+recommendations: [
+"Add visual indicators for field states",
+"Improve error message formatting",
+"Consider adding examples of valid input"
+]
+},
+{
+title: "Round 6 - September 2024",
+summary: "Testing of visual indicators and improved field state feedback",
+objectives: [
+"Test visual indicators for field states",
+"Evaluate improved field feedback",
+"Assess overall user experience"
+],
+findings: [
+"Visual indicators helped users understand field states",
+"Improved feedback made validation clearer",
+"Users wanted more context about validation rules"
+],
+recommendations: [
+"Add tooltips for validation rules",
+"Include examples of valid input",
+"Consider adding a validation summary"
+]
+}
+] %}

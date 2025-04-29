@@ -1,0 +1,114 @@
+.timeline {
+  position: relative;
+  padding-left: 2em;
+  margin: 2em 0;
+
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0.5em;
+    width: 2px;
+    background: govuk-colour("mid-grey");
+  }
+}
+
+.timeline__item {
+  position: relative;
+
+  &:last-child {
+    padding-bottom: 0;
+    margin-bottom: 0;
+
+    &::before {
+      background: govuk-colour("green");
+      border: 2px solid govuk-colour("white");
+      box-shadow: 0 0 0 2px govuk-colour("green");
+    }
+  }
+
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0.5em;
+    left: -2.1em;
+    width: 1em;
+    height: 1em;
+    border-radius: 50%;
+    background: govuk-colour("blue");
+    border: 2px solid govuk-colour("white");
+    box-shadow: 0 0 0 2px govuk-colour("blue");
+  }
+}
+
+.timeline__header {
+  margin-bottom: 1em;
+}
+
+.timeline__title {
+  @include govuk-font($size: 19, $weight: bold);
+  margin: 0;
+}
+
+.timeline__date {
+  @include govuk-font($size: 16);
+  color: govuk-colour("dark-grey");
+  margin: 0.5em 0;
+}
+
+.timeline__summary {
+  margin: 0.5em 0;
+}
+
+.timeline__content {
+  @include govuk-font($size: 16);
+  margin-top: 1em;
+  padding: 1em;
+  border-left: 4px solid govuk-colour("blue");
+}
+
+// Accordion overrides
+.govuk-accordion__section-button {
+  padding: 0;
+  color: govuk-colour("black");
+  text-decoration: none;
+
+  &:hover {
+    color: govuk-colour("black");
+    text-decoration: none;
+  }
+
+  &:focus {
+    outline: none;
+    color: govuk-colour("black");
+    background: govuk-colour("yellow");
+    box-shadow: 0 -2px govuk-colour("yellow"), 0 4px govuk-colour("black");
+  }
+}
+
+.govuk-accordion__section-content {
+  padding: 0;
+  border: none;
+}
+
+.govuk-accordion__section-header {
+  padding: 0;
+  border: none;
+}
+
+.govuk-accordion__section-button::before {
+  display: none;
+}
+
+.govuk-accordion__section-button::after {
+  display: none;
+}
+
+// .govuk-image {
+//   height: auto;
+//   max-width: 100%;
+//   margin-left: 0 !important;
+//   width: auto;
+//   display: block;
+// }
