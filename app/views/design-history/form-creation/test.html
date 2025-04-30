@@ -1,0 +1,56 @@
+{#
+Design History Page for "Adding form details when creating a new form"
+----------------------------------------------------------------------
+This file documents the design and research history for the "Add form details" feature.
+It extends the main design history template and sets all the variables required by that template.
+
+Key variables:
+- featureName: The name of the feature being documented.
+- latestVersionLink: URL to the latest prototype version.
+- status, statusColor: Status tag and its color.
+- userNeed: The user need this feature addresses.
+- phase, category: Project phase and category.
+- researchRounds: List of research rounds (for the summary table).
+- improvements: Key improvements in the latest version.
+- researchHistory: Table of research rounds, findings, and prototype links.
+- researchSummaries: Detailed summaries for each research round.
+Each summary can contain sections of type: content, details, images, objectives, findings, recommendations, preview.
+
+How to use:
+- Add or update research rounds and summaries as new research is conducted.
+- Use the provided structure for each section type.
+- For previews, images, and details, see the template for rendering logic.
+
+For more info, see: /design-history/index.html (the template guide)
+#}
+
+{% extends "design-history/template.html" %}
+{% include "data/findings.njk" %}
+
+{% set tags = ["form-creation", "round-3"] %}
+{% set relevantFindings = [] %}
+{% for finding in allFindings %}
+{% if finding.tags %}
+{% for tag in tags %}
+{% if tag in finding.tags %}
+{% set _ = relevantFindings.push(finding) %}
+{% endif %}
+{% endfor %}
+{% endif %}
+{% endfor %}
+
+{% block content %}
+<h1 class="govuk-heading-xl">Test: Filtered Research Findings</h1>
+{% if relevantFindings.length %}
+<ul class="govuk-list govuk-list--bullet">
+        {% for finding in relevantFindings %}
+        <li>{{ finding.text }}</li>
+        {% endfor %}
+</ul>
+{% else %}
+<p>No relevant findings found for these tags.</p>
+{% endif %}
+
+<pre>allFindings: {{ allFindings | dump }}</pre>
+<pre>relevantFindings: {{ relevantFindings | dump }}</pre>
+{% endblock %}

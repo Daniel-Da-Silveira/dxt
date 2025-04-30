@@ -17,17 +17,6 @@
 .timeline__item {
   position: relative;
 
-  &:last-child {
-    padding-bottom: 0;
-    margin-bottom: 0;
-
-    &::before {
-      background: govuk-colour("green");
-      border: 2px solid govuk-colour("white");
-      box-shadow: 0 0 0 2px govuk-colour("green");
-    }
-  }
-
   &::before {
     content: "";
     position: absolute;
@@ -40,6 +29,11 @@
     border: 2px solid govuk-colour("white");
     box-shadow: 0 0 0 2px govuk-colour("blue");
   }
+}
+
+.timeline__item:nth-of-type(1)::before {
+  background: govuk-colour("green") !important;
+  box-shadow: 0 0 0 2px govuk-colour("green") !important;
 }
 
 .timeline__header {

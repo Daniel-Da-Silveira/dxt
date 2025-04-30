@@ -5,6 +5,13 @@
 {% from "govuk/components/table/macro.njk" import govukTable %}
 {% from "govuk/components/tabs/macro.njk" import govukTabs %}
 
+{% macro imageCell(image) %}
+<figure class="govuk-image">
+    <img src="{{ image.src }}" alt="{{ image.alt }}">
+    <figcaption>{{ image.caption }}</figcaption>
+</figure>
+{% endmacro %}
+
 {% block pageTitle %}
 {{ featureName }} - Design History
 {% endblock %}
@@ -120,26 +127,63 @@ rel: "noopener noreferrer"
             </div>
         </dl>
 
+        {% if pageList %}
+        <details class="govuk-details" data-module="govuk-details">
+            <summary class="govuk-details__summary">
+                <span class="govuk-details__summary-text">
+                    Full page list for latest version of '{{ featureName }}'
+                </span>
+            </summary>
+            <div class="govuk-details__text">
+                {% for section in pageList %}
+                <h3 class="govuk-heading-s">{{ section.section }}</h3>
+                <table class="govuk-table">
+                    <thead class="govuk-table__head">
+                        <tr class="govuk-table__row">
+                            <th scope="col" class="govuk-table__header">Name</th>
+                            <th scope="col" class="govuk-table__header">Prototype link</th>
+                            <th scope="col" class="govuk-table__header">Release</th>
+                        </tr>
+                    </thead>
+                    <tbody class="govuk-table__body">
+                        {% for page in section.pages %}
+                        <tr class="govuk-table__row">
+                            <td class="govuk-table__cell">{{ page.name }}</td>
+                            <td class="govuk-table__cell">
+                                <a href="{{ page.link }}" class="govuk-link" target="_blank" rel="noopener noreferrer">
+                                    {{ page.link }}
+                                </a>
+                            </td>
+                            <td class="govuk-table__cell">{{ page.release }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                {% endfor %}
+            </div>
+        </details>
+        {% endif %}
+
         <h2 class="govuk-heading-m">Research history</h2>
         {{ govukTable({
         head: [
         { text: "Round" },
         { text: "Date" },
         { text: "Research findings" },
-        { text: "Changes made" },
-        { text: "Prototype links" }
+        { text: "Changes made" }
         ],
         rows: researchHistory
         }) }}
 
         <h2 class="govuk-heading-m">Detailed research summaries</h2>
 
-        <div class="timeline govuk-accordion" data-module="govuk-accordion" id="accordion-default">
+        <div class="timeline govuk-accordion " data-module="govuk-accordion" id="accordion-default">
             {% for summary in researchSummaries %}
             <div class="timeline__item govuk-accordion__section">
-                <div class="timeline__header govuk-accordion__section-header">
-                    <h3 class="timeline__title govuk-accordion__section-heading">
-                        <span class="govuk-accordion__section-button" id="accordion-default-heading-{{ loop.index }}">
+                <div class="timeline__header govuk-accordion__section-header govuk-!-padding-bottom-0">
+                    <h3 class="timeline__title govuk-accordion__section-heading govuk-!-padding-bottom-0">
+                        <span class="govuk-accordion__section-button govuk-!-padding-bottom-0"
+                            id="accordion-default-heading-{{ loop.index }}">
                             {{ summary.title }}
                         </span>
                     </h3>
@@ -149,7 +193,7 @@ rel: "noopener noreferrer"
                     </div>
                 </div>
                 <div id="accordion-default-content-{{ loop.index }}"
-                    class="timeline__content govuk-accordion__section-content"
+                    class="timeline__content govuk-accordion__section-content govuk-!-padding-top-0"
                     aria-labelledby="accordion-default-heading-{{ loop.index }}">
                     {% for section in summary.sections %}
                     {% if section.type == 'content' %}
@@ -176,6 +220,31 @@ rel: "noopener noreferrer"
                         <li>{{ recommendation }}</li>
                         {% endfor %}
                     </ul>
+                    {% elif section.type == 'images' %}
+                    <div class="govuk-grid-row app-prose-scope">
+                        {% for image in section.content %}
+                        <div class="govuk-grid-column-{{ image.width | default('two-thirds') }}">
+                            <figure class="govuk-image {% if image.classes %}{{ image.classes }}{% endif %}">
+                                {% if image.link %}
+                                <a href="{{ image.link }}" class="govuk-link">
+                                    {% endif %}
+                                    <img src="{{ image.src }}" alt="{{ image.alt }}" {% if image.scale
+                                        %}style="width: {{ image.scale }}%; height: auto;" {% endif %} {% if
+                                        image.widthPx %}width="{{ image.widthPx }}" {% endif %} {% if image.heightPx
+                                        %}height="{{ image.heightPx }}" {% endif %} {% if image.classes
+                                        %}class="{{ image.classes }}" {% endif %} />
+                                    {% if image.link %}
+                                </a>
+                                {% endif %}
+                                {% if image.caption %}
+                                <figcaption>
+                                    {{ image.caption }}
+                                </figcaption>
+                                {% endif %}
+                            </figure>
+                        </div>
+                        {% endfor %}
+                    </div>
                     {% elif section.type == 'details' %}
                     <details class="govuk-details" data-module="govuk-details">
                         <summary class="govuk-details__summary">
@@ -281,6 +350,114 @@ rel: "noopener noreferrer"
                             {% endif %}
                         </div>
                     </details>
+                    {% elif section.type == 'quotes' %}
+                    <div class="govuk-grid-row">
+                        <div class="govuk-grid-column-two-thirds">
+                            {% if section.content|length > 1 %}
+                            <h4 class="govuk-heading-s">Participant quotes</h4>
+                            {% endif %}
+                            {% for quote in section.content %}
+                            <div class="govuk-inset-text">{{ quote | safe }}</div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    {% elif section.type == 'screen' %}
+                    <div class="govuk-grid-row">
+                        <div class="govuk-grid-column-two-thirds">
+                            <h3 class="govuk-heading-m">{{ section.title }}</h3>
+
+                            {% if section.content %}
+                            <div class="markdown-content govuk-body" data-markdown="{{ section.content | replace('"', '
+                                &quot;') | replace('\n', '\\n' ) }}"></div>
+                            {% endif %}
+
+                            {% if section.images %}
+                            <div class="govuk-grid-row app-prose-scope">
+                                {% for image in section.images %}
+                                <div class="govuk-grid-column-{{ image.width | default('two-thirds') }}">
+                                    <figure class="govuk-image {% if image.classes %}{{ image.classes }}{% endif %}">
+                                        {% if image.link %}
+                                        <a href="{{ image.link }}" class="govuk-link">
+                                            {% endif %}
+                                            <img src="{{ image.src }}" alt="{{ image.alt }}" {% if image.scale
+                                                %}style="width: {{ image.scale }}%; height: auto;" {% endif %} {% if
+                                                image.widthPx %}width="{{ image.widthPx }}" {% endif %} {% if
+                                                image.heightPx %}height="{{ image.heightPx }}" {% endif %} {% if
+                                                image.classes %}class="{{ image.classes }}" {% endif %} />
+                                            {% if image.link %}
+                                        </a>
+                                        {% endif %}
+                                        {% if image.caption %}
+                                        <figcaption>
+                                            {{ image.caption }}
+                                        </figcaption>
+                                        {% endif %}
+                                    </figure>
+                                </div>
+                                {% endfor %}
+                            </div>
+                            {% endif %}
+
+                            {% if section.insights %}
+                            <h4 class="govuk-heading-s">Main insights</h4>
+                            <ul class="govuk-list govuk-list--bullet">
+                                {% for insight in section.insights %}
+                                <li>{{ insight }}</li>
+                                {% endfor %}
+                            </ul>
+                            {% endif %}
+
+                            {% if section.quotes %}
+                            {% for quote in section.quotes %}
+                            <div class="govuk-inset-text">{{ quote | safe }}</div>
+                            {% endfor %}
+                            {% endif %}
+
+                            {% if section.changes %}
+                            <h4 class="govuk-heading-s">Changes and rationale</h4>
+                            <dl class="govuk-summary-list">
+                                {% for change in section.changes %}
+                                <div class="govuk-summary-list__row">
+                                    <dt class="govuk-summary-list__key">
+                                        {{ change.what }}
+                                    </dt>
+                                    <dd class="govuk-summary-list__value">
+                                        {{ change.why }}
+                                    </dd>
+                                </div>
+                                {% endfor %}
+                            </dl>
+                            {% endif %}
+
+                            {% if section.preview %}
+                            <div class="preview-section">
+                                <span class="govuk-caption-m govuk-!-margin-bottom-1">Preview</span>
+                                <div class="iframe-container govuk-!-margin-bottom-6" role="region"
+                                    aria-labelledby="preview-heading-{{ loop.index }}">
+                                    <h2 id="preview-heading-{{ loop.index }}" class="govuk-visually-hidden">Preview of
+                                        the form</h2>
+                                    <iframe src="{{ section.preview.url }}" class="iframe-content"
+                                        style="overflow-y: auto; height: 500px; width: 100%; border: none;"
+                                        scrolling="yes" frameborder="0" title="Form preview" marginheight="0"
+                                        marginwidth="0" allowfullscreen>
+                                    </iframe>
+                                    <div class="iframe-tabs" role="navigation" aria-label="Preview controls">
+                                        <a class="govuk-link govuk-link--no-visited-state iframe-tab maximise-button"
+                                            style="border-right: #007f3b 1px solid;" href="#" role="button"
+                                            aria-label="Maximise preview" title="Maximise preview" tabindex="0">
+                                            Maximise
+                                        </a>
+                                        <a class="govuk-link govuk-link--no-visited-state iframe-tab"
+                                            href="{{ section.preview.url }}" target="_blank" rel="noopener noreferrer"
+                                            aria-label="Open preview in a new tab" title="Open preview in a new tab">
+                                            Open in a new tab
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
                     {% elif section.type == 'preview' %}
                     <div class="preview-section">
                         <span class="govuk-caption-m govuk-!-margin-bottom-1">Preview</span>
@@ -306,6 +483,45 @@ rel: "noopener noreferrer"
                             </div>
                         </div>
                     </div>
+                    {% elif section.type == 'changes' %}
+                    <h4 class="govuk-heading-s">
+                        {%- if section.screen -%}
+                        {{ section.screen }}
+                        {%- else -%}
+                        {{ section.title | default("Changes and rationale") }}
+                        {%- endif -%}
+                    </h4>
+                    <table class="govuk-table">
+                        <thead class="govuk-table__head">
+                            <tr class="govuk-table__row">
+                                <th scope="col" class="govuk-table__header">Screen</th>
+                                <th scope="col" class="govuk-table__header">What changed</th>
+                                <th scope="col" class="govuk-table__header">Why</th>
+                                <th scope="col" class="govuk-table__header">Image</th>
+                            </tr>
+                        </thead>
+                        <tbody class="govuk-table__body">
+                            {% for change in section.content %}
+                            <tr class="govuk-table__row">
+                                <td class="govuk-table__cell">{{ change.screen }}</td>
+                                <td class="govuk-table__cell">{{ change.what }}</td>
+                                <td class="govuk-table__cell">{{ change.why }}</td>
+                                <td class="govuk-table__cell">
+                                    {% if change.image %}
+                                    <figure class="govuk-image govuk-!-margin-0">
+                                        <img src="{{ change.image.src }}" alt="{{ change.image.alt }}"
+                                            class="table-image">
+                                        {% if change.image.caption %}
+                                        <figcaption class="govuk-body-s govuk-!-margin-top-1">{{ change.image.caption }}
+                                        </figcaption>
+                                        {% endif %}
+                                    </figure>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
                     {% endif %}
                     {% endfor %}
                 </div>
@@ -379,12 +595,24 @@ rel: "noopener noreferrer"
     .govuk-image {
         max-width: 600px;
         margin: 0 auto;
+
     }
 
     .govuk-image img {
         width: 100%;
         height: auto;
         display: block;
+    }
+
+    .table-image {
+        max-width: 400px;
+        min-width: 400px;
+        height: auto;
+        display: block;
+    }
+
+    .govuk-table__cell {
+        vertical-align: top;
     }
 </style>
 
