@@ -89,6 +89,10 @@ rel: "noopener noreferrer"
                 </dd>
             </div>
             <div class="govuk-summary-list__row">
+                <dt class="govuk-summary-list__key">Description</dt>
+                <dd class="govuk-summary-list__value">{{ description }}</dd>
+            </div>
+            <div class="govuk-summary-list__row">
                 <dt class="govuk-summary-list__key">User need</dt>
                 <dd class="govuk-summary-list__value">{{ userNeed }}</dd>
             </div>
@@ -529,6 +533,31 @@ rel: "noopener noreferrer"
             {% endfor %}
         </div>
     </div>
+    <div class="govuk-grid-column-one-third">
+        <div class="app-related-items">
+            <h2 class="govuk-heading-s">Where this feature fits</h2>
+            <nav role="navigation" aria-labelledby="journey-navigation">
+                <ul class="govuk-list govuk-list--spaced">
+                    {% for step in journeySteps %}
+                    <li>
+                        {% if step.isCurrent %}
+                        <div class="govuk-!-margin-bottom-1">
+                            <span class="govuk-body-s govuk-!-font-weight-bold">{{ step.number }}. {{ step.title
+                                }}</span>
+                        </div>
+                        <div
+                            class="govuk-inset-text govuk-!-margin-top-0 govuk-!-margin-bottom-2 govuk-!-padding-top-2 govuk-!-padding-bottom-2">
+                            <span class="govuk-body-s">{{ step.subtitle }}</span>
+                        </div>
+                        {% else %}
+                        <span class="govuk-body-s">{{ step.number }}. {{ step.title }}</span>
+                        {% endif %}
+                    </li>
+                    {% endfor %}
+                </ul>
+            </nav>
+        </div>
+    </div>
 </div>
 
 <style>
@@ -613,6 +642,24 @@ rel: "noopener noreferrer"
 
     .govuk-table__cell {
         vertical-align: top;
+    }
+
+    .app-related-items {
+        border-top: 2px solid #1d70b8;
+        padding-top: 10px;
+    }
+
+    .app-related-items .govuk-list {
+        margin-top: 0;
+    }
+
+    .app-related-items .govuk-list li {
+        margin-bottom: 0;
+    }
+
+    .app-related-items .govuk-inset-text {
+        border-left-color: #00703c;
+        background-color: #f3f2f1;
     }
 </style>
 

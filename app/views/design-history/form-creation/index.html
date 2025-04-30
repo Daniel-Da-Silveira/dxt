@@ -35,6 +35,29 @@ For more info, see: /design-history/index.html (the template guide)
 effectively." %}
 {% set phase = "Private beta" %}
 {% set category = "Form admin" %}
+{% set description = "This is the first step in creating a new form. It collects key details like the form's name, the
+responsible organisation, and policy SME. This information helps manage the form and the output appears on the Form
+overview page." %}
+{% set journeySteps = [
+{
+number: "1",
+title: "Create new form",
+subtitle: "Add form details",
+isCurrent: true
+},
+{
+number: "2",
+title: "Design form"
+},
+{
+number: "3",
+title: "Test form"
+},
+{
+number: "4",
+title: "Manage form"
+}
+] %}
 
 {# --- Full page list --- #}
 {% set pageList = [
