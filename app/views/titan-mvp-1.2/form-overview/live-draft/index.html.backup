@@ -1,0 +1,30 @@
+{% extends "form-overview/includes/_base-overview.html" %}
+
+{% block pageTitle %}
+{{ form.name }} - Overview
+{% endblock %}
+
+{% block content %}
+<!-- Debug output -->
+<!-- Form status: {{ form.status | dump }} -->
+<!-- Form status text: {{ form.status.text }} -->
+<!-- Is Draft-Live?: {{ form.status.text === "Draft-Live" }} -->
+
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+        <h1 class="govuk-heading-xl">{{ form.name }}</h1>
+
+        {% include "form-overview/includes/_form-status.html" %}
+
+        {% include "form-overview/includes/_submission-details.html" %}
+        {% include "form-overview/includes/_support-details.html" %}
+        {% include "form-overview/includes/_next-steps.html" %}
+        {% include "form-overview/includes/_data-protection.html" %}
+        {% include "form-overview/includes/_organisation-details.html" %}
+    </div>
+
+    <div class="govuk-grid-column-one-third">
+        {% include "form-overview/includes/_form-status-management.html" %}
+    </div>
+</div>
+{% endblock %}

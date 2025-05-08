@@ -190,7 +190,8 @@ path: "/titan-mvp-1/library.html"
 {# --- Research rounds for the summary table --- #}
 {% set researchRounds = [
 "Rounds 3 & 4 - June/July 2024",
-"Round 1 - May 2024"
+"Round 1 - May 2024",
+"March 2024 - Initial Design Decisions"
 ] %}
 
 {# --- Key improvements in the latest version --- #}
@@ -224,6 +225,14 @@ researchFinding: "Intuitive, similar to Whitehall Publishing. Clear status indic
 functionality. Users expect immediate access to personal forms.",
 changeMade: "Initial implementation of forms library with clear status indicators. Recommendation to implement immediate
 visibility, search, and sort functionalities."
+},
+{
+roundNumber: "Initial",
+researchDate: "March 2024",
+researchFinding: "Initial design decisions focused on accessibility and usability of the forms library. Key changes
+included layout adjustments, status tag implementation, and sorting functionality.",
+changeMade: "Implemented accessible table layout, status tags, and sorting functionality. See related posts for detailed
+information."
 }
 ] %}
 
@@ -411,6 +420,40 @@ on.' [Round 1, May 2024]",
 ]
 }
 ]
+},
+{
+title: "March 2024 - Initial Design Decisions",
+summary: "Initial design decisions and implementation of key features",
+sections: [
+{
+type: "content",
+content: "**Key Design Decisions**\n\n- Implemented accessible table layout with two-thirds width design\n- Added status
+tags using GOV.UK design system\n- Implemented sorting functionality\n\nFor detailed information on these decisions,
+see:\n- <a href='/design-history/form-library/posts/accessible-forms-library.html'>Creating an accessible forms
+    library</a>\n- <a href='/design-history/form-library/posts/finding-forms.html'>Making it easier to find
+    forms</a>
+\n- <a href='/design-history/form-library/posts/form-status-tags.html'>Using the GOV.UK tags component</a>"
+}
+]
+}
+] %}
+
+{# --- Related posts --- #}
+{% set relatedPosts = [
+{
+title: "Creating an accessible forms library",
+link: "/design-history/form-library/posts/accessible-forms-library.html",
+date: "2 March 2024"
+},
+{
+title: "Making it easier to find forms",
+link: "/design-history/form-library/posts/finding-forms.html",
+date: "3 March 2024"
+},
+{
+title: "Using the GOV.UK tags component to show the status of forms",
+link: "/design-history/form-library/posts/form-status-tags.html",
+date: "12 April 2024"
 }
 ] %}
 

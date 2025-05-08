@@ -27,7 +27,21 @@ href: "/design-history/form-overview/index.html"
 {% set phase = "Private beta" %}
 {% set category = "Form admin" %}
 {% set description = "This feature allows users to view, edit, and manage the details of a specific form, including its
-status, metadata, and actions." %}
+status, metadata, and actions. <details class='govuk-details govuk-!-margin-top-2' data-module='govuk-details'>
+    <summary class='govuk-details__summary'>
+        <span class='govuk-details__summary-text'>
+            Form States
+        </span>
+    </summary>
+    <div class='govuk-details__text'>
+        <p class='govuk-body'>Forms can be in one of three states:</p>
+        <ul class='govuk-list govuk-list--bullet'>
+            <li><strong>Draft:</strong> a form that's being worked on but isn't live yet.</li>
+            <li><strong>Live:</strong> a form that's published and available to users.</li>
+            <li><strong>Live with Draft:</strong> a form that's live but has a new version being worked on.</li>
+        </ul>
+    </div>
+</details>" | safe %}
 
 {# --- Journey steps --- #}
 {% set journeySteps = [
@@ -95,15 +109,6 @@ description: "Form overview page in edit mode (placeholder link)."
 {# --- Research history table --- #}
 {% set researchHistory = [
 {
-roundNumber: "Form Actions & Details",
-researchDate: "April 2024",
-researchFinding: "Users struggled with accessing form settings through edit mode and preferred having actions directly
-available in the overview. The term 'Form home' was not intuitive, and users preferred a layout similar to Whitehall
-publisher. Users are expert users who prefer more information visible rather than hidden in expandable components.",
-changeMade: "See detailed findings in <a href='/design-history/form-overview/posts/form-actions.html'>Form Actions</a>
-and <a href='/design-history/form-overview/posts/form-details.html'>Form Details</a> posts."
-},
-{
 roundNumber: "3 & 4",
 researchDate: "June & July 2024",
 researchFinding: "The content and information were clear. Some participants were prompted to click 'Edit form' to
@@ -129,58 +134,6 @@ changeMade: "Clarified publication process and location."
 
 {# --- Research summaries --- #}
 {% set researchSummaries = [
-{
-title: "Form Actions and Details - April 2024",
-summary: "Research into how users interact with form actions and details presentation.",
-sections: [
-{
-type: "content",
-content: "**Research conducted:** User testing and interviews (April 2024)
-
-**Participants:** Content designers from BAU and other teams
-
-**Focus:** Understanding how users interact with form actions and details presentation"
-},
-{
-type: "findings",
-content: [
-"Users struggled with the previous flow of accessing form settings through edit mode",
-"Users expected more actions to be available directly from the form overview page",
-"Users preferred having all information visible rather than hidden in expandable components",
-"The term 'Form home' was not intuitive for users",
-"Users preferred a layout similar to Whitehall publisher with actions grouped in a side column",
-"Users are expert users who prefer more information presented on a page rather than hidden"
-]
-},
-{
-type: "changes",
-content: [
-{
-what: "Renamed 'Form home' to 'Overview'",
-why: "To make the page's purpose more intuitive"
-},
-{
-what: "Moved key form actions to form overview",
-why: "To reduce navigation between pages and match user expectations"
-},
-{
-what: "Adopted Whitehall publisher layout pattern",
-why: "Users are familiar with this pattern and it tested positively"
-},
-{
-what: "Replaced details component with summary list",
-why: "Users found it clearer and more intuitive for viewing and editing information"
-}
-]
-},
-{
-type: "quotes",
-content: [
-"> 'This feels like home' - BAU content designer"
-]
-}
-]
-},
 {
 title: "Round 3 & 4 – June & July 2024",
 summary: "Usability testing of form overview and related features.",
@@ -248,14 +201,35 @@ content: "**Research conducted:** Remote usability testing (30 May–3 June 2024
 
 **Focus:** Editing form content, page creation, and overview.
 
-**Key change:** Moved sections from 'Guidance and policies' tab to Form Overview page
+**Key changes:**
+1. Moved sections from 'Guidance and policies' tab to Form Overview page
+2. Redesigned form actions and information presentation
 
-**Rationale for change:**
+**Rationale for changes:**
 - Participants found it more intuitive to have all form-related information in one place
 - Reduced cognitive load by eliminating the need to switch between tabs
 - Improved discoverability of important form details like privacy notices and support information
 - Streamlined the user journey by keeping all form management tasks in a single view
-- Aligned with user expectations of having all form details accessible from the main overview page"
+- Aligned with user expectations of having all form details accessible from the main overview page
+
+**Form Actions Changes:**
+- Changed the name of the page from 'Form home' to 'Overview'
+- Followed a similar pattern used in Whitehall publisher, with actions grouped in a column layout next to form details
+- Moved key form actions to form overview:
+- Create draft from live
+- Make form live
+- Close live form
+- Edit draft
+- Delete draft
+
+**Form Details Changes:**
+- Moved organisation details from GOV.UK details component to main body using summary list component
+- Separated draft and live forms into distinct summary lists
+- Improved information hierarchy and accessibility
+
+For more details on these changes, see:
+- [Making form actions intuitive](/design-history/form-overview/posts/form-actions.html)
+- [How we present information about forms](/design-history/form-overview/posts/form-details.html)"
 },
 {
 type: "screen",
@@ -275,13 +249,16 @@ content: [
 "Form Overview clear and consistent with Whitehall experience.",
 "No major issues identified for overview section.",
 "Moving guidance and policies sections to Form Overview improved information accessibility.",
-"Users appreciated having all form details in one place."
+"Users appreciated having all form details in one place.",
+"Form actions layout was familiar to users who work with Whitehall Publisher.",
+"Summary list component for form details improved clarity and editability."
 ]
 },
 {
 type: "quotes",
 content: [
-"Participants would refer SMEs/Policy teams, who might consult Defra legal teams if information was unclear."
+"Participants would refer SMEs/Policy teams, who might consult Defra legal teams if information was unclear.",
+"'This feels like home' - BAU content designer"
 ]
 },
 {
@@ -289,7 +266,8 @@ type: "recommendations",
 content: [
 "Continue to maintain clarity and consistency in overview design.",
 "Keep all form-related information consolidated in the Form Overview page.",
-"Ensure clear visual hierarchy between different sections of the overview page."
+"Ensure clear visual hierarchy between different sections of the overview page.",
+"Maintain the Whitehall Publisher-like layout for familiarity."
 ]
 }
 ]
@@ -455,48 +433,3 @@ title: "How we present information about forms",
 link: "/design-history/form-overview/posts/form-details.html",
 date: "12 April 2024"}
 ] %}
-
-{% block customContent %}
-<div class="govuk-!-margin-top-9">
-    <h2 class="govuk-heading-m">Form States</h2>
-
-    <div class="govuk-grid-row">
-        <div class="govuk-grid-column-two-thirds">
-            <p class="govuk-body">Forms can be in one of three states:</p>
-
-            <div class="govuk-!-margin-top-4">
-                <h3 class="govuk-heading-s">Draft</h3>
-                <div class="govuk-inset-text">
-                    <p class="govuk-body">A form that's being worked on but isn't live yet.</p>
-                    <ul class="govuk-list govuk-list--bullet">
-                        <li>Created and updated dates</li>
-                        <li>Preview link available</li>
-                    </ul>
-                </div>
-            </div>
-
-            <div class="govuk-!-margin-top-4">
-                <h3 class="govuk-heading-s">Live</h3>
-                <div class="govuk-inset-text">
-                    <p class="govuk-body">A form that's published and available to users.</p>
-                    <ul class="govuk-list govuk-list--bullet">
-                        <li>Live date</li>
-                        <li>Preview and live links available</li>
-                    </ul>
-                </div>
-            </div>
-
-            <div class="govuk-!-margin-top-4">
-                <h3 class="govuk-heading-s">Live with Draft</h3>
-                <div class="govuk-inset-text">
-                    <p class="govuk-body">A form that's live but has a new version being worked on.</p>
-                    <ul class="govuk-list govuk-list--bullet">
-                        <li>Shows both live and draft information</li>
-                        <li>All links available for both versions</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-{% endblock %}

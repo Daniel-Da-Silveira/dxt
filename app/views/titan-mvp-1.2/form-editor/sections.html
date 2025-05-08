@@ -1,0 +1,362 @@
+{% extends "layouts/main.html" %}
+{% from "components/service-header/macro.njk" import serviceHeader %}
+{% set pageName = "Manage sections - Apply for a county parish holding number in England" %}
+
+{% block header %}
+{{ serviceHeader({
+organisationName: "Defra",
+productName: "Forms Designer",
+serviceName: "",
+containerClasses: containerClasses,
+accountName: "Chris Smith",
+homepageLink: "/",
+signOutLink: "/onboarding/sign-out-confirmation",
+navigationItems: [
+{ href: "/titan-mvp-1/library.html", text: commonTerms.form_editor.navigation.forms_library, id: "nav-library" },
+{ href: "/titan-mvp-1/form-overview/index", text: commonTerms.form_editor.navigation.overview, id:
+"nav-overview" },
+{ href: "/titan-mvp-1/form-editor/listing", text: commonTerms.form_editor.navigation.editor, id: "nav-editor" }
+],
+activeLinkId: "nav-editor"
+}) }}
+
+<div class="x-govuk-masthead x-govuk-masthead--large">
+    <div class="govuk-width-container">
+        {{ govukBackLink({
+        classes: "govuk-back-link--inverse govuk-!-margin-bottom-0",
+        text: commonTerms.form_editor.navigation.back_to_add_edit_pages,
+        href: "/titan-mvp-1/form-editor/listing.html"
+        }) }}
+
+        <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible"
+            style="border-bottom: 1px solid white; margin-bottom: 0" />
+
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-full-from-desktop">
+                <h1 class="x-govuk-masthead__title">
+                    {{ form.name }}
+                </h1>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-full">
+        <div class="govuk-grid-row">
+            <!-- Left Column for Section Management -->
+            <div class="govuk-grid-column-one-half-from-desktop" id="container" style="flex: 1 1 75%; overflow-y: auto">
+                <div class="govuk-summary-card govuk-!-margin-top-0" style="border-left: 10px solid #008938">
+                    <div class="govuk-summary-card__content govuk-!-padding-top-0" style="background-color: #f3f2f1">
+                        <h2 class="govuk-heading-l">Manage sections</h2>
+                        <p class="govuk-body">Create and manage sections to group related pages together.</p>
+
+                        <!-- Add new section form -->
+                        <form id="add-section-form" class="govuk-form-group">
+                            <div class="govuk-form-group">
+                                <label class="govuk-label" for="section-name">
+                                    Section name
+                                </label>
+                                <input class="govuk-input" id="section-name" name="section-name" type="text">
+                            </div>
+                            <div class="govuk-form-group">
+                                <label class="govuk-label" for="section-description">
+                                    Section description (optional)
+                                </label>
+                                <textarea class="govuk-textarea" id="section-description" name="section-description"
+                                    rows="3"></textarea>
+                            </div>
+                            <button type="submit" class="govuk-button">Add section</button>
+                        </form>
+
+                        <!-- Existing sections -->
+                        <div id="sections-list">
+                            {% for section in sections %}
+                            <div class="govuk-summary-card" style="margin-top: 20px;">
+                                <div class="govuk-summary-card__title-wrapper">
+                                    <h3 class="govuk-summary-card__title">{{ section.name }}</h3>
+                                    <ul class="govuk-summary-card__actions">
+                                        <li class="govuk-summary-card__action">
+                                            <button class="govuk-button govuk-button--text edit-section"
+                                                data-section-id="{{ section.id }}">
+                                                Edit
+                                            </button>
+                                        </li>
+                                        <li class="govuk-summary-card__action">
+                                            <button
+                                                class="govuk-button govuk-button--text govuk-button--warning delete-section"
+                                                data-section-id="{{ section.id }}">
+                                                Delete
+                                            </button>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="govuk-summary-card__content">
+                                    <p class="govuk-body">{{ section.description or 'No description' }}</p>
+                                    <p class="govuk-body-s">Pages in this section:</p>
+                                    <ul class="govuk-list">
+                                        {% for page in formPages %}
+                                        {% if page.section and page.section.id == section.id %}
+                                        <li>{{ page.pageHeading or 'Untitled page' }}</li>
+                                        {% endif %}
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Column for Preview -->
+            <div class="govuk-grid-column-one-half-from-desktop" id="second-container"
+                style="outline: solid 1px #008938; height: 100%; position: sticky; top: 0; padding: 20px; box-shadow: 5px 10px #008938;">
+                <div id="before-content" style="background-color: #cce2d8;">
+                    <p class="govuk-body-s"
+                        style="margin-bottom: 0; color: #005a30; padding: 2px 8px 3px; text-align: center;">
+                        Section preview
+                    </p>
+                </div>
+
+                <div style="margin-top: 60px!important;">
+                    <h2 class="govuk-heading-l">Section structure</h2>
+                    <p class="govuk-body">This is how your sections will appear in the form.</p>
+
+                    <div id="section-preview">
+                        {% for section in sections %}
+                        <div class="govuk-summary-card" style="margin-top: 20px;">
+                            <div class="govuk-summary-card__title-wrapper">
+                                <h3 class="govuk-summary-card__title">{{ section.name }}</h3>
+                            </div>
+                            <div class="govuk-summary-card__content">
+                                <ul class="govuk-list">
+                                    {% for page in formPages %}
+                                    {% if page.section and page.section.id == section.id %}
+                                    <li>{{ page.pageHeading or 'Untitled page' }}</li>
+                                    {% endif %}
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const addSectionForm = document.getElementById('add-section-form');
+        const sectionsList = document.getElementById('sections-list');
+        const sectionPreview = document.getElementById('section-preview');
+
+        // Handle adding new sections
+        addSectionForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const name = document.getElementById('section-name').value;
+            const description = document.getElementById('section-description').value;
+
+            try {
+                const response = await fetch('/titan-mvp-1/form-editor/api/sections', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ name, description }),
+                });
+
+                if (!response.ok) {
+                    throw new Error('Failed to create section');
+                }
+
+                // Show success message
+                const successBanner = document.createElement('div');
+                successBanner.innerHTML = `
+          <div class="govuk-notification-banner govuk-notification-banner--success" role="alert">
+            <div class="govuk-notification-banner__header">
+              <h2 class="govuk-notification-banner__title">Success</h2>
+            </div>
+            <div class="govuk-notification-banner__content">
+              <p>Section has been created.</p>
+            </div>
+          </div>
+        `;
+                document.querySelector('.govuk-grid-column-full').prepend(successBanner);
+                setTimeout(() => successBanner.remove(), 3000);
+
+                // Reload the page to show new section
+                window.location.reload();
+            } catch (error) {
+                console.error('Error creating section:', error);
+                // Show error message
+                const errorBanner = document.createElement('div');
+                errorBanner.innerHTML = `
+          <div class="govuk-notification-banner govuk-notification-banner--error" role="alert">
+            <div class="govuk-notification-banner__header">
+              <h2 class="govuk-notification-banner__title">Error</h2>
+            </div>
+            <div class="govuk-notification-banner__content">
+              <p>Failed to create section. Please try again.</p>
+            </div>
+          </div>
+        `;
+                document.querySelector('.govuk-grid-column-full').prepend(errorBanner);
+                setTimeout(() => errorBanner.remove(), 3000);
+            }
+        });
+
+        // Handle deleting sections
+        document.querySelectorAll('.delete-section').forEach(button => {
+            button.addEventListener('click', async () => {
+                if (!confirm('Are you sure you want to delete this section? This will remove the section from all pages.')) {
+                    return;
+                }
+
+                const sectionId = button.dataset.sectionId;
+
+                try {
+                    const response = await fetch(`/form-editor/api/sections/${sectionId}`, {
+                        method: 'DELETE',
+                    });
+
+                    if (!response.ok) {
+                        throw new Error('Failed to delete section');
+                    }
+
+                    // Show success message
+                    const successBanner = document.createElement('div');
+                    successBanner.innerHTML = `
+            <div class="govuk-notification-banner govuk-notification-banner--success" role="alert">
+              <div class="govuk-notification-banner__header">
+                <h2 class="govuk-notification-banner__title">Success</h2>
+              </div>
+              <div class="govuk-notification-banner__content">
+                <p>Section has been deleted.</p>
+              </div>
+            </div>
+          `;
+                    document.querySelector('.govuk-grid-column-full').prepend(successBanner);
+                    setTimeout(() => successBanner.remove(), 3000);
+
+                    // Reload the page to show updated sections
+                    window.location.reload();
+                } catch (error) {
+                    console.error('Error deleting section:', error);
+                    // Show error message
+                    const errorBanner = document.createElement('div');
+                    errorBanner.innerHTML = `
+            <div class="govuk-notification-banner govuk-notification-banner--error" role="alert">
+              <div class="govuk-notification-banner__header">
+                <h2 class="govuk-notification-banner__title">Error</h2>
+              </div>
+              <div class="govuk-notification-banner__content">
+                <p>Failed to delete section. Please try again.</p>
+              </div>
+            </div>
+          `;
+                    document.querySelector('.govuk-grid-column-full').prepend(errorBanner);
+                    setTimeout(() => errorBanner.remove(), 3000);
+                }
+            });
+        });
+
+        // Handle editing sections
+        document.querySelectorAll('.edit-section').forEach(button => {
+            button.addEventListener('click', async () => {
+                const sectionId = button.dataset.sectionId;
+                const sectionCard = button.closest('.govuk-summary-card');
+                const sectionName = sectionCard.querySelector('.govuk-summary-card__title').textContent;
+                const sectionDescription = sectionCard.querySelector('.govuk-summary-card__content p').textContent;
+
+                // Create edit form
+                const editForm = document.createElement('form');
+                editForm.innerHTML = `
+          <div class="govuk-form-group">
+            <label class="govuk-label" for="edit-section-name">
+              Section name
+            </label>
+            <input class="govuk-input" id="edit-section-name" name="edit-section-name" type="text" value="${sectionName}">
+          </div>
+          <div class="govuk-form-group">
+            <label class="govuk-label" for="edit-section-description">
+              Section description (optional)
+            </label>
+            <textarea class="govuk-textarea" id="edit-section-description" name="edit-section-description" rows="3">${sectionDescription}</textarea>
+          </div>
+          <button type="submit" class="govuk-button">Save changes</button>
+          <button type="button" class="govuk-button govuk-button--secondary cancel-edit">Cancel</button>
+        `;
+
+                // Replace content with edit form
+                sectionCard.querySelector('.govuk-summary-card__content').innerHTML = '';
+                sectionCard.querySelector('.govuk-summary-card__content').appendChild(editForm);
+
+                // Handle form submission
+                editForm.addEventListener('submit', async (e) => {
+                    e.preventDefault();
+                    const name = document.getElementById('edit-section-name').value;
+                    const description = document.getElementById('edit-section-description').value;
+
+                    try {
+                        const response = await fetch(`/form-editor/api/sections/${sectionId}`, {
+                            method: 'PUT',
+                            headers: {
+                                'Content-Type': 'application/json',
+                            },
+                            body: JSON.stringify({ name, description }),
+                        });
+
+                        if (!response.ok) {
+                            throw new Error('Failed to update section');
+                        }
+
+                        // Show success message
+                        const successBanner = document.createElement('div');
+                        successBanner.innerHTML = `
+              <div class="govuk-notification-banner govuk-notification-banner--success" role="alert">
+                <div class="govuk-notification-banner__header">
+                  <h2 class="govuk-notification-banner__title">Success</h2>
+                </div>
+                <div class="govuk-notification-banner__content">
+                  <p>Section has been updated.</p>
+                </div>
+              </div>
+            `;
+                        document.querySelector('.govuk-grid-column-full').prepend(successBanner);
+                        setTimeout(() => successBanner.remove(), 3000);
+
+                        // Reload the page to show updated section
+                        window.location.reload();
+                    } catch (error) {
+                        console.error('Error updating section:', error);
+                        // Show error message
+                        const errorBanner = document.createElement('div');
+                        errorBanner.innerHTML = `
+              <div class="govuk-notification-banner govuk-notification-banner--error" role="alert">
+                <div class="govuk-notification-banner__header">
+                  <h2 class="govuk-notification-banner__title">Error</h2>
+                </div>
+                <div class="govuk-notification-banner__content">
+                  <p>Failed to update section. Please try again.</p>
+                </div>
+              </div>
+            `;
+                        document.querySelector('.govuk-grid-column-full').prepend(errorBanner);
+                        setTimeout(() => errorBanner.remove(), 3000);
+                    }
+                });
+
+                // Handle cancel button
+                editForm.querySelector('.cancel-edit').addEventListener('click', () => {
+                    window.location.reload();
+                });
+            });
+        });
+    });
+</script>
+{% endblock %}

@@ -1,0 +1,92 @@
+{% extends "layouts/main.html" %}
+
+{% from "components/service-header/macro.njk" import serviceHeader %}
+{% from "govuk/components/summary-list/macro.njk" import govukSummaryList %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+
+{% set pageName = "My account" %}
+
+{% block header %}
+{{ serviceHeader({
+organisationName: "Defra",
+productName: "Forms Designer",
+serviceName: "",
+accountName: "Chris Smith",
+homepageLink: "/",
+signOutLink: "/titan-mvp-1.2/onboarding/sign-out-confirmation",
+navigationItems: [
+{ href: "/titan-mvp-1.2/library", text: "Forms library", id: "nav-library" },
+{ href: "/titan-mvp-1.2/roles/my-account.html", text: "My account", id: "my-account", active: true },
+{ href: "/titan-mvp-1.2/roles/manage-users.html", text: "Manage users", id: "manage-users" }
+]
+}) }}
+
+<div class="x-govuk-masthead x-govuk-masthead--large">
+    <div class="govuk-width-container">
+        {{ govukBackLink({ classes: "govuk-back-link--inverse govuk-!-margin-bottom-0", text: "Back to form library",
+        href: "/titan-mvp-1.2/library" }) }}
+
+        <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible"
+            style="border-bottom: 1px solid white; margin-bottom: 0" />
+
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-full-from-desktop">
+                <h1 class="x-govuk-masthead__title">
+                    <span class="govuk-caption-l" style="color: white;">Chris Smith
+                    </span>
+                    My account
+                </h1>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+        {{ govukSummaryList({
+        rows: [
+        {
+        key: {
+        text: "Name"
+        },
+        value: {
+        text: data.user.name
+        }
+        },
+        {
+        key: {
+        text: "Email"
+        },
+        value: {
+        text: data.user.email
+        }
+        },
+        {
+        key: {
+        text: "Role"
+        },
+        value: {
+        text: data.user.role
+        }
+        }
+        ]
+        }) }}
+
+
+        {# <div class="govuk-button-group govuk-!-margin-top-6">
+            {{ govukButton({
+            text: "Edit account details",
+            href: "#"
+            }) }}
+            {{ govukButton({
+            text: "View activity history",
+            href: "#",
+            classes: "govuk-button--secondary"
+            }) }}
+        </div> #}
+    </div>
+</div>
+{% endblock %}
