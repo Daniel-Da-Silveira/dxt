@@ -178,8 +178,7 @@ activeLinkId: "nav-editor"
                                                 condition.conditionName }}</span></a>
                                     </li>
                                     <li class="govuk-summary-list__actions-list-item">
-                                        <a href="/titan-mvp-1.2/form-editor/conditions/delete/{{ condition.id }}" <a
-                                            href="/titan-mvp-1/form-editor/conditions/delete/{{ condition.id }}"
+                                        <a href="/titan-mvp-1.2/form-editor/conditions/delete/{{ condition.id }}"
                                             class="govuk-link govuk-link--no-visited-state govuk-link--destructive">Delete<span
                                                 class="govuk-visually-hidden"> {{
                                                 condition.conditionName }}</span></a>
@@ -1798,6 +1797,16 @@ activeLinkId: "nav-editor"
             if (newConditionForm) newConditionForm.style.display = 'block';
             if (addNewButton) addNewButton.style.display = 'none';
             newConditionForm.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+
+        // Ensure value container is shown if a question is preselected in the create new condition form
+        if (questionSelect && valueContainer && operatorSelect) {
+            // If a question is preselected, trigger the value container update
+            if (questionSelect.value && operatorSelect.value) {
+                // Call the updateValueContainer logic as if the user had changed the select
+                var event = new Event('change');
+                questionSelect.dispatchEvent(event);
+            }
         }
     });
 </script>

@@ -2669,5 +2669,265 @@ router.post(
   }
 );
 
+// Edit condition page (adapted from 1.0)
+router.get(
+  "/titan-mvp-1.2/form-editor/conditions/edit/:id",
+  function (req, res) {
+    const formData = req.session.data || {};
+    const formPages = req.session.data.formPages || [];
+    const conditionId = req.params.id;
+
+    // Check if we have any form pages
+    if (!formPages || formPages.length === 0) {
+      console.error("No form pages found in session");
+      return res.redirect("/titan-mvp-1.2/form-editor/listing");
+    }
+
+    // First check form-level conditions
+    let condition = null;
+    let foundInPage = null;
+
+    if (formData.conditions) {
+      condition = formData.conditions.find((c) => String(c.id) === conditionId);
+    }
+
+    // If not found in form-level conditions, check page-level conditions
+    if (!condition) {
+      for (const page of formPages) {
+        if (page.conditions) {
+          const found = page.conditions.find(
+            (c) => String(c.id) === conditionId
+          );
+          if (found) {
+            condition = found;
+            foundInPage = page;
+            break;
+          }
+        }
+      }
+    }
+
+    if (!condition) {
+      console.error("Condition not found:", conditionId);
+      return res.redirect("/titan-mvp-1.2/form-editor/conditions/manager");
+    }
+
+    // Get all available questions for conditions
+    const availableQuestions = formPages
+      .flatMap((page) => page.questions)
+      .filter((question) => {
+        const type = question.subType || question.type;
+        return ["radios", "checkboxes", "yes-no"].includes(type);
+      })
+      .map((question) => ({
+        value: question.questionId,
+        text: question.label,
+        type: question.subType || question.type,
+        options: question.options,
+      }));
+
+    if (!availableQuestions || availableQuestions.length === 0) {
+      console.error("No available questions found for condition editing");
+      return res.redirect("/titan-mvp-1.2/form-editor/conditions/manager");
+    }
+
+    // Calculate pagesWithCondition with pageNumber
+    const pagesWithCondition = formPages
+      .filter(
+        (page) =>
+          page.conditions &&
+          page.conditions.some((c) => String(c.id) === conditionId)
+      )
+      .map((page, index) => ({ ...page, pageNumber: index + 1 }));
+
+    // Render the template with pagesWithCondition
+    res.render("titan-mvp-1.2/form-editor/conditions/edit.html", {
+      condition,
+      availableQuestions,
+      pageName: foundInPage ? foundInPage.pageHeading : null,
+      pagesWithCondition,
+      formName: formData.formName || "Default Form Name",
+    });
+  }
+);
+
+// Handle the POST request for editing conditions (adapted from 1.0)
+router.post(
+  "/titan-mvp-1.2/form-editor/conditions-manager/edit",
+  function (req, res) {
+    const formData = req.session.data || {};
+    const formPages = req.session.data.formPages || [];
+    const conditionId = req.body.conditionId;
+
+    // Find the original condition before updating
+    let originalCondition = null;
+    let foundInFormLevel = false;
+
+    // First check form-level conditions
+    if (formData.conditions) {
+      const formLevelIndex = formData.conditions.findIndex(
+        (c) => String(c.id) === conditionId
+      );
+      if (formLevelIndex !== -1) {
+        originalCondition = JSON.parse(
+          JSON.stringify(formData.conditions[formLevelIndex])
+        ); // Deep copy
+        foundInFormLevel = true;
+      }
+    }
+
+    // If not found in form-level, check page-level conditions
+    if (!originalCondition) {
+      for (const page of formPages) {
+        if (page.conditions) {
+          const found = page.conditions.find(
+            (c) => String(c.id) === conditionId
+          );
+          if (found) {
+            originalCondition = JSON.parse(JSON.stringify(found)); // Deep copy
+            break;
+          }
+        }
+      }
+    }
+
+    if (!originalCondition) {
+      console.error("Condition not found:", conditionId);
+      return res.redirect("/titan-mvp-1.2/form-editor/conditions/manager");
+    }
+
+    // Parse rules if it's a string, or use directly if it's already an object
+    let rules;
+    try {
+      if (req.body.rules) {
+        rules =
+          typeof req.body.rules === "string"
+            ? JSON.parse(req.body.rules)
+            : req.body.rules;
+        if (!Array.isArray(rules)) {
+          rules = [rules];
+        }
+      } else {
+        console.error("No rules provided in request");
+        rules = [];
+      }
+    } catch (e) {
+      console.error("Error handling rules:", e);
+      rules = [];
+    }
+
+    // Create the updated condition
+    const updatedCondition = {
+      id: conditionId,
+      conditionName: req.body.conditionName,
+      rules: rules.map((rule) => ({
+        questionText: rule.questionText,
+        operator: rule.operator,
+        value: rule.value,
+        logicalOperator: rule.logicalOperator,
+      })),
+      text: rules
+        .map((rule, index) => {
+          const valueText = Array.isArray(rule.value)
+            ? rule.value.map((v) => `'${v}'`).join(" or ")
+            : `'${rule.value}'`;
+          return index === 0
+            ? `${rule.questionText} ${rule.operator} ${valueText}`
+            : `${rule.logicalOperator} ${rule.questionText} ${rule.operator} ${valueText}`;
+        })
+        .join(" "),
+    };
+
+    // Store the original and updated conditions in the session for the review page
+    req.session.data.originalCondition = originalCondition;
+    req.session.data.updatedCondition = updatedCondition;
+
+    // Redirect to the review page
+    res.redirect("/titan-mvp-1.2/form-editor/conditions/edit-review");
+  }
+);
+
+// Add route for the review page (adapted from 1.0)
+router.get(
+  "/titan-mvp-1.2/form-editor/conditions/edit-review",
+  function (req, res) {
+    const originalCondition = req.session.data.originalCondition;
+    const updatedCondition = req.session.data.updatedCondition;
+    const formPages = req.session.data.formPages || [];
+    const conditionId = originalCondition?.id;
+
+    if (!originalCondition || !updatedCondition) {
+      return res.redirect("/titan-mvp-1.2/form-editor/conditions/manager");
+    }
+
+    // Calculate pagesWithCondition with pageNumber
+    const pagesWithCondition = formPages
+      .filter(
+        (page) =>
+          page.conditions &&
+          page.conditions.some((c) => String(c.id) === String(conditionId))
+      )
+      .map((page, index) => ({ ...page, pageNumber: index + 1 }));
+
+    res.render("titan-mvp-1.2/form-editor/conditions/edit-review", {
+      originalCondition,
+      updatedCondition,
+      pagesWithCondition,
+      formName: req.session.data.formName || "Default Form Name",
+    });
+  }
+);
+
+// Add route to handle saving changes (adapted from 1.0)
+router.post(
+  "/titan-mvp-1.2/form-editor/conditions/save-changes",
+  function (req, res) {
+    const formData = req.session.data || {};
+    const formPages = req.session.data.formPages || [];
+    const originalCondition = req.session.data.originalCondition;
+    const updatedCondition = req.session.data.updatedCondition;
+
+    if (!originalCondition || !updatedCondition) {
+      return res.redirect("/titan-mvp-1.2/form-editor/conditions/manager");
+    }
+
+    const conditionId = originalCondition.id;
+    let foundInFormLevel = false;
+
+    // Update in form-level conditions if it exists there
+    if (formData.conditions) {
+      const formLevelIndex = formData.conditions.findIndex(
+        (c) => String(c.id) === String(conditionId)
+      );
+      if (formLevelIndex !== -1) {
+        formData.conditions[formLevelIndex] = updatedCondition;
+        foundInFormLevel = true;
+      }
+    }
+
+    // Update in any pages that use this condition
+    formPages.forEach((page) => {
+      if (page.conditions) {
+        const pageIndex = page.conditions.findIndex(
+          (c) => String(c.id) === String(conditionId)
+        );
+        if (pageIndex !== -1) {
+          page.conditions[pageIndex] = updatedCondition;
+        }
+      }
+    });
+
+    // Save back to session
+    req.session.data = formData;
+
+    // Clear the temporary condition data
+    delete req.session.data.originalCondition;
+    delete req.session.data.updatedCondition;
+
+    // Redirect back to the conditions manager
+    res.redirect("/titan-mvp-1.2/form-editor/conditions/manager");
+  }
+);
+
 // Export the router
 module.exports = router;

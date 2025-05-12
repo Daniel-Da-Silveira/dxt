@@ -12,9 +12,9 @@ accountName: "Chris Smith",
 homepageLink: "/",
 signOutLink: "/onboarding/sign-out-confirmation",
 navigationItems: [
-{ href: "/titan-mvp-1/library.html", text: "Forms library", id: "nav-library" },
+{ href: "/titan-mvp-1.2/library.html", text: "Forms library", id: "nav-library" },
 { href: "/cph-overview/draft/complete-clean.html", text: "Overview", id: "nav-overview" },
-{ href: "/titan-mvp-1/form-editor/listing", text: "Editor", id: "nav-editor" }
+{ href: "/titan-mvp-1.2/form-editor/listing", text: "Editor", id: "nav-editor" }
 ],
 activeLinkId: "nav-editor"
 }) }}
@@ -22,7 +22,7 @@ activeLinkId: "nav-editor"
 <div class="x-govuk-masthead x-govuk-masthead--large">
     <div class="govuk-width-container">
         {{ govukBackLink({ classes: "govuk-back-link--inverse govuk-!-margin-bottom-0", text:
-        commonTerms.form_editor.navigation.back_to_add_edit_pages, href: "/titan-mvp-1/form-editor/conditions-manager"
+        commonTerms.form_editor.navigation.back_to_add_edit_pages, href: "/titan-mvp-1.2/form-editor/conditions-manager"
         }) }}
 
         <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible"
@@ -54,7 +54,7 @@ activeLinkId: "nav-editor"
                     aria-label="Sub navigation">
                     <ul class="moj-sub-navigation__list" id="nav-list2">
                         <li class="moj-sub-navigation__item">
-                            <a class="moj-sub-navigation__link" href="/titan-mvp-1/form-editor/conditions/manager">
+                            <a class="moj-sub-navigation__link" href="/titan-mvp-1.2/form-editor/conditions/manager">
                                 All conditions
                             </a>
                         </li>
@@ -245,7 +245,7 @@ activeLinkId: "nav-editor"
 
                     <div class="govuk-button-group">
                         <button type="submit" class="govuk-button">Continue</button>
-                        <a href="/titan-mvp-1/form-editor/conditions/manager"
+                        <a href="/titan-mvp-1.2/form-editor/conditions/manager"
                             class="govuk-link govuk-link--no-visited-state">Cancel</a>
                     </div>
             </form>
@@ -460,8 +460,15 @@ activeLinkId: "nav-editor"
 
             // Update the value container with the initial value
             updateValueContainer(mainValueContainer, mainQuestionSelect, mainRule.value, 0);
+        }
 
-            // Add change event listener for future changes
+        // Always show the value container if a question is preselected
+        if (mainQuestionSelect && mainValueContainer && mainQuestionSelect.value) {
+            updateValueContainer(mainValueContainer, mainQuestionSelect, initialCondition.rules[0]?.value, 0);
+        }
+
+        // Add change event listener for future changes
+        if (mainQuestionSelect && mainValueContainer) {
             mainQuestionSelect.addEventListener('change', function () {
                 updateValueContainer(mainValueContainer, this, null, 0);
             });
