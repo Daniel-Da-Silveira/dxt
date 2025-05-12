@@ -4,6 +4,8 @@
 {% from "govuk/components/notification-banner/macro.njk" import govukNotificationBanner %}
 {% from "govuk/components/button/macro.njk" import govukButton %}
 {% set pageName %}Manage conditions - {{ form.name }}{% endset %}
+{% set fromPageId = query.fromPageId %}
+{% set fromPageHeading = query.fromPageHeading %}
 
 {% block header %}
 {{ serviceHeader({
@@ -46,7 +48,7 @@ activeLinkId: "nav-editor"
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-full">
 
-        <div class="govuk-grid-column-two-thirds">
+        {# <div class="govuk-grid-column-two-thirds">
 
             <input type="hidden" id="form-pages-data" value="{{ formPages | dump | safe | replace('"', ' &quot;') }}" />
             <input type="hidden" id="new-condition-id" value="{{ newConditionId }}" />
@@ -71,7 +73,7 @@ activeLinkId: "nav-editor"
             type: "success"
             }) }}
             {% endif %}
-        </div>
+        </div> #}
 
         <div class="govuk-grid-row">
             <!-- Left Column for Form Controls -->
@@ -261,8 +263,14 @@ activeLinkId: "nav-editor"
                                     data-available-questions='{{ availableQuestions | dump | safe }}'>
                                     <option value="">Choose a question</option>
                                     {% for question in availableQuestions %}
+                                    {% set fromPage = (formPages | selectattr('pageId', 'equalto', fromPageId) | list |
+                                    first) %}
                                     <option value="{{ question.value }}" data-type="{{ question.type }}"
-                                        data-options='{{ question.options | dump | safe }}'>
+                                        data-options='{{ question.options | dump | safe }}' {% if query.fromQuestionId
+                                        %} {% if question.value|string==query.fromQuestionId|string %}selected{% endif
+                                        %} {% elif fromPage and fromPage.questions and fromPage.questions[0] and
+                                        (question.value|string==fromPage.questions[0].questionId|string) %} selected {%
+                                        endif %}>
                                         {{ question.text }}
                                     </option>
                                     {% endfor %}
@@ -317,6 +325,8 @@ activeLinkId: "nav-editor"
 
 
 
+
+
                         <div class="govuk-button-group">
                             <button class="govuk-button govuk-button--inverse" id="add-condition-link">
                                 <svg class="govuk-!-margin-right-1" style="position: relative; top: 2px" width="12"
@@ -331,6 +341,32 @@ activeLinkId: "nav-editor"
 
 
                         <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
+
+                        <div class="govuk-form-group">
+                            <fieldset class="govuk-fieldset">
+                                <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">
+                                    Select pages to apply this condition to
+                                </legend>
+                                <div class="govuk-checkboxes" data-module="govuk-checkboxes">
+                                    {% for page in formPages %}
+                                    <div class="govuk-checkboxes__item">
+                                        <input class="govuk-checkboxes__input" id="page-{{ page.pageId }}" name="pages"
+                                            type="checkbox" value="{{ page.pageId }}" {% if fromPageId and
+                                            page.pageId|string==fromPageId|string %}checked{% endif %}>
+                                        <label class="govuk-label govuk-checkboxes__label" for="page-{{ page.pageId }}">
+                                            {{ page.pageHeading or 'Page ' ~ loop.index }}
+                                        </label>
+                                    </div>
+                                    {% endfor %}
+                                    <div class="govuk-checkboxes__divider">or</div>
+                                    <div class="govuk-checkboxes__item">
+                                        <input class="govuk-checkboxes__input" id="page-none" name="pages"
+                                            type="checkbox" value="none">
+                                        <label class="govuk-label govuk-checkboxes__label" for="page-none">None</label>
+                                    </div>
+                                </div>
+                            </fieldset>
+                        </div>
 
                         <div class="govuk-form-group">
                             <label class="govuk-label govuk-label--m" for="conditionName">
@@ -675,7 +711,7 @@ activeLinkId: "nav-editor"
     document.addEventListener("DOMContentLoaded", function () {
         console.log('DOM loaded, setting up event handlers');
 
-        // Show/hide new condition form
+        // Declare these once at the top
         const addNewButton = document.getElementById('add-new-condition');
         const newConditionForm = document.getElementById('new-condition-form');
         const cancelButton = document.getElementById('cancel-condition');
@@ -1755,6 +1791,14 @@ activeLinkId: "nav-editor"
         window.addEventListener('resize', function () {
             resetFormsAndButtons();
         });
+
+        // Auto-open the form if fromPageId is present
+        var urlParams = new URLSearchParams(window.location.search);
+        if (urlParams.has('fromPageId')) {
+            if (newConditionForm) newConditionForm.style.display = 'block';
+            if (addNewButton) addNewButton.style.display = 'none';
+            newConditionForm.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
     });
 </script>
 {% endblock %}

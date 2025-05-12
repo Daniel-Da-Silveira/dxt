@@ -265,6 +265,7 @@ router.get(
       conditions: conditions,
       formPages: formPages,
       conditionSaved: conditionSaved,
+      query: req.query, // Pass query params for context banner
     });
   }
 );
@@ -402,6 +403,44 @@ router.post(
     // Add the condition to the global conditions list only
     formData.conditions.push(newCondition);
 
+    // --- NEW: Apply to selected pages if any were checked ---
+    const formPages = req.session.data.formPages || [];
+    let selectedPages = [];
+    try {
+      selectedPages = (
+        Array.isArray(req.body.pages)
+          ? req.body.pages
+          : req.body.pages
+          ? JSON.parse(req.body.pages)
+          : []
+      )
+        .filter(
+          (pageId) =>
+            pageId !== "_unchecked" &&
+            pageId !== "none" &&
+            !pageId.startsWith("[")
+        )
+        .map((pageId) => String(pageId));
+    } catch (e) {
+      selectedPages = [];
+    }
+    if (selectedPages.length > 0) {
+      selectedPages.forEach((pageId) => {
+        const page = formPages.find((p) => String(p.pageId) === pageId);
+        if (page) {
+          page.conditions = page.conditions || [];
+          const alreadyExists = page.conditions.some(
+            (c) => String(c.id) === String(newCondition.id)
+          );
+          if (!alreadyExists) {
+            page.conditions.push(JSON.parse(JSON.stringify(newCondition)));
+          }
+        }
+      });
+      req.session.data.formPages = formPages;
+    }
+    // --- END NEW ---
+
     // Save back to session
     req.session.data = formData;
 
@@ -496,6 +535,90 @@ router.post("/conditions-add", function (req, res) {
     `/titan-mvp-1.2/form-editor/conditions/page-level/${currentPageId}`
   );
 });
+
+// Add this route to handle the delete condition page
+router.get(
+  "/titan-mvp-1.2/form-editor/conditions/delete/:conditionId",
+  (req, res) => {
+    const conditionId = req.params.conditionId;
+    const formData = req.session.data || {};
+    const formPages = req.session.data.formPages || [];
+
+    // Find the condition details
+    const condition =
+      formData.conditions?.find(
+        (c) => c.id.toString() === conditionId.toString()
+      ) ||
+      formPages
+        .flatMap((page) => page.conditions || [])
+        .find((c) => c.id.toString() === conditionId.toString());
+
+    if (!condition) {
+      return res.redirect("/titan-mvp-1.2/form-editor/conditions/manager");
+    }
+
+    // Find all pages that use this condition
+    const pagesWithCondition = [];
+    formPages.forEach((page, index) => {
+      if (page.conditions) {
+        const usesCondition = page.conditions.some(
+          (c) => c.id.toString() === conditionId.toString()
+        );
+        if (usesCondition) {
+          pagesWithCondition.push({
+            pageNumber: index + 1,
+            pageHeading: page.pageHeading || `Page ${page.pageId}`,
+          });
+        }
+      }
+    });
+
+    res.render("titan-mvp-1.2/form-editor/conditions/delete", {
+      form: formData,
+      conditionName: condition.conditionName,
+      conditionId: conditionId,
+      pagesWithCondition: pagesWithCondition,
+      formName: formData.name || "Untitled form",
+    });
+  }
+);
+
+// POST route to actually delete the condition
+router.post(
+  "/titan-mvp-1.2/form-editor/conditions/delete/:conditionId",
+  (req, res) => {
+    const conditionId = req.params.conditionId;
+    const formData = req.session.data || {};
+    const formPages = req.session.data.formPages || [];
+
+    // Remove from form-level conditions if they exist
+    if (formData.conditions) {
+      formData.conditions = formData.conditions.filter(
+        (c) => c.id.toString() !== conditionId.toString()
+      );
+    }
+
+    // Remove from any pages that use this condition
+    formPages.forEach((page) => {
+      if (page.conditions) {
+        page.conditions = page.conditions.filter(
+          (c) => c.id.toString() !== conditionId.toString()
+        );
+      }
+      // Also check if this condition is used in any page's conditional routing
+      if (page.conditionalRouting) {
+        page.conditionalRouting = page.conditionalRouting.filter(
+          (route) => route.conditionId.toString() !== conditionId.toString()
+        );
+      }
+    });
+
+    req.session.data.formPages = formPages;
+    req.session.data.conditions = formData.conditions;
+
+    res.redirect("/titan-mvp-1.2/form-editor/conditions/manager");
+  }
+);
 
 // ── FORM EDITOR ROUTES ─────────────────────────────────────────────────────────
 
@@ -2053,6 +2176,496 @@ router.post(
 
     // Redirect back to form overview
     res.redirect("/titan-mvp-1.2/form-overview/index");
+  }
+);
+
+// Remove form-level condition
+router.post(
+  "/titan-mvp-1.2/form-editor/conditions-manager/remove",
+  function (req, res) {
+    const formData = req.session.data || {};
+    const formPages = req.session.data.formPages || [];
+    const conditionId = req.body.conditionId;
+    const conditionIds = req.body.conditionIds
+      ? JSON.parse(req.body.conditionIds)
+      : null;
+
+    // Function to remove condition by ID
+    const removeConditionById = (id) => {
+      // Remove from form-level conditions if they exist
+      if (formData.conditions) {
+        formData.conditions = formData.conditions.filter(
+          (c) => c.id.toString() !== id.toString()
+        );
+      }
+
+      // Remove from any pages that use this condition
+      formPages.forEach((page) => {
+        if (page.conditions) {
+          page.conditions = page.conditions.filter(
+            (c) => c.id.toString() !== id.toString()
+          );
+        }
+        // Also check if this condition is used in any page's conditional routing
+        if (page.conditionalRouting) {
+          page.conditionalRouting = page.conditionalRouting.filter(
+            (route) => route.conditionId.toString() !== id.toString()
+          );
+        }
+      });
+    };
+
+    // Handle single condition removal
+    if (conditionId) {
+      removeConditionById(conditionId);
+    }
+
+    // Handle multiple conditions removal
+    if (conditionIds) {
+      conditionIds.forEach((id) => removeConditionById(id));
+    }
+
+    // Save back to session
+    req.session.data = formData;
+
+    res.redirect("/titan-mvp-1.2/form-editor/conditions/manager");
+  }
+);
+
+// Join conditions
+router.post(
+  "/titan-mvp-1.2/form-editor/conditions-manager/join",
+  function (req, res) {
+    const formData = req.session.data || {};
+    const formPages = req.session.data.formPages || [];
+    const conditionIds = JSON.parse(req.body.conditionIds);
+    const operator = req.body.operator;
+    const newConditionName = req.body.newConditionName;
+
+    // Initialize form-level conditions array if it doesn't exist
+    if (!formData.conditions) {
+      formData.conditions = [];
+    }
+
+    // Find all the conditions to be joined
+    const conditionsToJoin = [];
+
+    // First check form-level conditions
+    if (formData.conditions) {
+      formData.conditions.forEach((condition) => {
+        if (
+          conditionIds.includes(condition.id.toString()) &&
+          !conditionsToJoin.some((c) => c.id === condition.id)
+        ) {
+          conditionsToJoin.push(condition);
+        }
+      });
+    }
+
+    // Then check page-level conditions
+    formPages.forEach((page) => {
+      if (page.conditions) {
+        page.conditions.forEach((condition) => {
+          if (
+            conditionIds.includes(condition.id.toString()) &&
+            !conditionsToJoin.some((c) => c.id === condition.id)
+          ) {
+            conditionsToJoin.push(condition);
+          }
+        });
+      }
+    });
+
+    // Sort conditions to match the order of conditionIds
+    conditionsToJoin.sort((a, b) => {
+      return (
+        conditionIds.indexOf(a.id.toString()) -
+        conditionIds.indexOf(b.id.toString())
+      );
+    });
+
+    // Create the new joined condition
+    const newCondition = {
+      id: Date.now(),
+      conditionName: newConditionName,
+      logicalOperator: operator,
+      rules: [],
+    };
+
+    // Add rules from all conditions without logical operators
+    conditionsToJoin.forEach((condition, conditionIndex) => {
+      condition.rules.forEach((rule, ruleIndex) => {
+        // Only add logical operator for the first rule of each condition after the first condition
+        const logicalOperator = conditionIndex === 0 ? null : operator;
+        newCondition.rules.push({
+          ...rule,
+          logicalOperator: logicalOperator,
+        });
+      });
+    });
+
+    // Create the text representation of the joined condition
+    newCondition.text = newCondition.rules
+      .map((rule) => {
+        const valueText = Array.isArray(rule.value)
+          ? rule.value.map((v) => `'${v}'`).join(" or ")
+          : `'${rule.value}'`;
+
+        return `'${rule.questionText}' ${rule.operator} ${valueText}`;
+      })
+      .join(" ");
+
+    // Check if a condition with this name already exists at form level
+    const existingConditionIndex = formData.conditions.findIndex(
+      (c) => c.conditionName === newConditionName
+    );
+
+    if (existingConditionIndex !== -1) {
+      // Replace the existing condition
+      formData.conditions[existingConditionIndex] = newCondition;
+    } else {
+      // Add the new condition to form-level conditions
+      formData.conditions.push(newCondition);
+    }
+
+    // Remove any duplicate conditions from pages
+    formPages.forEach((page) => {
+      if (page.conditions) {
+        // Remove any conditions that were used in the join
+        page.conditions = page.conditions.filter(
+          (c) => !conditionIds.includes(c.id.toString())
+        );
+      }
+    });
+
+    // Save back to session
+    req.session.data = formData;
+
+    res.redirect("/titan-mvp-1.2/form-editor/conditions/manager");
+  }
+);
+
+// Page-level delete confirmation and action
+router.get(
+  "/titan-mvp-1.2/form-editor/conditions/page-level/:pageId/delete/:conditionId",
+  (req, res) => {
+    const pageId = req.params.pageId;
+    const conditionId = req.params.conditionId;
+    const formData = req.session.data || {};
+    const formPages = req.session.data.formPages || [];
+    const currentPage = formPages.find(
+      (page) => String(page.pageId) === String(pageId)
+    );
+    if (!currentPage) {
+      return res.redirect("/titan-mvp-1.2/form-editor/listing");
+    }
+    const condition = (currentPage.conditions || []).find(
+      (c) => String(c.id) === String(conditionId)
+    );
+    if (!condition) {
+      return res.redirect(
+        `/titan-mvp-1.2/form-editor/conditions/page-level/${pageId}`
+      );
+    }
+    const pageIndex = formPages.findIndex(
+      (page) => String(page.pageId) === String(pageId)
+    );
+    const pageNumber = pageIndex + 1;
+    res.render("titan-mvp-1.2/form-editor/conditions/page-level-delete", {
+      form: formData,
+      pageId: pageId,
+      conditionName: condition.conditionName,
+      conditionId: conditionId,
+      formName: formData.name || "Untitled form",
+      pageHeading: currentPage.pageHeading,
+      pageNumber: pageNumber,
+    });
+  }
+);
+
+router.post(
+  "/titan-mvp-1.2/form-editor/conditions/page-level/:pageId/delete/:conditionId",
+  (req, res) => {
+    const pageId = req.params.pageId;
+    const conditionId = req.params.conditionId;
+    const formPages = req.session.data.formPages || [];
+    const currentPage = formPages.find(
+      (page) => String(page.pageId) === String(pageId)
+    );
+    if (currentPage && currentPage.conditions) {
+      currentPage.conditions = currentPage.conditions.filter(
+        (c) => String(c.id) !== String(conditionId)
+      );
+    }
+    req.session.data.formPages = formPages;
+    res.redirect(`/titan-mvp-1.2/form-editor/conditions/page-level/${pageId}`);
+  }
+);
+
+// Edit page for checkbox options
+router.get(
+  "/titan-mvp-1.2/form-editor/question-type/checkboxes/edit",
+  (req, res) => {
+    const formPages = req.session.data["formPages"] || [];
+    const pageIndex = req.session.data["currentPageIndex"] || 0;
+    const pageNumber = pageIndex + 1;
+    const questionIndex = req.session.data["currentQuestionIndex"] || 0;
+    const questionNumber = questionIndex + 1;
+    const formData = req.session.data || {};
+
+    let checkboxList = [];
+    if (formPages[pageIndex]) {
+      const currentPage = formPages[pageIndex];
+      checkboxList = currentPage.checkboxList || [];
+    }
+    if (checkboxList.length === 0) {
+      checkboxList = req.session.data?.checkboxList || [];
+    }
+
+    res.render("titan-mvp-1.2/form-editor/question-type/checkboxes/edit.html", {
+      checkboxList: checkboxList,
+      pageNumber: pageNumber,
+      questionNumber: questionNumber,
+      form: {
+        name: formData.formDetails?.name || formData.formName || "Form name",
+      },
+    });
+  }
+);
+
+// Edit page for radio options
+router.get(
+  "/titan-mvp-1.2/form-editor/question-type/radios-nf/edit",
+  (req, res) => {
+    const formPages = req.session.data["formPages"] || [];
+    const pageIndex = req.session.data["currentPageIndex"] || 0;
+    const pageNumber = pageIndex + 1;
+    const questionIndex = req.session.data["currentQuestionIndex"] || 0;
+    const questionNumber = questionIndex + 1;
+    const formData = req.session.data || {};
+
+    let radioList = [];
+    if (formPages[pageIndex]) {
+      const currentPage = formPages[pageIndex];
+      radioList = currentPage.radioList || [];
+    }
+    if (radioList.length === 0) {
+      radioList = req.session.data?.radioList || [];
+    }
+
+    const availableQuestions = formPages
+      .flatMap((page) => page.questions)
+      .filter((question) => {
+        const type = question.subType || question.type;
+        return ["radios", "checkboxes", "yes-no"].includes(type);
+      })
+      .map((question) => ({
+        value: question.questionId,
+        text: question.label,
+        type: question.subType || question.type,
+        options: question.options,
+      }));
+
+    const existingConditions = formPages
+      .flatMap((page) => page.conditions || [])
+      .map((condition) => ({
+        value: condition.id.toString(),
+        text: condition.conditionName,
+        hint: {
+          text: condition.rules
+            .map(
+              (rule) =>
+                `${rule.questionText} ${rule.operator} ${
+                  Array.isArray(rule.value)
+                    ? rule.value.join(" or ")
+                    : rule.value
+                }`
+            )
+            .join(" AND "),
+        },
+      }));
+
+    res.render("titan-mvp-1.2/form-editor/question-type/radios-nf/edit.html", {
+      radioList: radioList,
+      pageNumber: pageNumber,
+      questionNumber: questionNumber,
+      form: {
+        name: formData.formDetails?.name || formData.formName || "Form name",
+      },
+      commonTerms: terms,
+      availableQuestions: availableQuestions,
+      existingConditions: existingConditions,
+    });
+  }
+);
+
+// Guidance configuration edit route
+router.get(
+  "/titan-mvp-1.2/form-editor/question-type/guidance-configuration.html",
+  function (req, res) {
+    const formPages = req.session.data["formPages"] || [];
+    const pageIndex = req.session.data["currentPageIndex"];
+    const formData = req.session.data || {};
+    const pageNumber = pageIndex + 1;
+    const currentPage = formPages[pageIndex];
+    if (!currentPage) {
+      return res.redirect("/titan-mvp-1.2/form-editor/listing.html");
+    }
+    res.render(
+      "titan-mvp-1.2/form-editor/question-type/guidance-configuration.html",
+      {
+        currentPage: currentPage,
+        data: req.session.data,
+        form: {
+          name: formData.formName || "Form name",
+        },
+        pageNumber: pageNumber,
+      }
+    );
+  }
+);
+
+// Apply condition to pages
+router.post("/titan-mvp-1.2/form-editor/conditions/apply", function (req, res) {
+  const formData = req.session.data;
+  const formPages = req.session.data["formPages"] || [];
+
+  // Parse condition IDs - handle both string and array formats
+  const conditionIds =
+    typeof req.body.conditionIds === "string"
+      ? JSON.parse(req.body.conditionIds)
+      : Array.isArray(req.body.conditionIds)
+      ? req.body.conditionIds
+      : [];
+
+  // Clean up the pages array - remove any non-page IDs and parse JSON strings
+  let selectedPages = [];
+  try {
+    selectedPages = (
+      Array.isArray(req.body.pages)
+        ? req.body.pages
+        : req.body.pages
+        ? JSON.parse(req.body.pages)
+        : []
+    )
+      .filter((pageId) => pageId !== "_unchecked" && !pageId.startsWith("["))
+      .map((pageId) => String(pageId));
+  } catch (e) {
+    selectedPages = [];
+  }
+
+  if (!formData || !conditionIds.length || !selectedPages.length) {
+    return res.redirect("/titan-mvp-1.2/form-editor/conditions/manager");
+  }
+
+  // Get all selected conditions
+  const conditions = conditionIds
+    .map((conditionId) => {
+      // First check form-level conditions
+      let condition = formData.conditions?.find(
+        (condition) => String(condition.id) === String(conditionId)
+      );
+      // If not found in form-level, check page-level conditions
+      if (!condition) {
+        for (const page of formPages) {
+          if (page.conditions) {
+            const found = page.conditions.find(
+              (c) => String(c.id) === String(conditionId)
+            );
+            if (found) {
+              condition = found;
+              break;
+            }
+          }
+        }
+      }
+      return condition;
+    })
+    .filter(Boolean);
+
+  if (conditions.length === 0) {
+    return res.redirect("/titan-mvp-1.2/form-editor/conditions/manager");
+  }
+
+  // Apply each condition to the selected pages
+  conditions.forEach((condition) => {
+    selectedPages.forEach((pageId) => {
+      const page = formPages.find((p) => String(p.pageId) === pageId);
+      if (page) {
+        // Initialize conditions array if it doesn't exist
+        if (!page.conditions) {
+          page.conditions = [];
+        }
+        // Check if condition is already applied
+        const conditionExists = page.conditions.some(
+          (c) => String(c.id) === String(condition.id)
+        );
+        if (!conditionExists) {
+          // Add a deep copy of the condition to avoid reference issues
+          page.conditions.push(JSON.parse(JSON.stringify(condition)));
+        }
+      }
+    });
+  });
+
+  // Save updated pages back to session
+  req.session.data["formPages"] = formPages;
+  res.redirect("/titan-mvp-1.2/form-editor/conditions/manager");
+});
+
+// Remove conditions from pages
+router.post(
+  "/titan-mvp-1.2/form-editor/conditions/remove",
+  function (req, res) {
+    const formData = req.session.data;
+    const formPages = req.session.data["formPages"] || [];
+
+    // Parse condition IDs - handle both string and array formats
+    const conditionIds =
+      typeof req.body.conditionIds === "string"
+        ? JSON.parse(req.body.conditionIds)
+        : Array.isArray(req.body.conditionIds)
+        ? req.body.conditionIds
+        : [];
+
+    // Clean up the pages array - remove any non-page IDs and parse JSON strings
+    let selectedPages = [];
+    try {
+      selectedPages = (
+        Array.isArray(req.body.pages)
+          ? req.body.pages
+          : req.body.pages
+          ? JSON.parse(req.body.pages)
+          : []
+      )
+        .filter((pageId) => pageId !== "_unchecked" && !pageId.startsWith("["))
+        .map((pageId) => String(pageId));
+    } catch (e) {
+      selectedPages = [];
+    }
+
+    if (!formData || !conditionIds.length || !selectedPages.length) {
+      return res.redirect("/titan-mvp-1.2/form-editor/conditions/manager");
+    }
+
+    // Remove conditions from selected pages
+    selectedPages.forEach((pageId) => {
+      const page = formPages.find((p) => String(p.pageId) === pageId);
+      if (page) {
+        // Initialize conditions array if it doesn't exist
+        if (!page.conditions) {
+          page.conditions = [];
+        }
+        // Remove all selected conditions from this page
+        page.conditions = page.conditions.filter(
+          (condition) => !conditionIds.includes(String(condition.id))
+        );
+      }
+    });
+
+    // Save updated pages back to session
+    req.session.data["formPages"] = formPages;
+    res.redirect("/titan-mvp-1.2/form-editor/conditions/manager");
   }
 );
 

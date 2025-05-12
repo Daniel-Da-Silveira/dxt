@@ -1,6 +1,6 @@
 {% extends "layouts/main.html" %}
 {% from "components/service-header/macro.njk" import serviceHeader %}
-{% set pageName = "Edit long answer question - Apply for a county parish holding number in England" %}
+{% set pageName %}Page {{ pageNumber }} overview - {{ form.name }}{% endset %}
 {% set headingPlaceholder = "Page heading" %}
 {% set guidancePlaceholder = "" %}
 
@@ -100,8 +100,9 @@ activeLinkId: "nav-editor"
                         <dd class="govuk-summary-list__actions">
                           <ul class="govuk-summary-list__actions-list">
                             <li class="govuk-summary-list__actions-list-item">
-                              <a class="govuk-link remove-condition" href="#">Delete<span class="govuk-visually-hidden">
-                                  condition</span></a>
+                              <a class="govuk-link remove-condition"
+                                href="/titan-mvp-1.2/form-editor/conditions/page-level/{{ currentPage.pageId }}/delete/{{ condition.id }}">Delete<span
+                                  class="govuk-visually-hidden"> condition</span></a>
                             </li>
                           </ul>
                         </dd>
@@ -115,31 +116,44 @@ activeLinkId: "nav-editor"
                   <div class="govuk-form-group">
                     <fieldset class="govuk-fieldset">
                       <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
+                        <span class="govuk-caption-l">Page {{pageNumber}}: {{question.label}}</span>
 
                         Control who can see this page based on previous answers
                       </legend>
 
                       <div class="govuk-radios" data-module="govuk-radios">
+                        {% if existingConditions | length > 0 %}
+                        <!-- Existing condition radio -->
                         <div class="govuk-radios__item">
                           <input class="govuk-radios__input" id="mode-existing" name="condition-mode" type="radio"
-                            value="existing" checked>
+                            value="existing" checked data-aria-controls="conditional-existing">
                           <label class="govuk-label govuk-radios__label" for="mode-existing">
                             Add an existing condition
                           </label>
                         </div>
+                        <div class="govuk-radios__conditional" id="conditional-existing">
+                          {{ govukSelect({
+                          label: { text: "Select an existing condition", classes: "govuk-label" },
+                          id: "existing-condition",
+                          items: selectItems
+                          }) }}
+                          <button class="govuk-button govuk-button-group" id="add-existing-condition">Add existing
+                            condition</button>
+                        </div>
+                        {% endif %}
+                        <!-- New condition radio -->
                         <div class="govuk-radios__item">
                           <input class="govuk-radios__input" id="mode-new" name="condition-mode" type="radio"
-                            value="new" data-aria-controls="conditional-new">
+                            value="new" {% if existingConditions | length==0 %}checked{% endif %}
+                            data-aria-controls="conditional-new">
                           <label class="govuk-label govuk-radios__label" for="mode-new">
-                            Create a new condition
+                            Create a simple condition
                           </label>
                         </div>
-                        <!-- New Condition Form (using conditional reveal) -->
                         <div class="govuk-radios__conditional govuk-radios__conditional--hidden" id="conditional-new">
                           <form id="condition-form" method="post"
                             action="/titan-mvp-1.2/form-editor/conditions/page-level/{{ currentPage.pageId }}/add">
                             <div class="govuk-form-group app-form-container">
-                              <h2 class="govuk-heading-m app-form-container__title">Create new condition</h2>
                               <div class="govuk-form-group" id="conditions-container">
                                 <div class="govuk-form-group">
                                   <label class="govuk-label" for="questionSelect">
@@ -170,41 +184,8 @@ activeLinkId: "nav-editor"
                                   <!-- Value inputs will be dynamically populated here -->
                                 </div>
                               </div>
-                              <div class="govuk-form-group" id="logicalOperatorGroup" style="display: none;">
-                                <fieldset class="govuk-fieldset">
-                                  <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">
-                                    How do you want to combine these conditions?
-                                  </legend>
-                                  <div class="govuk-radios govuk-radios--inline" data-module="govuk-radios">
-                                    <div class="govuk-radios__item">
-                                      <input class="govuk-radios__input" id="logical-operator-and"
-                                        name="logicalOperator" type="radio" value="AND" checked>
-                                      <label class="govuk-label govuk-radios__label" for="logical-operator-and">
-                                        All conditions must be met (AND)
-                                      </label>
-                                    </div>
-                                    <div class="govuk-radios__item">
-                                      <input class="govuk-radios__input" id="logical-operator-or" name="logicalOperator"
-                                        type="radio" value="OR">
-                                      <label class="govuk-label govuk-radios__label" for="logical-operator-or">
-                                        Any condition can be met (OR)
-                                      </label>
-                                    </div>
-                                  </div>
-                                </fieldset>
-                              </div>
                               <div id="additional-conditions">
                                 <!-- Additional conditions will be added here -->
-                              </div>
-                              <div class="govuk-button-group">
-                                <button class="govuk-button govuk-button--inverse" id="add-condition-link">
-                                  <svg class="govuk-!-margin-right-1" style="position: relative; top: 2px" width="12"
-                                    height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M6 1V11" stroke="currentColor" stroke-width="2" />
-                                    <path d="M1 6H11" stroke="currentColor" stroke-width="2" />
-                                  </svg>
-                                  Add another condition
-                                </button>
                               </div>
                               <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
                               <div class="govuk-form-group">
@@ -230,28 +211,15 @@ activeLinkId: "nav-editor"
                   </div>
                   <!-- Inset text for advanced conditions -->
                   <div class="govuk-inset-text" style="margin-bottom: 20px;">
-                    <strong>Looking for advanced options?</strong><br>
-                    You can create and manage complex or reusable conditions in the
-                    <a href="/titan-mvp-1.2/form-editor/conditions/manager"
-                      class="govuk-link govuk-link--no-visited-state" target="_blank" rel="noopener noreferrer">
-                      Conditions manager
-                    </a>.
+                    <h3 class="govuk-heading-m">Manage advanced and reusable conditions</h3>
+                    Use the <a
+                      href="/titan-mvp-1.2/form-editor/conditions/manager?fromPageId={{ currentPage.pageId }}&fromPageHeading={{ currentPage.pageHeading | urlencode }}&fromQuestionId={{ question.questionId }}"
+                      class="govuk-link govuk-link--no-visited-state">
+                      conditions manager
+                    </a> to create, edit and combine conditions, apply or remove them across multiple pages, and create
+                    advanced AND/OR logic.
                   </div>
 
-                  <!-- Existing condition controls -->
-                  <div id="existing-condition-section">
-
-                    {% if existingConditions | length > 0 %}
-                    {{ govukSelect({
-                    label: { text: "Select an existing condition", classes: "govuk-label" },
-                    id: "existing-condition",
-                    items: selectItems
-                    }) }}
-                    <button class="govuk-button" id="add-existing-condition">Add existing condition</button>
-                    {% else %}
-                    <p class="govuk-body">No existing conditions available.</p>
-                    {% endif %}
-                  </div>
 
 
                   <script>
