@@ -201,8 +201,7 @@ activeLinkId: "nav-editor"
 
                     <!-- Add New Condition Button -->
                     <div class="moj-button-group moj-button-group--inline">
-
-                        <button class="govuk-button" id="add-new-condition">
+                        <button class="govuk-button" id="add-new-condition" style="display: block;">
                             Create new condition
                         </button>
 
@@ -353,7 +352,9 @@ activeLinkId: "nav-editor"
                                             type="checkbox" value="{{ page.pageId }}" {% if fromPageId and
                                             page.pageId|string==fromPageId|string %}checked{% endif %}>
                                         <label class="govuk-label govuk-checkboxes__label" for="page-{{ page.pageId }}">
-                                            {{ page.pageHeading or 'Page ' ~ loop.index }}
+                                            Page {{ loop.index }}: {{ page.pageHeading or page.title or (page.questions
+                                            and page.questions[0] and page.questions[0].label) or 'Page ' ~ loop.index
+                                            }}
                                         </label>
                                     </div>
                                     {% endfor %}
@@ -414,7 +415,9 @@ activeLinkId: "nav-editor"
                                         <input class="govuk-checkboxes__input" id="page-{{ page.pageId }}" name="pages"
                                             type="checkbox" value="{{ page.pageId }}">
                                         <label class="govuk-label govuk-checkboxes__label" for="page-{{ page.pageId }}">
-                                            {{ page.pageHeading or 'Page ' + loop.index }}
+                                            Page {{ loop.index }}: {{ page.pageHeading or page.title or (page.questions
+                                            and page.questions[0] and page.questions[0].label) or 'Page ' ~ loop.index
+                                            }}
                                         </label>
                                     </div>
                                     {% endfor %}
@@ -578,6 +581,10 @@ activeLinkId: "nav-editor"
         color: black;
     }
 
+    .hidden {
+        display: none !important;
+    }
+
     #before-content {
         position: absolute;
         top: 0;
@@ -718,18 +725,34 @@ activeLinkId: "nav-editor"
         const joinFormContainer = document.getElementById('join-conditions-form-container');
         const joinForm = document.getElementById('join-conditions-form');
         const cancelJoinButton = document.getElementById('cancel-join');
+        const conditionForm = document.getElementById('condition-form');
 
         // Function to hide all forms and show all buttons
         function resetFormsAndButtons() {
-            // Hide all forms
-            document.querySelectorAll(".app-form-container, #join-conditions-form-container, #new-condition-form").forEach(f => {
-                f.style.display = "none";
-            });
-
-            // Show all buttons
+            // Only hide the top-level forms, not all .app-form-container elements
+            var topLevelForms = [
+                document.getElementById('new-condition-form'),
+                document.getElementById('join-conditions-form-container'),
+                document.getElementById('add-condition-to-pages-form'),
+                document.getElementById('remove-condition-from-pages-form')
+            ];
+            topLevelForms.forEach(f => { if (f) f.style.display = 'none'; });
             if (addNewButton) addNewButton.style.display = "block";
+            if (newConditionForm) newConditionForm.style.display = "none";
             if (joinButton) joinButton.style.display = "inline-flex";
         }
+
+        // --- AUTO-OPEN LOGIC: Only run once on initial load ---
+        (function autoOpenOnLoad() {
+            var urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.has('fromPageId')) {
+                if (newConditionForm) newConditionForm.style.display = 'block';
+                if (addNewButton) addNewButton.style.display = 'none';
+                newConditionForm.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            } else {
+                resetFormsAndButtons();
+            }
+        })();
 
         // Handle form show/hide for buttons with data-action="show-form"
         document.body.addEventListener("click", function (e) {
@@ -767,29 +790,48 @@ activeLinkId: "nav-editor"
 
             // Clear any selections
             document.querySelectorAll(".condition-checkbox").forEach(cb => cb.checked = false);
-            document.getElementById("select-all-conditions").checked = false;
-            document.getElementById("selected-conditions-list").innerHTML = "";
-            document.getElementById("selected-conditions-to-remove-list").innerHTML = "";
+            var selectAll = document.getElementById("select-all-conditions");
+            if (selectAll) selectAll.checked = false;
+            var selList = document.getElementById("selected-conditions-list");
+            if (selList) selList.innerHTML = "";
+            var selRemoveList = document.getElementById("selected-conditions-to-remove-list");
+            if (selRemoveList) selRemoveList.innerHTML = "";
+            // Clear the context from the URL
+            setTimeout(function () {
+                var url = new URL(window.location);
+                url.searchParams.delete('fromPageId');
+                url.searchParams.delete('fromPageHeading');
+                url.searchParams.delete('fromQuestionId');
+                window.history.replaceState({}, document.title, url.pathname + url.search);
+            }, 100);
         });
 
         if (addNewButton && newConditionForm) {
             addNewButton.addEventListener('click', function () {
-                newConditionForm.style.display = 'block';
-                addNewButton.style.display = 'none';
-                if (joinButton) {
-                    joinButton.style.display = 'none';
+                console.log('Create new condition button clicked');
+                if (newConditionForm) {
+                    newConditionForm.classList.remove('hidden');
+                    newConditionForm.style.setProperty('display', 'block', 'important');
                 }
+                if (addNewButton) addNewButton.style.display = 'none';
+                if (joinButton) joinButton.style.display = 'none';
             });
         }
 
         if (cancelButton && newConditionForm) {
             cancelButton.addEventListener('click', function (e) {
                 e.preventDefault();
-                newConditionForm.style.display = 'none';
-                addNewButton.style.display = 'block';
-                if (joinButton) {
-                    joinButton.style.display = 'inline-flex';
-                }
+                if (newConditionForm) newConditionForm.style.display = 'none';
+                if (addNewButton) addNewButton.style.display = 'block';
+                if (joinButton) joinButton.style.display = 'inline-flex';
+                // Clear the context from the URL
+                setTimeout(function () {
+                    var url = new URL(window.location);
+                    url.searchParams.delete('fromPageId');
+                    url.searchParams.delete('fromPageHeading');
+                    url.searchParams.delete('fromQuestionId');
+                    window.history.replaceState({}, document.title, url.pathname + url.search);
+                }, 100);
             });
         }
 
@@ -801,27 +843,6 @@ activeLinkId: "nav-editor"
         // Initialize value container
         if (valueContainer) {
             valueContainer.style.display = 'none';
-        }
-
-        if (addNewButton && newConditionForm) {
-            addNewButton.addEventListener('click', function () {
-                newConditionForm.style.display = 'block';
-                addNewButton.style.display = 'none';
-                if (joinButton) {
-                    joinButton.style.display = 'none';
-                }
-            });
-        }
-
-        if (cancelButton && newConditionForm) {
-            cancelButton.addEventListener('click', function (e) {
-                e.preventDefault();
-                newConditionForm.style.display = 'none';
-                addNewButton.style.display = 'block';
-                if (joinButton) {
-                    joinButton.style.display = 'inline-flex';
-                }
-            });
         }
 
         // Add change event listeners to hide value container when question or operator is cleared
@@ -881,13 +902,13 @@ activeLinkId: "nav-editor"
                                 const input = document.createElement('input');
                                 input.className = 'govuk-radios__input';
                                 input.type = 'radio';
-                                input.id = `main-value-${value}`;
-                                input.name = 'main-value';  // Unique name for main condition
+                                input.id = 'value-' + index;
+                                input.name = 'value';
                                 input.value = value;
 
                                 const label = document.createElement('label');
                                 label.className = 'govuk-label govuk-radios__label';
-                                label.htmlFor = `main-value-${value}`;
+                                label.htmlFor = 'value-' + index;
                                 label.textContent = value.charAt(0).toUpperCase() + value.slice(1);
 
                                 itemDiv.appendChild(input);
@@ -914,13 +935,13 @@ activeLinkId: "nav-editor"
                                 const input = document.createElement('input');
                                 input.className = 'govuk-radios__input';
                                 input.type = 'radio';
-                                input.id = `value-${index}`;
+                                input.id = 'value-' + index;
                                 input.name = 'value';
                                 input.value = option.value || option.text;
 
                                 const label = document.createElement('label');
                                 label.className = 'govuk-label govuk-radios__label';
-                                label.htmlFor = `value-${index}`;
+                                label.htmlFor = 'value-' + index;
                                 label.textContent = option.text || option.label;
 
                                 itemDiv.appendChild(input);
@@ -947,13 +968,13 @@ activeLinkId: "nav-editor"
                                 const input = document.createElement('input');
                                 input.className = 'govuk-checkboxes__input';
                                 input.type = 'checkbox';
-                                input.id = `value-${index}`;
+                                input.id = 'value-' + index;
                                 input.name = 'value';
                                 input.value = option.value || option.text;
 
                                 const label = document.createElement('label');
                                 label.className = 'govuk-label govuk-checkboxes__label';
-                                label.htmlFor = `value-${index}`;
+                                label.htmlFor = 'value-' + index;
                                 label.textContent = option.text || option.label;
 
                                 itemDiv.appendChild(input);
@@ -1083,13 +1104,13 @@ activeLinkId: "nav-editor"
                                     const input = document.createElement('input');
                                     input.className = 'govuk-radios__input';
                                     input.type = 'radio';
-                                    input.id = `additional-value-${conditionCount}-${value}`;
-                                    input.name = `additional-value-${conditionCount}`;  // Unique name for additional conditions
+                                    input.id = 'value-' + conditionCount + '-' + index;
+                                    input.name = 'value';
                                     input.value = value;
 
                                     const label = document.createElement('label');
                                     label.className = 'govuk-label govuk-radios__label';
-                                    label.htmlFor = `additional-value-${conditionCount}-${value}`;
+                                    label.htmlFor = 'value-' + conditionCount + '-' + index;
                                     label.textContent = value.charAt(0).toUpperCase() + value.slice(1);
 
                                     itemDiv.appendChild(input);
@@ -1116,13 +1137,13 @@ activeLinkId: "nav-editor"
                                     const input = document.createElement('input');
                                     input.className = 'govuk-radios__input';
                                     input.type = 'radio';
-                                    input.id = `value-${conditionCount}-${index}`;
-                                    input.name = `value-${conditionCount}`;
+                                    input.id = 'value-' + conditionCount + '-' + index;
+                                    input.name = 'value';
                                     input.value = option.value || option.text;
 
                                     const label = document.createElement('label');
                                     label.className = 'govuk-label govuk-radios__label';
-                                    label.htmlFor = `value-${conditionCount}-${index}`;
+                                    label.htmlFor = 'value-' + conditionCount + '-' + index;
                                     label.textContent = option.text || option.label;
 
                                     itemDiv.appendChild(input);
@@ -1149,13 +1170,13 @@ activeLinkId: "nav-editor"
                                     const input = document.createElement('input');
                                     input.className = 'govuk-checkboxes__input';
                                     input.type = 'checkbox';
-                                    input.id = `value-${conditionCount}-${index}`;
-                                    input.name = `value-${conditionCount}`;
+                                    input.id = 'value-' + conditionCount + '-' + index;
+                                    input.name = 'value';
                                     input.value = option.value || option.text;
 
                                     const label = document.createElement('label');
                                     label.className = 'govuk-label govuk-checkboxes__label';
-                                    label.htmlFor = `value-${conditionCount}-${index}`;
+                                    label.htmlFor = 'value-' + conditionCount + '-' + index;
                                     label.textContent = option.text || option.label;
 
                                     itemDiv.appendChild(input);
@@ -1171,650 +1192,28 @@ activeLinkId: "nav-editor"
                         }
                     }
                 });
-
-                // Add click handler for remove link
-                const removeLink = newCondition.querySelector('.remove-condition-link');
-                removeLink.addEventListener('click', function (e) {
-                    e.preventDefault();
-                    newCondition.remove();
-                    conditionCount--;
-
-                    // Renumber all remaining conditions
-                    const remainingConditions = document.querySelectorAll('.condition-item');
-                    remainingConditions.forEach((condition, index) => {
-                        // Update the legend text
-                        const legend = condition.querySelector('.govuk-fieldset__legend');
-                        if (legend) {
-                            legend.textContent = `Additional condition ${index + 1}`;
-                        }
-
-                        // Update the IDs and names of the form elements
-                        const questionSelect = condition.querySelector('.condition-question');
-                        const operatorSelect = condition.querySelector('select[id^="condition-operator-"]');
-                        const valueContainer = condition.querySelector('.condition-value-container');
-
-                        if (questionSelect) {
-                            questionSelect.id = `condition-question-${index + 1}`;
-                            questionSelect.name = `question-${index + 1}`;
-                            const label = condition.querySelector(`label[for^="condition-question-"]`);
-                            if (label) {
-                                label.setAttribute('for', `condition-question-${index + 1}`);
-                            }
-                        }
-
-                        if (operatorSelect) {
-                            operatorSelect.id = `condition-operator-${index + 1}`;
-                            operatorSelect.name = `operator-${index + 1}`;
-                        }
-
-                        if (valueContainer) {
-                            valueContainer.id = `condition-value-container-${index + 1}`;
-                        }
-                    });
-                });
             });
         }
 
-        // Handle join conditions button
-        if (joinButton && joinFormContainer) {
-            joinButton.addEventListener('click', function () {
-                joinFormContainer.style.display = 'block';
-                joinButton.style.display = 'none';
-                if (addNewButton) {
-                    addNewButton.style.display = 'none';
-                }
-            });
-        }
-
-        if (cancelJoinButton && joinFormContainer) {
-            cancelJoinButton.addEventListener('click', function (e) {
-                e.preventDefault();
-                joinFormContainer.style.display = 'none';
-                joinButton.style.display = 'inline-flex';
-                if (addNewButton) {
-                    addNewButton.style.display = 'block';
-                }
-            });
-        }
-
-        // Add form submission handler
-        const conditionForm = document.getElementById('condition-form');
         if (conditionForm) {
             conditionForm.addEventListener('submit', function (e) {
-                e.preventDefault();
-
-                // Collect main condition data
-                const mainQuestion = document.getElementById('questionSelect');
-                const mainOperator = document.getElementById('operatorSelect');
-                const mainValueContainer = document.getElementById('valueContainer');
-                const conditionName = document.getElementById('conditionName');
-
-                if (!mainQuestion || !mainOperator || !mainValueContainer || !conditionName) {
-                    console.error('Required form elements missing');
-                    return;
-                }
-
-                const rules = [];
-
-                // Get main condition data
-                const mainQuestionText = mainQuestion.options[mainQuestion.selectedIndex].text;
-                const questionType = mainQuestion.options[mainQuestion.selectedIndex].getAttribute('data-type');
-
-                // Handle different input types for main condition
-                let mainValue;
-                if (questionType === 'checkboxes') {
-                    const checkedInputs = mainValueContainer.querySelectorAll('input[type="checkbox"]:checked');
-                    mainValue = Array.from(checkedInputs).map(input => input.value);
-                } else {
-                    const checkedInput = mainValueContainer.querySelector('input:checked');
-                    mainValue = checkedInput ? checkedInput.value : null;
-                }
-
-                if (mainValue) {
-                    rules.push({
-                        questionText: mainQuestionText,
-                        operator: mainOperator.value,
-                        value: mainValue
-                    });
-                }
-
-                // Get additional conditions
-                const additionalConditions = document.querySelectorAll('.condition-item');
-                additionalConditions.forEach((condition, index) => {
-                    const questionSelect = condition.querySelector('.condition-question');
-                    const operatorSelect = condition.querySelector('select[name^="operator-"]');
-                    const valueContainer = condition.querySelector('.condition-value-container');
-
-                    if (questionSelect && operatorSelect && valueContainer) {
-                        const questionText = questionSelect.options[questionSelect.selectedIndex].text;
-                        const questionType = questionSelect.options[questionSelect.selectedIndex].getAttribute('data-type');
-
-                        let value;
-                        if (questionType === 'checkboxes') {
-                            const checkedInputs = valueContainer.querySelectorAll('input[type="checkbox"]:checked');
-                            value = Array.from(checkedInputs).map(input => input.value);
-                        } else {
-                            const checkedInput = valueContainer.querySelector('input:checked');
-                            value = checkedInput ? checkedInput.value : null;
-                        }
-
-                        if (value) {
-                            rules.push({
-                                questionText: questionText,
-                                operator: operatorSelect.value,
-                                value: value
-                            });
-                        }
-                    }
-                });
-
-                // Add rules to hidden input
-                const rulesInput = document.createElement('input');
-                rulesInput.type = 'hidden';
-                rulesInput.name = 'rules';
-                rulesInput.value = JSON.stringify(rules);
-                conditionForm.appendChild(rulesInput);
-
-                // Add conditionSaved parameter to form action
-                const formAction = conditionForm.getAttribute('action');
-                conditionForm.setAttribute('action', formAction + '?conditionSaved=true');
-
-                // Submit the form
-                conditionForm.submit();
+                // ...existing code...
+                // After submitting, clear the context from the URL
+                setTimeout(function () {
+                    var url = new URL(window.location);
+                    url.searchParams.delete('fromPageId');
+                    url.searchParams.delete('fromPageHeading');
+                    url.searchParams.delete('fromQuestionId');
+                    window.history.replaceState({}, document.title, url.pathname + url.search);
+                }, 100);
             });
         }
 
-        // Handle join conditions form submission
-        if (joinForm) {
-            joinForm.addEventListener('submit', function (e) {
-                e.preventDefault();
-
-                // Get all checked condition checkboxes
-                const selectedConditions = document.querySelectorAll('.condition-checkbox:checked');
-                const conditionIds = Array.from(selectedConditions).map(checkbox => checkbox.value);
-                const conditionNames = Array.from(selectedConditions).map(checkbox => checkbox.dataset.conditionName);
-
-                if (conditionIds.length < 2) {
-                    alert('Please select at least two conditions to join');
-                    return;
-                }
-
-                // Get the joined condition name
-                const joinedConditionName = document.getElementById('joined-condition-name').value;
-                if (!joinedConditionName) {
-                    alert('Please provide a name for the joined condition');
-                    return;
-                }
-
-                // Get the operator (AND/OR)
-                const operator = document.querySelector('input[name="operator"]:checked').value;
-
-                // Add conditionIds to form
-                const conditionIdsInput = document.createElement('input');
-                conditionIdsInput.type = 'hidden';
-                conditionIdsInput.name = 'conditionIds';
-                conditionIdsInput.value = JSON.stringify(conditionIds);
-                joinForm.appendChild(conditionIdsInput);
-
-                // Add operator to form (not needed for now)
-                // const operatorInput = document.createElement('input');
-                // operatorInput.type = 'hidden';
-                // operatorInput.name = 'operator';
-                // operatorInput.value = operator;
-                // joinForm.appendChild(operatorInput);
-
-                // Add joined condition name to form
-                const joinedNameInput = document.createElement('input');
-                joinedNameInput.type = 'hidden';
-                joinedNameInput.name = 'newConditionName';
-                joinedNameInput.value = joinedConditionName;
-                joinForm.appendChild(joinedNameInput);
-
-                // Submit the form
-                joinForm.submit();
-            });
-        }
-
-        // Handle add condition to pages
-        const addConditionToPagesButton = document.getElementById('add-condition-to-pages');
-        const addConditionToPagesForm = document.getElementById('add-condition-to-pages-form');
-        const cancelAddConditionToPages = document.getElementById('cancel-add-condition-to-pages');
-        const applyConditionForm = document.getElementById('apply-condition-form');
-        const selectedConditionsList = document.getElementById('selected-conditions-list');
-        const selectAllCheckbox = document.getElementById('select-all-conditions');
-        const conditionCheckboxes = document.querySelectorAll('.condition-checkbox');
-
-        function updateSelectedConditionsList() {
-            const selectedCheckboxes = document.querySelectorAll('.condition-checkbox:checked');
-            selectedConditionsList.innerHTML = '';
-
-            selectedCheckboxes.forEach(checkbox => {
-                const conditionName = checkbox.dataset.conditionName;
-                if (conditionName) {
-                    const li = document.createElement('li');
-                    li.textContent = conditionName;
-                    selectedConditionsList.appendChild(li);
-                }
-            });
-        }
-
-        // Handle select all checkbox
-        if (selectAllCheckbox) {
-            selectAllCheckbox.addEventListener('change', function () {
-                conditionCheckboxes.forEach(checkbox => {
-                    checkbox.checked = this.checked;
-                });
-                updateSelectedConditionsList();
-            });
-        }
-
-        // Handle individual condition checkboxes
-        conditionCheckboxes.forEach(checkbox => {
-            checkbox.addEventListener('change', function () {
-                const allChecked = document.querySelectorAll('.condition-checkbox:checked').length === conditionCheckboxes.length;
-                selectAllCheckbox.checked = allChecked;
-            });
-        });
-
-        if (addConditionToPagesButton && addConditionToPagesForm) {
-            addConditionToPagesButton.addEventListener('click', function (e) {
-                e.preventDefault();
-                addConditionToPagesForm.style.display = 'block';
-                if (addNewButton) {
-                    addNewButton.style.display = 'none';
-                }
-                if (joinButton) {
-                    joinButton.style.display = 'none';
-                }
-                updateSelectedConditionsList();
-            });
-        }
-
-        if (cancelAddConditionToPages && addConditionToPagesForm) {
-            cancelAddConditionToPages.addEventListener('click', function (e) {
-                e.preventDefault();
-                addConditionToPagesForm.style.display = 'none';
-                addConditionToPagesButton.style.display = 'inline-flex';
-                if (addNewButton) {
-                    addNewButton.style.display = 'block';
-                }
-                if (joinButton) {
-                    joinButton.style.display = 'inline-flex';
-                }
-                // Clear all selections
-                conditionCheckboxes.forEach(checkbox => checkbox.checked = false);
-                selectAllCheckbox.checked = false;
-                selectedConditionsList.innerHTML = '';
-            });
-        }
-
-        if (applyConditionForm) {
-            applyConditionForm.addEventListener('submit', function (e) {
-                const selectedCheckboxes = document.querySelectorAll('.condition-checkbox:checked');
-                const selectedPages = Array.from(document.querySelectorAll('input[name="pages"]:checked'))
-                    .map(checkbox => checkbox.value);
-
-                if (selectedCheckboxes.length === 0) {
-                    e.preventDefault();
-                    alert('Please select at least one condition to apply');
-                    return;
-                }
-
-                if (selectedPages.length === 0) {
-                    e.preventDefault();
-                    alert('Please select at least one page to apply the condition to');
-                    return;
-                }
-
-                // Add selected condition IDs to form
-                const conditionIds = Array.from(selectedCheckboxes).map(checkbox => checkbox.value);
-                const conditionIdsInput = document.createElement('input');
-                conditionIdsInput.type = 'hidden';
-                conditionIdsInput.name = 'conditionIds';
-                conditionIdsInput.value = JSON.stringify(conditionIds);
-                applyConditionForm.appendChild(conditionIdsInput);
-
-                // Add selected pages to form
-                const pagesInput = document.createElement('input');
-                pagesInput.type = 'hidden';
-                pagesInput.name = 'pages';
-                pagesInput.value = JSON.stringify(selectedPages);
-                applyConditionForm.appendChild(pagesInput);
-
-                // Allow the form to submit normally
-                return true;
-            });
-        }
-
-        // Handle remove condition from pages
-        const removeConditionFromPagesButton = document.getElementById('remove-condition-from-pages');
-        const removeConditionFromPagesForm = document.getElementById('remove-condition-from-pages-form');
-        const cancelRemoveCondition = document.getElementById('cancel-remove-condition');
-        const removeConditionForm = document.getElementById('remove-condition-form');
-        const selectedConditionsToRemoveList = document.getElementById('selected-conditions-to-remove-list');
-
-        function updateSelectedConditionsToRemoveList() {
-            const selectedCheckboxes = document.querySelectorAll('.condition-checkbox:checked');
-            selectedConditionsToRemoveList.innerHTML = '';
-            const selectedConditionIds = Array.from(selectedCheckboxes).map(checkbox => checkbox.value);
-            const pagesWithConditions = document.getElementById('pages-with-conditions');
-            pagesWithConditions.innerHTML = '';
-
-            // Get form pages data
-            const formPagesDataElement = document.getElementById('form-pages-data');
-            let formPagesData = [];
-            try {
-                const rawValue = formPagesDataElement.value;
-                const decodedValue = rawValue
-                    .replace(/&quot;/g, '"')
-                    .replace(/&amp;/g, '&')
-                    .replace(/&lt;/g, '<')
-                    .replace(/&gt;/g, '>');
-
-                formPagesData = JSON.parse(decodedValue);
-
-                // Debug logging
-                console.log('Raw form pages data:', formPagesData);
-                console.log('Selected condition IDs:', selectedConditionIds);
-            } catch (e) {
-                console.error('Error parsing form pages data:', e);
-                return;
-            }
-
-            // Create a map of pages with conditions
-            const pagesWithSelectedConditions = new Map();
-
-            selectedCheckboxes.forEach(checkbox => {
-                const conditionName = checkbox.dataset.conditionName;
-                const conditionId = checkbox.value;
-
-                console.log('Processing condition:', {
-                    name: conditionName,
-                    id: conditionId
-                });
-
-                if (conditionName) {
-                    const li = document.createElement('li');
-                    li.textContent = conditionName;
-                    selectedConditionsToRemoveList.appendChild(li);
-
-                    // Find pages that have this condition
-                    formPagesData.forEach((page, index) => {
-                        console.log('Checking page:', {
-                            pageId: page['pageId '],
-                            conditions: page['conditions ']
-                        });
-
-                        if (page['conditions '] && Array.isArray(page['conditions '])) {
-                            const hasCondition = page['conditions '].some(condition => {
-                                const match = String(condition['id ']) === String(conditionId);
-                                console.log('Condition match:', {
-                                    pageConditionId: condition['id '],
-                                    selectedConditionId: conditionId,
-                                    match: match
-                                });
-                                return match;
-                            });
-
-                            if (hasCondition) {
-                                const pageId = page['pageId '];
-                                if (!pagesWithSelectedConditions.has(pageId)) {
-                                    // Get the page heading, ensuring we handle the space in the property name
-                                    const pageHeading = page['pageHeading '] || `Page ${index + 1}`;
-                                    pagesWithSelectedConditions.set(pageId, {
-                                        pageId: pageId,
-                                        pageHeading: pageHeading.trim() || `Page ${index + 1}`,
-                                        pageIndex: index + 1,
-                                        conditions: []
-                                    });
-                                }
-                                pagesWithSelectedConditions.get(pageId).conditions.push(conditionName);
-                            }
-                        }
-                    });
-                }
-            });
-
-            console.log('Final pages with conditions:', Array.from(pagesWithSelectedConditions.entries()));
-
-            // Add pages with conditions to the form
-            if (pagesWithSelectedConditions.size > 0) {
-                const checkboxesContainer = document.createElement('div');
-                checkboxesContainer.className = 'govuk-checkboxes';
-                checkboxesContainer.setAttribute('data-module', 'govuk-checkboxes');
-
-                // Sort pages by their index before creating checkboxes
-                const sortedPages = Array.from(pagesWithSelectedConditions.entries())
-                    .sort((a, b) => a[1].pageIndex - b[1].pageIndex);
-
-                sortedPages.forEach(([pageId, pageData]) => {
-                    console.log('Creating checkbox for page:', {
-                        pageId: pageId,
-                        pageHeading: pageData.pageHeading,
-                        pageIndex: pageData.pageIndex
-                    });
-
-                    const itemDiv = document.createElement('div');
-                    itemDiv.className = 'govuk-checkboxes__item';
-
-                    const input = document.createElement('input');
-                    input.className = 'govuk-checkboxes__input';
-                    input.id = `remove-page-${pageId}`;
-                    input.name = 'pages';
-                    input.type = 'checkbox';
-                    input.value = pageId;
-                    input.setAttribute('aria-describedby', `remove-page-${pageId}-hint`);
-
-                    const label = document.createElement('label');
-                    label.className = 'govuk-label govuk-checkboxes__label';
-                    label.htmlFor = `remove-page-${pageId}`;
-                    label.textContent = pageData.pageHeading && pageData.pageHeading.trim() ? pageData.pageHeading : `Page ${pageData.pageIndex}`;
-
-                    const hint = document.createElement('div');
-                    hint.id = `remove-page-${pageId}-hint`;
-                    hint.className = 'govuk-hint govuk-checkboxes__hint';
-                    if (pageData.conditions.length === 1) {
-                        hint.textContent = `Has condition: ${pageData.conditions[0]}`;
-                    } else {
-                        hint.textContent = `Has ${pageData.conditions.length} selected conditions`;
-                    }
-
-                    itemDiv.appendChild(input);
-                    itemDiv.appendChild(label);
-                    itemDiv.appendChild(hint);
-                    checkboxesContainer.appendChild(itemDiv);
-                });
-
-                pagesWithConditions.innerHTML = '';
-                pagesWithConditions.appendChild(checkboxesContainer);
-
-                // Initialize GOV.UK checkboxes only if we have checkboxes
-                if (checkboxesContainer.querySelectorAll('input[type="checkbox"]').length > 0) {
-                    if (window.GOVUKFrontend && window.GOVUKFrontend.Checkboxes) {
-                        try {
-                            const checkboxes = new window.GOVUKFrontend.Checkboxes(checkboxesContainer);
-                            if (checkboxes && typeof checkboxes.init === 'function') {
-                                checkboxes.init();
-                            }
-                        } catch (e) {
-                            console.error('Error initializing checkboxes:', e);
-                        }
-                    }
-                }
-            } else {
-                const noPagesMessage = document.createElement('p');
-                noPagesMessage.className = 'govuk-body';
-                noPagesMessage.textContent = 'None of the selected conditions are applied to any pages.';
-                pagesWithConditions.appendChild(noPagesMessage);
-            }
-        }
-
-        if (removeConditionFromPagesButton && removeConditionFromPagesForm) {
-            removeConditionFromPagesButton.addEventListener('click', function (e) {
-                e.preventDefault();
-                removeConditionFromPagesForm.style.display = 'block';
-                if (addNewButton) {
-                    addNewButton.style.display = 'none';
-                }
-                if (joinButton) {
-                    joinButton.style.display = 'none';
-                }
-                if (addConditionToPagesButton) {
-                    addConditionToPagesButton.style.display = 'none';
-                }
-                updateSelectedConditionsToRemoveList();
-            });
-        }
-
-        if (cancelRemoveCondition && removeConditionFromPagesForm) {
-            cancelRemoveCondition.addEventListener('click', function (e) {
-                e.preventDefault();
-                removeConditionFromPagesForm.style.display = 'none';
-                removeConditionFromPagesButton.style.display = 'inline-flex';
-                if (addNewButton) {
-                    addNewButton.style.display = 'block';
-                }
-                if (joinButton) {
-                    joinButton.style.display = 'inline-flex';
-                }
-                if (addConditionToPagesButton) {
-                    addConditionToPagesButton.style.display = 'inline-flex';
-                }
-                // Clear all selections
-                conditionCheckboxes.forEach(checkbox => checkbox.checked = false);
-                selectAllCheckbox.checked = false;
-                selectedConditionsToRemoveList.innerHTML = '';
-            });
-        }
-
-        if (removeConditionForm) {
-            removeConditionForm.addEventListener('submit', function (e) {
-                const selectedCheckboxes = document.querySelectorAll('.condition-checkbox:checked');
-                const selectedPages = Array.from(document.querySelectorAll('#pages-with-conditions input[type="checkbox"]:checked'))
-                    .map(checkbox => checkbox.value);
-
-                if (selectedCheckboxes.length === 0) {
-                    e.preventDefault();
-                    alert('Please select at least one condition to remove');
-                    return;
-                }
-
-                if (selectedPages.length === 0) {
-                    e.preventDefault();
-                    alert('Please select at least one page to remove conditions from');
-                    return;
-                }
-
-                // Add selected condition IDs to form
-                const conditionIds = Array.from(selectedCheckboxes).map(checkbox => checkbox.value);
-                const conditionIdsInput = document.createElement('input');
-                conditionIdsInput.type = 'hidden';
-                conditionIdsInput.name = 'conditionIds';
-                conditionIdsInput.value = JSON.stringify(conditionIds);
-                removeConditionForm.appendChild(conditionIdsInput);
-
-                // Add selected pages to form
-                const pagesInput = document.createElement('input');
-                pagesInput.type = 'hidden';
-                pagesInput.name = 'pages';
-                pagesInput.value = JSON.stringify(selectedPages);
-                removeConditionForm.appendChild(pagesInput);
-            });
-        }
-
-        // Handle the "Add to pages" button in the notification
-        const addToPagesFromNotification = document.getElementById('add-to-pages-from-notification');
-        if (addToPagesFromNotification) {
-            addToPagesFromNotification.addEventListener('click', function (e) {
-                e.preventDefault();
-                const formId = this.getAttribute('data-form-id');
-                const form = document.getElementById(formId);
-                if (form) {
-                    // Get the new condition ID from the URL parameters
-                    const urlParams = new URLSearchParams(window.location.search);
-                    const newConditionId = urlParams.get('newConditionId');
-                    console.log('New condition ID from URL:', newConditionId); // Debug log
-
-                    // Uncheck all condition checkboxes first
-                    document.querySelectorAll('.condition-checkbox').forEach(checkbox => {
-                        checkbox.checked = false;
-                    });
-
-                    // Check the checkbox for the new condition
-                    const newConditionCheckbox = document.querySelector(`.condition-checkbox[value="${newConditionId}"]`);
-                    console.log('Found checkbox:', newConditionCheckbox); // Debug log
-                    if (newConditionCheckbox) {
-                        newConditionCheckbox.checked = true;
-                        console.log('Checkbox checked'); // Debug log
-                    }
-
-                    // Update the select all checkbox state
-                    const selectAllCheckbox = document.getElementById('select-all-conditions');
-                    if (selectAllCheckbox) {
-                        const allCheckboxes = document.querySelectorAll('.condition-checkbox');
-                        const allChecked = Array.from(allCheckboxes).every(checkbox => checkbox.checked);
-                        selectAllCheckbox.checked = allChecked;
-                    }
-
-                    // Hide all forms and show all buttons first
-                    resetFormsAndButtons();
-
-                    // Then show the requested form and hide the buttons
-                    form.style.display = "block";
-                    if (addNewButton) addNewButton.style.display = "none";
-                    if (joinButton) joinButton.style.display = "none";
-
-                    // Update the selected conditions list
-                    updateSelectedConditionsList();
-
-                    // Focus on the form using GOV.UK focus style
-                    setTimeout(() => {
-                        form.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                        // Add GOV.UK focus class
-                        form.classList.add('govuk-focus');
-                        // Remove the focus class after a delay
-                        setTimeout(() => {
-                            form.classList.remove('govuk-focus');
-                        }, 2000);
-                    }, 100);
-                }
-            });
-        }
-
-        // Ensure buttons are visible on page load
-        document.addEventListener('DOMContentLoaded', function () {
-            resetFormsAndButtons();
-        });
-
-        // Handle window resize to ensure buttons stay visible
-        window.addEventListener('resize', function () {
-            resetFormsAndButtons();
-        });
-
-        // Auto-open the form if fromPageId is present
-        var urlParams = new URLSearchParams(window.location.search);
-        if (urlParams.has('fromPageId')) {
-            if (newConditionForm) newConditionForm.style.display = 'block';
-            if (addNewButton) addNewButton.style.display = 'none';
-            newConditionForm.scrollIntoView({ behavior: 'smooth', block: 'start' });
-
-            // Remove fromPageId and related params from the URL so the context is not sticky
-            setTimeout(function () {
-                var url = new URL(window.location);
-                url.searchParams.delete('fromPageId');
-                url.searchParams.delete('fromPageHeading');
-                url.searchParams.delete('fromQuestionId');
-                window.history.replaceState({}, document.title, url.pathname + url.search);
-            }, 100); // Delay to ensure the form is shown first
-        }
-
-        // Ensure value container is shown if a question is preselected in the create new condition form
+        // At the very end of DOMContentLoaded, ensure value container is shown if a question is preselected
         if (questionSelect && valueContainer && operatorSelect) {
-            // If a question is preselected, trigger the value container update
             if (questionSelect.value && operatorSelect.value) {
-                // Call the updateValueContainer logic as if the user had changed the select
-                var event = new Event('change');
-                questionSelect.dispatchEvent(event);
+                console.log('Calling updateValueContainer at end of DOMContentLoaded');
+                updateValueContainer();
             }
         }
     });
