@@ -437,8 +437,8 @@ router.post(
           }
         }
       });
-      req.session.data.formPages = formPages;
     }
+    req.session.data.formPages = formPages;
     // --- END NEW ---
 
     // Save back to session
@@ -2236,20 +2236,36 @@ router.post(
 router.post(
   "/titan-mvp-1.2/form-editor/conditions-manager/join",
   function (req, res) {
+    console.log("Join route req.body:", req.body);
     const formData = req.session.data || {};
     const formPages = req.session.data.formPages || [];
-    const conditionIds = JSON.parse(req.body.conditionIds);
+    let conditionIds = [];
+    try {
+      if (req.body.conditionIds && req.body.conditionIds !== "undefined") {
+        conditionIds = JSON.parse(req.body.conditionIds);
+      }
+    } catch (e) {
+      conditionIds = [];
+    }
     const operator = req.body.operator;
     const newConditionName = req.body.newConditionName;
-
-    // Initialize form-level conditions array if it doesn't exist
-    if (!formData.conditions) {
-      formData.conditions = [];
+    if (!Array.isArray(conditionIds) || conditionIds.length < 2) {
+      // Optionally, set a flash message or query param for error
+      return res.redirect(
+        "/titan-mvp-1.2/form-editor/conditions/manager?joinError=Please select at least two conditions to join"
+      );
     }
+    // ... existing code ...
+    // Create the new joined condition
+    const newCondition = {
+      id: Date.now(),
+      conditionName: newConditionName,
+      logicalOperator: operator,
+      rules: [],
+    };
 
     // Find all the conditions to be joined
     const conditionsToJoin = [];
-
     // First check form-level conditions
     if (formData.conditions) {
       formData.conditions.forEach((condition) => {
@@ -2261,7 +2277,6 @@ router.post(
         }
       });
     }
-
     // Then check page-level conditions
     formPages.forEach((page) => {
       if (page.conditions) {
@@ -2275,7 +2290,6 @@ router.post(
         });
       }
     });
-
     // Sort conditions to match the order of conditionIds
     conditionsToJoin.sort((a, b) => {
       return (
@@ -2283,64 +2297,74 @@ router.post(
         conditionIds.indexOf(b.id.toString())
       );
     });
-
-    // Create the new joined condition
-    const newCondition = {
-      id: Date.now(),
-      conditionName: newConditionName,
-      logicalOperator: operator,
-      rules: [],
-    };
-
-    // Add rules from all conditions without logical operators
-    conditionsToJoin.forEach((condition, conditionIndex) => {
-      condition.rules.forEach((rule, ruleIndex) => {
-        // Only add logical operator for the first rule of each condition after the first condition
-        const logicalOperator = conditionIndex === 0 ? null : operator;
+    // Add rules from all conditions, setting logicalOperator for every rule after the first
+    let ruleCounter = 0;
+    conditionsToJoin.forEach((condition) => {
+      condition.rules.forEach((rule) => {
         newCondition.rules.push({
           ...rule,
-          logicalOperator: logicalOperator,
+          logicalOperator: ruleCounter === 0 ? null : operator,
         });
+        ruleCounter++;
       });
     });
-
     // Create the text representation of the joined condition
     newCondition.text = newCondition.rules
-      .map((rule) => {
+      .map((rule, idx) => {
         const valueText = Array.isArray(rule.value)
           ? rule.value.map((v) => `'${v}'`).join(" or ")
           : `'${rule.value}'`;
-
+        // Add the logical operator before all but the first rule
+        if (idx > 0 && rule.logicalOperator) {
+          return `${rule.logicalOperator} '${rule.questionText}' ${rule.operator} ${valueText}`;
+        }
         return `'${rule.questionText}' ${rule.operator} ${valueText}`;
       })
       .join(" ");
 
-    // Check if a condition with this name already exists at form level
-    const existingConditionIndex = formData.conditions.findIndex(
-      (c) => c.conditionName === newConditionName
-    );
+    // Add the new condition to the form-level conditions
+    formData.conditions.push(newCondition);
 
-    if (existingConditionIndex !== -1) {
-      // Replace the existing condition
-      formData.conditions[existingConditionIndex] = newCondition;
-    } else {
-      // Add the new condition to form-level conditions
-      formData.conditions.push(newCondition);
+    // --- Apply to selected pages if any were checked ---
+    let selectedPages = [];
+    try {
+      selectedPages = (
+        Array.isArray(req.body.pages)
+          ? req.body.pages
+          : req.body.pages
+          ? JSON.parse(req.body.pages)
+          : []
+      )
+        .filter(
+          (pageId) =>
+            pageId !== "_unchecked" &&
+            pageId !== "none" &&
+            !pageId.startsWith("[")
+        )
+        .map((pageId) => String(pageId));
+    } catch (e) {
+      selectedPages = [];
     }
-
-    // Remove any duplicate conditions from pages
-    formPages.forEach((page) => {
-      if (page.conditions) {
-        // Remove any conditions that were used in the join
-        page.conditions = page.conditions.filter(
-          (c) => !conditionIds.includes(c.id.toString())
-        );
-      }
-    });
+    if (selectedPages.length > 0) {
+      selectedPages.forEach((pageId) => {
+        const page = formPages.find((p) => String(p.pageId) === pageId);
+        if (page) {
+          page.conditions = page.conditions || [];
+          const alreadyExists = page.conditions.some(
+            (c) => String(c.id) === String(newCondition.id)
+          );
+          if (!alreadyExists) {
+            page.conditions.push(JSON.parse(JSON.stringify(newCondition)));
+          }
+        }
+      });
+    }
+    // ... existing code ...
 
     // Save back to session
     req.session.data = formData;
 
+    // Redirect to the conditions manager
     res.redirect("/titan-mvp-1.2/form-editor/conditions/manager");
   }
 );

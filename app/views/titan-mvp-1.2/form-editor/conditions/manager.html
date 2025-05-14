@@ -167,7 +167,17 @@ activeLinkId: "nav-editor"
                                 {% endif %}
                                 {% set pageCounter = pageCounter + 1 %}
                                 {% endfor %}
-                                {{ pagesWithCondition | join(', ') or 'Not used' }}
+                                {% if pagesWithCondition | length == 0 %}
+                                Not used
+                                {% elseif pagesWithCondition | length == 1 %}
+                                {{ pagesWithCondition[0] }}
+                                {% else %}
+                                <ul class="govuk-list govuk-list--bullet">
+                                    {% for label in pagesWithCondition %}
+                                    <li>{{ label }}</li>
+                                    {% endfor %}
+                                </ul>
+                                {% endif %}
                             </td>
                             <td class="govuk-table__cell">
                                 <ul class="govuk-summary-list__actions-list">
@@ -463,6 +473,32 @@ activeLinkId: "nav-editor"
                         </fieldset>
                     </div>
                     <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
+                    <div class="govuk-form-group">
+                        <fieldset class="govuk-fieldset">
+                            <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">
+                                Select pages to apply this joined condition to
+                            </legend>
+                            <div class="govuk-checkboxes" data-module="govuk-checkboxes">
+                                {% for page in formPages %}
+                                <div class="govuk-checkboxes__item">
+                                    <input class="govuk-checkboxes__input" id="join-page-{{ page.pageId }}" name="pages"
+                                        type="checkbox" value="{{ page.pageId }}">
+                                    <label class="govuk-label govuk-checkboxes__label"
+                                        for="join-page-{{ page.pageId }}">
+                                        Page {{ loop.index }}: {{ page.pageHeading or page.title or (page.questions
+                                        and page.questions[0] and page.questions[0].label) or 'Page ' ~ loop.index }}
+                                    </label>
+                                </div>
+                                {% endfor %}
+                                <div class="govuk-checkboxes__divider">or</div>
+                                <div class="govuk-checkboxes__item">
+                                    <input class="govuk-checkboxes__input" id="join-page-none" name="pages"
+                                        type="checkbox" value="none">
+                                    <label class="govuk-label govuk-checkboxes__label" for="join-page-none">None</label>
+                                </div>
+                            </div>
+                        </fieldset>
+                    </div>
                     <div class="govuk-form-group">
                         <label class="govuk-label govuk-label--m" for="joined-condition-name">
                             Name for joined condition
@@ -815,6 +851,40 @@ activeLinkId: "nav-editor"
                 }
                 if (addNewButton) addNewButton.style.display = 'none';
                 if (joinButton) joinButton.style.display = 'none';
+
+                // --- Reset the question select, operator select, and value container ---
+                const questionSelect = document.getElementById('questionSelect');
+                if (questionSelect) {
+                    questionSelect.value = "";
+                    questionSelect.dispatchEvent(new Event('change'));
+                }
+                const operatorSelect = document.getElementById('operatorSelect');
+                if (operatorSelect) {
+                    operatorSelect.value = "";
+                    operatorSelect.dispatchEvent(new Event('change'));
+                }
+                const valueContainer = document.getElementById('valueContainer');
+                if (valueContainer) {
+                    valueContainer.innerHTML = '';
+                    valueContainer.style.display = 'none';
+                }
+                // Also clear additional conditions
+                const additionalConditions = document.getElementById('additional-conditions');
+                if (additionalConditions) {
+                    additionalConditions.innerHTML = '';
+                }
+                // Hide logical operator group
+                const logicalOperatorGroup = document.getElementById('logicalOperatorGroup');
+                if (logicalOperatorGroup) {
+                    logicalOperatorGroup.style.display = 'none';
+                }
+
+                // Re-attach event listeners after reset
+                if (questionSelect && operatorSelect && valueContainer) {
+                    questionSelect.addEventListener('change', updateValueContainer);
+                    operatorSelect.addEventListener('change', updateValueContainer);
+                    updateValueContainer();
+                }
             });
         }
 
@@ -850,6 +920,13 @@ activeLinkId: "nav-editor"
             questionSelect.addEventListener('change', function () {
                 if (!this.value) {
                     valueContainer.style.display = 'none';
+                } else {
+                    // If operator is not set, default to "is"
+                    if (operatorSelect && !operatorSelect.value) {
+                        operatorSelect.value = "is";
+                        operatorSelect.dispatchEvent(new Event('change'));
+                    }
+                    updateValueContainer();
                 }
             });
         }
@@ -903,7 +980,7 @@ activeLinkId: "nav-editor"
                                 input.className = 'govuk-radios__input';
                                 input.type = 'radio';
                                 input.id = 'value-' + index;
-                                input.name = 'value';
+                                input.name = 'main-value';
                                 input.value = value;
 
                                 const label = document.createElement('label');
@@ -936,7 +1013,7 @@ activeLinkId: "nav-editor"
                                 input.className = 'govuk-radios__input';
                                 input.type = 'radio';
                                 input.id = 'value-' + index;
-                                input.name = 'value';
+                                input.name = 'main-value';
                                 input.value = option.value || option.text;
 
                                 const label = document.createElement('label');
@@ -969,7 +1046,7 @@ activeLinkId: "nav-editor"
                                 input.className = 'govuk-checkboxes__input';
                                 input.type = 'checkbox';
                                 input.id = 'value-' + index;
-                                input.name = 'value';
+                                input.name = 'main-value';
                                 input.value = option.value || option.text;
 
                                 const label = document.createElement('label');
@@ -1038,7 +1115,11 @@ activeLinkId: "nav-editor"
                                         id="condition-question-${conditionCount}"
                                         name="question-${conditionCount}"
                                         data-available-questions='${questionSelect.getAttribute('data-available-questions')}'>
-                                    ${questionSelect.innerHTML}
+                                    <option value="">Choose a question</option>
+                                    ${Array.from(questionSelect.options)
+                        .filter(opt => opt.value !== "")
+                        .map(opt => `<option value="${opt.value}" data-type="${opt.getAttribute('data-type') || ''}" data-options='${opt.getAttribute('data-options') || ''}'>${opt.textContent}</option>`)
+                        .join('')}
                                 </select>
                             </div>
 
@@ -1075,120 +1156,104 @@ activeLinkId: "nav-editor"
                 // Add change handler for the new question select
                 const newQuestionSelect = newCondition.querySelector('.condition-question');
                 const newValueContainer = newCondition.querySelector('.condition-value-container');
+                const newOperatorSelect = newCondition.querySelector('select[name^="operator-"]');
 
                 newQuestionSelect.addEventListener('change', function () {
-                    const selectedOption = this.options[this.selectedIndex];
-                    const questionType = selectedOption.getAttribute('data-type');
-                    const optionsData = selectedOption.getAttribute('data-options');
-
-                    // Clear previous value inputs
-                    newValueContainer.innerHTML = '<label class="govuk-label">Select a value</label>';
-
-                    if (optionsData) {
-                        try {
-                            const options = JSON.parse(optionsData);
-
-                            if (questionType === 'yes-no') {
-                                // Create radio buttons for Yes/No
-                                const fieldset = document.createElement('div');
-                                fieldset.className = 'govuk-form-group';
-
-                                const radiosDiv = document.createElement('div');
-                                radiosDiv.className = 'govuk-radios govuk-radios--small';
-                                radiosDiv.setAttribute('data-module', 'govuk-radios');
-
-                                ['yes', 'no'].forEach((value, index) => {
-                                    const itemDiv = document.createElement('div');
-                                    itemDiv.className = 'govuk-radios__item';
-
-                                    const input = document.createElement('input');
-                                    input.className = 'govuk-radios__input';
-                                    input.type = 'radio';
-                                    input.id = 'value-' + conditionCount + '-' + index;
-                                    input.name = 'value';
-                                    input.value = value;
-
-                                    const label = document.createElement('label');
-                                    label.className = 'govuk-label govuk-radios__label';
-                                    label.htmlFor = 'value-' + conditionCount + '-' + index;
-                                    label.textContent = value.charAt(0).toUpperCase() + value.slice(1);
-
-                                    itemDiv.appendChild(input);
-                                    itemDiv.appendChild(label);
-                                    radiosDiv.appendChild(itemDiv);
-                                });
-
-                                fieldset.appendChild(radiosDiv);
-                                newValueContainer.appendChild(fieldset);
-
-                            } else if (questionType === 'radios') {
-                                // Create radio buttons for options
-                                const fieldset = document.createElement('div');
-                                fieldset.className = 'govuk-form-group';
-
-                                const radiosDiv = document.createElement('div');
-                                radiosDiv.className = 'govuk-radios govuk-radios--small';
-                                radiosDiv.setAttribute('data-module', 'govuk-radios--small');
-
-                                options.forEach((option, index) => {
-                                    const itemDiv = document.createElement('div');
-                                    itemDiv.className = 'govuk-radios__item';
-
-                                    const input = document.createElement('input');
-                                    input.className = 'govuk-radios__input';
-                                    input.type = 'radio';
-                                    input.id = 'value-' + conditionCount + '-' + index;
-                                    input.name = 'value';
-                                    input.value = option.value || option.text;
-
-                                    const label = document.createElement('label');
-                                    label.className = 'govuk-label govuk-radios__label';
-                                    label.htmlFor = 'value-' + conditionCount + '-' + index;
-                                    label.textContent = option.text || option.label;
-
-                                    itemDiv.appendChild(input);
-                                    itemDiv.appendChild(label);
-                                    radiosDiv.appendChild(itemDiv);
-                                });
-
-                                fieldset.appendChild(radiosDiv);
-                                newValueContainer.appendChild(fieldset);
-
-                            } else if (questionType === 'checkboxes') {
-                                // Create checkboxes for options
-                                const fieldset = document.createElement('div');
-                                fieldset.className = 'govuk-form-group';
-
-                                const checkboxesDiv = document.createElement('div');
-                                checkboxesDiv.className = 'govuk-checkboxes govuk-checkboxes--small';
-                                checkboxesDiv.setAttribute('data-module', 'govuk-checkboxes');
-
-                                options.forEach((option, index) => {
-                                    const itemDiv = document.createElement('div');
-                                    itemDiv.className = 'govuk-checkboxes__item';
-
-                                    const input = document.createElement('input');
-                                    input.className = 'govuk-checkboxes__input';
-                                    input.type = 'checkbox';
-                                    input.id = 'value-' + conditionCount + '-' + index;
-                                    input.name = 'value';
-                                    input.value = option.value || option.text;
-
-                                    const label = document.createElement('label');
-                                    label.className = 'govuk-label govuk-checkboxes__label';
-                                    label.htmlFor = 'value-' + conditionCount + '-' + index;
-                                    label.textContent = option.text || option.label;
-
-                                    itemDiv.appendChild(input);
-                                    itemDiv.appendChild(label);
-                                    checkboxesDiv.appendChild(itemDiv);
-                                });
-
-                                fieldset.appendChild(checkboxesDiv);
-                                newValueContainer.appendChild(fieldset);
+                    if (!this.value) {
+                        newValueContainer.style.display = 'none';
+                    } else {
+                        // If operator is not set, default to "is"
+                        if (newOperatorSelect && !newOperatorSelect.value) {
+                            newOperatorSelect.value = "is";
+                            newOperatorSelect.dispatchEvent(new Event('change'));
+                        }
+                        // Now run the value input population logic
+                        const selectedOption = this.options[this.selectedIndex];
+                        const questionType = selectedOption.getAttribute('data-type');
+                        const optionsData = selectedOption.getAttribute('data-options');
+                        newValueContainer.innerHTML = '<label class="govuk-label">Select a value</label>';
+                        if (optionsData) {
+                            try {
+                                const options = JSON.parse(optionsData);
+                                if (questionType === 'yes-no') {
+                                    const fieldset = document.createElement('div');
+                                    fieldset.className = 'govuk-form-group';
+                                    const radiosDiv = document.createElement('div');
+                                    radiosDiv.className = 'govuk-radios govuk-radios--small';
+                                    radiosDiv.setAttribute('data-module', 'govuk-radios');
+                                    ['yes', 'no'].forEach((value, index) => {
+                                        const itemDiv = document.createElement('div');
+                                        itemDiv.className = 'govuk-radios__item';
+                                        const input = document.createElement('input');
+                                        input.className = 'govuk-radios__input';
+                                        input.type = 'radio';
+                                        input.id = 'value-' + conditionCount + '-' + index;
+                                        input.name = 'value-' + conditionCount;
+                                        input.value = value;
+                                        const label = document.createElement('label');
+                                        label.className = 'govuk-label govuk-radios__label';
+                                        label.htmlFor = 'value-' + conditionCount + '-' + index;
+                                        label.textContent = value.charAt(0).toUpperCase() + value.slice(1);
+                                        itemDiv.appendChild(input);
+                                        itemDiv.appendChild(label);
+                                        radiosDiv.appendChild(itemDiv);
+                                    });
+                                    fieldset.appendChild(radiosDiv);
+                                    newValueContainer.appendChild(fieldset);
+                                } else if (questionType === 'radios') {
+                                    const fieldset = document.createElement('div');
+                                    fieldset.className = 'govuk-form-group';
+                                    const radiosDiv = document.createElement('div');
+                                    radiosDiv.className = 'govuk-radios govuk-radios--small';
+                                    radiosDiv.setAttribute('data-module', 'govuk-radios--small');
+                                    options.forEach((option, index) => {
+                                        const itemDiv = document.createElement('div');
+                                        itemDiv.className = 'govuk-radios__item';
+                                        const input = document.createElement('input');
+                                        input.className = 'govuk-radios__input';
+                                        input.type = 'radio';
+                                        input.id = 'value-' + conditionCount + '-' + index;
+                                        input.name = 'value-' + conditionCount;
+                                        input.value = option.value || option.text;
+                                        const label = document.createElement('label');
+                                        label.className = 'govuk-label govuk-radios__label';
+                                        label.htmlFor = 'value-' + conditionCount + '-' + index;
+                                        label.textContent = option.text || option.label;
+                                        itemDiv.appendChild(input);
+                                        itemDiv.appendChild(label);
+                                        radiosDiv.appendChild(itemDiv);
+                                    });
+                                    fieldset.appendChild(radiosDiv);
+                                    newValueContainer.appendChild(fieldset);
+                                } else if (questionType === 'checkboxes') {
+                                    const fieldset = document.createElement('div');
+                                    fieldset.className = 'govuk-form-group';
+                                    const checkboxesDiv = document.createElement('div');
+                                    checkboxesDiv.className = 'govuk-checkboxes govuk-checkboxes--small';
+                                    checkboxesDiv.setAttribute('data-module', 'govuk-checkboxes');
+                                    options.forEach((option, index) => {
+                                        const itemDiv = document.createElement('div');
+                                        itemDiv.className = 'govuk-checkboxes__item';
+                                        const input = document.createElement('input');
+                                        input.className = 'govuk-checkboxes__input';
+                                        input.type = 'checkbox';
+                                        input.id = 'value-' + conditionCount + '-' + index;
+                                        input.name = 'value-' + conditionCount;
+                                        input.value = option.value || option.text;
+                                        const label = document.createElement('label');
+                                        label.className = 'govuk-label govuk-checkboxes__label';
+                                        label.htmlFor = 'value-' + conditionCount + '-' + index;
+                                        label.textContent = option.text || option.label;
+                                        itemDiv.appendChild(input);
+                                        itemDiv.appendChild(label);
+                                        checkboxesDiv.appendChild(itemDiv);
+                                    });
+                                    fieldset.appendChild(checkboxesDiv);
+                                    newValueContainer.appendChild(fieldset);
+                                }
+                            } catch (e) {
+                                console.error('Error parsing options:', e);
                             }
-                        } catch (e) {
-                            console.error('Error parsing options:', e);
                         }
                     }
                 });
@@ -1197,15 +1262,124 @@ activeLinkId: "nav-editor"
 
         if (conditionForm) {
             conditionForm.addEventListener('submit', function (e) {
-                // ...existing code...
-                // After submitting, clear the context from the URL
-                setTimeout(function () {
-                    var url = new URL(window.location);
-                    url.searchParams.delete('fromPageId');
-                    url.searchParams.delete('fromPageHeading');
-                    url.searchParams.delete('fromQuestionId');
-                    window.history.replaceState({}, document.title, url.pathname + url.search);
-                }, 100);
+                e.preventDefault();
+
+                // Collect main condition data
+                const mainQuestion = document.getElementById('questionSelect');
+                const mainOperator = document.getElementById('operatorSelect');
+                const mainValueContainer = document.getElementById('valueContainer');
+                const conditionName = document.getElementById('conditionName');
+
+                if (!mainQuestion || !mainOperator || !mainValueContainer || !conditionName) {
+                    console.error('Required form elements missing');
+                    return;
+                }
+
+                const rules = [];
+
+                // Get main condition data
+                const mainQuestionText = mainQuestion.options[mainQuestion.selectedIndex].text;
+                const questionType = mainQuestion.options[mainQuestion.selectedIndex].getAttribute('data-type');
+
+                // Handle different input types for main condition
+                let mainValue;
+                if (questionType === 'checkboxes') {
+                    const checkedInputs = mainValueContainer.querySelectorAll('input[type="checkbox"]:checked');
+                    mainValue = Array.from(checkedInputs).map(input => input.value);
+                } else {
+                    const checkedInput = mainValueContainer.querySelector('input:checked');
+                    mainValue = checkedInput ? checkedInput.value : null;
+                }
+
+                if (mainValue) {
+                    rules.push({
+                        questionText: mainQuestionText,
+                        operator: mainOperator.value,
+                        value: mainValue
+                    });
+                }
+
+                // Get additional conditions
+                const logicalOperator = document.querySelector('input[name="logicalOperator"]:checked')?.value || 'AND';
+                const additionalConditions = document.querySelectorAll('.condition-item');
+                additionalConditions.forEach((condition, index) => {
+                    const questionSelect = condition.querySelector('.condition-question');
+                    const operatorSelect = condition.querySelector('select[name^="operator-"]');
+                    const valueContainer = condition.querySelector('.condition-value-container');
+
+                    if (questionSelect && operatorSelect && valueContainer) {
+                        const questionText = questionSelect.options[questionSelect.selectedIndex].text;
+                        const questionType = questionSelect.options[questionSelect.selectedIndex].getAttribute('data-type');
+
+                        let value;
+                        if (questionType === 'checkboxes') {
+                            const checkedInputs = valueContainer.querySelectorAll('input[type="checkbox"]:checked');
+                            value = Array.from(checkedInputs).map(input => input.value);
+                        } else {
+                            const checkedInput = valueContainer.querySelector('input:checked');
+                            value = checkedInput ? checkedInput.value : null;
+                        }
+
+                        if (value) {
+                            rules.push({
+                                questionText: questionText,
+                                operator: operatorSelect.value,
+                                value: value,
+                                logicalOperator: logicalOperator
+                            });
+                        }
+                    }
+                });
+
+                // Add rules to hidden input
+                const rulesInput = document.createElement('input');
+                rulesInput.type = 'hidden';
+                rulesInput.name = 'rules';
+                rulesInput.value = JSON.stringify(rules);
+                conditionForm.appendChild(rulesInput);
+
+                // Add conditionSaved parameter to form action
+                const formAction = conditionForm.getAttribute('action');
+                conditionForm.setAttribute('action', formAction + '?conditionSaved=true');
+
+                // Submit the form
+                conditionForm.submit();
+            });
+        }
+
+        if (joinForm) {
+            joinForm.addEventListener('submit', function (e) {
+                e.preventDefault();
+
+                // Get all checked condition checkboxes
+                const selectedConditions = document.querySelectorAll('.condition-checkbox:checked');
+                const conditionIds = Array.from(selectedConditions).map(checkbox => checkbox.value);
+                if (conditionIds.length < 2) {
+                    alert('Please select at least two conditions to join');
+                    return;
+                }
+                const joinedConditionName = document.getElementById('joined-condition-name').value;
+                if (!joinedConditionName) {
+                    alert('Please provide a name for the joined condition');
+                    return;
+                }
+                const operator = document.querySelector('input[name="operator"]:checked').value;
+
+                // Add hidden fields
+                const conditionIdsInput = document.createElement('input');
+                conditionIdsInput.type = 'hidden';
+                conditionIdsInput.name = 'conditionIds';
+                conditionIdsInput.value = JSON.stringify(conditionIds);
+                joinForm.appendChild(conditionIdsInput);
+
+                const joinedNameInput = document.createElement('input');
+                joinedNameInput.type = 'hidden';
+                joinedNameInput.name = 'newConditionName';
+                joinedNameInput.value = joinedConditionName;
+                joinForm.appendChild(joinedNameInput);
+
+                // Submit the form
+                joinForm.submit();
             });
         }
 
@@ -1215,6 +1389,28 @@ activeLinkId: "nav-editor"
                 console.log('Calling updateValueContainer at end of DOMContentLoaded');
                 updateValueContainer();
             }
+        }
+
+        // Ensure conditionIds is sent when applying conditions
+        const applyConditionForm = document.getElementById('apply-condition-form');
+        if (applyConditionForm) {
+            applyConditionForm.addEventListener('submit', function (e) {
+                // Remove any existing hidden input
+                const oldInput = applyConditionForm.querySelector('input[name="conditionIds"]');
+                if (oldInput) oldInput.remove();
+
+                // Collect checked condition checkboxes
+                const checked = document.querySelectorAll('.condition-checkbox:checked');
+                const conditionIds = Array.from(checked).map(cb => cb.value);
+
+                // Add hidden input
+                const input = document.createElement('input');
+                input.type = 'hidden';
+                input.name = 'conditionIds';
+                input.value = JSON.stringify(conditionIds);
+                applyConditionForm.appendChild(input);
+                // (Let the form submit as normal)
+            });
         }
     });
 </script>
