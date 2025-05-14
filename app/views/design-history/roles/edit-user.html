@@ -2,8 +2,9 @@
 
 {% from "components/service-header/macro.njk" import serviceHeader %}
 {% from "govuk/components/summary-list/macro.njk" import govukSummaryList %}
+{% from "govuk/components/notification-banner/macro.njk" import govukNotificationBanner %}
 
-{% set pageName = "Add new user" %}
+{% set pageName = "Edit user" %}
 
 {% block header %}
 {{ serviceHeader({
@@ -11,14 +12,14 @@ organisationName: "Defra",
 productName: "Forms Designer",
 serviceName: "",
 containerClasses: containerClasses,
-accountName: "Chris Smith (Admin)",
+accountName: "Chris Smith",
 homepageLink: "/",
-signOutLink: "/onboarding/sign-out-confirmation",
+signOutLink: "/titan-mvp-1.2/onboarding/sign-out-confirmation",
 navigationItems: [
+{ href: "/titan-mvp-1.2/library", text: "Forms library", id: "nav-library" },
 { href: "/titan-mvp-1.2/roles/my-account.html", text: "My account", id: "my-account" },
-{ href: "/titan-mvp-1.2/roles/manage-users.html", text: "Manage users", id: "manage-users" }
-],
-activeLinkId: ""
+{ href: "/titan-mvp-1.2/roles/manage-users.html", text: "Manage users", id: "manage-users", active: true }
+]
 }) }}
 
 <div class="x-govuk-masthead x-govuk-masthead--large">
@@ -32,7 +33,8 @@ activeLinkId: ""
         <div class="govuk-grid-row">
             <div class="govuk-grid-column-full-from-desktop">
                 <h1 class="x-govuk-masthead__title">
-                    Add new user
+                    <span class="govuk-caption-l" style="color:white;">{{ data.user.semanticName }}</span>
+                    Manage user account
                 </h1>
             </div>
         </div>
@@ -40,66 +42,67 @@ activeLinkId: ""
 </div>
 {% endblock %}
 
-
 {% block content %}
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-one-third-from-desktop">
-        <form action="/titan-mvp-1.2/save-user" method="POST" novalidate>
+        <form action="/titan-mvp-1.2/roles/update-user" method="POST" novalidate>
+            <input type="hidden" name="email" value="{{ data.user.email }}" />
+
             {{ govukInput({
             label: {
-            text: "Email address",
+            text: "Name",
             classes: "govuk-label--m"
             },
-            hint: {
-            text: "Must be a Defra group email address"
+            id: "name",
+            name: "name",
+            value: data.user.name
+            }) }}
+
+            {{ govukInput({
+            label: {
+            text: "Email",
+            classes: "govuk-label--m"
             },
             id: "email",
             name: "email",
             type: "email",
-            autocomplete: "email",
-            spellcheck: false
+            value: data.user.email,
+            disabled: true
             }) }}
-
-            {% from "govuk/components/radios/macro.njk" import govukRadios %}
 
             {{ govukRadios({
             name: "role",
             fieldset: {
             legend: {
-            text: "Choose role",
-            isPageHeading: false,
+            text: "Role",
             classes: "govuk-fieldset__legend--m"
             }
             },
             items: [
             {
-            value: "Admin",
+            value: "admin",
             text: "Admin",
-            hint: {
-            text: "Can publish and delete forms and manage users"
-            }
+            checked: data.user.role === "admin"
             },
             {
-            value: "Form publisher",
-            text: "Form publisher",
-            hint: {
-            text: "Can create and publish new and existing forms"
-            }
-            },
-            {
-            value: "Form creator",
-            text: "Form creator",
-            hint: {
-            text: "Can create new forms and edit existing forms"
-            }
+            value: "editor",
+            text: "Editor",
+            checked: data.user.role === "editor"
             }
             ]
             }) }}
 
             <div class="govuk-button-group">
                 <button type="submit" class="govuk-button" data-module="govuk-button">
-                    Add user
+                    Save changes
                 </button>
+                <a href="/titan-mvp-1.2/roles/remove-user?email={{ data.user.email }}"
+                    class="govuk-button govuk-button--warning" data-module="govuk-button">
+                    Remove user
+                </a>
+
+                <a href="/titan-mvp-1.2/roles/manage-users.html"
+                    class="govuk-link govuk-link--no-visited-state">Cancel</a>
             </div>
         </form>
     </div>

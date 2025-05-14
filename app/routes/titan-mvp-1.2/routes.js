@@ -239,9 +239,22 @@ router.get(
   "/titan-mvp-1.2/form-editor/conditions/manager",
   function (req, res) {
     const formData = req.session.data || {};
-    const formPages = req.session.data["formPages"] || [];
+    let formPages = req.session.data["formPages"] || [];
     const conditions = formData.conditions || [];
     const conditionSaved = req.query.conditionSaved === "true";
+
+    // DEBUG LOG
+    console.log("DEBUG: session.data.formPages", JSON.stringify(formPages));
+    if (!formPages || formPages.length === 0) {
+      // Try to reconstruct from other session data if possible
+      if (Array.isArray(formData.pages) && formData.pages.length > 0) {
+        formPages = formData.pages;
+        console.log(
+          "DEBUG: Fallback to formData.pages",
+          JSON.stringify(formPages)
+        );
+      }
+    }
 
     // Get all available questions for conditions
     const availableQuestions = formPages

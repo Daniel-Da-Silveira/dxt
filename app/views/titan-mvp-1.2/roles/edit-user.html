@@ -12,14 +12,14 @@ organisationName: "Defra",
 productName: "Forms Designer",
 serviceName: "",
 containerClasses: containerClasses,
-accountName: "Chris Smith",
+accountName: "Chris Smith (Admin)",
 homepageLink: "/",
-signOutLink: "/titan-mvp-1.2/onboarding/sign-out-confirmation",
+signOutLink: "/onboarding/sign-out-confirmation",
 navigationItems: [
-{ href: "/titan-mvp-1.2/library", text: "Forms library", id: "nav-library" },
 { href: "/titan-mvp-1.2/roles/my-account.html", text: "My account", id: "my-account" },
-{ href: "/titan-mvp-1.2/roles/manage-users.html", text: "Manage users", id: "manage-users", active: true }
-]
+{ href: "/titan-mvp-1.2/roles/manage-users.html", text: "Manage users", id: "manage-users" }
+],
+activeLinkId: "manage-users"
 }) }}
 
 <div class="x-govuk-masthead x-govuk-masthead--large">
@@ -45,28 +45,18 @@ navigationItems: [
 {% block content %}
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-one-third-from-desktop">
-        <form action="/titan-mvp-1.2/roles/update-user" method="POST" novalidate>
+        <form action="/titan-mvp-1.2/update-user" method="POST" novalidate>
             <input type="hidden" name="email" value="{{ data.user.email }}" />
 
             {{ govukInput({
             label: {
-            text: "Name",
+            text: "Email address",
             classes: "govuk-label--m"
             },
-            id: "name",
-            name: "name",
-            value: data.user.name
-            }) }}
-
-            {{ govukInput({
-            label: {
-            text: "Email",
-            classes: "govuk-label--m"
-            },
-            id: "email",
-            name: "email",
-            type: "email",
             value: data.user.email,
+            id: "email-display",
+            name: "email-display",
+            type: "email",
             disabled: true
             }) }}
 
@@ -74,20 +64,35 @@ navigationItems: [
             name: "role",
             fieldset: {
             legend: {
-            text: "Role",
+            text: "Choose role",
+            isPageHeading: false,
             classes: "govuk-fieldset__legend--m"
             }
             },
             items: [
             {
-            value: "admin",
+            value: "Admin",
             text: "Admin",
-            checked: data.user.role === "admin"
+            checked: data.user.role === "Admin",
+            hint: {
+            text: "Can publish and delete forms and manage users"
+            }
             },
             {
-            value: "editor",
-            text: "Editor",
-            checked: data.user.role === "editor"
+            value: "Form publisher",
+            text: "Form publisher",
+            checked: data.user.role === "Form publisher",
+            hint: {
+            text: "Can create and publish new and existing forms"
+            }
+            },
+            {
+            value: "Form creator",
+            text: "Form creator",
+            checked: data.user.role === "Form creator",
+            hint: {
+            text: "Can create and edit existing forms only"
+            }
             }
             ]
             }) }}
@@ -96,7 +101,7 @@ navigationItems: [
                 <button type="submit" class="govuk-button" data-module="govuk-button">
                     Save changes
                 </button>
-                <a href="/titan-mvp-1.2/roles/remove-user?email={{ data.user.email }}"
+                <a href="/titan-mvp-1.2/roles/remove-user.html?email={{ data.user.email }}"
                     class="govuk-button govuk-button--warning" data-module="govuk-button">
                     Remove user
                 </a>

@@ -15,8 +15,8 @@ accountName: "Chris Smith (Admin)",
 homepageLink: "/",
 signOutLink: "/onboarding/sign-out-confirmation",
 navigationItems: [
-{ href: "/titan-mvp-1.2/roles/my-account.html", text: "My account", id: "my-account" },
-{ href: "/titan-mvp-1.2/roles/manage-users.html", text: "Manage users", id: "manage-users" }
+{ href: "/roles/my-account.html", text: "My account", id: "my-account" },
+{ href: "/roles/manage-users.html", text: "Manage users", id: "manage-users" }
 ],
 activeLinkId: ""
 }) }}
@@ -24,7 +24,7 @@ activeLinkId: ""
 <div class="x-govuk-masthead x-govuk-masthead--large">
     <div class="govuk-width-container">
         {{ govukBackLink({ classes: "govuk-back-link--inverse govuk-!-margin-bottom-0", text: "Back to manage users",
-        href: "/titan-mvp-1.2/roles/manage-users.html" }) }}
+        href: "/roles/manage-users.html" }) }}
 
         <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible"
             style="border-bottom: 1px solid white; margin-bottom: 0" />
@@ -44,7 +44,7 @@ activeLinkId: ""
 {% block content %}
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-one-third-from-desktop">
-        <form action="/titan-mvp-1.2/save-user" method="POST" novalidate>
+        <form action="/titan-mvp-1/save-user" method="POST" novalidate>
             {{ govukInput({
             label: {
             text: "Email address",

@@ -11,20 +11,20 @@ organisationName: "Defra",
 productName: "Forms Designer",
 serviceName: "",
 containerClasses: containerClasses,
-accountName: "Chris Smith (Admin)",
+accountName: "Chris Smith",
 homepageLink: "/",
-signOutLink: "/onboarding/sign-out-confirmation",
+signOutLink: "/titan-mvp-1.2/onboarding/sign-out-confirmation",
 navigationItems: [
+{ href: "/titan-mvp-1.2/library", text: "Forms library", id: "nav-library" },
 { href: "/titan-mvp-1.2/roles/my-account.html", text: "My account", id: "my-account" },
-{ href: "/titan-mvp-1.2/roles/manage-users.html", text: "Manage users", id: "manage-users" }
-],
-activeLinkId: ""
+{ href: "/titan-mvp-1.2/roles/manage-users.html", text: "Manage users", id: "manage-users", active: true }
+]
 }) }}
 
 <div class="x-govuk-masthead x-govuk-masthead--large">
     <div class="govuk-width-container">
         {{ govukBackLink({ classes: "govuk-back-link--inverse govuk-!-margin-bottom-0", text: "Back to edit user",
-        href: "/titan-mvp-1.2/roles/edit-user.html?email=" + data.user.email }) }}
+        href: "/titan-mvp-1.2/roles/edit-user?email=" + data.user.email }) }}
 
         <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible"
             style="border-bottom: 1px solid white; margin-bottom: 0" />
@@ -51,14 +51,14 @@ activeLinkId: ""
         iconFallbackText: "Warning"
         }) }}
 
-        <form action="/titan-mvp-1.2/remove-user" method="POST" novalidate>
+        <form action="/titan-mvp-1.2/roles/remove-user" method="POST" novalidate>
             <input type="hidden" name="email" value="{{ data.user.email }}">
 
             <div class="govuk-button-group">
                 <button type="submit" class="govuk-button govuk-button--warning" data-module="govuk-button">
                     Remove user
                 </button>
-                <a href="/titan-mvp-1.2/roles/edit-user.html?email={{ data.user.email }}"
+                <a href="/titan-mvp-1.2/roles/edit-user?email={{ data.user.email }}"
                     class="govuk-link govuk-link--no-visited-state">Cancel</a>
             </div>
         </form>

@@ -11,21 +11,20 @@
 organisationName: "Defra",
 productName: "Forms Designer",
 serviceName: "",
-containerClasses: containerClasses,
-accountName: "Chris Smith (Admin)",
+accountName: "Chris Smith",
 homepageLink: "/",
-signOutLink: "/onboarding/sign-out-confirmation",
+signOutLink: "/titan-mvp-1.2/onboarding/sign-out-confirmation",
 navigationItems: [
-{ href: "/titan-mvp-1.2/roles/my-account.html", text: "My account", id: "my-account" },
+{ href: "/titan-mvp-1.2/library", text: "Forms library", id: "nav-library" },
+{ href: "/titan-mvp-1.2/roles/my-account.html", text: "My account", id: "my-account", active: true },
 { href: "/titan-mvp-1.2/roles/manage-users.html", text: "Manage users", id: "manage-users" }
-],
-activeLinkId: "my-account"
+]
 }) }}
 
 <div class="x-govuk-masthead x-govuk-masthead--large">
     <div class="govuk-width-container">
         {{ govukBackLink({ classes: "govuk-back-link--inverse govuk-!-margin-bottom-0", text: "Back to form library",
-        href: "/titan-mvp-1.2/library.html" }) }}
+        href: "/titan-mvp-1.2/library" }) }}
 
         <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible"
             style="border-bottom: 1px solid white; margin-bottom: 0" />
@@ -33,12 +32,14 @@ activeLinkId: "my-account"
         <div class="govuk-grid-row">
             <div class="govuk-grid-column-full-from-desktop">
                 <h1 class="x-govuk-masthead__title">
-                    <span class="govuk-caption-l" style="color: white;">{{ data.user.semanticName }}</span>
+                    <span class="govuk-caption-l" style="color: white;">Chris Smith
+                    </span>
                     My account
                 </h1>
             </div>
         </div>
     </div>
+</div>
 </div>
 {% endblock %}
 
@@ -47,6 +48,14 @@ activeLinkId: "my-account"
     <div class="govuk-grid-column-two-thirds">
         {{ govukSummaryList({
         rows: [
+        {
+        key: {
+        text: "Name"
+        },
+        value: {
+        text: data.user.name
+        }
+        },
         {
         key: {
         text: "Email"
@@ -65,6 +74,7 @@ activeLinkId: "my-account"
         }
         ]
         }) }}
+
 
         {# <div class="govuk-button-group govuk-!-margin-top-6">
             {{ govukButton({

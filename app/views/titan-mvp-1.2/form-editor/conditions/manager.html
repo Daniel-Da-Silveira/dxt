@@ -46,6 +46,9 @@ activeLinkId: "nav-editor"
 
 {% block content %}
 <div class="govuk-grid-row">
+    <script type="application/json" id="form-pages-data">
+    {{ formPages | dump | safe }}
+    </script>
     <div class="govuk-grid-column-full">
 
         {# <div class="govuk-grid-column-two-thirds">
@@ -1237,12 +1240,12 @@ activeLinkId: "nav-editor"
                                         const input = document.createElement('input');
                                         input.className = 'govuk-checkboxes__input';
                                         input.type = 'checkbox';
-                                        input.id = 'value-' + conditionCount + '-' + index;
-                                        input.name = 'value-' + conditionCount;
+                                        input.id = 'value-' + index;
+                                        input.name = 'main-value';
                                         input.value = option.value || option.text;
                                         const label = document.createElement('label');
                                         label.className = 'govuk-label govuk-checkboxes__label';
-                                        label.htmlFor = 'value-' + conditionCount + '-' + index;
+                                        label.htmlFor = 'value-' + index;
                                         label.textContent = option.text || option.label;
                                         itemDiv.appendChild(input);
                                         itemDiv.appendChild(label);
@@ -1391,25 +1394,270 @@ activeLinkId: "nav-editor"
             }
         }
 
-        // Ensure conditionIds is sent when applying conditions
+        // --- Add to Pages Logic ---
+        const addConditionToPagesButton = document.getElementById('add-condition-to-pages');
+        const addConditionToPagesForm = document.getElementById('add-condition-to-pages-form');
+        const cancelAddConditionToPages = document.getElementById('cancel-add-condition-to-pages');
         const applyConditionForm = document.getElementById('apply-condition-form');
+        const selectedConditionsList = document.getElementById('selected-conditions-list');
+        const selectAllCheckbox = document.getElementById('select-all-conditions');
+        const conditionCheckboxes = document.querySelectorAll('.condition-checkbox');
+
+        function updateSelectedConditionsList() {
+            const selectedCheckboxes = document.querySelectorAll('.condition-checkbox:checked');
+            selectedConditionsList.innerHTML = '';
+            selectedCheckboxes.forEach(checkbox => {
+                const conditionName = checkbox.dataset.conditionName;
+                if (conditionName) {
+                    const li = document.createElement('li');
+                    li.textContent = conditionName;
+                    selectedConditionsList.appendChild(li);
+                }
+            });
+        }
+
+        if (selectAllCheckbox) {
+            selectAllCheckbox.addEventListener('change', function () {
+                conditionCheckboxes.forEach(checkbox => {
+                    checkbox.checked = this.checked;
+                });
+                updateSelectedConditionsList();
+            });
+        }
+        conditionCheckboxes.forEach(checkbox => {
+            checkbox.addEventListener('change', function () {
+                const allChecked = document.querySelectorAll('.condition-checkbox:checked').length === conditionCheckboxes.length;
+                selectAllCheckbox.checked = allChecked;
+                updateSelectedConditionsList();
+            });
+        });
+        if (addConditionToPagesButton && addConditionToPagesForm) {
+            addConditionToPagesButton.addEventListener('click', function (e) {
+                e.preventDefault();
+                addConditionToPagesForm.style.display = 'block';
+                if (addNewButton) addNewButton.style.display = 'none';
+                if (joinButton) joinButton.style.display = 'none';
+                updateSelectedConditionsList();
+            });
+        }
+        if (cancelAddConditionToPages && addConditionToPagesForm) {
+            cancelAddConditionToPages.addEventListener('click', function (e) {
+                e.preventDefault();
+                addConditionToPagesForm.style.display = 'none';
+                if (addNewButton) addNewButton.style.display = 'block';
+                if (joinButton) joinButton.style.display = 'inline-flex';
+                // Clear all selections
+                conditionCheckboxes.forEach(checkbox => checkbox.checked = false);
+                selectAllCheckbox.checked = false;
+                selectedConditionsList.innerHTML = '';
+            });
+        }
         if (applyConditionForm) {
             applyConditionForm.addEventListener('submit', function (e) {
-                // Remove any existing hidden input
-                const oldInput = applyConditionForm.querySelector('input[name="conditionIds"]');
-                if (oldInput) oldInput.remove();
+                const selectedCheckboxes = document.querySelectorAll('.condition-checkbox:checked');
+                const selectedPages = Array.from(document.querySelectorAll('#add-condition-to-pages-form input[name="pages"]:checked'))
+                    .map(checkbox => checkbox.value);
+                if (selectedCheckboxes.length === 0) {
+                    e.preventDefault();
+                    alert('Please select at least one condition to apply');
+                    return;
+                }
+                if (selectedPages.length === 0) {
+                    e.preventDefault();
+                    alert('Please select at least one page to apply the condition to');
+                    return;
+                }
+                // Add selected condition IDs to form
+                const conditionIds = Array.from(selectedCheckboxes).map(checkbox => checkbox.value);
+                let conditionIdsInput = applyConditionForm.querySelector('input[name="conditionIds"]');
+                if (!conditionIdsInput) {
+                    conditionIdsInput = document.createElement('input');
+                    conditionIdsInput.type = 'hidden';
+                    conditionIdsInput.name = 'conditionIds';
+                    applyConditionForm.appendChild(conditionIdsInput);
+                }
+                conditionIdsInput.value = JSON.stringify(conditionIds);
+                // Add selected pages to form
+                let pagesInput = applyConditionForm.querySelector('input[name="pages"]');
+                if (!pagesInput) {
+                    pagesInput = document.createElement('input');
+                    pagesInput.type = 'hidden';
+                    pagesInput.name = 'pages';
+                    applyConditionForm.appendChild(pagesInput);
+                }
+                pagesInput.value = JSON.stringify(selectedPages);
+            });
+        }
 
-                // Collect checked condition checkboxes
-                const checked = document.querySelectorAll('.condition-checkbox:checked');
-                const conditionIds = Array.from(checked).map(cb => cb.value);
+        // --- Remove from Pages Logic ---
+        const removeConditionFromPagesButton = document.getElementById('remove-condition-from-pages');
+        const removeConditionFromPagesForm = document.getElementById('remove-condition-from-pages-form');
+        const cancelRemoveCondition = document.getElementById('cancel-remove-condition');
+        const removeConditionForm = document.getElementById('remove-condition-form');
+        const selectedConditionsToRemoveList = document.getElementById('selected-conditions-to-remove-list');
+        const pagesWithConditions = document.getElementById('pages-with-conditions');
+        // Get form pages data from hidden input
+        let formPagesData = [];
+        try {
+            const formPagesDataElement = document.getElementById('form-pages-data');
+            if (formPagesDataElement) {
+                formPagesData = JSON.parse(formPagesDataElement.textContent);
+            }
+        } catch (e) {
+            formPagesData = [];
+        }
+        console.log('DEBUG: Parsed formPagesData', formPagesData);
 
-                // Add hidden input
-                const input = document.createElement('input');
-                input.type = 'hidden';
-                input.name = 'conditionIds';
-                input.value = JSON.stringify(conditionIds);
-                applyConditionForm.appendChild(input);
-                // (Let the form submit as normal)
+        function getProp(obj, key) {
+            // Try exact, then trimmed, then undefined
+            if (obj.hasOwnProperty(key)) return obj[key];
+            if (obj.hasOwnProperty(key + ' ')) return obj[key + ' '];
+            if (obj.hasOwnProperty(key.trim())) return obj[key.trim()];
+            return undefined;
+        }
+
+        function updateSelectedConditionsToRemoveList() {
+            const selectedCheckboxes = document.querySelectorAll('.condition-checkbox:checked');
+            selectedConditionsToRemoveList.innerHTML = '';
+            const selectedConditionIds = Array.from(selectedCheckboxes).map(checkbox => checkbox.value);
+            pagesWithConditions.innerHTML = '';
+            // Create a map of pages with selected conditions
+            const pagesWithSelectedConditions = new Map();
+            selectedCheckboxes.forEach(checkbox => {
+                const conditionName = checkbox.dataset.conditionName;
+                const conditionId = checkbox.value;
+                if (conditionName) {
+                    const li = document.createElement('li');
+                    li.textContent = conditionName;
+                    selectedConditionsToRemoveList.appendChild(li);
+                    // Find pages that have this condition
+                    formPagesData.forEach((page, index) => {
+                        const pageConditions = getProp(page, 'conditions');
+                        if (pageConditions && Array.isArray(pageConditions)) {
+                            const hasCondition = pageConditions.some(condition => {
+                                const condId = getProp(condition, 'id');
+                                return String(condId) === String(conditionId);
+                            });
+                            if (hasCondition) {
+                                const pageId = getProp(page, 'pageId');
+                                if (!pagesWithSelectedConditions.has(pageId)) {
+                                    const pageHeading = getProp(page, 'pageHeading') || `Page ${index + 1}`;
+                                    pagesWithSelectedConditions.set(pageId, {
+                                        pageId: pageId,
+                                        pageHeading: pageHeading.trim() || `Page ${index + 1}`,
+                                        pageIndex: index + 1,
+                                        conditions: []
+                                    });
+                                }
+                                pagesWithSelectedConditions.get(pageId).conditions.push(conditionName);
+                            }
+                        }
+                    });
+                }
+            });
+            // Add pages with conditions to the form
+            if (pagesWithSelectedConditions.size > 0) {
+                const checkboxesContainer = document.createElement('div');
+                checkboxesContainer.className = 'govuk-checkboxes';
+                checkboxesContainer.setAttribute('data-module', 'govuk-checkboxes');
+                // Sort pages by their index before creating checkboxes
+                const sortedPages = Array.from(pagesWithSelectedConditions.entries())
+                    .sort((a, b) => a[1].pageIndex - b[1].pageIndex);
+                sortedPages.forEach(([pageId, pageData]) => {
+                    const itemDiv = document.createElement('div');
+                    itemDiv.className = 'govuk-checkboxes__item';
+                    const input = document.createElement('input');
+                    input.className = 'govuk-checkboxes__input';
+                    input.id = `remove-page-${pageId}`;
+                    input.name = 'pages';
+                    input.type = 'checkbox';
+                    input.value = pageId;
+                    input.setAttribute('aria-describedby', `remove-page-${pageId}-hint`);
+                    const label = document.createElement('label');
+                    label.className = 'govuk-label govuk-checkboxes__label';
+                    label.htmlFor = `remove-page-${pageId}`;
+                    label.textContent = pageData.pageHeading && pageData.pageHeading.trim() ? pageData.pageHeading : `Page ${pageData.pageIndex}`;
+                    const hint = document.createElement('div');
+                    hint.id = `remove-page-${pageId}-hint`;
+                    hint.className = 'govuk-hint govuk-checkboxes__hint';
+                    if (pageData.conditions.length === 1) {
+                        hint.textContent = `Has condition: ${pageData.conditions[0]}`;
+                    } else if (pageData.conditions.length > 1) {
+                        hint.textContent = `Has conditions: ${pageData.conditions.join(', ')}`;
+                    } else {
+                        hint.textContent = 'No selected conditions on this page';
+                    }
+                    itemDiv.appendChild(input);
+                    itemDiv.appendChild(label);
+                    itemDiv.appendChild(hint);
+                    checkboxesContainer.appendChild(itemDiv);
+                });
+                pagesWithConditions.innerHTML = '';
+                pagesWithConditions.appendChild(checkboxesContainer);
+            } else {
+                const noPagesMessage = document.createElement('p');
+                noPagesMessage.className = 'govuk-body';
+                noPagesMessage.textContent = 'None of the selected conditions are applied to any pages.';
+                pagesWithConditions.appendChild(noPagesMessage);
+            }
+        }
+        if (removeConditionFromPagesButton && removeConditionFromPagesForm) {
+            removeConditionFromPagesButton.addEventListener('click', function (e) {
+                e.preventDefault();
+                removeConditionFromPagesForm.style.display = 'block';
+                if (addNewButton) addNewButton.style.display = 'none';
+                if (joinButton) joinButton.style.display = 'none';
+                if (addConditionToPagesButton) addConditionToPagesButton.style.display = 'none';
+                updateSelectedConditionsToRemoveList();
+            });
+        }
+        if (cancelRemoveCondition && removeConditionFromPagesForm) {
+            cancelRemoveCondition.addEventListener('click', function (e) {
+                e.preventDefault();
+                removeConditionFromPagesForm.style.display = 'none';
+                if (addNewButton) addNewButton.style.display = 'block';
+                if (joinButton) joinButton.style.display = 'inline-flex';
+                if (addConditionToPagesButton) addConditionToPagesButton.style.display = 'inline-flex';
+                // Clear all selections
+                conditionCheckboxes.forEach(checkbox => checkbox.checked = false);
+                selectAllCheckbox.checked = false;
+                selectedConditionsToRemoveList.innerHTML = '';
+            });
+        }
+        if (removeConditionForm) {
+            removeConditionForm.addEventListener('submit', function (e) {
+                const selectedCheckboxes = document.querySelectorAll('.condition-checkbox:checked');
+                const selectedPages = Array.from(document.querySelectorAll('#pages-with-conditions input[type="checkbox"]:checked'))
+                    .map(checkbox => checkbox.value);
+                if (selectedCheckboxes.length === 0) {
+                    e.preventDefault();
+                    alert('Please select at least one condition to remove');
+                    return;
+                }
+                if (selectedPages.length === 0) {
+                    e.preventDefault();
+                    alert('Please select at least one page to remove conditions from');
+                    return;
+                }
+                // Add selected condition IDs to form
+                const conditionIds = Array.from(selectedCheckboxes).map(checkbox => checkbox.value);
+                let conditionIdsInput = removeConditionForm.querySelector('input[name="conditionIds"]');
+                if (!conditionIdsInput) {
+                    conditionIdsInput = document.createElement('input');
+                    conditionIdsInput.type = 'hidden';
+                    conditionIdsInput.name = 'conditionIds';
+                    removeConditionForm.appendChild(conditionIdsInput);
+                }
+                conditionIdsInput.value = JSON.stringify(conditionIds);
+                // Add selected pages to form
+                let pagesInput = removeConditionForm.querySelector('input[name="pages"]');
+                if (!pagesInput) {
+                    pagesInput = document.createElement('input');
+                    pagesInput.type = 'hidden';
+                    pagesInput.name = 'pages';
+                    removeConditionForm.appendChild(pagesInput);
+                }
+                pagesInput.value = JSON.stringify(selectedPages);
             });
         }
     });
