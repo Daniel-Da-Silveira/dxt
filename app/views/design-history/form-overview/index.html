@@ -1,0 +1,435 @@
+{#
+Design History Page Template for Form Overview
+---------------------------------------------
+This page documents the evolution of the Form Overview feature.
+#}
+
+{% extends "design-history/template.html" %}
+
+{# --- Breadcrumbs --- #}
+{% set breadcrumbs = [
+{
+text: "Design History",
+href: "/design-history/index.html"
+},
+{
+text: "Form Overview",
+href: "/design-history/form-overview/index.html"
+}
+] %}
+
+{# --- Feature metadata --- #}
+{% set featureName = "Form Overview" %}
+{% set latestVersionLink = "/titan-mvp-1/form-overview/index.html" %}
+{% set status = "Tested" %}
+{% set statusColor = "green" %}
+{% set userNeed = "Users need to see and manage the details and status of a specific form." %}
+{% set phase = "Private beta" %}
+{% set category = "Form admin" %}
+{% set description = "This feature allows users to view, edit, and manage the details of a specific form, including its
+status, metadata, and actions. <details class='govuk-details govuk-!-margin-top-2' data-module='govuk-details'>
+    <summary class='govuk-details__summary'>
+        <span class='govuk-details__summary-text'>
+            Form States
+        </span>
+    </summary>
+    <div class='govuk-details__text'>
+        <p class='govuk-body'>Forms can be in one of three states:</p>
+        <ul class='govuk-list govuk-list--bullet'>
+            <li><strong>Draft:</strong> a form that's being worked on but isn't live yet.</li>
+            <li><strong>Live:</strong> a form that's published and available to users.</li>
+            <li><strong>Live with Draft:</strong> a form that's live but has a new version being worked on.</li>
+        </ul>
+    </div>
+</details>" | safe %}
+
+{# --- Journey steps --- #}
+{% set journeySteps = [
+{ number: "1", title: "Onboarding", subtitles: [ { text: "Sign in/out", isCurrent: false } ] },
+{ number: "2", title: "Create new form", subtitles: [ { text: "Add form details", isCurrent: false } ] },
+{ number: "3", title: "Form design", subtitles: [ { text: "Create and edit questions", isCurrent: false } ] },
+{ number: "4", title: "Form overview", subtitles: [ { text: "View and edit form details", isCurrent: true } ],
+isCurrent: true },
+{ number: "5", title: "Testing", subtitles: [ { text: "Preview form", isCurrent: false } ] }
+] %}
+
+{# --- Full page list --- #}
+{% set pageList = [
+{
+section: "Form Overview",
+detailsTitle: "Latest version of the Form Overview prototype",
+showDescriptionColumn: true,
+pages: [
+{
+name: "Default view",
+link: "/titan-mvp-1/form-overview/index.html",
+release: "Titan MVP 1",
+description: "Standard form overview page for a single form."
+},
+{
+name: "Edit mode",
+link: "/titan-mvp-1/form-overview/edit.html",
+release: "Titan MVP 1",
+description: "Form overview page in edit mode (placeholder link)."
+}
+]
+}
+] %}
+
+{# --- Research objectives and sample --- #}
+{% set researchObjectives = [
+"Understand our users (content designers) behaviors, motivations and needs.",
+"Understand the process our users follow when creating/editing a form."
+] %}
+
+{% set researchSample = [
+"1 x RPA Customer support team",
+"1 x BAU",
+"1 x Air Quality Control",
+"1 x Trade and Borders, 'NI Pets Travel scheme'",
+"1 x BAU - Natural England",
+"1 x Trade and Borders, 'Move animals to GB'"
+] %}
+
+{# --- Research rounds for the summary table --- #}
+{% set researchRounds = [
+"Round 1 - May 2024",
+"Round 2 - June 2024",
+"Round 3 - June 2024",
+"Round 4 - July 2024"
+] %}
+
+{# --- Key improvements in the latest version --- #}
+{% set improvements = [
+"Clarified publication process and location",
+"Maintained overview design and clarity",
+"Continued to refine content and interaction clarity"
+] %}
+
+{# --- Research history table --- #}
+{% set researchHistory = [
+{
+roundNumber: "3 & 4",
+researchDate: "June & July 2024",
+researchFinding: "The content and information were clear. Some participants were prompted to click 'Edit form' to
+proceed (possibly due to being observed and being in a test environment). Form Overview content and interaction clear;
+no major issues identified.",
+changeMade: "Continued to refine content and interaction clarity; maintained clarity and continued minor refinements."
+},
+{
+roundNumber: "2",
+researchDate: "June 2024",
+researchFinding: "Form Overview clear and consistent with Whitehall experience. Moving guidance and policies sections to
+Form Overview improved information accessibility. Users appreciated having all form details in one place.",
+changeMade: "Moved guidance and policies sections to Form Overview and maintained clarity."
+},
+{
+roundNumber: "1",
+researchDate: "May 2024",
+researchFinding: "Form Overview clear, but uncertainty about GOV.UK publishing location. Additional form details (what
+happens next, privacy notice, support) were on a separate tab.",
+changeMade: "Clarified publication process and location."
+}
+] %}
+
+{# --- Research summaries --- #}
+{% set researchSummaries = [
+{
+title: "Round 3 & 4 – June & July 2024",
+summary: "Usability testing of form overview and related features.",
+sections: [
+{
+type: "content",
+content: "**Research conducted:** Remote usability testing (24–25 June 2024 and 1–2 July 2024)
+
+**Participants:**
+*Round 3:*
+- 1 x BaU working mainly with Farming – Whitehall
+- 1 x EA - Check for flooding service
+- 1 x Find Team, Sustainable Farming Incentive (SFI), Farming
+- 1 x BaU - Whitehall
+
+*Round 4:*
+- 1 x BaU working mainly with Farming – Whitehall
+- 1 x BaU working mainly with Farming – GOV.UK forms
+- 1 x Cefas - Whitehall
+- 1 x BaU working mainly with Nature, forestry and climate change content - Whitehall
+
+**Background and reminder:**
+Some participants had previous experience in creating digital forms, some did not have experience.
+All content designers within Defra will be given training support to use XGov to start with.
+
+**Method:** Remote usability testing with think-aloud protocol
+
+**Scenario:** Testing form overview and related features.
+
+**Note:** We asked for high-level feedback due to time constraints and because the page had been tested in previous
+rounds."
+},
+{
+type: "findings",
+content: [
+"The content and information were clear.",
+"Some participants were prompted to click 'Edit form' to proceed. This might have been due to being observed and being
+in a test environment.",
+"Form Overview content and interaction clear; minor usability prompts observed (June).",
+"Form Overview content and interaction clear; no major issues identified (July)."
+]
+},
+{
+type: "recommendations",
+content: [
+"Continue to refine content and interaction clarity.",
+"Maintain clarity and continue minor refinements."
+]
+}
+]
+},
+{
+title: "Round 2 – June 2024",
+summary: "Usability testing of form editing and overview.",
+sections: [
+{
+type: "content",
+content: "**Research conducted:** Remote usability testing (30 May–3 June 2024)
+
+**Participants:** 4 content designers from BAU and Environment Agency.
+- 1 x BAU working with mainly Environment Agency - Whitehall
+- 1 x Environment Agency – Fishing rod licenses
+- 1 x BAU working with Trade - Whitehall
+- 1 x BAU updating gov.uk/intranet - Whitehall
+
+**Focus:** Editing form content, page creation, and overview.
+
+**Key changes:**
+1. Moved sections from 'Guidance and policies' tab to Form Overview page
+2. Redesigned form actions and information presentation
+
+**Rationale for changes:**
+- Participants found it more intuitive to have all form-related information in one place
+- Reduced cognitive load by eliminating the need to switch between tabs
+- Improved discoverability of important form details like privacy notices and support information
+- Streamlined the user journey by keeping all form management tasks in a single view
+- Aligned with user expectations of having all form details accessible from the main overview page
+
+**Form Actions Changes:**
+- Changed the name of the page from 'Form home' to 'Overview'
+- Followed a similar pattern used in Whitehall publisher, with actions grouped in a column layout next to form details
+- Moved key form actions to form overview:
+- Create draft from live
+- Make form live
+- Close live form
+- Edit draft
+- Delete draft
+
+**Form Details Changes:**
+- Moved organisation details from GOV.UK details component to main body using summary list component
+- Separated draft and live forms into distinct summary lists
+- Improved information hierarchy and accessibility
+
+For more details on these changes, see:
+- [Making form actions intuitive](/design-history/form-overview/posts/form-actions.html)
+- [How we present information about forms](/design-history/form-overview/posts/form-details.html)"
+},
+{
+type: "screen",
+title: "Form overview: tested in Round 2",
+content: "",
+images: [
+{
+src: "/public/images/form-admin/round-2/form-overview.png",
+alt: "Screenshot of the Form Overview screen",
+caption: "Form Overview screen"
+}
+]
+},
+{
+type: "findings",
+content: [
+"Form Overview clear and consistent with Whitehall experience.",
+"No major issues identified for overview section.",
+"Moving guidance and policies sections to Form Overview improved information accessibility.",
+"Users appreciated having all form details in one place.",
+"Form actions layout was familiar to users who work with Whitehall Publisher.",
+"Summary list component for form details improved clarity and editability."
+]
+},
+{
+type: "quotes",
+content: [
+"Participants would refer SMEs/Policy teams, who might consult Defra legal teams if information was unclear.",
+"'This feels like home' - BAU content designer"
+]
+},
+{
+type: "recommendations",
+content: [
+"Continue to maintain clarity and consistency in overview design.",
+"Keep all form-related information consolidated in the Form Overview page.",
+"Ensure clear visual hierarchy between different sections of the overview page.",
+"Maintain the Whitehall Publisher-like layout for familiarity."
+]
+}
+]
+},
+{
+title: "Round 1 – May 2024",
+summary: "Initial usability testing of form details, overview, and guidance tabs.",
+sections: [
+{
+type: "content",
+content: "**Research conducted:** Remote interviews and usability testing (15–23 May 2024)
+
+**Participants:** 6 content designers: 1 x RPA Customer support team, 1 x BAU, 1 x Air Quality Control, 1 x Trade and
+Borders ('NI Pets Travel scheme'), 1 x BAU - Natural England, 1 x Trade and Borders ('Move animals to GB').
+
+**Research objectives:**
+- Understand our users (content designers) behaviors, motivations and needs.
+- Understand the process our users follow when creating/editing a form.
+
+**What we tested:**
+- Create a new form
+- Form overview
+- Guidance and policies tab (including what happens next, privacy notice, support details)
+
+In this round, additional form details such as 'What happens next', privacy notice links, and support contact details
+were managed on a separate tab called 'Guidance and policies'."
+},
+{
+type: "findings",
+content: [
+"Form Overview clear, but uncertainty about GOV.UK publishing location.",
+"Looks like Whitehall.",
+"Participants welcome the 'Change' links.",
+"Make draft live – It was unclear to a participant where the form will be published.",
+"Internal notes – clear, very helpful and useful feature."
+]
+},
+{
+type: "content",
+content: "### Guidance and policies tab
+Participants expected step-by-step guidance and policy links. Once on the page, the purpose became clearer: to provide
+the right information to members of the public. Participants would ask SMEs/policy team for the correct privacy notice
+link."
+},
+{
+type: "findings",
+content: [
+"Clarify publication process and location.",
+"Explicitly state editability of form names and clarify difference between name and title.",
+"Consider cutting privacy content or adding an 'accordion' to let users show/hide sections.",
+"Add preview link for 'what happens next' formatting.",
+"Clarify the function and necessity of preview links post-publication."
+]
+},
+{
+type: "preview",
+previewLabel: "Form Overview: tested in Round 1",
+showSectionBreak: true,
+url: "/design-history/form-overview/iterations/round-1/overview.html",
+caption: "### Insights about this screen
+- Overall, the page is clear.
+- Looks like Whitehall.
+- Participants welcome the 'Change' links.
+- Make draft live – It was unclear to a participant where the form will be published
+- Guidance might not be the right term to use. Before clicking on the link, some participants expected to be able to see
+on the next page step-by-step guidance on how to create a form, what can and can't be added to the form. Other
+participants were not clear on what to expect.
+
+
+> 'Does it go live straight on GOV.UK? Where is it going to sit? Is it going to sit somewhere separately and then you
+attach it to a specific page?' - Content designer, BAU"
+},
+{
+type: "preview",
+showSectionBreak: true,
+previewLabel: "Guidance and policies tab: tested in Round 1",
+url: "/design-history/form-overview/iterations/round-1/guidance-policies.html",
+caption: "### Insights about this screen
+- Once on the page, the purpose of the page became clearer to participants - to provide the right information to members
+of the public.
+- Participants reported that they don't always have the information that needs to be provided within these links. They
+would work with the SMEs or policy team who requested the form to get the info they need.
+
+> 'Right. So it's policies that will be citizen facing.' - Content designer, Trade"
+},
+{
+type: "preview",
+showSectionBreak: true,
+previewLabel: "Privacy information: tested in Round 1",
+url: "/design-history/form-overview/iterations/round-1/privacy-link.html",
+caption: "### Insights about this screen
+- The content is clear.
+- Participants would ask the SMEs/policy team for the correct link.
+- Some participants reported that different forms might have different privacy information links.
+- A participant commented that the text is quite long, and she would not need to read it all the time when using the
+Defra Forms Designer."
+},
+{
+type: "preview",
+previewLabel: "What happens next: tested in Round 1",
+url: "/design-history/form-overview/iterations/round-1/next-steps.html",
+caption: "### Insights about this screen
+The content in general is clear.
+Participants found the example very helpful, but we need to make clear that the information about 'what happens next' is
+different from service to service.
+> 'I'm not clear if the email is the only option...' - Content designer, BAU"
+},
+{
+type: "screen",
+title: "",
+content: "> 'I want to preview this link and see how it looks because I had to use this formatting with the hash key and
+so I want to make sure it looks good.' - Content designer, Trade",
+images: [
+{
+src: "/public/images/form-admin/round-1/what-happens-next.png",
+alt: "Screenshot of the What happens next screen",
+caption: "What happens next screen"
+}
+]
+},
+{
+type: "audio",
+src: "/public/audio/round-1/what-happens-next-r1.mp4",
+caption: "Participants welcomed having the 'Formatting help' section at the end of the page. One participant would like
+to be able to access the help in advance, before arriving to this page."
+},
+{
+type: "preview",
+previewLabel: "Support details: tested in Round 1",
+showSectionBreak: true,
+url: "/design-history/form-overview/iterations/round-1/support-details.html",
+caption: "### Insights about this screen
+- The content is clear.
+- Participants welcomed the link to GOV.UK design system pattern for guidance."
+},
+{
+type: "preview",
+previewLabel: "Making a form live: tested in Round 1",
+url: "/design-history/form-overview/iterations/round-1/live-success.html",
+caption: "### Insights about this screen
+- The 'Preview link' available on the Overview page once the form is live is not clear. If the form is live, there is an
+expectation that the links are the same.
+
+> 'Why would you still need a preview link if it's live? And you have the Live link? I'm wondering.' - Content designer,
+Trade
+
+> What is the difference? Why would it be a preview link if it's gone live? Why would there be a preview link and a live
+link. Why two when there's no further drafts? - Alpha content designer
+"
+}
+]
+}
+] %}
+
+{# --- Related posts --- #}
+{% set relatedPosts = [
+{
+title: "Making form actions intuitive",
+link: "/design-history/form-overview/posts/form-actions.html",
+date: "26 April 2024"},
+{
+title: "How we present information about forms",
+link: "/design-history/form-overview/posts/form-details.html",
+date: "12 April 2024"}
+] %}

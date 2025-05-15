@@ -1,0 +1,29 @@
+{% extends "layouts/main.html" %}
+
+{% block notificationBanner %}
+{% if data['nameSaved'] %}
+<div class="govuk-notification-banner" role="alert" aria-labelledby="govuk-notification-banner-title"
+    data-module="govuk-notification-banner">
+    <div class="govuk-notification-banner__header">
+        <h2 class="govuk-notification-banner__title" id="govuk-notification-banner-title">
+            Success
+        </h2>
+    </div>
+    <div class="govuk-notification-banner__content">
+        <p class="govuk-notification-banner__heading">
+            Your changes have been saved.
+        </p>
+    </div>
+</div>
+{% endif %}
+{% endblock %}
+{% block content %}
+<h1 class="govuk-heading-l">Debug: Page loaded</h1>
+<form method="post" action="/submit-name">
+    <div class="govuk-form-group">
+        <label class="govuk-label" for="name">Enter your name</label>
+        <input class="govuk-input" id="name" name="name" type="text" value="{{ data['name'] }}">
+    </div>
+    <button class="govuk-button" type="submit">Save</button>
+</form>
+{% endblock %}

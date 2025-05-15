@@ -1,0 +1,86 @@
+{% from "govuk/components/button/macro.njk" import govukButton %}
+
+<div style="background-color: #f3f2f1; padding: 15px;">
+    <h2 class="govuk-heading-m">Manage form</h2>
+
+    {# Default to draft status if not set #}
+    {% if not form.status or form.status.text === "Draft" %}
+    <a href="/editor">
+        <button class="gem-c-button govuk-button gem-c-button-publishing--secondary-quiet"
+            style="width: 100%; margin-bottom: 15px;" type="submit">
+            Edit draft
+        </button>
+    </a>
+
+    <a href="/titan-mvp-1/form-overview/manage-form/make-draft-live">
+        <button type="submit" class="govuk-button" data-module="govuk-button" style="width: 100%; margin-bottom: 15px;">
+            Make draft live
+        </button>
+    </a>
+
+    <a href="/titan-mvp-1/form-overview/manage-form/delete-draft" class="govuk-link" style="color: #d4351c;">Delete draft</a>
+    {% endif %}
+
+    {% if form.status.text === "Live" %}
+    <a href="/titan-mvp-1/form-overview/live-draft">
+        <button type="submit" class="govuk-button" data-module="govuk-button" style="width: 100%; margin-bottom: 15px;">
+            Create draft to edit
+        </button>
+    </a>
+
+    {# <a href="/titan-mvp-1/form-overview/manage-form/close">
+        <button type="submit" class="govuk-button govuk-button--warning" data-module="govuk-button"
+            style="width: 100%;margin-bottom: 15px;">
+            Close live form
+        </button>
+    </a> #}
+    {% endif %}
+
+    {% if form.status.text === "Draft-Live" %}
+    <a href="{{ form.editDraftUrl | default('/titan-mvp-1/form-editor/listing.html') }}">
+        <button class="gem-c-button govuk-button gem-c-button-publishing--secondary-quiet"
+            style="width: 100%; margin-bottom: 15px;" type="submit">
+            Edit draft
+        </button>
+    </a>
+
+    <form method="post" action="/titan-mvp-1/form-overview/make-draft-live" novalidate>
+        <button type="submit" class="govuk-button" data-module="govuk-button" style="width: 100%; margin-bottom: 15px;">
+            Make draft live
+        </button>
+    </form>
+
+    {# <a href="{{ form.closeFormUrl | default('/titan-mvp-1/form-overview/manage-form/close') }}">
+        <button type="submit" class="govuk-button govuk-button--warning" data-module="govuk-button"
+            style="width: 100%;margin-bottom: 15px;">
+            Close live form
+        </button>
+    </a> #}
+
+    {# <a href="/titan-mvp-1/form-overview/manage-form/delete-draft" class="govuk-link" style="color: #d4351c;">Delete draft</a> #}
+    {% endif %}
+
+    {% if form.status.text === "Live-Draft" %}
+    <a href="/titan-mvp-1/form-overview/live-draft">
+        <button type="submit" class="govuk-button" data-module="govuk-button" style="width: 100%; margin-bottom: 15px;">
+            View draft version
+        </button>
+    </a>
+
+    {# <a href="/titan-mvp-1/form-overview/manage-form/close">
+        <button type="submit" class="govuk-button govuk-button--warning" data-module="govuk-button"
+            style="width: 100%;margin-bottom: 15px;">
+            Close live form
+        </button>
+    </a> #}
+    {% endif %}
+</div>
+
+{#
+<hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
+<h2 class="govuk-heading-m">Internal notes</h2>
+{{ govukButton({
+text: "Add internal note",
+href: "/titan-mvp-1/form-overview/internal-note/add",
+classes: "govuk-button--secondary"
+}) }} #}

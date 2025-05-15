@@ -1,0 +1,108 @@
+{% extends "design-history/template.html" %}
+
+{# --- Feature metadata --- #}
+{% set featureName = "Form Filters" %}
+{% set latestVersionLink = "/titan-mvp-1/form-library/filters.html" %}
+{% set status = "Tested" %}
+{% set statusColor = "green" %}
+{% set userNeed = "Users need to efficiently filter and sort their forms so they can quickly find the forms they need to
+work with." %}
+{% set phase = "Private beta" %}
+{% set category = "Form admin" %}
+{% set description = "This feature allows users to filter and sort forms by various criteria, including status,
+organization, and date, to help them manage their form collection effectively." %}
+
+{# --- Research rounds for the summary table --- #}
+{% set researchRounds = [
+"Rounds 3 & 4 - June/July 2024",
+"Round 1 - May 2024"
+] %}
+
+{# --- Key improvements in the latest version --- #}
+{% set improvements = [
+"Enhanced filter visibility",
+"Improved sorting options",
+"Added clear filter labels",
+"Enhanced filter interaction"
+] %}
+
+{# --- Research history table --- #}
+{% set researchHistory = [
+{
+roundNumber: "3 & 4",
+researchDate: "June/July 2024",
+researchFinding: "Search functionality effective but sorting options not universally useful",
+changeMade: "Enhanced search and filter capabilities"
+},
+{
+roundNumber: "1",
+researchDate: "May 2024",
+researchFinding: "Clear but lacking immediate visibility of forms and alphabetical sorting",
+changeMade: "Added sorting and personal visibility functionalities"
+}
+] %}
+
+{# --- Detailed research summaries --- #}
+{% set researchSummaries = [
+{
+title: "Rounds 3 & 4 - June/July 2024",
+summary: "Testing of search and filter functionality",
+sections: [
+{
+type: "content",
+content: "**Research conducted:** Remote usability testing (24–25 June & 1–2 July 2024)\n\n**Participants:** 8 content
+designers across various teams (Farming, Cefas, Environment Agency, Nature, Forestry, Climate Change)\n\n**Method:**
+Remote usability testing with think-aloud protocol\n\n**Scenario:** Testing file upload and forms library. Participants
+were asked to test file upload functionality (with and without JavaScript), navigate forms library, use search and
+filter functions, create new forms, and edit draft forms."
+},
+{
+type: "findings",
+content: [
+"Search functionality effective",
+"Advanced search and state filter require further investigation",
+"Sorting options understandable but not universally useful",
+"Recommendation to evaluate usefulness further and consider streamlining options"
+]
+},
+{
+type: "quotes",
+content: [
+"'Search works very well – it meets what users need'",
+"'I personally don't know why I'd want to know which is oldest or newest'"
+]
+}
+]
+},
+{
+title: "Round 1 - May 2024",
+summary: "Initial testing of form filters",
+sections: [
+{
+type: "content",
+content: "**Research conducted:** Remote usability testing (15–23 May 2024)\n\n**Participants:** 6 content designers
+from various Defra teams (RPA, BAU, Air Quality Control, Trade and Borders, Natural England)\n\n**Method:** Remote
+interviews and usability testing\n\n**Scenario:** Testing form creation and details collection. Participants were asked
+to create a new form, add form details (name, lead organization, policy SME, team details), review form overview, and
+test filters and sorting in forms library."
+},
+{
+type: "findings",
+content: [
+"Clear but lacking immediate visibility of forms",
+"Users wanted alphabetical sorting",
+"Recommendation to add sorting and personal visibility functionalities",
+"Users expected to see their forms immediately"
+]
+},
+{
+type: "quotes",
+content: [
+"'I'd go straight to the form I'm working on'",
+"'I see I can sort for the newest, which might be what I want to do, or I might need to search for ones that I've worked
+on'"
+]
+}
+]
+}
+] %}

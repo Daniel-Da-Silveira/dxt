@@ -1,0 +1,161 @@
+{% extends "design-history/template.html" %}
+
+{# --- Feature metadata --- #}
+{% set featureName = "Page Conditions" %}
+{% set latestVersionLink = "/titan-mvp-1/form-editor/page-conditions.html" %}
+{% set status = "Tested" %}
+{% set statusColor = "green" %}
+{% set userNeed = "Users need to create conditional routing in their forms so they can show or hide questions based on
+previous answers." %}
+{% set phase = "Private beta" %}
+{% set category = "Form editor" %}
+{% set description = "This feature allows users to create conditional routing in their forms, showing or hiding
+questions based on previous answers." %}
+
+{# --- Research rounds for the summary table --- #}
+{% set researchRounds = [
+"Round 13 - April 2025",
+"Round 12 - March 2025",
+"Round 11 - March 2025"
+] %}
+
+{# --- Key improvements in the latest version --- #}
+{% set improvements = [
+"Enhanced condition creation",
+"Improved condition visibility",
+"Added clear condition guidance",
+"Enhanced condition preview"
+] %}
+
+{# --- Research history table --- #}
+{% set researchHistory = [
+{
+roundNumber: "13",
+researchDate: "April 2025",
+researchFinding: "Journey too repetitive; combining multiple conditions worked well",
+changeMade: "Streamlined condition creation and improved multiple condition handling"
+},
+{
+roundNumber: "12",
+researchDate: "March 2025",
+researchFinding: "Participants navigated condition setup successfully; renaming operator to Condition type improved
+comprehension",
+changeMade: "Improved condition setup flow and terminology"
+},
+{
+roundNumber: "11",
+researchDate: "March 2025",
+researchFinding: "Users confused by settings only appearing after saving a question",
+changeMade: "Initial implementation of page conditions feature"
+}
+] %}
+
+{# --- Detailed research summaries --- #}
+{% set researchSummaries = [
+{
+title: "Round 13 - April 2025",
+summary: "Final iteration of page conditions",
+sections: [
+{
+type: "content",
+content: "**Research conducted:** Remote usability testing (29 April 2025)\n\n**Participants:** Multiple Defra content
+designers and form creators from various teams (Environment Agency, APHA, Farming, Whitehall)\n\n**Method:** Remote
+usability testing with think-aloud protocol\n\n**Scenario:** Testing page conditions, page sections, and form
+upload/download functionality. Participants were asked to test condition creation, work with page sections, test form
+upload/download functionality, review condition usage, test combining multiple conditions, and review section vs page
+hierarchy."
+},
+{
+type: "findings",
+content: [
+"Condition logic improvements well received",
+"Terminology and link behaviors caused confusion",
+"Page section hierarchy unclear",
+"Users found the system intuitive with a 'nice GDS feel'",
+"Participants appreciated the ability to combine conditions",
+"Users successfully found download options through the Tools menu"
+]
+},
+{
+type: "quotes",
+content: [
+"'The ability to combine conditions—that's pretty wicked'",
+"'The system has a nice GDS feel'",
+"'Nice big buttons... made it easy to confidently add page conditions'",
+"'It's a bit clunky compared to other experiences like MS Forms'",
+"'You think you're putting conditions on that question... but they're actually separate'",
+"'Whatever appears in a green box, I just do it'"
+]
+}
+]
+},
+{
+title: "Round 12 - March 2025",
+summary: "Testing of condition filters and visibility",
+sections: [
+{
+type: "content",
+content: "**Research conducted:** Remote usability testing (31 March 2025)\n\n**Participants:** 5 content designers from
+Defra BAU\n\n**Method:** Remote usability testing with think-aloud protocol\n\n**Scenario:** Testing page conditions
+(Iteration 2). Participants were asked to test updated question order, add list items (radio options), work with hint
+text vs short description, test page conditions, review existing vs new conditions, and test filter by condition."
+},
+{
+type: "findings",
+content: [
+"Visibility improved by moving filter to left-hand pane",
+"Users appreciated ability to check form length and condition correctness",
+"Recommendation to continue exposing condition filters in overview pane",
+"Participants found the tool intuitive with a clean, spacious design"
+]
+},
+{
+type: "quotes",
+content: [
+"'It feels like it's really intuitive and the design feels really clean, really like a lot of space, very like,
+methodical kind of step by step'",
+"'Pretty straightforward'",
+"'Easy peasy'",
+"'You can filter pages by condition. OK, I can see that would be useful'",
+"'Useful to check the length of the form and that all the conditions have been set correctly'"
+]
+}
+]
+},
+{
+title: "Round 11 - March 2025",
+summary: "Testing of preview and filter functionality",
+sections: [
+{
+type: "content",
+content: "**Research conducted:** Remote usability testing (18 March 2025)\n\n**Participants:** 6 users (content
+designers and a proxy user from Cefas, Environment Agency, APHA, Farming, Whitehall)\n\n**Method:** Remote usability
+testing with think-aloud protocol\n\n**Scenario:** Testing page conditions and repeater questions. Participants were
+asked to set up page conditions, work with repeater questions, test preview and filter functionality, review condition
+placement, test existing vs new conditions, work with operators, and test preview and filter."
+},
+{
+type: "findings",
+content: [
+"Users skipped the filter by condition and found the preview incomplete",
+"Recommendation to improve visibility and clarity of preview and filters",
+"Participants found the tool intuitive after initial exploration",
+"Some users were confused about the order of setup and placement of controls"
+]
+},
+{
+type: "quotes",
+content: [
+"'It feels like it's really intuitive... very like, methodical step by step'",
+"'It would be really nice to... think about what's my question text then think about all of my radios at the same
+time'",
+"'You never get to like see your list in the drafting stage altogether... could have easily duplicated'",
+"'It just feels like there's a lot of information. On one page'",
+"'I'm slightly confused as to why these are offered at this point and not when creating the question'",
+"'Not clear what 'existing' means if I haven't created one yet'",
+"'Filter pages by condition didn't mean a lot… Seeing the journeys or something'"
+]
+}
+]
+}
+] %}

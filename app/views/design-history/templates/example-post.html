@@ -1,0 +1,52 @@
+{% extends "design-history/templates/post-template.html" %}
+
+{% set title = "Example Design History Post" %}
+{% set category = "Form overview" %}
+{% set postType = "Post" %}
+{% set publishDate = "26 April 2024" %}
+
+{% set breadcrumbItems = [
+{
+text: "Design History",
+href: "/design-history/index.html"
+},
+{
+text: "Form Overview",
+href: "/design-history/form-overview/index.html"
+},
+{
+text: "Example Post"
+}
+] %}
+
+{% set relatedPosts = [
+{
+text: "How we present information about forms",
+href: "/design-history/form-overview/posts/form-details.html",
+date: "26 April 2024"
+}
+] %}
+
+{% block postContent %}
+<h2 class="govuk-heading-l">Introduction</h2>
+<p class="govuk-body">This is an example post showing how to use the template.</p>
+
+<h2 class="govuk-heading-l">Section Title</h2>
+<p class="govuk-body">Add your content here using GOV.UK Design System components.</p>
+
+<figure class="govuk-image">
+    <img src="/public/images/example.png" alt="Example image" class="govuk-!-width-full">
+    <figcaption class="govuk-body-s">Example image caption</figcaption>
+</figure>
+
+<h3 class="govuk-heading-m">Subsection</h3>
+<ul class="govuk-list govuk-list--bullet">
+    <li>List item 1</li>
+    <li>List item 2</li>
+    <li>List item 3</li>
+</ul>
+
+<div class="govuk-inset-text">
+    <p class="govuk-body">Important note or quote goes here</p>
+</div>
+{% endblock %}

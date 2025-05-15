@@ -1,0 +1,109 @@
+{% extends "design-history/template.html" %}
+
+{# --- Feature metadata --- #}
+{% set featureName = "Form Validation" %}
+{% set latestVersionLink = "/titan-mvp-1/form-editor/validation.html" %}
+{% set status = "Tested" %}
+{% set statusColor = "green" %}
+{% set userNeed = "Users need clear and flexible validation rules and error messages so they can ensure form data is
+accurate and properly formatted." %}
+{% set phase = "Private beta" %}
+{% set category = "Form admin" %}
+{% set description = "This feature allows users to set up validation rules for form fields, customize error messages,
+and test validation behavior." %}
+
+{# --- Research rounds for the summary table --- #}
+{% set researchRounds = [
+"Round 8 - November 2024",
+"Round 7 - October 2024"
+] %}
+
+{# --- Key improvements in the latest version --- #}
+{% set improvements = [
+"Standardized error message input prompts",
+"Added flexibility in error message creation",
+"Improved visibility of validation rules",
+"Enhanced guidance on error message best practices"
+] %}
+
+{# --- Research history table --- #}
+{% set researchHistory = [
+{
+roundNumber: "8",
+researchDate: "November 2024",
+researchFinding: "Users needed guidance on best practices for error text",
+changeMade: "Added clear guidance on error message best practices"
+},
+{
+roundNumber: "7",
+researchDate: "October 2024",
+researchFinding: "Labels and copy clear but interaction confusing",
+changeMade: "Standardized error message input prompts"
+}
+] %}
+
+{# --- Detailed research summaries --- #}
+{% set researchSummaries = [
+{
+title: "Round 8 - November 2024",
+summary: "Testing of error message best practices",
+sections: [
+{
+type: "content",
+content: "**Research conducted:** Remote usability testing (5–7 November 2024)\n\n**Participants:** 5 content designers
++ 1 proxy user (Cefas, Environment Agency, Farming, APHA, Whitehall)\n\n**Method:** Remote usability testing with
+think-aloud protocol\n\n**Scenario:** Testing form editor enhancements and error messaging. Participants were asked to
+test error messages, work with guidance-only pages, test input field grouping, review input type familiarity, test
+preview panel, add page headers and guidance, test reordering and saving pages, enter checkbox options, test autosave
+functionality, use markdown, and participate in tree testing for guidance findability."
+},
+{
+type: "findings",
+content: [
+"'Prefix' wording (e.g. 'Enter', 'Select') was confusing",
+"Users needed guidance on best practices for error text",
+"Recommendation to set expectations for prefixes",
+"Need for flexibility and clear guidance"
+]
+},
+{
+type: "quotes",
+content: [
+"'That little red thing did throw me a little bit... it felt like it was boxing me in'",
+"'It just feels a bit over-engineered'",
+"'I'd feel like I needed guidance on best practice for error text'"
+]
+}
+]
+},
+{
+title: "Round 7 - October 2024",
+summary: "Testing of error messages and markdown",
+sections: [
+{
+type: "content",
+content: "**Research conducted:** Remote usability testing (1–2 October 2024)\n\n**Participants:** 4 senior content
+designers and 1 proxy user (APHA, RPA, Countryside Stewardship)\n\n**Method:** Remote usability testing with think-aloud
+protocol\n\n**Scenario:** Testing DXT form editor redesign and file upload notifications. Participants were asked to
+review file upload notification emails, create new forms, add questions, test markdown usage, work with error messages,
+test user flow and navigation, use repeater feature, name question sets, review overview of questions, add options for
+radios, and reorder pages."
+},
+{
+type: "findings",
+content: [
+"Labels and copy clear but interaction confusing",
+"Unclear if markdown usage had limitations",
+"Recommendation to provide detailed guidance on markdown"
+]
+},
+{
+type: "quotes",
+content: [
+"'Am I limited in markdown usage, like hyperlinks?'",
+"'The error messages don't work clearly'"
+]
+}
+]
+}
+] %}

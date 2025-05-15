@@ -1,0 +1,137 @@
+{% extends "design-history/template.html" %}
+
+{# --- Feature metadata --- #}
+{% set featureName = "Form Editor" %}
+{% set latestVersionLink = "/titan-mvp-1/form-editor/index.html" %}
+{% set status = "Tested" %}
+{% set statusColor = "green" %}
+{% set userNeed = "Users need an intuitive and efficient way to create and edit forms so they can build effective
+digital services." %}
+{% set phase = "Private beta" %}
+{% set category = "Form editor" %}
+{% set description = "This feature provides a comprehensive form editor interface for creating and managing forms,
+including question creation, page management, and form structure." %}
+
+{# --- Research rounds for the summary table --- #}
+{% set researchRounds = [
+"Round 7 - October 2024",
+"Round 6 - August/September 2024"
+] %}
+
+{# --- Key improvements in the latest version --- #}
+{% set improvements = [
+"Enhanced editor interface",
+"Improved navigation",
+"Added clear visual hierarchy",
+"Enhanced usability"
+] %}
+
+{# --- Research history table --- #}
+{% set researchHistory = [
+{
+roundNumber: "7",
+researchDate: "October 2024",
+researchFinding: "Confusion with terminology and some user interactions; successful validation of email notifications",
+changeMade: "Recommendations to revise instructional copy, improve navigation, and clarify labels"
+},
+{
+roundNumber: "6",
+researchDate: "August/September 2024",
+researchFinding: "Users encountered initial confusion with specific labels and interactions but overall found the
+redesign intuitive",
+changeMade: "Proposed clearer instructional copy, navigation adjustments, and terminology reviews"
+}
+] %}
+
+{# --- Detailed research summaries --- #}
+{% set researchSummaries = [
+{
+title: "Round 7 - October 2024",
+summary: "Refinement of form editor",
+sections: [
+{
+type: "content",
+content: "**Research conducted:** Remote usability testing (1–2 October 2024)\n\n**Participants:** 4 senior content
+designers and 1 proxy user (APHA, RPA, Countryside Stewardship)"
+},
+{
+type: "findings",
+content: [
+"File upload notification email tested well",
+"'Shared team email' hint text confusion regarding personal email usage",
+"Options and previews for adding questions were clear",
+"Unclear if markdown usage had limitations",
+"Labels and copy clear, but interaction confusing",
+"New user flow tested positively",
+"Label 'Repeater' clear after interaction but initially confusing",
+"Ambiguity around naming question sets",
+"Overview of questions clear but affirmative copy suggested",
+"Adding options for radios clear",
+"Functionality clear but minor navigational friction",
+"Autosave uncertainty"
+]
+},
+{
+type: "quotes",
+content: [
+"\"I don't know what I have to use it for, but that tells me what I need to know.\" - Participant 1",
+"\"Personal email—my Defra email or my Hotmail?\" - Participant 2",
+"\"Preview is very smart!\" - Participant 3",
+"\"Ask user to select options... most used by me.\" - Participant 4",
+"\"Am I limited in markdown usage, like hyperlinks?\" - Participant 1",
+"\"The error messages don't work clearly.\" - Participant 2",
+"\"It works very well!\" - Participant 3",
+"\"More direct language might help.\" - Participant 4",
+"\"The word 'question' pops up too often and confuses.\" - Participant 1",
+"\"Text should say 'add some questions' rather than accusing users of not adding questions.\" - Participant 2",
+"\"Prefer automatic return to main page after saving changes.\" - Participant 3",
+"\"I'm a bit concerned whether that's going to save or not.\" - Participant 4"
+]
+}
+]
+},
+{
+title: "Round 6 - August/September 2024",
+summary: "Initial testing of form editor redesign",
+sections: [
+{
+type: "content",
+content: "**Research conducted:** Remote usability testing (29 Aug–2 Sept 2024)\n\n**Participants:** 7 content designers
+from various teams (Farming, SFI, Flood Services, Trade, Policy Lab)"
+},
+{
+type: "findings",
+content: [
+"Users generally found the redesign intuitive and straightforward",
+"'Get started' button confused some users",
+"Users found 'How many times...' initially confusing",
+"Term 'short label' unclear without reading hint text",
+"Users unclear if saving was necessary before adding another question",
+"Editor summary very clear and helpful",
+"Option 'More than 1 question' clearer after initial use",
+"Markdown helpful but requires reminders",
+"Unclear next steps after adding first question",
+"Confirmation page visually crowded",
+"Repeater feature initially confusing but understood after interaction",
+"Rearranging pages works well but lacks visual cues"
+]
+},
+{
+type: "quotes",
+content: [
+"\"I feel quite unstressed about that! It looks pretty good!\" - Participant 1",
+"\"'Get started' is like when you start a new service on gov.uk, I want 'Edit your form'.\" - Participant 2",
+"\"Does that mean multiple-choice, or can users change their answers later?\" - Participant 3",
+"\"I'd call it 'add text for error messages'.\" - Participant 4",
+"\"I don't know if I should save it first, but I'll save it to be careful.\" - Participant 5",
+"\"It's easy to see and edit your questions, really useful.\" - Participant 6",
+"\"I sometimes need a reminder for markdown. Whitehall does this really well.\" - Participant 7",
+"\"Should I 'Save changes'? Do I click 'Add another question'?\" - Participant 1",
+"\"Feels like a lot going on, visually busy.\" - Participant 2",
+"\"Repeater makes sense once I've tried it; initially confusing.\" - Participant 3",
+"\"Missing visual cues; can reordering be on summary page to avoid extra click?\" - Participant 4"
+]
+}
+]
+}
+] %}

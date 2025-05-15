@@ -1,0 +1,60 @@
+{% extends "design-history/template.html" %}
+
+{# --- Feature metadata --- #}
+{% set featureName = "Advanced Settings" %}
+{% set latestVersionLink = "/titan-mvp-1/form-editor/advanced-settings.html" %}
+{% set status = "Tested" %}
+{% set statusColor = "green" %}
+{% set userNeed = "Users need more control over form behavior so they can customize their forms to meet specific
+requirements." %}
+{% set phase = "Private beta" %}
+{% set category = "Form editor" %}
+{% set description = "This feature provides advanced settings and configuration options for forms, allowing users to
+customize form behavior and appearance." %}
+
+{# --- Research rounds for the summary table --- #}
+{% set researchRounds = [
+"Round 8 - November 2024"
+] %}
+
+{# --- Key improvements in the latest version --- #}
+{% set improvements = [
+"Enhanced advanced settings",
+"Improved settings organization",
+"Added clear settings guidance",
+"Enhanced settings visibility"
+] %}
+
+{# --- Research history table --- #}
+{% set researchHistory = [
+{
+roundNumber: "8",
+researchDate: "November 2024",
+researchFinding: "Advanced settings clear but needed better organization",
+changeMade: "Improved settings organization and guidance"
+}
+] %}
+
+{# --- Detailed research summaries --- #}
+{% set researchSummaries = [
+{
+title: "Round 8 - November 2024",
+summary: "Testing of advanced settings",
+sections: [
+{
+type: "content",
+content: "**Research conducted:** Remote usability testing (November 2024)\n\n**Participants:** Content designers and
+form administrators"
+},
+{
+type: "findings",
+content: [
+"Advanced settings clear and useful",
+"Needed better organization",
+"Recommendation to add clear guidance",
+"Users wanted more settings options"
+]
+}
+]
+}
+] %}

@@ -1,0 +1,140 @@
+{% extends "design-history/template.html" %}
+
+{# --- Feature metadata --- #}
+{% set featureName = "Page Conditions" %}
+{% set latestVersionLink = "/titan-mvp-1/form-editor/conditions.html" %}
+{% set status = "Tested" %}
+{% set statusColor = "green" %}
+{% set userNeed = "Users need to set up conditional logic for form pages so they can create dynamic forms that show
+relevant questions based on previous answers." %}
+{% set phase = "Private beta" %}
+{% set category = "Form admin" %}
+{% set description = "This feature allows users to create conditional logic for form pages, determining when pages
+should be shown based on previous answers. It includes tools for setting up conditions, managing relationships between
+questions, and testing the logic." %}
+
+{# --- Research rounds for the summary table --- #}
+{% set researchRounds = [
+"Round 13 - April 2025",
+"Round 12 - March 2025",
+"Round 11 - March 2025",
+"Round 2 - May/June 2024"
+] %}
+
+{# --- Key improvements in the latest version --- #}
+{% set improvements = [
+"Improved clarity of condition setup process",
+"Enhanced visibility of condition filters",
+"Added clearer guidance on condition relationships",
+"Improved visual hierarchy for condition controls"
+] %}
+
+{# --- Research history table --- #}
+{% set researchHistory = [
+{
+roundNumber: "13",
+researchDate: "April 2025",
+researchFinding: "Users needed clearer relationships between conditions and questions",
+changeMade: "Improved visual hierarchy and condition relationships"
+},
+{
+roundNumber: "12",
+researchDate: "March 2025",
+researchFinding: "Visibility improved by moving filter to left-hand pane",
+changeMade: "Enhanced condition filter visibility"
+},
+{
+roundNumber: "11",
+researchDate: "March 2025",
+researchFinding: "Users found setup for page conditions confusing",
+changeMade: "Improved UI flow and terminology"
+},
+{
+roundNumber: "2",
+researchDate: "May/June 2024",
+researchFinding: "Conditions label unclear without prompting",
+changeMade: "Revised content for clarity and intuitive understanding"
+}
+] %}
+
+{# --- Detailed research summaries --- #}
+{% set researchSummaries = [
+{
+title: "Round 13 - April 2025",
+summary: "Testing of condition relationships and visual hierarchy",
+sections: [
+{
+type: "content",
+content: "**Research conducted:** Remote usability testing (April 2025)\n\n**Participants:** Content designers and form
+administrators"
+},
+{
+type: "findings",
+content: [
+"Users needed clearer relationships between conditions and questions",
+"Recommendation to improve visual hierarchy",
+"Success messages and clear CTAs particularly helpful"
+]
+}
+]
+},
+{
+title: "Round 12 - March 2025",
+summary: "Testing of condition filters and visibility",
+sections: [
+{
+type: "content",
+content: "**Research conducted:** Remote usability testing (March 2025)\n\n**Participants:** Content designers and form
+administrators"
+},
+{
+type: "findings",
+content: [
+"Visibility improved by moving filter to left-hand pane",
+"Users appreciated ability to check form length and condition correctness",
+"Recommendation to continue exposing condition filters in overview pane"
+]
+}
+]
+},
+{
+title: "Round 11 - March 2025",
+summary: "Testing of page condition setup",
+sections: [
+{
+type: "content",
+content: "**Research conducted:** Remote usability testing (March 2025)\n\n**Participants:** Content designers and form
+administrators"
+},
+{
+type: "findings",
+content: [
+"Users found setup for page conditions confusing",
+"Unclear about order of setup and placement of controls",
+"Recommendation to improve UI flow and terminology"
+]
+}
+]
+},
+{
+title: "Round 2 - May/June 2024",
+summary: "Initial testing of conditions feature",
+sections: [
+{
+type: "content",
+content: "**Research conducted:** Remote usability testing (May/June 2024)\n\n**Participants:** Content designers and
+form administrators"
+},
+{
+type: "findings",
+content: [
+"Conditions label unclear without prompting",
+"Add or change conditions unclear; select condition clear",
+"Overall logic and clarity of conditional questions well-understood",
+"Recommendation to revise content for clarity",
+"Recommendation to clarify instructions on adding conditions"
+]
+}
+]
+}
+] %}

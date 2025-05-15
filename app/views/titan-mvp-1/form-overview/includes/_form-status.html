@@ -1,0 +1,177 @@
+{% from "govuk/components/summary-list/macro.njk" import govukSummaryList %}
+
+{# Draft status summary list #}
+{% if form.status.text === "Draft" %}
+<dl class="govuk-summary-list">
+    <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">
+            {{ commonTerms.form_editor.overview.sections.form_status.status }}
+        </dt>
+        <dd class="govuk-summary-list__value">
+            <strong class="govuk-tag govuk-tag--orange">
+                Draft
+            </strong>
+        </dd>
+    </div>
+
+    <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">
+            {{ commonTerms.form_editor.overview.sections.form_status.created }}
+        </dt>
+        <dd class="govuk-summary-list__value">
+            {{ form.createdAt | date("DD MMM YYYY") }} by {{ form.createdBy }}
+        </dd>
+    </div>
+
+    <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">
+            Updated
+        </dt>
+        <dd class="govuk-summary-list__value">
+            {{ form.updatedAt | date("DD MMM YYYY") }} by {{ form.updatedBy }}
+        </dd>
+    </div>
+
+    <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">
+            {{ commonTerms.form_editor.overview.sections.form_status.preview_link }}
+        </dt>
+        <dd class="govuk-summary-list__value" style="padding-right:0!important;">
+            <a href="{{ form.previewUrl }}" class="govuk-link" rel="noreferrer noopener" target="_blank">{{
+                form.previewUrl }} (opens in new tab)</a>
+        </dd>
+    </div>
+</dl>
+
+{# Live status summary list #}
+{% elif form.status.text === "Live" %}
+<dl class="govuk-summary-list">
+    <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">
+            {{ commonTerms.form_editor.overview.sections.form_status.status }}
+        </dt>
+        <dd class="govuk-summary-list__value">
+            <strong class="govuk-tag govuk-tag--green">
+                Live
+            </strong>
+        </dd>
+    </div>
+
+    <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">
+            Went live
+        </dt>
+        <dd class="govuk-summary-list__value">
+            {{ form.publishedAt | date("DD MMM YYYY") }} by {{ form.publishedBy }}
+        </dd>
+    </div>
+
+    <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">
+            {{ commonTerms.form_editor.overview.sections.form_status.preview_link }}
+        </dt>
+        <dd class="govuk-summary-list__value" style="padding-right:0!important;">
+            <a href="{{ form.previewUrl }}" class="govuk-link" rel="noreferrer noopener" target="_blank">{{
+                form.previewUrl }} (opens in new tab)</a>
+        </dd>
+    </div>
+
+    <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">
+            Live link
+        </dt>
+        <dd class="govuk-summary-list__value" style="padding-right:0!important;">
+            <a href="{{ form.liveUrl }}" class="govuk-link" rel="noreferrer noopener" target="_blank">{{
+                form.liveUrl }} (opens in new tab)</a>
+        </dd>
+    </div>
+</dl>
+
+{# Draft-Live status summary lists #}
+{% elif form.status.text === "Draft-Live" %}
+{# Draft section #}
+<dl class="govuk-summary-list">
+    <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">
+            {{ commonTerms.form_editor.overview.sections.form_status.status }}
+        </dt>
+        <dd class="govuk-summary-list__value">
+            <strong class="govuk-tag govuk-tag--orange">
+                Draft
+            </strong>
+        </dd>
+    </div>
+
+    <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">
+            {{ commonTerms.form_editor.overview.sections.form_status.created }}
+        </dt>
+        <dd class="govuk-summary-list__value">
+            {{ form.draftCreatedAt | date("DD MMM YYYY") }} by {{ form.draftCreatedBy }}
+        </dd>
+    </div>
+
+    <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">
+            Updated
+        </dt>
+        <dd class="govuk-summary-list__value">
+            {{ form.updatedAt | date("DD MMM YYYY") }} by {{ form.updatedBy }}
+        </dd>
+    </div>
+
+    <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">
+            {{ commonTerms.form_editor.overview.sections.form_status.preview_link }}
+        </dt>
+        <dd class="govuk-summary-list__value" style="padding-right:0!important;">
+            <a href="{{ form.previewUrl }}" class="govuk-link" rel="noreferrer noopener" target="_blank">{{
+                form.previewUrl }} (opens in new tab)</a>
+        </dd>
+    </div>
+
+</dl>
+
+{# Live section #}
+<dl class="govuk-summary-list govuk-!-margin-top-6">
+    <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">
+            {{ commonTerms.form_editor.overview.sections.form_status.status }}
+        </dt>
+        <dd class="govuk-summary-list__value">
+            <strong class="govuk-tag govuk-tag--green">
+                Live
+            </strong>
+        </dd>
+    </div>
+
+    <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">
+            Went live
+        </dt>
+        <dd class="govuk-summary-list__value">
+            {{ form.publishedAt | date("DD MMM YYYY") }} by {{ form.publishedBy }}
+        </dd>
+    </div>
+
+    <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">
+            {{ commonTerms.form_editor.overview.sections.form_status.preview_link }}
+        </dt>
+        <dd class="govuk-summary-list__value" style="padding-right:0!important;">
+            <a href="{{ form.previewUrl }}" class="govuk-link" rel="noreferrer noopener" target="_blank">{{
+                form.previewUrl }} (opens in new tab)</a>
+        </dd>
+    </div>
+
+    <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">
+            Live link
+        </dt>
+        <dd class="govuk-summary-list__value" style="padding-right:0!important;">
+            <a href="{{ form.liveUrl }}" class="govuk-link" rel="noreferrer noopener" target="_blank">{{
+                form.liveUrl }} (opens in new tab)</a>
+        </dd>
+    </div>
+</dl>
+{% endif %}

@@ -1,0 +1,114 @@
+{% extends "design-history/template.html" %}
+
+{# --- Feature metadata --- #}
+{% set featureName = "Guidance Pages" %}
+{% set latestVersionLink = "/titan-mvp-1/form-editor/guidance-pages.html" %}
+{% set status = "Tested" %}
+{% set statusColor = "green" %}
+{% set userNeed = "Users need to provide clear instructions and context within their forms so respondents can understand
+what information is required." %}
+{% set phase = "Private beta" %}
+{% set category = "Form editor" %}
+{% set description = "This feature allows users to create guidance pages and add page headings to provide context and
+instructions within forms." %}
+
+{# --- Research rounds for the summary table --- #}
+{% set researchRounds = [
+"Round 8 - November 2024",
+"Round 6 - September 2024",
+"Round 1 - May 2024"
+] %}
+
+{# --- Key improvements in the latest version --- #}
+{% set improvements = [
+"Enhanced guidance page creation",
+"Improved page heading management",
+"Added clear guidance on content structure",
+"Enhanced guidance page editing"
+] %}
+
+{# --- Research history table --- #}
+{% set researchHistory = [
+{
+roundNumber: "8",
+researchDate: "November 2024",
+researchFinding: "Guidance page creation intuitive but needed clearer structure",
+changeMade: "Added clear guidance on content structure"
+},
+{
+roundNumber: "6",
+researchDate: "September 2024",
+researchFinding: "Page heading management clear but needed refinement",
+changeMade: "Improved page heading management"
+},
+{
+roundNumber: "1",
+researchDate: "May 2024",
+researchFinding: "Initial implementation well received but needed guidance",
+changeMade: "Initial implementation of guidance pages feature"
+}
+] %}
+
+{# --- Detailed research summaries --- #}
+{% set researchSummaries = [
+{
+title: "Round 8 - November 2024",
+summary: "Testing of guidance page structure",
+sections: [
+{
+type: "content",
+content: "**Research conducted:** Remote usability testing (November 2024)\n\n**Participants:** Content designers and
+form administrators"
+},
+{
+type: "findings",
+content: [
+"Guidance page creation intuitive",
+"Needed clearer structure guidance",
+"Recommendation to add content templates",
+"Users wanted more examples of good guidance pages"
+]
+}
+]
+},
+{
+title: "Round 6 - September 2024",
+summary: "Testing of page heading management",
+sections: [
+{
+type: "content",
+content: "**Research conducted:** Remote usability testing (September 2024)\n\n**Participants:** Content designers and
+form administrators"
+},
+{
+type: "findings",
+content: [
+"Page heading management clear",
+"Needed better visual hierarchy",
+"Recommendation to enhance heading styles",
+"Users wanted more heading customization options"
+]
+}
+]
+},
+{
+title: "Round 1 - May 2024",
+summary: "Initial testing of guidance pages",
+sections: [
+{
+type: "content",
+content: "**Research conducted:** Remote usability testing (May 2024)\n\n**Participants:** Content designers and form
+administrators"
+},
+{
+type: "findings",
+content: [
+"Initial implementation well received",
+"Basic functionality clear and intuitive",
+"Recommendation to add more content options",
+"Users wanted more formatting capabilities"
+]
+}
+]
+}
+] %}

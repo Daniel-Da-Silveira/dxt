@@ -1,0 +1,110 @@
+{% extends "layouts/main.html" %}
+
+{% from "components/service-header/macro.njk" import serviceHeader %}
+{% from "govuk/components/summary-list/macro.njk" import govukSummaryList %}
+{% from "govuk/components/notification-banner/macro.njk" import govukNotificationBanner %}
+
+{% set pageName = "Edit user" %}
+
+{% block header %}
+{{ serviceHeader({
+organisationName: "Defra",
+productName: "Forms Designer",
+serviceName: "",
+containerClasses: containerClasses,
+accountName: "Chris Smith",
+homepageLink: "/",
+signOutLink: "/titan-mvp-1.2/onboarding/sign-out-confirmation",
+navigationItems: [
+{ href: "/titan-mvp-1.2/library", text: "Forms library", id: "nav-library" },
+{ href: "/titan-mvp-1.2/roles/my-account.html", text: "My account", id: "my-account" },
+{ href: "/titan-mvp-1.2/roles/manage-users.html", text: "Manage users", id: "manage-users", active: true }
+]
+}) }}
+
+<div class="x-govuk-masthead x-govuk-masthead--large">
+    <div class="govuk-width-container">
+        {{ govukBackLink({ classes: "govuk-back-link--inverse govuk-!-margin-bottom-0", text: "Back to manage users",
+        href: "/titan-mvp-1.2/roles/manage-users.html" }) }}
+
+        <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible"
+            style="border-bottom: 1px solid white; margin-bottom: 0" />
+
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-full-from-desktop">
+                <h1 class="x-govuk-masthead__title">
+                    <span class="govuk-caption-l" style="color:white;">{{ data.user.semanticName }}</span>
+                    Manage user account
+                </h1>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-one-third-from-desktop">
+        <form action="/titan-mvp-1.2/roles/update-user" method="POST" novalidate>
+            <input type="hidden" name="email" value="{{ data.user.email }}" />
+
+            {{ govukInput({
+            label: {
+            text: "Name",
+            classes: "govuk-label--m"
+            },
+            id: "name",
+            name: "name",
+            value: data.user.name
+            }) }}
+
+            {{ govukInput({
+            label: {
+            text: "Email",
+            classes: "govuk-label--m"
+            },
+            id: "email",
+            name: "email",
+            type: "email",
+            value: data.user.email,
+            disabled: true
+            }) }}
+
+            {{ govukRadios({
+            name: "role",
+            fieldset: {
+            legend: {
+            text: "Role",
+            classes: "govuk-fieldset__legend--m"
+            }
+            },
+            items: [
+            {
+            value: "admin",
+            text: "Admin",
+            checked: data.user.role === "admin"
+            },
+            {
+            value: "editor",
+            text: "Editor",
+            checked: data.user.role === "editor"
+            }
+            ]
+            }) }}
+
+            <div class="govuk-button-group">
+                <button type="submit" class="govuk-button" data-module="govuk-button">
+                    Save changes
+                </button>
+                <a href="/titan-mvp-1.2/roles/remove-user?email={{ data.user.email }}"
+                    class="govuk-button govuk-button--warning" data-module="govuk-button">
+                    Remove user
+                </a>
+
+                <a href="/titan-mvp-1.2/roles/manage-users.html"
+                    class="govuk-link govuk-link--no-visited-state">Cancel</a>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

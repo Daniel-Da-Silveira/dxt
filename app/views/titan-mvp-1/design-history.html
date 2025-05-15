@@ -1,0 +1,95 @@
+{% extends "layouts/main.html" %}
+
+{% block pageTitle %}
+Titan MVP Milestone 1 - Design History – {{ serviceName }}
+{% endblock %}
+
+{% from "components/service-header/macro.njk" import serviceHeader %}
+
+{% block header %}
+{{ serviceHeader({
+organisationName: "Defra",
+productName: "Forms Designer",
+serviceName: "Product information",
+accountName: "Account",
+containerClasses: containerClasses,
+homepageLink: "/",
+navigationItems: [
+{ href: "/", text: "Prototypes", id: "prototype" },
+{ href: "/design-system/components.html", text: "Components", id: "components" },
+{ href: "/design-system/user-journeys/home.html", text: "User journeys", id: "user-journeys" }
+],
+activeLinkId: "prototype"
+}) }}
+{% endblock %}
+
+{% block content %}
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+        <h1 class="govuk-heading-xl">Titan MVP Milestone 1 - Design History</h1>
+
+        <h2 class="govuk-heading-l">Functionality Changes</h2>
+        <p class="govuk-body">Document the key functionality changes introduced in this milestone.</p>
+
+        <h2 class="govuk-heading-l">Internal User Journey</h2>
+        <p class="govuk-body">Details about why we explored the internal user journey and what we learned.</p>
+
+        <h2 class="govuk-heading-l">Design Approach</h2>
+        <p class="govuk-body">Explanation of the design approach taken for this milestone.</p>
+
+        <h2 class="govuk-heading-l">Pain Points and User Needs</h2>
+        <p class="govuk-body">Documentation of identified pain points and user needs that influenced the design.</p>
+
+        <h2 class="govuk-heading-l">What We Designed</h2>
+        <p class="govuk-body">Overview of the design solutions implemented.</p>
+
+        <h2 class="govuk-heading-l">What We Tested</h2>
+        <p class="govuk-body">Details of the testing conducted and methodologies used.</p>
+
+        <h2 class="govuk-heading-l">Outcomes and Decisions</h2>
+        <p class="govuk-body">Summary of key outcomes and decisions made during this milestone.</p>
+
+        <h2 class="govuk-heading-l">Design Tickets</h2>
+        <ul class="govuk-list govuk-list--bullet">
+            <li><a href="#" class="govuk-link" target="_blank">SFDE-152 - Update Buffalo 1.0 MVP based on BA
+                    insights</a></li>
+            <li><a href="#" class="govuk-link" target="_blank">SFDE-173 - Update to Contact us content for MVP</a></li>
+            <li><a href="#" class="govuk-link" target="_blank">SFDE-195 - [from UR Feb 2025 on Prototype v7] Personal
+                    and business details - fix findability issues</a></li>
+            <li><a href="#" class="govuk-link" target="_blank">SFDE-210 - Internal user design (sign in, find user,
+                    update details)</a></li>
+            <li><a href="#" class="govuk-link" target="_blank">SFDE-190 - Internal user design - business legal status -
+                    company reg number visibility</a></li>
+        </ul>
+
+        <h2 class="govuk-heading-l">Prototype Links</h2>
+        <table class="govuk-table">
+            <thead class="govuk-table__head">
+                <tr class="govuk-table__row">
+                    <th scope="col" class="govuk-table__header">ID</th>
+                    <th scope="col" class="govuk-table__header">Name</th>
+                    <th scope="col" class="govuk-table__header">Prototype Link</th>
+                    <th scope="col" class="govuk-table__header">Release</th>
+                </tr>
+            </thead>
+            <tbody class="govuk-table__body">
+                <tr class="govuk-table__row">
+                    <td class="govuk-table__cell">si01</td>
+                    <td class="govuk-table__cell">SFD sign in</td>
+                    <td class="govuk-table__cell"><a href="/start-sfd-sign-in?r=t&release=b1" class="govuk-link">View
+                            prototype</a></td>
+                    <td class="govuk-table__cell">🐃 Buffalo 1.0 MVP</td>
+                </tr>
+                <tr class="govuk-table__row">
+                    <td class="govuk-table__cell">si02</td>
+                    <td class="govuk-table__cell">SFD reset password</td>
+                    <td class="govuk-table__cell"><a href="/start-sfd-reset-password?r=t&release=b1"
+                            class="govuk-link">View prototype</a></td>
+                    <td class="govuk-table__cell">🐃 Buffalo 1.0 MVP</td>
+                </tr>
+                <!-- Add more prototype links as needed -->
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

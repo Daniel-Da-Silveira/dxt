@@ -1,0 +1,729 @@
+{# {% extends "layouts/main.html" %} #}
+{% extends "design-history/template.html" %}
+
+{% from "components/service-header/macro.njk" import serviceHeader %}
+
+{% set featureName = "Design History Template Guide" %}
+{% set latestVersionLink = "/design-history/index.html" %}
+{% set status = "Tested" %}
+{% set statusColor = "green" %}
+{% set userNeed = "Users need to understand how to document their design history effectively." %}
+{% set phase = "Private beta" %}
+{% set category = "Form admin" %}
+
+{% set researchRounds = [
+"Round 1 - May 2024"
+] %}
+
+{% set improvements = [
+"Added visual examples for each content type",
+"Improved documentation structure"
+] %}
+
+{% set researchHistory = [
+[
+{ text: "1" },
+{ text: "May 2024" },
+{ text: "Users needed clearer examples of how content types would render" },
+{ text: "Added rendered examples for each content type" },
+{ html: "<a href='/design-history/index.html' target='_blank' rel='noopener noreferrer'>Guide</a>" }
+]
+] %}
+
+{% set researchSummaries = [
+{
+title: "Round 1 - May 2024",
+summary: "Initial testing of form creation process",
+sections: [
+{
+type: "content",
+content: "### User research overviewWe tested with 6 content designers from various teams."
+},
+{
+type: "objectives",
+content: [
+"Test basic form creation flow",
+"Evaluate field validation"
+]
+},
+{
+type: "details",
+summary: "View design evolution",
+content: "Here's how the design changed:",
+items: [
+{
+type: "content",
+content: "### viuivuiuviuog 1Initial design with basic fields."
+},
+{
+type: "images",
+content: {
+src: "/public/images/113.png",
+alt: "Version 1 desisssgn",
+caption: "Basic form fields"
+}
+},
+{
+type: "preview",
+url: "https://example.com/v1"
+}
+]
+},
+{
+type: "findings",
+content: [
+"Users needed clearer validation messages",
+"Form name field caused confusion"
+]
+}
+]
+}
+] %}
+
+{% block pageTitle %}
+Design History Template Guide
+{% endblock %}
+
+{% block header %}
+{{ serviceHeader({
+organisationName: "Defra",
+productName: "Forms Designer",
+serviceName: "Design History",
+accountName: "Account",
+containerClasses: containerClasses,
+homepageLink: "/design-history/index.html",
+navigationItems: [
+{ href: "/index.html", text: "Prototypes", id: "prototype" }
+],
+activeLinkId: ""
+}) }}
+{% endblock %}
+
+{% block content %}
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+        <h1 class="govuk-heading-xl">Design History Template Guide</h1>
+
+        <p class="govuk-body">This guide explains how to use the design history template to document the evolution of
+            your features.</p>
+
+        <h2 class="govuk-heading-l">Basic Structure</h2>
+        <p class="govuk-body">Each design history page needs these basic details at the top:</p>
+
+        <div class="govuk-inset-text">
+            <pre><code>{% raw %}{% set featureName = "Name of your feature" %}
+{% set latestVersionLink = "/path/to/latest/version" %}
+{% set status = "Tested" %} // Options: Tested, In progress, Not tested
+{% set statusColor = "green" %} // Options: green, blue, grey
+{% set userNeed = "What problem does this feature solve?" %}
+{% set phase = "Private beta" %} // Options: Private beta, Public beta, Live
+{% set category = "Form admin" %} // Options: Form creation, Form editing, Form publishing, Form admin{% endraw %}</code></pre>
+        </div>
+        <details class="govuk-details" data-module="govuk-details">
+            <summary class="govuk-details__summary">
+                <span class="govuk-details__summary-text">View rendered example</span>
+            </summary>
+            <div class="govuk-details__text">
+                <h2 class="govuk-heading-m">Feature details</h2>
+                <dl class="govuk-summary-list">
+                    <div class="govuk-summary-list__row">
+                        <dt class="govuk-summary-list__key">Status</dt>
+                        <dd class="govuk-summary-list__value">
+                            <strong class="govuk-tag govuk-tag--green">Tested</strong>
+                        </dd>
+                    </div>
+                    <div class="govuk-summary-list__row">
+                        <dt class="govuk-summary-list__key">User need</dt>
+                        <dd class="govuk-summary-list__value">What problem does this feature solve?</dd>
+                    </div>
+                    <div class="govuk-summary-list__row">
+                        <dt class="govuk-summary-list__key">Phase</dt>
+                        <dd class="govuk-summary-list__value">Private beta</dd>
+                    </div>
+                    <div class="govuk-summary-list__row">
+                        <dt class="govuk-summary-list__key">Category</dt>
+                        <dd class="govuk-summary-list__value">
+                            <span class="govuk-!-margin-right-2"
+                                style="display: inline-flex; align-items: center;">⚙️</span>
+                            Form admin
+                        </dd>
+                    </div>
+                </dl>
+            </div>
+        </details>
+
+        <h2 class="govuk-heading-l">Research History</h2>
+        <p class="govuk-body">Document your research rounds in a table:</p>
+
+        <div class="govuk-inset-text">
+            <pre><code>{% raw %}{% set researchHistory = [
+    [
+        { text: "1" }, // Round number
+        { text: "May 2024" }, // Date
+        { text: "What you learned from users" },
+        { text: "Changes you made" },
+        { html: "<a href='/path/to/prototype' target='_blank'>MVP 1</a>" } // Link to prototype
+    ]
+] %}{% endraw %}</code></pre>
+        </div>
+        <details class="govuk-details" data-module="govuk-details">
+            <summary class="govuk-details__summary">
+                <span class="govuk-details__summary-text">View rendered example</span>
+            </summary>
+            <div class="govuk-details__text">
+                <h2 class="govuk-heading-m">Research history</h2>
+                <table class="govuk-table">
+                    <thead class="govuk-table__head">
+                        <tr class="govuk-table__row">
+                            <th scope="col" class="govuk-table__header">Round</th>
+                            <th scope="col" class="govuk-table__header">Date</th>
+                            <th scope="col" class="govuk-table__header">Research findings</th>
+                            <th scope="col" class="govuk-table__header">Changes made</th>
+                            <th scope="col" class="govuk-table__header">Prototype links</th>
+                        </tr>
+                    </thead>
+                    <tbody class="govuk-table__body">
+                        <tr class="govuk-table__row">
+                            <td class="govuk-table__cell">1</td>
+                            <td class="govuk-table__cell">May 2024</td>
+                            <td class="govuk-table__cell">What you learned from users</td>
+                            <td class="govuk-table__cell">Changes you made</td>
+                            <td class="govuk-table__cell"><a href="/path/to/prototype" target="_blank"
+                                    rel="noopener noreferrer">MVP 1</a></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </details>
+
+        <h2 class="govuk-heading-l">Example: Complete Research Summary</h2>
+        <p class="govuk-body">Here's a complete example of a research summary:</p>
+
+        <div class="govuk-inset-text">
+            <pre><code>{% raw %}{% set researchSummaries = [
+    {
+        title: "Round 1 - May 2024",
+        summary: "Initial testing of form creation process",
+        sections: [
+            {
+                type: "content",
+                content: "### User research overviewWe tested with 6 content designers from various teams."
+            },
+            {
+                type: "objectives",
+                content: [
+                    "Test basic form creation flow",
+                    "Evaluate field validation"
+                ]
+            },
+            {
+                type: "details",
+                summary: "View design evolution",
+                content: "Here's how the design changed:",
+                items: [
+                    {
+                        type: "content",
+                        content: "### Version 1Initial design with basic fields."
+                    },
+                    {
+                        type: "images",
+                        content: {
+                            src: "/public/images/113.png",
+                            alt: "Version 1 design",
+                            caption: "Basic form fields"
+                        }
+                    },
+                    {
+                        type: "preview",
+                        url: "https://example.com/v1"
+                    }
+                ]
+            },
+            {
+                type: "findings",
+                content: [
+                    "Users needed clearer validation messages",
+                    "Form name field caused confusion"
+                ]
+            }
+        ]
+    }
+] %}{% endraw %}</code></pre>
+        </div>
+        <details class="govuk-details" data-module="govuk-details">
+            <summary class="govuk-details__summary">
+                <span class="govuk-details__summary-text">View rendered example</span>
+            </summary>
+            <div class="govuk-details__text">
+                <div class="timeline govuk-accordion" data-module="govuk-accordion" id="accordion-default">
+                    <div class="timeline__item govuk-accordion__section">
+                        <div class="timeline__header govuk-accordion__section-header">
+                            <h3 class="timeline__title govuk-accordion__section-heading">
+                                <span class="govuk-accordion__section-button" id="accordion-default-heading-1">
+                                    Round 1 - May 2024
+                                </span>
+                            </h3>
+                            <div class="timeline__summary govuk-accordion__section-summary govuk-body"
+                                id="accordion-default-summary-1">
+                                Initial testing of form creation process
+                            </div>
+                        </div>
+                        <div id="accordion-default-content-1" class="timeline__content govuk-accordion__section-content"
+                            aria-labelledby="accordion-default-heading-1">
+                            <div class="markdown-content govuk-body" data-markdown="### User research overview
+
+We tested with 6 content designers from various teams."></div>
+
+                            <h4 class="govuk-heading-s">Research objectives</h4>
+                            <ul class="govuk-list govuk-list--bullet">
+                                <li>Test basic form creation flow</li>
+                                <li>Evaluate field validation</li>
+                            </ul>
+
+                            <details class="govuk-details" data-module="govuk-details">
+                                <summary class="govuk-details__summary">
+                                    <span class="govuk-details__summary-text">View design evolution</span>
+                                </summary>
+                                <div class="govuk-details__text">
+                                    <p class="govuk-body">Here's how the design changed:</p>
+                                    <h3 class="govuk-heading-s">Version 1</h3>
+                                    <p class="govuk-body">Initial design with basic fields.</p>
+                                    <figure class="govuk-image">
+                                        <img src="/public/images/113.png" alt="Version 1 design" />
+                                        <figcaption>Basic form fields</figcaption>
+                                    </figure>
+                                    <div class="preview-section">
+                                        <span class="govuk-caption-m govuk-!-margin-bottom-1">Preview</span>
+                                        <div class="iframe-container govuk-!-margin-bottom-6" role="region"
+                                            aria-labelledby="preview-heading-1">
+                                            <h2 id="preview-heading-1" class="govuk-visually-hidden">Preview of the form
+                                            </h2>
+                                            <iframe src="https://example.com/v1" class="iframe-content"
+                                                style="overflow-y: auto; height: 500px; width: 100%; border: none;"
+                                                scrolling="yes" frameborder="0" title="Form preview" marginheight="0"
+                                                marginwidth="0" allowfullscreen></iframe>
+                                            <div class="iframe-tabs" role="navigation" aria-label="Preview controls">
+                                                <a class="govuk-link govuk-link--no-visited-state iframe-tab maximise-button"
+                                                    style="border-right: #007f3b 1px solid;" href="#" role="button"
+                                                    aria-label="Maximise preview" title="Maximise preview"
+                                                    tabindex="0">Maximise</a>
+                                                <a class="govuk-link govuk-link--no-visited-state iframe-tab"
+                                                    href="https://example.com/v1" target="_blank"
+                                                    rel="noopener noreferrer" aria-label="Open preview in a new tab"
+                                                    title="Open preview in a new tab">Open in a new tab</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </details>
+
+                            <h4 class="govuk-heading-s">Key findings</h4>
+                            <ul class="govuk-list govuk-list--bullet">
+                                <li>Users needed clearer validation messages</li>
+                                <li>Form name field caused confusion</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </details>
+
+        <h2 class="govuk-heading-l">Combining Content Types</h2>
+        <p class="govuk-body">You can combine different content types to create rich, detailed research summaries. Here
+            are some common patterns:</p>
+
+        <h3 class="govuk-heading-m">1. Research Overview with Visual Evidence</h3>
+        <div class="govuk-inset-text">
+            <pre><code>{% raw %}{
+    type: "content",
+    content: "### User research overview
+    We tested with 6 content designers to understand their needs."
+},
+{
+    type: "images",
+    content: {
+        src: "/public/images/lists-reorder.png",
+        alt: "User research session in progress",
+        caption: "Research session with content designers"
+    }
+},
+{
+    type: "findings",
+    content: [
+        "Users needed clearer guidance",
+        "Some features were hard to discover"
+    ]
+}{% endraw %}</code></pre>
+        </div>
+        <details class="govuk-details" data-module="govuk-details">
+            <summary class="govuk-details__summary">
+                <span class="govuk-details__summary-text">View rendered example</span>
+            </summary>
+            <div class="govuk-details__text">
+                <div class="markdown-content govuk-body" data-markdown="### User research overview
+We tested with 6 content designers to understand their needs."></div>
+                <figure class="govuk-image">
+                    <img src="/public/images/lists-reorder.png" alt="User research session in progress" />
+                    <figcaption>Research session with content designers</figcaption>
+                </figure>
+                <h4 class="govuk-heading-s">Key findings</h4>
+                <ul class="govuk-list govuk-list--bullet">
+                    <li>Users needed clearer guidance</li>
+                    <li>Some features were hard to discover</li>
+                </ul>
+            </div>
+        </details>
+
+        <h3 class="govuk-heading-m">2. Design Evssssssssssssolution with Interactive Previews</h3>
+        <div class="govuk-inset-text">
+            <pre><code>{% raw %}{
+    type: "details",
+    summary: "View design evolution",
+    content: "Here's how the design changed over time:",
+    items: [
+        {
+            type: "content",
+            content: "### Version 1 Initial design with basic functionality."
+        },
+        {
+            type: "images",
+            content: {
+                src: "/public/images/113.png",
+                alt: "Version 1 design",
+                caption: "Basic form fields"
+            }
+        },
+        {
+            type: "preview",
+            url: "/titan-mvp-1/form-editor/information-type-nf"
+        },
+        {
+            type: "content",
+            content: "### Version 2Added validation and improved layout."
+        },
+        {
+            type: "images",
+            content: {
+                src: "/public/images/lists-reorder.png",
+                alt: "Version 2 design",
+                caption: "Added validation and improved layout"
+            }
+        },
+        {
+            type: "preview",
+            url: "https://forms-designer-prototype.herokuapp.com/design-history/template.html"
+        }
+    ]
+}{% endraw %}</code></pre>
+        </div>
+        <details class="govuk-details" data-module="govuk-details">
+            <summary class="govuk-details__summary">
+                <span class="govuk-details__summary-text">View rendered example</span>
+            </summary>
+            <div class="govuk-details__text">
+                <details class="govuk-details" data-module="govuk-details">
+                    <summary class="govuk-details__summary">
+                        <span class="govuk-details__summary-text">View design evolution</span>
+                    </summary>
+                    <div class="govuk-details__text">
+                        <p class="govuk-body">Here's how the design changed over time:</p>
+                        <h3 class="govuk-heading-s">Version 1</h3>
+                        <p class="govuk-body">Initial design with basic functionality.</p>
+                        <figure class="govuk-image">
+                            <img src="/public/images/113.png" alt="Version 1 design" />
+                            <figcaption>Basic form fields</figcaption>
+                        </figure>
+                        <div class="preview-section">
+                            <span class="govuk-caption-m govuk-!-margin-bottom-1">Preview</span>
+                            <div class="iframe-container govuk-!-margin-bottom-6" role="region"
+                                aria-labelledby="preview-heading-1">
+                                <h2 id="preview-heading-1" class="govuk-visually-hidden">Preview of the form</h2>
+                                <iframe src="/titan-mvp-1/form-editor/information-type-nf" class="iframe-content"
+                                    style="overflow-y: auto; height: 500px; width: 100%; border: none;" scrolling="yes"
+                                    frameborder="0" title="Form preview" marginheight="0" marginwidth="0"
+                                    allowfullscreen></iframe>
+                                <div class="iframe-tabs" role="navigation" aria-label="Preview controls">
+                                    <a class="govuk-link govuk-link--no-visited-state iframe-tab maximise-button"
+                                        style="border-right: #007f3b 1px solid;" href="#" role="button"
+                                        aria-label="Maximise preview" title="Maximise preview" tabindex="0">Maximise</a>
+                                    <a class="govuk-link govuk-link--no-visited-state iframe-tab"
+                                        href="/titan-mvp-1/form-editor/information-type-nf" target="_blank"
+                                        rel="noopener noreferrer" aria-label="Open preview in a new tab"
+                                        title="Open preview in a new tab">Open in a new tab</a>
+                                </div>
+                            </div>
+                        </div>
+                        <h3 class="govuk-heading-s">Version 2</h3>
+                        <p class="govuk-body">Added validation and improved layout.</p>
+                        <figure class="govuk-image">
+                            <img src="/public/images/lists-reorder.png" alt="Version 2 design" />
+                            <figcaption>Added validation and improved layout</figcaption>
+                        </figure>
+                        <div class="preview-section">
+                            <span class="govuk-caption-m govuk-!-margin-bottom-1">Preview</span>
+                            <div class="iframe-container govuk-!-margin-bottom-6" role="region"
+                                aria-labelledby="preview-heading-2">
+                                <h2 id="preview-heading-2" class="govuk-visually-hidden">Preview of the form</h2>
+                                <iframe
+                                    src="https://forms-designer-prototype.herokuapp.com/design-history/template.html"
+                                    class="iframe-content"
+                                    style="overflow-y: auto; height: 500px; width: 100%; border: none;" scrolling="yes"
+                                    frameborder="0" title="Form preview" marginheight="0" marginwidth="0"
+                                    allowfullscreen></iframe>
+                                <div class="iframe-tabs" role="navigation" aria-label="Preview controls">
+                                    <a class="govuk-link govuk-link--no-visited-state iframe-tab maximise-button"
+                                        style="border-right: #007f3b 1px solid;" href="#" role="button"
+                                        aria-label="Maximise preview" title="Maximise preview" tabindex="0">Maximise</a>
+                                    <a class="govuk-link govuk-link--no-visited-state iframe-tab"
+                                        href="https://forms-designer-prototype.herokuapp.com/design-history/template.html"
+                                        target="_blank" rel="noopener noreferrer" aria-label="Open preview in a new tab"
+                                        title="Open preview in a new tab">Open in a new tab</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </details>
+            </div>
+        </details>
+
+        <h3 class="govuk-heading-m">3. Research Summary with Recommendations</h3>
+        <div class="govuk-inset-text">
+            <pre><code>{% raw %}{
+    type: "content",
+    content: "### Research summaryWe conducted usability testing with 12 participants."
+},
+{
+    type: "objectives",
+    content: [
+        "Test form creation flow",
+        "Evaluate validation messages"
+    ]
+},
+{
+    type: "findings",
+    content: [
+        "Users struggled with validation",
+        "Form name field was confusing"
+    ]
+},
+{
+    type: "recommendations",
+    content: [
+        "Add clearer error messages",
+        "Improve form name guidance"
+    ]
+}{% endraw %}</code></pre>
+        </div>
+        <details class="govuk-details" data-module="govuk-details">
+            <summary class="govuk-details__summary">
+                <span class="govuk-details__summary-text">View rendered example</span>
+            </summary>
+            <div class="govuk-details__text">
+                <div class="markdown-content govuk-body" data-markdown="### Research summary
+We conducted usability testing with 12 participants."></div>
+                <h4 class="govuk-heading-s">Research objectives</h4>
+                <ul class="govuk-list govuk-list--bullet">
+                    <li>Test form creation flow</li>
+                    <li>Evaluate validation messages</li>
+                </ul>
+                <h4 class="govuk-heading-s">Key findings</h4>
+                <ul class="govuk-list govuk-list--bullet">
+                    <li>Users struggled with validation</li>
+                    <li>Form name field was confusing</li>
+                </ul>
+                <h4 class="govuk-heading-s">Recommendations</h4>
+                <ul class="govuk-list govuk-list--bullet">
+                    <li>Add clearer error messages</li>
+                    <li>Improve form name guidance</li>
+                </ul>
+            </div>
+        </details>
+
+        <h2 class="govuk-heading-l">Tips</h2>
+
+        <h3 class="govuk-heading-m">1. Keep it Organized</h3>
+        <ul class="govuk-list govuk-list--bullet">
+            <li>Use clear headings</li>
+            <li>Group related content together</li>
+            <li>Use details sections for long content</li>
+        </ul>
+
+        <h3 class="govuk-heading-m">2. Make it Visual</h3>
+        <ul class="govuk-list govuk-list--bullet">
+            <li>Include screenshots of each version</li>
+            <li>Add interactive previews when possible</li>
+            <li>Use images to show key changes</li>
+        </ul>
+
+        <h3 class="govuk-heading-m">3. Be Clear</h3>
+        <ul class="govuk-list govuk-list--bullet">
+            <li>Write in plain English</li>
+            <li>Explain technical terms</li>
+            <li>Focus on user impact</li>
+        </ul>
+
+        <h3 class="govuk-heading-m">4. Stay Consistent</h3>
+        <ul class="govuk-list govuk-list--bullet">
+            <li>Use the same structure for each research round</li>
+            <li>Follow the same format for similar content</li>
+            <li>Keep image sizes consistent</li>
+        </ul>
+
+        <h2 class="govuk-heading-l">Need Help?</h2>
+        <p class="govuk-body">If you're unsure about how to structure your content, look at existing design history
+            pages for examples. You can also ask the design team for guidance.</p>
+    </div>
+</div>
+
+<style>
+    .iframe-container {
+        border: 5px solid black;
+        border-radius: 4px;
+        padding: 0;
+        overflow: hidden;
+        position: relative;
+        max-width: 600px;
+    }
+
+    .iframe-tabs {
+        display: flex;
+        justify-content: flex-end;
+        border-bottom: 1px solid #ccc;
+        background-color: #f8f8f8;
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 10;
+        padding: 10px;
+    }
+
+    body.in-iframe .govuk-footer {
+        display: none !important;
+    }
+
+    .iframe-tab {
+        text-align: center;
+        padding: 10px;
+        font-size: 16px;
+        text-decoration: none;
+        cursor: pointer;
+    }
+
+    .iframe-tab:hover {
+        background-color: #e8e8e8;
+    }
+
+    .iframe-container.fullscreen {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100% !important;
+        max-width: none !important;
+        height: 100vh;
+        z-index: 9999;
+        background-color: white;
+    }
+
+    .iframe-container.fullscreen .iframe-tabs {
+        position: fixed;
+        z-index: 9999;
+        background-color: white;
+    }
+
+    .iframe-container.fullscreen .iframe-content {
+        height: calc(100vh - 50px);
+        width: 100% !important;
+        max-width: none !important;
+        border: none;
+    }
+
+    .timeline {
+        margin-top: 2em;
+    }
+
+    .timeline__item {
+        margin-bottom: 2em;
+    }
+
+    .timeline__header {
+        padding: 1em;
+        background-color: #f8f8f8;
+        border: 1px solid #ccc;
+    }
+
+    .timeline__title {
+        margin: 0;
+    }
+
+    .timeline__summary {
+        margin-top: 0.5em;
+    }
+
+    .timeline__content {
+        padding: 1em;
+        border: 1px solid #ccc;
+        border-top: none;
+    }
+
+    .govuk-image {
+        width: 100%;
+        max-width: 100%;
+        margin-left: 0;
+    }
+
+    .govuk-image img {
+        width: 100%;
+        transform: scale(1);
+        max-width: 600px;
+        align-items: left;
+        justify-content: left;
+        height: auto;
+        display: block;
+    }
+
+    .govuk-image figcaption {
+        color: #505a5f;
+    }
+</style>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // Configure marked to use standard markdown behavior
+        marked.setOptions({
+            breaks: false,
+            gfm: true,
+            pedantic: false
+        });
+
+
+        // Handle maximise button
+        document.querySelectorAll('.maximise-button').forEach(function (button) {
+            button.addEventListener('click', function (event) {
+                event.preventDefault();
+                const iframeContainer = this.closest('.iframe-container');
+                const iframe = iframeContainer.querySelector('.iframe-content');
+
+                if (iframeContainer.classList.contains('fullscreen')) {
+                    iframeContainer.classList.remove('fullscreen');
+                    iframe.style.height = '500px';
+                    this.textContent = 'Maximise';
+                } else {
+                    iframeContainer.classList.add('fullscreen');
+                    iframe.style.height = 'calc(100vh - 50px)';
+                    this.textContent = 'Minimise';
+                }
+            });
+        });
+
+        // Initialize GOV.UK accordion
+        if (window.GOVUKFrontend) {
+            new GOVUKFrontend.Accordion(document.querySelector('.govuk-accordion')).init();
+        }
+    });
+    if (window.self !== window.top) {
+        document.body.classList.add('in-iframe');
+    }
+
+</script>
+{% endblock %}

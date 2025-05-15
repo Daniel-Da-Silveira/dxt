@@ -1,0 +1,87 @@
+{% extends "design-history/template.html" %}
+
+{# --- Feature metadata --- #}
+{% set featureName = "Markdown Support" %}
+{% set latestVersionLink = "/titan-mvp-1/form-editor/markdown-support.html" %}
+{% set status = "Tested" %}
+{% set statusColor = "green" %}
+{% set userNeed = "Users need rich text formatting capabilities in their forms so they can provide clear and
+well-structured content." %}
+{% set phase = "Private beta" %}
+{% set category = "Form editor" %}
+{% set description = "This feature allows users to use markdown formatting in their forms, enabling rich text formatting
+and structured content creation." %}
+
+{# --- Research rounds for the summary table --- #}
+{% set researchRounds = [
+"Round 8 - November 2024",
+"Round 7 - October 2024"
+] %}
+
+{# --- Key improvements in the latest version --- #}
+{% set improvements = [
+"Enhanced markdown support",
+"Improved markdown guidance",
+"Added clear formatting examples",
+"Enhanced markdown preview"
+] %}
+
+{# --- Research history table --- #}
+{% set researchHistory = [
+{
+roundNumber: "8",
+researchDate: "November 2024",
+researchFinding: "Markdown support clear but needed better guidance",
+changeMade: "Added clear formatting examples and guidance"
+},
+{
+roundNumber: "7",
+researchDate: "October 2024",
+researchFinding: "Initial implementation well received but needed refinement",
+changeMade: "Initial implementation of markdown support feature"
+}
+] %}
+
+{# --- Detailed research summaries --- #}
+{% set researchSummaries = [
+{
+title: "Round 8 - November 2024",
+summary: "Testing of markdown guidance",
+sections: [
+{
+type: "content",
+content: "**Research conducted:** Remote usability testing (November 2024)\n\n**Participants:** Content designers and
+form administrators"
+},
+{
+type: "findings",
+content: [
+"Markdown support clear and useful",
+"Needed better guidance on formatting",
+"Recommendation to add formatting examples",
+"Users wanted more markdown options"
+]
+}
+]
+},
+{
+title: "Round 7 - October 2024",
+summary: "Initial testing of markdown support",
+sections: [
+{
+type: "content",
+content: "**Research conducted:** Remote usability testing (October 2024)\n\n**Participants:** Content designers and
+form administrators"
+},
+{
+type: "findings",
+content: [
+"Initial implementation well received",
+"Basic functionality clear and intuitive",
+"Recommendation to enhance markdown capabilities",
+"Users wanted more formatting options"
+]
+}
+]
+}
+] %}

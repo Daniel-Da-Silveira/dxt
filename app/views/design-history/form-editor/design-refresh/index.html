@@ -1,0 +1,87 @@
+{% extends "design-history/template.html" %}
+
+{# --- Feature metadata --- #}
+{% set featureName = "Editor Design Refresh" %}
+{% set latestVersionLink = "/titan-mvp-1/form-editor/design-refresh.html" %}
+{% set status = "Tested" %}
+{% set statusColor = "green" %}
+{% set userNeed = "Users need an improved editor interface so they can work more efficiently and effectively with their
+forms." %}
+{% set phase = "Private beta" %}
+{% set category = "Form editor" %}
+{% set description = "This feature provides an improved editor interface with enhanced usability, clearer navigation,
+and better visual hierarchy." %}
+
+{# --- Research rounds for the summary table --- #}
+{% set researchRounds = [
+"Round 7 - October 2024",
+"Round 6 - September 2024"
+] %}
+
+{# --- Key improvements in the latest version --- #}
+{% set improvements = [
+"Enhanced editor interface",
+"Improved navigation",
+"Added clear visual hierarchy",
+"Enhanced usability"
+] %}
+
+{# --- Research history table --- #}
+{% set researchHistory = [
+{
+roundNumber: "7",
+researchDate: "October 2024",
+researchFinding: "Editor interface clear but needed refinement",
+changeMade: "Enhanced editor interface and usability"
+},
+{
+roundNumber: "6",
+researchDate: "September 2024",
+researchFinding: "Initial implementation well received but needed improvement",
+changeMade: "Initial implementation of editor design refresh"
+}
+] %}
+
+{# --- Detailed research summaries --- #}
+{% set researchSummaries = [
+{
+title: "Round 7 - October 2024",
+summary: "Testing of editor interface",
+sections: [
+{
+type: "content",
+content: "**Research conducted:** Remote usability testing (October 2024)\n\n**Participants:** Content designers and
+form administrators"
+},
+{
+type: "findings",
+content: [
+"Editor interface clear and useful",
+"Needed better navigation",
+"Recommendation to enhance visual hierarchy",
+"Users wanted more customization options"
+]
+}
+]
+},
+{
+title: "Round 6 - September 2024",
+summary: "Initial testing of editor design refresh",
+sections: [
+{
+type: "content",
+content: "**Research conducted:** Remote usability testing (September 2024)\n\n**Participants:** Content designers and
+form administrators"
+},
+{
+type: "findings",
+content: [
+"Initial implementation well received",
+"Basic functionality clear and intuitive",
+"Recommendation to enhance interface design",
+"Users wanted more customization options"
+]
+}
+]
+}
+] %}

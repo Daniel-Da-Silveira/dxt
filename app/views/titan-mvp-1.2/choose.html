@@ -1,0 +1,252 @@
+{% extends "layouts/main.html" %}
+
+{% block pageTitle %}
+Choose a section – Forms Designer prototype
+{% endblock %}
+
+{% block content %}
+<form class="form" action="/titan-mvp-1.2/choose" method="post">
+    {{ govukRadios({
+    name: "prototype",
+    value: data['prototype'],
+    fieldset: {
+    legend: {
+    html: 'Where do you want the prototype to start?',
+    isPageHeading: true,
+    classes: "govuk-fieldset__legend--l"
+    }
+    },
+    items: [
+    {
+    value: "signIn",
+    html: 'Sign-in',
+    hint: { text: 'Start at the sign-in page.' }
+    },
+    {
+    value: "library",
+    text: "Forms library",
+    hint: { text: 'Browse and manage all forms.' }
+    },
+    {
+    value: "newForm",
+    text: "Create new form",
+    hint: { text: 'Begin the process to create a new form.' }
+    },
+    {
+    value: "overview",
+    text: "Overview pages",
+    hint: { text: 'View summary and details for a form.' },
+    children: {
+    items: [
+    {
+    value: "overview-index",
+    text: "Form overview",
+    hint: { text: 'See the main overview for a form.' }
+    },
+    {
+    value: "overview-support",
+    text: "Support pages",
+    hint: { text: 'Access support and contact information.' }
+    },
+    {
+    value: "overview-live",
+    text: "Live overview",
+    hint: { text: 'View the live version overview.' }
+    }
+    ]
+    }
+    },
+    {
+    value: "editor",
+    text: "Editor",
+    hint: { text: 'Edit the structure and content of a form.' },
+    children: {
+    items: [
+    {
+    value: "editor-listing",
+    text: "Page listing",
+    hint: { text: 'See and manage all pages in the form.' }
+    },
+    {
+    value: "editor-page-overview",
+    text: "Page overview",
+    hint: { text: 'View and edit details for a specific page.' }
+    },
+    {
+    value: "editor-preview",
+    text: "Preview",
+    hint: { text: 'Preview the form as users will see it.' }
+    }
+    ]
+    }
+    }
+    ]
+    }) }}
+    {{ govukButton({
+    text: "Start prototype",
+    isStartButton: true
+    }) }}
+</form>
+{#
+<h2 class="govuk-heading-l">Full page list</h2>
+
+<h3 class="govuk-heading-m">Core pages</h3>
+{{ govukSummaryList({
+rows: [
+{
+key: {
+text: "Forms library"
+},
+value: {
+html: '<a href="/titan-mvp-1.2/library" class="govuk-link">View prototype</a>'
+},
+actions: {
+items: [
+{
+href: "/titan-mvp-1.2/library",
+text: "View",
+visuallyHiddenText: "Forms library"
+}
+]
+}
+},
+{
+key: {
+text: "Form overview"
+},
+value: {
+html: '<a href="/titan-mvp-1.2/form-overview/index" class="govuk-link">View prototype</a>'
+},
+actions: {
+items: [
+{
+href: "/titan-mvp-1.2/form-overview/index",
+text: "View",
+visuallyHiddenText: "Form overview"
+}
+]
+}
+}
+]
+}) }}
+
+<h3 class="govuk-heading-m">Editor pages</h3>
+{{ govukSummaryList({
+rows: [
+{
+key: {
+text: "Page listing"
+},
+value: {
+html: '<a href="/titan-mvp-1.2/form-editor/listing" class="govuk-link">View prototype</a>'
+},
+actions: {
+items: [
+{
+href: "/titan-mvp-1.2/form-editor/listing",
+text: "View",
+visuallyHiddenText: "Page listing"
+}
+]
+}
+},
+{
+key: {
+text: "Page overview"
+},
+value: {
+html: '<a href="/titan-mvp-1.2/form-editor/page-overview" class="govuk-link">View prototype</a>'
+},
+actions: {
+items: [
+{
+href: "/titan-mvp-1.2/form-editor/page-overview",
+text: "View",
+visuallyHiddenText: "Page overview"
+}
+]
+}
+},
+{
+key: {
+text: "Page type selection"
+},
+value: {
+html: '<a href="/titan-mvp-1.2/form-editor/page-type" class="govuk-link">View prototype</a>'
+},
+actions: {
+items: [
+{
+href: "/titan-mvp-1.2/form-editor/page-type",
+text: "View",
+visuallyHiddenText: "Page type selection"
+}
+]
+}
+}
+]
+}) }}
+
+<h3 class="govuk-heading-m">Support pages</h3>
+{{ govukSummaryList({
+rows: [
+{
+key: {
+text: "Next steps"
+},
+value: {
+html: '<a href="/titan-mvp-1.2/form-overview/support/next-steps" class="govuk-link">View prototype</a>'
+},
+actions: {
+items: [
+{
+href: "/titan-mvp-1.2/form-overview/support/next-steps",
+text: "View",
+visuallyHiddenText: "Next steps"
+}
+]
+}
+},
+{
+key: {
+text: "Add address"
+},
+value: {
+html: '<a href="/titan-mvp-1.2/add-address" class="govuk-link">View prototype</a>'
+},
+actions: {
+items: [
+{
+href: "/titan-mvp-1.2/add-address",
+text: "View",
+visuallyHiddenText: "Add address"
+}
+]
+}
+}
+]
+}) }}
+
+<h3 class="govuk-heading-m">User management</h3>
+{{ govukSummaryList({
+rows: [
+{
+key: {
+text: "Manage users"
+},
+value: {
+html: '<a href="/titan-mvp-1.2/roles/manage-users" class="govuk-link">View prototype</a>'
+},
+actions: {
+items: [
+{
+href: "/titan-mvp-1.2/roles/manage-users",
+text: "View",
+visuallyHiddenText: "Manage users"
+}
+]
+}
+}
+]
+}) }} #}
+{% endblock %}

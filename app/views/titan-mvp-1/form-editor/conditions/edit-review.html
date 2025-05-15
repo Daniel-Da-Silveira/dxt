@@ -1,0 +1,147 @@
+{% extends "layouts/main.html" %}
+{% from "components/service-header/macro.njk" import serviceHeader %}
+{% from "govuk/components/notification-banner/macro.njk" import govukNotificationBanner %}
+{% set pageName = "Review changes - Apply for a county parish holding number in England" %}
+
+{% block header %}
+{{ serviceHeader({
+organisationName: "Defra",
+productName: "Forms Designer",
+serviceName: "",
+containerClasses: containerClasses,
+accountName: "Chris Smith",
+homepageLink: "/",
+signOutLink: "/onboarding/sign-out-confirmation",
+navigationItems: [
+{ href: "/titan-mvp-1/library.html", text: "Forms library", id: "nav-library" },
+{ href: "/cph-overview/draft/complete-clean.html", text: "Overview", id: "nav-overview" },
+{ href: "/titan-mvp-1/form-editor/listing", text: "Editor", id: "nav-editor" }
+],
+activeLinkId: "nav-editor"
+}) }}
+
+<div class="x-govuk-masthead x-govuk-masthead--large">
+    <div class="govuk-width-container">
+        {{ govukBackLink({
+        classes: "govuk-back-link--inverse govuk-!-margin-bottom-0",
+        text: commonTerms.form_editor.navigation.back_to_add_edit_pages,
+        href: "/titan-mvp-1/form-editor/listing.html"
+        }) }}
+
+        <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible"
+            style="border-bottom: 1px solid white; margin-bottom: 0" />
+
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-full-from-desktop">
+                <h1 class="x-govuk-masthead__title">Manage conditions
+                </h1>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-full">
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-two-thirds-from-desktop">
+                <nav class="moj-sub-navigation govuk-!-margin-bottom-8" aria-label="Sub navigation">
+                    <ul class="moj-sub-navigation__list">
+                        <li class="moj-sub-navigation__item">
+                            <a class="moj-sub-navigation__link" href="/titan-mvp-1/form-editor/conditions/manager">
+                                Conditions
+                            </a>
+                        </li>
+                        <li class="moj-sub-navigation__item">
+                            <a class="moj-sub-navigation__link" aria-current="page" href="#">
+                                Check changes
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+
+                <h2 class="govuk-heading-m ">Check your changes before saving</h2>
+
+                {% if pagesWithCondition | length > 0 %}
+                <div class="govuk-warning-text govuk-!-margin-bottom-2">
+                    <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
+                    <strong class="govuk-warning-text__text">
+                        <span class="govuk-visually-hidden">Warning</span>
+                        Changes to this condition will affect the following pages:
+
+                        <ul class="govuk-list govuk-list--bullet govuk-!-font-weight-bold govuk-!-margin-top-2">
+                            {% for page in pagesWithCondition %}
+                            <li>Page {{ page.pageNumber }}</li>
+                            {% endfor %}
+                        </ul>
+                    </strong>
+                </div>
+                {% endif %}
+
+                <div class="govuk-summary-card govuk-!-margin-bottom-6 ">
+                    <div class="govuk-summary-card__title-wrapper">
+                        <h2 class="govuk-summary-card__title govuk-tag govuk-tag--grey">Original condition</h2>
+                    </div>
+                    <div class="govuk-summary-card__content">
+                        <p class="govuk-body govuk-!-font-weight-bold">{{ originalCondition.conditionName }}</p>
+                        <p class="govuk-body">
+                            {% for rule in originalCondition.rules %}
+                            {% if loop.first %}
+                            '{{ rule.questionText }}' {{ rule.operator | replace("-", " ") }} {% if rule.value | isArray
+                            %}'{{ rule.value | join("' or '") }}'{% else %}'{{ rule.value }}'{% endif %}
+                            {% else %}
+                            <span class="govuk-!-font-weight-bold">{{ rule.logicalOperator | default('AND') }}</span>
+                            '{{ rule.questionText }}' {{ rule.operator | replace("-", " ") }} {% if rule.value | isArray
+                            %}'{{ rule.value | join("' or '") }}'{% else %}'{{ rule.value }}'{% endif %}
+                            {% endif %}
+                            {% endfor %}
+                        </p>
+                    </div>
+                </div>
+
+                <div class="govuk-summary-card govuk-!-margin-bottom-6 "
+                    style="border-left: 10px solid govuk-tag--green;">
+                    <div class="govuk-summary-card__title-wrapper ">
+                        <h2 class="govuk-summary-card__title govuk-tag govuk-tag--green">New condition</h2>
+                    </div>
+                    <div class="govuk-summary-card__content">
+                        <p class="govuk-body govuk-!-font-weight-bold">{{ updatedCondition.conditionName }}</p>
+                        <p class="govuk-body">
+                            {% for rule in updatedCondition.rules %}
+                            {% if loop.first %}
+                            '{{ rule.questionText }}' {{ rule.operator | replace("-", " ") }} {% if rule.value | isArray
+                            %}'{{ rule.value | join("' or '") }}'{% else %}'{{ rule.value }}'{% endif %}
+                            {% else %}
+                            <span class="govuk-!-font-weight-bold">{{ rule.logicalOperator | default('AND') }}</span>
+                            '{{ rule.questionText }}' {{ rule.operator | replace("-", " ") }} {% if rule.value | isArray
+                            %}'{{ rule.value | join("' or '") }}'{% else %}'{{ rule.value }}'{% endif %}
+                            {% endif %}
+                            {% endfor %}
+                        </p>
+                    </div>
+                </div>
+
+                <div class="govuk-button-group">
+                    <button type="submit" class="govuk-button" data-module="govuk-button" form="save-changes-form">
+                        Save changes
+                    </button>
+
+                    <a href="/titan-mvp-1/form-editor/conditions/edit/{{ updatedCondition.id }}"
+                        class="govuk-button govuk-button--secondary">
+                        Continue editing
+                    </a>
+
+                    <a href="/titan-mvp-1/form-editor/conditions/manager" class="govuk-link">
+                        Cancel
+                    </a>
+                </div>
+
+                <form id="save-changes-form" method="post" action="/titan-mvp-1/form-editor/conditions/save-changes"
+                    style="display: none;">
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

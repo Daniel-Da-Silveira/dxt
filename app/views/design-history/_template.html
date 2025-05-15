@@ -1,0 +1,188 @@
+{#
+Design History Page Template
+----------------------------------------------------------------------
+This template provides the basic structure for creating new design history pages.
+Copy this file and fill in the sections with your feature-specific content.
+
+How to use:
+1. Copy this template to create a new design history page
+2. Fill in all the variables and sections below
+3. Add your research rounds and findings
+4. Update the page list and feature links as needed
+#}
+
+{% extends "design-history/template.html" %}
+
+{# --- Feature metadata --- #}
+{% set featureName = "" %}
+{% set latestVersionLink = "" %}
+{% set status = "" %}
+{% set statusColor = "" %}
+{% set userNeed = "" %}
+{% set phase = "" %}
+{% set category = "" %}
+{% set description = "" %}
+
+{# --- Journey steps structure --- #}
+{% set journeySteps = [
+{
+stepNumber: "1",
+stepTitle: "Onboarding",
+stepSubtitles: [
+{ subtitleText: "Sign in/out", isCurrent: false },
+{ subtitleText: "Roles and permissions", isCurrent: false }
+]
+},
+{
+stepNumber: "2",
+stepTitle: "Create new form",
+stepSubtitles: [
+{ subtitleText: "Add form details", isCurrent: false }
+]
+},
+{
+stepNumber: "3",
+stepTitle: "Form design",
+stepSubtitles: [
+{ subtitleText: "Create and edit questions", isCurrent: false },
+{ subtitleText: "Set up page conditions", isCurrent: false }
+]
+},
+{
+stepNumber: "4",
+stepTitle: "Testing",
+stepSubtitles: [
+{ subtitleText: "Preview form", isCurrent: false },
+{ subtitleText: "Check routing", isCurrent: false }
+]
+},
+{
+stepNumber: "5",
+stepTitle: "Form management",
+stepSubtitles: [
+{ subtitleText: "Finding forms", isCurrent: false },
+{ subtitleText: "Publishing forms", isCurrent: false },
+{ subtitleText: "Receiving submissions", isCurrent: false },
+{ subtitleText: "Updating form details", isCurrent: false }
+]
+}
+] %}
+
+{# --- Full page list --- #}
+{% set pageList = [
+{
+sectionTitle: "",
+pages: [
+{
+pageName: "",
+pageLink: "",
+releaseVersion: ""
+}
+]
+}
+] %}
+
+{# --- Feature links --- #}
+{% set featureLinks = [
+{
+featureTitle: "",
+screens: [
+{
+screenName: "",
+screenPath: ""
+}
+]
+}
+] %}
+
+{# --- Research rounds for the summary table --- #}
+{% set researchRounds = [
+"Round 8 - November 2024",
+"Round 3 and 4 - June and July 2024",
+"Round 1 - May 2024"
+] %}
+
+{# --- Key improvements in the latest version --- #}
+{% set improvements = [] %}
+
+{# --- Research history table --- #}
+{% set researchHistory = [
+[
+{ roundNumber: "8" },
+{ roundDate: "November 2024" },
+{ roundFindings: "Users understood the security implications but needed clearer guidance on appropriate email addresses"
+},
+{ roundChanges: "Added warning about personal email addresses in team details" }
+]
+] %}
+
+{# --- Detailed research summaries --- #}
+{% set researchSummaries = [
+{
+summaryTitle: "",
+summaryDescription: "",
+sections: [
+{
+sectionType: "content",
+sectionContent: "**Research conducted:** \n\n**Participants:** "
+},
+{
+sectionType: "screen",
+screenTitle: "",
+screenContent: "",
+screenImages: [
+{
+imageSource: "",
+imageAlt: "",
+imageCaption: ""
+}
+]
+},
+{
+sectionType: "changes",
+changesTitle: "Changes since previous round",
+changesContent: [
+{
+changedScreen: "",
+changeDescription: "",
+changeReason: ""
+}
+]
+},
+{
+sectionType: "findings",
+findingsList: []
+},
+{
+sectionType: "quotes",
+quotesList: []
+}
+]
+}
+] %}
+
+{# --- Preview section --- #}
+<span class="govuk-caption-m govuk-!-margin-bottom-1">Preview</span>
+<div class="iframe-container govuk-!-margin-bottom-6" role="region" aria-labelledby="preview-heading">
+    <h2 id="preview-heading" class="govuk-visually-hidden">Preview of the form</h2>
+    <iframe src="" class="iframe-content" style="overflow-y: auto; height: 500px; width: 100%; border: none;"
+        scrolling="yes" frameborder="0" title="Form preview" marginheight="0" marginwidth="0" allowfullscreen>
+    </iframe>
+    <div class="iframe-tabs" role="navigation" aria-label="Preview controls">
+        <a class="govuk-link govuk-link--no-visited-state iframe-tab maximise-button"
+            style="border-right: #007f3b 1px solid;" href="#" role="button" aria-label="Maximise preview"
+            title="Maximise preview" tabindex="0">
+            Maximise
+        </a>
+        <a class="govuk-link govuk-link--no-visited-state iframe-tab" href="" target="_blank" rel="noopener noreferrer"
+            aria-label="Open preview in a new tab" title="Open preview in a new tab">
+            Open in a new tab
+        </a>
+    </div>
+</div>
+
+<style>
+    .app-secondary-text {
+        color: #505a5f;
+    }
+</style>

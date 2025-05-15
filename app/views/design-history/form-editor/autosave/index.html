@@ -1,0 +1,59 @@
+{% extends "design-history/template.html" %}
+
+{# --- Feature metadata --- #}
+{% set featureName = "Autosave" %}
+{% set latestVersionLink = "/titan-mvp-1/form-editor/autosave.html" %}
+{% set status = "Tested" %}
+{% set statusColor = "green" %}
+{% set userNeed = "Users need their work to be saved automatically so they don't lose their progress." %}
+{% set phase = "Private beta" %}
+{% set category = "Form editor" %}
+{% set description = "This feature automatically saves form changes as users work, ensuring their progress is not lost."
+%}
+
+{# --- Research rounds for the summary table --- #}
+{% set researchRounds = [
+"Round 8 - November 2024"
+] %}
+
+{# --- Key improvements in the latest version --- #}
+{% set improvements = [
+"Enhanced autosave functionality",
+"Improved save notifications",
+"Added clear save status indicators",
+"Enhanced save reliability"
+] %}
+
+{# --- Research history table --- #}
+{% set researchHistory = [
+{
+roundNumber: "8",
+researchDate: "November 2024",
+researchFinding: "Autosave functionality clear but needed better notifications",
+changeMade: "Added clear save status indicators"
+}
+] %}
+
+{# --- Detailed research summaries --- #}
+{% set researchSummaries = [
+{
+title: "Round 8 - November 2024",
+summary: "Testing of autosave functionality",
+sections: [
+{
+type: "content",
+content: "**Research conducted:** Remote usability testing (November 2024)\n\n**Participants:** Content designers and
+form administrators"
+},
+{
+type: "findings",
+content: [
+"Autosave functionality clear and useful",
+"Needed better save notifications",
+"Recommendation to add clear status indicators",
+"Users wanted more save feedback"
+]
+}
+]
+}
+] %}

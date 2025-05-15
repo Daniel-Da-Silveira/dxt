@@ -32,9 +32,9 @@ Component options:
   - containerClasses (string): Classes that can be added to the inner container, useful if you want to make the header full width (optional)
 #}
 
-{%- set accountLink = params.accountLink if params.accountLink else "https://home.account.gov.uk/" -%}
-{%- set homepageLink = params.homepageLink if params.homepageLink else "https://www.gov.uk/" -%}
-{%- set signOutLink = params.signOutLink if params.signOutLink else "https://home.account.gov.uk/sign-out" -%}
+{%- set accountLink = params.accountLink if params.accountLink else "/titan-mvp-1/roles/my-account.html" -%}
+{%- set homepageLink = params.homepageLink if params.homepageLink else "/index.html" -%}
+{%- set signOutLink = params.signOutLink if params.signOutLink else "/titan-mvp-1.2/roles/sign-out" -%}
 {%- macro littlePersonIcon(modifier="default") -%}
   {%- set class = "focus" if modifier == "focus" else "default" %}
   {%- set backgroundColour = "black" if modifier == "focus" else "white" %}
@@ -125,7 +125,7 @@ Component options:
       <div class="service-header__container">
         {%- if params.serviceName %}
         <!-- The name of your service goes here -->
-        <h2 class="service-header__heading" style="font-size:19px!important;">{{ params.serviceName }}</h2>
+        <h2 class="service-header__heading">{{ params.serviceName }}</h2>
         {% endif %}
         {%- if params.navigationItems %}
         <div>

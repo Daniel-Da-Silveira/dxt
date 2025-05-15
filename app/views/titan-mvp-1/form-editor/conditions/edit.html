@@ -1,0 +1,685 @@
+{% extends "layouts/main.html" %}
+{% from "components/service-header/macro.njk" import serviceHeader %}
+{% set pageName = "Edit condition - Apply for a county parish holding number in England" %}
+
+{% block header %}
+{{ serviceHeader({
+organisationName: "Defra",
+productName: "Forms Designer",
+serviceName: "",
+containerClasses: containerClasses,
+accountName: "Chris Smith",
+homepageLink: "/",
+signOutLink: "/onboarding/sign-out-confirmation",
+navigationItems: [
+{ href: "/titan-mvp-1/library.html", text: "Forms library", id: "nav-library" },
+{ href: "/cph-overview/draft/complete-clean.html", text: "Overview", id: "nav-overview" },
+{ href: "/titan-mvp-1/form-editor/listing", text: "Editor", id: "nav-editor" }
+],
+activeLinkId: "nav-editor"
+}) }}
+
+<div class="x-govuk-masthead x-govuk-masthead--large">
+    <div class="govuk-width-container">
+        {{ govukBackLink({ classes: "govuk-back-link--inverse govuk-!-margin-bottom-0", text:
+        commonTerms.form_editor.navigation.back_to_add_edit_pages, href: "/titan-mvp-1/form-editor/conditions-manager" }) }}
+
+        <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible"
+            style="border-bottom: 1px solid white; margin-bottom: 0" />
+
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-full-from-desktop">
+                <h1 class="x-govuk-masthead__title">
+                    <span class="govuk-caption-l" style="color: white;"> {{ formName }}
+                    </span>
+                    Manage conditions
+                </h1>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-full">
+        <div class="govuk-grid-row">
+            <!-- Left Column for Form Controls -->
+            <div class="govuk-grid-column-two-thirds-from-desktop" id="container"
+                style="flex: 1 1 75%; overflow-y: auto">
+
+                <!-- Sub Navigation for Question -->
+                <nav class="moj-sub-navigation govuk-!-padding-top-0 govuk-!-margin-bottom-2"
+                    aria-label="Sub navigation">
+                    <ul class="moj-sub-navigation__list" id="nav-list2">
+                        <li class="moj-sub-navigation__item">
+                            <a class="moj-sub-navigation__link" href="/titan-mvp-1/form-editor/conditions/manager">
+                                All conditions
+                            </a>
+                        </li>
+                        <li class="moj-sub-navigation__item">
+                            <a class="moj-sub-navigation__link" aria-current="page" href="#">
+                                Edit condition
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+
+
+
+                {# <h2 class="govuk-heading-l govuk-!-margin-top-6">Edit condition</h2> #}
+
+
+                <div class="govuk-summary-card govuk-!-margin-bottom-6 govuk-!-margin-top-6">
+                    <div class=" govuk-summary-card__title-wrapper"">
+                    <div class=" govuk-summary-card__title">
+                        Original
+                        condition
+                    </div>
+
+                </div>
+
+                <div class="govuk-summary-card__content">
+                    <p class="govuk-body govuk-!-font-weight-bold">{{ condition.conditionName }}
+                    </p>
+                    <p class="govuk-body">
+                        {% for rule in condition.rules %}
+                        {% if loop.first %}
+                        '{{ rule.questionText }}' {{ rule.operator | replace("-", " ") }} '{{
+                        rule.value }}'
+                        {% else %}
+                        <span class="govuk-!-font-weight-bold">{{ rule.logicalOperator |
+                            default('AND') }}</span>
+                        '{{ rule.questionText }}' {{ rule.operator | replace("-", " ") }} '{{
+                        rule.value }}'
+                        {% endif %}
+                        {% endfor %}
+                    </p>
+                </div>
+            </div>
+
+            <form id="condition-form" method="post" action="/titan-mvp-1/form-editor/conditions-manager/edit"
+                data-initial-condition="{{ condition | dump | safe | replace("'", "&#39;") | replace('"', '&quot;') }}">
+
+                <div class="govuk-form-group app-form-container">
+                    <input type="hidden" name="conditionId" value="{{ condition.id }}">
+                    <input type="hidden" name="rules" id="rulesData">
+
+                    <div class="govuk-form-group">
+                        <label class="govuk-label" for="questionSelect">
+                            Select a question
+                        </label>
+                        <select class="govuk-select main-question" id="questionSelect" name="question-0" required
+                            data-available-questions='{{ availableQuestions | dump | safe }}'>
+                            <option value="">Choose a question</option>
+                            {% for question in availableQuestions %}
+                            <option value="{{ question.value }}" data-type="{{ question.type }}"
+                                data-options='{{ question.options | dump | safe }}' {% if
+                                question.text===condition.rules[0].questionText %}selected{% endif %}>
+                                {{ question.text }}
+                            </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <div class="govuk-form-group">
+                        <label class="govuk-label" for="operatorSelect">
+                            Condition type
+                        </label>
+                        <select class="govuk-select main-operator" id="operatorSelect" name="operator-0" required>
+                            <option value="is" {% if condition.rules[0].operator==='is' %}selected{% endif %}>is
+                            </option>
+                            <option value="is-not" {% if condition.rules[0].operator==='is-not' %}selected{% endif %}>is
+                                not</option>
+                        </select>
+                    </div>
+
+                    <div class="govuk-form-group main-value-container" id="valueContainer" style="display: none;">
+                        <label class="govuk-label" for="condition-value">Select a value</label>
+                        <!-- Value inputs will be dynamically populated here -->
+                    </div>
+
+                    <div id="additional-conditions">
+                        <!-- Additional conditions will be added here -->
+                        {% for rule in condition.rules %}
+                        {% if not loop.first %}
+                        <div class="condition-item app-form-container">
+                            <button
+                                class="govuk-button govuk-button--secondary govuk-button--warning remove-condition-link"
+                                style="position: absolute; top: 15px; right: 15px;">
+                                <svg class="govuk-!-margin-right-1" style="position: relative; top: 2px" width="12"
+                                    height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M10.5 1.5L1.5 10.5" stroke="currentColor" stroke-width="2" />
+                                    <path d="M1.5 1.5L10.5 10.5" stroke="currentColor" stroke-width="2" />
+                                </svg>
+                                Remove condition
+                            </button>
+
+                            <fieldset class="govuk-fieldset">
+                                <legend class="govuk-fieldset__legend govuk-fieldset__legend--s">
+                                    Additional condition {{ loop.index - 1 }}
+                                </legend>
+
+                                <div class="govuk-form-group">
+                                    <label class="govuk-label">Select a question</label>
+                                    <select class="govuk-select condition-question" name="question-{{ loop.index }}"
+                                        required data-available-questions='{{ availableQuestions | dump | safe }}'>
+                                        {% for question in availableQuestions %}
+                                        <option value="{{ question.value }}" data-type="{{ question.type }}"
+                                            data-options='{{ question.options | dump | safe }}' {% if
+                                            question.text===rule.questionText %}selected{% endif %}>
+                                            {{ question.text }}
+                                        </option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+
+                                <div class="govuk-form-group">
+                                    <label class="govuk-label">Condition type</label>
+                                    <select class="govuk-select" name="operator-{{ loop.index }}">
+                                        <option value="is" {% if rule.operator==='is' or not rule.operator %}selected{%
+                                            endif %}>is</option>
+                                        <option value="is-not" {% if rule.operator==='is-not' %}selected{% endif %}>is
+                                            not
+                                        </option>
+                                    </select>
+                                </div>
+
+                                <div class="govuk-form-group condition-value-container">
+                                    <label class="govuk-label">Select a value</label>
+                                    <!-- Value inputs will be dynamically populated here -->
+                                </div>
+                            </fieldset>
+                        </div>
+                        {% endif %}
+                        {% endfor %}
+                    </div>
+
+                    <button class="govuk-button govuk-button--inverse" id="add-condition-link">
+                        <svg class="govuk-!-margin-right-1" style="position: relative; top: 2px" width="12" height="12"
+                            viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M6 1V11" stroke="currentColor" stroke-width="2"></path>
+                            <path d="M1 6H11" stroke="currentColor" stroke-width="2"></path>
+                        </svg>
+                        Add another condition
+                    </button>
+
+                    <div class="govuk-form-group" id="logicalOperatorGroup" style="display: none;">
+                        <fieldset class="govuk-fieldset">
+                            <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">
+                                How do you want to combine these conditions?
+                            </legend>
+                            <div class="govuk-radios govuk-radios--inline" data-module="govuk-radios">
+                                <div class="govuk-radios__item">
+                                    <input class="govuk-radios__input" id="logical-operator-and" name="logicalOperator"
+                                        type="radio" value="AND" checked>
+                                    <label class="govuk-label govuk-radios__label" for="logical-operator-and">
+                                        All conditions must be met (AND)
+                                    </label>
+                                </div>
+                                <div class="govuk-radios__item">
+                                    <input class="govuk-radios__input" id="logical-operator-or" name="logicalOperator"
+                                        type="radio" value="OR">
+                                    <label class="govuk-label govuk-radios__label" for="logical-operator-or">
+                                        Any condition can be met (OR)
+                                    </label>
+                                </div>
+                            </div>
+                        </fieldset>
+                    </div>
+                    <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
+
+                    <div class="govuk-form-group">
+                        <label class="govuk-label govuk-label--m" for="conditionName">
+                            Condition name
+                        </label>
+                        <div class="govuk-hint">
+                            Condition names help you to identify conditions in your form, for
+                            example, 'Not a farmer'.
+                            Users will not see condition names.
+                        </div>
+                        <input class="govuk-input" id="conditionName" name="conditionName" type="text" required
+                            value="{{ condition.conditionName }}">
+                    </div>
+
+                    <div class="govuk-button-group">
+                        <button type="submit" class="govuk-button">Continue</button>
+                        <a href="/titan-mvp-1/form-editor/conditions/manager"
+                            class="govuk-link govuk-link--no-visited-state">Cancel</a>
+                    </div>
+            </form>
+        </div>
+    </div>
+</div>
+</div>
+
+<script>
+    // Get initial condition data from the server
+    const initialConditionStr = document.getElementById('condition-form').getAttribute('data-initial-condition')
+        .replace(/&quot;/g, '"')
+        .replace(/&#39;/g, "'");
+    const initialCondition = JSON.parse(initialConditionStr);
+
+    console.log('Parsed initial condition:', initialCondition);
+
+    document.addEventListener('DOMContentLoaded', function () {
+        // Initialize condition count and set up remove handlers for existing conditions
+        let conditionCount = document.querySelectorAll('.condition-item').length;
+
+        function updateValueContainer(container, questionSelect, initialValue = null, conditionIndex = 0) {
+            const selectedOption = questionSelect.options[questionSelect.selectedIndex];
+            if (!selectedOption || !selectedOption.value) {
+                container.style.display = 'none';
+                return;
+            }
+
+            const questionType = selectedOption.getAttribute('data-type');
+            let options = [];
+            const dataOptions = selectedOption.getAttribute('data-options');
+            try {
+                options = dataOptions ? JSON.parse(dataOptions.replace(/&quot;/g, '"')) : [];
+            } catch (e) {
+                console.error('Error parsing options:', e);
+                return;
+            }
+
+            // Create appropriate input based on question type
+            const fieldset = document.createElement('div');
+            fieldset.className = 'govuk-form-group';
+
+            const label = document.createElement('label');
+            label.className = 'govuk-label';
+            label.textContent = 'Select a value';
+            fieldset.appendChild(label);
+
+            if (questionType === 'yes-no') {
+                const radiosDiv = document.createElement('div');
+                radiosDiv.className = 'govuk-radios govuk-radios--small';
+                radiosDiv.setAttribute('data-module', 'govuk-radios');
+
+                ['Yes', 'No'].forEach(value => {
+                    const itemDiv = document.createElement('div');
+                    itemDiv.className = 'govuk-radios__item';
+
+                    const input = document.createElement('input');
+                    input.className = 'govuk-radios__input';
+                    input.type = 'radio';
+                    input.id = `value-${conditionIndex}-${value.toLowerCase()}`;
+                    input.name = `value-${conditionIndex}`;
+                    input.value = value;
+                    if (initialValue && initialValue.toLowerCase() === value.toLowerCase()) {
+                        input.checked = true;
+                    }
+
+                    const label = document.createElement('label');
+                    label.className = 'govuk-label govuk-radios__label';
+                    label.htmlFor = `value-${conditionIndex}-${value.toLowerCase()}`;
+                    label.textContent = value;
+
+                    itemDiv.appendChild(input);
+                    itemDiv.appendChild(label);
+                    radiosDiv.appendChild(itemDiv);
+                });
+
+                fieldset.appendChild(radiosDiv);
+            } else if (questionType === 'radios' || questionType === 'checkboxes') {
+                const inputsDiv = document.createElement('div');
+                inputsDiv.className = questionType === 'radios' ?
+                    'govuk-radios govuk-radios--small' :
+                    'govuk-checkboxes govuk-checkboxes--small';
+                inputsDiv.setAttribute('data-module', questionType === 'radios' ? 'govuk-radios' : 'govuk-checkboxes');
+
+                options.forEach((option, optionIndex) => {
+                    const itemDiv = document.createElement('div');
+                    itemDiv.className = questionType === 'radios' ? 'govuk-radios__item' : 'govuk-checkboxes__item';
+
+                    const input = document.createElement('input');
+                    input.className = questionType === 'radios' ? 'govuk-radios__input' : 'govuk-checkboxes__input';
+                    input.type = questionType === 'radios' ? 'radio' : 'checkbox';
+                    input.id = `value-${conditionIndex}-${optionIndex}`;
+                    input.name = `value-${conditionIndex}`;
+                    input.value = option.value || option.text;
+
+                    // Check if this option is selected
+                    if (questionType === 'radios') {
+                        if (initialValue === (option.value || option.text)) {
+                            input.checked = true;
+                        }
+                    } else if (questionType === 'checkboxes' && Array.isArray(initialValue)) {
+                        if (initialValue.includes(option.value || option.text)) {
+                            input.checked = true;
+                        }
+                    }
+
+                    const label = document.createElement('label');
+                    label.className = questionType === 'radios' ? 'govuk-label govuk-radios__label' : 'govuk-label govuk-checkboxes__label';
+                    label.htmlFor = `value-${conditionIndex}-${optionIndex}`;
+                    label.textContent = option.text || option.label;
+
+                    itemDiv.appendChild(input);
+                    itemDiv.appendChild(label);
+                    inputsDiv.appendChild(itemDiv);
+                });
+
+                fieldset.appendChild(inputsDiv);
+            }
+
+            container.innerHTML = '';
+            container.appendChild(fieldset);
+            container.style.display = 'block';
+        }
+
+        // Initialize existing conditions with their values
+        const existingConditions = document.querySelectorAll('.condition-item');
+        existingConditions.forEach((condition, index) => {
+            const questionSelect = condition.querySelector('.condition-question');
+            const valueContainer = condition.querySelector('.condition-value-container');
+            const operatorSelect = condition.querySelector('select[name^="operator-"]');
+
+            if (questionSelect && valueContainer && initialCondition.rules && initialCondition.rules[index + 1]) {
+                const rule = initialCondition.rules[index + 1];
+
+                // Set the operator to "is" by default if not specified
+                if (operatorSelect) {
+                    operatorSelect.value = rule.operator || 'is';
+                }
+
+                // Update the value container with the initial value
+                updateValueContainer(valueContainer, questionSelect, rule.value, index + 1);
+
+                // Add change event listener for future changes
+                questionSelect.addEventListener('change', function () {
+                    updateValueContainer(valueContainer, this, null, index + 1);
+                });
+            }
+        });
+
+        // Function to handle condition removal and renumbering
+        function handleConditionRemoval(removedCondition) {
+            removedCondition.remove();
+            conditionCount--;
+
+            // Get and renumber all remaining conditions
+            const remainingConditions = document.querySelectorAll('.condition-item');
+            remainingConditions.forEach((condition, index) => {
+                const legend = condition.querySelector('.govuk-fieldset__legend');
+                if (legend) {
+                    legend.textContent = `Additional condition ${index + 1}`;
+                }
+
+                // Update form control names and IDs
+                const questionSelect = condition.querySelector('.condition-question');
+                if (questionSelect) {
+                    questionSelect.name = `question-${index + 1}`;
+                    questionSelect.id = `condition-question-${index + 1}`;
+                }
+
+                const operatorSelect = condition.querySelector('select[name^="operator-"]');
+                if (operatorSelect) {
+                    operatorSelect.name = `operator-${index + 1}`;
+                    operatorSelect.id = `condition-operator-${index + 1}`;
+                }
+
+                const valueContainer = condition.querySelector('.condition-value-container');
+                if (valueContainer) {
+                    valueContainer.id = `condition-value-container-${index + 1}`;
+                    // Update the value inputs with new indices
+                    updateValueContainer(valueContainer, questionSelect, null, index + 1);
+                }
+            });
+
+            // Hide logical operator group if no conditions remain
+            const logicalOperatorGroup = document.getElementById('logicalOperatorGroup');
+            if (remainingConditions.length === 0 && logicalOperatorGroup) {
+                logicalOperatorGroup.style.display = 'none';
+            }
+        }
+
+        // Set up remove handlers for existing conditions
+        document.querySelectorAll('.remove-condition-link').forEach(removeLink => {
+            removeLink.addEventListener('click', function (e) {
+                e.preventDefault();
+                const conditionToRemove = this.closest('.condition-item');
+                handleConditionRemoval(conditionToRemove);
+            });
+        });
+
+        // Initialize main condition
+        const mainQuestionSelect = document.getElementById('questionSelect');
+        const mainValueContainer = document.getElementById('valueContainer');
+        const mainOperatorSelect = document.getElementById('operatorSelect');
+
+        if (mainQuestionSelect && mainValueContainer && initialCondition && initialCondition.rules && initialCondition.rules.length > 0) {
+            const mainRule = initialCondition.rules[0];
+
+            // Set the operator to "is" by default if not specified
+            if (mainOperatorSelect) {
+                mainOperatorSelect.value = mainRule.operator || 'is';
+            }
+
+            // Update the value container with the initial value
+            updateValueContainer(mainValueContainer, mainQuestionSelect, mainRule.value, 0);
+
+            // Add change event listener for future changes
+            mainQuestionSelect.addEventListener('change', function () {
+                updateValueContainer(mainValueContainer, this, null, 0);
+            });
+        }
+
+        // Handle adding new conditions
+        const addConditionLink = document.getElementById('add-condition-link');
+        const additionalConditions = document.getElementById('additional-conditions');
+        const logicalOperatorGroup = document.getElementById('logicalOperatorGroup');
+
+        if (addConditionLink) {
+            addConditionLink.addEventListener('click', function (e) {
+                e.preventDefault();
+
+                // Show the logical operator group only when adding the first additional condition
+                if (conditionCount === 0) {
+                    if (logicalOperatorGroup) {
+                        logicalOperatorGroup.style.display = 'block';
+                    }
+                }
+
+                conditionCount++;
+
+                const newCondition = document.createElement('div');
+                newCondition.className = 'condition-item app-form-container';
+                newCondition.innerHTML = `
+                    <button class="govuk-button govuk-button--secondary govuk-button--warning remove-condition-link" 
+                            style="position: absolute; top: 15px; right: 15px;">
+                        <svg class="govuk-!-margin-right-1" style="position: relative; top: 2px" width="12" height="12" 
+                            viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M10.5 1.5L1.5 10.5" stroke="currentColor" stroke-width="2"/>
+                            <path d="M1.5 1.5L10.5 10.5" stroke="currentColor" stroke-width="2"/>
+                        </svg>
+                        Remove condition
+                    </button>
+
+                                    <fieldset class="govuk-fieldset">
+                                        <legend class="govuk-fieldset__legend govuk-fieldset__legend--s">
+                            Additional condition ${conditionCount}
+                                        </legend>
+
+                                        <div class="govuk-form-group">
+                            <label class="govuk-label">Select a question</label>
+                            <select class="govuk-select condition-question" name="question-${conditionCount}" required>
+                                <option value="">Choose a question</option>
+                                {% for question in availableQuestions %}
+                                <option value="{{ question.value }}" data-type="{{ question.type }}"
+                                    data-options='{{ question.options | dump | safe }}'>
+                                    {{ question.text }}
+                                </option>
+                                {% endfor %}
+                                            </select>
+                                        </div>
+
+                                        <div class="govuk-form-group">
+                            <label class="govuk-label">Condition type</label>
+                            <select class="govuk-select" name="operator-${conditionCount}">
+                                                <option value="is" selected>is</option>
+                                                <option value="is-not">is not</option>
+                                            </select>
+                                        </div>
+
+                        <div class="govuk-form-group condition-value-container">
+                                            <label class="govuk-label">Select a value</label>
+                                            <!-- Value inputs will be dynamically populated here -->
+                                        </div>
+                                    </fieldset>
+                            `;
+
+                additionalConditions.appendChild(newCondition);
+
+                // Add event listeners for the new condition
+                const questionSelect = newCondition.querySelector('.condition-question');
+                const valueContainer = newCondition.querySelector('.condition-value-container');
+                const removeLink = newCondition.querySelector('.remove-condition-link');
+
+                // Add change event listener for question select
+                if (questionSelect) {
+                    questionSelect.addEventListener('change', function () {
+                        updateValueContainer(valueContainer, this, null, conditionCount);
+                    });
+                }
+
+                // Add click handler for remove link
+                if (removeLink) {
+                    removeLink.addEventListener('click', function (e) {
+                        e.preventDefault();
+                        handleConditionRemoval(newCondition);
+                    });
+                }
+            });
+        }
+
+        // Add form submit handler to collect all values
+        const form = document.getElementById('condition-form');
+        form.addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            // Collect all rules
+            const rules = [];
+
+            // Add main condition
+            const mainQuestion = document.querySelector('.main-question');
+            const mainOperator = document.querySelector('.main-operator');
+            const mainValueContainer = document.querySelector('.main-value-container');
+
+            if (mainQuestion && mainOperator && mainValueContainer) {
+                const mainQuestionText = mainQuestion.options[mainQuestion.selectedIndex].text;
+                const questionType = mainQuestion.options[mainQuestion.selectedIndex].getAttribute('data-type');
+
+                // Handle different input types
+                let mainValue;
+                if (questionType === 'checkboxes') {
+                    // For checkboxes, collect all checked values
+                    const checkedInputs = mainValueContainer.querySelectorAll('input[type="checkbox"]:checked');
+                    mainValue = Array.from(checkedInputs).map(input => input.value);
+                } else {
+                    // For radio buttons and other single-value inputs
+                    const checkedInput = mainValueContainer.querySelector('input:checked');
+                    mainValue = checkedInput ? checkedInput.value : null;
+                }
+
+                if (mainValue) {
+                    rules.push({
+                        questionText: mainQuestionText,
+                        operator: mainOperator.value,
+                        value: mainValue
+                    });
+                }
+            }
+
+            // Add additional conditions
+            const conditions = document.querySelectorAll('.condition-item');
+            conditions.forEach((condition, index) => {
+                const questionSelect = condition.querySelector('.condition-question');
+                const operatorSelect = condition.querySelector('select[name^="operator-"]');
+                const valueContainer = condition.querySelector('.condition-value-container');
+
+                if (questionSelect && operatorSelect && valueContainer) {
+                    const questionText = questionSelect.options[questionSelect.selectedIndex].text;
+                    const questionType = questionSelect.options[questionSelect.selectedIndex].getAttribute('data-type');
+
+                    // Handle different input types
+                    let value;
+                    if (questionType === 'checkboxes') {
+                        // For checkboxes, collect all checked values
+                        const checkedInputs = valueContainer.querySelectorAll('input[type="checkbox"]:checked');
+                        value = Array.from(checkedInputs).map(input => input.value);
+                    } else {
+                        // For radio buttons and other single-value inputs
+                        const checkedInput = valueContainer.querySelector('input:checked');
+                        value = checkedInput ? checkedInput.value : null;
+                    }
+
+                    if (value) {
+                        rules.push({
+                            questionText: questionText,
+                            operator: operatorSelect.value,
+                            value: value,
+                            logicalOperator: document.querySelector('input[name="logicalOperator"]:checked')?.value || 'AND'
+                        });
+                    }
+                }
+            });
+
+            // Add rules to hidden input
+            document.getElementById('rulesData').value = JSON.stringify(rules);
+
+            // Submit the form
+            this.submit();
+        });
+    });
+</script>
+
+<style>
+    /* New styles for the form container */
+    .app-form-container {
+        border-left: 4px solid #008938;
+        background-color: #f8f8f8;
+        outline: 1px solid #b1b4b6;
+        padding: 30px;
+        position: relative;
+        margin-bottom: 20px;
+    }
+
+    .app-form-container__title {
+        font-size: 24px;
+        font-weight: bold;
+        margin-bottom: 20px;
+        margin-top: 0;
+    }
+
+    #join-conditions-form-container {
+        outline: 1px solid #b1b4b6;
+        outline-offset: -1px;
+        padding: 20px;
+        margin: 0;
+    }
+
+    /* Styles for condition items */
+    .condition-item {
+        background: #f3f2f1;
+        padding: 20px;
+        margin-bottom: 15px;
+        position: relative;
+        border-left: 5px solid #008938;
+        outline: 1px solid #b1b4b6;
+    }
+
+    /* Ensure proper spacing between conditions */
+    #additional-conditions {
+        margin-top: 20px;
+    }
+
+    /* Style for the remove button */
+    .remove-condition-link {
+        position: absolute;
+        top: 15px;
+        right: 15px;
+    }
+</style>
+{% endblock %}

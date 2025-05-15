@@ -1,0 +1,69 @@
+{% extends "design-history/template.html" %}
+
+{# --- Feature metadata --- #}
+{% set featureName = "Page Sections" %}
+{% set latestVersionLink = "/titan-mvp-1/form-editor/page-sections.html" %}
+{% set status = "In progress" %}
+{% set statusColor = "orange" %}
+{% set userNeed = "Users need to organize forms into logical sections so they can create well-structured and
+easy-to-navigate forms." %}
+{% set phase = "Private beta" %}
+{% set category = "Form editor" %}
+{% set description = "This feature allows users to organize their forms into logical sections, improving form structure
+and navigation for both form creators and respondents." %}
+
+{# --- Research rounds for the summary table --- #}
+{% set researchRounds = [
+"Round 13 - April 2025"
+] %}
+
+{# --- Key improvements in the latest version --- #}
+{% set improvements = [
+"Enhanced section organization",
+"Improved section navigation",
+"Added clear section guidance",
+"Enhanced section visibility"
+] %}
+
+{# --- Research history table --- #}
+{% set researchHistory = [
+{
+roundNumber: "13",
+researchDate: "April 2025",
+researchFinding: "Distinction between section and page unclear; hierarchy needs improvement",
+changeMade: "Initial implementation of page sections feature"
+}
+] %}
+
+{# --- Detailed research summaries --- #}
+{% set researchSummaries = [
+{
+title: "Round 13 - April 2025",
+summary: "Initial testing of page sections",
+sections: [
+{
+type: "content",
+content: "**Research conducted:** Remote usability testing (29 April 2025)\n\n**Participants:** Multiple Defra content
+designers and form creators"
+},
+{
+type: "findings",
+content: [
+"Expected section headers to appear above page H1s",
+"Hierarchy didn't match users' mental models",
+"Concerns about SEO and accessibility from repeated H1/H2 usage",
+"Suggested labels like H1/H2 to improve clarity"
+]
+},
+{
+type: "quotes",
+content: [
+"\"I expected the section to appear above the page header.\" - Participant 1",
+"\"The hierarchy doesn't feel right - sections should be more prominent.\" - Participant 2",
+"\"We need to be careful about SEO with all these H1s and H2s.\" - Participant 3",
+"\"Labels like H1/H2 would make the structure clearer.\" - Participant 4"
+]
+}
+]
+}
+] %}

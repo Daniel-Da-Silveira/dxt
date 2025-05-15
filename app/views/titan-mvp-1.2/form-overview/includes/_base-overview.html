@@ -1,0 +1,363 @@
+{% extends "layouts/main.html" %}
+{% from "components/service-header/macro.njk" import serviceHeader %}
+{% from "moj/components/timeline/macro.njk" import mojTimeline %}
+
+{% block header %}
+{{ serviceHeader({
+organisationName: "Defra",
+productName: "Forms Designer",
+serviceName: "",
+accountName: "Chris Smith",
+homepageLink: "/",
+signOutLink: "/titan-mvp-1.2/onboarding/sign-out-confirmation",
+navigationItems: [
+{
+href: "/titan-mvp-1.2/library",
+text: "Forms library",
+id: "nav-library"
+},
+{
+href: "/titan-mvp-1.2/form-overview/{{ form.id }}",
+text: "Overview",
+id: "nav-overview",
+active: true
+},
+{
+href: "/titan-mvp-1.2/form-editor/listing",
+text: "Editor",
+id: "nav-editor"
+}],
+activeLinkId: "nav-overview"
+}) }}
+{% endblock %}
+
+{% block pageTitle %}
+{{ pageName }}
+{% endblock %}
+
+{% block beforeContent %}
+{{ govukBackLink({
+text: "Back to forms library",
+href: "/titan-mvp-1.2/library"
+}) }}
+{% endblock %}
+
+{% block content %}
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+        <h1 class="govuk-heading-xl">{{ form.name }}</h1>
+
+        {% include "titan-mvp-1.2/form-overview/includes/_form-status.html" %}
+        {% include "titan-mvp-1.2/form-overview/includes/_submission-details.html" %}
+        {% include "titan-mvp-1.2/form-overview/includes/_support-details.html" %}
+        {% include "titan-mvp-1.2/form-overview/includes/_next-steps.html" %}
+        {% include "titan-mvp-1.2/form-overview/includes/_data-protection.html" %}
+        {% include "titan-mvp-1.2/form-overview/includes/_organisation-details.html" %}
+    </div>
+
+    <div class="govuk-grid-column-one-third-from-desktop">
+        <div style="background-color: #f3f2f1; padding: 15px;">
+            <h2 class="govuk-heading-m">{{ commonTerms.form_editor.overview.manage_form.title }}</h2>
+
+            <a href="/titan-mvp-1.2/form-overview/manage-form/migrate-confirmation"
+                class="gem-c-button govuk-button gem-c-button--secondary" style="width: 100%; margin-bottom: 15px;">Edit
+                draft (new
+                editor)</a>
+
+            <a href="/titan-mvp-1.2/form-editor/listing"
+                class="gem-c-button govuk-button gem-c-button-publishing--secondary-quiet"
+                style="width: 100%; margin-bottom: 15px;">Edit draft</a>
+
+            <a href="/titan-mvp-1.2/form-overview/manage-form/make-draft-live/passed-validation">
+                <button type="submit" class="govuk-button" data-module="govuk-button"
+                    style="width: 100%; margin-bottom: 15px;">
+                    {{ commonTerms.form_editor.overview.manage_form.make_live }}
+                </button>
+            </a>
+
+            <a href="/titan-mvp-1.2/form-overview/manage-form/delete-draft" class="govuk-link">{{
+                commonTerms.form_editor.overview.manage_form.delete_draft }}</a>
+        </div>
+
+
+        <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
+        <h2 class="govuk-heading-m">History</h2>
+        <div id="timeline-container">
+            {{ mojTimeline({
+            items: [
+            {
+            label: { text: "Switched to new editor" },
+            datetime: { timestamp: "2024-05-08T15:30:00.000Z", type: "datetime" },
+            byline: { text: "Chris Smith" }
+            },
+            {
+            label: { text: "Draft form deleted" },
+            datetime: { timestamp: "2024-05-08T15:15:00.000Z", type: "datetime" },
+            byline: { text: "Alex Patel" }
+            },
+            {
+            label: { text: "Replaced live form" },
+            datetime: { timestamp: "2024-05-08T14:45:00.000Z", type: "datetime" },
+            byline: { text: "Samira Khan" }
+            },
+            {
+            label: { text: "Draft created from live form" },
+            datetime: { timestamp: "2024-05-08T14:45:00.000Z", type: "datetime" },
+            byline: { text: "Chris Smith" }
+            },
+            {
+            label: { text: "🎉 Form went live" },
+            datetime: { timestamp: "2024-05-08T14:45:00.000Z", type: "datetime" },
+            byline: { text: "Emily Wong" }
+            }
+            ]
+            }) }}
+            <div id="all-history" style="display:none;" aria-hidden="true">
+                {{ mojTimeline({
+                items: [
+                {
+                label: { text: "Form migrated" },
+                text: "Switched the form named 'EmployeeSurvey' to the new editor.",
+                datetime: { timestamp: "2024-05-08T15:30:00.000Z", type: "datetime" },
+                byline: { text: "Chris Smith" }
+                },
+                {
+                label: { text: "Replaced live form" },
+                text: "Replaced a live form with a draft form.",
+                datetime: { timestamp: "2024-05-08T14:45:00.000Z", type: "datetime" },
+                byline: { text: "Samira Khan" }
+                },
+                {
+                label: { text: "Draft created from live form" },
+                text: "Created a draft version of the live form.",
+                datetime: { timestamp: "2024-05-08T14:45:00.000Z", type: "datetime" },
+                byline: { text: "Chris Smith" }
+                },
+                {
+                label: { text: "Form published" },
+                html: formPublishedHtml,
+                datetime: { timestamp: "2024-05-08T14:45:00.000Z", type: "datetime" },
+                byline: { text: "Emily Wong" }
+                },
+                {
+                label: { text: "Form exported/downloaded" },
+                html: fileExportHtml,
+                datetime: { timestamp: "2024-05-08T14:30:00.000Z", type: "datetime" },
+                byline: { text: "Alex Patel" }
+                },
+                {
+                label: { text: "File uploaded" },
+                html: fileUploadHtml,
+                datetime: { timestamp: "2024-05-08T14:15:00.000Z", type: "datetime" },
+                byline: { text: "Samira Khan" }
+                },
+                {
+                label: { text: "Next steps updated" },
+                text: "Updated the next steps guidance from 'Old steps' to 'New next steps'.",
+                datetime: { timestamp: "2024-05-08T11:15:00.000Z", type: "datetime" },
+                byline: { text: "Emily Wong" }
+                },
+                {
+                label: { text: "Notification email updated" },
+                text: "Updated where submitted forms are sent from 'notify@old.com' to 'notify@new.com'.",
+                datetime: { timestamp: "2024-05-08T11:00:00.000Z", type: "datetime" },
+                byline: { text: "Chris Smith" }
+                },
+                {
+                label: { text: "Privacy notice updated" },
+                text: "Updated the privacy notice link from 'http://old.privacy' to 'http://new.privacy'.",
+                datetime: { timestamp: "2024-05-08T10:45:00.000Z", type: "datetime" },
+                byline: { text: "Alex Patel" }
+                },
+                {
+                label: { text: "Support link updated" },
+                text: "Updated the support contact link from 'http://old.link' to 'http://new.link'.",
+                datetime: { timestamp: "2024-05-08T10:30:00.000Z", type: "datetime" },
+                byline: { text: "Samira Khan" }
+                },
+                {
+                label: { text: "Support email updated" },
+                text: "Updated the support email address from help@defra.com to support@defra.com.",
+                datetime: { timestamp: "2024-05-08T10:20:00.000Z", type: "datetime" },
+                byline: { text: "Emily Wong" }
+                },
+                {
+                label: { text: "Support phone updated" },
+                text: "Updated the support phone number from '+123456789' to '987654321'.",
+                datetime: { timestamp: "2024-05-08T10:15:00.000Z", type: "datetime" },
+                byline: { text: "Chris Smith" }
+                },
+                {
+                label: { text: "Team email updated" },
+                text: "Updated the shared team address from 'dev@acme.com' to 'eng@acme.com'.",
+                datetime: { timestamp: "2024-05-08T10:00:00.000Z", type: "datetime" },
+                byline: { text: "Alex Patel" }
+                },
+                {
+                label: { text: "Team name updated" },
+                text: "Changed the team name from 'Dev Team' to 'Engineering Team'.",
+                datetime: { timestamp: "2024-05-08T09:45:00.000Z", type: "datetime" },
+                byline: { text: "Samira Khan" }
+                },
+                {
+                label: { text: "Organisation name updated" },
+                text: "Changed the lead organisation from 'Defra' to 'APHA'.",
+                datetime: { timestamp: "2024-05-08T09:30:00.000Z", type: "datetime" },
+                byline: { text: "Emily Wong" }
+                },
+                {
+                label: { text: "Form name updated" },
+                text: "Updated the form name from 'New employee form' to 'Employee form'.",
+                datetime: { timestamp: "2024-05-08T09:05:00.000Z", type: "datetime" },
+                byline: { text: "Chris Smith" }
+                },
+                {
+                label: { text: "Form created" },
+                html: formCreatedHtml,
+                datetime: { timestamp: "2024-05-08T09:00:00.000Z", type: "datetime" },
+                byline: { text: "Alex Patel" }
+                }
+                ]
+                }) }}
+            </div>
+            <a id="toggle-history-link" href="#" class="govuk-link govuk-link--no-visited-state govuk-!-margin-top-2"
+                role="button" tabindex="0" aria-expanded="false" aria-controls="all-history"
+                onclick="toggleHistory(event)"
+                onkeyup="if(event.key==='Enter'||event.key===' '){toggleHistory(event);}">
+                Show older events<span class="govuk-visually-hidden">, loads older events in the timeline</span>
+            </a>
+        </div>
+
+        <script>
+            function toggleHistory(event) {
+                event.preventDefault();
+                var allHistory = document.getElementById('all-history');
+                var btn = document.getElementById('toggle-history-link');
+                var shortTimeline = document.querySelector('#timeline-container > .moj-timeline');
+                var expanded = btn.getAttribute('aria-expanded') === 'true';
+                if (!expanded) {
+                    allHistory.style.display = 'block';
+                    allHistory.setAttribute('aria-hidden', 'false');
+                    btn.setAttribute('aria-expanded', 'true');
+                    btn.innerHTML = 'Hide older events<span class=\"govuk-visually-hidden\">, hides older events in the timeline</span>';
+                    if (shortTimeline) shortTimeline.style.display = 'none';
+                } else {
+                    allHistory.style.display = 'none';
+                    allHistory.setAttribute('aria-hidden', 'true');
+                    btn.setAttribute('aria-expanded', 'false');
+                    btn.innerHTML = 'Show older events<span class=\"govuk-visually-hidden\">, loads older events in the timeline</span>';
+                    if (shortTimeline) shortTimeline.style.display = 'block';
+                }
+            }
+        </script>
+
+
+    </div>
+</div>
+
+<style>
+    .moj-button-group .govuk-button,
+    .moj-button-group,
+    .moj-button-group,
+    .moj-button-group .moj-button-menu {
+        margin-bottom: 0;
+        width: 100% !important;
+        margin-right: 0;
+    }
+
+    .moj-button-menu__items {
+        background-color: #fff;
+
+    }
+
+    .moj-button-menu__item {
+        background-color: #fff !important;
+
+    }
+
+    /* .moj-button-menu__item:last-child {
+        border-bottom: none;
+    } */
+
+    .moj-button-menu li>.moj-button-menu__item:hover {
+        background-color: #767676 !important;
+    }
+
+    .moj-button-menu__wrapper,
+    .moj-button-menu__wrapper {
+        position: relative;
+
+    }
+
+
+
+    .gem-c-button {
+        margin-bottom: 0;
+    }
+
+    .gem-c-button--secondary {
+        padding: 8px 10px;
+        border-color: #00823b;
+        color: #00823b !important;
+        background-color: #fff;
+        box-shadow: none;
+    }
+
+
+    .gem-c-button--secondary:before {
+        content: none;
+    }
+
+
+    .gem-c-button--secondary:hover {
+        border-color: rgb(0, 104.5, 47.4269230769);
+        color: rgb(0, 104.5, 47.4269230769);
+        background-color: #f3f2f1;
+        text-decoration: none;
+    }
+</style>
+{% endblock %}
+
+{%- set formCreatedHtml %}
+Created a new form named 'NewEmployeeForm' with:
+<ul class="govuk-list govuk-list--bullet">
+    <li>Lead organisation as 'Defra'</li>
+    <li>Team name as 'Dev team'</li>
+    <li>Shared team email address as 'dev@defra.com'</li>
+</ul>
+{% endset -%}
+
+{%- set fileExportHtml %}
+<ul class="moj-timeline__documents">
+    <li class="moj-timeline__document-item">
+        <a class="govuk-link" href="#">
+            <svg class="moj-timeline__document-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 20" width="20"
+                height="16">
+                <path d="M9 7V1.5L14.5 7H9zM2 0C.9 0 0 .9 0 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V6l-6-6H2z" />
+            </svg>
+            Exported form in JSON format
+        </a>
+    </li>
+</ul>
+{% endset -%}
+
+{%- set fileUploadHtml %}
+<ul class="moj-timeline__documents">
+    <li class="moj-timeline__document-item">
+        <a class="govuk-link" href="#">
+            <svg class="moj-timeline__document-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 20" width="20"
+                height="16">
+                <path d="M9 7V1.5L14.5 7H9zM2 0C.9 0 0 .9 0 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V6l-6-6H2z" />
+            </svg>
+            Uploaded file: myform.JSON
+        </a>
+    </li>
+</ul>
+{% endset -%}
+
+{%- set formPublishedHtml %}
+<span style="display: flex; align-items: center;">
+    <span aria-hidden="true" style="font-size: 1.3em; margin-right: 8px; line-height: 1;">🎉</span>
+    <span>Made the form live.</span>
+</span>
+{% endset -%}

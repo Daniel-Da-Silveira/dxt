@@ -77,4 +77,16 @@ visuallyHiddenTitle: "Footer links"
 <script src="/public/javascripts/screenwidth.js"></script>
 <script src="/public/javascripts/comments.js"></script>
 <script src="/public/javascripts/help.js"></script>
+<script>
+    if (window.self !== window.top) {
+        document.addEventListener('DOMContentLoaded', function () {
+            document.body.classList.add('in-iframe');
+        });
+    }
+</script>
+<style>
+    body.in-iframe .govuk-footer {
+        display: none !important;
+    }
+</style>
 {% endblock %}

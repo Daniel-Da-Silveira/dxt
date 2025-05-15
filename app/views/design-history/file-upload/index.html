@@ -1,0 +1,142 @@
+{% extends "design-history/template.html" %}
+
+{# --- Feature metadata --- #}
+{% set featureName = "File Upload" %}
+{% set latestVersionLink = "/titan-mvp-1/form-editor/file-upload.html" %}
+{% set status = "Tested" %}
+{% set statusColor = "green" %}
+{% set userNeed = "Users need to upload and manage files within forms so they can collect and process document
+submissions effectively." %}
+{% set phase = "Private beta" %}
+{% set category = "Form admin" %}
+{% set description = "This feature allows users to upload and manage files within forms, including setting up file
+upload questions, managing file types and sizes, and receiving notifications about uploads." %}
+
+{# --- Research rounds for the summary table --- #}
+{% set researchRounds = [
+"Round 13 - April 2025",
+"Round 7 - October 2024",
+"Rounds 3 & 4 - June/July 2024"
+] %}
+
+{# --- Key improvements in the latest version --- #}
+{% set improvements = [
+"Improved clarity of file upload notifications",
+"Enhanced file type and size guidance",
+"Added clearer instructions for multiple uploads",
+"Improved visibility of download options"
+] %}
+
+{# --- Research history table --- #}
+{% set researchHistory = [
+{
+roundNumber: "13",
+researchDate: "April 2025",
+researchFinding: "Functionality tested well with easy-to-locate download options",
+changeMade: "Maintained easy-to-locate form export/download tools"
+},
+{
+roundNumber: "7",
+researchDate: "October 2024",
+researchFinding: "File upload notification email tested well",
+changeMade: "Maintained current clarity in notification emails"
+},
+{
+roundNumber: "3 & 4",
+researchDate: "June/July 2024",
+researchFinding: "Public view with JavaScript: Interactions and statuses clear",
+changeMade: "Clarified reasons for multiple uploads"
+}
+] %}
+
+{# --- Detailed research summaries --- #}
+{% set researchSummaries = [
+{
+title: "Round 13 - April 2025",
+summary: "Testing of file management functionality",
+sections: [
+{
+type: "content",
+content: "**Research conducted:** Remote usability testing (29 April 2025)\n\n**Participants:** Multiple Defra content
+designers and form creators\n\n**Method:** Remote usability testing with think-aloud protocol\n\n**Scenario:** Testing
+page conditions, page sections, and form upload/download functionality. Participants were asked to test condition
+creation, work with page sections, test form upload/download functionality, review condition usage, test combining
+multiple conditions, and review section vs page hierarchy."
+},
+{
+type: "findings",
+content: [
+"Functionality tested well",
+"Users successfully found download option through 'Tools' menu",
+"Recommendation to maintain easy-to-locate form export/download tools"
+]
+},
+{
+type: "quotes",
+content: [
+"'The downloads thing is obviously really handy'",
+"'Nice big buttons... made it easy to confidently add page conditions'"
+]
+}
+]
+},
+{
+title: "Round 7 - October 2024",
+summary: "Testing of file upload notifications",
+sections: [
+{
+type: "content",
+content: "**Research conducted:** Remote usability testing (1–2 October 2024)\n\n**Participants:** 4 senior content
+designers and 1 proxy user (APHA, RPA, Countryside Stewardship)\n\n**Method:** Remote usability testing with think-aloud
+protocol\n\n**Scenario:** Testing DXT form editor redesign and file upload notifications. Participants were asked to
+review file upload notification emails, create new forms, add questions, test markdown usage, work with error messages,
+test user flow and navigation, use repeater feature, name question sets, review overview of questions, add options for
+radios, and reorder pages."
+},
+{
+type: "findings",
+content: [
+"File upload notification email tested well",
+"Clear content and interaction",
+"Recommendation to maintain current clarity in notification emails"
+]
+},
+{
+type: "quotes",
+content: [
+"'I don't know what I have to use it for, but that tells me what I need to know'",
+"'The notification email is clear and helpful'"
+]
+}
+]
+},
+{
+title: "Rounds 3 & 4 - June/July 2024",
+summary: "Initial testing of file upload functionality",
+sections: [
+{
+type: "content",
+content: "**Research conducted:** Remote usability testing (24–25 June & 1–2 July 2024)\n\n**Participants:** 8 content
+designers across various teams (Farming, Cefas, Environment Agency, Nature, Forestry, Climate Change)\n\n**Method:**
+Remote usability testing with think-aloud protocol\n\n**Scenario:** Testing file upload and forms library. Participants
+were asked to test file upload functionality (with and without JavaScript), navigate forms library, use search and
+filter functions, create new forms, and edit draft forms."
+},
+{
+type: "findings",
+content: [
+"Public view with JavaScript: Interactions and statuses clear",
+"Unclear why two documents were required",
+"Recommendation to clarify reasons for multiple uploads"
+]
+},
+{
+type: "quotes",
+content: [
+"'I'm just wondering why I'd need to upload up to two. Is 1 file enough?'",
+"'The refresh page link was frequently overlooked'"
+]
+}
+]
+}
+] %}

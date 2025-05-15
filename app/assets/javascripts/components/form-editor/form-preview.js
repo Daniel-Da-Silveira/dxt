@@ -97,7 +97,7 @@ class FormPreview {
 
     const notificationBannerLink = document.createElement("a");
     notificationBannerLink.className = "govuk-link--no-visited-state";
-    notificationBannerLink.href = "/form-editor/listing";
+    notificationBannerLink.href = this.getBasePath() + "/form-editor/listing";
     notificationBannerLink.textContent = "Go back to the editor";
 
     const notificationBannerText = document.createElement("p");
@@ -603,7 +603,7 @@ class FormPreview {
 
   showCheckYourAnswers() {
     // Redirect to the check answers page
-    window.location.href = "/form-editor/check-answers";
+    window.location.href = this.getBasePath() + "/form-editor/check-answers";
   }
 
   showError(message) {
@@ -621,6 +621,15 @@ class FormPreview {
                 </div>
             </div>
         `;
+  }
+
+  getBasePath() {
+    if (window.location.pathname.includes("/titan-mvp-1.2/")) {
+      return "/titan-mvp-1.2";
+    } else if (window.location.pathname.includes("/titan-mvp-1/")) {
+      return "/titan-mvp-1";
+    }
+    return "";
   }
 }
 

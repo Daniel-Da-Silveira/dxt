@@ -1,0 +1,106 @@
+{% extends "layouts/main.html" %}
+{% from "components/service-header/macro.njk" import serviceHeader %}
+{% from "moj/components/timeline/macro.njk" import mojTimeline %}
+
+{% block header %}
+{{ serviceHeader({
+organisationName: "Defra",
+productName: "Forms Designer",
+serviceName: "",
+accountName: "Chris Smith",
+homepageLink: "/",
+signOutLink: "/onboarding/sign-out-confirmation",
+navigationItems: [
+{
+href: "/titan-mvp-1/library.html",
+text: "Forms library",
+id: "titan-mvp-1/library"
+},
+{
+href: "/titan-mvp-1/form-overview/{{ form.id }}",
+text: "Overview",
+id: "overview"
+},
+{
+href: "/titan-mvp-1/form-editor/listing",
+text: "Editor",
+id: "editor"
+}],
+activeLinkId: "overview"
+}) }}
+{% endblock %}
+
+{% block pageTitle %}
+{{ pageName }}
+{% endblock %}
+
+{% block beforeContent %}
+{{ govukBackLink({
+text: commonTerms.form_editor.navigation.back_to_library,
+href: "/titan-mvp-1/library.html"
+}) }}
+{% endblock %}
+
+{% block content %}
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+        <h1 class="govuk-heading-xl">{{ form.name }}</h1>
+
+        {% include "titan-mvp-1/form-overview/includes/_form-status.html" %}
+        {% include "titan-mvp-1/form-overview/includes/_submission-details.html" %}
+        {% include "titan-mvp-1/form-overview/includes/_support-details.html" %}
+        {% include "titan-mvp-1/form-overview/includes/_next-steps.html" %}
+        {% include "titan-mvp-1/form-overview/includes/_data-protection.html" %}
+        {% include "titan-mvp-1/form-overview/includes/_organisation-details.html" %}
+    </div>
+
+    <div class="govuk-grid-column-one-third-from-desktop">
+        <div style="background-color: #f3f2f1; padding: 15px;">
+            <h2 class="govuk-heading-m">{{ commonTerms.form_editor.overview.manage_form.title }}</h2>
+
+            <a href="/titan-mvp-1/form-editor/listing">
+                <button class="gem-c-button govuk-button gem-c-button-publishing--secondary-quiet"
+                    style="width: 100%; margin-bottom: 15px;" type="submit">{{
+                    commonTerms.form_editor.overview.manage_form.edit_draft }}</button>
+            </a>
+
+            <a href="/titan-mvp-1/form-overview/manage-form/make-draft-live/passed-validation.html">
+                <button type="submit" class="govuk-button" data-module="govuk-button"
+                    style="width: 100%; margin-bottom: 15px;">
+                    {{ commonTerms.form_editor.overview.manage_form.make_live }}
+                </button>
+            </a>
+
+            <a href="/titan-mvp-1/form-overview/manage-form/delete-draft" class="govuk-link">{{
+                commonTerms.form_editor.overview.manage_form.delete_draft }}</a>
+        </div>
+
+        {#
+        <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
+        <h2 class="govuk-heading-m">{{ commonTerms.form_editor.overview.internal_notes.title }}</h2>
+        {{ govukButton({
+        text: commonTerms.form_editor.overview.internal_notes.add_note,
+        href: "/titan-mvp-1/form-overview/internal-note/add.html",
+        classes: "govuk-button--secondary"
+        }) }}
+
+        {{ mojTimeline({
+        items: [
+        {
+        label: {
+        text: commonTerms.form_editor.overview.internal_notes.new_form.label
+        },
+        text: commonTerms.form_editor.overview.internal_notes.new_form.text,
+        datetime: {
+        timestamp: "2024-05-13T12:32:00.000Z",
+        type: "datetime"
+        },
+        byline: {
+        text: "Moshe Pitt"
+        }
+        }
+        ]
+        }) }} #}
+    </div>
+</div>
+{% endblock %}

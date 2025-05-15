@@ -1,0 +1,24 @@
+{% extends "titan-mvp-1/form-overview/includes/_base-overview.html" %}
+
+{% block pageTitle %}
+{{ form.name }} - Overview
+{% endblock %}
+
+{% block content %}
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+        <h1 class="govuk-heading-xl">{{ form.name }}</h1>
+
+        {% include "titan-mvp-1/form-overview/includes/_form-status.html" %}
+        {% include "titan-mvp-1/form-overview/includes/_submission-details.html" %}
+        {% include "titan-mvp-1/form-overview/includes/_support-details.html" %}
+        {% include "titan-mvp-1/form-overview/includes/_next-steps.html" %}
+        {% include "titan-mvp-1/form-overview/includes/_data-protection.html" %}
+        {% include "titan-mvp-1/form-overview/includes/_organisation-details.html" %}
+    </div>
+
+    <div class="govuk-grid-column-one-third-from-desktop">
+        {% include "titan-mvp-1/form-overview/includes/_form-status-management.html" %}
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,148 @@
+{#
+Design History Page Template
+---------------------------
+This is a blank template for creating new design history pages.
+It extends the main design history template and sets all the variables required by that template.
+
+Key variables:
+- featureName: The name of the feature being documented.
+- latestVersionLink: URL to the latest prototype version.
+- status, statusColor: Status tag and its color.
+- userNeed: The user need this feature addresses.
+- phase, category: Project phase and category.
+- researchRounds: List of research rounds (for the summary table).
+- improvements: Key improvements in the latest version.
+- researchHistory: Table of research rounds, findings, and prototype links.
+- researchSummaries: Detailed summaries for each research round.
+Each summary can contain sections of type: content, details, images, objectives, findings, recommendations, preview.
+
+How to use:
+1. Copy this file to a new location in the design-history directory
+2. Fill in all the variables below
+3. Add research rounds and summaries as needed
+#}
+
+{% extends "design-history/template.html" %}
+
+{# --- Feature metadata --- #}
+{% set featureName = "" %}
+{% set latestVersionLink = "" %}
+{% set status = "" %}
+{% set statusColor = "" %}
+{% set userNeed = "" %}
+{% set phase = "" %}
+{% set category = "" %}
+{% set description = "" %}
+
+{# --- Journey steps --- #}
+{% set journeySteps = [
+{
+number: "1",
+title: "",
+subtitles: [
+{ text: "", isCurrent: false }
+]
+}
+] %}
+
+{# --- Full page list --- #}
+{% set pageList = [
+{
+section: "",
+pages: [
+{
+name: "",
+link: "",
+release: ""
+}
+]
+}
+] %}
+
+{# --- Feature links --- #}
+{% set featureLinks = [
+{
+title: "",
+screens: [
+{
+name: "",
+path: ""
+}
+]
+}
+] %}
+
+{# --- Research rounds for the summary table --- #}
+{% set researchRounds = [
+""
+] %}
+
+{# --- Key improvements in the latest version --- #}
+{% set improvements = [
+""
+] %}
+
+{# --- Research history table --- #}
+{% set researchHistory = [
+{
+roundNumber: "",
+researchDate: "",
+researchFinding: "",
+changeMade: ""
+}
+] %}
+
+{# --- Detailed research summaries --- #}
+{% set researchSummaries = [
+{
+title: "",
+summary: "",
+sections: [
+{
+type: "content",
+content: ""
+},
+{
+type: "screen",
+title: "",
+content: "",
+images: [
+{
+src: "",
+alt: "",
+caption: ""
+}
+]
+},
+{
+type: "changes",
+screen: "",
+content: [
+{
+screen: "",
+what: "",
+why: ""
+}
+]
+},
+{
+type: "findings",
+content: [
+""
+]
+},
+{
+type: "quotes",
+content: [
+""
+]
+}
+]
+}
+] %}
+
+<style>
+    .app-secondary-text {
+        color: #505a5f;
+    }
+</style>

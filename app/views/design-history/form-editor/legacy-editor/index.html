@@ -1,0 +1,60 @@
+{% extends "design-history/template.html" %}
+
+{# --- Feature metadata --- #}
+{% set featureName = "Legacy Editor" %}
+{% set latestVersionLink = "/titan-mvp-1/form-editor/legacy-editor.html" %}
+{% set status = "Tested" %}
+{% set statusColor = "green" %}
+{% set userNeed = "Users need to maintain compatibility with existing form designs so they can continue working with
+their current forms." %}
+{% set phase = "Private beta" %}
+{% set category = "Form editor" %}
+{% set description = "This feature provides compatibility with existing form designs, allowing users to continue working
+with their current forms while transitioning to the new editor." %}
+
+{# --- Research rounds for the summary table --- #}
+{% set researchRounds = [
+"Round 2 - June 2024"
+] %}
+
+{# --- Key improvements in the latest version --- #}
+{% set improvements = [
+"Enhanced legacy editor compatibility",
+"Improved transition support",
+"Added clear migration guidance",
+"Enhanced legacy feature support"
+] %}
+
+{# --- Research history table --- #}
+{% set researchHistory = [
+{
+roundNumber: "2",
+researchDate: "June 2024",
+researchFinding: "Legacy editor clear but needed better transition support",
+changeMade: "Improved transition support and guidance"
+}
+] %}
+
+{# --- Detailed research summaries --- #}
+{% set researchSummaries = [
+{
+title: "Round 2 - June 2024",
+summary: "Testing of legacy editor",
+sections: [
+{
+type: "content",
+content: "**Research conducted:** Remote usability testing (June 2024)\n\n**Participants:** Content designers and form
+administrators"
+},
+{
+type: "findings",
+content: [
+"Legacy editor clear and useful",
+"Needed better transition support",
+"Recommendation to add clear migration guidance",
+"Users wanted more legacy feature support"
+]
+}
+]
+}
+] %}

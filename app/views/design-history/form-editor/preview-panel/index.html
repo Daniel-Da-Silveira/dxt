@@ -1,0 +1,87 @@
+{% extends "design-history/template.html" %}
+
+{# --- Feature metadata --- #}
+{% set featureName = "Preview Panel" %}
+{% set latestVersionLink = "/titan-mvp-1/form-editor/preview-panel.html" %}
+{% set status = "Tested" %}
+{% set statusColor = "green" %}
+{% set userNeed = "Users need to see how their form will look to respondents so they can ensure it meets their
+requirements." %}
+{% set phase = "Private beta" %}
+{% set category = "Form editor" %}
+{% set description = "This feature allows users to preview their form as it will appear to respondents, including all
+questions, guidance, and formatting." %}
+
+{# --- Research rounds for the summary table --- #}
+{% set researchRounds = [
+"Round 8 - November 2024",
+"Round 7 - October 2024"
+] %}
+
+{# --- Key improvements in the latest version --- #}
+{% set improvements = [
+"Enhanced preview panel visibility",
+"Improved preview interaction",
+"Added clear preview controls",
+"Enhanced preview accuracy"
+] %}
+
+{# --- Research history table --- #}
+{% set researchHistory = [
+{
+roundNumber: "8",
+researchDate: "November 2024",
+researchFinding: "Preview panel clear but needed better controls",
+changeMade: "Added clear preview controls"
+},
+{
+roundNumber: "7",
+researchDate: "October 2024",
+researchFinding: "Initial implementation well received but needed refinement",
+changeMade: "Initial implementation of preview panel feature"
+}
+] %}
+
+{# --- Detailed research summaries --- #}
+{% set researchSummaries = [
+{
+title: "Round 8 - November 2024",
+summary: "Testing of preview panel controls",
+sections: [
+{
+type: "content",
+content: "**Research conducted:** Remote usability testing (November 2024)\n\n**Participants:** Content designers and
+form administrators"
+},
+{
+type: "findings",
+content: [
+"Preview panel clear and useful",
+"Needed better control options",
+"Recommendation to add more preview controls",
+"Users wanted more preview customization options"
+]
+}
+]
+},
+{
+title: "Round 7 - October 2024",
+summary: "Initial testing of preview panel",
+sections: [
+{
+type: "content",
+content: "**Research conducted:** Remote usability testing (October 2024)\n\n**Participants:** Content designers and
+form administrators"
+},
+{
+type: "findings",
+content: [
+"Initial implementation well received",
+"Basic functionality clear and intuitive",
+"Recommendation to enhance preview capabilities",
+"Users wanted more preview options"
+]
+}
+]
+}
+] %}
