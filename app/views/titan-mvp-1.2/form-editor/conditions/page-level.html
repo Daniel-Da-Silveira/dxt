@@ -121,8 +121,8 @@ activeLinkId: "nav-editor"
                         Control who can see this page based on previous answers
                       </legend>
 
+                      {% if existingConditions | length > 0 %}
                       <div class="govuk-radios" data-module="govuk-radios">
-                        {% if existingConditions | length > 0 %}
                         <!-- Existing condition radio -->
                         <div class="govuk-radios__item">
                           <input class="govuk-radios__input" id="mode-existing" name="condition-mode" type="radio"
@@ -140,73 +140,21 @@ activeLinkId: "nav-editor"
                           <button class="govuk-button govuk-button-group" id="add-existing-condition">Add existing
                             condition</button>
                         </div>
-                        {% endif %}
                         <!-- New condition radio -->
                         <div class="govuk-radios__item">
                           <input class="govuk-radios__input" id="mode-new" name="condition-mode" type="radio"
-                            value="new" {% if existingConditions | length==0 %}checked{% endif %}
-                            data-aria-controls="conditional-new">
+                            value="new" data-aria-controls="conditional-new">
                           <label class="govuk-label govuk-radios__label" for="mode-new">
                             Create condition
                           </label>
                         </div>
                         <div class="govuk-radios__conditional govuk-radios__conditional--hidden" id="conditional-new">
-                          <form id="condition-form" method="post"
-                            action="/titan-mvp-1.2/form-editor/conditions/page-level/{{ currentPage.pageId }}/add">
-                            <div class="govuk-form-group app-form-container">
-                              <div class="govuk-form-group" id="conditions-container">
-                                <div class="govuk-form-group">
-                                  <label class="govuk-label" for="questionSelect">
-                                    Select a question
-                                  </label>
-                                  <select class="govuk-select" id="questionSelect" name="question" required
-                                    data-available-questions='{{ availableQuestions | dump | safe }}'>
-                                    <option value="">Choose a question</option>
-                                    {% for question in availableQuestions %}
-                                    <option value="{{ question.value }}" data-type="{{ question.type }}"
-                                      data-options='{{ question.options | dump | safe }}'>
-                                      {{ question.text }}
-                                    </option>
-                                    {% endfor %}
-                                  </select>
-                                </div>
-                                <div class="govuk-form-group">
-                                  <label class="govuk-label" for="operatorSelect">
-                                    Condition type
-                                  </label>
-                                  <select class="govuk-select" id="operatorSelect" name="operator" required>
-                                    <option value="">Select a condition type</option>
-                                    <option value="is" selected>is</option>
-                                    <option value="is-not">is not</option>
-                                  </select>
-                                </div>
-                                <div class="govuk-form-group" id="valueContainer" style="display: none;">
-                                  <!-- Value inputs will be dynamically populated here -->
-                                </div>
-                              </div>
-                              <div id="additional-conditions">
-                                <!-- Additional conditions will be added here -->
-                              </div>
-                              <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
-                              <div class="govuk-form-group">
-                                <label class="govuk-label govuk-label--m" for="conditionName">
-                                  Condition name
-                                </label>
-                                <div class="govuk-hint">
-                                  Condition names help you to identify conditions in your form,
-                                  for example, 'Not a farmer'. Users will not see condition names.
-                                </div>
-                                <input class="govuk-input" id="conditionName" name="conditionName" type="text" required>
-                              </div>
-                              <div class="govuk-button-group">
-                                <button type="submit" class="govuk-button">Save condition</button>
-                                <a href="#" class="govuk-link govuk-link--no-visited-state"
-                                  id="cancel-condition">Cancel</a>
-                              </div>
-                            </div>
-                          </form>
+                          {% include "titan-mvp-1.2/form-editor/conditions/create-condition-form.html" %}
                         </div>
                       </div>
+                      {% else %}
+                      {% include "titan-mvp-1.2/form-editor/conditions/create-condition-form.html" %}
+                      {% endif %}
                     </fieldset>
                   </div>
                   <!-- Inset text for advanced conditions -->
