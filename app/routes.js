@@ -40,11 +40,11 @@ router.use((req, res, next) => {
   next();
 });
 
-// Import and use titan-mvp-1 routes
-router.use("/titan-mvp-1", require("./routes/titan-mvp-1/routes.js"));
-
 // Import and use titan-mvp-1.2 routes
 router.use("/titan-mvp-1.2", require("./routes/titan-mvp-1.2/routes.js"));
+
+// Import and use titan-mvp-1 routes
+router.use("/titan-mvp-1", require("./routes/titan-mvp-1/routes.js"));
 
 // Lists routes
 const lists = require("./routes/lists.js");

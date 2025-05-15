@@ -22,6 +22,8 @@ navigationItems: [
 activeLinkId: "my-account"
 }) }}
 
+
+
 <div class="x-govuk-masthead x-govuk-masthead--large">
     <div class="govuk-width-container">
         {{ govukBackLink({ classes: "govuk-back-link--inverse govuk-!-margin-bottom-0", text: "Back to form library",
@@ -33,12 +35,14 @@ activeLinkId: "my-account"
         <div class="govuk-grid-row">
             <div class="govuk-grid-column-full-from-desktop">
                 <h1 class="x-govuk-masthead__title">
-                    <span class="govuk-caption-l" style="color: white;">{{ data.user.semanticName }}</span>
+                    <span class="govuk-caption-l" style="color: white;">Chris Smith
+                    </span>
                     My account
                 </h1>
             </div>
         </div>
     </div>
+</div>
 </div>
 {% endblock %}
 
@@ -52,7 +56,7 @@ activeLinkId: "my-account"
         text: "Email"
         },
         value: {
-        text: data.user.email
+        text: "chris.smith@defra.gov.uk"
         }
         },
         {
@@ -60,11 +64,12 @@ activeLinkId: "my-account"
         text: "Role"
         },
         value: {
-        text: data.user.role
+        text: "Admin"
         }
         }
         ]
         }) }}
+
 
         {# <div class="govuk-button-group govuk-!-margin-top-6">
             {{ govukButton({

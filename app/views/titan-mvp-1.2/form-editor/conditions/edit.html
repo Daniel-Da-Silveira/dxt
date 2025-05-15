@@ -229,6 +229,33 @@ activeLinkId: "nav-editor"
                         </fieldset>
                     </div>
                     <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
+                    {% if formPages %}
+                    <div class="govuk-form-group">
+                        <fieldset class="govuk-fieldset">
+                            <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">
+                                Pages this condition is currently applied to
+                            </legend>
+                            <div class="govuk-checkboxes govuk-checkboxes--small" data-module="govuk-checkboxes">
+                                {% for page in formPages %}
+                                {% set isChecked = false %}
+                                {% for p in pagesWithCondition %}
+                                {% if p.pageId == page.pageId %}
+                                {% set isChecked = true %}
+                                {% endif %}
+                                {% endfor %}
+                                <div class="govuk-checkboxes__item">
+                                    <input class="govuk-checkboxes__input" id="page-{{ page.pageId }}" name="pages"
+                                        type="checkbox" value="{{ page.pageId }}" {% if isChecked %}checked{% endif %}>
+                                    <label class="govuk-label govuk-checkboxes__label" for="page-{{ page.pageId }}">
+                                        Page {{ loop.index }}: {{ page.pageHeading or page.title or (page.questions and
+                                        page.questions[0] and page.questions[0].label) or 'Page ' ~ loop.index }}
+                                    </label>
+                                </div>
+                                {% endfor %}
+                            </div>
+                        </fieldset>
+                    </div>
+                    {% endif %}
 
                     <div class="govuk-form-group">
                         <label class="govuk-label govuk-label--m" for="conditionName">

@@ -63,9 +63,7 @@ activeLinkId: "manage-users"
 
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
-        <pre>
-{{ data.users | dump }}
-</pre>
+
         {% if data.users and data.users.length > 0 %}
         {% set rows = [] %}
         {% for user in data.users %}

@@ -213,298 +213,190 @@ activeLinkId: "nav-editor"
 
 
                     <!-- Add New Condition Button -->
-                    <div class="moj-button-group moj-button-group--inline">
+                    <div class="govuk-button-group" style="align-items: center;">
                         <button class="govuk-button" id="add-new-condition" style="display: block;">
                             Create new condition
                         </button>
-
-                        {{ mojButtonMenu({
-                        button: {
-                        text: "Manage selected conditions",
-                        classes: "govuk-button--secondary"
-                        },
-                        items: [
-                        {
-                        text: "Add to pages",
-                        href: "#",
-                        attributes: {
-                        id: "add-condition-to-pages",
-                        "data-action": "show-form",
-                        "data-form-id": "add-condition-to-pages-form"
-                        }
-                        },
-                        {
-                        text: "Remove from pages",
-                        href: "#",
-                        attributes: {
-                        id: "remove-condition-from-pages",
-                        "data-action": "show-form",
-                        "data-form-id": "remove-condition-from-pages-form"
-                        }
-                        },
-                        {
-                        text: "Join selected conditions",
-                        href: "#",
-                        attributes: {
-                        id: "join-conditions-button",
-                        "data-action": "show-form",
-                        "data-form-id": "join-conditions-form-container"
-                        }
-                        }
-                        ]
-                        }) }}
+                        <button class="govuk-button govuk-button--secondary" id="join-conditions-button"
+                            data-action="show-form" data-form-id="join-conditions-form-container"
+                            style="display: block; align-items: center;">
+                            <svg width="40" height="20" viewBox="0 0 28 14" fill="none"
+                                xmlns="http://www.w3.org/2000/svg" aria-hidden="true"
+                                style="vertical-align: middle; margin-right: 4px;">
+                                <circle cx="10" cy="7" r="6" fill="#b1b4b6" stroke="#0b0c0c" stroke-width="0.5" />
+                                <circle cx="16" cy="7" r="6" fill="#505a5f" stroke="#0b0c0c" stroke-width="0.5" />
+                                <ellipse cx="13" cy="7" rx="3" ry="6" fill="#0b0c0c" fill-opacity="0.2" />
+                            </svg>
+                            Join selected conditions
+                        </button>
                     </div>
-                    {#
+
+                    {# {{ mojButtonMenu({
+                    button: {
+                    text: "Manage selected conditions",
+                    classes: "govuk-button--secondary"
+                    },
+                    items: [
+                    {
+                    text: "Add to pages",
+                    href: "#",
+                    attributes: {
+                    id: "add-condition-to-pages",
+                    "data-action": "show-form",
+                    "data-form-id": "add-condition-to-pages-form"
+                    }
+                    },
+                    {
+                    text: "Remove from pages",
+                    href: "#",
+                    attributes: {
+                    id: "remove-condition-from-pages",
+                    "data-action": "show-form",
+                    "data-form-id": "remove-condition-from-pages-form"
+                    }
+                    },
+                    {
+                    text: "Join selected conditions",
+                    href: "#",
+                    attributes: {
+                    id: "join-conditions-button",
+                    "data-action": "show-form",
+                    "data-form-id": "join-conditions-form-container"
+                    }
+                    }
+                    ]
+                    }) }}
             </div> #}
+            {#
+        </div> #}
 
 
-            <!-- Add New Condition Form (Hidden by Default) -->
-            <div id="new-condition-form" style="display: none;">
-                <form id="condition-form" method="post" action="/titan-mvp-1.2/form-editor/conditions-manager/add">
-                    <div class="govuk-form-group app-form-container">
-                        <h2 class="govuk-heading-m app-form-container__title">Create new
-                            condition</h2>
+        <!-- Add New Condition Form (Hidden by Default) -->
+        <div id="new-condition-form" style="display: none;">
+            <form id="condition-form" method="post" action="/titan-mvp-1.2/form-editor/conditions-manager/add">
+                <div class="govuk-form-group app-form-container">
+                    <h2 class="govuk-heading-m app-form-container__title">Create new
+                        condition</h2>
 
-                        <div class="govuk-form-group" id="conditions-container">
-                            <div class="govuk-form-group">
-                                <label class="govuk-label" for="questionSelect">
-                                    Select a question
-                                </label>
-                                <select class="govuk-select" id="questionSelect" name="question" required
-                                    data-available-questions='{{ availableQuestions | dump | safe }}'>
-                                    <option value="">Choose a question</option>
-                                    {% for question in availableQuestions %}
-                                    {% set fromPage = (formPages | selectattr('pageId', 'equalto', fromPageId) | list |
-                                    first) %}
-                                    <option value="{{ question.value }}" data-type="{{ question.type }}"
-                                        data-options='{{ question.options | dump | safe }}' {% if query.fromQuestionId
-                                        %} {% if question.value|string==query.fromQuestionId|string %}selected{% endif
-                                        %} {% elif fromPage and fromPage.questions and fromPage.questions[0] and
-                                        (question.value|string==fromPage.questions[0].questionId|string) %} selected {%
-                                        endif %}>
-                                        {{ question.text }}
-                                    </option>
-                                    {% endfor %}
-                                </select>
-                            </div>
-
-                            <div class="govuk-form-group">
-                                <label class="govuk-label" for="operatorSelect">
-                                    Condition type
-                                </label>
-                                <select class="govuk-select" id="operatorSelect" name="operator" required>
-                                    <option value="">Select a condition type</option>
-                                    <option value="is" selected>is</option>
-                                    <option value="is-not">is not</option>
-                                </select>
-                            </div>
-
-                            <div class="govuk-form-group" id="valueContainer" style="display: none;">
-                                <!-- Value inputs will be dynamically populated here -->
-                            </div>
-                        </div>
-
-                        <div class="govuk-form-group" id="logicalOperatorGroup" style="display: none;">
-                            <fieldset class="govuk-fieldset">
-                                <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">
-                                    How do you want to combine these conditions?
-                                </legend>
-                                <div class="govuk-radios govuk-radios--inline" data-module="govuk-radios">
-                                    <div class="govuk-radios__item">
-                                        <input class="govuk-radios__input" id="logical-operator-and"
-                                            name="logicalOperator" type="radio" value="AND" checked>
-                                        <label class="govuk-label govuk-radios__label" for="logical-operator-and">
-                                            All conditions must be met (AND)
-                                        </label>
-                                    </div>
-                                    <div class="govuk-radios__item">
-                                        <input class="govuk-radios__input" id="logical-operator-or"
-                                            name="logicalOperator" type="radio" value="OR">
-                                        <label class="govuk-label govuk-radios__label" for="logical-operator-or">
-                                            Any condition can be met (OR)
-                                        </label>
-                                    </div>
-                                </div>
-                            </fieldset>
-                        </div>
-
-
-
-                        <div id="additional-conditions">
-                            <!-- Additional conditions will be added here -->
-                        </div>
-
-
-
-
-
-                        <div class="govuk-button-group">
-                            <button class="govuk-button govuk-button--inverse" id="add-condition-link">
-                                <svg class="govuk-!-margin-right-1" style="position: relative; top: 2px" width="12"
-                                    height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M6 1V11" stroke="currentColor" stroke-width="2" />
-                                    <path d="M1 6H11" stroke="currentColor" stroke-width="2" />
-                                </svg>
-                                Add another condition
-                            </button>
-                        </div>
-
-
-
-                        <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
-
+                    <div class="govuk-form-group" id="conditions-container">
                         <div class="govuk-form-group">
-                            <fieldset class="govuk-fieldset">
-                                <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">
-                                    Select pages to apply this condition to
-                                </legend>
-                                <div class="govuk-checkboxes" data-module="govuk-checkboxes">
-                                    {% for page in formPages %}
-                                    <div class="govuk-checkboxes__item">
-                                        <input class="govuk-checkboxes__input" id="page-{{ page.pageId }}" name="pages"
-                                            type="checkbox" value="{{ page.pageId }}" {% if fromPageId and
-                                            page.pageId|string==fromPageId|string %}checked{% endif %}>
-                                        <label class="govuk-label govuk-checkboxes__label" for="page-{{ page.pageId }}">
-                                            Page {{ loop.index }}: {{ page.pageHeading or page.title or (page.questions
-                                            and page.questions[0] and page.questions[0].label) or 'Page ' ~ loop.index
-                                            }}
-                                        </label>
-                                    </div>
-                                    {% endfor %}
-                                    <div class="govuk-checkboxes__divider">or</div>
-                                    <div class="govuk-checkboxes__item">
-                                        <input class="govuk-checkboxes__input" id="page-none" name="pages"
-                                            type="checkbox" value="none">
-                                        <label class="govuk-label govuk-checkboxes__label" for="page-none">None</label>
-                                    </div>
-                                </div>
-                            </fieldset>
-                        </div>
-
-                        <div class="govuk-form-group">
-                            <label class="govuk-label govuk-label--m" for="conditionName">
-                                Condition name
+                            <label class="govuk-label" for="questionSelect">
+                                Select a question
                             </label>
-                            <div class="govuk-hint">
-                                Condition names help you to identify conditions in your
-                                form,
-                                for example, 'Not a farmer'. Users will not see condition
-                                names.
-                            </div>
-                            <input class="govuk-input" id="conditionName" name="conditionName" type="text" required>
-                        </div>
-
-                        <div class="govuk-button-group">
-                            <button type="submit" class="govuk-button">Save
-                                condition</button>
-                            <a href="#" class="govuk-link govuk-link--no-visited-state" id="cancel-condition">Cancel</a>
-                        </div>
-                    </div>
-                </form>
-            </div>
-
-            <!-- Add Condition to Pages Form (Hidden by Default) -->
-            <div id="add-condition-to-pages-form" class="govuk-!-margin-top-6 app-form-container"
-                style="display: none;">
-                <form id="apply-condition-form" method="post" action="/titan-mvp-1.2/form-editor/conditions/apply">
-                    <div class="govuk-form-group">
-                        <h2 class="govuk-heading-m app-form-container__title">Add condition to pages</h2>
-
-                        <div class="govuk-form-group">
-                            <h3 class="govuk-heading-s">Selected conditions</h3>
-                            <ul class="govuk-list govuk-list--bullet" id="selected-conditions-list">
-                                <!-- Selected conditions will be added here dynamically -->
-                            </ul>
+                            <select class="govuk-select" id="questionSelect" name="question" required
+                                data-available-questions='{{ availableQuestions | dump | safe }}'>
+                                <option value="">Choose a question</option>
+                                {% for question in availableQuestions %}
+                                {% set fromPage = (formPages | selectattr('pageId', 'equalto', fromPageId) | list |
+                                first) %}
+                                <option value="{{ question.value }}" data-type="{{ question.type }}"
+                                    data-options='{{ question.options | dump | safe }}' {% if query.fromQuestionId %} {%
+                                    if question.value|string==query.fromQuestionId|string %}selected{% endif %} {% elif
+                                    fromPage and fromPage.questions and fromPage.questions[0] and
+                                    (question.value|string==fromPage.questions[0].questionId|string) %} selected {%
+                                    endif %}>
+                                    {{ question.text }}
+                                </option>
+                                {% endfor %}
+                            </select>
                         </div>
 
                         <div class="govuk-form-group">
-                            <fieldset class="govuk-fieldset">
-                                <legend class="govuk-fieldset__legend govuk-fieldset__legend--s">
-                                    Select pages to apply the condition to
-                                </legend>
-                                <div class="govuk-checkboxes" data-module="govuk-checkboxes">
-                                    {% for page in formPages %}
-                                    <div class="govuk-checkboxes__item">
-                                        <input class="govuk-checkboxes__input" id="page-{{ page.pageId }}" name="pages"
-                                            type="checkbox" value="{{ page.pageId }}">
-                                        <label class="govuk-label govuk-checkboxes__label" for="page-{{ page.pageId }}">
-                                            Page {{ loop.index }}: {{ page.pageHeading or page.title or (page.questions
-                                            and page.questions[0] and page.questions[0].label) or 'Page ' ~ loop.index
-                                            }}
-                                        </label>
-                                    </div>
-                                    {% endfor %}
-                                </div>
-                            </fieldset>
+                            <label class="govuk-label" for="operatorSelect">
+                                Condition type
+                            </label>
+                            <select class="govuk-select" id="operatorSelect" name="operator" required>
+                                <option value="">Select a condition type</option>
+                                <option value="is" selected>is</option>
+                                <option value="is-not">is not</option>
+                            </select>
                         </div>
 
-                        <div class="govuk-button-group">
-                            <button type="submit" class="govuk-button">Apply condition</button>
-                            <a href="#" class="govuk-link govuk-link--no-visited-state"
-                                id="cancel-add-condition-to-pages">Cancel</a>
+                        <div class="govuk-form-group" id="valueContainer" style="display: none;">
+                            <!-- Value inputs will be dynamically populated here -->
                         </div>
                     </div>
-                </form>
-            </div>
 
-            <!-- Join Conditions Form (Hidden by Default) -->
-            <div id="join-conditions-form-container" class="govuk-!-margin-top-6 app-form-container"
-                style="display: none;">
-                <form id="join-conditions-form" method="post"
-                    action="/titan-mvp-1.2/form-editor/conditions-manager/join">
-                    <div class="govuk-form-group">
+                    <div class="govuk-form-group" id="logicalOperatorGroup" style="display: none;">
                         <fieldset class="govuk-fieldset">
                             <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">
                                 How do you want to combine these conditions?
                             </legend>
                             <div class="govuk-radios govuk-radios--inline" data-module="govuk-radios">
                                 <div class="govuk-radios__item">
-                                    <input class="govuk-radios__input" id="join-operator-and" name="operator"
+                                    <input class="govuk-radios__input" id="logical-operator-and" name="logicalOperator"
                                         type="radio" value="AND" checked>
-                                    <label class="govuk-label govuk-radios__label" for="join-operator-and">
+                                    <label class="govuk-label govuk-radios__label" for="logical-operator-and">
                                         All conditions must be met (AND)
                                     </label>
                                 </div>
                                 <div class="govuk-radios__item">
-                                    <input class="govuk-radios__input" id="join-operator-or" name="operator"
+                                    <input class="govuk-radios__input" id="logical-operator-or" name="logicalOperator"
                                         type="radio" value="OR">
-                                    <label class="govuk-label govuk-radios__label" for="join-operator-or">
+                                    <label class="govuk-label govuk-radios__label" for="logical-operator-or">
                                         Any condition can be met (OR)
                                     </label>
                                 </div>
                             </div>
                         </fieldset>
                     </div>
+
+
+
+                    <div id="additional-conditions">
+                        <!-- Additional conditions will be added here -->
+                    </div>
+
+
+
+
+
+                    <div class="govuk-button-group">
+                        <button class="govuk-button govuk-button--inverse" id="add-condition-link">
+                            <svg class="govuk-!-margin-right-1" style="position: relative; top: 2px" width="12"
+                                height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M6 1V11" stroke="currentColor" stroke-width="2" />
+                                <path d="M1 6H11" stroke="currentColor" stroke-width="2" />
+                            </svg>
+                            Add another condition
+                        </button>
+                    </div>
+
+
+
                     <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
+
                     <div class="govuk-form-group">
                         <fieldset class="govuk-fieldset">
                             <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">
-                                Select pages to apply this joined condition to
+                                Select pages to apply this condition to
                             </legend>
-                            <div class="govuk-checkboxes" data-module="govuk-checkboxes">
+                            <div class="govuk-checkboxes govuk-checkboxes--small" data-module="govuk-checkboxes">
                                 {% for page in formPages %}
                                 <div class="govuk-checkboxes__item">
-                                    <input class="govuk-checkboxes__input" id="join-page-{{ page.pageId }}" name="pages"
-                                        type="checkbox" value="{{ page.pageId }}">
-                                    <label class="govuk-label govuk-checkboxes__label"
-                                        for="join-page-{{ page.pageId }}">
+                                    <input class="govuk-checkboxes__input" id="page-{{ page.pageId }}" name="pages"
+                                        type="checkbox" value="{{ page.pageId }}" {% if fromPageId and
+                                        page.pageId|string==fromPageId|string %}checked{% endif %}>
+                                    <label class="govuk-label govuk-checkboxes__label" for="page-{{ page.pageId }}">
                                         Page {{ loop.index }}: {{ page.pageHeading or page.title or (page.questions
-                                        and page.questions[0] and page.questions[0].label) or 'Page ' ~ loop.index }}
+                                        and page.questions[0] and page.questions[0].label) or 'Page ' ~ loop.index
+                                        }}
                                     </label>
                                 </div>
                                 {% endfor %}
                                 <div class="govuk-checkboxes__divider">or</div>
                                 <div class="govuk-checkboxes__item">
-                                    <input class="govuk-checkboxes__input" id="join-page-none" name="pages"
-                                        type="checkbox" value="none">
-                                    <label class="govuk-label govuk-checkboxes__label" for="join-page-none">None</label>
+                                    <input class="govuk-checkboxes__input" id="page-none" name="pages" type="checkbox"
+                                        value="none">
+                                    <label class="govuk-label govuk-checkboxes__label" for="page-none">None</label>
                                 </div>
                             </div>
                         </fieldset>
                     </div>
+
                     <div class="govuk-form-group">
-                        <label class="govuk-label govuk-label--m" for="joined-condition-name">
-                            Name for joined condition
+                        <label class="govuk-label govuk-label--m" for="conditionName">
+                            Condition name
                         </label>
                         <div class="govuk-hint">
                             Condition names help you to identify conditions in your
@@ -512,55 +404,180 @@ activeLinkId: "nav-editor"
                             for example, 'Not a farmer'. Users will not see condition
                             names.
                         </div>
-                        <input class="govuk-input" id="joined-condition-name" name="joined-condition-name" type="text"
-                            required>
+                        <input class="govuk-input" id="conditionName" name="conditionName" type="text" required>
                     </div>
+
                     <div class="govuk-button-group">
-                        <button type="submit" class="govuk-button">Save joined
+                        <button type="submit" class="govuk-button">Save
                             condition</button>
-
-                        <a href="#" class="govuk-link govuk-link--no-visited-state" id="cancel-join">Cancel</a>
+                        <a href="#" class="govuk-link govuk-link--no-visited-state" id="cancel-condition">Cancel</a>
                     </div>
-                </form>
-            </div>
-
-            <!-- Remove Condition from Pages Form (Hidden by Default) -->
-            <div id="remove-condition-from-pages-form" class="govuk-!-margin-top-6 app-form-container"
-                style="display: none;">
-                <form id="remove-condition-form" method="post" action="/titan-mvp-1.2/form-editor/conditions/remove">
-                    <div class="govuk-form-group">
-                        <h2 class="govuk-heading-m app-form-container__title">Remove conditions from pages</h2>
-
-                        <div class="govuk-form-group">
-                            <h3 class="govuk-heading-s">Selected conditions</h3>
-                            <ul class="govuk-list govuk-list--bullet" id="selected-conditions-to-remove-list">
-                                <!-- Selected conditions will be added here dynamically -->
-                            </ul>
-                        </div>
-
-                        <div class="govuk-form-group">
-                            <fieldset class="govuk-fieldset">
-                                <legend class="govuk-fieldset__legend govuk-fieldset__legend--s">
-                                    Select pages to remove conditions from
-                                </legend>
-                                <div class="govuk-checkboxes" data-module="govuk-checkboxes" id="pages-with-conditions">
-                                    <!-- Pages with conditions will be added here dynamically -->
-                                </div>
-                            </fieldset>
-                        </div>
-
-                        <div class="govuk-button-group">
-                            <button type="submit" class="govuk-button govuk-button--warning">Remove conditions</button>
-                            <a href="#" class="govuk-link govuk-link--no-visited-state"
-                                id="cancel-remove-condition">Cancel</a>
-                        </div>
-                    </div>
-                </form>
-            </div>
-            </dd>
+                </div>
+            </form>
         </div>
-        </dl>
+
+        <!-- Add Condition to Pages Form (Hidden by Default) -->
+        <div id="add-condition-to-pages-form" class="govuk-!-margin-top-6 app-form-container" style="display: none;">
+            <form id="apply-condition-form" method="post" action="/titan-mvp-1.2/form-editor/conditions/apply">
+                <div class="govuk-form-group">
+                    <h2 class="govuk-heading-m app-form-container__title">Add condition to pages</h2>
+
+                    <div class="govuk-form-group">
+                        <h3 class="govuk-heading-s">Selected conditions</h3>
+                        <ul class="govuk-list govuk-list--bullet" id="selected-conditions-list">
+                            <!-- Selected conditions will be added here dynamically -->
+                        </ul>
+                    </div>
+
+                    <div class="govuk-form-group">
+                        <fieldset class="govuk-fieldset">
+                            <legend class="govuk-fieldset__legend govuk-fieldset__legend--s">
+                                Select pages to apply the condition to
+                            </legend>
+                            <div class="govuk-checkboxes govuk-checkboxes--small" data-module="govuk-checkboxes">
+                                {% for page in formPages %}
+                                {% set isChecked = false %}
+                                {% for conditionId in selectedConditionIds %}
+                                {% if page.conditions and page.conditions|selectattr('id', 'equalto',
+                                conditionId)|list|length > 0 %}
+                                {% set isChecked = true %}
+                                {% endif %}
+                                {% endfor %}
+                                <div class="govuk-checkboxes__item">
+                                    <input class="govuk-checkboxes__input" id="page-{{ page.pageId }}" name="pages"
+                                        type="checkbox" value="{{ page.pageId }}" {% if isChecked %}checked{% endif %}>
+                                    <label class="govuk-label govuk-checkboxes__label" for="page-{{ page.pageId }}">
+                                        Page {{ loop.index }}: {{ page.pageHeading or page.title or (page.questions
+                                        and page.questions[0] and page.questions[0].label) or 'Page ' ~ loop.index
+                                        }}
+                                    </label>
+                                </div>
+                                {% endfor %}
+                            </div>
+                        </fieldset>
+                    </div>
+
+                    <div class="govuk-button-group">
+                        <button type="submit" class="govuk-button">Apply condition</button>
+                        <a href="#" class="govuk-link govuk-link--no-visited-state"
+                            id="cancel-add-condition-to-pages">Cancel</a>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <!-- Join Conditions Form (Hidden by Default) -->
+        <div id="join-conditions-form-container" class="govuk-!-margin-top-6 app-form-container" style="display: none;">
+            <form id="join-conditions-form" method="post" action="/titan-mvp-1.2/form-editor/conditions-manager/join">
+                <div class="govuk-form-group">
+                    <fieldset class="govuk-fieldset">
+                        <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">
+                            How do you want to combine these conditions?
+                        </legend>
+                        <div class="govuk-radios govuk-radios--inline" data-module="govuk-radios">
+                            <div class="govuk-radios__item">
+                                <input class="govuk-radios__input" id="join-operator-and" name="operator" type="radio"
+                                    value="AND" checked>
+                                <label class="govuk-label govuk-radios__label" for="join-operator-and">
+                                    All conditions must be met (AND)
+                                </label>
+                            </div>
+                            <div class="govuk-radios__item">
+                                <input class="govuk-radios__input" id="join-operator-or" name="operator" type="radio"
+                                    value="OR">
+                                <label class="govuk-label govuk-radios__label" for="join-operator-or">
+                                    Any condition can be met (OR)
+                                </label>
+                            </div>
+                        </div>
+                    </fieldset>
+                </div>
+                <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
+                <div class="govuk-form-group">
+                    <fieldset class="govuk-fieldset">
+                        <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">
+                            Select pages to apply this joined condition to
+                        </legend>
+                        <div class="govuk-checkboxes govuk-checkboxes--small" data-module="govuk-checkboxes">
+                            {% for page in formPages %}
+                            <div class="govuk-checkboxes__item">
+                                <input class="govuk-checkboxes__input" id="join-page-{{ page.pageId }}" name="pages"
+                                    type="checkbox" value="{{ page.pageId }}">
+                                <label class="govuk-label govuk-checkboxes__label" for="join-page-{{ page.pageId }}">
+                                    Page {{ loop.index }}: {{ page.pageHeading or page.title or (page.questions
+                                    and page.questions[0] and page.questions[0].label) or 'Page ' ~ loop.index }}
+                                </label>
+                            </div>
+                            {% endfor %}
+                            <div class="govuk-checkboxes__divider">or</div>
+                            <div class="govuk-checkboxes__item">
+                                <input class="govuk-checkboxes__input" id="join-page-none" name="pages" type="checkbox"
+                                    value="none">
+                                <label class="govuk-label govuk-checkboxes__label" for="join-page-none">None</label>
+                            </div>
+                        </div>
+                    </fieldset>
+                </div>
+                <div class="govuk-form-group">
+                    <label class="govuk-label govuk-label--m" for="joined-condition-name">
+                        Name for joined condition
+                    </label>
+                    <div class="govuk-hint">
+                        Condition names help you to identify conditions in your
+                        form,
+                        for example, 'Not a farmer'. Users will not see condition
+                        names.
+                    </div>
+                    <input class="govuk-input" id="joined-condition-name" name="joined-condition-name" type="text"
+                        required>
+                </div>
+                <div class="govuk-button-group">
+                    <button type="submit" class="govuk-button">Save joined
+                        condition</button>
+
+                    <a href="#" class="govuk-link govuk-link--no-visited-state" id="cancel-join">Cancel</a>
+                </div>
+            </form>
+        </div>
+
+        <!-- Remove Condition from Pages Form (Hidden by Default) -->
+        <div id="remove-condition-from-pages-form" class="govuk-!-margin-top-6 app-form-container"
+            style="display: none;">
+            <form id="remove-condition-form" method="post" action="/titan-mvp-1.2/form-editor/conditions/remove">
+                <div class="govuk-form-group">
+                    <h2 class="govuk-heading-m app-form-container__title">Remove conditions from pages</h2>
+
+                    <div class="govuk-form-group">
+                        <h3 class="govuk-heading-s">Selected conditions</h3>
+                        <ul class="govuk-list govuk-list--bullet" id="selected-conditions-to-remove-list">
+                            <!-- Selected conditions will be added here dynamically -->
+                        </ul>
+                    </div>
+
+                    <div class="govuk-form-group">
+                        <fieldset class="govuk-fieldset">
+                            <legend class="govuk-fieldset__legend govuk-fieldset__legend--s">
+                                Select pages to remove conditions from
+                            </legend>
+                            <div class="govuk-checkboxes govuk-checkboxes--small" data-module="govuk-checkboxes"
+                                id="pages-with-conditions">
+                                <!-- Pages with conditions will be added here dynamically -->
+                            </div>
+                        </fieldset>
+                    </div>
+
+                    <div class="govuk-button-group">
+                        <button type="submit" class="govuk-button govuk-button--warning">Remove conditions</button>
+                        <a href="#" class="govuk-link govuk-link--no-visited-state"
+                            id="cancel-remove-condition">Cancel</a>
+                    </div>
+                </div>
+            </form>
+        </div>
+        </dd>
     </div>
+    </dl>
+</div>
 </div>
 </div>
 </div>
@@ -1498,15 +1515,10 @@ activeLinkId: "nav-editor"
         const pagesWithConditions = document.getElementById('pages-with-conditions');
         // Get form pages data from hidden input
         let formPagesData = [];
-        try {
-            const formPagesDataElement = document.getElementById('form-pages-data');
-            if (formPagesDataElement) {
-                formPagesData = JSON.parse(formPagesDataElement.textContent);
-            }
-        } catch (e) {
-            formPagesData = [];
+        const formPagesDataElement = document.getElementById('form-pages-data');
+        if (formPagesDataElement) {
+            formPagesData = JSON.parse(formPagesDataElement.textContent);
         }
-        console.log('DEBUG: Parsed formPagesData', formPagesData);
 
         function getProp(obj, key) {
             // Try exact, then trimmed, then undefined
@@ -1558,7 +1570,7 @@ activeLinkId: "nav-editor"
             // Add pages with conditions to the form
             if (pagesWithSelectedConditions.size > 0) {
                 const checkboxesContainer = document.createElement('div');
-                checkboxesContainer.className = 'govuk-checkboxes';
+                checkboxesContainer.className = 'govuk-checkboxes govuk-checkboxes--small';
                 checkboxesContainer.setAttribute('data-module', 'govuk-checkboxes');
                 // Sort pages by their index before creating checkboxes
                 const sortedPages = Array.from(pagesWithSelectedConditions.entries())

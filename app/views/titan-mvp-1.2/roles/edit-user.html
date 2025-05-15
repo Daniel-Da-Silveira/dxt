@@ -3,6 +3,7 @@
 {% from "components/service-header/macro.njk" import serviceHeader %}
 {% from "govuk/components/summary-list/macro.njk" import govukSummaryList %}
 {% from "govuk/components/notification-banner/macro.njk" import govukNotificationBanner %}
+{% from "govuk/components/input/macro.njk" import govukInput %}
 
 {% set pageName = "Edit user" %}
 
@@ -46,7 +47,7 @@ activeLinkId: "manage-users"
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-one-third-from-desktop">
         <form action="/titan-mvp-1.2/update-user" method="POST" novalidate>
-            <input type="hidden" name="email" value="{{ data.user.email }}" />
+
 
             {{ govukInput({
             label: {

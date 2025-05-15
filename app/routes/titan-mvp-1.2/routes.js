@@ -243,8 +243,6 @@ router.get(
     const conditions = formData.conditions || [];
     const conditionSaved = req.query.conditionSaved === "true";
 
-    // DEBUG LOG
-    console.log("DEBUG: session.data.formPages", JSON.stringify(formPages));
     if (!formPages || formPages.length === 0) {
       // Try to reconstruct from other session data if possible
       if (Array.isArray(formData.pages) && formData.pages.length > 0) {
@@ -2010,6 +2008,22 @@ router.get(
   }
 );
 
+// Add .html route for information-type-nf
+router.get(
+  "/titan-mvp-1.2/form-editor/information-type-nf.html",
+  function (req, res) {
+    const formData = req.session.data || {};
+    res.render("titan-mvp-1.2/form-editor/information-type-nf.html", {
+      form: {
+        name: formData.formName || "Form name",
+      },
+      pageNumber: formData.currentPageIndex + 1 || 1,
+      questionNumber: formData.currentQuestionIndex + 1 || 1,
+      data: formData,
+    });
+  }
+);
+
 // Add non-.html route for errors/shorttext-edit
 router.get(
   "/titan-mvp-1.2/form-editor/errors/shorttext-edit",
@@ -2657,43 +2671,32 @@ router.post(
     const formData = req.session.data;
     const formPages = req.session.data["formPages"] || [];
 
-    // Parse condition IDs - handle both string and array formats
-    const conditionIds =
-      typeof req.body.conditionIds === "string"
-        ? JSON.parse(req.body.conditionIds)
-        : Array.isArray(req.body.conditionIds)
-        ? req.body.conditionIds
-        : [];
-
-    // Clean up the pages array - remove any non-page IDs and parse JSON strings
-    let selectedPages = [];
+    // Parse the selections object from the request body
+    let selections = {};
     try {
-      selectedPages = (
-        Array.isArray(req.body.pages)
-          ? req.body.pages
-          : req.body.pages
-          ? JSON.parse(req.body.pages)
-          : []
-      )
-        .filter((pageId) => pageId !== "_unchecked" && !pageId.startsWith("["))
-        .map((pageId) => String(pageId));
+      selections =
+        typeof req.body.selections === "string"
+          ? JSON.parse(req.body.selections)
+          : req.body.selections || {};
     } catch (e) {
-      selectedPages = [];
-    }
-
-    if (!formData || !conditionIds.length || !selectedPages.length) {
+      console.error("Error parsing selections data:", e);
       return res.redirect("/titan-mvp-1.2/form-editor/conditions/manager");
     }
 
-    // Remove conditions from selected pages
-    selectedPages.forEach((pageId) => {
+    if (!formData || Object.keys(selections).length === 0) {
+      return res.redirect("/titan-mvp-1.2/form-editor/conditions/manager");
+    }
+
+    // Process each page's selections
+    Object.entries(selections).forEach(([pageId, conditionIds]) => {
       const page = formPages.find((p) => String(p.pageId) === pageId);
       if (page) {
         // Initialize conditions array if it doesn't exist
         if (!page.conditions) {
           page.conditions = [];
         }
-        // Remove all selected conditions from this page
+
+        // Remove the selected conditions from this page
         page.conditions = page.conditions.filter(
           (condition) => !conditionIds.includes(String(condition.id))
         );
@@ -2784,6 +2787,7 @@ router.get(
       pageName: foundInPage ? foundInPage.pageHeading : null,
       pagesWithCondition,
       formName: formData.formName || "Default Form Name",
+      formPages, // Add this line
     });
   }
 );
@@ -2875,9 +2879,27 @@ router.post(
         .join(" "),
     };
 
-    // Store the original and updated conditions in the session for the review page
+    // --- NEW: Store pending changes instead of updating formPages ---
+    let selectedPages = [];
+    if (Array.isArray(req.body.pages)) {
+      selectedPages = req.body.pages;
+    } else if (req.body.pages) {
+      selectedPages = [req.body.pages];
+    }
+
+    // Store the current pagesWithCondition before updating formPages
+    const beforePagesWithCondition = formPages
+      .filter(
+        (page) =>
+          page.conditions &&
+          page.conditions.some((c) => String(c.id) === String(conditionId))
+      )
+      .map((page, index) => ({ ...page, pageNumber: index + 1 }));
+
     req.session.data.originalCondition = originalCondition;
-    req.session.data.updatedCondition = updatedCondition;
+    req.session.data.pendingConditionUpdate = updatedCondition;
+    req.session.data.pendingConditionPages = selectedPages;
+    req.session.data._pagesWithConditionBeforeEdit = beforePagesWithCondition;
 
     // Redirect to the review page
     res.redirect("/titan-mvp-1.2/form-editor/conditions/edit-review");
@@ -2889,27 +2911,30 @@ router.get(
   "/titan-mvp-1.2/form-editor/conditions/edit-review",
   function (req, res) {
     const originalCondition = req.session.data.originalCondition;
-    const updatedCondition = req.session.data.updatedCondition;
+    const updatedCondition = req.session.data.pendingConditionUpdate;
     const formPages = req.session.data.formPages || [];
     const conditionId = originalCondition?.id;
+    const selectedPages = req.session.data.pendingConditionPages || [];
 
     if (!originalCondition || !updatedCondition) {
       return res.redirect("/titan-mvp-1.2/form-editor/conditions/manager");
     }
 
-    // Calculate pagesWithCondition with pageNumber
-    const pagesWithCondition = formPages
-      .filter(
-        (page) =>
-          page.conditions &&
-          page.conditions.some((c) => String(c.id) === String(conditionId))
-      )
+    // Calculate before/after page assignments
+    const originalPagesWithCondition =
+      req.session.data._pagesWithConditionBeforeEdit || [];
+    // For after: show what the assignments WOULD be if saved
+    const updatedPagesWithCondition = formPages
+      .filter((page) => selectedPages.includes(String(page.pageId)))
       .map((page, index) => ({ ...page, pageNumber: index + 1 }));
 
     res.render("titan-mvp-1.2/form-editor/conditions/edit-review", {
       originalCondition,
       updatedCondition,
-      pagesWithCondition,
+      pagesWithCondition: updatedPagesWithCondition,
+      originalPagesWithCondition,
+      updatedPagesWithCondition,
+      formPages, // Pass for full context
       formName: req.session.data.formName || "Default Form Name",
     });
   }
@@ -2922,7 +2947,8 @@ router.post(
     const formData = req.session.data || {};
     const formPages = req.session.data.formPages || [];
     const originalCondition = req.session.data.originalCondition;
-    const updatedCondition = req.session.data.updatedCondition;
+    const updatedCondition = req.session.data.pendingConditionUpdate;
+    const selectedPages = req.session.data.pendingConditionPages || [];
 
     if (!originalCondition || !updatedCondition) {
       return res.redirect("/titan-mvp-1.2/form-editor/conditions/manager");
@@ -2942,24 +2968,36 @@ router.post(
       }
     }
 
-    // Update in any pages that use this condition
+    // Remove the condition from all pages first
     formPages.forEach((page) => {
       if (page.conditions) {
-        const pageIndex = page.conditions.findIndex(
-          (c) => String(c.id) === String(conditionId)
+        page.conditions = page.conditions.filter(
+          (c) => String(c.id) !== String(conditionId)
         );
-        if (pageIndex !== -1) {
-          page.conditions[pageIndex] = updatedCondition;
+      }
+    });
+    // Add the condition to only the selected pages
+    selectedPages.forEach((pageId) => {
+      const page = formPages.find((p) => String(p.pageId) === String(pageId));
+      if (page) {
+        page.conditions = page.conditions || [];
+        if (
+          !page.conditions.some((c) => String(c.id) === String(conditionId))
+        ) {
+          page.conditions.push(updatedCondition);
         }
       }
     });
+    req.session.data.formPages = formPages;
 
     // Save back to session
     req.session.data = formData;
 
     // Clear the temporary condition data
     delete req.session.data.originalCondition;
-    delete req.session.data.updatedCondition;
+    delete req.session.data.pendingConditionUpdate;
+    delete req.session.data.pendingConditionPages;
+    delete req.session.data._pagesWithConditionBeforeEdit;
 
     // Redirect back to the conditions manager
     res.redirect("/titan-mvp-1.2/form-editor/conditions/manager");
@@ -2997,16 +3035,193 @@ router.get("/titan-mvp-1.2/choose.html", function (req, res) {
   res.render("titan-mvp-1.2/choose");
 });
 
-// Catch-all route for any .html file in titan-mvp-1.2
-router.get("/titan-mvp-1.2/:page", function (req, res, next) {
-  const page = req.params.page;
-  // Only allow .html or no extension
-  if (!page.match(/^[a-zA-Z0-9\-_]+(\.html)?$/)) return next();
-  // Remove .html if present
-  const viewName = page.replace(/\.html$/, "");
-  // Try to render the view
-  res.render(`titan-mvp-1.2/${viewName}`, function (err, html) {
-    if (err) return next(); // Pass to 404 if not found
-    res.send(html);
+// Handle prototype routing selection
+router.post("/titan-mvp-1.2/choose", function (req, res) {
+  const selection = req.body.prototype;
+
+  // Map selections to their corresponding routes
+  const routeMap = {
+    signIn: "/titan-mvp-1.2/sign-in",
+    library: "/titan-mvp-1.2/library",
+    newForm: "/titan-mvp-1.2/create-new-form/form-name",
+    editor: "/titan-mvp-1.2/form-editor/listing",
+    overview: "/titan-mvp-1.2/form-overview/index",
+    "overview-index": "/titan-mvp-1.2/form-overview/index",
+    "overview-support": "/titan-mvp-1.2/form-overview/index/support/phone",
+    "overview-live": "/titan-mvp-1.2/form-overview/live/index",
+    "editor-listing": "/titan-mvp-1.2/form-editor/listing",
+    "editor-page-overview": "/titan-mvp-1.2/form-editor/page-overview",
+    "editor-preview": "/titan-mvp-1.2/form-editor/preview",
+  };
+
+  // Redirect to the selected route or default to library if invalid selection
+  const redirectPath = routeMap[selection] || "/titan-mvp-1.2/library";
+  res.redirect(redirectPath);
+});
+
+// Helper function to convert email to semantic name
+function emailToName(email) {
+  if (!email) return "";
+  const localPart = email.split("@")[0];
+  const parts = localPart.split(/[._]/);
+  return parts
+    .map((part) => part.charAt(0).toUpperCase() + part.slice(1).toLowerCase())
+    .join(" ");
+}
+
+// Welcome email preview (GET)
+router.get("/titan-mvp-1.2/email/welcome-preview", function (req, res) {
+  const data = {
+    email: req.query.email || "email address",
+    role: req.query.role || "Form creator",
+    addedBy: "Daniel Da Silveria",
+  };
+  res.render("titan-mvp-1.2/email/welcome-email", {
+    data: data,
+  });
+});
+
+// Manage users page (GET)
+router.get("/titan-mvp-1.2/roles/manage-users.html", function (req, res) {
+  if (!req.session.data) req.session.data = {};
+  if (!req.session.data.users) req.session.data.users = [];
+  // Add semantic name and lowercase role to each user
+  const usersWithNames = req.session.data.users.map((user) => ({
+    ...user,
+    semanticName: emailToName(user.email),
+    role: user.role ? user.role.toLowerCase() : user.role,
+  }));
+  // Store and clear the success message
+  const successMessage = req.session.data.successMessage;
+  delete req.session.data.successMessage;
+  res.render("titan-mvp-1.2/roles/manage-users.html", {
+    data: {
+      users: usersWithNames,
+      successMessage: successMessage,
+    },
+  });
+});
+
+// Edit user (GET)
+router.get("/titan-mvp-1.2/roles/edit-user.html", function (req, res) {
+  console.log("EXPLICIT ROUTE: /titan-mvp-1.2/roles/edit-user.html");
+  if (!req.session.data) req.session.data = {};
+  const email = req.query.email;
+  const user = (req.session.data.users || []).find((u) => u.email === email);
+  if (!user) {
+    return res.redirect("/titan-mvp-1.2/roles/manage-users.html");
+  }
+  const userWithName = {
+    ...user,
+    semanticName: emailToName(user.email),
+  };
+  res.render("titan-mvp-1.2/roles/edit-user.html", {
+    data: { user: userWithName },
+  });
+});
+
+// Remove user confirmation page (GET)
+router.get("/titan-mvp-1.2/roles/remove-user.html", function (req, res) {
+  if (!req.session.data) req.session.data = {};
+  const email = req.query.email;
+  const user = (req.session.data.users || []).find((u) => u.email === email);
+  if (!user) {
+    return res.redirect("/titan-mvp-1.2/roles/manage-users.html");
+  }
+  const userWithName = {
+    ...user,
+    semanticName: emailToName(user.email),
+  };
+  res.render("titan-mvp-1.2/roles/remove-user.html", {
+    data: { user: userWithName },
+  });
+});
+
+// Remove user (POST)
+router.post("/titan-mvp-1.2/remove-user", function (req, res) {
+  if (!req.session.data) req.session.data = {};
+  const email = req.body.email;
+  req.session.data.users = (req.session.data.users || []).filter(
+    (u) => u.email !== email
+  );
+  req.session.data.successMessage = `You removed ${emailToName(
+    email
+  )} from Forms Designer and we've sent them an email to let them know.`;
+  req.session.save(function (err) {
+    res.redirect("/titan-mvp-1.2/roles/manage-users.html");
+  });
+});
+
+// Catch-all route for any .html file in titan-mvp-1.2 (must be last)
+router.get("/titan-mvp-1.2/*", function (req, res, next) {
+  console.log("CATCH-ALL ROUTE: /titan-mvp-1.2/*", req.path);
+  const path = req.path.replace(/^\/titan-mvp-1.2\//, "");
+  if (!path.match(/^[a-zA-Z0-9\-_\/]+(\.html)?$/)) return next();
+  const viewName = path.replace(/\.html$/, "");
+  const formData = req.session.data || {};
+  let users = formData.users || [];
+  // Add semanticName and lowercase role
+  users = users.map((user) => ({
+    ...user,
+    semanticName: emailToName(user.email),
+    role: user.role ? user.role.toLowerCase() : user.role,
+  }));
+  // Clear success message after displaying
+  const successMessage = formData.successMessage;
+  if (formData.successMessage) {
+    delete formData.successMessage;
+  }
+  res.render(
+    `titan-mvp-1.2/${viewName}`,
+    {
+      data: {
+        users: users,
+        successMessage: successMessage,
+      },
+      form: {
+        name: formData.formName || "Form name",
+      },
+    },
+    function (err, html) {
+      if (err) return next();
+      res.send(html);
+    }
+  );
+});
+
+// Add user (POST)
+router.post("/titan-mvp-1.2/save-user", function (req, res) {
+  if (!req.session.data) req.session.data = {};
+  if (!req.session.data.users) req.session.data.users = [];
+  const newUser = {
+    email: req.body.email,
+    role: req.body.role,
+  };
+  req.session.data.users.push(newUser);
+  req.session.data.successMessage =
+    "You added " +
+    emailToName(newUser.email) +
+    " and we've sent them an email to let them know.";
+  req.session.save(function (err) {
+    res.redirect("/titan-mvp-1.2/roles/manage-users.html");
+  });
+});
+
+// Update user (POST)
+router.post("/titan-mvp-1.2/update-user", function (req, res) {
+  if (!req.session.data) req.session.data = {};
+  const email = String(req.body.email || "");
+  const newRole = req.body.role;
+  const userIndex = (req.session.data.users || []).findIndex(
+    (u) => u.email === email
+  );
+  if (userIndex !== -1) {
+    req.session.data.users[userIndex].role = newRole;
+  }
+  req.session.data.successMessage = `You updated ${emailToName(
+    email
+  )}'s role to ${newRole}.`;
+  req.session.save(function (err) {
+    res.redirect("/titan-mvp-1.2/roles/manage-users.html");
   });
 });

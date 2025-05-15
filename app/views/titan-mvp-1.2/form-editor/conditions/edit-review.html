@@ -71,8 +71,11 @@ activeLinkId: "nav-editor"
                         Changes to this condition will affect the following pages:
 
                         <ul class="govuk-list govuk-list--bullet govuk-!-font-weight-bold govuk-!-margin-top-2">
-                            {% for page in pagesWithCondition %}
-                            <li>Page {{ page.pageNumber }}</li>
+                            {% for page in originalPagesWithCondition %}
+                            <li>Page {{ page.pageNumber }}: {{ page.pageHeading or page.title or (page.questions and
+                                page.questions[0] and page.questions[0].label) or 'Untitled page' }}</li>
+                            {% else %}
+                            <li>None</li>
                             {% endfor %}
                         </ul>
                     </strong>
@@ -97,6 +100,17 @@ activeLinkId: "nav-editor"
                             {% endif %}
                             {% endfor %}
                         </p>
+                        <h3 class="govuk-heading-s govuk-!-margin-top-4">Pages this condition is applied to</h3>
+                        <ul class="govuk-list govuk-list--bullet">
+                            {% for page in originalPagesWithCondition %}
+                            <li>
+                                Page {{ page.pageNumber }}: {{ page.pageHeading or page.title or (page.questions and
+                                page.questions[0] and page.questions[0].label) or 'Untitled page' }}
+                            </li>
+                            {% else %}
+                            <li>None</li>
+                            {% endfor %}
+                        </ul>
                     </div>
                 </div>
 
@@ -119,6 +133,17 @@ activeLinkId: "nav-editor"
                             {% endif %}
                             {% endfor %}
                         </p>
+                        <h3 class="govuk-heading-s govuk-!-margin-top-4">Pages this condition is applied to</h3>
+                        <ul class="govuk-list govuk-list--bullet">
+                            {% for page in updatedPagesWithCondition %}
+                            <li>
+                                Page {{ page.pageNumber }}: {{ page.pageHeading or page.title or (page.questions and
+                                page.questions[0] and page.questions[0].label) or 'Untitled page' }}
+                            </li>
+                            {% else %}
+                            <li>None</li>
+                            {% endfor %}
+                        </ul>
                     </div>
                 </div>
 
@@ -140,6 +165,8 @@ activeLinkId: "nav-editor"
                 <form id="save-changes-form" method="post" action="/titan-mvp-1.2/form-editor/conditions/save-changes"
                     style="display: none;">
                 </form>
+
+
             </div>
         </div>
     </div>
