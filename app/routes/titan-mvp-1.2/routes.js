@@ -3152,43 +3152,6 @@ router.post("/titan-mvp-1.2/remove-user", function (req, res) {
   });
 });
 
-// Catch-all route for any .html file in titan-mvp-1.2 (must be last)
-router.get("/titan-mvp-1.2/*", function (req, res, next) {
-  console.log("CATCH-ALL ROUTE: /titan-mvp-1.2/*", req.path);
-  const path = req.path.replace(/^\/titan-mvp-1.2\//, "");
-  if (!path.match(/^[a-zA-Z0-9\-_\/]+(\.html)?$/)) return next();
-  const viewName = path.replace(/\.html$/, "");
-  const formData = req.session.data || {};
-  let users = formData.users || [];
-  // Add semanticName and lowercase role
-  users = users.map((user) => ({
-    ...user,
-    semanticName: emailToName(user.email),
-    role: user.role ? user.role.toLowerCase() : user.role,
-  }));
-  // Clear success message after displaying
-  const successMessage = formData.successMessage;
-  if (formData.successMessage) {
-    delete formData.successMessage;
-  }
-  res.render(
-    `titan-mvp-1.2/${viewName}`,
-    {
-      data: {
-        users: users,
-        successMessage: successMessage,
-      },
-      form: {
-        name: formData.formName || "Form name",
-      },
-    },
-    function (err, html) {
-      if (err) return next();
-      res.send(html);
-    }
-  );
-});
-
 // Add user (POST)
 router.post("/titan-mvp-1.2/save-user", function (req, res) {
   if (!req.session.data) req.session.data = {};
@@ -3272,4 +3235,89 @@ router.post("/titan-mvp-1.2/delete-page", function (req, res) {
 
   // Redirect back to the listing page
   res.redirect("/titan-mvp-1.2/form-editor/listing");
+});
+
+// **** PAGE REORDERING ****************************************************
+
+router.get("/titan-mvp-1.2/form-editor/reorder/main.html", function (req, res) {
+  console.log("DEBUG reorder route session data:", req.session.data);
+  const formPages = req.session.data["formPages"] || [];
+  const formData = req.session.data || {};
+  res.render("titan-mvp-1.2/form-editor/reorder/main.html", {
+    formPages: formPages,
+    form: {
+      name: formData.formName || "Form name",
+    },
+  });
+});
+
+router.post("/titan-mvp-1.2/update-page-order", function (req, res) {
+  const orderedIds = req.body.orderedIds;
+  if (!orderedIds || !Array.isArray(orderedIds)) {
+    return res.json({ success: false, message: "Invalid order provided" });
+  }
+
+  // Get the existing pages from session
+  const formPages = req.session.data["formPages"] || [];
+
+  // Build a new array in the order specified by orderedIds
+  const newOrder = [];
+  orderedIds.forEach((id) => {
+    const page = formPages.find((page) => String(page.pageId) === id);
+    if (page) {
+      newOrder.push(page);
+    }
+  });
+
+  // If we have a valid new order, update the session and respond with success
+  if (newOrder.length > 0) {
+    req.session.data["formPages"] = newOrder;
+    console.log(
+      "Updated formPages order:",
+      newOrder.map((page) => page.pageId)
+    );
+    return res.json({ success: true });
+  } else {
+    return res.json({
+      success: false,
+      message: "No pages found for the new order",
+    });
+  }
+});
+
+// Catch-all route for any .html file in titan-mvp-1.2 (must be last)
+router.get("/titan-mvp-1.2/*", function (req, res, next) {
+  console.log("CATCH-ALL ROUTE: /titan-mvp-1.2/*", req.path);
+  const path = req.path.replace(/^\/titan-mvp-1.2\//, "");
+  if (!path.match(/^[a-zA-Z0-9\-_\/]+(\.html)?$/)) return next();
+  const viewName = path.replace(/\.html$/, "");
+  const formData = req.session.data || {};
+  let users = formData.users || [];
+  // Add semanticName and lowercase role
+  users = users.map((user) => ({
+    ...user,
+    semanticName: emailToName(user.email),
+    role: user.role ? user.role.toLowerCase() : user.role,
+  }));
+  // Clear success message after displaying
+  const successMessage = formData.successMessage;
+  if (formData.successMessage) {
+    delete formData.successMessage;
+  }
+  res.render(
+    `titan-mvp-1.2/${viewName}`,
+    {
+      data: {
+        users: users,
+        successMessage: successMessage,
+      },
+      form: {
+        name: formData.formName || "Form name",
+      },
+    },
+    function (err, html) {
+      if (err) return next();
+      res.send(html);
+    }
+  );
 });

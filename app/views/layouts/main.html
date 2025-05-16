@@ -8,12 +8,8 @@ https://prototype-kit.service.gov.uk/docs/how-to-use-layouts
 
 {% block footer %}
 {{ govukFooter({
-containerClasses: containerClasses,
-navigation: [
 
-{
-title: "Quick links",
-width: "full",
+meta: {
 items: [
 {
 href: "/index.html",
@@ -45,7 +41,6 @@ text: "Clear data"
 }
 ]
 }
-]
 }) }}
 
 {% endblock %}
@@ -87,6 +82,12 @@ visuallyHiddenTitle: "Footer links"
 <style>
     body.in-iframe .govuk-footer {
         display: none !important;
+    }
+
+    .govuk-footer {
+        padding-top: 0px !important;
+        margin-top: 0px !important;
+        /* Reduced from default for less space above links */
     }
 </style>
 {% endblock %}

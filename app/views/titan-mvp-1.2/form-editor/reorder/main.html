@@ -2,7 +2,7 @@
 
 {% from "components/service-header/macro.njk" import serviceHeader %}
 
-{% set pageName = "Add and edit your pages - Apply for a county parish holding number in England" %}
+{% set pageName = "Re-order pages - {{ form.name }}" %}
 
 {% block header %}
 {{ serviceHeader({
@@ -14,9 +14,9 @@ accountName: "Chris Smith",
 homepageLink: "/",
 signOutLink: "/onboarding/sign-out-confirmation",
 navigationItems: [
-{ href: "/titan-mvp-1/library.html", text: "Forms library", id: "nav-library" },
+{ href: "/titan-mvp-1.2/library.html", text: "Forms library", id: "nav-library" },
 { href: "/cph-overview/draft/complete-clean.html", text: "Overview", id: "nav-overview" },
-{ href: "/titan-mvp-1/form-editor/listing.html", text: "Editor", id: "nav-editor" }
+{ href: "/titan-mvp-1.2/form-editor/listing.html", text: "Editor", id: "nav-editor" }
 ],
 activeLinkId: "nav-editor"
 }) }}
@@ -26,7 +26,7 @@ activeLinkId: "nav-editor"
         {{ govukBackLink({
         classes: "govuk-back-link--inverse govuk-!-margin-bottom-0",
         text: "Back to add and edit pages",
-        href: "/titan-mvp-1/form-editor/listing.html"
+        href: "/titan-mvp-1.2/form-editor/listing.html"
         }) }}
 
         <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible"
@@ -35,7 +35,7 @@ activeLinkId: "nav-editor"
         <div class="govuk-grid-row">
             <div class="govuk-grid-column-two-thirds-from-desktop">
                 <h1 class="x-govuk-masthead__title">
-                    <span class="govuk-caption-l" style="color: white;">Apply for a county parish holding number</span>
+                    <span class="govuk-caption-l" style="color: white;">{{ form.name }}</span>
                     Re-order pages
                 </h1>
                 <p class="x-govuk-masthead__description">
@@ -390,7 +390,7 @@ activeLinkId: "nav-editor"
                 const orderedIds = Array.from(items).map(item => item.getAttribute("data-page-id"));
 
                 // Send the new order to the server via a POST request
-                fetch('/update-page-order', {
+                fetch('/titan-mvp-1.2/update-page-order', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'

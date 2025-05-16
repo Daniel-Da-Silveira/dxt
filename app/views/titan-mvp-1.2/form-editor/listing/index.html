@@ -1242,6 +1242,15 @@ activeLinkId: "nav-editor"
                     sessionStorage.setItem('formPages', JSON.stringify(formPages));
                     window.location.href = '/titan-mvp-1.2/form-editor/preview';
                 };
+
+                // Handle reorder button click
+                const reorderButton = document.getElementById('reorder-button');
+                if (reorderButton) {
+                    reorderButton.onclick = function (e) {
+                        e.preventDefault();
+                        window.location.href = '/titan-mvp-1.2/form-editor/reorder/main.html';
+                    };
+                }
             })();
         </script>
 
