@@ -96,7 +96,7 @@ href: "/titan-mvp-1.2/library"
             byline: { text: "Alex Patel" }
             },
             {
-            label: { text: "Replaced live form" },
+            label: { text: "Replaced live form with a draft form" },
             datetime: { timestamp: "2024-05-08T14:45:00.000Z", type: "datetime" },
             byline: { text: "Samira Khan" }
             },
@@ -112,145 +112,11 @@ href: "/titan-mvp-1.2/library"
             }
             ]
             }) }}
-            <div id="all-history" style="display:none;" aria-hidden="true">
-                {{ mojTimeline({
-                items: [
-                {
-                label: { text: "Form migrated" },
-                text: "Switched the form named 'EmployeeSurvey' to the new editor.",
-                datetime: { timestamp: "2024-05-08T15:30:00.000Z", type: "datetime" },
-                byline: { text: "Chris Smith" }
-                },
-                {
-                label: { text: "Replaced live form" },
-                text: "Replaced a live form with a draft form.",
-                datetime: { timestamp: "2024-05-08T14:45:00.000Z", type: "datetime" },
-                byline: { text: "Samira Khan" }
-                },
-                {
-                label: { text: "Draft created from live form" },
-                text: "Created a draft version of the live form.",
-                datetime: { timestamp: "2024-05-08T14:45:00.000Z", type: "datetime" },
-                byline: { text: "Chris Smith" }
-                },
-                {
-                label: { text: "Form published" },
-                html: formPublishedHtml,
-                datetime: { timestamp: "2024-05-08T14:45:00.000Z", type: "datetime" },
-                byline: { text: "Emily Wong" }
-                },
-                {
-                label: { text: "Form exported/downloaded" },
-                html: fileExportHtml,
-                datetime: { timestamp: "2024-05-08T14:30:00.000Z", type: "datetime" },
-                byline: { text: "Alex Patel" }
-                },
-                {
-                label: { text: "File uploaded" },
-                html: fileUploadHtml,
-                datetime: { timestamp: "2024-05-08T14:15:00.000Z", type: "datetime" },
-                byline: { text: "Samira Khan" }
-                },
-                {
-                label: { text: "Next steps updated" },
-                text: "Updated the next steps guidance from 'Old steps' to 'New next steps'.",
-                datetime: { timestamp: "2024-05-08T11:15:00.000Z", type: "datetime" },
-                byline: { text: "Emily Wong" }
-                },
-                {
-                label: { text: "Notification email updated" },
-                text: "Updated where submitted forms are sent from 'notify@old.com' to 'notify@new.com'.",
-                datetime: { timestamp: "2024-05-08T11:00:00.000Z", type: "datetime" },
-                byline: { text: "Chris Smith" }
-                },
-                {
-                label: { text: "Privacy notice updated" },
-                text: "Updated the privacy notice link from 'http://old.privacy' to 'http://new.privacy'.",
-                datetime: { timestamp: "2024-05-08T10:45:00.000Z", type: "datetime" },
-                byline: { text: "Alex Patel" }
-                },
-                {
-                label: { text: "Support link updated" },
-                text: "Updated the support contact link from 'http://old.link' to 'http://new.link'.",
-                datetime: { timestamp: "2024-05-08T10:30:00.000Z", type: "datetime" },
-                byline: { text: "Samira Khan" }
-                },
-                {
-                label: { text: "Support email updated" },
-                text: "Updated the support email address from help@defra.com to support@defra.com.",
-                datetime: { timestamp: "2024-05-08T10:20:00.000Z", type: "datetime" },
-                byline: { text: "Emily Wong" }
-                },
-                {
-                label: { text: "Support phone updated" },
-                text: "Updated the support phone number from '+123456789' to '987654321'.",
-                datetime: { timestamp: "2024-05-08T10:15:00.000Z", type: "datetime" },
-                byline: { text: "Chris Smith" }
-                },
-                {
-                label: { text: "Team email updated" },
-                text: "Updated the shared team address from 'dev@acme.com' to 'eng@acme.com'.",
-                datetime: { timestamp: "2024-05-08T10:00:00.000Z", type: "datetime" },
-                byline: { text: "Alex Patel" }
-                },
-                {
-                label: { text: "Team name updated" },
-                text: "Changed the team name from 'Dev Team' to 'Engineering Team'.",
-                datetime: { timestamp: "2024-05-08T09:45:00.000Z", type: "datetime" },
-                byline: { text: "Samira Khan" }
-                },
-                {
-                label: { text: "Organisation name updated" },
-                text: "Changed the lead organisation from 'Defra' to 'APHA'.",
-                datetime: { timestamp: "2024-05-08T09:30:00.000Z", type: "datetime" },
-                byline: { text: "Emily Wong" }
-                },
-                {
-                label: { text: "Form name updated" },
-                text: "Updated the form name from 'New employee form' to 'Employee form'.",
-                datetime: { timestamp: "2024-05-08T09:05:00.000Z", type: "datetime" },
-                byline: { text: "Chris Smith" }
-                },
-                {
-                label: { text: "Form created" },
-                html: formCreatedHtml,
-                datetime: { timestamp: "2024-05-08T09:00:00.000Z", type: "datetime" },
-                byline: { text: "Alex Patel" }
-                }
-                ]
-                }) }}
-            </div>
-            <a id="toggle-history-link" href="#" class="govuk-link govuk-link--no-visited-state govuk-!-margin-top-2"
-                role="button" tabindex="0" aria-expanded="false" aria-controls="all-history"
-                onclick="toggleHistory(event)"
-                onkeyup="if(event.key==='Enter'||event.key===' '){toggleHistory(event);}">
-                Show older events<span class="govuk-visually-hidden">, loads older events in the timeline</span>
+            <a href="/titan-mvp-1.2/form-overview/form-history"
+                class="govuk-link govuk-link--no-visited-state govuk-!-margin-top-2">
+                View full history<span class="govuk-visually-hidden">, opens in a new page</span>
             </a>
         </div>
-
-        <script>
-            function toggleHistory(event) {
-                event.preventDefault();
-                var allHistory = document.getElementById('all-history');
-                var btn = document.getElementById('toggle-history-link');
-                var shortTimeline = document.querySelector('#timeline-container > .moj-timeline');
-                var expanded = btn.getAttribute('aria-expanded') === 'true';
-                if (!expanded) {
-                    allHistory.style.display = 'block';
-                    allHistory.setAttribute('aria-hidden', 'false');
-                    btn.setAttribute('aria-expanded', 'true');
-                    btn.innerHTML = 'Hide older events<span class=\"govuk-visually-hidden\">, hides older events in the timeline</span>';
-                    if (shortTimeline) shortTimeline.style.display = 'none';
-                } else {
-                    allHistory.style.display = 'none';
-                    allHistory.setAttribute('aria-hidden', 'true');
-                    btn.setAttribute('aria-expanded', 'false');
-                    btn.innerHTML = 'Show older events<span class=\"govuk-visually-hidden\">, loads older events in the timeline</span>';
-                    if (shortTimeline) shortTimeline.style.display = 'block';
-                }
-            }
-        </script>
-
 
     </div>
 </div>

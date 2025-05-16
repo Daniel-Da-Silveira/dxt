@@ -1,0 +1,211 @@
+{% extends "layouts/main.html" %}
+{% from "components/service-header/macro.njk" import serviceHeader %}
+{% from "moj/components/timeline/macro.njk" import mojTimeline %}
+
+{% block header %}
+{{ serviceHeader({
+organisationName: "Defra",
+productName: "Forms Designer",
+serviceName: "",
+accountName: "Chris Smith",
+homepageLink: "/",
+signOutLink: "/titan-mvp-1.2/onboarding/sign-out-confirmation",
+navigationItems: [
+{
+href: "/titan-mvp-1.2/form-overview/index",
+text: "Overview",
+id: "nav-overview",
+active: false
+},
+{
+href: "/titan-mvp-1.2/form-overview/form-history",
+text: "Form history",
+id: "form-history"
+}],
+activeLinkId: "form-history"
+}) }}
+
+<div class="x-govuk-masthead x-govuk-masthead--large">
+    <div class="govuk-width-container">
+        {{ govukBackLink({
+        classes: "govuk-back-link--inverse govuk-!-margin-bottom-0",
+        text: commonTerms.form_editor.navigation.back_to_add_edit_pages,
+        href: "/titan-mvp-1.2/form-editor/listing.html"
+        }) }}
+
+        <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible"
+            style="border-bottom: 1px solid white; margin-bottom: 0" />
+
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-full-from-desktop">
+                <h1 class="x-govuk-masthead__title">
+                    <span class="govuk-caption-l" style="color: white">{{ form.name }}</span>
+                    Form history
+                </h1>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block pageTitle %}
+Form history - Employee Onboarding
+{% endblock %}
+
+{% block content %}
+
+
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+
+        {{ mojTimeline({
+        items: [
+        {
+        label: { text: "Draft edited" },
+        text: "Edited the draft 3 times between 3:30pm and 4:30pm.",
+        datetime: { timestamp: "2024-05-08T16:30:00.000Z", type: "datetime" },
+        byline: { text: "Chris Smith" }
+        },
+        {
+        label: { text: "Switched to new editor" },
+        datetime: { timestamp: "2024-05-08T15:30:00.000Z", type: "datetime" },
+        byline: { text: "Chris Smith" }
+        },
+        {
+        label: { text: "Form published" },
+        html: formPublishedHtml,
+        datetime: { timestamp: "2024-05-08T14:45:00.000Z", type: "datetime" },
+        byline: { text: "Emily Wong" }
+        },
+        {
+        label: { text: "Replaced live form" },
+        datetime: { timestamp: "2024-05-08T14:45:00.000Z", type: "datetime" },
+        byline: { text: "Samira Khan" }
+        },
+        {
+        label: { text: "Draft created from live form" },
+        datetime: { timestamp: "2024-05-08T14:45:00.000Z", type: "datetime" },
+        byline: { text: "Chris Smith" }
+        },
+        {
+        label: { text: "Form name updated" },
+        text: "Updated the form name from 'New employee form' to 'Employee Onboarding'.",
+        datetime: { timestamp: "2024-05-08T09:05:00.000Z", type: "datetime" },
+        byline: { text: "Chris Smith" }
+        },
+
+        {
+        label: { text: "Form uploaded" },
+        html: fileUploadHtml,
+        datetime: { timestamp: "2024-05-08T14:15:00.000Z", type: "datetime" },
+        byline: { text: "Samira Khan" }
+        },
+        {
+        label: { text: "Next steps updated" },
+        text: "Updated the next steps guidance from 'Old steps' to 'New next steps'.",
+        datetime: { timestamp: "2024-05-08T11:15:00.000Z", type: "datetime" },
+        byline: { text: "Emily Wong" }
+        },
+        {
+        label: { text: "Notification email updated" },
+        text: "Updated where submitted forms are sent from 'notify@old.com' to 'notify@new.com'.",
+        datetime: { timestamp: "2024-05-08T11:00:00.000Z", type: "datetime" },
+        byline: { text: "Chris Smith" }
+        },
+        {
+        label: { text: "Privacy notice updated" },
+        text: "Updated the privacy notice link from 'http://old.privacy' to 'http://new.privacy'.",
+        datetime: { timestamp: "2024-05-08T10:45:00.000Z", type: "datetime" },
+        byline: { text: "Alex Patel" }
+        },
+        {
+        label: { text: "Support link updated" },
+        text: "Updated the support contact link from 'http://old.link' to 'http://new.link'.",
+        datetime: { timestamp: "2024-05-08T10:30:00.000Z", type: "datetime" },
+        byline: { text: "Samira Khan" }
+        },
+        {
+        label: { text: "Support email updated" },
+        text: "Updated the support email address from help@defra.com to support@defra.com.",
+        datetime: { timestamp: "2024-05-08T10:20:00.000Z", type: "datetime" },
+        byline: { text: "Emily Wong" }
+        },
+        {
+        label: { text: "Support phone updated" },
+        text: "Updated the support phone number from '+123456789' to '987654321'.",
+        datetime: { timestamp: "2024-05-08T10:15:00.000Z", type: "datetime" },
+        byline: { text: "Chris Smith" }
+        },
+        {
+        label: { text: "Team email updated" },
+        text: "Updated the shared team address from 'dev@acme.com' to 'eng@acme.com'.",
+        datetime: { timestamp: "2024-05-08T10:00:00.000Z", type: "datetime" },
+        byline: { text: "Alex Patel" }
+        },
+        {
+        label: { text: "Team name updated" },
+        text: "Changed the team name from 'Dev Team' to 'Engineering Team'.",
+        datetime: { timestamp: "2024-05-08T09:45:00.000Z", type: "datetime" },
+        byline: { text: "Samira Khan" }
+        },
+        {
+        label: { text: "Organisation name updated" },
+        text: "Changed the lead organisation from 'Defra' to 'APHA'.",
+        datetime: { timestamp: "2024-05-08T09:30:00.000Z", type: "datetime" },
+        byline: { text: "Emily Wong" }
+        },
+        {
+        label: { text: "Form created" },
+        html: formCreatedHtml,
+        datetime: { timestamp: "2024-05-08T09:00:00.000Z", type: "datetime" },
+        byline: { text: "Alex Patel" }
+        }
+        ]
+        }) }}
+    </div>
+</div>
+{% endblock %}
+
+{% set formCreatedHtml %}
+<p class="govuk-body">Created a new form named 'Employee Onboarding' with:</p>
+<ul class="govuk-list govuk-list--bullet">
+    <li>Lead organisation as 'Defra'</li>
+    <li>Team name as 'Dev team'</li>
+    <li>Shared team email address as 'dev@defra.com'</li>
+</ul>
+{% endset %}
+
+{% set fileExportHtml %}
+<ul class="moj-timeline__documents">
+    <li class="moj-timeline__document-item">
+        <p class="govuk-body">
+            <svg class="moj-timeline__document-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 20" width="20"
+                height="16">
+                <path d="M9 7V1.5L14.5 7H9zM2 0C.9 0 0 .9 0 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V6l-6-6H2z" />
+            </svg>
+            Exported form in JSON format
+        </p>
+    </li>
+</ul>
+{% endset %}
+
+{% set fileUploadHtml %}
+<ul class="moj-timeline__documents">
+    <li class="moj-timeline__document-item">
+        <p class="govuk-body">
+            <svg class="moj-timeline__document-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 20" width="20"
+                height="16">
+                <path d="M9 7V1.5L14.5 7H9zM2 0C.9 0 0 .9 0 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V6l-6-6H2z" />
+            </svg>
+            Uploaded file: myform.JSON
+        </p>
+    </li>
+</ul>
+{% endset %}
+
+{% set formPublishedHtml %}
+<span style="display: flex; align-items: center;">
+    <span aria-hidden="true" style="font-size: 1.3em; margin-right: 8px; line-height: 1;">🎉</span>
+    <span>Made the form live.</span>
+</span>
+{% endset %}
