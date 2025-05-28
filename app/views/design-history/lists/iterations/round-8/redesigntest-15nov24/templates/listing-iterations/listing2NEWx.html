@@ -1,0 +1,322 @@
+{% extends "layouts/main.html" %}
+
+{% from "components/service-header/macro.njk" import serviceHeader %}
+
+{% set pageName = "Add and edit your pages - Apply for a county parish holding number in England" %}
+
+{% block header %}
+{{ serviceHeader({
+organisationName: "Defra",
+productName: "Forms Designer",
+serviceName: "",
+containerClasses: containerClasses,
+accountName: "Chris Smith",
+homepageLink: "/",
+signOutLink: "/onboarding/sign-out-confirmation",
+navigationItems: [
+{ href: "/library.html", text: "Forms library", id: "nav-library" },
+{ href: "/cph-overview/draft/complete-clean.html", text: "Overview", id: "nav-overview" },
+{ href: "/redesigntest/listing", text: "Editor", id: "nav-editor" }
+],
+activeLinkId: "nav-editor"
+}) }}
+
+<div class="x-govuk-masthead x-govuk-masthead--large">
+    <div class="govuk-width-container">
+        {{ govukBackLink({
+        classes: "govuk-back-link--inverse",
+        text: "Back to overview",
+        href: "#"
+        }) }}
+
+        <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible"
+            style="border-bottom:1px solid white; margin-bottom: 0;">
+
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-two-thirds-from-desktop">
+                <h1 class="x-govuk-masthead__title">
+                    <span class="govuk-caption-l" style="color: white;">Apply for a county parish holding number</span>
+                    Add and edit pages
+                </h1>
+                <div class="govuk-button-group">
+                    <a href="/redesigntest/questionnumber.html" role="button" draggable="false"
+                        class="govuk-button govuk-button--inverse" data-module="govuk-button">
+                        Add new page
+                    </a>
+                    <a href="#" role="button" draggable="false" class="govuk-button govuk-button--secondary"
+                        data-module="govuk-button">
+                        Re-order pages
+                    </a>
+                    <a href="#" class="govuk-link govuk-link--inverse">Preview form</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block content %}
+
+<style>
+    .app-header--full-width-border {
+        border-bottom: 10px solid #1f70b8;
+    }
+
+    .x-govuk-masthead {
+        background-color: #008531 !important;
+    }
+
+    /* Grid Layout */
+    .layout-container {
+        display: flex;
+        gap: 20px;
+    }
+
+    /* Left Column */
+    #container {
+        flex: 1 1 75%;
+        transition: margin-top 0.3s ease;
+    }
+
+    /* Right Column (Preview) */
+    #second-container {
+        display: none; /* Initially hidden */
+        outline: solid 1px #008938;
+        position: sticky;
+        top: 0;
+        padding: 20px;
+        box-shadow: 5px 10px #008938;
+        transition: all 0.3s ease;
+    }
+
+    /* Shift effect for left column when preview is visible */
+    .preview-active #container {
+        margin-top: 20px;
+    }
+</style>
+
+<form class="form" action="/september/questionnumber" method="post">
+    <div class="govuk-grid-row layout-container">
+        <div class="govuk-grid-column-two-thirds-from-desktop" id="container" style="overflow-y: auto;">
+
+            {# =========================================================
+            SHORT WRITTEN ANSWER
+            ========================================================= #}
+            {% if data['questionLabelInputShortText'] %}
+            <div class="govuk-summary-card" style="border-left: 10px solid #008938;">
+                <div class="govuk-summary-card__title-wrapper">
+                    <h2 class="govuk-summary-card__title">Page 1: {{ data['questionLabelInputShortText'] or '' }}</h2>
+                    <ul class="govuk-summary-card__actions">
+                        <li class="govuk-summary-card__action">
+                            <a class="govuk-link govuk-link--no-visited-state" href="/redesigntest/templates/1-question/shorttext/overview.html">Edit</a>
+                        </li>
+                        <li class="govuk-summary-card__action">
+                            <a class="govuk-link govuk-link--no-visited-state preview-link" data-preview="shorttext-preview" href="#">Preview</a>
+                            <a class="govuk-link govuk-link--no-visited-state close-link" data-preview="shorttext-preview" style="display: none;" href="#">Close Preview</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            {% endif %}
+
+            {# =========================================================
+            LONG WRITTEN ANSWER
+            ========================================================= #}
+            {% if data['questionLabelInputTextArea'] %}
+            <div class="govuk-summary-card" style="border-left: 10px solid #008938;">
+                <div class="govuk-summary-card__title-wrapper">
+                    <h2 class="govuk-summary-card__title">Page 1: {{ data['questionLabelInputTextArea'] or '' }}</h2>
+                    <ul class="govuk-summary-card__actions">
+                        <li class="govuk-summary-card__action">
+                            <a class="govuk-link govuk-link--no-visited-state" href="/redesigntest/templates/1-question/textarea/overview.html">Edit</a>
+                        </li>
+                        <li class="govuk-summary-card__action">
+                            <a class="govuk-link govuk-link--no-visited-state preview-link" data-preview="textarea-preview" href="#">Preview</a>
+                            <a class="govuk-link govuk-link--no-visited-state close-link" data-preview="textarea-preview" style="display: none;" href="#">Close Preview</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            {% endif %}
+
+            {# =========================================================
+            DATE
+            ========================================================= #}
+            {% if data['questionLabelInputDate'] %}
+            <div class="govuk-summary-card" style="border-left: 10px solid #008938;">
+                <div class="govuk-summary-card__title-wrapper">
+                    <h2 class="govuk-summary-card__title">Page 1: {{ data['questionLabelInputDate'] or '' }}</h2>
+                    <ul class="govuk-summary-card__actions">
+                        <li class="govuk-summary-card__action">
+                            <a class="govuk-link govuk-link--no-visited-state" href="/redesigntest/templates/1-question/date/overview.html">Edit</a>
+                        </li>
+                        <li class="govuk-summary-card__action">
+                            <a class="govuk-link govuk-link--no-visited-state preview-link" data-preview="date-preview" href="#">Preview</a>
+                            <a class="govuk-link govuk-link--no-visited-state close-link" data-preview="date-preview" style="display: none;" href="#">Close Preview</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            {% endif %}
+
+            {# =========================================================
+            ADDRESS
+            ========================================================= #}
+            {% if data['questionLabelInputAddress'] %}
+            <div class="govuk-summary-card" style="border-left: 10px solid #008938;">
+                <div class="govuk-summary-card__title-wrapper">
+                    <h2 class="govuk-summary-card__title">Page 1: {{ data['questionLabelInputAddress'] or '' }}</h2>
+                    <ul class="govuk-summary-card__actions">
+                        <li class="govuk-summary-card__action">
+                            <a class="govuk-link govuk-link--no-visited-state" href="/redesigntest/templates/1-question/address/overview.html">Edit</a>
+                        </li>
+                        <li class="govuk-summary-card__action">
+                            <a class="govuk-link govuk-link--no-visited-state preview-link" data-preview="address-preview" href="#">Preview</a>
+                            <a class="govuk-link govuk-link--no-visited-state close-link" data-preview="address-preview" style="display: none;" href="#">Close Preview</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            {% endif %}
+
+            {# =========================================================
+            PHONE
+            ========================================================= #}
+            {% if data['questionLabelInputPhone'] %}
+            <div class="govuk-summary-card" style="border-left: 10px solid #008938;">
+                <div class="govuk-summary-card__title-wrapper">
+                    <h2 class="govuk-summary-card__title">Page 1: {{ data['questionLabelInputPhone'] or '' }}</h2>
+                    <ul class="govuk-summary-card__actions">
+                        <li class="govuk-summary-card__action">
+                            <a class="govuk-link govuk-link--no-visited-state" href="/redesigntest/templates/1-question/phone/overview.html">Edit</a>
+                        </li>
+                        <li class="govuk-summary-card__action">
+                            <a class="govuk-link govuk-link--no-visited-state preview-link" data-preview="phone-preview" href="#">Preview</a>
+                            <a class="govuk-link govuk-link--no-visited-state close-link" data-preview="phone-preview" style="display: none;" href="#">Close Preview</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            {% endif %}
+
+            {# =========================================================
+            EMAIL
+            ========================================================= #}
+            {% if data['questionLabelInputEmail'] %}
+            <div class="govuk-summary-card" style="border-left: 10px solid #008938;">
+                <div class="govuk-summary-card__title-wrapper">
+                    <h2 class="govuk-summary-card__title">Page 1: {{ data['questionLabelInputEmail'] or '' }}</h2>
+                    <ul class="govuk-summary-card__actions">
+                        <li class="govuk-summary-card__action">
+                            <a class="govuk-link govuk-link--no-visited-state" href="/redesigntest/templates/1-question/email/overview.html">Edit</a>
+                        </li>
+                        <li class="govuk-summary-card__action">
+                            <a class="govuk-link govuk-link--no-visited-state preview-link" data-preview="email-preview" href="#">Preview</a>
+                            <a class="govuk-link govuk-link--no-visited-state close-link" data-preview="email-preview" style="display: none;" href="#">Close Preview</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            {% endif %}
+
+            {# =========================================================
+            RADIOS
+            ========================================================= #}
+            {% if data['questionLabelInputRadios'] %}
+            <div class="govuk-summary-card" style="border-left: 10px solid #008938;">
+                <div class="govuk-summary-card__title-wrapper">
+                    <h2 class="govuk-summary-card__title">Page 1: {{ data['questionLabelInputRadios'] or '' }}</h2>
+                    <ul class="govuk-summary-card__actions">
+                        <li class="govuk-summary-card__action">
+                            <a class="govuk-link govuk-link--no-visited-state" href="/redesigntest/templates/1-question/radios/overview.html">Edit</a>
+                        </li>
+                        <li class="govuk-summary-card__action">
+                            <a class="govuk-link govuk-link--no-visited-state preview-link" data-preview="radios-preview" href="#">Preview</a>
+                            <a class="govuk-link govuk-link--no-visited-state close-link" data-preview="radios-preview" style="display: none;" href="#">Close Preview</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            {% endif %}
+
+            {# =========================================================
+            YES/NO
+            ========================================================= #}
+            {% if data['questionLabelInputYesno'] %}
+            <div class="govuk-summary-card" style="border-left: 10px solid #008938;">
+                <div class="govuk-summary-card__title-wrapper">
+                    <h2 class="govuk-summary-card__title">Page 1: {{ data['questionLabelInputYesno'] or '' }}</h2>
+                    <ul class="govuk-summary-card__actions">
+                        <li class="govuk-summary-card__action">
+                            <a class="govuk-link govuk-link--no-visited-state" href="/redesigntest/templates/1-question/yesno/overview.html">Edit</a>
+                        </li>
+                        <li class="govuk-summary-card__action">
+                            <a class="govuk-link govuk-link--no-visited-state preview-link" data-preview="yesno-preview" href="#">Preview</a>
+                            <a class="govuk-link govuk-link--no-visited-state close-link" data-preview="yesno-preview" style="display: none;" href="#">Close Preview</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            {% endif %}
+
+        </div>
+
+        <!-- Right Column for Stacked Previews -->
+        <div class="govuk-grid-column-one-third" id="second-container">
+            <div id="dynamic-preview-content">
+                <!-- Dynamic stacked preview content will be injected here -->
+            </div>
+        </div>
+    </div>
+</form>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const dynamicPreviewContent = document.getElementById("dynamic-preview-content");
+        const secondContainer = document.getElementById("second-container");
+
+        // Define HTML content directly for each template option
+        const previews = {
+            "shorttext-preview": `{% include "/redesigntest/templates/previews/shorttext/overview.html" %}`,
+            "textarea-preview": `{% include "/redesigntest/templates/previews/textarea/overview.html" %}`,
+            "date-preview": `{% include "/redesigntest/templates/previews/date/overview.html" %}`,
+            "address-preview": `{% include "/redesigntest/templates/previews/address/overview.html" %}`,
+            "phone-preview": `{% include "/redesigntest/templates/previews/phone/overview.html" %}`,
+            "email-preview": `{% include "/redesigntest/templates/previews/email/overview.html" %}`,
+            "radios-preview": `{% include "/redesigntest/templates/previews/radios/overview.html" %}`,
+            "yesno-preview": `{% include "/redesigntest/templates/previews/yesno/overview.html" %}`
+        };
+
+        // Toggle preview content
+        document.querySelectorAll(".govuk-summary-card__actions a").forEach(link => {
+            link.addEventListener("click", function (e) {
+                e.preventDefault();
+                const previewId = this.getAttribute("data-preview");
+                const isPreviewLink = this.classList.contains("preview-link");
+
+                if (isPreviewLink && previews[previewId]) {
+                    // Clear existing content in the dynamic preview area
+                    dynamicPreviewContent.innerHTML = "";
+
+                    // Show the specific preview in the right column
+                    dynamicPreviewContent.innerHTML = previews[previewId];
+                    secondContainer.style.display = "block"; // Show the right container
+
+                    // Hide Preview link and show Close Preview link
+                    this.style.display = "none"; // Hide Preview link
+                    this.nextElementSibling.style.display = "inline"; // Show Close Preview link
+                } else if (!isPreviewLink) {
+                    // Hide the right column
+                    secondContainer.style.display = "none";
+
+                    // Hide Close Preview link and show Preview link
+                    this.style.display = "none"; // Hide Close Preview link
+                    this.previousElementSibling.style.display = "inline"; // Show Preview link
+                }
+            });
+        });
+    });
+</script>
+
+{% endblock %}

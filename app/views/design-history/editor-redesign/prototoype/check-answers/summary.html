@@ -1,0 +1,98 @@
+{% extends "layouts/main.html" %}
+
+{% block pageTitle %}
+  Check your answers template –
+  {{ serviceName }}
+  – GOV.UK Prototype Kit
+{% endblock %}
+
+{% block beforeContent %}
+  {{ govukBackLink({
+    text: "Back",
+    href: "javascript:window.history.back()"
+  }) }}
+{% endblock %}
+
+{% block content %}
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds-from-desktop">
+
+      <h1 class="govuk-heading-xl">
+        Check your answers before sending your application
+      </h1>
+
+      {{ govukSummaryList({
+  rows: [
+    {
+      key: {
+        text: "Full name"
+      },
+      value: {
+        text: "Chris Smith"
+      },
+      actions: {
+        items: [
+          {
+            href: "#",
+            text: "Change",
+            visuallyHiddenText: "Question 1"
+          }
+        ]
+      }
+    },
+    {
+      key: {
+        text: "Your address"
+      },
+      value: {
+        text: "20 John Smith sStreet, SE17 2PS"
+      },
+      actions: {
+        items: [
+          {
+            href: "#",
+            text: "Change",
+            visuallyHiddenText: "Question 2"
+          }
+        ]
+      }
+    },
+    {
+      key: {
+        text: "Uploaded files"
+      },
+      value: {
+        html: "You uploaded 2 files"
+      },
+      actions: {
+        items: [
+          {
+            href: "/file-upload/check-answers/change.html",
+            text: "Change",
+            visuallyHiddenText: "Question 3"
+          }
+        ]
+      }
+    }
+  ]
+}) }}
+
+      <h2 class="govuk-heading-m">
+        Now send your application
+      </h2>
+
+      <p>
+        By submitting this application you are confirming that, to the best of your knowledge, the details you are providing are correct.
+      </p>
+
+      <form action="/confirmation" method="post" novalidate="novalidate">
+
+        {{ govukButton({
+          text: "Accept and send"
+        }) }}
+
+      </form>
+
+    </div>
+  </div>
+{% endblock %}

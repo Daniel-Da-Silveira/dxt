@@ -1,0 +1,105 @@
+{% extends "layouts/main.html" %}
+
+{% block pageTitle %}
+  Question page template – {{ serviceName }} – GOV.UK Prototype Kit
+{% endblock %}
+
+{% block beforeContent %}
+  {{ govukBackLink({
+  text: "Back",
+  href: "javascript:window.history.back()"
+}) }}
+{% endblock %}
+
+{% block content %}
+
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+
+      <h1 class="govuk-heading-l">
+        Heading or question goes here
+      </h1>
+
+      <div class="govuk-form-group">
+        <h1 class="govuk-label-wrapper">
+          <label class="govuk-label govuk-label--m" for="short-text-question-label">
+            Question 1
+          </label>
+        </h1>
+        <div id="short-text-question-hint" class="govuk-hint">
+
+        </div>
+        <input class="govuk-input" id="short-text-input" name="shortTextInput" type="text" aria-describedby="short-text-question-hint">
+      </div>
+
+      <form class="form" action="/path/of/next/page" method="post">
+
+        {% from "govuk/components/input/macro.njk" import govukInput %}
+
+ <!-- Question and Hint Text Inputs -->
+ <div class="govuk-form-group">
+  <label class="govuk-label govuk-label--m" for="question-label-input">Question</label>
+  <input class="govuk-input" id="question-label-input" name="question-label" type="text">
+</div>
+
+<div class="govuk-form-group">
+  <label class="govuk-label govuk-label--m" for="hint-text-input">Hint text (optional)</label>
+  <textarea class="govuk-textarea" id="hint-text-input" name="hintTextInput" rows="2"></textarea>
+</div>
+
+<!-- Question Settings -->
+<div class="govuk-form-group">
+  <fieldset class="govuk-fieldset">
+    <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">Question settings</legend>
+    <span class="govuk-hint">Manage how the question is displayed</span>
+
+    <div class="govuk-checkboxes govuk-checkboxes--small">
+      <div class="govuk-checkboxes__item">
+        <input class="govuk-checkboxes__input" id="optional" name="optional" type="checkbox" value="optional">
+        <label class="govuk-label govuk-checkboxes__label" for="optional">Make this question optional</label>
+      </div>
+    </div>
+  </fieldset>
+</div>
+
+
+<!-- Answer Limits -->
+<details class="govuk-details">
+  <summary class="govuk-details__summary">
+    <span class="govuk-details__summary-text">Set answer limits (optional)</span>
+  </summary>
+  <div class="govuk-details__text">
+    <!-- Additional settings can go here -->
+  </div>
+</details>
+
+<hr>
+
+
+
+<div class="govuk-form-group">
+  <h1 class="govuk-label-wrapper">
+    <label class="govuk-label govuk-label--l" id="short-text-label" for="short-text">
+      Question
+    </label>
+  </h1>
+  <input class="govuk-input" id="short-text" name="shortText" type="text">
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    // Get the question label input and short-text-label by their IDs
+    const questionInput = document.getElementById('question-label-input');
+    const shortTextLabel = document.getElementById('short-text-label');
+
+    // Add event listener to the question input field
+    questionInput.addEventListener('input', function() {
+      // Update the short-text-label with the input value
+      shortTextLabel.textContent = questionInput.value || 'Question';
+    });
+  });
+</script>
+
+
+
+{% endblock %}

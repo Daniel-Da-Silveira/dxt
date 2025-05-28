@@ -1,0 +1,11 @@
+<!-- Preview for Text Question -->
+<div class="govuk-form-group">
+    <label class="govuk-label govuk-label--l" for="question-input" id="question-label-legend">
+        {{ question.label or 'Fallback Label' }}
+    </label>
+
+    <div id="hint-text-output" class="govuk-hint">
+        {{ question.hint or '' }}
+    </div>
+    <input class="govuk-input" id="question-input" name="question-input" type="text" autocomplete="off">
+</div>

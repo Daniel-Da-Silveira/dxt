@@ -1,0 +1,502 @@
+{% extends "layouts/main.html" %}
+{% from "components/service-header/macro.njk" import serviceHeader %}
+{% set pageName = "What information do you need from users? - Page # - Apply for a county parish holding number in
+England" %}
+{% set headingPlaceholder = "Page heading" %}
+{% set guidancePlaceholder = "" %}
+{# #}
+{% block header %}
+{{ serviceHeader({
+organisationName: "Defra",
+productName: "Forms Designer",
+serviceName: "",
+containerClasses: containerClasses,
+accountName: "Chris Smith",
+homepageLink: "/",
+signOutLink: "/onboarding/sign-out-confirmation",
+navigationItems: [
+{ href: "/library.html", text: "Forms library", id: "nav-library" },
+{ href: "/cph-overview/draft/complete-clean.html", text: "Overview", id: "nav-overview" },
+{ href: "/redesigntest/listing", text: "Editor", id: "nav-editor" }
+],
+activeLinkId: "nav-editor",
+slots: {
+start: "<span class='govuk-heading-s'>Licence to Import an Animal Pathogen/Carrier into Great Britain</span>"
+}
+}) }}
+
+
+<div class="x-govuk-masthead x-govuk-masthead--large">
+  <div class="govuk-width-container">
+    {{ govukBackLink({ classes: "govuk-back-link--inverse govuk-!-margin-bottom-0", text: "Back to add
+    and edit pages", href: "/redesigntest/listing.html" }) }}
+
+    <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible"
+      style="border-bottom: 1px solid white; margin-bottom: 0" />
+
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-full-from-desktop">
+        <h1 class="x-govuk-masthead__title">
+          {# <span class="govuk-caption-l" style="color: white">Apply for a county parish holding certificate</span> #}
+          Apply for a county parish holding (CPH) number
+        </h1>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %} {% block content %}
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-full">
+
+    <div class="govuk-grid-row">
+
+      <!-- Left Column for Form Controls -->
+      <div class="govuk-grid-column-one-half-from-desktop" id="container" style="flex: 1 1 75%; overflow-y: auto">
+        <div class="govuk-summary-card govuk-!-margin-top-0" style="border-left: 10px solid #008938">
+          <div class="govuk-summary-card__content govuk-!-padding-top-0" style="background-color: #f3f2f1">
+
+            <dl class="govuk-summary-list">
+              <div class="govuk-summary-list__row">
+                <dd class="govuk-summary-list__value">
+                  <!-- Dynamic Summary List -->
+
+                  <!-- Question Settings Container -->
+                  <div class="govuk-grid-row" id="page-settings-container-1">
+                    <div id="question-1">
+                      <div class="govuk-summary-card__content" style="margin-bottom: 0">
+                        <!-- Sub Navigation for Question -->
+                        <nav class="moj-sub-navigation govuk-!-padding-top-0 govuk-!-margin-bottom-2 "
+                          aria-label="Sub navigation">
+                          <ul class="moj-sub-navigation__list" id="nav-list2">
+                            <!-- Question Link -->
+                            {# <li class="moj-sub-navigation__item">
+                              <a class="moj-sub-navigation__link"
+                                href="/redesigntest/templates/1-question/settings">Page settings</a>
+                            </li> #}
+
+                            <li class="moj-sub-navigation__item">
+                              <a class="moj-sub-navigation__link" aria-current="page" href="#overview-noquestions">Page
+                                #</a>
+                            </li>
+
+                          </ul>
+                        </nav>
+
+                        <div class="govuk-summary-card__title-wrapper govuk-!-padding-top-0"></div>
+
+                        <form class="form" action="/information-type-answer-nf" method="post">
+
+                          {% set dateHtml %}
+                          {{ govukRadios({
+                          name: "dateType",
+                          fieldset: {
+                          legend: {
+                          text: "Type of date",
+                          isPageHeading: true,
+                          classes: "govuk-fieldset__legend"
+                          }
+                          },
+                          items: [
+                          {
+                          value: "day-month-year",
+                          text: "Day, month and year"
+                          },
+                          {
+                          value: "month-year",
+                          text: "Month and year"
+                          }
+                          ]
+                          }) }}
+                          {% endset -%}
+
+                          {% set writtenHtml %}
+                          {{ govukRadios({
+                          name: "written",
+                          fieldset: {
+                          legend: {
+                          text: "Type of written answer"
+                          }
+                          },
+                          items: [
+                          {
+                          value: "short-answer-nf",
+                          text: "Short answer (a single line)"
+
+                          },
+                          {
+                          value: "long-answer",
+                          text: "Long answer (more than a single line)"
+                          },
+                          {
+                          value: "numbers",
+                          text: "Numbers only"
+                          }
+                          ]
+                          }) }}
+                          {% endset -%}
+
+                          {% set list2Html %}
+                          {{ govukRadios({
+                          name: "listType",
+                          fieldset: {
+                          legend: {
+                          text: "Type of list",
+                          classes: "govuk-fieldset__legend"
+                          }
+                          },
+                          items: [
+                          {
+                          value: "yes-no",
+                          text: "Yes or No",
+                          hint: {
+                          text: "Allow users to answer either ‘Yes’ or ‘No’"
+                          }
+                          },
+                          {
+                          value: "checkboxes",
+                          text: "Checkboxes",
+                          hint: {
+                          text: "A list for users to select multiple answers"
+                          }
+                          },
+                          {
+                          value: "radios",
+                          text: "Radios",
+                          hint: {
+                          text: "A list for users to select one answer"
+                          }
+                          },
+                          {
+                          value: "select",
+                          text: "Autocomplete",
+                          hint: {
+                          text: "A list of options revealed to users as they type"
+
+                          }
+                          }
+                          ]
+                          }) }}
+                          {% endset -%}
+
+                          <span class="govuk-caption-l">Page #</span>
+                          {{ govukRadios({
+                          name: "informationQuestion1",
+                          fieldset: {
+                          legend: {
+                          text: "What information do you need from users?",
+                          isPageHeading: true,
+                          classes: "govuk-fieldset__legend--l"
+                          }
+                          },
+                          hint: {
+                          text: "You can ask for more information later"
+                          },
+                          items: [
+                          {
+                          value: "text",
+                          text: "Written answer",
+                          hint: {
+                          text: "A short or long answer as text or number"
+                          },
+                          conditional: {
+                          html: writtenHtml
+                          }
+                          },
+                          {
+                          value: "date",
+                          text: "Date",
+                          hint: {
+                          text: "A day, month and year or month and year only"
+                          },
+                          conditional: {
+                          html: dateHtml
+                          }
+                          },
+                          {
+                          value: "address",
+                          text: "UK address",
+                          hint: {
+                          text: "A street address, town or city and postcode"
+                          }
+                          },
+                          {
+                          value: "phone",
+                          text: "Phone number",
+                          hint: {
+                          text: "A UK phone number, for example, 07700 900 982 or +44 808 157 0192"
+                          }
+                          },
+                          {
+                          value: "file",
+                          text: "Supporting evidence",
+                          hint: {
+                          text: "A document, for example, DOC, PDF, CSV, Excel "
+                          }
+                          },
+                          {
+                          value: "email",
+                          text: "Email address",
+                          hint: {
+                          text: "An email address, for example, name@example.com"
+                          }
+                          },
+                          {
+                          divider: "or"
+                          },
+                          {
+                          value: "list",
+                          text: "A list of options that users can choose from",
+                          conditional: {
+                          html: list2Html
+                          }
+
+                          }
+                          ]
+                          }) }}
+
+                          {{ govukButton({
+                          text: "Save and continue",
+                          type: "submit",
+                          id: "add-question-button"
+                          }) }}
+                        </form>
+
+
+                      </div>
+                    </div>
+                  </div>
+              </div>
+          </div>
+        </div>
+      </div>
+
+
+      <script>
+        document.addEventListener("DOMContentLoaded", function () {
+          console.log("JavaScript Loaded");
+
+          // Function to show the relevant preview and hide others
+          function showPreview(selectedType) {
+            console.log("Showing preview for:", selectedType); // Debugging line
+            document.querySelectorAll(".preview-content").forEach((content) => {
+              content.classList.remove("active"); // Hide all previews
+            });
+
+            const selectedPreview = document.querySelector(`.${selectedType}-preview`);
+            if (selectedPreview) {
+              console.log("Found preview to show:", selectedPreview); // Debugging line
+              selectedPreview.classList.add("active"); // Show the selected preview
+            } else {
+              console.log("No matching preview found for:", selectedType);
+            }
+          }
+
+          // Listen for changes to the radio buttons in the `informationQuestion1` group
+          document.querySelectorAll("input[name='informationQuestion1']").forEach((radio) => {
+            radio.addEventListener("change", function () {
+              console.log("Radio changed:", this.value); // Debugging line
+              showPreview(this.value);
+            });
+          });
+
+          // Listen for changes to sub-options
+          document.querySelectorAll("input[name='written'], input[name='dateType'], input[name='listType']").forEach((subRadio) => {
+            subRadio.addEventListener("change", function () {
+              console.log("Sub-option changed:", this.value); // Debugging line
+              showPreview(this.value);
+            });
+          });
+
+          // Show the preview for the initially selected radio button (if any)
+          const initialSelection = document.querySelector("input[name='informationQuestion1']:checked");
+          if (initialSelection) {
+            console.log("Initial selection found:", initialSelection.value); // Debugging line
+            showPreview(initialSelection.value);
+          }
+        });
+      </script>
+
+      <script>
+        document.addEventListener("DOMContentLoaded", function () {
+          const dynamicCaption = document.getElementById("dynamic-caption");
+          const setName = dynamicCaption.getAttribute("data-setname");
+
+          if (!setName) {
+            dynamicCaption.style.display = "none";
+          }
+        });
+
+      </script>
+
+      <script>
+        document.addEventListener("DOMContentLoaded", function () {
+          const dynamicCaption = document.getElementById("dynamic-caption");
+
+          // Check if the element exists
+          if (!dynamicCaption) {
+            console.error("Element with id 'dynamic-caption' not found.");
+            return;
+          }
+
+          // Initial `setName` retrieved from `data-setname`
+          let originalSetName = dynamicCaption.getAttribute("data-setname");
+
+          // Function to update `data-setname` based on selected option
+          function updateSetName(suffix) {
+            // Reset to original `setName` and append new suffix
+            let updatedSetName = `${originalSetName} ${suffix}`;
+            dynamicCaption.setAttribute("data-setname", updatedSetName);
+
+            // Log for verification
+            console.log("Updated data-setname:", updatedSetName);
+          }
+
+          // Listen for changes on main selection
+          document.querySelectorAll("input[name='informationQuestion1']").forEach(option => {
+            option.addEventListener("change", function () {
+              const selectedOption = this.value;
+
+              if (selectedOption === "text") {
+                updateSetName("Text");
+              } else if (selectedOption === "date") {
+                updateSetName("Date");
+              } else if (selectedOption === "list") {
+                updateSetName("List");
+              } else {
+                updateSetName("");
+              }
+            });
+          });
+
+          // Listen for changes on sub-options to update `data-setname` further
+          document.querySelectorAll("input[name='written'], input[name='dateType'], input[name='listType']").forEach(subOption => {
+            subOption.addEventListener("change", function () {
+              const mainOption = document.querySelector("input[name='informationQuestion1']:checked");
+              const selectedSubOption = this.value;
+
+              if (mainOption && mainOption.value === "text") {
+                updateSetName(selectedSubOption === "short-answer" ? "Text Short" : "Text Long");
+              } else if (mainOption && mainOption.value === "date") {
+                updateSetName(selectedSubOption === "day-month-year" ? "Date Full" : "Date Month-Year");
+              } else if (mainOption && mainOption.value === "list") {
+                updateSetName(selectedSubOption);
+              }
+            });
+          });
+        });
+
+
+      </script>
+
+      <script>
+        document.addEventListener("DOMContentLoaded", function () {
+          const dynamicCaption = document.getElementById("dynamic-caption");
+
+          // Verify that the element exists
+          if (!dynamicCaption) {
+            console.error("Element with id 'dynamic-caption' not found.");
+            return;
+          }
+
+          // Original display content to maintain without modification
+          const originalContent = dynamicCaption.textContent.trim();
+
+          // Function to set the appropriate data attribute based on the suffix
+          function setCustomDataAttribute(suffix) {
+            // Remove any existing custom data attributes
+            Array.from(dynamicCaption.attributes).forEach(attr => {
+              if (attr.name.startsWith("data-setname")) {
+                dynamicCaption.removeAttribute(attr.name);
+              }
+            });
+
+            // Set the new custom data attribute without changing the displayed content
+            if (suffix) {
+              const dataAttribute = `data-setname${suffix}`;
+              dynamicCaption.setAttribute(dataAttribute, originalContent);
+              console.log(`Set ${dataAttribute} with value "${originalContent}"`);
+            }
+          }
+
+          // Listener for main option changes
+          document.querySelectorAll("input[name='informationQuestion1']").forEach(option => {
+            option.addEventListener("change", function () {
+              const selectedOption = this.value;
+
+              if (selectedOption === "text") {
+                setCustomDataAttribute("Shorttext");
+              } else if (selectedOption === "date") {
+                setCustomDataAttribute("Date");
+              } else if (selectedOption === "list") {
+                setCustomDataAttribute("List");
+              } else {
+                setCustomDataAttribute("");
+              }
+            });
+          });
+
+          // Listener for sub-option changes
+          document.querySelectorAll("input[name='written'], input[name='dateType'], input[name='listType']").forEach(subOption => {
+            subOption.addEventListener("change", function () {
+              const mainOption = document.querySelector("input[name='informationQuestion1']:checked");
+              const selectedSubOption = this.value;
+
+              if (mainOption && mainOption.value === "text") {
+                setCustomDataAttribute(selectedSubOption === "short-answer" ? "Shorttext" : "Longtext");
+              } else if (mainOption && mainOption.value === "date") {
+                setCustomDataAttribute(selectedSubOption === "day-month-year" ? "DateFull" : "DateMonthYear");
+              } else if (mainOption && mainOption.value === "list") {
+                setCustomDataAttribute(selectedSubOption.charAt(0).toUpperCase() + selectedSubOption.slice(1));
+              }
+            });
+          });
+        });
+
+      </script>
+
+
+
+
+      <style>
+        .highlight {
+          background-color: #ffe5cc;
+          border-bottom: 2px solid #ffb266;
+        }
+
+        #before-content {
+          position: absolute;
+          top: 0;
+          left: 10 !important;
+          right: 0;
+          width: 100%;
+          padding: 10px !important;
+          box-sizing: border-box;
+          z-index: 1;
+          border-bottom: 1px solid #008938;
+          padding-left: 10px;
+        }
+
+        #second-container {
+          padding: 0;
+          box-sizing: border-box;
+        }
+
+        #second-container>* {
+          padding-left: 0px;
+          z-index: 2;
+        }
+
+        .preview-content {
+          display: none;
+        }
+
+        .preview-content.active {
+          display: block !important;
+        }
+      </style>
+
+      {% endblock %}
+    </div>
+  </div>

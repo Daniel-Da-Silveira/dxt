@@ -1,0 +1,856 @@
+{% extends "layouts/main.html" %}
+
+{% from "components/service-header/macro.njk" import serviceHeader %}
+
+{% set pageName = "Reorder pages - Apply for a county parish holding number in England" %}
+
+{% block header %}
+    {{ serviceHeader({
+  organisationName: "Defra",
+  productName: "Forms Designer",
+  serviceName: "",
+  containerClasses: containerClasses,
+  accountName: "Chris Smith",
+  homepageLink: "/",
+  signOutLink: "/onboarding/sign-out-confirmation",
+  navigationItems: [
+    { href: "/library.html", text: "Forms library", id: "nav-library" },
+    { href: "/cph-overview/draft/complete-clean.html", text: "Overview", id: "nav-overview" },
+    { href: "/redesigntest/listing", text: "Editor", id: "nav-editor" }
+  ],
+  activeLinkId: "nav-editor"
+}) }}
+{% endblock %}
+
+{% block content %}
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-full">
+            <div class="app-masthead">
+                <div class="app-width-container">
+                    <div class="govuk-grid-row">
+                        <div class="govuk-grid-column-full">
+                            <span class="govuk-caption-l" style="color: #ffffff;">Apply for a county parish holding certificate</span>
+                            <h1 class="govuk-heading-xl app-masthead__title">Form pages</h1>
+                            <p class="app-masthead__description">Create and manage the pages in this form.</p>
+                            <a href="/get-started/" role="button" draggable="false" class="govuk-button govuk-button--inverse govuk-!-margin-top-6 govuk-!-margin-bottom-0 govuk-button--start" data-module="govuk-button">
+                                Preview form
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <nav class="moj-sub-navigation" aria-label="Sub navigation">
+                <div class="moj-sub-navigation__container">
+                    <ul class="moj-sub-navigation__list" id="nav-list1">
+                        <li class="moj-sub-navigation__item">
+                            <a class="moj-sub-navigation__link" href="/redesign/multi/edit.html">Pages</a>
+                        </li>
+                        <li class="moj-sub-navigation__item">
+                            <a class="moj-sub-navigation__link" aria-current="page" href="#" id="groups">Re-order pages</a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+
+            {{ mojPageHeaderActions({
+            heading: {
+                text: 'Re-order pages'
+            },
+            items: [{
+                text: 'Save and close',
+                href: "/redesign/questionnumber",
+                classes: 'govuk-button'
+            }, {
+                text: 'Cancel',
+                classes: 'govuk-button--secondary'
+
+            }],
+            attributes: {
+                id: 'page-header',
+                name: 'page-header'
+            }
+        }) }}
+
+            <p class="govuk-body">Use the up and down buttons or drag and drop pages to re-order them.</p>
+
+            <form id="reorderable-form" action="/submit" method="POST">
+                <ol class="gem-c-reorderable-list js-enabled" id="reorderable-list" data-module="reorderable-list" data-reorderable-list-module-started="true">
+                    <li class="gem-c-reorderable-list__item" draggable="true">
+                        <div class="gem-c-reorderable-list__wrapper">
+                            <div class="gem-c-reorderable-list__content">
+                                <p class="gem-c-reorderable-list__title">Passport Details</p>
+                            </div>
+                            <div class="gem-c-reorderable-list__actions">
+                                <div class="govuk-form-group">
+                                    <label for="input-1" class="gem-c-label govuk-label">
+                                        Position<span class="govuk-visually-hidden">
+                                            for Passport Details</span>
+                                    </label>
+                                    <input class="gem-c-input govuk-input govuk-input--width-2" id="input-1" inputmode="numeric" name="ordering[1]" spellcheck="false" type="text" value="1">
+                                </div>
+                                <button class="gem-c-button govuk-button govuk-button--secondary js-reorderable-list-up" type="button" aria-label="Move &quot;Passport Details&quot; up">Up</button>
+                                <button class="gem-c-button govuk-button govuk-button--secondary js-reorderable-list-down" type="button" aria-label="Move &quot;Passport Details&quot; down">Down</button>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="gem-c-reorderable-list__item" draggable="true">
+                        <div class="gem-c-reorderable-list__wrapper">
+                            <div class="gem-c-reorderable-list__content">
+                                <p class="gem-c-reorderable-list__title">Visa Information</p>
+                            </div>
+                            <div class="gem-c-reorderable-list__actions">
+                                <div class="govuk-form-group">
+                                    <label for="input-2" class="gem-c-label govuk-label">
+                                        Position<span class="govuk-visually-hidden">
+                                            for Visa Information</span>
+                                    </label>
+                                    <input class="gem-c-input govuk-input govuk-input--width-2" id="input-2" inputmode="numeric" name="ordering[2]" spellcheck="false" type="text" value="2">
+                                </div>
+                                <button class="gem-c-button govuk-button govuk-button--secondary js-reorderable-list-up" type="button" aria-label="Move &quot;Visa Information&quot; up">Up</button>
+                                <button class="gem-c-button govuk-button govuk-button--secondary js-reorderable-list-down" type="button" aria-label="Move &quot;Visa Information&quot; down">Down</button>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="gem-c-reorderable-list__item" draggable="true">
+                        <div class="gem-c-reorderable-list__wrapper">
+                            <div class="gem-c-reorderable-list__content">
+                                <p class="gem-c-reorderable-list__title">Flight Itinerary</p>
+                            </div>
+                            <div class="gem-c-reorderable-list__actions">
+                                <div class="govuk-form-group">
+                                    <label for="input-3" class="gem-c-label govuk-label">
+                                        Position<span class="govuk-visually-hidden">
+                                            for Flight Itinerary</span>
+                                    </label>
+                                    <input class="gem-c-input govuk-input govuk-input--width-2" id="input-3" inputmode="numeric" name="ordering[3]" spellcheck="false" type="text" value="3">
+                                </div>
+                                <button class="gem-c-button govuk-button govuk-button--secondary js-reorderable-list-up" type="button" aria-label="Move &quot;Flight Itinerary&quot; up">Up</button>
+                                <button class="gem-c-button govuk-button govuk-button--secondary js-reorderable-list-down" type="button" aria-label="Move &quot;Flight Itinerary&quot; down">Down</button>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="gem-c-reorderable-list__item" draggable="true">
+                        <div class="gem-c-reorderable-list__wrapper">
+                            <div class="gem-c-reorderable-list__content">
+                                <p class="gem-c-reorderable-list__title">Hotel Reservations</p>
+                            </div>
+                            <div class="gem-c-reorderable-list__actions">
+                                <div class="govuk-form-group">
+                                    <label for="input-4" class="gem-c-label govuk-label">
+                                        Position<span class="govuk-visually-hidden">
+                                            for Hotel Reservations</span>
+                                    </label>
+                                    <input class="gem-c-input govuk-input govuk-input--width-2" id="input-4" inputmode="numeric" name="ordering[4]" spellcheck="false" type="text" value="4">
+                                </div>
+                                <button class="gem-c-button govuk-button govuk-button--secondary js-reorderable-list-up" type="button" aria-label="Move &quot;Hotel Reservations&quot; up">Up</button>
+                                <button class="gem-c-button govuk-button govuk-button--secondary js-reorderable-list-down" type="button" aria-label="Move &quot;Hotel Reservations&quot; down">Down</button>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="gem-c-reorderable-list__item" draggable="true">
+                        <div class="gem-c-reorderable-list__wrapper">
+                            <div class="gem-c-reorderable-list__content">
+                                <p class="gem-c-reorderable-list__title">Car Rental Confirmation</p>
+                            </div>
+                            <div class="gem-c-reorderable-list__actions">
+                                <div class="govuk-form-group">
+                                    <label for="input-5" class="gem-c-label govuk-label">
+                                        Position<span class="govuk-visually-hidden">
+                                            for Car Rental Confirmation</span>
+                                    </label>
+                                    <input class="gem-c-input govuk-input govuk-input--width-2" id="input-5" inputmode="numeric" name="ordering[5]" spellcheck="false" type="text" value="5">
+                                </div>
+                                <button class="gem-c-button govuk-button govuk-button--secondary js-reorderable-list-up" type="button" aria-label="Move &quot;Car Rental Confirmation&quot; up">Up</button>
+                                <button class="gem-c-button govuk-button govuk-button--secondary js-reorderable-list-down" type="button" aria-label="Move &quot;Car Rental Confirmation&quot; down">Down</button>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="gem-c-reorderable-list__item" draggable="true">
+                        <div class="gem-c-reorderable-list__wrapper">
+                            <div class="gem-c-reorderable-list__content">
+                                <p class="gem-c-reorderable-list__title">Travel Insurance</p>
+                            </div>
+                            <div class="gem-c-reorderable-list__actions">
+                                <div class="govuk-form-group">
+                                    <label for="input-6" class="gem-c-label govuk-label">
+                                        Position<span class="govuk-visually-hidden">
+                                            for Travel Insurance</span>
+                                    </label>
+                                    <input class="gem-c-input govuk-input govuk-input--width-2" id="input-6" inputmode="numeric" name="ordering[6]" spellcheck="false" type="text" value="6">
+                                </div>
+                                <button class="gem-c-button govuk-button govuk-button--secondary js-reorderable-list-up" type="button" aria-label="Move &quot;Travel Insurance&quot; up">Up</button>
+                                <button class="gem-c-button govuk-button govuk-button--secondary js-reorderable-list-down" type="button" aria-label="Move &quot;Travel Insurance&quot; down">Down</button>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="gem-c-reorderable-list__item" draggable="true">
+                        <div class="gem-c-reorderable-list__wrapper">
+                            <div class="gem-c-reorderable-list__content">
+                                <p class="gem-c-reorderable-list__title">Currency Exchange</p>
+                            </div>
+                            <div class="gem-c-reorderable-list__actions">
+                                <div class="govuk-form-group">
+                                    <label for="input-7" class="gem-c-label govuk-label">
+                                        Position<span class="govuk-visually-hidden">
+                                            for Currency Exchange</span>
+                                    </label>
+                                    <input class="gem-c-input govuk-input govuk-input--width-2" id="input-7" inputmode="numeric" name="ordering[7]" spellcheck="false" type="text" value="7">
+                                </div>
+                                <button class="gem-c-button govuk-button govuk-button--secondary js-reorderable-list-up" type="button" aria-label="Move &quot;Currency Exchange&quot; up">Up</button>
+                                <button class="gem-c-button govuk-button govuk-button--secondary js-reorderable-list-down" type="button" aria-label="Move &quot;Currency Exchange&quot; down">Down</button>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="gem-c-reorderable-list__item" draggable="true">
+                        <div class="gem-c-reorderable-list__wrapper">
+                            <div class="gem-c-reorderable-list__content">
+                                <p class="gem-c-reorderable-list__title">Local Attractions Tickets</p>
+                            </div>
+                            <div class="gem-c-reorderable-list__actions">
+                                <div class="govuk-form-group">
+                                    <label for="input-8" class="gem-c-label govuk-label">
+                                        Position<span class="govuk-visually-hidden">
+                                            for Local Attractions Tickets</span>
+                                    </label>
+                                    <input class="gem-c-input govuk-input govuk-input--width-2" id="input-8" inputmode="numeric" name="ordering[8]" spellcheck="false" type="text" value="8">
+                                </div>
+                                <button class="gem-c-button govuk-button govuk-button--secondary js-reorderable-list-up" type="button" aria-label="Move &quot;Local Attractions Tickets&quot; up">Up</button>
+                                <button class="gem-c-button govuk-button govuk-button--secondary js-reorderable-list-down" type="button" aria-label="Move &quot;Local Attractions Tickets&quot; down">Down</button>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="gem-c-reorderable-list__item" draggable="true">
+                        <div class="gem-c-reorderable-list__wrapper">
+                            <div class="gem-c-reorderable-list__content">
+                                <p class="gem-c-reorderable-list__title">Emergency Contacts</p>
+                            </div>
+                            <div class="gem-c-reorderable-list__actions">
+                                <div class="govuk-form-group">
+                                    <label for="input-9" class="gem-c-label govuk-label">
+                                        Position<span class="govuk-visually-hidden">
+                                            for Emergency Contacts</span>
+                                    </label>
+                                    <input class="gem-c-input govuk-input govuk-input--width-2" id="input-9" inputmode="numeric" name="ordering[9]" spellcheck="false" type="text" value="9">
+                                </div>
+                                <button class="gem-c-button govuk-button govuk-button--secondary js-reorderable-list-up" type="button" aria-label="Move &quot;Emergency Contacts&quot; up">Up</button>
+                                <button class="gem-c-button govuk-button govuk-button--secondary js-reorderable-list-down" type="button" aria-label="Move &quot;Emergency Contacts&quot; down">Down</button>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="gem-c-reorderable-list__item" draggable="true">
+                        <div class="gem-c-reorderable-list__wrapper">
+                            <div class="gem-c-reorderable-list__content">
+                                <p class="gem-c-reorderable-list__title">Health Precautions</p>
+                            </div>
+                            <div class="gem-c-reorderable-list__actions">
+                                <div class="govuk-form-group">
+                                    <label for="input-10" class="gem-c-label govuk-label">
+                                        Position<span class="govuk-visually-hidden">
+                                            for Health Precautions</span>
+                                    </label>
+                                    <input class="gem-c-input govuk-input govuk-input--width-2" id="input-10" inputmode="numeric" name="ordering[10]" spellcheck="false" type="text" value="10">
+                                </div>
+                                <button class="gem-c-button govuk-button govuk-button--secondary js-reorderable-list-up" type="button" aria-label="Move &quot;Health Precautions&quot; up">Up</button>
+                                <button class="gem-c-button govuk-button govuk-button--secondary js-reorderable-list-down" type="button" aria-label="Move &quot;Health Precautions&quot; down">Down</button>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="gem-c-reorderable-list__item" draggable="true">
+                        <div class="gem-c-reorderable-list__wrapper">
+                            <div class="gem-c-reorderable-list__content">
+                                <p class="gem-c-reorderable-list__title">Packing List</p>
+                            </div>
+                            <div class="gem-c-reorderable-list__actions">
+                                <div class="govuk-form-group">
+                                    <label for="input-11" class="gem-c-label govuk-label">
+                                        Position<span class="govuk-visually-hidden">
+                                            for Packing List</span>
+                                    </label>
+                                    <input class="gem-c-input govuk-input govuk-input--width-2" id="input-11" inputmode="numeric" name="ordering[11]" spellcheck="false" type="text" value="11">
+                                </div>
+                                <button class="gem-c-button govuk-button govuk-button--secondary js-reorderable-list-up" type="button" aria-label="Move &quot;Packing List&quot; up">Up</button>
+                                <button class="gem-c-button govuk-button govuk-button--secondary js-reorderable-list-down" type="button" aria-label="Move &quot;Packing List&quot; down">Down</button>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="gem-c-reorderable-list__item" draggable="true">
+                        <div class="gem-c-reorderable-list__wrapper">
+                            <div class="gem-c-reorderable-list__content">
+                                <p class="gem-c-reorderable-list__title">Travel Guide</p>
+                            </div>
+                            <div class="gem-c-reorderable-list__actions">
+                                <div class="govuk-form-group">
+                                    <label for="input-12" class="gem-c-label govuk-label">
+                                        Position<span class="govuk-visually-hidden">
+                                            for Travel Guide</span>
+                                    </label>
+                                    <input class="gem-c-input govuk-input govuk-input--width-2" id="input-12" inputmode="numeric" name="ordering[12]" spellcheck="false" type="text" value="12">
+                                </div>
+                                <button class="gem-c-button govuk-button govuk-button--secondary js-reorderable-list-up" type="button" aria-label="Move &quot;Travel Guide&quot; up">Up</button>
+                                <button class="gem-c-button govuk-button govuk-button--secondary js-reorderable-list-down" type="button" aria-label="Move &quot;Travel Guide&quot; down">Down</button>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="gem-c-reorderable-list__item" draggable="true">
+                        <div class="gem-c-reorderable-list__wrapper">
+                            <div class="gem-c-reorderable-list__content">
+                                <p class="gem-c-reorderable-list__title">Weather Forecast</p>
+                            </div>
+                            <div class="gem-c-reorderable-list__actions">
+                                <div class="govuk-form-group">
+                                    <label for="input-13" class="gem-c-label govuk-label">
+                                        Position<span class="govuk-visually-hidden">
+                                            for Weather Forecast</span>
+                                    </label>
+                                    <input class="gem-c-input govuk-input govuk-input--width-2" id="input-13" inputmode="numeric" name="ordering[13]" spellcheck="false" type="text" value="13">
+                                </div>
+                                <button class="gem-c-button govuk-button govuk-button--secondary js-reorderable-list-up" type="button" aria-label="Move &quot;Weather Forecast&quot; up">Up</button>
+                                <button class="gem-c-button govuk-button govuk-button--secondary js-reorderable-list-down" type="button" aria-label="Move &quot;Weather Forecast&quot; down">Down</button>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="gem-c-reorderable-list__item" draggable="true">
+                        <div class="gem-c-reorderable-list__wrapper">
+                            <div class="gem-c-reorderable-list__content">
+                                <p class="gem-c-reorderable-list__title">Transportation Map</p>
+                            </div>
+                            <div class="gem-c-reorderable-list__actions">
+                                <div class="govuk-form-group">
+                                    <label for="input-14" class="gem-c-label govuk-label">
+                                        Position<span class="govuk-visually-hidden">
+                                            for Transportation Map</span>
+                                    </label>
+                                    <input class="gem-c-input govuk-input govuk-input--width-2" id="input-14" inputmode="numeric" name="ordering[14]" spellcheck="false" type="text" value="14">
+                                </div>
+                                <button class="gem-c-button govuk-button govuk-button--secondary js-reorderable-list-up" type="button" aria-label="Move &quot;Transportation Map&quot; up">Up</button>
+                                <button class="gem-c-button govuk-button govuk-button--secondary js-reorderable-list-down" type="button" aria-label="Move &quot;Transportation Map&quot; down">Down</button>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="gem-c-reorderable-list__item" draggable="true">
+                        <div class="gem-c-reorderable-list__wrapper">
+                            <div class="gem-c-reorderable-list__content">
+                                <p class="gem-c-reorderable-list__title">Language Translation</p>
+                            </div>
+                            <div class="gem-c-reorderable-list__actions">
+                                <div class="govuk-form-group">
+                                    <label for="input-15" class="gem-c-label govuk-label">
+                                        Position<span class="govuk-visually-hidden">
+                                            for Language Translation</span>
+                                    </label>
+                                    <input class="gem-c-input govuk-input govuk-input--width-2" id="input-15" inputmode="numeric" name="ordering[15]" spellcheck="false" type="text" value="15">
+                                </div>
+                                <button class="gem-c-button govuk-button govuk-button--secondary js-reorderable-list-up" type="button" aria-label="Move &quot;Language Translation&quot; up">Up</button>
+                                <button class="gem-c-button govuk-button govuk-button--secondary js-reorderable-list-down" type="button" aria-label="Move &quot;Language Translation&quot; down">Down</button>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="gem-c-reorderable-list__item" draggable="true">
+                        <div class="gem-c-reorderable-list__wrapper">
+                            <div class="gem-c-reorderable-list__content">
+                                <p class="gem-c-reorderable-list__title">Emergency Services</p>
+                            </div>
+                            <div class="gem-c-reorderable-list__actions">
+                                <div class="govuk-form-group">
+                                    <label for="input-16" class="gem-c-label govuk-label">
+                                        Position<span class="govuk-visually-hidden">
+                                            for Emergency Services</span>
+                                    </label>
+                                    <input class="gem-c-input govuk-input govuk-input--width-2" id="input-16" inputmode="numeric" name="ordering[16]" spellcheck="false" type="text" value="16">
+                                </div>
+                                <button class="gem-c-button govuk-button govuk-button--secondary js-reorderable-list-up" type="button" aria-label="Move &quot;Emergency Services&quot; up">Up</button>
+                                <button class="gem-c-button govuk-button govuk-button--secondary js-reorderable-list-down" type="button" aria-label="Move &quot;Emergency Services&quot; down">Down</button>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="gem-c-reorderable-list__item" draggable="true">
+                        <div class="gem-c-reorderable-list__wrapper">
+                            <div class="gem-c-reorderable-list__content">
+                                <p class="gem-c-reorderable-list__title">Currency Converter</p>
+                            </div>
+                            <div class="gem-c-reorderable-list__actions">
+                                <div class="govuk-form-group">
+                                    <label for="input-17" class="gem-c-label govuk-label">
+                                        Position<span class="govuk-visually-hidden">
+                                            for Currency Converter</span>
+                                    </label>
+                                    <input class="gem-c-input govuk-input govuk-input--width-2" id="input-17" inputmode="numeric" name="ordering[17]" spellcheck="false" type="text" value="17">
+                                </div>
+                                <button class="gem-c-button govuk-button govuk-button--secondary js-reorderable-list-up" type="button" aria-label="Move &quot;Currency Converter&quot; up">Up</button>
+                                <button class="gem-c-button govuk-button govuk-button--secondary js-reorderable-list-down" type="button" aria-label="Move &quot;Currency Converter&quot; down">Down</button>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="gem-c-reorderable-list__item" draggable="true">
+                        <div class="gem-c-reorderable-list__wrapper">
+                            <div class="gem-c-reorderable-list__content">
+                                <p class="gem-c-reorderable-list__title">Travel Blog</p>
+                            </div>
+                            <div class="gem-c-reorderable-list__actions">
+                                <div class="govuk-form-group">
+                                    <label for="input-18" class="gem-c-label govuk-label">
+                                        Position<span class="govuk-visually-hidden">
+                                            for Travel Blog</span>
+                                    </label>
+                                    <input class="gem-c-input govuk-input govuk-input--width-2" id="input-18" inputmode="numeric" name="ordering[18]" spellcheck="false" type="text" value="18">
+                                </div>
+                                <button class="gem-c-button govuk-button govuk-button--secondary js-reorderable-list-up" type="button" aria-label="Move &quot;Travel Blog&quot; up">Up</button>
+                                <button class="gem-c-button govuk-button govuk-button--secondary js-reorderable-list-down" type="button" aria-label="Move &quot;Travel Blog&quot; down">Down</button>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="gem-c-reorderable-list__item" draggable="true">
+                        <div class="gem-c-reorderable-list__wrapper">
+                            <div class="gem-c-reorderable-list__content">
+                                <p class="gem-c-reorderable-list__title">Local Cuisine Guide</p>
+                            </div>
+                            <div class="gem-c-reorderable-list__actions">
+                                <div class="govuk-form-group">
+                                    <label for="input-19" class="gem-c-label govuk-label">
+                                        Position<span class="govuk-visually-hidden">
+                                            for Local Cuisine Guide</span>
+                                    </label>
+                                    <input class="gem-c-input govuk-input govuk-input--width-2" id="input-19" inputmode="numeric" name="ordering[19]" spellcheck="false" type="text" value="19">
+                                </div>
+                                <button class="gem-c-button govuk-button govuk-button--secondary js-reorderable-list-up" type="button" aria-label="Move &quot;Local Cuisine Guide&quot; up">Up</button>
+                                <button class="gem-c-button govuk-button govuk-button--secondary js-reorderable-list-down" type="button" aria-label="Move &quot;Local Cuisine Guide&quot; down">Down</button>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="gem-c-reorderable-list__item" draggable="true">
+                        <div class="gem-c-reorderable-list__wrapper">
+                            <div class="gem-c-reorderable-list__content">
+                                <p class="gem-c-reorderable-list__title">Local Etiquette</p>
+                            </div>
+                            <div class="gem-c-reorderable-list__actions">
+                                <div class="govuk-form-group">
+                                    <label for="input-20" class="gem-c-label govuk-label">
+                                        Position<span class="govuk-visually-hidden">
+                                            for Local Etiquette</span>
+                                    </label>
+                                    <input class="gem-c-input govuk-input govuk-input--width-2" id="input-20" inputmode="numeric" name="ordering[20]" spellcheck="false" type="text" value="20">
+                                </div>
+                                <button class="gem-c-button govuk-button govuk-button--secondary js-reorderable-list-up" type="button" aria-label="Move &quot;Local Etiquette&quot; up">Up</button>
+                                <button class="gem-c-button govuk-button govuk-button--secondary js-reorderable-list-down" type="button" aria-label="Move &quot;Local Etiquette&quot; down">Down</button>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="gem-c-reorderable-list__item" draggable="true">
+                        <div class="gem-c-reorderable-list__wrapper">
+                            <div class="gem-c-reorderable-list__content">
+                                <p class="gem-c-reorderable-list__title">Safety Tips</p>
+                            </div>
+                            <div class="gem-c-reorderable-list__actions">
+                                <div class="govuk-form-group">
+                                    <label for="input-21" class="gem-c-label govuk-label">
+                                        Position<span class="govuk-visually-hidden">
+                                            for Safety Tips</span>
+                                    </label>
+                                    <input class="gem-c-input govuk-input govuk-input--width-2" id="input-21" inputmode="numeric" name="ordering[21]" spellcheck="false" type="text" value="21">
+                                </div>
+                                <button class="gem-c-button govuk-button govuk-button--secondary js-reorderable-list-up" type="button" aria-label="Move &quot;Safety Tips&quot; up">Up</button>
+                                <button class="gem-c-button govuk-button govuk-button--secondary js-reorderable-list-down" type="button" aria-label="Move &quot;Safety Tips&quot; down">Down</button>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="gem-c-reorderable-list__item" draggable="true">
+                        <div class="gem-c-reorderable-list__wrapper">
+                            <div class="gem-c-reorderable-list__content">
+                                <p class="gem-c-reorderable-list__title">Cultural Events</p>
+                            </div>
+                            <div class="gem-c-reorderable-list__actions">
+                                <div class="govuk-form-group">
+                                    <label for="input-22" class="gem-c-label govuk-label">
+                                        Position<span class="govuk-visually-hidden">
+                                            for Cultural Events</span>
+                                    </label>
+                                    <input class="gem-c-input govuk-input govuk-input--width-2" id="input-22" inputmode="numeric" name="ordering[22]" spellcheck="false" type="text" value="22">
+                                </div>
+                                <button class="gem-c-button govuk-button govuk-button--secondary js-reorderable-list-up" type="button" aria-label="Move &quot;Cultural Events&quot; up">Up</button>
+                                <button class="gem-c-button govuk-button govuk-button--secondary js-reorderable-list-down" type="button" aria-label="Move &quot;Cultural Events&quot; down">Down</button>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="gem-c-reorderable-list__item" draggable="true">
+                        <div class="gem-c-reorderable-list__wrapper">
+                            <div class="gem-c-reorderable-list__content">
+                                <p class="gem-c-reorderable-list__title">Emergency Protocols</p>
+                            </div>
+                            <div class="gem-c-reorderable-list__actions">
+                                <div class="govuk-form-group">
+                                    <label for="input-23" class="gem-c-label govuk-label">
+                                        Position<span class="govuk-visually-hidden">
+                                            for Emergency Protocols</span>
+                                    </label>
+                                    <input class="gem-c-input govuk-input govuk-input--width-2" id="input-23" inputmode="numeric" name="ordering[23]" spellcheck="false" type="text" value="23">
+                                </div>
+                                <button class="gem-c-button govuk-button govuk-button--secondary js-reorderable-list-up" type="button" aria-label="Move &quot;Emergency Protocols&quot; up">Up</button>
+                                <button class="gem-c-button govuk-button govuk-button--secondary js-reorderable-list-down" type="button" aria-label="Move &quot;Emergency Protocols&quot; down">Down</button>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="gem-c-reorderable-list__item" draggable="true">
+                        <div class="gem-c-reorderable-list__wrapper">
+                            <div class="gem-c-reorderable-list__content">
+                                <p class="gem-c-reorderable-list__title">Local Transportation Options</p>
+                            </div>
+                            <div class="gem-c-reorderable-list__actions">
+                                <div class="govuk-form-group">
+                                    <label for="input-24" class="gem-c-label govuk-label">
+                                        Position<span class="govuk-visually-hidden">
+                                            for Local Transportation Options</span>
+                                    </label>
+                                    <input class="gem-c-input govuk-input govuk-input--width-2" id="input-24" inputmode="numeric" name="ordering[24]" spellcheck="false" type="text" value="24">
+                                </div>
+                                <button class="gem-c-button govuk-button govuk-button--secondary js-reorderable-list-up" type="button" aria-label="Move &quot;Local Transportation Options&quot; up">Up</button>
+                                <button class="gem-c-button govuk-button govuk-button--secondary js-reorderable-list-down" type="button" aria-label="Move &quot;Local Transportation Options&quot; down">Down</button>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="gem-c-reorderable-list__item" draggable="true">
+                        <div class="gem-c-reorderable-list__wrapper">
+                            <div class="gem-c-reorderable-list__content">
+                                <p class="gem-c-reorderable-list__title">Local SIM Card Information</p>
+                            </div>
+                            <div class="gem-c-reorderable-list__actions">
+                                <div class="govuk-form-group">
+                                    <label for="input-25" class="gem-c-label govuk-label">
+                                        Position<span class="govuk-visually-hidden">
+                                            for Local SIM Card Information</span>
+                                    </label>
+                                    <input class="gem-c-input govuk-input govuk-input--width-2" id="input-25" inputmode="numeric" name="ordering[25]" spellcheck="false" type="text" value="25">
+                                </div>
+                                <button class="gem-c-button govuk-button govuk-button--secondary js-reorderable-list-up" type="button" aria-label="Move &quot;Local SIM Card Information&quot; up">Up</button>
+                                <button class="gem-c-button govuk-button govuk-button--secondary js-reorderable-list-down" type="button" aria-label="Move &quot;Local SIM Card Information&quot; down">Down</button>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="gem-c-reorderable-list__item" draggable="true">
+                        <div class="gem-c-reorderable-list__wrapper">
+                            <div class="gem-c-reorderable-list__content">
+                                <p class="gem-c-reorderable-list__title">International Roaming Guide</p>
+                            </div>
+                            <div class="gem-c-reorderable-list__actions">
+                                <div class="govuk-form-group">
+                                    <label for="input-26" class="gem-c-label govuk-label">
+                                        Position<span class="govuk-visually-hidden">
+                                            for International Roaming Guide</span>
+                                    </label>
+                                    <input class="gem-c-input govuk-input govuk-input--width-2" id="input-26" inputmode="numeric" name="ordering[26]" spellcheck="false" type="text" value="26">
+                                </div>
+                                <button class="gem-c-button govuk-button govuk-button--secondary js-reorderable-list-up" type="button" aria-label="Move &quot;International Roaming Guide&quot; up">Up</button>
+                                <button class="gem-c-button govuk-button govuk-button--secondary js-reorderable-list-down" type="button" aria-label="Move &quot;International Roaming Guide&quot; down">Down</button>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="gem-c-reorderable-list__item" draggable="true">
+                        <div class="gem-c-reorderable-list__wrapper">
+                            <div class="gem-c-reorderable-list__content">
+                                <p class="gem-c-reorderable-list__title">Local Weather Alerts</p>
+                            </div>
+                            <div class="gem-c-reorderable-list__actions">
+                                <div class="govuk-form-group">
+                                    <label for="input-27" class="gem-c-label govuk-label">
+                                        Position<span class="govuk-visually-hidden">
+                                            for Local Weather Alerts</span>
+                                    </label>
+                                    <input class="gem-c-input govuk-input govuk-input--width-2" id="input-27" inputmode="numeric" name="ordering[27]" spellcheck="false" type="text" value="27">
+                                </div>
+                                <button class="gem-c-button govuk-button govuk-button--secondary js-reorderable-list-up" type="button" aria-label="Move &quot;Local Weather Alerts&quot; up">Up</button>
+                                <button class="gem-c-button govuk-button govuk-button--secondary js-reorderable-list-down" type="button" aria-label="Move &quot;Local Weather Alerts&quot; down">Down</button>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="gem-c-reorderable-list__item" draggable="true">
+                        <div class="gem-c-reorderable-list__wrapper">
+                            <div class="gem-c-reorderable-list__content">
+                                <p class="gem-c-reorderable-list__title">Local Shopping Guide</p>
+                            </div>
+                            <div class="gem-c-reorderable-list__actions">
+                                <div class="govuk-form-group">
+                                    <label for="input-28" class="gem-c-label govuk-label">
+                                        Position<span class="govuk-visually-hidden">
+                                            for Local Shopping Guide</span>
+                                    </label>
+                                    <input class="gem-c-input govuk-input govuk-input--width-2" id="input-28" inputmode="numeric" name="ordering[28]" spellcheck="false" type="text" value="28">
+                                </div>
+                                <button class="gem-c-button govuk-button govuk-button--secondary js-reorderable-list-up" type="button" aria-label="Move &quot;Local Shopping Guide&quot; up">Up</button>
+                                <button class="gem-c-button govuk-button govuk-button--secondary js-reorderable-list-down" type="button" aria-label="Move &quot;Local Shopping Guide&quot; down">Down</button>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="gem-c-reorderable-list__item" draggable="true">
+                        <div class="gem-c-reorderable-list__wrapper">
+                            <div class="gem-c-reorderable-list__content">
+                                <p class="gem-c-reorderable-list__title">Local Currency Guide</p>
+                            </div>
+                            <div class="gem-c-reorderable-list__actions">
+                                <div class="govuk-form-group">
+                                    <label for="input-29" class="gem-c-label govuk-label">
+                                        Position<span class="govuk-visually-hidden">
+                                            for Local Currency Guide</span>
+                                    </label>
+                                    <input class="gem-c-input govuk-input govuk-input--width-2" id="input-29" inputmode="numeric" name="ordering[29]" spellcheck="false" type="text" value="29">
+                                </div>
+                                <button class="gem-c-button govuk-button govuk-button--secondary js-reorderable-list-up" type="button" aria-label="Move &quot;Local Currency Guide&quot; up">Up</button>
+                                <button class="gem-c-button govuk-button govuk-button--secondary js-reorderable-list-down" type="button" aria-label="Move &quot;Local Currency Guide&quot; down">Down</button>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="gem-c-reorderable-list__item" draggable="true">
+                        <div class="gem-c-reorderable-list__wrapper">
+                            <div class="gem-c-reorderable-list__content">
+                                <p class="gem-c-reorderable-list__title">Local Transportation Discounts</p>
+                            </div>
+                            <div class="gem-c-reorderable-list__actions">
+                                <div class="govuk-form-group">
+                                    <label for="input-30" class="gem-c-label govuk-label">
+                                        Position<span class="govuk-visually-hidden">
+                                            for Local Transportation Discounts</span>
+                                    </label>
+                                    <input class="gem-c-input govuk-input govuk-input--width-2" id="input-30" inputmode="numeric" name="ordering[30]" spellcheck="false" type="text" value="30">
+                                </div>
+                                <button class="gem-c-button govuk-button govuk-button--secondary js-reorderable-list-up" type="button" aria-label="Move &quot;Local Transportation Discounts&quot; up">Up</button>
+                                <button class="gem-c-button govuk-button govuk-button--secondary js-reorderable-list-down" type="button" aria-label="Move &quot;Local Transportation Discounts&quot; down">Down</button>
+                            </div>
+                        </div>
+                    </li>
+                </ol>
+                {% from "govuk/components/button/macro.njk" import govukButton %}
+
+                <div class="govuk-button-group">
+                    {{ govukButton({
+    text: "Save and close"
+  }) }}
+
+                    {{ govukButton({
+    text: "Cancel",
+    classes: "govuk-button--secondary"
+  }) }}
+                </div>
+            </form>
+
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css"/>
+            <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>
+            <style>
+                /* Ensure the chosen item remains solid */
+                .sortable-chosen {
+                    opacity: 1 !important;
+                    background-color: white !important;
+                }
+
+                /* Style for hover state of the list item */
+                .gem-c-reorderable-list__item:hover {
+                    background-color: #f0f0f0;
+                    /* Light grey background on hover */
+
+                    /* Change border color on hover */
+                    cursor: move;
+                    /* Change cursor to pointer on hover */
+                }
+
+                /* Style for the chosen item (when selected) */
+                .gem-c-reorderable-list__item.sortable-chosen {
+                    background-color: #e5f5ff;
+                    outline: 2px dotted #ffdd00;
+                    / box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+                    /* Add shadow for emphasis */
+                }
+
+                .gem-c-reorderable-list {
+                    list-style-type: none;
+                    margin-bottom: 30px;
+                    margin-top: 0;
+                    padding-left: 0;
+                    position: relative;
+                    font-family: "GDS Transport", arial, sans-serif;
+                    -webkit-font-smoothing: antialiased;
+                    -moz-osx-font-smoothing: grayscale;
+                    font-weight: 700;
+                    font-size: 1rem;
+                    line-height: 1.25;
+                }
+
+                @media (min-width: 40.0625em) {
+                    .gem-c-reorderable-list {
+                        font-size: 1.1875rem;
+                        line-height: 1.3157894737;
+                    }
+                }
+
+                .gem-c-reorderable-list__item {
+                    margin-bottom: 15px;
+                    border-left: 3px solid #008938;
+                    outline: 1px solid #b1b4b6;
+                    padding: 15px;
+                    transition: background-color 0.3s, border-color 0.3s;
+                    /* Smooth transition for hover effects */
+                }
+
+                @media (min-width: 48.0625em) {
+                    .gem-c-reorderable-list__item {
+                        cursor: move;
+                    }
+                }
+
+                .gem-c-reorderable-list__wrapper {
+                    display: block;
+                }
+
+                @media (min-width: 48.0625em) {
+                    .gem-c-reorderable-list__wrapper {
+                        display: inline-flex;
+                        width: 100%;
+                    }
+                }
+
+                .gem-c-reorderable-list__content {
+                    margin-bottom: 10px;
+                }
+
+                @media (min-width: 48.0625em) {
+                    .gem-c-reorderable-list__content {
+                        margin-bottom: 0;
+                        flex: 0 1 auto;
+                        min-width: 65%;
+                    }
+                }
+
+                .gem-c-reorderable-list__actions {
+                    display: block;
+                }
+
+                @media (min-width: 48.0625em) {
+                    .gem-c-reorderable-list__actions {
+                        flex: 1 0 auto;
+                        text-align: right;
+                    }
+                }
+
+                .gem-c-reorderable-list__title {
+                    margin: 0;
+                    font-weight: bold;
+
+                }
+
+                @media (min-width: 40.0625em) {
+                    .gem-c-reorderable-list .govuk-form-group {
+                        margin-bottom: 0;
+                    }
+
+                    .gem-c-reorderable-list__actions .govuk-form-group {
+                        display: none;
+                    }
+
+                    .gem-c-reorderable-list__actions .gem-c-button {
+                        display: none;
+                    }
+
+                    .gem-c-reorderable-list__actions .gem-c-button {
+                        display: inline-block;
+                        margin-left: 15px;
+                        width: 80px;
+                    }
+
+                    .gem-c-reorderable-list__actions .gem-c-button:first-of-type {
+                        margin-left: 0;
+                    }
+
+                    @media (min-width: 48.0625em) {
+                        .gem-c-reorderable-list__actions .gem-c-button:first-of-type {
+                            margin-left: 15px;
+                        }
+                    }
+
+                    .gem-c-reorderable-list__item:first-child .gem-c-button:first-of-type {
+                        display: none;
+                    }
+
+                    @media (min-width: 48.0625em) {
+                        .gem-c-reorderable-list__item:first-child .gem-c-button:first-of-type {
+                            display: inline-block;
+                            visibility: hidden;
+                        }
+                    }
+
+                    .gem-c-reorderable-list__item:first-child .gem-c-button:last-of-type {
+                        margin-left: 0;
+                    }
+
+                    @media (min-width: 48.0625em) {
+                        .gem-c-reorderable-list__item:first-child .gem-c-button:last-of-type {
+                            margin-left: 15px;
+                        }
+                    }
+
+                    .gem-c-reorderable-list__item:last-child .gem-c-button:last-of-type {
+                        display: none;
+                    }
+
+                    @media (min-width: 48.0625em) {
+                        .gem-c-reorderable-list__item:last-child .gem-c-button:last-of-type {
+                            display: inline-block;
+                            visibility: hidden;
+                        }
+                    }
+                }
+            </style>
+
+            <script>
+                // Initialize SortableJS for the list
+                const sortable = new Sortable(document.getElementById("reorderable-list"), {
+                    animation: 150,
+                    handle: ".gem-c-reorderable-list__item",
+                    draggable: ".gem-c-reorderable-list__item",
+                    ghostClass: "sortable-ghost",
+                    chosenClass: "sortable-chosen", // Use chosenClass for custom styles
+                    onEnd: updateOrderInputs,
+                    onStart: function (evt) {
+                        if (window.innerWidth <= 600) {
+                            evt.preventDefault(); // Prevent drag on small screens
+                        }
+                    }
+                });
+
+                // Function to update order inputs after sorting
+                function updateOrderInputs() {
+                    const items = document.querySelectorAll(".gem-c-reorderable-list__item input");
+                    items.forEach((input, index) => {
+                        input.value = index + 1;
+                    });
+                }
+
+                // Add event listeners to move buttons
+                document
+                    .querySelectorAll(".js-reorderable-list-up")
+                    .forEach((button) => {
+                        button.addEventListener("click", () => {
+                            const li = button.closest(".gem-c-reorderable-list__item");
+                            if (li.previousElementSibling) {
+                                li
+                                    .parentNode
+                                    .insertBefore(li, li.previousElementSibling);
+                                updateOrderInputs();
+                            }
+                        });
+                    });
+
+                document
+                    .querySelectorAll(".js-reorderable-list-down")
+                    .forEach((button) => {
+                        button.addEventListener("click", () => {
+                            const li = button.closest(".gem-c-reorderable-list__item");
+                            if (li.nextElementSibling) {
+                                li
+                                    .parentNode
+                                    .insertBefore(li.nextElementSibling, li);
+                                updateOrderInputs();
+                            }
+                        });
+                    });
+
+                // Ensure order is updated on page load
+                updateOrderInputs();
+            </script>
+        {% endblock %}

@@ -17,8 +17,15 @@
 {{ featureName }} - Design History
 {% endblock %}
 
+{% block scripts %}
+{{ super() }}
+<script src="/public//javascripts/components/form-editor/post-navigation.js"></script>
+{% endblock %}
+
+
 {% block head %}
 {{ super() }}
+<script src="/assets/javascripts/components/form-editor/post-navigation.js"></script>
 <!-- Marked.js (for Markdown parsing) -->
 <style>
     .iframe-container {
@@ -145,6 +152,8 @@
         color: #505a5f;
     }
 </style>
+<script src="/assets/javascripts/components/form-editor/post-navigation.js"></script>
+
 <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 <script>
     document.addEventListener('DOMContentLoaded', function () {
@@ -409,8 +418,8 @@ items: breadcrumbs
                         {% endfor %}
                     </div>
                     {% if section.caption %}
-                    <span class="govuk-caption-m govuk-!-margin-bottom-1 govuk-!-margin-top-1">{{ section.caption
-                        }}</span>
+                    <div class="markdown-content govuk-caption-m govuk-!-margin-bottom-1 govuk-!-margin-top-1"
+                        data-markdown="{{ section.caption | replace('"', ' &quot;') | replace('\n', '\\n' ) }}"></div>
                     {% endif %}
                     {% elif section.type == 'details' %}
                     <details class="govuk-details" data-module="govuk-details">
@@ -474,8 +483,9 @@ items: breadcrumbs
                                         marginwidth="0" allowfullscreen></iframe>
                                 </div>
                                 {% if item.caption %}
-                                <span class="govuk-caption-m govuk-!-margin-bottom-1 govuk-!-margin-top-1">{{
-                                    item.caption }}</span>
+                                <div class="markdown-content govuk-caption-m govuk-!-margin-bottom-1 govuk-!-margin-top-1"
+                                    data-markdown="{{ item.caption | replace('"', ' &quot;') | replace('\n', '\\n' )
+                                    }}"></div>
                                 {% endif %}
                             </div>
                             {% elif item.type == 'images' %}
@@ -518,8 +528,9 @@ items: breadcrumbs
                                 {% endif %}
                             </div>
                             {% if item.caption %}
-                            <span class="govuk-caption-m govuk-!-margin-bottom-1 govuk-!-margin-top-1">{{ item.caption
-                                }}</span>
+                            <div class="markdown-content govuk-caption-m govuk-!-margin-bottom-1 govuk-!-margin-top-1"
+                                data-markdown="{{ item.caption | replace('"', ' &quot;') | replace('\n', '\\n' ) }}">
+                            </div>
                             {% endif %}
                             {% if item.showSectionBreak %}
                             <hr
@@ -555,7 +566,9 @@ items: breadcrumbs
                                     Your browser does not support the audio element.
                                 </audio>
                                 {% if section.caption %}
-                                <p class="govuk-body-s govuk-!-margin-top-2">{{ section.caption }}</p>
+                                <div class="markdown-content govuk-caption-m govuk-!-margin-top-2"
+                                    data-markdown="{{ section.caption | replace('"', ' &quot;') | replace('\n', '\\n' )
+                                    }}"></div>
                                 {% endif %}
                             </div>
                         </div>
@@ -583,7 +596,9 @@ items: breadcrumbs
                                         </video>
                                         {% if image.caption %}
                                         <figcaption>
-                                            {{ image.caption }}
+                                            <div class="markdown-content govuk-caption-m govuk-!-margin-bottom-1 govuk-!-margin-top-1"
+                                                data-markdown="{{ image.caption | replace('"', ' &quot;') |
+                                                replace('\n', '\\n' ) }}"></div>
                                         </figcaption>
                                         {% endif %}
                                     </figure>
@@ -602,7 +617,9 @@ items: breadcrumbs
                                         {% endif %}
                                         {% if image.caption %}
                                         <figcaption>
-                                            {{ image.caption }}
+                                            <div class="markdown-content govuk-caption-m govuk-!-margin-bottom-1 govuk-!-margin-top-1"
+                                                data-markdown="{{ image.caption | replace('"', ' &quot;') |
+                                                replace('\n', '\\n' ) }}"></div>
                                         </figcaption>
                                         {% endif %}
                                     </figure>
@@ -670,8 +687,9 @@ items: breadcrumbs
                                     </div>
                                 </div>
                                 {% if section.caption %}
-                                <span class="govuk-caption-m govuk-!-margin-bottom-1 govuk-!-margin-top-1">{{
-                                    section.caption }}</span>
+                                <div class="markdown-content govuk-caption-m govuk-!-margin-bottom-1 govuk-!-margin-top-1"
+                                    data-markdown="{{ section.caption | replace('"', ' &quot;') | replace('\n', '\\n' )
+                                    }}"></div>
                                 {% if section.showSectionBreak %}
                                 <hr
                                     class="govuk-section-break govuk-section-break--visible govuk-!-margin-top-6 govuk-!-margin-bottom-6">
@@ -714,8 +732,9 @@ items: breadcrumbs
                             </div>
                         </div>
                         {% if section.caption %}
-                        <span class="govuk-caption-m govuk-!-margin-bottom-1 govuk-!-margin-top-1">{{ section.caption
-                            }}</span>
+                        <div class="markdown-content govuk-caption-m govuk-!-margin-bottom-1 govuk-!-margin-top-1"
+                            data-markdown="{{ section.caption | replace('"', ' &quot;') | replace('\n', '\\n' ) }}">
+                        </div>
                         {% if section.showSectionBreak %}
                         <hr
                             class="govuk-section-break govuk-section-break--visible govuk-!-margin-top-6 govuk-!-margin-bottom-6">
@@ -867,4 +886,14 @@ items: breadcrumbs
 
 
 </script>
+
+
+
 {% endblock %}
+
+{% block bodyEnd %}
+{{ super() }}
+{% endblock %}
+</body>
+
+</html>

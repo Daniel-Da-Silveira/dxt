@@ -1,0 +1,47 @@
+          <div class="govuk-form-group">
+            <h1 class="govuk-label-wrapper">
+              <label class="govuk-label govuk-label--l" for="text-input-field" id="multi-question-label-legend-textarea">
+                {{ data['multiQuestionLabelInputTextArea'] or '' }}
+
+              </label>
+            </h1>
+            <div id="multi-question-hint-text-output" class="govuk-hint">
+                               {{ data['multiQuestionHintTextInputTextarea'] or '' }}
+
+            </div>
+            <textarea class="govuk-textarea" rows="5" id="text-input-field" name="textInputField" aria-describedby="multi-question-hint-text-output"></textarea>
+          </div>
+
+          {# {% set setName = data['setName'] or '' %}
+          {% set overview0 = data['overview0'] or '' %}
+
+          {% if not exclude_part | default(false) %}
+              {% if overview0 == "morethan1" %}
+                  {{ govukButton({
+                      text: "Add another " ~ setName,
+                      classes: "govuk-button govuk-!-margin-top-3",
+                      id: "add-another-set-button",
+                      disabled: true
+                  }) }}
+              {% else %}
+                  {{ govukButton({
+                      text: "Codwedewntinue",
+                      classes: "govuk-button govuk-!-margin-top-6",
+                      id: "once-button",
+                      disabled: true
+                  }) }}
+              {% endif %}
+          {% endif %} #}
+
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+const dynamicCaption = document.getElementById("dynamic-caption");
+const setName = dynamicCaption.getAttribute("data-setname");
+
+if (!setName) {
+  dynamicCaption.style.display = "none";
+}
+});
+
+  </script>

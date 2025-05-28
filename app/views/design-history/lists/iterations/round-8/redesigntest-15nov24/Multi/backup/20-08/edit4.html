@@ -1,0 +1,1125 @@
+{% extends "layouts/main.html" %}
+
+{% from "components/service-header/macro.njk" import serviceHeader %}
+
+{% set pageName = "Edit page with more than 1 question - Apply for a county parish holding number in England" %}
+{% set headingPlaceholder = "Page heading" %}
+{% set guidancePlaceholder = "" %}
+
+{% block header %}
+{{ serviceHeader({
+organisationName: "Defra",
+productName: "Forms Designer",
+serviceName: "",
+containerClasses: containerClasses,
+accountName: "Chris Smith",
+homepageLink: "/",
+signOutLink: "/onboarding/sign-out-confirmation",
+navigationItems: [
+{ href: "/library.html", text: "Forms library", id: "nav-library" },
+{ href: "/cph-overview/draft/complete-clean.html", text: "Overview", id: "nav-overview" },
+{ href: "/redesigntest/listing", text: "Editor", id: "nav-editor" }
+],
+activeLinkId: "nav-editor"
+}) }}
+{% endblock %}
+
+{% block content %}
+<!-- Main Grid Row -->
+<div class="govuk-grid-row">
+  <!-- Full Width Column -->
+  <div class="govuk-grid-column-full">
+    <!-- Masthead Section -->
+    <div class="app-masthead">
+      <div class="app-width-container">
+        <div class="govuk-grid-row">
+          <div class="govuk-grid-column-full">
+            <!-- Caption and Heading -->
+            <span class="govuk-caption-l" style="color: #ffffff;">Apply for a county parish holding certificate</span>
+            <h1 class="govuk-heading-xl app-masthead__title">Form pages</h1>
+            <p class="app-masthead__description">Create and manage the pages in this form.</p>
+            <!-- Preview Form Button -->
+            <a href="/get-started/" role="button" draggable="false"
+              class="govuk-button govuk-button--inverse govuk-!-margin-top-6 govuk-!-margin-bottom-0 govuk-button--start"
+              data-module="govuk-button">
+              Preview form
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Sub Navigation -->
+    <nav class="moj-sub-navigation" aria-label="Sub navigation">
+      <div class="moj-sub-navigation__container">
+        <ul class="moj-sub-navigation__list" id="nav-list1">
+          <!-- Pages Link -->
+          <li class="moj-sub-navigation__item">
+            <a class="moj-sub-navigation__link" aria-current="page" href="#your-pages">Pages</a>
+          </li>
+          <!-- Placeholder for Groups Link -->
+          <li class="moj-sub-navigation__item">
+            <a class="moj-sub-navigation__link" href="#" id="groups"></a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+
+    <!-- Page Header Actions using Template -->
+    {{ mojPageHeaderActions({
+    heading: {
+    text: 'Pages'
+    },
+    items: [{
+    text: 'Add page',
+    href: "/redesign/questionnumber",
+    classes: 'govuk-button'
+    },
+    {
+    text: 'Re-order pages',
+    href: "/redesign/reorder/1",
+    classes: 'govuk-button--secondary'
+    }],
+    attributes: {
+    id: 'page-header',
+    name: 'page-header'
+    }
+    }) }}
+
+    <div class="govuk-grid-row">
+      <!-- Left Column for Form Controls -->
+      <div class="govuk-grid-column-one-half" id="container" style="flex: 1 1 75%; overflow-y: auto;">
+        <!-- Accordion for Page 1 -->
+        <div class="govuk-accordion custom-accordion-class custom-background-padding" data-module="govuk-accordion"
+          id="accordion-with-summary-sections">
+          <!-- Accordion Section -->
+          <div class="govuk-accordion__section">
+            <!-- Section Header -->
+            <div class="govuk-accordion__section-header">
+              <h2 class="govuk-accordion__section-heading">
+                <button class="govuk-accordion__section-button" id="accordion-with-summary-sections-heading-1">
+                  Page 1:
+                  <span id="page-1-heading-text"></span>
+                </button>
+              </h2>
+              <!-- Summary List -->
+              <div class="govuk-accordion__section-summary govuk-body" id="accordion-with-summary-sections-summary-1">
+                <!-- Summary List Content -->
+                {% from "govuk/components/summary-list/macro.njk" import govukSummaryList %}
+
+                <!-- Dynamic Summary List -->
+                <div id="summary-container">
+                  <!-- The dynamic summary list will be populated here -->
+                </div>
+              </div>
+            </div>
+
+            <!-- Accordion Section Content -->
+            <div id="accordion-with-summary-sections-content-1" class="govuk-accordion__section-content"
+              style="padding-top:0!important">
+              <!-- Question Settings Container -->
+              <div class="govuk-grid-row" id="page-settings-container-1">
+                <div class="govuk-grid-column-full" id="question-1">
+                  <div class="govuk-summary-card__content" style="background-color: #f3f2f1;margin-bottom: 0;">
+                    <!-- Sub Navigation for Question -->
+                    <nav class="moj-sub-navigation" aria-label="Sub navigation">
+                      <ul class="moj-sub-navigation__list" id="nav-list2">
+                        <!-- Question Link -->
+                        <li class="moj-sub-navigation__item">
+                          <a class="moj-sub-navigation__link" aria-current="page" href="#question-1">Question 1</a>
+                        </li>
+                        <!-- Add Question Link -->
+                        <li class="moj-sub-navigation__item">
+                          <a class="moj-sub-navigation__link" href="#" id="add-question">Add another question</a>
+                        </li>
+                      </ul>
+                    </nav>
+
+                    <!-- Container for Radio Buttons -->
+                    <div id="question-type-selection" style="display: none; margin-top: 20px;">
+                      <form id="question-type-form">
+                        {% from "govuk/components/radios/macro.njk" import govukRadios %}
+
+                        {{ govukRadios({
+                        idPrefix: "question-type",
+                        name: "questionType",
+                        classes: "govuk-radios",
+                        fieldset: {
+                        legend: {
+                        text: "What information do you need from users?",
+                        isPageHeading: true,
+                        classes: "govuk-fieldset__legend--m"
+                        }
+                        },
+                        hint: {
+                        text: "You can ask for more information later"
+                        },
+                        items: [
+                        {
+                        value: "text",
+                        text: "Written answer",
+                        hint: {
+                        text: "A short or long answer as text or number"
+                        },
+                        id: "question-type-text"
+                        },
+                        {
+                        value: "date",
+                        text: "Date",
+                        hint: {
+                        text: "A day, month and year or month and year only"
+                        },
+                        id: "question-type-date",
+                        name: "questionType"
+                        },
+                        {
+                        value: "address",
+                        text: "UK address",
+                        hint: {
+                        text: "A street address, town or city and postcode"
+                        },
+                        id: "question-type-uk-address"
+                        },
+                        {
+                        value: "phone",
+                        text: "Phone number",
+                        hint: {
+                        text: "A text box that users can enter numbers and some symbols into, such as '+'"
+                        },
+                        id: "question-type-phone"
+                        },
+                        {
+                        value: "file",
+                        text: "1 file or multiple files",
+                        hint: {
+                        text: "Users can select and upload any type of file"
+                        },
+                        id: "question-type-file-upload"
+                        },
+                        {
+                        divider: "or"
+                        },
+                        {
+                        value: "list",
+                        text: "A list of options that users can choose from",
+                        id: "question-type-select-list"
+                        }
+                        ]
+                        }) }}
+
+                        <div class="govuk-button-group">
+                          <button id="continue-button" class="govuk-button" type="button">Continue</button>
+                          <a id="cancel-button" class="govuk-link" href="#">Cancel</a>
+                        </div>
+                        <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
+
+                      </form>
+                    </div>
+
+                    <!-- Default Content for Question 1 -->
+                    <div id="question-1-content" class="question-content" style="margin-top: 10px;">
+                      <!-- Page Heading Input -->
+                      {{ govukInput({
+                      label: {
+                      text: "Page heading",
+                      classes: "govuk-label--m govuk-!-margin-top-0 ",
+                      isPageHeading: false
+                      },
+                      hint: {
+                      html: "Page headings should be a statement and not a question. For example, ‘Passport
+                      information’"
+                      },
+                      id: "page-heading-input",
+                      name: "pageHeading",
+                      classes: "govuk-input ",
+                      describedBy: "page-heading-input-hint",
+                      input: {
+                      type: "text",
+                      id: "page-heading-input"
+                      }
+                      }) }}
+
+                      <!-- Guidance Text Textarea -->
+                      {{ govukTextarea({
+                      label: {
+                      text: "Guidance text (optional)",
+                      classes: "govuk-label--m"
+                      },
+                      hint: {
+                      text: "Use Markdown to format the content or add hyperlinks"
+                      },
+                      id: "guidance-textarea",
+                      name: "guidanceText",
+                      classes: "govuk-textarea",
+                      rows: 5,
+                      describedBy: "guidance-textarea-hint"
+                      }) }}
+
+                      <!-- Section Break -->
+                      <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
+                      <!-- Question Tag -->
+                      <strong class="govuk-tag govuk-tag--green govuk-!-margin-bottom-2">Question 1 (date)</strong>
+
+                      <!-- Question and Hint Text Inputs -->
+                      <div class="govuk-form-group">
+                        {{ govukInput({
+                        label: {
+                        text: "Question",
+                        classes: "govuk-label--m"
+                        },
+                        id: "question-label-input",
+                        name: "question-label",
+                        classes: "govuk-input",
+                        input: {
+                        type: "text"
+                        }
+                        }) }}
+                      </div>
+                      <div class="govuk-form-group">
+                        {{ govukTextarea({
+                        label: {
+                        text: "Hint text (optional)",
+                        classes: "govuk-label--m"
+                        },
+                        id: "hint-text-input",
+                        name: "hintTextInput",
+                        classes: "govuk-textarea",
+                        rows: 2
+                        }) }}
+                      </div>
+
+                      <!-- Question Settings -->
+                      <div class="govuk-form-group">
+                        <fieldset class="govuk-fieldset">
+                          <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">
+                            <h1 class="govuk-fieldset__heading">Question settings</h1>
+                          </legend>
+                          <!-- Checkbox for Additional Settings -->
+                          {{ govukCheckboxes({
+                          idPrefix: "additional-settings",
+                          classes: "govuk-checkboxes--small",
+                          items: [
+                          {
+                          id: "optional",
+                          name: "optional",
+                          value: "optional",
+                          text: "Make this question optional",
+                          checked: false
+                          },
+                          {
+                          id: "month-year-checkbox",
+                          name: "date-format",
+                          value: "monthyear",
+                          text: "Ask for month and year only",
+                          checked: false
+                          }
+                          ]
+                          }) }}
+                        </fieldset>
+                      </div>
+
+                      <!-- Error Message Label Input -->
+                      <div class="govuk-form-group">
+                        {{ govukInput({
+                        label: {
+                        text: "Add a short label for error messages",
+                        classes: "govuk-label--m"
+                        },
+                        hint: {
+                        text: "If the short label is ‘date of birth’ the error message is ‘Enter a valid date of
+                        birth’."
+                        },
+                        id: "error-label-input",
+                        name: "error-label",
+                        classes: "govuk-input",
+                        input: {
+                        type: "text"
+                        }
+                        }) }}
+                      </div>
+
+                      <!-- Answer Limits -->
+                      <details class="govuk-details">
+                        <summary class="govuk-details__summary">
+                          <span class="govuk-details__summary-text">
+                            Set answer limits (optional)
+                          </span>
+                        </summary>
+                        <div class="govuk-details__text">
+                          <!-- Checkbox for Answer Limits -->
+                          {{ govukCheckboxes({
+                          idPrefix: "contact",
+                          name: "contact",
+                          items: [
+                          {
+                          value: "betweenDates",
+                          text: "Answer must be between two dates",
+                          id: "contact-betweenDates",
+                          conditional: {
+                          html: govukDateInput({
+                          id: "first-date",
+                          namePrefix: "first-date",
+                          fieldset: {
+                          legend: {
+                          text: "First date",
+                          classes: "govuk-fieldset__legend--m"
+                          }
+                          },
+                          items: [
+                          {
+                          name: "day",
+                          classes: "govuk-input--width-2",
+                          attributes: {
+                          inputmode: "numeric"
+                          }
+                          },
+                          {
+                          name: "month",
+                          classes: "govuk-input--width-2",
+                          attributes: {
+                          inputmode: "numeric"
+                          }
+                          },
+                          {
+                          name: "year",
+                          classes: "govuk-input--width-4",
+                          attributes: {
+                          inputmode: "numeric"
+                          }
+                          }
+                          ]
+                          }) + govukDateInput({
+                          id: "second-date",
+                          namePrefix: "second-date",
+                          fieldset: {
+                          legend: {
+                          text: "Second date",
+                          classes: "govuk-fieldset__legend--m"
+                          }
+                          },
+                          items: [
+                          {
+                          name: "day",
+                          classes: "govuk-input--width-2",
+                          attributes: {
+                          inputmode: "numeric"
+                          }
+                          },
+                          {
+                          name: "month",
+                          classes: "govuk-input--width-2",
+                          attributes: {
+                          inputmode: "numeric"
+                          }
+                          },
+                          {
+                          name: "year",
+                          classes: "govuk-input--width-4",
+                          attributes: {
+                          inputmode: "numeric"
+                          }
+                          }
+                          ]
+                          })
+                          }
+                          }
+                          ]
+                          }) }}
+                        </div>
+                      </details>
+
+                      {% from "govuk/components/button/macro.njk" import govukButton %}
+                      <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
+
+                      <h2 class="govuk-heading-m">Question summary</h2>
+
+                      {% from "govuk/components/summary-list/macro.njk" import govukSummaryList %}
+
+                      {{ govukSummaryList({
+                      rows: [
+                      {
+                      key: {
+                      text: "Page type"
+                      },
+                      value: {
+                      text: "More than 1 question"
+                      },
+                      actions: {
+                      items: [
+                      {
+                      href: "#",
+                      text: "Change",
+                      visuallyHiddenText: "name"
+                      }
+                      ]
+                      }
+                      },
+                      {
+                      key: {
+                      text: "Information requested"
+                      },
+                      value: {
+                      text: "Date"
+                      },
+                      actions: {
+                      items: [
+                      {
+                      href: "#",
+                      text: "Change",
+                      visuallyHiddenText: "date of birth"
+                      }
+                      ]
+                      }
+                      }
+                      ]
+                      }) }}
+
+                      <hr class="govuk-section-break govuk-section-break--m ">
+
+                      {% from "govuk/components/button/macro.njk" import govukButton %}
+
+                      <div class="govuk-button-group">
+                        {{ govukButton({
+                        text: "Save changes",
+                        id: "save-changes-button"
+                        }) }}
+
+                        {{ govukButton({
+                        text: "Delete page",
+                        classes: "govuk-button--warning"
+                        }) }}
+                      </div>
+                      {# DIV BEFORE THE END OF THE QUESTION-1-CONTENT #}
+                    </div>
+
+                    <!-- Placeholder for new questions -->
+                    <div id="new-questions" style="margin-top: 20px;">
+                      <!-- Each question added dynamically will go here -->
+                    </div>
+
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right Column for Additional Content -->
+      <div class="govuk-grid-column-one-half" id="second-container"
+        style="outline: solid 1px #f3f2f1; height: 100%; position: sticky; top: 0; padding: 20px; ">
+        <!-- Additional Content Here -->
+        <div class="additional-content">
+          <!-- Right Column for Preview -->
+          <!-- Header Template Usage -->
+          {{ govukHeader({ homepageUrl: null, serviceName: null }) }}
+          <div>
+            <!-- Tag for Preview -->
+            {{ govukTag({ text: "Preview of page 1", classes: "govuk-tag--yellow govuk-!-margin-bottom-2
+            govuk-!-margin-top-2" }) }}
+            <!-- Form for Preview -->
+            <form>
+              <!-- Dynamic Heading -->
+              <h1 class="govuk-heading-l" id="dynamic-heading"></h1>
+              <!-- Guidance Paragraph -->
+              <p class="govuk-body" id="guidance-paragraph"></p>
+              <!-- Date Input Group -->
+              <div class="govuk-form-group">
+                <fieldset class="govuk-fieldset" role="group">
+                  <legend class="govuk-fieldset__legend govuk-fieldset__legend--l" id="date-input-legend">Question 1
+                  </legend>
+                  <div class="govuk-form-group">
+                    <!-- Date Input Hint -->
+                    <div id="date-input-hint" name="dateinputhint1" class="govuk-hint"></div>
+                    <!-- Date Input Fields -->
+                    <div class="govuk-date-input" id="date-input" data-module="govuk-date-input">
+                      <!-- Day Input -->
+                      <div class="govuk-date-input__item" id="day-input-wrapper">
+                        <div class="govuk-form-group">
+                          <label class="govuk-label govuk-date-input__label" for="date-day">Day</label>
+                          <input class="govuk-input govuk-date-input__input govuk-input--width-2" id="date-day"
+                            name="date-day" type="text">
+                        </div>
+                      </div>
+                      <!-- Month Input -->
+                      <div class="govuk-date-input__item" id="month-input-wrapper">
+                        <div class="govuk-form-group">
+                          <label class="govuk-label govuk-date-input__label" for="date-month">Month</label>
+                          <input class="govuk-input govuk-date-input__input govuk-input--width-2" id="date-month"
+                            name="date-month" type="text" pattern="[0-9]*">
+                        </div>
+                      </div>
+                      <!-- Year Input -->
+                      <div class="govuk-date-input__item" id="year-input-wrapper">
+                        <div class="govuk-form-group">
+                          <label class="govuk-label govuk-date-input__label" for="date-year">Year</label>
+                          <input class="govuk-input govuk-date-input__input govuk-input--width-4" id="date-year"
+                            name="date-year" type="text" pattern="[0-9]*">
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </fieldset>
+              </div>
+            </form>
+            <!-- Details for Error Message Preview -->
+            <details class="govuk-details">
+              <summary class="govuk-details__summary">
+                <span class="govuk-details__summary-text">View preview of error messages</span>
+              </summary>
+              <div class="govuk-details__text">
+                <!-- Error Messages Section -->
+                <div class="govuk-error-summary" data-module="govuk-error-summary">
+                  <h2 class="govuk-error-summary__title">
+                    There is a problem
+                  </h2>
+                  <ul class="govuk-list govuk-error-summary__list">
+                    <li>
+                      <a id="date-input-error" class="govuk-error-message">
+                        <span class="govuk-visually-hidden" id="date-input-error">Error:</span>
+                        Enter
+                        <span id="error-dynamic-text">date of birth</span>
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </details>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- End Pages Section -->
+<!-- Section Break -->
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-full">
+    <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
+  </div>
+</div>
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-one-half">
+    <h2 class="govuk-heading-m">End pages</h2>
+
+    <!-- Summary Card for Check Answers Page -->
+    <div class="govuk-summary-card" style="border-left: solid 10px #b1b4b6!important;">
+      <div class="govuk-summary-card__title-wrapper" tabindex="0">
+        <h2 class="govuk-summary-card__title">Check answers page</h2>
+        <!-- Edit and Preview Actions -->
+        <ul class="govuk-summary-card__actions">
+          <li class="govuk-summary-card__action">
+            <a class="govuk-link" href="#">Edit<span class="govuk-visually-hidden">Edit check answers page</span></a>
+          </li>
+          <li class="govuk-summary-card__action">
+            <a class="govuk-link" href="#">Preview<span class="govuk-visually-hidden">Preview check answers
+                page</span></a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+</form>
+
+<script>
+  // Validation Module
+  const validationModule = (() => {
+    function displayFieldError(inputElement, errorMessage) {
+      const formGroup = inputElement.closest('.govuk-form-group');
+      if (formGroup) {
+        formGroup.classList.add('govuk-form-group--error');
+        let errorElement = formGroup.querySelector('.govuk-error-message');
+        if (!errorElement) {
+          errorElement = document.createElement('p');
+          errorElement.className = 'govuk-error-message';
+          errorElement.innerHTML = `<span class="govuk-visually-hidden">Error:</span> ${errorMessage}`;
+          formGroup.insertBefore(errorElement, inputElement);
+        }
+        inputElement.classList.add('govuk-input--error');
+        inputElement.setAttribute('aria-describedby', `${inputElement.getAttribute('aria-describedby') || ''} ${errorElement.id}`);
+      }
+    }
+
+    function clearErrors() {
+      const errorElements = document.querySelectorAll('.govuk-error-message');
+      errorElements.forEach(errorElement => errorElement.remove());
+
+      const errorInputs = document.querySelectorAll('.govuk-input--error');
+      errorInputs.forEach(input => {
+        input.classList.remove('govuk-input--error');
+        const formGroup = input.closest('.govuk-form-group');
+        if (formGroup) {
+          formGroup.classList.remove('govuk-form-group--error');
+        }
+      });
+
+      clearErrorSummary();
+    }
+
+    function clearErrorSummary() {
+      const errorSummary = document.querySelector('.govuk-error-summary');
+      if (errorSummary) {
+        errorSummary.remove();
+      }
+    }
+
+    function displayErrorSummary(errors) {
+      clearErrorSummary();
+      if (errors.length > 0) {
+        const errorSummary = document.createElement('div');
+        errorSummary.className = 'govuk-error-summary';
+        errorSummary.setAttribute('role', 'alert');
+        errorSummary.setAttribute('aria-labelledby', 'error-summary-title');
+        errorSummary.setAttribute('tabindex', '-1');
+
+        let errorListItems = '';
+        errors.forEach(error => {
+          errorListItems += `<li><a href="#${error.href}">${error.text}</a></li>`;
+        });
+
+        errorSummary.innerHTML =
+          `<h2 class="govuk-error-summary__title" id="error-summary-title">There is a problem</h2>
+            <div class="govuk-error-summary__body">
+              <ul class="govuk-list govuk-error-summary__list">
+                ${errorListItems}
+              </ul>
+            </div>`;
+
+        const subNavigation = document.getElementById('nav-list2').parentNode;
+        subNavigation.parentNode.insertBefore(errorSummary, subNavigation.nextSibling);
+        errorSummary.focus();
+      }
+    }
+
+    function validateFields(pageHeadingInput, questionLabelInput, errorLabelInput) {
+      clearErrors();
+      let isValid = true;
+      const errors = [];
+
+      if (!pageHeadingInput.value.trim()) {
+        isValid = false;
+        const errorMessage = 'Page heading is required.';
+        displayFieldError(pageHeadingInput, errorMessage);
+        errors.push({ text: errorMessage, href: 'page-heading-input' });
+      }
+
+      if (!questionLabelInput.value.trim()) {
+        isValid = false;
+        const errorMessage = 'Question label is required.';
+        displayFieldError(questionLabelInput, errorMessage);
+        errors.push({ text: errorMessage, href: 'question-label-input' });
+      }
+
+      if (!errorLabelInput.value.trim()) {
+        isValid = false;
+        const errorMessage = 'Error label is required.';
+        displayFieldError(errorLabelInput, errorMessage);
+        errors.push({ text: errorMessage, href: 'error-label-input' });
+      }
+
+      if (!isValid) {
+        displayErrorSummary(errors);
+      }
+
+      return isValid;
+    }
+
+    return {
+      validateFields,
+      clearErrors,
+      clearErrorSummary,
+    };
+  })();
+
+  // Event Handling Module
+  const eventHandlingModule = (() => {
+    function addEventListeners(addQuestionLink, continueButton, cancelButton, saveChangesButton) {
+      addQuestionLink.addEventListener('click', handleAddQuestionClick);
+      continueButton.addEventListener('click', dynamicContentModule.addNewQuestion);
+      cancelButton.addEventListener('click', handleCancelButtonClick);
+
+      if (saveChangesButton) {
+        saveChangesButton.addEventListener('click', handleSaveChanges);
+      }
+    }
+
+    function handleAddQuestionClick(event) {
+      if (!validationModule.validateFields(
+        document.getElementById('page-heading-input'),
+        document.getElementById('question-label-input'),
+        document.getElementById('error-label-input')
+      )) {
+        event.preventDefault();
+      } else {
+        event.preventDefault();
+        document.getElementById('question-type-selection').style.display = 'block';
+      }
+    }
+
+    function handleCancelButtonClick() {
+      document.getElementById('question-type-selection').style.display = 'none';
+      resetForm();
+    }
+
+    function handleSaveChanges(event) {
+      event.preventDefault();
+      if (!validationModule.validateFields(
+        document.getElementById('page-heading-input'),
+        document.getElementById('question-label-input'),
+        document.getElementById('error-label-input')
+      )) {
+        console.log('Validation failed');
+        return;
+      }
+
+      console.log('Saving changes...');
+      uiModule.displaySuccessMessage();
+      dynamicContentModule.updateSummaryList();
+      dynamicContentModule.updateAccordionHeading();
+    }
+
+    return {
+      addEventListeners,
+    };
+  })();
+
+  // Dynamic Content Module
+  const dynamicContentModule = (() => {
+    const questionContents = {};
+    let questionCount = 1;
+
+    function initialize() {
+      questionContents['question-1'] = document.getElementById('question-1-content');
+    }
+
+    function updateAccordionHeading() {
+      const newHeading = document.getElementById('page-heading-input').value.trim();
+      if (newHeading) {
+        document.getElementById('page-1-heading-text').textContent = newHeading;
+      }
+    }
+
+    function updateSummaryList() {
+      const summaryContainer = document.getElementById('summary-container');
+      summaryContainer.innerHTML = '';
+
+      const summaryList = document.createElement('dl');
+      summaryList.className = 'govuk-summary-list';
+
+      Object.keys(questionContents).forEach((questionId, index) => {
+        const questionContent = questionContents[questionId];
+        const questionLabelInput = questionContent.querySelector('.govuk-input[name="question-label"]');
+        const questionLabel = questionLabelInput ? questionLabelInput.value.trim() : `Question ${index + 1}`;
+
+        const rowDiv = document.createElement('div');
+        rowDiv.className = 'govuk-summary-list__row';
+
+        const keyDiv = document.createElement('dt');
+        keyDiv.className = 'govuk-summary-list__key';
+        keyDiv.textContent = `Question ${index + 1}`;
+
+        const valueDiv = document.createElement('dd');
+        valueDiv.className = 'govuk-summary-list__value';
+        valueDiv.textContent = questionLabel || `Question ${index + 1}`;
+
+        rowDiv.appendChild(keyDiv);
+        rowDiv.appendChild(valueDiv);
+        summaryList.appendChild(rowDiv);
+      });
+
+      summaryContainer.appendChild(summaryList);
+    }
+
+    function addNewQuestion() {
+      const selectedQuestionType = document.querySelector('input[name="questionType"]:checked');
+
+      if (selectedQuestionType) {
+        const questionType = selectedQuestionType.value;
+        questionCount += 1;
+        const questionId = `question-${questionCount}`;
+        const questionContentId = `${questionId}-content`;
+
+        let newQuestionContent = '';
+
+        if (questionType === 'date') {
+          newQuestionContent = `<div id="${questionContentId}" class="question-section">
+            <!-- Content for the new question -->
+            <strong class="govuk-tag govuk-tag--green govuk-!-margin-bottom-2">Question ${questionCount} (date)</strong>
+            <div class="govuk-form-group">
+              <label for="dynamic-question-label-${questionCount}" class="govuk-label govuk-label--m">Question</label>
+              <input class="govuk-input" id="dynamic-question-label-${questionCount}" name="question-label" type="text">
+            </div>
+            <!-- Additional content goes here -->
+          </div>`;
+        } else {
+          newQuestionContent = `<div id="${questionContentId}" class="question-section">
+            <h3>New Text Question Content</h3>
+            <p>This is the content for a new Text Question.</p>
+          </div>`;
+        }
+
+        const newQuestionsContainer = document.createElement('div');
+        newQuestionsContainer.id = questionContentId;
+        newQuestionsContainer.className = 'question-section';
+        newQuestionsContainer.innerHTML = newQuestionContent;
+
+        questionContents[questionId] = newQuestionsContainer;
+        document.getElementById('new-questions').appendChild(newQuestionsContainer);
+
+        const newNavItem = document.createElement('li');
+        newNavItem.className = 'moj-sub-navigation__item';
+        newNavItem.innerHTML = `<a class="moj-sub-navigation__link" href="#${questionId}">Question ${questionCount}</a>`;
+        document.getElementById('nav-list2').insertBefore(newNavItem, document.getElementById('add-question').parentElement);
+      } else {
+        alert('Please select a question type.');
+      }
+    }
+
+    return {
+      initialize,
+      updateAccordionHeading,
+      updateSummaryList,
+      addNewQuestion,
+    };
+  })();
+
+  // UI Module
+  const uiModule = (() => {
+    function displaySuccessMessage() {
+      clearMessages();
+      const successBanner = document.createElement('div');
+      successBanner.className = 'govuk-notification-banner govuk-notification-banner--success';
+      successBanner.setAttribute('role', 'alert');
+      successBanner.setAttribute('aria-labelledby', 'govuk-notification-banner-title');
+      successBanner.innerHTML = `
+        <div class="govuk-notification-banner__header">
+          <h2 class="govuk-notification-banner__title" id="govuk-notification-banner-title">Success</h2>
+        </div>
+        <div class="govuk-notification-banner__content">
+          <h3 class="govuk-notification-banner__heading">Changes saved</h3>
+        </div>`;
+      const subNavigation = document.getElementById('nav-list2').parentNode;
+      subNavigation.parentNode.insertBefore(successBanner, subNavigation.nextSibling);
+      successBanner.focus();
+    }
+
+    function clearMessages() {
+      validationModule.clearErrorSummary();
+      const notificationBanner = document.querySelector('.govuk-notification-banner');
+      if (notificationBanner) {
+        notificationBanner.remove();
+      }
+    }
+
+    return {
+      displaySuccessMessage,
+      clearMessages,
+    };
+  })();
+
+  // Initialize and Connect Modules
+  document.addEventListener('DOMContentLoaded', function () {
+    const addQuestionLink = document.getElementById('add-question');
+    const continueButton = document.getElementById('continue-button');
+    const cancelButton = document.getElementById('cancel-button');
+    const saveChangesButton = document.getElementById('save-changes-button');
+
+    dynamicContentModule.initialize();
+    eventHandlingModule.addEventListeners(addQuestionLink, continueButton, cancelButton, saveChangesButton);
+  });
+</script>
+
+
+
+<script>
+  // Ensure the DOM is fully loaded before executing the script
+  document.addEventListener('DOMContentLoaded', function () {
+    // Get references to the input, textarea, legend, hint, and checkbox elements
+    const questionLabelInput = document.getElementById('question-label-input');
+    const questionLegend = document.getElementById('date-input-legend');
+    const hintTextArea = document.getElementById('hint-text-input');
+    const hintDiv = document.getElementById('date-input-hint');
+    const optionalCheckbox = document.getElementById('optional');
+    const monthYearCheckbox = document.getElementById('month-year-checkbox');
+    const dayInputWrapper = document.getElementById('day-input-wrapper');
+    const errorLabelInput = document.getElementById('error-label-input');
+    const errorDynamicText = document.getElementById('error-dynamic-text');
+
+    // Check if input and legend elements exist to avoid null reference errors
+    if (questionLabelInput && questionLegend) {
+      // Add event listener to update legend text on input change
+      questionLabelInput.addEventListener('input', function () {
+        // Update legend text with input value or default to 'Question 1' if input is empty
+        questionLegend.textContent = questionLabelInput
+          .value
+          .trim() || 'Question 1';
+      });
+    } else {
+      console.error("Input or Legend element not found");
+    }
+
+    // Check if textarea and hint elements exist to avoid null reference errors
+    if (hintTextArea && hintDiv) {
+      // Add event listener to update hint text on input change
+      hintTextArea.addEventListener('input', function () {
+        // Update hint text with textarea value or clear if empty
+        hintDiv.textContent = hintTextArea
+          .value
+          .trim() || '';
+      });
+    } else {
+      console.error("Textarea or Hint element not found");
+    }
+
+    // Function to update labels based on checkbox state
+    function updateLabels() {
+      const suffix = optionalCheckbox.checked
+        ? ' (optional)'
+        : '';
+      const questionLabelText = questionLabelInput.value;
+      const dateLegendText = questionLegend.textContent;
+
+      // Update input and legend text with the optional suffix
+      questionLabelInput.value = questionLabelText.replace(/\s*\(optional\)$/, '') + suffix;
+      questionLegend.textContent = dateLegendText.replace(/\s*\(optional\)$/, '') + suffix;
+    }
+
+    // Check if checkbox exists and add event listener
+    if (optionalCheckbox) {
+      // Add event listener to update labels when checkbox is toggled
+      optionalCheckbox.addEventListener('change', updateLabels);
+    } else {
+      console.error("Optional checkbox element not found");
+    }
+
+    // Toggle the display of the day input wrapper based on the checkbox state
+    if (monthYearCheckbox && dayInputWrapper) {
+      // Add event listener to toggle day input visibility
+      monthYearCheckbox.addEventListener('change', function () {
+        // Hide the day input if the checkbox is checked, otherwise show it
+        dayInputWrapper.style.display = this.checked
+          ? 'none'
+          : 'inline-block';
+      });
+    } else {
+      console.error("Month-Year Checkbox or Day Input Wrapper not found");
+    }
+
+    // Update the error dynamic text based on the error label input
+    if (errorLabelInput && errorDynamicText) {
+      // Add event listener to update the error text dynamically
+      errorLabelInput.addEventListener('input', function () {
+        errorDynamicText.textContent = this
+          .value
+          .trim() || 'date of birth'; // Default to 'date of birth' if input is empty
+      });
+    } else {
+      console.error("Error Label Input or Error Dynamic Text element not found");
+    }
+
+    // Function to add and remove highlight class based on focus and blur events
+    function applyHighlightOnFocus(inputElementId, targetElementId) {
+      const inputElement = document.getElementById(inputElementId);
+      const targetElement = document.getElementById(targetElementId);
+
+      if (inputElement && targetElement) {
+        // Add highlight class on focus
+        inputElement.addEventListener('focus', function () {
+          targetElement
+            .classList
+            .add('highlight');
+        });
+
+        // Remove highlight class on blur
+        inputElement.addEventListener('blur', function () {
+          targetElement
+            .classList
+            .remove('highlight');
+        });
+      } else {
+        console.error(`Element not found: ${inputElementId} or ${targetElementId}`);
+      }
+    }
+
+    // Define the placeholder text
+    const headingPlaceholder = "Page heading";
+    const guidancePlaceholder = "";
+
+    const pageHeadingInput = document.getElementById('page-heading-input');
+    const guidanceTextarea = document.getElementById('guidance-textarea');
+    const dynamicHeading = document.getElementById('dynamic-heading');
+    const guidanceParagraph = document.getElementById('guidance-paragraph');
+
+    // Apply highlight function to input-target pairs
+    applyHighlightOnFocus('question-label-input', 'date-input-legend');
+    applyHighlightOnFocus('hint-text-input', 'date-input-hint');
+    applyHighlightOnFocus('optional', 'date-input-legend');
+    applyHighlightOnFocus('page-heading-input', 'dynamic-heading');
+    applyHighlightOnFocus('guidance-textarea', 'guidance-paragraph');
+    applyHighlightOnFocus('error-label-input', 'error-dynamic-text'); // Apply highlight to error label input
+
+    // Function to update the dynamic heading based on the input
+    function updateHeading() {
+      dynamicHeading.textContent = pageHeadingInput
+        .value
+        .trim() || headingPlaceholder;
+    }
+
+    // Event listener to update heading on input change
+    pageHeadingInput.addEventListener('input', updateHeading);
+    updateHeading();
+
+    // Function to update guidance paragraph based on the textarea input
+    function updateGuidanceParagraph() {
+      guidanceParagraph.textContent = guidanceTextarea
+        .value
+        .trim() || guidancePlaceholder;
+    }
+
+    // Event listener to update guidance paragraph on input change
+    guidanceTextarea.addEventListener('input', updateGuidanceParagraph);
+    updateGuidanceParagraph();
+
+    // Get the accordion element by its ID
+    const accordionSection = document.getElementById('accordion-with-summary-sections');
+
+    // Expand the accordion section
+    if (accordionSection) {
+      const accordionSectionButton = accordionSection.querySelector('.govuk-accordion__section-button');
+      const accordionSectionContent = accordionSection.querySelector('.govuk-accordion__section-content');
+
+      if (accordionSectionButton && accordionSectionContent) {
+        accordionSectionButton.setAttribute('aria-expanded', 'true');
+        accordionSectionContent.style.display = 'block';
+      }
+
+      // Scroll the accordion section into view
+      accordionSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    } else {
+      console.error("Accordion section element not found.");
+    }
+  });
+</script>
+
+<style>
+  .custom-background-padding {
+    background-color: #f3f2f1;
+    border-left: 10px solid #008938;
+    padding: 15px;
+  }
+
+  .govuk-summary-card__content {
+    background-color: #f3f2f1;
+    padding: 15px 15px 15px 0;
+  }
+
+  .highlight {
+    background-color: #FFE5CC;
+    border-bottom: 2px solid #FFB266;
+  }
+</style>
+
+{% endblock %}

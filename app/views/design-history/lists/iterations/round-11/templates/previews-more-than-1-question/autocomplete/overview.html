@@ -1,0 +1,125 @@
+    <div class="govuk-form-group">
+      <fieldset class="govuk-fieldset">
+        <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
+          <h1 class="govuk-fieldset__heading" id="question-label-legend-q1">
+            {{ data.questionLabelInputAutocomplete or 'Question' }}
+          </h1>
+        </legend>
+        {% if data.hintTextInputRadios %}
+        <div id="listPreview-hint" class="govuk-hint">
+          {{ data.hintTextInputRadios }}
+        </div>
+        {% endif %}
+
+        <script src="https://unpkg.com/accessible-autocomplete@2.0.4/dist/accessible-autocomplete.min.js"></script>
+
+        <!-- autocomplete preview -->
+
+        <div class="govuk-form-group">
+          <label id="autocomplete-label" class="govuk-label" for="autocomplete-input">
+            Start typing to select an option
+          </label>
+          <div id="autocomplete-container"></div>
+        </div>
+
+        <!-- autocomplete preview -->
+
+
+        <script src="https://unpkg.com/accessible-autocomplete@2.0.4/dist/accessible-autocomplete.min.js"></script>
+
+        <script>
+
+          // Process CSV and create an array of options
+          function processCSV(csvText) {
+            return csvText
+              .split(",")
+              .map((option) => option.trim())
+              .filter((option) => option.length > 0); // Ensures no empty options
+          }
+
+          // Initialise or reinitialise the autocomplete
+          function initialiseAutocomplete(options) {
+            // Clear the container before reinitializing
+            const container = document.querySelector("#autocomplete-container");
+            container.innerHTML = "";
+
+            // Initialise the accessible autocomplete with the given options
+            accessibleAutocomplete({
+              element: container,
+              id: "autocomplete-input", // To match it to the label
+              source: options
+            });
+
+            // Update a status label with a green check emoji if CSV has been successfully parsed
+            const label = document.getElementById("options-entry");
+            if (options.length > 0) {
+              label.innerHTML = "Preview updated (CSV Imported ✅)";
+            } else {
+              label.innerHTML = ""; // Reset label if no options
+            }
+          }
+
+          // initialise the autocomplete with an empty array initially
+          initialiseAutocomplete([]);
+
+          // Event listener for changes in the textarea
+          document.getElementById("csv-input").addEventListener("input", function () {
+            // Get CSV input from textarea
+            const csvInput = this.value;
+
+            // Process the CSV and get options
+            const options = processCSV(csvInput);
+
+            // Reinitialise the autocomplete with the new options
+            initialiseAutocomplete(options);
+          });
+
+
+        </script>
+
+      </div>
+
+{#
+
+    <div id="radio-list">
+      <fieldset class="govuk-fieldset">
+        <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
+          <h1 class="govuk-fieldset__heading" id="question-label-legend-q1">
+            {{ data['questionLabelInputRadios'] or '' }}
+          </h1>
+
+        </legend>
+        <div id="hint-text-output" class="govuk-hint">
+          {{ data['hintTextInputRadios'] or '' }}
+
+        </div>
+
+
+        <!-- Display the options -->
+{% for option in data.options %}
+<div>
+  <input  type="radio" name="radios" id="option-{{ loop.index }}" value="{{ option.label }}">
+  <label class="govuk-label govuk-radios__label"  for="option-{{ loop.index }}">{{ option.label }}</label>
+</div>
+{% endfor %}
+
+        <!-- Custom checkboxes without govuk-form-group -->
+        {% for option in data['option'] %}
+        <div class="govuk-radios__item">
+          <input class="govuk-radios__input" id="listPreview-option{{ loop.index0 }}" name="listPreview" type="radio"
+            value="{{ option['option_label'] }}" {% if option['default'] %} checked {% endif %}>
+          <label class="govuk-label govuk-radios__label" for="listPreview-option{{ loop.index0 }}">
+            {{ option['option_label'] or '' }}
+          </label>
+
+        </div>
+        {% endfor %}
+
+
+        <!-- Dynamically generated checkbox items will be inserted here -->
+    </div>
+    </fieldset>
+    </fieldset>
+  </div>
+
+  </form> #}

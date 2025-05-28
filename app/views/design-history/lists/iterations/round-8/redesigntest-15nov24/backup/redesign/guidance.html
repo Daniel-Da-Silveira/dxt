@@ -1,0 +1,429 @@
+{% extends "layouts/main.html" %}
+
+{% from "components/service-header/macro.njk" import serviceHeader %}
+
+{% set pageName = "Guidance page - Apply for a county parish holding number in England" %}
+
+{% block header %}
+  {{ serviceHeader({
+    organisationName: "Defra",
+    productName: "Forms Designer",
+    serviceName: "",
+    containerClasses: containerClasses,
+    accountName: "Chris Smith",
+    homepageLink: "/",
+    signOutLink: "/onboarding/sign-out-confirmation",
+    navigationItems: [
+      { href: "/library.html", text: "Forms library", id: "nav-library" },
+      { href: "/cph-overview/draft/complete-clean.html", text: "Overview", id: "nav-overview" },
+      { href: "/redesigntest/listing", text: "Editor", id: "nav-editor" }    ],
+    activeLinkId: "nav-editor"
+  }) }}
+{% endblock %}
+
+{% block content %}
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-full">
+      <div class="app-masthead">
+        <div class="app-width-container">
+          <div class="govuk-grid-row">
+            <div class="govuk-grid-column-full">
+              <span class="govuk-caption-l" style="color: #ffffff;">Apply for a county parish holding certificate</span>
+              <h1 class="govuk-heading-xl app-masthead__title">Form pages</h1>
+              <p class="app-masthead__description">Create and manage the pages in this form.</p>
+              <a href="/get-started/" role="button" draggable="false" class="govuk-button govuk-button--inverse govuk-!-margin-top-6 govuk-!-margin-bottom-0 govuk-button--start" data-module="govuk-button">
+                Preview form
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <nav class="moj-sub-navigation" aria-label="Sub navigation">
+        <div class="moj-sub-navigation__container">
+          <ul class="moj-sub-navigation__list" id="nav-list1">
+            <li class="moj-sub-navigation__item">
+              <a class="moj-sub-navigation__link" aria-current="page" href="#your-pages">Pages</a>
+            </li>
+            {# <li class="moj-sub-navigation__item">
+                            <a class="moj-sub-navigation__link" href="#" id="groups"></a>
+                        </li> #}
+          </ul>
+        </div>
+      </nav>
+
+      {% from "moj/components/page-header-actions/macro.njk" import mojPageHeaderActions %}
+
+      {{ mojPageHeaderActions({
+                heading: {
+                    text: 'Pages'
+                },
+                items: [{
+                    text: 'Add page',
+                    href: "/redesign/questionnumber",
+                    classes: 'govuk-button'
+                }, {
+                    text: 'Finish editing',
+                    classes: 'govuk-button--secondary'
+                     },
+                     {
+                    text: 'Re-order pages',
+                    href: "/redesign/reorder",
+                    classes: 'govuk-button--secondary'
+                }],
+                attributes: {
+                    id: 'page-header',
+                    name: 'page-header'
+                }
+            }) }}
+      <div class="govuk-grid-row">
+        <div class="govuk-grid-column-one-half" id="container" style="flex: 1 1 75%; overflow-y: auto;">
+
+          <div class="govuk-summary-card" id="highlight-card" style="border-left: solid 4px #008938!important; border: 1px solid transparent;">
+            <div class="govuk-summary-card__title-wrapper" tabindex="0">
+              <h2 class="govuk-summary-card__title">Page 1 (guidance)</h2>
+              <ul class="govuk-summary-card__actions">
+                <li class="govuk-summary-card__action">
+                  <a class="govuk-link" href="#">Edit<span class="govuk-visually-hidden">Edit this page</span></a>
+                </li>
+                <li class="govuk-summary-card__action">
+                  <a class="govuk-link" href="#">Preview<span class="govuk-visually-hidden">Preview this page</span></a>
+                </li>
+              </ul>
+            </div>
+            <hr class="govuk-section-break govuk-section-break--visible" style="width: auto;">
+            <div class="govuk-summary-card__content" style="background-color: #f3f2f1;">
+              {# <nav class="moj-sub-navigation" aria-label="Sub navigation">
+                            <ul class="moj-sub-navigation__list" id="nav-list2">
+                                <li class="moj-sub-navigation__item">
+                                    <a class="moj-sub-navigation__link" aria-current="page" href="#question-1">Question 1</a>
+                                </li>
+                            </ul>
+                        </nav> #}
+              <div>
+                <p class="govuk-body-m">
+                  <a href="#" id="toggle-container-link" class="moj-organisation-nav__link govuk-link govuk-link--no-visited-state">Expand</a>
+                </p>
+              </div>
+              <div class="govuk-grid-row" id="page-settings-container-1">
+                <div class="govuk-grid-column-full" id="question-1">
+                  {# <strong class="govuk-tag govuk-tag--green govuk-!-margin-bottom-2">Question 1</strong> #}
+                  <div id="dynamic-content-container"></div>
+                  <div id="new-questions-container"></div>
+
+                  <!-- Guidance Section -->
+                  <div class="govuk-form-group">
+                    <h2 class="govuk-heading-l">Guidance</h2>
+                    <p class="govuk-body">Add guidance and hyperlinks to the page.</p>
+
+                    {{ govukLabel({
+                                        for: "page-heading-input",
+                                        text: "Page title",
+                                        classes: "govuk-label--m"
+                                    }) }}
+
+                    {{ govukHint({
+                                        id: "page-heading-input-hint",
+                                        text: "Page headings should be a statement and not a question. For example, ‘Passport information’"
+                                    }) }}
+
+                    {{ govukInput({
+                                        id: "page-heading-input",
+                                        name: "pageHeading",
+                                        classes: "govuk-input",
+                                        hint: {
+                                            id: "page-heading-input-hint"
+                                        }
+                                    }) }}
+
+                    {{ govukLabel({
+                                        for: "guidance-textarea",
+                                        text: "Add guidance text",
+                                        classes: "govuk-label--m"
+                                    }) }}
+
+                    {{ govukHint({
+                                        id: "guidance-textarea-hint",
+                                        text: "Use Markdown to format the content"
+                                    }) }}
+
+                    {{ govukTextarea({
+                                        id: "guidance-textarea",
+                                        name: "guidanceText",
+                                        classes: "govuk-textarea",
+                                        rows: 5,
+                                        hint: {
+                                            id: "guidance-textarea-hint"
+                                        }
+                                    }) }}
+
+                    {% from "govuk/components/button/macro.njk" import govukButton %}
+
+                    <div class="govuk-button-group">
+                      {{ govukButton({
+                                            text: "Save changes"
+                                        }) }}
+                      <a class="govuk-link" href="#">Delete page</a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="govuk-grid-column-one-half" id="second-container" style="outline: solid 1px #f3f2f1; height: 100%; position: sticky; top: 0; padding: 20px;">
+          {% from "govuk/components/header/macro.njk" import govukHeader %}
+          {{ govukHeader({ homepageUrl: null, serviceName: null }) }}
+          {% from "govuk/components/tag/macro.njk" import govukTag %}
+          <div>
+            {{ govukTag({ text: "Preview of page 1", classes: "govuk-tag--yellow govuk-!-margin-bottom-2 govuk-!-margin-top-2" }) }}
+            <form>
+              <h1 class="govuk-heading-l" id="dynamic-heading"></h1>
+              <p class="govuk-body" id="guidance-paragraph"></p>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      {% from "govuk/components/button/macro.njk" import govukButton %}
+
+      {# <div class="govuk-grid-column-full">
+
+            <div class="govuk-button-group">
+                {{ govukButton({
+                    text: "Add page",
+                    classes: "govuk-button"
+                }) }}
+
+                {{ govukButton({
+                    text: "Finish editing",
+                    classes: "govuk-button--secondary"
+                }) }}
+            </div>
+        </div>
+    </div> #}
+
+      <div class="govuk-grid-row">
+        <div class="govuk-grid-column-full">
+          <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
+        </div>
+      </div>
+
+      <div class="govuk-grid-row">
+        <div class="govuk-grid-column-one-half">
+          <h2 class="govuk-heading-m">End pages</h2>
+
+          <div class="govuk-summary-card" style="border-left: solid 4px #b1b4b6!important; outline-color: transparent; border: 1px solid transparent;">
+            <div class="govuk-summary-card__title-wrapper" tabindex="0">
+              <h2 class="govuk-summary-card__title">Check answers page</h2>
+              <ul class="govuk-summary-card__actions">
+                <li class="govuk-summary-card__action">
+                  <a class="govuk-link" href="#">Edit<span class="govuk-visually-hidden">Edit check answers page</span></a>
+                </li>
+                <li class="govuk-summary-card__action">
+                  <a class="govuk-link" href="#">Preview<span class="govuk-visually-hidden">Preview check answers page</span></a>
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="govuk-summary-card" style="border-left: solid 4px #b1b4b6!important; outline-color: transparent; border: 1px solid transparent;">
+            <div class="govuk-summary-card__title-wrapper" tabindex="0">
+              <h2 class="govuk-summary-card__title">Confirmation page</h2>
+              <ul class="govuk-summary-card__actions">
+                <li class="govuk-summary-card__action">
+                  <a class="govuk-link" href="#">Edit<span class="govuk-visually-hidden">Edit confirmation page</span></a>
+                </li>
+                <li class="govuk-summary-card__action">
+                  <a class="govuk-link" href="#">Preview<span class="govuk-visually-hidden">Preview confirmation page</span></a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+      </div>
+      <a class="govuk-link govuk-link--no-visited-state app-back-to-top__link snipcss-wC68N" href="#top">
+        <svg role="presentation" focusable="false" class="app-back-to-top__icon" xmlns="http://www.w3.org/2000/svg" width="13" height="17" viewbox="0 0 13 17">
+          <path fill="currentColor" d="M6.5 0L0 6.5 1.4 8l4-4v12.7h2V4l4.3 4L13 6.4z"></path>
+        </svg>Back to top
+      </a>
+
+      <style>
+        .highlight {
+          background-color: #FFE5CC;
+          border-bottom: 2px solid #FFB266;
+
+          &::after,
+          &::before {
+            clip-path: inset(100%);
+            clip: rect(1px, 1px, 1px, 1px);
+            height: 1px;
+            overflow: hidden;
+            position: absolute;
+            white-space: nowrap;
+            width: 1px;
+          }
+
+          &::before {
+            content: " [highlight start] ";
+          }
+
+          &::after {
+            content: " [highlight end] ";
+          }
+        }
+      </style>
+
+      <script>
+        document.addEventListener('DOMContentLoaded', function () {
+          // Initialize variables
+          const pageHeadingInput = document.getElementById('page-heading-input');
+          const dynamicHeading = document.getElementById('dynamic-heading');
+          const guidanceTextarea = document.getElementById('guidance-textarea');
+          const guidanceParagraph = document.getElementById('guidance-paragraph');
+          const toggleContainerLink = document.getElementById('toggle-container-link');
+          const container = document.getElementById('container');
+          const secondContainer = document.getElementById('second-container');
+          const buttonRow = document.getElementById('button-row');
+
+          // Placeholder text
+          const headingPlaceholder = 'Page title';
+          const guidancePlaceholder = 'Guidance text';
+
+          // Function to apply highlight class based on focus and blur events
+          function applyHighlightOnFocus(inputElementId, targetElementId) {
+            const inputElement = document.getElementById(inputElementId);
+            const targetElement = document.getElementById(targetElementId);
+
+            if (inputElement && targetElement) {
+              inputElement.addEventListener('focus', function () {
+                targetElement
+                  .classList
+                  .add('highlight');
+              });
+
+              inputElement.addEventListener('blur', function () {
+                targetElement
+                  .classList
+                  .remove('highlight');
+              });
+            }
+          }
+
+          // Apply highlight to heading and guidance
+          applyHighlightOnFocus('page-heading-input', 'dynamic-heading');
+          applyHighlightOnFocus('guidance-textarea', 'guidance-paragraph');
+
+          // Update heading dynamically with placeholder
+          function updateHeading() {
+            if (pageHeadingInput.value.trim() === '') {
+              dynamicHeading.textContent = headingPlaceholder;
+            } else {
+              dynamicHeading.textContent = pageHeadingInput.value;
+            }
+          }
+
+          pageHeadingInput.addEventListener('input', updateHeading);
+          updateHeading();
+
+          // Update guidance paragraph dynamically with placeholder
+          function updateGuidanceParagraph() {
+            if (guidanceTextarea.value.trim() === '') {
+              guidanceParagraph.textContent = guidancePlaceholder;
+            } else {
+              guidanceParagraph.textContent = guidanceTextarea.value;
+            }
+          }
+
+          guidanceTextarea.addEventListener('input', updateGuidanceParagraph);
+          updateGuidanceParagraph();
+
+          // Toggle container between full and half width
+          toggleContainerLink.addEventListener('click', function (event) {
+            event.preventDefault();
+            if (container.classList.contains('govuk-grid-column-one-half')) {
+              container
+                .classList
+                .remove('govuk-grid-column-one-half');
+              container
+                .classList
+                .add('govuk-grid-column-full');
+              toggleContainerLink.textContent = 'Minimize';
+              secondContainer.style.display = 'none';
+              buttonRow.style.display = 'none';
+            } else {
+              container
+                .classList
+                .remove('govuk-grid-column-full');
+              container
+                .classList
+                .add('govuk-grid-column-one-half');
+              toggleContainerLink.textContent = 'Expand';
+              secondContainer.style.display = 'block';
+              buttonRow.style.display = 'block';
+            }
+          });
+
+          // Summary cards functionality
+          const summaryCards = document.querySelectorAll('.govuk-summary-card');
+
+          summaryCards.forEach(function (card) {
+            const titleWrapper = card.querySelector('.govuk-summary-card__title-wrapper');
+            const content = card.querySelector('.govuk-summary-card__content');
+
+            titleWrapper.setAttribute('tabindex', '0');
+            titleWrapper.setAttribute('role', 'button');
+            titleWrapper.setAttribute('aria-expanded', 'false');
+
+            titleWrapper.addEventListener('click', function () {
+              if (content.style.display === 'none' || content.style.display === '') {
+                content.style.display = 'block';
+                titleWrapper.setAttribute('aria-expanded', 'true');
+                secondContainer.style.display = 'block'; // Show second container when summary card is expanded
+              } else {
+                content.style.display = 'none';
+                titleWrapper.setAttribute('aria-expanded', 'false');
+                secondContainer.style.display = 'none'; // Hide second container when summary card is minimized
+              }
+            });
+
+            // Allow keyboard navigation
+            titleWrapper.addEventListener('keydown', function (event) {
+              if (event.key === 'Enter' || event.key === ' ') {
+                event.preventDefault(); // Prevent default action for space key
+                titleWrapper.click(); // Trigger the click event
+              }
+            });
+          });
+
+          // Ensure that the highlight card is in view on page load
+          const focusElement = document.getElementById("highlight-card");
+
+          if (focusElement) {
+            focusElement.scrollIntoView({
+              behavior: 'smooth', // Smooth scrolling
+              block: 'start' // Align to the top
+            });
+            focusElement.focus(); // Set focus for better accessibility
+          }
+
+          // Initialize container state on load
+          function initializeContainer() {
+            if (container.classList.contains('govuk-grid-column-full')) {
+              toggleContainerLink.textContent = 'Minimize';
+              secondContainer.style.display = 'none';
+              buttonRow.style.display = 'none';
+            } else {
+              toggleContainerLink.textContent = 'Expand';
+              secondContainer.style.display = 'block';
+              buttonRow.style.display = 'block';
+            }
+          }
+
+          initializeContainer();
+        });
+      </script>
+
+    {% endblock %}

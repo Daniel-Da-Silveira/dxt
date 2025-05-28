@@ -20,7 +20,7 @@ statusClass: "green",
 phase: "Private beta",
 type: "Question types",
 category: "Form editor",
-designHistoryHref: "/design-history/form-editor/list-items/index.html",
+designHistoryHref: "/design-history/lists/index.html",
 researchRounds: [
 { round: 7, date: "Oct 2024" },
 { round: 8, date: "Nov 2024" },
@@ -52,7 +52,7 @@ statusClass: "orange",
 phase: "Private beta",
 type: "Form logic",
 category: "Form editor",
-designHistoryHref: "/design-history/form-editor/conditions/index.html",
+designHistoryHref: "",
 researchRounds: [
 { round: 2, date: "Jun 2024" },
 { round: 9, date: "Mar 2025" },
@@ -77,14 +77,14 @@ researchRounds: [
 ]
 },
 {
-name: "Repeaters (including Add another)",
-problem: "Users need to create repeatable sections",
+name: "'Add another' pattern (repeaters)",
+problem: "Users need to ask the same question multiple times",
 status: "Tested",
 statusClass: "green",
 phase: "Private beta",
 type: "Question types",
 category: "Form editor",
-designHistoryHref: "/design-history/form-editor/repeaters/index.html",
+designHistoryHref: "/design-history/add-another/index.html",
 researchRounds: [
 { round: 5, date: "Jul 2024" },
 { round: 6, date: "Sep 2024" },
@@ -100,7 +100,7 @@ statusClass: "green",
 phase: "Private beta",
 type: "Form structure",
 category: "Form editor",
-designHistoryHref: "/design-history/form-editor/guidance-pages/index.html",
+designHistoryHref: "",
 researchRounds: [
 { round: 1, date: "May 2024" },
 { round: 6, date: "Sep 2024" },
@@ -131,7 +131,7 @@ statusClass: "green",
 phase: "Private beta",
 type: "Question types",
 category: "Form editor",
-designHistoryHref: "/design-history/form-editor/file-upload/index.html",
+designHistoryHref: "/design-history/file-upload/index.html",
 researchRounds: [
 { round: 3, date: "Jun 2024" },
 { round: 4, date: "Jul 2024" },
@@ -147,7 +147,7 @@ statusClass: "green",
 phase: "Private beta",
 type: "Form preview",
 category: "Form editor",
-designHistoryHref: "/design-history/form-editor/preview-panel/index.html",
+designHistoryHref: "",
 researchRounds: [
 { round: 7, date: "Oct 2024" },
 { round: 8, date: "Nov 2024" }
@@ -161,7 +161,7 @@ statusClass: "green",
 phase: "Private beta",
 type: "Form content",
 category: "Form editor",
-designHistoryHref: "/design-history/form-editor/markdown-support/index.html",
+designHistoryHref: "",
 researchRounds: [
 { round: 7, date: "Oct 2024" },
 { round: 8, date: "Nov 2024" }
@@ -175,7 +175,7 @@ statusClass: "green",
 phase: "Private beta",
 type: "Form validation",
 category: "Form editor",
-designHistoryHref: "/design-history/form-editor/error-messages/index.html",
+designHistoryHref: "",
 researchRounds: [
 { round: 7, date: "Oct 2024" },
 { round: 8, date: "Nov 2024" }
@@ -189,7 +189,7 @@ statusClass: "green",
 phase: "Private beta",
 type: "Form management",
 category: "Form editor",
-designHistoryHref: "/design-history/form-editor/design-refresh/index.html",
+designHistoryHref: "",
 researchRounds: [
 { round: 6, date: "Sep 2024" },
 { round: 7, date: "Oct 2024" }
@@ -203,7 +203,7 @@ statusClass: "green",
 phase: "Private beta",
 type: "Form management",
 category: "Form editor",
-designHistoryHref: "/design-history/form-editor/autosave/index.html",
+designHistoryHref: "",
 researchRounds: [
 { round: 8, date: "Nov 2024" }
 ]
@@ -216,7 +216,7 @@ statusClass: "green",
 phase: "Private beta",
 type: "Form management",
 category: "Form editor",
-designHistoryHref: "/design-history/form-editor/advanced-settings/index.html",
+designHistoryHref: "",
 researchRounds: [
 { round: 8, date: "Nov 2024" }
 ]
@@ -229,7 +229,7 @@ statusClass: "green",
 phase: "Private beta",
 type: "Form structure",
 category: "Form overview",
-designHistoryHref: "/design-history/form-overview/support-pages/index.html",
+designHistoryHref: "",
 researchRounds: [
 { round: 2, date: "Jun 2024" }
 ]
@@ -242,7 +242,7 @@ statusClass: "green",
 phase: "Private beta",
 type: "Form management",
 category: "Form editor",
-designHistoryHref: "/design-history/form-editor/legacy-editor/index.html",
+designHistoryHref: "",
 researchRounds: [
 { round: 2, date: "Jun 2024" }
 ]
@@ -255,7 +255,7 @@ statusClass: "orange",
 phase: "Private beta",
 type: "Form structure",
 category: "Form editor",
-designHistoryHref: "/design-history/form-editor/page-sections/index.html",
+designHistoryHref: "",
 researchRounds: [
 { round: 11, date: "Mar 2025" }
 ]
@@ -268,7 +268,7 @@ statusClass: "orange",
 phase: "Private beta",
 type: "Form management",
 category: "Form editor",
-designHistoryHref: "/design-history/form-editor/import-export/index.html",
+designHistoryHref: "",
 researchRounds: [
 { round: 11, date: "Mar 2025" }
 ]
@@ -339,6 +339,12 @@ text: "Start latest prototype (Titan MVP 1.2)"
     html: researchRoundsText
     }) %}
 
+    {% set designHistoryLink = '' %}
+    {% if feature.designHistoryHref and feature.designHistoryHref != "" %}
+    {% set designHistoryLink = '<a class="govuk-link" href="' + feature.designHistoryHref + '">View<span
+        class="govuk-visually-hidden"> design history for ' + feature.name + '</span></a>' %}
+    {% endif %}
+
     {% set featureRow = [
     { text: feature.name },
     { text: feature.problem },
@@ -346,8 +352,7 @@ text: "Start latest prototype (Titan MVP 1.2)"
     { text: feature.phase },
     { text: feature.researchRounds.length + ' rounds' },
     { html: detailsHtml },
-    { html: '<a class="govuk-link" href="' + (feature.designHistoryHref or '#') + '">View<span
-        class="govuk-visually-hidden"> design history for ' + feature.name + '</span></a>' }
+    { html: designHistoryLink }
     ] %}
 
     {% if feature.status == "Tested" %}

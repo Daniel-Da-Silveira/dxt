@@ -1,0 +1,46 @@
+<div id="radio-list">
+  <fieldset class="govuk-fieldset">
+    <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
+      <h1 class="govuk-fieldset__heading" id="question-label-legend-q1">
+        {{ data['oldMultiQuestionLabelInputRadios'] or '' }}
+      </h1>
+    </legend>
+
+    <!-- Hint Text -->
+    <div id="hint-text-output" class="govuk-hint">
+      {{ data['oldMultiQuestionHintTextInputRadios'] or '' }}
+    </div>
+
+    <!-- Radio Options -->
+    {% for option in data['option'] %}
+    <div class="govuk-radios__item">
+      <input
+        class="govuk-radios__input"
+        id="listPreview-option{{ loop.index0 }}"
+        name="listPreview"
+        type="radio"
+        value="{{ option['option_label'] }}"
+        {% if option['default'] %} checked {% endif %}
+      >
+      <label class="govuk-label govuk-radios__label" for="listPreview-option{{ loop.index0 }}">
+        {{ option['option_label'] or '' }}
+      </label>
+    </div>
+    {% endfor %}
+  </fieldset>
+</div>
+
+
+
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const dynamicCaption = document.getElementById("dynamic-caption");
+    const setName = dynamicCaption.getAttribute("data-setname");
+
+    if (!setName) {
+      dynamicCaption.style.display = "none";
+    }
+  });
+
+</script>

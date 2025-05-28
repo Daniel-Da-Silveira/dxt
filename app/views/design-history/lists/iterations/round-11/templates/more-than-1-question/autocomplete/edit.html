@@ -1,0 +1,563 @@
+{% extends "layouts/main.html" %}
+{% from "components/service-header/macro.njk" import serviceHeader %}
+{% set pageName = "Edit autocomplete question - Apply for a county parish holding number in England" %}
+{% set headingPlaceholder = "Page heading" %}
+{% set guidancePlaceholder = "" %}
+{# #}
+
+{% block header %}
+
+{#
+<style>
+  .dxt-announcement-bar {
+    background: #fc0;
+    text-align: center;
+    padding: 0.5rem;
+  }
+
+  .dxt-announcement-bar p {
+    margin: 0;
+  }
+</style>
+
+<div class="dxt-announcement-bar" role="region" aria-live="polite" aria-label="Announcement">
+  <p class="govuk-body">Status update goes in here</p>
+</div>
+#}
+
+
+{{ serviceHeader({
+organisationName: "Defra",
+productName: "Forms Designer",
+serviceName: "",
+containerClasses: containerClasses,
+accountName: "Chris Smith",
+homepageLink: "/",
+signOutLink: "/onboarding/sign-out-confirmation",
+navigationItems: [
+{ href: "/library.html", text: "Forms library", id: "nav-library" },
+{ href: "/cph-overview/draft/complete-clean.html", text: "Overview", id: "nav-overview" },
+{ href: "/redesigntest/listing", text: "Editor", id: "nav-editor" } ],
+activeLinkId: "nav-editor"
+}) }}
+
+<div class="x-govuk-masthead x-govuk-masthead--large">
+  <div class="govuk-width-container">
+    {{ govukBackLink({ classes: "govuk-back-link--inverse govuk-!-margin-bottom-0", text: "Back to add
+    and edit pages", href: "/redesigntest/listing.html" }) }}
+
+    <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible"
+      style="border-bottom: 1px solid white; margin-bottom: 0" />
+
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-full-from-desktop">
+        <h1 class="x-govuk-masthead__title">
+          {# <span class="govuk-caption-l" style="color: white">Apply for a county parish holding certificate</span> #}
+          Apply for a county parish holding (CPH) number
+        </h1>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-full">
+    <div class="govuk-grid-row">
+      <!-- Left Column for Form Controls -->
+      <div class="govuk-grid-column-one-half-from-desktop" id="container" style="flex: 1 1 75%; overflow-y: auto">
+        <div class="govuk-summary-card govuk-!-margin-top-0" style="border-left: 10px solid #008938">
+          <div class="govuk-summary-card__content govuk-!-padding-top-0" style="background-color: #f3f2f1">
+
+            <dl class="govuk-summary-list">
+              <div class="govuk-summary-list__row">
+                <dd class="govuk-summary-list__value">
+                  <!-- Dynamic Summary List -->
+
+                  <!-- Question Settings Container -->
+                  <div class="govuk-grid-row" id="page-settings-container-1">
+                    <div id="question-1">
+                      <div class="govuk-summary-card__content" style="margin-bottom: 0">
+                        <!-- Sub Navigation for Question -->
+                        <nav class="moj-sub-navigation govuk-!-padding-top-0 govuk-!-margin-bottom-2 "
+                          aria-label="Sub navigation">
+                          <ul class="moj-sub-navigation__list" id="nav-list2">
+                            <!-- Question Link -->
+                            <li class="moj-sub-navigation__item">
+                              <a class="moj-sub-navigation__link" href="#question-1">Page settings</a>
+                            </li>
+
+                            <li class="moj-sub-navigation__item">
+                              <a class="moj-sub-navigation__link" href="#overview-noquestions">Overview of questions</a>
+                            </li>
+
+                            <li class="moj-sub-navigation__item">
+                              <a class="moj-sub-navigation__link" aria-current="page"
+                                href="#question-1-information-type">Question 11</a>
+                            </li>
+                          </ul>
+                        </nav>
+
+                        <div class="govuk-summary-card__title-wrapper govuk-!-padding-top-0"></div>
+
+                        <span class="govuk-caption-l">Page 2</span>
+                        <h2 class="govuk-heading-l">Edit question 11</h2>
+
+                        <form method="post" id="options-form"
+                          action="/redesigntest/templates/more-than-1-question/autocomplete/overview">
+
+                          {% from "govuk/components/input/macro.njk" import govukInput %}
+
+                          {{ govukInput({
+                          label: {
+                          text: "Question",
+                          classes: "govuk-label--m",
+                          isPageHeading: false
+                          },
+                          id: "multi-question-label-input-autocomplete",
+                          value: data['multi-question-label-input-autocomplete'],
+                          name: "multiQuestionLabelInputAutocomplete"
+                          }) }}
+
+                          <!-- Hint Textarea Element -->
+                          {{ govukTextarea({
+                          label: {
+                          text: "Hint text (optional)",
+                          classes: "govuk-label--m"
+                          },
+                          id: "multi-question-hint-text-input-autocomplete",
+                          name: "multiQuestionHintTextInputAutocomplete",
+                          value: data['multi-question-hint-text-input-autocomplete'],
+                          classes: "govuk-textarea",
+                          rows: 3,
+                          describedBy: "multi-question-listPreview-hint"
+                          }) }}
+
+
+
+
+                          <!-- List config -->
+
+                          <div class="govuk-form-group">
+                            <h2 class="govuk-heading-m moj-add-another__heading" tabindex="-1">Create and edit your list
+                              of autocomplete options</h2>
+
+                            <!-- autocomplete -->
+
+                            <div class="govuk-form-group">
+                              <label class="govuk-label govuk-label--s" for="csv-input">
+                                Add each option on a new line
+                              </label>
+                              <div class="govuk-hint">To optionally set an
+                                <!--<span class="help-text" data-help="The value attribute in a field defines the information sent when the form is submitted. For example, if a radio button has the value *yes*, selecting it will send *yes* as the answer when the form is submitted.">-->input
+                                value<!--</span>--> for each item, separate the option text and value with a colon (e.g
+                                English:en-gb)</div>
+                              <textarea id="csv-input" class="govuk-textarea" rows="10"></textarea>
+                              <div id="options-entry"></div>
+                            </div>
+
+                            <!-- autocomplete -->
+
+                            <!-- Make Optional Checkbox -->
+                            <div class="govuk-form-group">
+                              <div class="govuk-checkboxes--small">
+                                <div class="govuk-checkboxes__item">
+                                  <input class="govuk-checkboxes__input" type="checkbox" id="makeOptional"
+                                    name="makeOptional" value="{{ data['optional-label-q1'] }}">
+                                  <label class="govuk-label govuk-checkboxes__label" for="makeOptional">
+                                    Make this question optional
+                                  </label>
+                                </div>
+                              </div>
+                            </div>
+
+                            <!-- Error Message Input -->
+                            {{ govukInput({
+                            label: {
+                            text: "Short description",
+                            classes: "govuk-label--m",
+                            isPageHeading: false
+                            },
+                            hint: {
+                            text: "Enter a short description for this question like 'licence period'. Short descriptions
+                            are used in error messages and on the check your answers page."
+                            },
+                            id: "error-message-input",
+                            name: "errorMessageInput"
+                            }) }}
+
+
+
+
+                            <div id="summary-container">
+                              <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
+
+                              <!-- The dynamic summary list will be populated here -->
+                              <h2 class="govuk-heading-m">Question settings</h2>
+
+                              {{ govukSummaryList({
+                              classes: "govuk-summary-list govuk-section-break govuk-section-break--visible
+                              govuk-!-margin-bottom-6",
+                              rows: [
+                              {
+                              key: { text: "Type of information" },
+                              value: { html: "List: autocomplete" },
+                              actions: {
+                              items: [
+                              {
+                              href: "/redesigntest/templates/1-question/information-type.html",
+                              text: "Change",
+                              visuallyHiddenText: "name"
+                              }
+                              ]
+                              }
+                              }
+                              ]
+                              }) }}
+                            </div>
+                            <div class="moj-button-action">
+                              {{ govukButton({
+                              text: 'Continue',
+                              type: 'submit'
+                              }) }}
+                            </div>
+                          </div>
+                        </form>
+                      </div>
+                    </div>
+                  </div>
+                </dd>
+              </div>
+            </dl>
+          </div>
+        </div>
+      </div>
+
+
+      <!-- Right Column for Preview -->
+      <div class="govuk-grid-column-one-half-from-desktop" id="second-container"
+        style="outline: solid 1px #008938; height: 100vh; overflow-y: auto; position: sticky; top: 0; padding: 20px; box-shadow: 5px 10px #008938;">
+        <!-- Before Content -->
+        <div id="before-content" style="background-color: #cce2d8;">
+          <p class="govuk-body-s" style="margin-bottom: 0; color: #005a30; padding: 2px 8px 3px; text-align: center;">
+            Previews
+          </p>
+        </div>
+
+        <div style="margin-top: 60px;">
+          {% from "govuk/components/tabs/macro.njk" import govukTabs %}
+
+          <div class="govuk-tabs" data-module="govuk-tabs">
+            <h2 class="govuk-tabs__title">Contents</h2>
+            <ul class="govuk-tabs__list">
+              <li class="govuk-tabs__list-item govuk-tabs__list-item--selected">
+                <a class="govuk-tabs__tab" href="#tab-one">Page preview</a>
+              </li>
+              <li class="govuk-tabs__list-item">
+                <a class="govuk-tabs__tab" href="#tab-two">Error messages</a>
+              </li>
+            </ul>
+
+            <div class="govuk-tabs__panel" id="tab-one">
+
+              {% include "/redesigntest/templates/previews-more-than-1-question/textarea/overview.html" %}
+              {% include "/redesigntest/templates/previews-more-than-1-question/numbers/for-overview.html" %}
+              {% include "/redesigntest/templates/previews-more-than-1-question/date/for-overview.html" %}
+
+              {% include "/redesigntest/templates/previews-more-than-1-question/address/for-overview.html" %}
+
+              {% include "/redesigntest/templates/previews-more-than-1-question/phone/for-overview.html" %}
+
+              {# {% include "/redesigntest/templates/previews-more-than-1-question/fileupload/for-overview.html" %} #}
+
+              {% include "/redesigntest/templates/previews-more-than-1-question/email/for-overview.html" %}
+
+              {% include "/redesigntest/templates/more-than-1-question/previews/yesno.html" %}
+
+
+              <!-- Include the preview template -->
+              {% include "/redesigntest/templates/previews-more-than-1-question/autocomplete/edit.html" %}
+
+
+
+              <div class="govuk-tabs__panel" id="tab-two">
+
+                <p class="govuk-body-s" style="margin-bottom: 30px; border-bottom: #008938 1px;">
+                  <a href="#" class="govuk-link govuk-link--no-visited-state" rel="noreferrer noopener" target="_blank">
+                    Preview error messages in a new tab
+                  </a>
+                </p>
+                <!-- Error Messages Content -->
+                <!-- Error Messages Section -->
+                <div class="govuk-error-summary" data-disable-auto-focus="true">
+                  <h2 class="govuk-error-summary__title">There is a problem</h2>
+                  <ul class="govuk-list govuk-error-summary__list">
+                    <!-- List of errors -->
+                    <li><a id="empty-input-error-shorttext" class="govuk-error-message">Select <span
+                          id="error-dynamic-text">[short description]</span></a></li>
+
+                  </ul>
+                </div>
+
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+
+
+
+        <script src="https://unpkg.com/accessible-autocomplete@2.0.4/dist/accessible-autocomplete.min.js"></script>
+
+        <script>
+
+
+          // Process CSV and create an array of options
+          function processCSV(csvText) {
+            return csvText
+              .split("\n")  // Split by newline to get individual items
+              .map((option) => option.trim())  // Trim any extra spaces
+              .filter((option) => option.length > 0)  // Filter out any empty values
+              .map((option) => {
+                // Check if the option contains a colon character
+                if (option.includes(":")) {
+                  const [label, value] = option.split(":").map((part) => part.trim());
+                  return { label, value };  // Return an object with label and value
+                } else {
+                  return { label: option, value: option };  // If no colon, use the same value for label and value
+                }
+              });
+          }
+
+          // Initialise or reinitialise the autocomplete
+          function initialiseAutocomplete(options) {
+            // Clear the container before reinitialising
+            const container = document.querySelector("#autocomplete-container");
+            container.innerHTML = "";
+
+            // Initialise the accessible autocomplete with the given options
+            accessibleAutocomplete({
+              element: container,
+              id: "autocomplete-input",  // To match it to the label
+              source: options.map(option => option.label),  // Use only the labels for the autocomplete
+              displayMenu: "inline",  // Optional: Modify how the menu displays, if needed
+            });
+
+            // Update a status label with the green check emoji and the count of items added
+            const label = document.getElementById("options-entry");
+            if (options.length > 0) {
+              label.innerHTML = `Autocomplete updated  - ${options.length} items added`;
+            } else {
+              label.innerHTML = "";  // Reset label if no options
+            }
+          }
+
+          // initialise the autocomplete with an empty array initially
+          initialiseAutocomplete([]);
+
+          // Event listener for changes in the textarea
+          document.getElementById("csv-input").addEventListener("input", function () {
+            // Get CSV input from textarea
+            const csvInput = this.value;
+
+            // Process the CSV and get options
+            const options = processCSV(csvInput);
+
+            // Reinitialise the autocomplete with the new options
+            initialiseAutocomplete(options);
+          });
+
+          // help text
+
+          document.addEventListener("DOMContentLoaded", function () {
+            // Select all elements with the `data-help` attribute
+            const helpTextElements = document.querySelectorAll('[data-help]');
+
+            helpTextElements.forEach(function (element) {
+              // Create popover element
+              const popover = document.createElement('div');
+              popover.classList.add('popover');
+
+              // Get the help text and insert it as plain text (no HTML parsing)
+              const helpText = element.getAttribute('data-help');
+              const textNode = document.createTextNode(helpText);  // Create a text node with the content
+              popover.appendChild(textNode); // Append the text node to the popover
+
+              // Add accessibility roles and attributes
+              popover.setAttribute('role', 'tooltip');
+              popover.setAttribute('aria-hidden', 'true');  // Initially hidden
+
+              // Link the element to the popover for screen readers
+              element.setAttribute('aria-describedby', `popover-${Date.now()}`);
+              popover.setAttribute('id', `popover-${Date.now()}`);
+
+              document.body.appendChild(popover);
+
+              // Toggle popover visibility on click
+              element.addEventListener('click', function (event) {
+                const isPopoverVisible = popover.style.display === 'block';
+                popover.style.display = isPopoverVisible ? 'none' : 'block';
+                popover.setAttribute('aria-hidden', isPopoverVisible ? 'true' : 'false');
+
+                // Position popover near the text
+                const rect = element.getBoundingClientRect();
+                popover.style.left = `${rect.left + rect.width / 2 - popover.offsetWidth / 2}px`;
+                popover.style.top = `${rect.bottom + window.scrollY + 5}px`;
+
+                // Prevent click event from closing popover immediately
+                event.stopPropagation();
+              });
+            });
+
+            // Hide the popover when clicking anywhere else on the page
+            document.addEventListener('click', function (event) {
+              const openPopover = document.querySelector('.popover[aria-hidden="false"]');
+              if (openPopover && !openPopover.contains(event.target) && !event.target.closest('[data-help]')) {
+                openPopover.style.display = 'none';
+                openPopover.setAttribute('aria-hidden', 'true');
+              }
+            });
+          });
+
+        </script>
+
+      </div>
+    </div>
+    <!-- Consolidated Script for Updating and Highlighting with Placeholder -->
+    <script>
+      document.addEventListener('DOMContentLoaded', function () {
+        // Utility function to set text content with a default value
+        function setTextContent(element, value, defaultValue = '') {
+          if (element) {
+            element.textContent = value || defaultValue;
+          }
+        }
+
+        // Function to apply focus/blur highlights to inputs and their corresponding targets
+        function applyHighlightOnFocus(inputElement, targetElement) {
+          if (inputElement && targetElement) {
+            inputElement.addEventListener('focus', () => targetElement.classList.add('highlight'));
+            inputElement.addEventListener('blur', () => targetElement.classList.remove('highlight'));
+
+            // If input is already focused, apply the highlight immediately
+            if (document.activeElement === inputElement) {
+              targetElement.classList.add('highlight');
+            }
+          }
+        }
+
+        // Handler for updating the <h1> based on input
+        function handleQuestionInput(input, output, defaultText = 'Question') {
+          if (input && output) {
+            // Function to update the <h1> text
+            function updateHeading() {
+              output.textContent = input.value.trim() || defaultText;
+            }
+
+            // Event listeners for input events
+            input.addEventListener('input', updateHeading);
+            input.addEventListener('focus', () => output.classList.add('highlight'));
+            input.addEventListener('blur', () => output.classList.remove('highlight'));
+
+            // Initialize the <h1> with default or existing input value
+            updateHeading();
+          }
+        }
+
+        // Handler for updating the <div> based on textarea with placeholder logic
+        function handleHintInput(textarea, output, placeholderText = 'Hint text') {
+          if (textarea && output) {
+            // Function to update the <div> text
+            function updateHint() {
+              if (textarea.value.trim()) {
+                output.textContent = textarea.value.trim();
+                output.classList.remove('placeholder'); // Remove placeholder styling if any
+              } else if (document.activeElement === textarea) {
+                // If textarea is focused and empty, show placeholder
+                output.textContent = placeholderText;
+                output.classList.add('placeholder'); // Add placeholder styling
+              } else {
+                // If textarea is not focused and empty, clear the output
+                output.textContent = '';
+                output.classList.remove('placeholder'); // Remove placeholder styling
+              }
+            }
+
+            // Event listeners for textarea events
+            textarea.addEventListener('input', updateHint);
+            textarea.addEventListener('focus', updateHint);
+            textarea.addEventListener('blur', updateHint);
+
+            // Initialize the <div> with default or existing textarea value
+            updateHint();
+          }
+        }
+
+        // Select DOM elements for Question
+        const questionInput = document.getElementById('multi-question-label-input-autocomplete');
+        const questionOutput = document.getElementById('multi-question-label-output-autocomplete');
+
+        // Select DOM elements for Hint Text
+        const hintTextarea = document.getElementById('multi-question-hint-text-input-autocomplete');
+        const hintOutput = document.getElementById('multi-question-listPreview-hint');
+
+        // Initialize handlers
+        handleQuestionInput(questionInput, questionOutput, 'Question');
+        handleHintInput(hintTextarea, hintOutput, 'Hint text');
+
+        // Apply highlight functionality
+        applyHighlightOnFocus(questionInput, questionOutput);
+        applyHighlightOnFocus(hintTextarea, hintOutput);
+
+        // If you have more input-output pairs, initialize them similarly here
+        // Example:
+        /*
+        const anotherInput = document.getElementById('multi-question-another-input-id');
+        const anotherOutput = document.getElementById('multi-question-another-output-id');
+        handleAnotherInputHandler(anotherInput, anotherOutput, 'Default Text');
+        applyHighlightOnFocus(anotherInput, anotherOutput);
+        */
+      });
+    </script>
+
+
+
+
+
+
+
+    <style>
+      .highlight {
+        background-color: #ffe5cc;
+        border-bottom: 2px solid #ffb266;
+      }
+
+
+
+      #before-content {
+        position: absolute;
+        top: 0;
+        left: 10 !important;
+        right: 0;
+        width: 100%;
+        padding: 10px !important;
+        box-sizing: border-box;
+        z-index: 1;
+        border-bottom: 1px solid #008938;
+        padding-left: 10px;
+      }
+
+      #second-container {
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      #second-container>* {
+        padding-left: 0px;
+        z-index: 2;
+      }
+    </style>
+
+    {% endblock %}

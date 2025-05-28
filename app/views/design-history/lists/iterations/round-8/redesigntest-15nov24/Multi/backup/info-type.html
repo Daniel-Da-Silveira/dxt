@@ -1,0 +1,149 @@
+{% extends "layouts/main.html" %}
+
+{% from "components/service-header/macro.njk" import serviceHeader %}
+
+{% set pageName = "Page type - Apply for a county parish holding number in England" %}
+
+{% block header %}
+{{ serviceHeader({
+organisationName: "Defra",
+productName: "Forms Designer",
+serviceName: "",
+containerClasses: containerClasses,
+accountName: "Chris Smith",
+homepageLink: "/",
+signOutLink: "/onboarding/sign-out-confirmation",
+navigationItems: [
+{ href: "/library.html", text: "Forms library", id: "nav-library" },
+{ href: "/cph-overview/draft/complete-clean.html", text: "Overview", id: "nav-overview" },
+{ href: "/redesigntest/listing", text: "Editor", id: "nav-editor" }
+],
+activeLinkId: "nav-editor"
+}) }}
+{% endblock %}
+
+
+{% block beforeContent %}
+{{ govukBackLink({
+text: "Back",
+href: "javascript:window.history.back()"
+}) }}
+{% endblock %}
+
+{% block content %}
+
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds" id="container">
+
+    {% from "govuk/components/radios/macro.njk" import govukRadios %}
+
+
+    <div id="info-page-radio-group">
+      <form class="form" action="/info-type-2-answer" method="post">
+        {% from "govuk/components/radios/macro.njk" import govukRadios %}
+        {% from "govuk/components/input/macro.njk" import govukInput %}
+
+        {% set dateHtml %}
+        {{ govukRadios({
+        name: "signIn",
+        fieldset: {
+        legend: {
+        text: "Type of date",
+        isPageHeading: true,
+        classes: "govuk-fieldset__legend"
+        }
+
+        },
+        items: [
+        {
+        value: "day-month-year",
+        text: "Day, month and year"
+        },
+        {
+        value: "month-year",
+        text: "Month and year"
+        }
+        ]
+        }) }}
+        {% endset -%}
+
+
+        {{ govukRadios({
+        name: "infotype2",
+        fieldset: {
+        legend: {
+        text: "What information do you need from users?",
+        isPageHeading: true,
+        classes: "govuk-fieldset__legend--l"
+        }
+        },
+        hint: {
+        text: "You can ask for more information later"
+        },
+        items: [
+        {
+        value: "text",
+        text: "Written answer",
+        hint: {
+        text: "A short or long answer as text or number"
+        }
+        },
+        {
+        value: "date",
+        text: "Date",
+        hint: {
+        text: "A day, month and year or month and year only"
+        },
+        conditional: {
+        html: dateHtml
+        }
+        },
+        {
+        value: "address",
+        text: "UK address",
+        hint: {
+        text: "A street address, town or city and postcode"
+        }
+        },
+        {
+        value: "phone",
+        text: "Phone number",
+        hint: {
+        text: "A text box that users can enter numbers and some symbols into, such as '+'"
+        }
+        },
+        {
+        value: "file",
+        text: "Supporting evidence",
+        hint: {
+        text: "Ask users to upload documents and photos"
+        }
+        },
+        {
+        value: "email",
+        text: "Email address",
+        hint: {
+        text: "A text box that users can enter their email address into"
+        }
+        },
+        {
+        divider: "or"
+        },
+        {
+        value: "list",
+        text: "Ask users to select options from a list"
+        }
+        ]
+        }) }}
+
+        {{ govukButton({
+        text: "Save and continue"
+        }) }}
+
+      </form>
+    </div>
+
+
+
+    {% endblock %}

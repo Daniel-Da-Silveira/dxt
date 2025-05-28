@@ -1,0 +1,53 @@
+<div class="preview-item" data-id="question-{{ question.questionId }}">
+    <fieldset class="govuk-fieldset">
+        <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">
+            {{ question.label }}
+        </legend>
+        {% if question.options | length > 0 %}
+        {% for option in question.options %}
+        <div class="govuk-radios__item">
+            <input class="govuk-radios__input" id="option-{{ loop.index }}" name="previewRadios" type="radio"
+                value="{{ option.value }}">
+            <label class="govuk-label govuk-radios__label" for="option-{{ loop.index }}">
+                {{ option.label }}
+            </label>
+            {% if option.hint %}
+            <div class="govuk-hint govuk-radios__hint">{{ option.hint }}</div>
+            {% endif %}
+        </div>
+        {% endfor %}
+        {% else %}
+        <p class="govuk-body">No options available.</p>
+        {% endif %}
+    </fieldset>
+</div>
+
+
+{# {% for question in currentPage.questions %}
+<div class="preview-item" data-id="question-{{ question.questionId }}">
+    <fieldset class="govuk-fieldset">
+        <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">
+            {{ question.label }}
+        </legend>
+        <div class="govuk-radios">
+            {% set options = question.options or [] %}
+            {% if options | length > 0 %}
+            {% for option in options %}
+            <div class="govuk-radios__item">
+                <input class="govuk-radios__input" id="option-{{ question.questionId }}-{{ loop.index }}"
+                    name="previewRadios-{{ question.questionId }}" type="radio" value="{{ option.label }}">
+                <label class="govuk-label govuk-radios__label" for="option-{{ question.questionId }}-{{ loop.index }}">
+                    {{ option.label }}
+                </label>
+                {% if option.hint %}
+                <div class="govuk-hint govuk-radios__hint">{{ option.hint }}</div>
+                {% endif %}
+            </div>
+            {% endfor %}
+            {% else %}
+            <p class="govuk-body">No options available.</p>
+            {% endif %}
+        </div>
+    </fieldset>
+</div>
+{% endfor %} #}

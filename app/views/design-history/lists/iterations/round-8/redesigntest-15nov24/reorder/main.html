@@ -1,0 +1,752 @@
+{% extends "layouts/main.html" %}
+
+{% from "components/service-header/macro.njk" import serviceHeader %}
+
+{% set pageName = "Add and edit your pages - Apply for a county parish holding number in England" %}
+
+{% block header %}
+{{ serviceHeader({
+organisationName: "Defra",
+productName: "Forms Designer",
+serviceName: "",
+containerClasses: containerClasses,
+accountName: "Chris Smith",
+homepageLink: "/",
+signOutLink: "/onboarding/sign-out-confirmation",
+navigationItems: [
+{ href: "/library.html", text: "Forms library", id: "nav-library" },
+{ href: "/cph-overview/draft/complete-clean.html", text: "Overview", id: "nav-overview" },
+{ href: "/redesigntest/listing", text: "Editor", id: "nav-editor" }
+],
+activeLinkId: "nav-editor"
+}) }}
+
+<div class="x-govuk-masthead x-govuk-masthead--large">
+    <div class="govuk-width-container">
+        {{ govukBackLink({
+        classes: "govuk-back-link--inverse govuk-!-margin-bottom-0",
+        text: "Back to add and edit pages",
+        href: "/redesigntest/listing.html"
+        }) }}
+
+        <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible"
+            style="border-bottom:1px solid white; margin-bottom: 0;">
+
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-two-thirds-from-desktop">
+                <h1 class="x-govuk-masthead__title">
+                    <span class="govuk-caption-l" style="color: white;">Apply for a county parish holding number</span>
+                    Re-order pages
+                </h1>
+                <p class="x-govuk-masthead__description">
+                    Use the up and down buttons or drag and drop pages to re-order them.
+                </p>
+                <div class="govuk-button-group">
+                    <a href="#" role="button" draggable="false" class="govuk-button govuk-button--inverse"
+                        id="save-order-button">
+                        Save changes
+                    </a>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block content %}
+
+
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds-from-desktop">
+        <div id="notification-banner-container"></div>
+
+        <form id="reorderable-form" action="/submit" method="POST">
+            <ol class="gem-c-reorderable-list js-enabled" id="reorderable-list" data-module="reorderable-list"
+            data-reorderable-list-module-started="true">
+
+            {% if data['questionLabelInputShortText'] %}
+            <li class="gem-c-reorderable-list__item" draggable="true">
+                <div class="gem-c-reorderable-list__wrapper">
+                    <div class="gem-c-reorderable-list__content">
+                        <p class="gem-c-reorderable-list__title">
+                            <span class="page-number"></span>
+                            {{ data['questionLabelInputShortText'] }}
+                        </p>
+                    </div>
+                    <div class="gem-c-reorderable-list__actions">
+                        <div class="govuk-form-group">
+                            <label for="input-1" class="gem-c-label govuk-label">
+                                Position<span class="govuk-visually-hidden"> for Short Text</span>
+                            </label>
+                            <input class="gem-c-input govuk-input govuk-input--width-2" id="input-1" inputmode="numeric"
+                                name="ordering[1]" spellcheck="false" type="text" value="1">
+                        </div>
+                        <button class="gem-c-button govuk-button govuk-button--secondary js-reorderable-list-up" type="button"
+                            aria-label="Move &quot;Short Text&quot; up">Up</button>
+                        <button class="gem-c-button govuk-button govuk-button--secondary js-reorderable-list-down" type="button"
+                            aria-label="Move &quot;Short Text&quot; down">Down</button>
+                    </div>
+                </div>
+            </li>
+            {% endif %}
+
+            {% if data['questionLabelInputTextArea'] %}
+            <li class="gem-c-reorderable-list__item" draggable="true">
+                <div class="gem-c-reorderable-list__wrapper">
+                    <div class="gem-c-reorderable-list__content">
+                        <p class="gem-c-reorderable-list__title">
+                            <span class="page-number"></span>
+                            {{ data['questionLabelInputTextArea'] }}
+                        </p>
+                    </div>
+                    <div class="gem-c-reorderable-list__actions">
+                        <div class="govuk-form-group">
+                            <label for="input-2" class="gem-c-label govuk-label">
+                                Position<span class="govuk-visually-hidden"> for Text Area</span>
+                            </label>
+                            <input class="gem-c-input govuk-input govuk-input--width-2" id="input-2" inputmode="numeric"
+                                name="ordering[2]" spellcheck="false" type="text" value="2">
+                        </div>
+                        <button class="gem-c-button govuk-button govuk-button--secondary js-reorderable-list-up" type="button"
+                            aria-label="Move &quot;Text Area&quot; up">Up</button>
+                        <button class="gem-c-button govuk-button govuk-button--secondary js-reorderable-list-down" type="button"
+                            aria-label="Move &quot;Text Area&quot; down">Down</button>
+                    </div>
+                </div>
+            </li>
+            {% endif %}
+
+            {% if data['questionLabelInputDate'] %}
+            <li class="gem-c-reorderable-list__item" draggable="true">
+                <div class="gem-c-reorderable-list__wrapper">
+                    <div class="gem-c-reorderable-list__content">
+                        <p class="gem-c-reorderable-list__title">
+                            <span class="page-number"></span>
+                            {{ data['questionLabelInputDate'] }}
+                        </p>
+                    </div>
+                    <div class="gem-c-reorderable-list__actions">
+                        <div class="govuk-form-group">
+                            <label for="input-3" class="gem-c-label govuk-label">
+                                Position<span class="govuk-visually-hidden"> for Date</span>
+                            </label>
+                            <input class="gem-c-input govuk-input govuk-input--width-2" id="input-3" inputmode="numeric"
+                                name="ordering[3]" spellcheck="false" type="text" value="3">
+                        </div>
+                        <button class="gem-c-button govuk-button govuk-button--secondary js-reorderable-list-up" type="button"
+                            aria-label="Move &quot;Date&quot; up">Up</button>
+                        <button class="gem-c-button govuk-button govuk-button--secondary js-reorderable-list-down" type="button"
+                            aria-label="Move &quot;Date&quot; down">Down</button>
+                    </div>
+                </div>
+            </li>
+            {% endif %}
+
+            {% if data['questionLabelInputAddress'] %}
+            <li class="gem-c-reorderable-list__item" draggable="true">
+                <div class="gem-c-reorderable-list__wrapper">
+                    <div class="gem-c-reorderable-list__content">
+                        <p class="gem-c-reorderable-list__title">
+                            <span class="page-number"></span>
+                            {{ data['questionLabelInputAddress'] }}
+                        </p>
+                    </div>
+                    <div class="gem-c-reorderable-list__actions">
+                        <div class="govuk-form-group">
+                            <label for="input-4" class="gem-c-label govuk-label">
+                                Position<span class="govuk-visually-hidden"> for Address</span>
+                            </label>
+                            <input class="gem-c-input govuk-input govuk-input--width-2" id="input-4" inputmode="numeric"
+                                name="ordering[4]" spellcheck="false" type="text" value="4">
+                        </div>
+                        <button class="gem-c-button govuk-button govuk-button--secondary js-reorderable-list-up" type="button"
+                            aria-label="Move &quot;Address&quot; up">Up</button>
+                        <button class="gem-c-button govuk-button govuk-button--secondary js-reorderable-list-down" type="button"
+                            aria-label="Move &quot;Address&quot; down">Down</button>
+                    </div>
+                </div>
+            </li>
+            {% endif %}
+
+            {% if data['questionLabelInputPhone'] %}
+            <li class="gem-c-reorderable-list__item" draggable="true">
+                <div class="gem-c-reorderable-list__wrapper">
+                    <div class="gem-c-reorderable-list__content">
+                        <p class="gem-c-reorderable-list__title">
+                            <span class="page-number"></span>
+                            {{ data['questionLabelInputPhone'] }}
+                        </p>
+                    </div>
+                    <div class="gem-c-reorderable-list__actions">
+                        <div class="govuk-form-group">
+                            <label for="input-5" class="gem-c-label govuk-label">
+                                Position<span class="govuk-visually-hidden"> for Phone Number</span>
+                            </label>
+                            <input class="gem-c-input govuk-input govuk-input--width-2" id="input-5" inputmode="numeric"
+                                name="ordering[5]" spellcheck="false" type="text" value="5">
+                        </div>
+                        <button class="gem-c-button govuk-button govuk-button--secondary js-reorderable-list-up" type="button"
+                            aria-label="Move &quot;Phone Number&quot; up">Up</button>
+                        <button class="gem-c-button govuk-button govuk-button--secondary js-reorderable-list-down" type="button"
+                            aria-label="Move &quot;Phone Number&quot; down">Down</button>
+                    </div>
+                </div>
+            </li>
+            {% endif %}
+
+            {% if data['questionLabelInputFile'] %}
+            <li class="gem-c-reorderable-list__item" draggable="true">
+                <div class="gem-c-reorderable-list__wrapper">
+                    <div class="gem-c-reorderable-list__content">
+                        <p class="gem-c-reorderable-list__title">
+                            <span class="page-number"></span>
+                            {{ data['questionLabelInputFile'] }}
+                        </p>
+                    </div>
+                    <div class="gem-c-reorderable-list__actions">
+                        <div class="govuk-form-group">
+                            <label for="input-6" class="gem-c-label govuk-label">
+                                Position<span class="govuk-visually-hidden"> for File Upload</span>
+                            </label>
+                            <input class="gem-c-input govuk-input govuk-input--width-2" id="input-6" inputmode="numeric"
+                                name="ordering[6]" spellcheck="false" type="text" value="6">
+                        </div>
+                        <button class="gem-c-button govuk-button govuk-button--secondary js-reorderable-list-up" type="button"
+                            aria-label="Move &quot;File Upload&quot; up">Up</button>
+                        <button class="gem-c-button govuk-button govuk-button--secondary js-reorderable-list-down" type="button"
+                            aria-label="Move &quot;File Upload&quot; down">Down</button>
+                    </div>
+                </div>
+            </li>
+            {% endif %}
+
+            {% if data['questionLabelInputEmail'] %}
+            <li class="gem-c-reorderable-list__item" draggable="true">
+                <div class="gem-c-reorderable-list__wrapper">
+                    <div class="gem-c-reorderable-list__content">
+                        <p class="gem-c-reorderable-list__title">
+                            <span class="page-number"></span>
+                            {{ data['questionLabelInputEmail'] }}
+                        </p>
+                    </div>
+                    <div class="gem-c-reorderable-list__actions">
+                        <div class="govuk-form-group">
+                            <label for="input-7" class="gem-c-label govuk-label">
+                                Position<span class="govuk-visually-hidden"> for Email</span>
+                            </label>
+                            <input class="gem-c-input govuk-input govuk-input--width-2" id="input-7" inputmode="numeric"
+                                name="ordering[7]" spellcheck="false" type="text" value="7">
+                        </div>
+                        <button class="gem-c-button govuk-button govuk-button--secondary js-reorderable-list-up" type="button"
+                            aria-label="Move &quot;Email&quot; up">Up</button>
+                        <button class="gem-c-button govuk-button govuk-button--secondary js-reorderable-list-down" type="button"
+                            aria-label="Move &quot;Email&quot; down">Down</button>
+                    </div>
+                </div>
+            </li>
+            {% endif %}
+
+            {% if data['questionLabelInputYesno'] %}
+            <li class="gem-c-reorderable-list__item" draggable="true">
+                <div class="gem-c-reorderable-list__wrapper">
+                    <div class="gem-c-reorderable-list__content">
+                        <p class="gem-c-reorderable-list__title">
+                            <span class="page-number"></span>
+                            {{ data['questionLabelInputYesno'] }}
+                        </p>
+                    </div>
+                    <div class="gem-c-reorderable-list__actions">
+                        <div class="govuk-form-group">
+                            <label for="input-8" class="gem-c-label govuk-label">
+                                Position<span class="govuk-visually-hidden"> for Yes/No</span>
+                            </label>
+                            <input class="gem-c-input govuk-input govuk-input--width-2" id="input-8" inputmode="numeric"
+                                name="ordering[8]" spellcheck="false" type="text" value="8">
+                        </div>
+                        <button class="gem-c-button govuk-button govuk-button--secondary js-reorderable-list-up" type="button"
+                            aria-label="Move &quot;Yes/No&quot; up">Up</button>
+                        <button class="gem-c-button govuk-button govuk-button--secondary js-reorderable-list-down" type="button"
+                            aria-label="Move &quot;Yes/No&quot; down">Down</button>
+                    </div>
+                </div>
+            </li>
+            {% endif %}
+
+            {% if data['questionLabelInputCheckboxes'] %}
+            <li class="gem-c-reorderable-list__item" draggable="true">
+                <div class="gem-c-reorderable-list__wrapper">
+                    <div class="gem-c-reorderable-list__content">
+                        <p class="gem-c-reorderable-list__title">
+                            <span class="page-number"></span>
+                            {{ data['questionLabelInputCheckboxes'] }}
+                        </p>
+                    </div>
+                    <div class="gem-c-reorderable-list__actions">
+                        <div class="govuk-form-group">
+                            <label for="input-9" class="gem-c-label govuk-label">
+                                Position<span class="govuk-visually-hidden"> for Checkboxes</span>
+                            </label>
+                            <input class="gem-c-input govuk-input govuk-input--width-2" id="input-9" inputmode="numeric"
+                                name="ordering[9]" spellcheck="false" type="text" value="9">
+                        </div>
+                        <button class="gem-c-button govuk-button govuk-button--secondary js-reorderable-list-up" type="button"
+                            aria-label="Move &quot;Checkboxes&quot; up">Up</button>
+                        <button class="gem-c-button govuk-button govuk-button--secondary js-reorderable-list-down" type="button"
+                            aria-label="Move &quot;Checkboxes&quot; down">Down</button>
+                    </div>
+                </div>
+            </li>
+            {% endif %}
+
+            {% if data['questionLabelInputRadios'] %}
+            <li class="gem-c-reorderable-list__item" draggable="true">
+                <div class="gem-c-reorderable-list__wrapper">
+                    <div class="gem-c-reorderable-list__content">
+                        <p class="gem-c-reorderable-list__title">
+                            <span class="page-number"></span>
+                            {{ data['questionLabelInputRadios'] }}
+                        </p>
+                    </div>
+                    <div class="gem-c-reorderable-list__actions">
+                        <div class="govuk-form-group">
+                            <label for="input-10" class="gem-c-label govuk-label">
+                                Position<span class="govuk-visually-hidden"> for Radios</span>
+                            </label>
+                            <input class="gem-c-input govuk-input govuk-input--width-2" id="input-10" inputmode="numeric"
+                                name="ordering[10]" spellcheck="false" type="text" value="10">
+                        </div>
+                        <button class="gem-c-button govuk-button govuk-button--secondary js-reorderable-list-up" type="button"
+                            aria-label="Move &quot;Radios&quot; up">Up</button>
+                        <button class="gem-c-button govuk-button govuk-button--secondary js-reorderable-list-down" type="button"
+                            aria-label="Move &quot;Radios&quot; down">Down</button>
+                    </div>
+                </div>
+            </li>
+            {% endif %}
+
+            {% if data['guidanceOnlyHeadingInput'] %}
+<li class="gem-c-reorderable-list__item" draggable="true">
+    <div class="gem-c-reorderable-list__wrapper">
+        <div class="gem-c-reorderable-list__content">
+            <p class="gem-c-reorderable-list__title">
+                <span class="page-number"></span>
+                {{ data['guidanceOnlyHeadingInput'] }}
+            </p>
+            {% if data['guidanceOnlyHeadingInput'] %}
+            <div class="govuk-summary-card__content">
+                <dl class="govuk-summary-list" style="margin-left:0;">
+                    <div class="govuk-summary-list__row">
+                        <dt class="govuk-summary-list__key">Guidance</dt>
+                        <dd class="govuk-summary-list__value">
+                            {% if (data['guidanceOnlyGuidanceTextInput'] or '').length > 50 %}
+                            {{ (data['guidanceOnlyGuidanceTextInput'] or '').substring(0, 150) }}...
+                            {% else %}
+                            {{ data['guidanceOnlyGuidanceTextInput'] or '' }}
+                            {% endif %}
+                        </dd>
+
+
+                    </div>
+                </dl>
+            </div>
+            {% endif %}
+        </div>
+
+        <div class="gem-c-reorderable-list__actions">
+            <div class="govuk-form-group">
+                <label for="input-guidance" class="gem-c-label govuk-label">
+                    Position<span class="govuk-visually-hidden"> for Guidance only</span>
+                </label>
+                <input class="gem-c-input govuk-input govuk-input--width-2" id="input-guidance" inputmode="numeric"
+                    name="ordering[guidance]" spellcheck="false" type="text" value="1">
+            </div>
+            <button class="gem-c-button govuk-button govuk-button--secondary js-reorderable-list-up" type="button"
+                aria-label="Move &quot;Guidance only&quot; up">Up</button>
+            <button class="gem-c-button govuk-button govuk-button--secondary js-reorderable-list-down" type="button"
+                aria-label="Move &quot;Guidance only&quot; down">Down</button>
+        </div>
+    </div>
+</li>
+{% endif %}
+
+{% if data['pageHeadingInputMoreThan1'] %}
+<li class="gem-c-reorderable-list__item" draggable="true">
+    <div class="gem-c-reorderable-list__wrapper">
+        <div class="gem-c-reorderable-list__content">
+            <p class="gem-c-reorderable-list__title">
+                <span class="page-number"></span>
+                {{ data['pageHeadingInputMoreThan1'] }}
+            </p>
+        </div>
+        <div class="gem-c-reorderable-list__actions">
+            <div class="govuk-form-group">
+                <label for="input-morethan1" class="gem-c-label govuk-label">
+                    Position<span class="govuk-visually-hidden"> for More than 1 question on a page</span>
+                </label>
+                <input class="gem-c-input govuk-input govuk-input--width-2" id="input-morethan1" inputmode="numeric"
+                    name="ordering[morethan1]" spellcheck="false" type="text" value="1">
+            </div>
+            <button class="gem-c-button govuk-button govuk-button--secondary js-reorderable-list-up" type="button"
+                aria-label="Move &quot;More than 1 question on a page&quot; up">Up</button>
+            <button class="gem-c-button govuk-button govuk-button--secondary js-reorderable-list-down" type="button"
+                aria-label="Move &quot;More than 1 question on a page&quot; down">Down</button>
+        </div>
+    </div>
+
+    <div class="govuk-summary-card__content">
+        <dl class="govuk-summary-list">
+
+            {% if data['multiQuestionLabelInputShorttext'] %}
+            <div class="govuk-summary-list__row">
+                <dt class="govuk-summary-list__key">Question 1 </dt>
+                <dd class="govuk-summary-list__value">{{ data['multiQuestionLabelInputShorttext'] }}</dd>
+            </div>
+            {% endif %}
+
+            {% if data['multiQuestionLabelInputTextArea'] %}
+            <div class="govuk-summary-list__row">
+                <dt class="govuk-summary-list__key">Question 2 </dt>
+                <dd class="govuk-summary-list__value">{{ data['multiQuestionLabelInputTextArea'] }}</dd>
+            </div>
+            {% endif %}
+
+            {% if data['questionLabelInputNumbers'] %}
+            <div class="govuk-summary-list__row">
+                <dt class="govuk-summary-list__key">Question 3 </dt>
+                <dd class="govuk-summary-list__value">{{ data['questionLabelInputNumbers'] }}</dd>
+            </div>
+            {% endif %}
+
+            {% if data['multiQuestionLabelInputDate'] %}
+            <div class="govuk-summary-list__row">
+                <dt class="govuk-summary-list__key">Question 4 </dt>
+                <dd class="govuk-summary-list__value">{{ data['multiQuestionLabelInputDate'] }}</dd>
+            </div>
+            {% endif %}
+
+            {% if data['multiQuestionLabelInputAddress'] %}
+            <div class="govuk-summary-list__row">
+                <dt class="govuk-summary-list__key">Question 5 </dt>
+                <dd class="govuk-summary-list__value">{{ data['multiQuestionLabelInputAddress'] }}</dd>
+            </div>
+            {% endif %}
+
+            {% if data['multiQuestionLabelInputPhone'] %}
+            <div class="govuk-summary-list__row">
+                <dt class="govuk-summary-list__key">Question 6 </dt>
+                <dd class="govuk-summary-list__value">{{ data['multiQuestionLabelInputPhone'] }}</dd>
+            </div>
+            {% endif %}
+
+            {% if data['multiQuestionLabelInputFile'] %}
+            <div class="govuk-summary-list__row">
+                <dt class="govuk-summary-list__key">Question 7 </dt>
+                <dd class="govuk-summary-list__value">{{ data['multiQuestionLabelInputFile'] }}</dd>
+            </div>
+            {% endif %}
+
+            {% if data['multiQuestionLabelInputEmail'] %}
+            <div class="govuk-summary-list__row">
+                <dt class="govuk-summary-list__key">Question 8 </dt>
+                <dd class="govuk-summary-list__value">{{ data['multiQuestionLabelInputEmail'] }}</dd>
+            </div>
+            {% endif %}
+
+            {% if data['multiQuestionLabelInputYesno'] %}
+            <div class="govuk-summary-list__row">
+                <dt class="govuk-summary-list__key">Question 9 </dt>
+                <dd class="govuk-summary-list__value">{{ data['multiQuestionLabelInputYesno'] }}</dd>
+            </div>
+            {% endif %}
+
+            {% if data['multiQuestionLabelInputCheckboxes'] %}
+            <div class="govuk-summary-list__row">
+                <dt class="govuk-summary-list__key">Question 10 </dt>
+                <dd class="govuk-summary-list__value">{{ data['multiQuestionLabelInputCheckboxes'] }}</dd>
+            </div>
+            {% endif %}
+
+            {% if data['multiQuestionLabelInputRadios'] %}
+            <div class="govuk-summary-list__row">
+                <dt class="govuk-summary-list__key">Question 11 </dt>
+                <dd class="govuk-summary-list__value">{{ data['multiQuestionLabelInputRadios'] }}</dd>
+            </div>
+            {% endif %}
+
+        </dl>
+    </div>
+
+</li>
+{% endif %}
+
+
+        </ol>
+
+            {% from "govuk/components/button/macro.njk" import govukButton %}
+
+            {# <div class="govuk-button-group">
+                {{ govukButton({
+                text: "Save and close"
+                }) }}
+
+                {{ govukButton({
+                text: "Cancel",
+                classes: "govuk-button--secondary"
+                }) }}
+            </div> #}
+        </form>
+
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css" />
+        <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>
+
+        <style>
+
+.govuk-summary-card__content {
+    padding-left: 0;
+}
+
+            /* Ensure the chosen item remains solid */
+            .sortable-chosen {
+                opacity: 1 !important;
+                background-color: white !important;
+            }
+
+            /* Style for hover state of the list item */
+            .gem-c-reorderable-list__item:hover {
+                background-color: #f0f0f0;
+                /* Light grey background on hover */
+
+                /* Change border color on hover */
+                cursor: move;
+                /* Change cursor to pointer on hover */
+            }
+
+            /* Style for the chosen item (when selected) */
+            .gem-c-reorderable-list__item.sortable-chosen {
+                background-color: #e5f5ff;
+                outline: 4px solid #ffdd00;
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+
+            }
+
+            .gem-c-reorderable-list {
+                list-style-type: none;
+                margin-bottom: 30px;
+                margin-top: 0;
+                padding-left: 0;
+                position: relative;
+                font-family: "GDS Transport", arial, sans-serif;
+                -webkit-font-smoothing: antialiased;
+                -moz-osx-font-smoothing: grayscale;
+                font-weight: 700;
+                font-size: 1rem;
+                line-height: 1.25;
+            }
+
+            @media (min-width: 40.0625em) {
+                .gem-c-reorderable-list {
+                    font-size: 1.1875rem;
+                    line-height: 1.3157894737;
+                }
+            }
+
+            .gem-c-reorderable-list__item {
+                margin-bottom: 15px;
+                border-left: 10px solid #008938;
+                outline: 1px solid #b1b4b6;
+                padding: 15px;
+                transition: background-color 0.3s, border-color 0.3s;
+                /* Smooth transition for hover effects */
+            }
+
+            @media (min-width: 48.0625em) {
+                .gem-c-reorderable-list__item {
+                    cursor: move;
+                }
+            }
+
+            .gem-c-reorderable-list__wrapper {
+                display: block;
+            }
+
+            @media (min-width: 48.0625em) {
+                .gem-c-reorderable-list__wrapper {
+                    display: inline-flex;
+                    width: 100%;
+                }
+            }
+
+            .gem-c-reorderable-list__content {
+                margin-bottom: 10px;
+            }
+
+            @media (min-width: 48.0625em) {
+                .gem-c-reorderable-list__content {
+                    margin-bottom: 0;
+                    flex: 0 1 auto;
+                    min-width: 65%;
+                }
+            }
+
+            .gem-c-reorderable-list__actions {
+                display: block;
+            }
+
+            @media (min-width: 48.0625em) {
+                .gem-c-reorderable-list__actions {
+                    flex: 1 0 auto;
+                    text-align: right;
+                }
+            }
+
+            .gem-c-reorderable-list__title {
+                margin: 0;
+                font-weight: bold;
+
+            }
+
+            @media (min-width: 40.0625em) {
+                .gem-c-reorderable-list .govuk-form-group {
+                    margin-bottom: 0;
+                }
+
+                .gem-c-reorderable-list__actions .govuk-form-group {
+                    display: none;
+                }
+
+                .gem-c-reorderable-list__actions .gem-c-button {
+                    display: none;
+                }
+
+                .gem-c-reorderable-list__actions .gem-c-button {
+                    display: inline-block;
+                    margin-left: 15px;
+                    width: 80px;
+                }
+
+                .gem-c-reorderable-list__actions .gem-c-button:first-of-type {
+                    margin-left: 0;
+                }
+
+                @media (min-width: 48.0625em) {
+                    .gem-c-reorderable-list__actions .gem-c-button:first-of-type {
+                        margin-left: 15px;
+                    }
+                }
+
+                .gem-c-reorderable-list__item:first-child .gem-c-button:first-of-type {
+                    display: none;
+                }
+
+                @media (min-width: 48.0625em) {
+                    .gem-c-reorderable-list__item:first-child .gem-c-button:first-of-type {
+                        display: inline-block;
+                        visibility: hidden;
+                    }
+                }
+
+                .gem-c-reorderable-list__item:first-child .gem-c-button:last-of-type {
+                    margin-left: 0;
+                }
+
+                @media (min-width: 48.0625em) {
+                    .gem-c-reorderable-list__item:first-child .gem-c-button:last-of-type {
+                        margin-left: 15px;
+                    }
+                }
+
+                .gem-c-reorderable-list__item:last-child .gem-c-button:last-of-type {
+                    display: none;
+                }
+
+                @media (min-width: 48.0625em) {
+                    .gem-c-reorderable-list__item:last-child .gem-c-button:last-of-type {
+                        display: inline-block;
+                        visibility: hidden;
+                    }
+                }
+            }
+        </style>
+
+        <script>
+
+
+            // Function to update order inputs and span numbers after sorting
+            function updateOrderInputs() {
+                const items = document.querySelectorAll(".gem-c-reorderable-list__item");
+                items.forEach((item, index) => {
+                    const input = item.querySelector('input');
+                    const pageNumberSpan = item.querySelector('.page-number');
+
+                    input.value = index + 1; // Update the hidden input value
+                    pageNumberSpan.textContent = `Page ${index + 1}: `; // Update the page number span
+                });
+            }
+
+            // Initialize SortableJS for the list
+            const sortable = new Sortable(document.getElementById("reorderable-list"), {
+                animation: 150,
+                handle: ".gem-c-reorderable-list__item",
+                draggable: ".gem-c-reorderable-list__item",
+                ghostClass: "sortable-ghost",
+                chosenClass: "sortable-chosen", // Use chosenClass for custom styles
+                onEnd: updateOrderInputs,
+                onStart: function (evt) {
+                    if (window.innerWidth <= 600) {
+                        evt.preventDefault(); // Prevent drag on small screens
+                    }
+                }
+            });
+
+            // Add event listeners to move buttons
+            document.querySelectorAll(".js-reorderable-list-up").forEach((button) => {
+                button.addEventListener("click", () => {
+                    const li = button.closest(".gem-c-reorderable-list__item");
+                    if (li.previousElementSibling) {
+                        li.parentNode.insertBefore(li, li.previousElementSibling);
+                        updateOrderInputs();
+                    }
+                });
+            });
+
+            document.querySelectorAll(".js-reorderable-list-down").forEach((button) => {
+                button.addEventListener("click", () => {
+                    const li = button.closest(".gem-c-reorderable-list__item");
+                    if (li.nextElementSibling) {
+                        li.parentNode.insertBefore(li.nextElementSibling, li);
+                        updateOrderInputs();
+                    }
+                });
+            });
+
+            // Ensure order is updated on page load
+            updateOrderInputs();
+
+            document.getElementById('save-order-button').addEventListener('click', function (e) {
+                e.preventDefault(); // Prevent the default link behavior (e.g., navigating or reloading the page)
+
+                // HTML for the notification banner
+                const notificationHTML = `
+                    <div class="govuk-notification-banner govuk-notification-banner--success" role="alert" aria-labelledby="govuk-notification-banner-title" data-module="govuk-notification-banner">
+                        <div class="govuk-notification-banner__header">
+                            <h2 class="govuk-notification-banner__title" id="govuk-notification-banner-title">
+                                Success
+                            </h2>
+                        </div>
+                        <div class="govuk-notification-banner__content">
+                            <h3 class="govuk-notification-banner__heading">
+                                Changes saved
+                            </h3>
+                        </div>
+                    </div>
+                `;
+
+                // Insert the notification banner into the container
+                document.getElementById('notification-banner-container').innerHTML = notificationHTML;
+
+                // // Optional: Scroll to the notification banner
+                // document.getElementById('notification-banner-container').scrollIntoView({ behavior: 'smooth' });
+            });
+        </script>
+        {% endblock %}

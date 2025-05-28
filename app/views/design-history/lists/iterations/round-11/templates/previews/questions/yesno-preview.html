@@ -1,0 +1,29 @@
+<div class="govuk-form-group">
+    <fieldset class="govuk-fieldset" aria-describedby="generic-question-hint">
+        <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
+            <div class="govuk-form-group">
+                <h1 class="govuk-label-wrapper">
+                    <label class="govuk-label govuk-label--l" for="text-input-field" id="question-label-legend">
+                        {{ question.label or data['questionLabelInputYesNo'] or '' }}
+
+                    </label>
+                </h1>
+        </legend>
+        <div id="hint-text-output" class="govuk-hint"> {{ data['hintTextInputYesno'] or '' }}
+        </div>
+        <div class="govuk-radios govuk-radios--inline" data-module="govuk-radios">
+            <div class="govuk-radios__item">
+                <input class="govuk-radios__input" id="yes-option" name="generic-question" type="radio" value="yes">
+                <label class="govuk-label govuk-radios__label" for="yes-option">
+                    Yes
+                </label>
+            </div>
+            <div class="govuk-radios__item">
+                <input class="govuk-radios__input" id="no-option" name="generic-question" type="radio" value="no">
+                <label class="govuk-label govuk-radios__label" for="no-option">
+                    No
+                </label>
+            </div>
+        </div>
+    </fieldset>
+</div>

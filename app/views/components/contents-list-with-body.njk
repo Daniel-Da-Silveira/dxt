@@ -1,0 +1,47 @@
+{% macro contentsListWithBody(params) %}
+  {# GOV.UK Publishing Components: Contents List with Body (adapted for Prototype Kit) #}
+  <nav class="gem-c-contents-list govuk-!-padding-right-0 {% if params.alternative_line_style %} gem-c-contents-list--alternative-line-style govuk-!-padding-right-0{% endif %}" aria-label="Contents">
+    <h2 class="gem-c-contents-list__title">Contents</h2>
+    <ol class="gem-c-contents-list__list">
+      {% for item in params.contents %}
+        {% set isActive = (params.activeHref == item.href) %}
+        {% set isSubActive = false %}
+        {% if item.items %}
+          {% for subitem in item.items %}
+            {% if params.activeHref == subitem.href %}
+              {% set isSubActive = true %}
+            {% endif %}
+          {% endfor %}
+        {% endif %}
+        <li class="gem-c-contents-list__list-item gem-c-contents-list__list-item--parent{% if isActive or isSubActive %} gem-c-contents-list__list-item--active{% endif %}">
+          {% if not params.alternative_line_style %}
+            <span class="gem-c-contents-list__list-item-dash" aria-hidden="true"></span>
+          {% endif %}
+          <a class="gem-c-contents-list__link govuk-link govuk-link--no-visited-state gem-c-force-print-link-styles govuk-link--no-underline{% if isActive %} active{% endif %}"
+             href="{{ item.href }}"
+             {% if isActive %}aria-current="location"{% endif %}>{{ item.text }}</a>
+          {% if item.items %}
+            <ol class="gem-c-contents-list__nested-list">
+              {% for subitem in item.items %}
+                {% set isSubActive = (params.activeHref == subitem.href) %}
+                <li class="gem-c-contents-list__list-item gem-c-contents-list__list-item--dashed{% if isSubActive %} gem-c-contents-list__list-item--active{% endif %}">
+                  {% if not params.alternative_line_style %}
+                    <span class="gem-c-contents-list__list-item-dash" aria-hidden="true"></span>
+                  {% endif %}
+                  <a style="font-weight: 400; color: #008531;" class="gem-c-contents-list__link govuk-link govuk-link--no-visited-state gem-c-force-print-link-styles govuk-link--no-underline{% if isSubActive %} active active-subitem{% endif %}"
+                     href="{{ subitem.href }}"
+                     {% if isSubActive %}aria-current="location"{% endif %}>{{ subitem.text }}</a>
+                </li>
+              {% endfor %}
+            </ol>
+          {% endif %}
+        </li>
+      {% endfor %}
+    </ol>
+    <p>
+      <a href="#key-changes-and-improvements" class="govuk-link govuk-link--no-visited-state app-c-back-to-top">
+        <span class="govuk-visually-hidden">Back to </span>
+      </a>
+    </p>
+  </nav>
+{% endmacro %}

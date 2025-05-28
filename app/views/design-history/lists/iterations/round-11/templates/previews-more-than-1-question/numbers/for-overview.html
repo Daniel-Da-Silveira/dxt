@@ -1,0 +1,57 @@
+
+<div class="govuk-form-group">
+  <h1 class="govuk-label-wrapper">
+    <label class="govuk-label govuk-label--l" id="question-label-legend-numbers">
+      {{ data['multiQuestionLabelInputNumbers'] or '' }}
+    </label>
+  </h1>
+  <div id="hint-text-output-numbers" class="govuk-hint">
+    {{ data['multiQuestionhintTextInputNumbers'] or '' }}
+  </div>
+
+  <div class="govuk-input__wrapper">
+    {% if data['prefixNumber'] %}
+      <div class="govuk-input__prefix" aria-hidden="true">{{ data['prefixNumber'] }}</div>
+    {% endif %}
+
+    <input class="govuk-input govuk-input--width-10" id="numbers" name="Numbers" type="text" spellcheck="false" aria-describedby="numbers-hint" inputmode="numeric">
+
+    {% if data['suffixNumber'] %}
+      <div class="govuk-input__suffix" aria-hidden="true">{{ data['suffixNumber'] }}</div>
+    {% endif %}
+  </div>
+</div>
+
+{#
+
+  {% set setName = data['setName'] or '' %}
+  {% set overview0 = data['overview0'] or '' %}
+
+  {% if overview0 == "morethan1" %}
+  {{ govukButton({
+    text: "Add another " ~ setName,
+    classes: "govuk-button govuk-!-margin-top-3",
+    id: "add-another-set-button",
+    disabled: true
+  }) }}
+  {% else %}
+  {{ govukButton({
+    text: "Continue",
+    classes: "govuk-button govuk-!-margin-top-6",
+    id: "once-button",
+    disabled: true
+  }) }}
+  {% endif %} #}
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+const dynamicCaption = document.getElementById("dynamic-caption");
+const setName = dynamicCaption.getAttribute("data-setname");
+
+if (!setName) {
+  dynamicCaption.style.display = "none";
+}
+});
+
+  </script>
+

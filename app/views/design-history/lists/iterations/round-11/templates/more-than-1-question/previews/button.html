@@ -1,0 +1,15 @@
+{% if data['setName'] %}
+{{ govukButton({
+    text: "Add another " + (data['setName'] | lower),
+    classes: "govuk-button govuk-!-margin-top-3",
+    id: "add-another-set-button",
+    disabled: true
+}) }}
+{% else %}
+{# {{ govukButton({
+    text: "Continue",
+    classes: "govuk-button govuk-!-margin-top-3",
+    id: "add-another-set-button",
+    disabled: true
+}) }} #}
+{% endif %}

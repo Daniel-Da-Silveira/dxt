@@ -1,0 +1,417 @@
+{% extends "design-history/template.html" %}
+
+{# --- Feature metadata --- #}
+{% set featureName = "Lists" %}
+{% set latestVersionLink = "/titan-mvp-1.2/form-editor/question-type/radios-nf/edit" %}
+{% set status = "Tested" %}
+{% set statusColor = "green" %}
+{% set userNeed = "Users need to create and manage different types of list-based questions (radio buttons, checkboxes,
+autocomplete, yes-no) to collect structured responses from members of the public." %}
+{% set phase = "Private beta" %}
+{% set category = ["Form creation", "Members of the public"] %}
+{% set description %}
+This feature allows users to create and manage different types of list-based questions in forms, including radio
+buttons, checkboxes, autocomplete, and yes-no questions. It provides a robust, accessible experience for collecting
+structured responses.
+
+<details class='govuk-details govuk-!-margin-top-2' data-module='govuk-details'>
+    <summary class='govuk-details__summary'>
+        <span class='govuk-details__summary-text'>
+            Key Features and Accessibility
+        </span>
+    </summary>
+    <div class='govuk-details__text'>
+        <ul class='govuk-list govuk-list--bullet'>
+            <li><strong>Designed for everyone:</strong> Uses GOV.UK Design System components, follows form best practice
+                (clear, accessible, forgiving), and includes screen reader support via ARIA live regions.</li>
+            <li><strong>Multiple list types:</strong> Supports radio buttons, checkboxes, autocomplete, and yes-no
+                questions
+                with appropriate validation and error handling.</li>
+            <li><strong>Accessible by default:</strong> All interactions are accessible via keyboard and screen readers,
+                with clear focus states and error announcements.</li>
+        </ul>
+        <p class='govuk-body govuk-!-margin-top-2'><strong>Recent improvements:</strong></p>
+        <ul class='govuk-list govuk-list--bullet'>
+            <li><strong>Bulk option entry:</strong> Added ability to enter multiple options at once for checkboxes and
+                radio buttons.</li>
+            <li><strong>Improved preview:</strong> Enhanced preview panel shows accurate representation of list
+                questions.</li>
+            <li><strong>Better guidance:</strong> Clearer explanations of when to use each list type.</li>
+            <li><strong>Question-first approach:</strong> Write question text before adding options for better context.
+            </li>
+            <li><strong>Single-page editing:</strong> Edit all options on one page for better visibility and control.
+            </li>
+        </ul>
+        <details class='govuk-details govuk-!-margin-top-2' data-module='govuk-details'>
+            <summary class='govuk-details__summary'>
+                <span class='govuk-details__summary-text'>
+                    Accessibility for Reordering List Items
+                </span>
+            </summary>
+            <div class='govuk-details__text'>
+                <ul class='govuk-list govuk-list--bullet'>
+                    <li><strong>Screen reader announcements:</strong> When a user focuses on a "Move" button for an item
+                        in the list, the screen reader announces: <br>
+                        <code>Button, Move [Option text]: [Up or Down], [Option text] is currently option [Position] of [Total options] options.</code>
+                    </li>
+                    <li><strong>Reordering and announcing the new position:</strong> When a user clicks the "Move"
+                        button, the list is visually updated and the screen reader announces: <br>
+                        <code>The list has been reordered, [Option text] is now option [new position] of [Total options] options.</code>
+                    </li>
+                    <li><strong>Focus retention:</strong> After reordering, focus remains on the moved item (and its
+                        "Move" buttons) so the user can continue making adjustments without having to refocus.</li>
+                    <li><strong>Accessibility and usability requirements:</strong> All announcements must include:<br>
+                        1. What happened: "The list has been reordered..."<br>
+                        2. Which item was moved: "... [Option text name]..."<br>
+                        3. The new position: "... is now item [Position] of [Total options] options."
+                    </li>
+                    <li><strong>Dynamic button labels:</strong> Button labels or associated text update dynamically to
+                        reflect the new position of the item for any subsequent focus.</li>
+                    <li>For more, see: <a href="http://localhost:3000/design-system/reordering/lists">Reordering lists
+                            accessibility guidance</a></li>
+                </ul>
+            </div>
+        </details>
+    </div>
+</details>
+
+<details class='govuk-details govuk-!-margin-top-2' data-module='govuk-details'>
+    <summary class='govuk-details__summary'>
+        <span class='govuk-details__summary-text'>
+            Key features and benefits
+        </span>
+    </summary>
+    <div class='govuk-details__text'>
+        <ul class='govuk-list govuk-list--bullet'>
+            <li><strong>Question-first approach:</strong> Write your question before adding options for better context.
+            </li>
+            <li><strong>Bulk option entry:</strong> Enter multiple options at once for faster setup.</li>
+            <li><strong>Live preview:</strong> See how your list question will appear to users.</li>
+            <li><strong>Clear guidance:</strong> Helpful hints about when to use each list type.</li>
+            <li><strong>Accessibility built-in:</strong> Screen readers announce options and errors automatically.</li>
+            <li><strong>Error handling:</strong> Clear error messages for invalid selections.</li>
+        </ul>
+    </div>
+</details>
+
+<details class='govuk-details govuk-!-margin-top-2' data-module='govuk-details'>
+    <summary class='govuk-details__summary'>
+        <span class='govuk-details__summary-text'>
+            What users experience
+        </span>
+    </summary>
+    <div class='govuk-details__text'>
+        <ol class='govuk-list govuk-list--number'>
+            <li><strong>Choose list type:</strong> Select from radio buttons, checkboxes, autocomplete, or yes-no.</li>
+            <li><strong>Write question:</strong> Enter the question text that will appear to users.</li>
+            <li><strong>Add options:</strong> Enter one or more options for the list.</li>
+            <li><strong>Preview:</strong> See how the question will appear to users.</li>
+            <li><strong>Add guidance:</strong> Include helpful text to guide users.</li>
+            <li><strong>Continue:</strong> Save and continue building your form.</li>
+        </ol>
+    </div>
+</details>
+{% endset %}
+
+{# --- Research rounds for the summary table --- #}
+{% set researchRounds = [
+"Round 12 - March 2025",
+"Round 11 - March 2025",
+"Round 8 - November 2024"
+] %}
+
+{# --- Key improvements in the latest version --- #}
+{% set improvements = [
+"Added bulk option entry for checkboxes and radio buttons",
+"Improved preview panel accuracy",
+"Enhanced guidance for list types",
+"Implemented question-first approach",
+"Added single-page option editing",
+"Improved error message clarity",
+"Enhanced accessibility features",
+"Better integration with form editor interface"
+] %}
+
+{# --- Journey steps --- #}
+{% set journeySteps = [
+{ number: "1", title: "Onboarding", subtitles: [ { text: "Sign in/out", isCurrent: false } ] },
+{ number: "2", title: "Create new form", subtitles: [ { text: "Add form details", isCurrent: false } ] },
+{ number: "3", title: "Form design", subtitles: [ { text: "Create and edit questions", isCurrent: true } ] },
+{ number: "4", title: "Form overview", subtitles: [ { text: "View and edit form details", isCurrent: false } ],
+isCurrent: true },
+{ number: "5", title: "Testing", subtitles: [ { text: "Preview form", isCurrent: false } ] }
+] %}
+
+{# --- Research history table --- #}
+{% set researchHistory = [
+{
+roundNumber: "12",
+researchDate: "March 2025",
+researchFinding: "Moved question text entry before selecting response options, creating a more linear and less
+disjointed experience. Allowed users to add all list options on the same page as the question. This improved usability
+and efficiency, with no negative feedback reported.",
+changeMade: "Implemented question-first approach and single-page option editing for list questions."
+},
+{
+roundNumber: "11",
+researchDate: "March 2025",
+researchFinding: "Required users to add the first list option before editing the question due to a technical constraint.
+Participants found this confusing and preferred to write the question first, then add options. Users also wanted to see
+all options together while drafting, and disliked being redirected away from the list when adding new options.",
+changeMade: "Identified need to move to a question-first approach and allow all options to be added on the same page."
+},
+{
+roundNumber: "8",
+researchDate: "November 2024",
+researchFinding: "Tested types of list questions (Yes/No, Checkboxes, Radios, Autocomplete). Not all users were familiar
+with all types, especially autocomplete. Users needed more guidance on when and why to use each type. Bulk entry for
+checkboxes was requested. Preview panel and option entry flow were improved based on feedback.",
+changeMade: "Added clearer guidance for list types, improved preview panel, and implemented bulk entry for options."
+}
+] %}
+
+{# --- Detailed research summaries --- #}
+{% set researchSummaries = [
+{
+title: "Round 12 - March 2025",
+summary: "We tested improvements to list question creation, focusing on the question-first approach and single-page
+option editing.",
+sections: [
+{
+type: "content",
+content: "**Research conducted:** Remote usability testing (31 March 2025)\n\n**Participants:** 5 content designers from
+Defra BAU\n\n**Method:** Remote usability testing with think-aloud protocol\n\n**Scenario:** Testing improvements to
+list question creation, including question-first approach and single-page option editing."
+},
+{
+type: "preview",
+url: "/titan-mvp-1.2/form-editor/question-type/radios-nf/edit",
+caption: "",
+previewLabel: "Prototype for adding a radio question",
+showSectionBreak: true
+},
+{
+type: "preview",
+url:
+"https://embed.figma.com/design/1A9Tthy0CJeqp2rGNSKRjH/Defra-Form-Builder-flows?node-id=20891-32927&embed-host=share",
+caption: "",
+previewLabel: "Figma breakdown of the radio question journey",
+showSectionBreak: true
+},
+{
+type: "content",
+content: "**Add a question**\nBackground: In the previous design, participants struggled with adding response options
+before the question in the radio question journey.\n\nBased on this feedback, we moved the question so that users
+complete it before selecting response options. This change performed well in testing, with no issues observed or
+negative comments reported.\n\nCompleting the question text first creates a more linear and less disjointed
+form-building experience."
+},
+{
+type: "content",
+content: "**Add list items**\nBackground: In the previous round of user testing, participants expected to be able to add
+all radio options sequentially on the same page.\n\nWe updated the design so participants could add all radio options
+sequentially on the same page as the question. This change performed very well in testing.\n\n- Having these elements on
+the same page allows form creators to efficiently create a question and its corresponding answer choices in one
+continuous flow.\n- Users were able to see their question and list in the live preview pane."
+},
+{
+type: "findings",
+content: [
+"Moving question text before options improved logic and usability",
+"Users appreciated entering all options on one page",
+"Some confusion remained around hint text and short descriptions",
+"Tool design felt clean, spacious, and intuitive after one use"
+]
+},
+{
+type: "quotes",
+content: [
+"'It feels like it's really intuitive and the design feels really clean'",
+"'Because you have to add them one at a time and come back to this point, you never get to like see your list in the
+drafting stage altogether, so I could have quite easily probably duplicated them if I wasn't kind of paying attention.'
+– Participant 1"
+]
+}
+]
+},
+{
+title: "Round 11 - March 2025",
+summary: "Testing of list question creation and option management",
+sections: [
+{
+type: "content",
+content: "**Research conducted:** Remote usability testing (18 March 2025)\n\n**Participants:** 6 users (content
+designers and a proxy user from Cefas, Environment Agency, APHA, Farming, Whitehall)\n\n**Method:** Remote usability
+testing with think-aloud protocol\n\n**Scenario:** Testing list question creation, option management, and overall form
+builder flow.\n\n**Context:** At this stage, we decided to require users to add the first list option before editing the
+question text. This was due to a technical constraint in the form builder, which meant the question could not be saved
+until at least one option was present."
+},
+{
+type: "details",
+summary: "View summarised illustrations of the flows we tested in round 11 for JS and no JS flows",
+content: "The flows illustrated below are the same for checkboxes too.",
+items: [
+{
+type: "preview",
+url:
+"https://embed.figma.com/design/1A9Tthy0CJeqp2rGNSKRjH/Defra-Form-Builder-flows?node-id=24976-132404&embed-host=share",
+caption: "",
+previewLabel: "Screen 1: JS flow for lists",
+showSectionBreak: true
+},
+{
+type: "preview",
+url:
+"https://embed.figma.com/design/1A9Tthy0CJeqp2rGNSKRjH/Defra-Form-Builder-flows?node-id=24976-132405&embed-host=share",
+caption: "",
+previewLabel: "Screen 2: No JS flow for lists",
+showSectionBreak: true
+}
+]
+},
+{
+type: "details",
+summary: "View the screens we designed and tested for the list question journey in round 11",
+content: "The flows illustrated below are the same for checkboxes too.",
+items: [
+{
+type: "preview",
+url: "/design-history/lists/iterations/round-11/templates/1-question/radios-nf/add.html",
+caption: "",
+previewLabel: "Screen 1: Checkboxes",
+showSectionBreak: true
+},
+{
+type: "preview",
+url: "/design-history/lists/iterations/round-11/templates/1-question/radios-nf/edit.html",
+caption: "",
+previewLabel: "Screen 2: Radios",
+showSectionBreak: true
+},
+{
+type: "preview",
+url: "/design-history/lists/iterations/round-11/templates/1-question/radios-nf/add.html",
+caption: "",
+previewLabel: "Screen 3: Add a new radio option",
+showSectionBreak: true
+},
+{
+type: "preview",
+url: "/design-history/lists/iterations/round-11/templates/1-question/radios-nf/editoption.html",
+caption: "",
+previewLabel: "Screen 4: Edit radio option",
+showSectionBreak: false
+},
+{
+type: "preview",
+url: "/design-history/lists/iterations/round-11/templates/1-question/radios-nf/delete-option.html",
+caption: "",
+previewLabel: "Screen 5: Delete radio option",
+showSectionBreak: true
+}
+]
+},
+{
+type: "content",
+content: "**Adding Radio Option First**\nSeveral participants expressed confusion with the tool asking for the response
+options for a question before the question itself.\n- Participants expressed a strong mental model of expecting to put
+the question in, and then the options after.\n- When constructing written content, people would likely start with the
+question first.\n- Participants wanted to check if their response options still 'fit' after writing their question.\n-
+One participant stated that the order felt like working backwards."
+},
+{
+type: "content",
+content: "**'Add a new radio option' flow**\nWhen users select 'add a new radio option', the tool redirects them away
+from their existing list of radio options onto a new page.\n- Participants expected to be able to add all radio options
+sequentially on the same page.\n- The current design prevents users from seeing their existing list of radio options
+while adding a new one, which participants did not like.\n- When there are a limited number of options, it would be
+preferable to consider the question text and all the radio options simultaneously."
+},
+{
+type: "quotes",
+content: [
+"It would be really nice to just be able to... in the mental model of my question, like thinking about what's my
+question text then thinking about all of my radios at the same time. – Participant 3",
+"Because you have to add them one at a time and come back to this point, you never get to like see your list in the
+drafting stage altogether, so I could have quite easily probably duplicated them if I wasn't kind of paying attention. –
+Participant 1"
+]
+}
+]
+},
+{
+title: "Round 8 - November 2024",
+summary: "Testing of input types and preview functionality",
+sections: [
+{
+type: "content",
+content: "**Research conducted:** Remote usability testing (5 November 2024)\n\n**Participants:** 5 content designers
+and 1 proxy user\n\n**Method:** Remote usability testing with think-aloud protocol\n\n**Scenario:** Testing input type
+familiarity, preview panel functionality, and option entry methods."
+},
+{
+type: "details",
+summary: "View the screens we designed and tested for the list question journey",
+content: "",
+items: [
+{
+type: "preview",
+url: "/design-history/lists/iterations/round-8/checkboxes.html",
+caption: "",
+previewLabel: "Screen 1: Checkboxes",
+showSectionBreak: true
+},
+{
+type: "preview",
+url: "/design-history/lists/iterations/round-8/radios.html",
+caption: "",
+previewLabel: "Screen 2: Radios",
+showSectionBreak: true
+},
+{
+type: "preview",
+url: "/design-history/lists/iterations/round-8/yes-no.html",
+caption: "",
+previewLabel: "Screen 3: Yes or No",
+showSectionBreak: true
+},
+{
+type: "preview",
+url: "/design-history/lists/iterations/round-8/autocomplete.html",
+caption: "",
+previewLabel: "Screen 4: Autocomplete",
+showSectionBreak: false
+}
+]
+},
+{
+type: "findings",
+content: [
+"Users understood supporting evidence, radios, and checkboxes",
+"Autocomplete was less familiar to users",
+"Preview panel caused confusion for radios",
+"Checkbox options entry was annoying to enter one by one"
+]
+},
+{
+type: "content",
+content: "**Types of list options tested:**\n- Yes or No\n- Checkboxes\n- Radios\n- Autocomplete\n\n**Key findings:**\n-
+The different options were not familiar to all users, especially autocomplete.\n- In general, some users need guidance
+in understanding the different options, when to use them and why.\n- Autocomplete was not clear to all users; some
+guidance is needed.\n- Some users confused autocomplete with written answers or long lists.\n- For checkboxes, users
+found it annoying to add all options separately, rather than putting them together in a text box, separated by a
+comma.\n- More research is needed to better understand how to design a good experience for everyone."
+},
+{
+type: "quotes",
+content: [
+"I think this is a written answer. I'm not sure if it's written answer or a very long list of options that people can
+choose from. – Advisor, Cefas",
+"I'd say that it's annoying that I have to put in each of the options separately, and I can't put them in like a comma
+separated list. – Senior content designer, BaU, Farming"
+]
+}
+]
+}
+] %}

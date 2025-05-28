@@ -1,0 +1,188 @@
+{% extends "layouts/main.html" %}
+
+{% block pageTitle %}
+  Question page template – {{ serviceName }} – GOV.UK Prototype Kit
+{% endblock %}
+
+{% block beforeContent %}
+  {{ govukBackLink({
+  text: "Back",
+  href: "javascript:window.history.back()"
+}) }}
+{% endblock %}
+
+{% block content %}
+
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+
+      <h1 class="govuk-heading-l">
+        Heading or question goes here
+      </h1>
+
+      <form class="form" action="/path/of/next/page" method="post">
+
+        {% from "govuk/components/input/macro.njk" import govukInput %}
+
+
+                     <!-- Question and Hint Text Inputs -->
+<div class="govuk-form-group">
+  <label class="govuk-label govuk-label--m" for="question-label-input">Question</label>
+  <input class="govuk-input" id="question-label-input" name="question-label" type="text">
+</div>
+
+<div class="govuk-form-group">
+  <label class="govuk-label govuk-label--m" for="hint-text-input">Hint text (optional)</label>
+  <textarea class="govuk-textarea" id="hint-text-input" name="hintTextInput" rows="2"></textarea>
+</div>
+
+<!-- Question Settings -->
+<div class="govuk-form-group">
+  <fieldset class="govuk-fieldset">
+    <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">Question settings</legend>
+    <span class="govuk-hint">Manage how the question is displayed</span>
+
+    <div class="govuk-checkboxes govuk-checkboxes--small">
+      <div class="govuk-checkboxes__item">
+        <input class="govuk-checkboxes__input" id="optional" name="optional" type="checkbox" value="optional">
+        <label class="govuk-label govuk-checkboxes__label" for="optional">Make this question optional</label>
+      </div>
+    </div>
+  </fieldset>
+</div>
+
+<!-- Error Message Label Input -->
+<div class="govuk-form-group">
+  <label class="govuk-label govuk-label--m" for="error-label-input">Short description</label>
+  <span class="govuk-hint">
+    Enter a short description for this question like 'licence period'. Short descriptions are used in error messages and on the check your answers page.
+  </span>
+  <input class="govuk-input" id="error-label-input" name="error-label" type="text">
+</div>
+
+<!-- Answer Limits -->
+<details class="govuk-details">
+  <summary class="govuk-details__summary">
+    <span class="govuk-details__summary-text">Set answer limits (optional)</span>
+  </summary>
+  <div class="govuk-details__text">
+    <div class="govuk-checkboxes">
+      <div class="govuk-checkboxes__item">
+        <input class="govuk-checkboxes__input" id="contact-betweenDates" name="contact" type="checkbox" value="betweenDates">
+        <label class="govuk-label govuk-checkboxes__label" for="contact-betweenDates">Answer must be between two dates</label>
+
+        <div class="govuk-checkboxes__conditional" id="conditional-contact-betweenDates">
+          <!-- First Date Input -->
+          <fieldset class="govuk-fieldset">
+            <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">First date</legend>
+            <div class="govuk-date-input" id="first-date">
+              <div class="govuk-date-input__item">
+                <div class="govuk-form-group">
+                  <label class="govuk-label govuk-date-input__label" for="first-date-day">Day</label>
+                  <input class="govuk-input govuk-input--width-2" id="first-date-day" name="first-date-day" type="text" inputmode="numeric">
+                </div>
+              </div>
+              <div class="govuk-date-input__item">
+                <div class="govuk-form-group">
+                  <label class="govuk-label govuk-date-input__label" for="first-date-month">Month</label>
+                  <input class="govuk-input govuk-input--width-2" id="first-date-month" name="first-date-month" type="text" inputmode="numeric">
+                </div>
+              </div>
+              <div class="govuk-date-input__item">
+                <div class="govuk-form-group">
+                  <label class="govuk-label govuk-date-input__label" for="first-date-year">Year</label>
+                  <input class="govuk-input govuk-input--width-4" id="first-date-year" name="first-date-year" type="text" inputmode="numeric">
+                </div>
+              </div>
+            </div>
+          </fieldset>
+
+          <!-- Second Date Input -->
+          <fieldset class="govuk-fieldset">
+            <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">Second date</legend>
+            <div class="govuk-date-input" id="second-date">
+              <div class="govuk-date-input__item">
+                <div class="govuk-form-group">
+                  <label class="govuk-label govuk-date-input__label" for="second-date-day">Day</label>
+                  <input class="govuk-input govuk-input--width-2" id="second-date-day" name="second-date-day" type="text" inputmode="numeric">
+                </div>
+              </div>
+              <div class="govuk-date-input__item">
+                <div class="govuk-form-group">
+                  <label class="govuk-label govuk-date-input__label" for="second-date-month">Month</label>
+                  <input class="govuk-input govuk-input--width-2" id="second-date-month" name="second-date-month" type="text" inputmode="numeric">
+                </div>
+              </div>
+              <div class="govuk-date-input__item">
+                <div class="govuk-form-group">
+                  <label class="govuk-label govuk-date-input__label" for="second-date-year">Year</label>
+                  <input class="govuk-input govuk-input--width-4" id="second-date-year" name="second-date-year" type="text" inputmode="numeric">
+                </div>
+              </div>
+            </div>
+          </fieldset>
+        </div>
+      </div>
+    </div>
+  </div>
+</details>
+
+
+                          <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
+
+                          <h2 class="govuk-heading-m">Type of written answer</h2>
+
+                          {{ govukSummaryList({
+                          rows: [
+                          {
+                          key: {
+                          text: "Written answer"
+                          },
+                          value: {
+                          text: "Long text"
+                          },
+                          actions: {
+                          items: [
+                          {
+                          href: "#",
+                          text: "Change",
+                          visuallyHiddenText: "Change type of written answer"
+                          }
+                          ]
+                          }
+                          }
+                          ]
+
+
+                          }) }}
+
+
+                            {{ govukButton({
+                            text: "Continue",
+                            id: "save-changes-button"
+                            }) }}
+
+
+                          {# DIV BEFORE THE END OF THE QUESTION-1-CONTENT #}
+                        </div>
+
+                        <!-- Placeholder for new questions -->
+                        <div id="new-questions" style="margin-top: 20px;">
+                          <!-- Each question added dynamically will go here -->
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </dd>
+              </div>
+            </dl>
+          </div>
+        </div>
+      </div>
+
+      </form>
+
+    </div>
+  </div>
+
+{% endblock %}
