@@ -1,0 +1,40 @@
+{% set contents = [
+{
+href: "/design-history/forms-designer/index.html",
+text: "Re-design overview"
+},
+{
+href: "/design-history/forms-designer/summary-of-changes.html",
+text: "Summary of changes and improvements"
+},
+{
+text: "Feature by feature deep dive",
+items: [
+{ href: "/design-history/forms-designer/deep-dive/finding-and-managing-forms.html", text: "Finding and managing forms"
+},
+{ href: "/design-history/forms-designer/deep-dive/editing-a-form.html", text: "Editing a Form" },
+{ href: "/design-history/forms-designer/deep-dive/adding-questions.html", text: "Adding Questions" },
+{ href: "/design-history/forms-designer/deep-dive/adding-conditions.html", text: "Adding Conditions" },
+{ href: "/design-history/forms-designer/deep-dive/re-ordering-content.html", text: "Re-ordering Content" },
+{ href: "/design-history/forms-designer/deep-dive/visualising-form-structure.html", text: "Visualising Form Structure"
+},
+{ href: "/design-history/forms-designer/deep-dive/previewing-forms-and-edits.html", text: "Previewing Forms and Edits"
+},
+{ href: "/design-history/forms-designer/deep-dive/signing-in-and-out.html", text: "Signing In and Out" },
+{ href: "#additional-improvements", text: "Additional Improvements" }
+]
+},
+{
+href: "/design-history/forms-designer/user-flow-breakdown.html",
+text: "User flow breakdown for the Titan release of the forms designer"
+}
+] %}
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-one-quarter app-contents-list--sticky govuk-!-padding-right-0">
+        {{ contentsListWithBody({ contents: contents, alternative_line_style: true, activeHref:
+        "/design-history/forms-designer/deep-dive/additional-improvements.html" }) }}
+    </div>
+    <div class="govuk-grid-column-two-thirds">
+        // ... existing main content ...
+    </div>
+</div>

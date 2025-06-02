@@ -1,7 +1,7 @@
 {# {% extends "layouts/main.html" %} #}
 {% extends "design-history/template.html" %}
 
-{% set featureName = "Re-design overview" %}
+{% set pageTitle = "Transforming the Defra Forms Designer" %}
 
 
 {% from "components/service-header/macro.njk" import serviceHeader %}
@@ -109,16 +109,16 @@
 {{ serviceHeader({
 organisationName: "Defra",
 productName: "Forms Designer",
-serviceName: "Design history",
+serviceName: "Design History",
 containerClasses: containerClasses,
-homepageLink: "/design-system/components.html",
+accountName: "Chris Smith (Admin)",
+homepageLink: "/",
 signOutLink: "/onboarding/sign-out-confirmation",
 navigationItems: [
-{ href: "/index", text: "Histories and prototypes", id: "histories-and-prototypes" },
-{ href: "/design-system/components.html", text: "Components", id: "components" },
-{ href: "/design-system/user-journeys/home.html", text: "User journeys", id: "user-journeys" }
+{ href: "/roles/my-account.html", text: "My account", id: "my-account" },
+{ href: "/roles/manage-users.html", text: "Manage users", id: "manage-users" }
 ],
-activeLinkId: "histories-and-prototypes"
+activeLinkId: ""
 }) }}
 
 <div class="x-govuk-masthead x-govuk-masthead--large">
@@ -131,11 +131,11 @@ activeLinkId: "histories-and-prototypes"
         href: "/design-history/index.html"
         },
         {
-        text: "Transforming the Defra Forms Designer: A design history",
+        text: "Forms Designer",
         href: "/design-history/forms-designer/index.html"
         },
         {
-        text: "Redesign overview"
+        text: "Redesign Journey"
         }
         ]
         }) }}
@@ -199,6 +199,10 @@ activeLinkId: "histories-and-prototypes"
         {
         href: "/design-history/forms-designer/summary-of-changes.html",
         text: "Summary of changes and improvements"
+        },
+        {
+        href: "/design-history/forms-designer/old-new-page2.html",
+        text: "Feature by feature deep dive"
         },
         {
         href: "/design-history/forms-designer/user-flow-breakdown.html",
@@ -317,6 +321,9 @@ activeLinkId: "histories-and-prototypes"
                 href: "/design-history/forms-designer/summary-of-changes.html"
                 }
                 }) }}
+
+
+
             </div>
         </div>
     </div>

@@ -161,7 +161,7 @@ activeLinkId: ""
 {% block content %}
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-one-quarter app-contents-list--sticky govuk-!-padding-right-0">
-        <div data-sticky-element=""
+        {# <div data-sticky-element=""
             class="gem-c-contents-list-with-body__link-wrapper gem-c-contents-list-with-body__sticky-element--enabled gem-c-contents-list-with-body__sticky-element--stuck-to-window govuk-!-padding-top-0 govuk-!-margin-top-0">
             <div class="gem-c-contents-list-with-body__link-container govuk-!-padding-top-0 govuk-!-margin-top-0">
                 <a class="govuk-link govuk-link--no-visited-state gem-c-back-to-top-link govuk-!-display-none-print"
@@ -173,7 +173,7 @@ activeLinkId: ""
                     Back to top
                 </a>
             </div>
-        </div>
+        </div> #}
         {% set contents = [
         {
         href: "/design-history/forms-designer/index.html",
@@ -198,18 +198,21 @@ activeLinkId: ""
         text: "Summary of changes and improvements"
         },
         {
-        href: "#changes-to-features-deep-dive",
         text: "Feature by feature deep dive",
         items: [
-        { href: "#finding-and-managing-forms", text: "Finding and managing forms" },
-        { href: "#editing-a-form", text: "Editing a Form" },
-        { href: "#adding-questions", text: "Adding Questions" },
-        { href: "#adding-conditions", text: "Adding Conditions" },
-        { href: "#re-ordering-content", text: "Re-ordering Content" },
-        { href: "#visualising-form-structure", text: "Visualising Form Structure" },
-        { href: "#previewing-forms-and-edits", text: "Previewing Forms and Edits" },
-        { href: "#signing-in-and-out", text: "Signing In and Out" },
-        { href: "#additional-improvements", text: "Additional Improvements" }
+        { href: "/design-history/forms-designer/deep-dive/finding-and-managing-forms.html", text: "Finding and managing
+        forms" },
+        { href: "/design-history/forms-designer/deep-dive/editing-a-form.html", text: "Editing a Form" },
+        { href: "/design-history/forms-designer/deep-dive/adding-questions.html", text: "Adding Questions" },
+        { href: "/design-history/forms-designer/deep-dive/adding-conditions.html", text: "Adding Conditions" },
+        { href: "/design-history/forms-designer/deep-dive/re-ordering-content.html", text: "Re-ordering Content" },
+        { href: "/design-history/forms-designer/deep-dive/visualising-form-structure.html", text: "Visualising Form
+        Structure" },
+        { href: "/design-history/forms-designer/deep-dive/previewing-forms-and-edits.html", text: "Previewing Forms and
+        Edits" },
+        { href: "/design-history/forms-designer/deep-dive/signing-in-and-out.html", text: "Signing In and Out" },
+        { href: "/design-history/forms-designer/deep-dive/additional-improvements.html", text: "Additional Improvements"
+        }
         ]
         },
         {
@@ -230,11 +233,35 @@ activeLinkId: ""
                 <li>in a long list of forms, it was hard to find the one you were looking for because you could only go
                     off the name of the form</li>
 
+                <div class="preview-section">
+                    <span class="govuk-caption-m govuk-!-margin-bottom-1 govuk-!-margin-top-6">Preview of list of form
+                        selection in the old iteration</span>
+                    <div class="iframe-container govuk-!-margin-bottom-6" role="region"
+                        aria-labelledby="preview-heading-xgov">
+                        <h2 id="preview-heading-xgov" class="govuk-visually-hidden">x-gov form builder as-is
+                        </h2>
+                        <iframe
+                            src="https://embed.figma.com/design/2xHXxJtz4Y1tcRR9J2GEmc/x-gov-as-is-flows?node-id=14-53258&embed-host=share"
+                            class="iframe-content" style="overflow-y: auto; height: 500px; width: 100%; border: none;"
+                            scrolling="yes" frameborder="0" title="Form preview" marginheight="0" marginwidth="0"
+                            allowfullscreen>
+                        </iframe>
+                        <div class="iframe-tabs" role="navigation" aria-label="Preview controls">
+                            <a class="govuk-link govuk-link--no-visited-state iframe-tab maximise-button"
+                                style="border-right: #007f3b 1px solid;" href="#" role="button"
+                                aria-label="Maximise preview" title="Maximise preview" tabindex="0">
+                                Maximise
+                            </a>
+                            <a class="govuk-link govuk-link--no-visited-state iframe-tab"
+                                href="https://embed.figma.com/design/2xHXxJtz4Y1tcRR9J2GEmc/x-gov-as-is-flows?node-id=14-53258&embed-host=share"
+                                target="_blank" rel="noopener noreferrer" aria-label="Open preview in a new tab"
+                                title="Open preview in a new tab">
+                                Open in a new tab
+                            </a>
+                        </div>
+                    </div>
+                </div>
 
-                <iframe style="border: 1px solid rgba(0, 0, 0, 0.1); margin-top: 1em; margin-bottom: 2em;" width="800"
-                    height="450"
-                    src="https://embed.figma.com/design/2xHXxJtz4Y1tcRR9J2GEmc/x-gov-as-is-flows?node-id=14-53258&embed-host=share"
-                    allowfullscreen></iframe>
 
                 <h3 class="govuk-heading-m">Latest iteration (finding forms):</h3>
                 <ul class="govuk-list govuk-list--bullet">
@@ -246,11 +273,15 @@ activeLinkId: ""
                     <li>you can add meta data to a form</li>
                 </ul>
 
+
+
                 <div class="govuk-inset-text">
                     <p class="govuk-body">"'Search' works very well – it meets what users need." — Content designer
                         feedback
                         from Rounds 3 & 4</p>
                 </div>
+
+                <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
 
                 {%- from "moj/components/ticket-panel/macro.njk" import mojTicketPanel -%}
 
@@ -269,6 +300,72 @@ activeLinkId: ""
                     <li>streamlined publishing workflow with clear steps and safeguards</li>
                     <li>immediate feedback on form status changes</li>
                 </ul>
+
+                <details class="govuk-details" data-module="govuk-details">
+                    <summary class="govuk-details__summary">
+                        <span class="govuk-details__summary-text">
+                            View the latest iteration of the forms library and form overview
+                        </span>
+                    </summary>
+                    <div class="govuk-details__text">
+                        <div class="preview-section">
+                            <span class="govuk-caption-m govuk-!-margin-bottom-1 govuk-!-margin-top-6">Forms
+                                library</span>
+                            <div class="iframe-container govuk-!-margin-bottom-6" role="region"
+                                aria-labelledby="preview-heading-xgov">
+                                <h2 id="preview-heading-xgov" class="govuk-visually-hidden">Forms library in the latest
+                                    iteration</h2>
+                                <iframe src="/titan-mvp-1.2/library" class="iframe-content"
+                                    style="overflow-y: auto; height: 500px; width: 100%; border: none;" scrolling="yes"
+                                    frameborder="0" title="Form preview" marginheight="0" marginwidth="0"
+                                    allowfullscreen>
+                                </iframe>
+                                <div class="iframe-tabs" role="navigation" aria-label="Preview controls">
+                                    <a class="govuk-link govuk-link--no-visited-state iframe-tab maximise-button"
+                                        style="border-right: #007f3b 1px solid;" href="#" role="button"
+                                        aria-label="Maximise preview" title="Maximise preview" tabindex="0">
+                                        Maximise
+                                    </a>
+                                    <a class="govuk-link govuk-link--no-visited-state iframe-tab"
+                                        href="/titan-mvp-1.2/library" target="_blank" rel="noopener noreferrer"
+                                        aria-label="Open preview in a new tab" title="Open preview in a new tab">
+                                        Open in a new tab
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="preview-section">
+                            <span class="govuk-caption-m govuk-!-margin-bottom-1 govuk-!-margin-top-6">Form
+                                overview</span>
+                            <div class="iframe-container govuk-!-margin-bottom-6" role="region"
+                                aria-labelledby="preview-heading-xgov">
+                                <h2 id="preview-heading-xgov" class="govuk-visually-hidden">Form overview in the latest
+                                    iteration</h2>
+                                <iframe src="/titan-mvp-1.2/form-overview/live-overview" class="iframe-content"
+                                    style="overflow-y: auto; height: 500px; width: 100%; border: none;" scrolling="yes"
+                                    frameborder="0" title="Form preview" marginheight="0" marginwidth="0"
+                                    allowfullscreen>
+                                </iframe>
+                                <div class="iframe-tabs" role="navigation" aria-label="Preview controls">
+                                    <a class="govuk-link govuk-link--no-visited-state iframe-tab maximise-button"
+                                        style="border-right: #007f3b 1px solid;" href="#" role="button"
+                                        aria-label="Maximise preview" title="Maximise preview" tabindex="0">
+                                        Maximise
+                                    </a>
+                                    <a class="govuk-link govuk-link--no-visited-state iframe-tab"
+                                        href="/titan-mvp-1.2/form-overview/live-overview" target="_blank"
+                                        rel="noopener noreferrer" aria-label="Open preview in a new tab"
+                                        title="Open preview in a new tab">
+                                        Open in a new tab
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </details>
+
+
 
                 <div class="govuk-inset-text">
                     <p class="govuk-body">"It's very similar to Whitehall Publishing..." — Content Designer,
@@ -294,7 +391,8 @@ activeLinkId: ""
                     </li>
                     <li>
                         <a class="govuk-link govuk-link--no-visited-state"
-                            href="/design-history/form-overview/posts/form-actions">Making form actions intuitive</a>
+                            href="/design-history/form-overview/posts/form-actions">Making form actions
+                            intuitive</a>
                     </li>
                 </ul>',
                 attributes: {
@@ -340,7 +438,8 @@ activeLinkId: ""
                     </li>
                     <li>
                         <a class="govuk-link govuk-link--no-visited-state"
-                            href="/design-history/form-editor/posts/question-types">Question types and configuration</a>
+                            href="/design-history/form-editor/posts/question-types">Question types and
+                            configuration</a>
                     </li>
                     <li>
                         <a class="govuk-link govuk-link--no-visited-state"
@@ -374,7 +473,8 @@ activeLinkId: ""
                     <li>integrated workflow for question text and options</li>
                 </ul>
                 <div class="govuk-inset-text">
-                    <p class="govuk-body">"It would be really nice to... think about what's my question text then think
+                    <p class="govuk-body">"It would be really nice to... think about what's my question text then
+                        think
                         about all of my radios at the same time." — Content designer feedback from Round 11</p>
                 </div>
                 <hr class="govuk-section-break govuk-section-break--xl govuk-section-break--visible">
@@ -394,7 +494,8 @@ activeLinkId: ""
                     <li>interactive preview of conditional paths</li>
                 </ul>
                 <div class="govuk-inset-text">
-                    <p class="govuk-body">"The ability to combine conditions—that's pretty wicked." — Content designer
+                    <p class="govuk-body">"The ability to combine conditions—that's pretty wicked." — Content
+                        designer
                         feedback from Round 13</p>
                 </div>
                 <hr class="govuk-section-break govuk-section-break--xl govuk-section-break--visible">
@@ -414,7 +515,8 @@ activeLinkId: ""
                     <li>maintains context with preview updates</li>
                 </ul>
                 <div class="govuk-inset-text">
-                    <p class="govuk-body">"Missing visual cues; can reordering be on summary page to avoid extra click?"
+                    <p class="govuk-body">"Missing visual cues; can reordering be on summary page to avoid extra
+                        click?"
                         —
                         Content designer feedback from Round 6</p>
                 </div>
@@ -435,7 +537,8 @@ activeLinkId: ""
                     <li>quick access to any part of the form</li>
                 </ul>
                 <div class="govuk-inset-text">
-                    <p class="govuk-body">"It's easy to see and edit your questions, really useful." — Content designer
+                    <p class="govuk-body">"It's easy to see and edit your questions, really useful." — Content
+                        designer
                         feedback from Round 6</p>
                 </div>
                 <hr class="govuk-section-break govuk-section-break--xl govuk-section-break--visible">
@@ -540,7 +643,8 @@ activeLinkId: ""
                 </ul>
 
                 <div class="govuk-inset-text">
-                    <p class="govuk-body">"The design feels really clean, really like a lot of space, very methodical
+                    <p class="govuk-body">"The design feels really clean, really like a lot of space, very
+                        methodical
                         step by step" — Content designer feedback from Round 12</p>
                 </div>
 
@@ -590,9 +694,11 @@ activeLinkId: ""
                 {# <h2 class="govuk-heading-l" id="scope-and-aims-of-the-service">Scope and aims of the service</h2>
                 <p class="govuk-body">Our goal was clear: transform the x-gov form builder into a timely,
                     cost-effective,
-                    accessible, and user-centred digital experience for content designers building online forms. This
+                    accessible, and user-centred digital experience for content designers building online forms.
+                    This
                     would
-                    streamline digitisation and enable rapid, accurate processing of data submitted by end users.</p>
+                    streamline digitisation and enable rapid, accurate processing of data submitted by end users.
+                </p>
                 <p class="govuk-body">Key objectives included:</p>
                 <ul class="govuk-list govuk-list--bullet">
                     <li>Achieve WCAG 2.2 compliance across all components and interactions</li>

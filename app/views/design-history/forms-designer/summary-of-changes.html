@@ -1,6 +1,7 @@
 {% extends "design-history/template.html" %}
 
-{% set pageTitle = "Summary of Changes and Improvements" %}
+{% set featureName = "Summary of changes and improvements" %}
+
 
 {% from "components/service-header/macro.njk" import serviceHeader %}
 {% from "govuk/components/summary-list/macro.njk" import govukSummaryList %}
@@ -47,16 +48,16 @@
 {{ serviceHeader({
 organisationName: "Defra",
 productName: "Forms Designer",
-serviceName: "Design History",
+serviceName: "Design history",
 containerClasses: containerClasses,
-accountName: "Chris Smith (Admin)",
-homepageLink: "/",
+homepageLink: "/design-system/components.html",
 signOutLink: "/onboarding/sign-out-confirmation",
 navigationItems: [
-{ href: "/roles/my-account.html", text: "My account", id: "my-account" },
-{ href: "/roles/manage-users.html", text: "Manage users", id: "manage-users" }
+{ href: "/index", text: "Histories and prototypes", id: "histories-and-prototypes" },
+{ href: "/design-system/components.html", text: "Components", id: "components" },
+{ href: "/design-system/user-journeys/home.html", text: "User journeys", id: "user-journeys" }
 ],
-activeLinkId: ""
+activeLinkId: "histories-and-prototypes"
 }) }}
 
 <div class="x-govuk-masthead x-govuk-masthead--large">
@@ -69,11 +70,11 @@ activeLinkId: ""
         href: "/design-history/index.html"
         },
         {
-        text: "Forms Designer",
+        text: "Transforming the Defra Forms Designer: A design history",
         href: "/design-history/forms-designer/index.html"
         },
         {
-        text: "Summary of Changes"
+        text: "Summary of changes and improvements"
         }
         ]
         }) }}
@@ -101,7 +102,7 @@ activeLinkId: ""
 {% block content %}
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-one-quarter app-contents-list--sticky govuk-!-padding-right-0">
-        <div data-sticky-element=""
+        {# <div data-sticky-element=""
             class="gem-c-contents-list-with-body__link-wrapper gem-c-contents-list-with-body__sticky-element--enabled gem-c-contents-list-with-body__sticky-element--stuck-to-window govuk-!-padding-top-0 govuk-!-margin-top-0">
             <div class="gem-c-contents-list-with-body__link-container govuk-!-padding-top-0 govuk-!-margin-top-0"
                 id="contents">
@@ -114,7 +115,7 @@ activeLinkId: ""
                     Back to top
                 </a>
             </div>
-        </div>
+        </div> #}
         {% set contents = [
         {
         href: "/design-history/forms-designer/index.html",
@@ -139,19 +140,24 @@ activeLinkId: ""
         text: "Summary of changes and improvements"
         },
         {
-        href: "/design-history/forms-designer/old-new-page2.html",
-        text: "Changes to features (deep dive)"
-        },
-        {
         href: "/design-history/forms-designer/user-flow-breakdown.html",
         text: "User flow breakdown for the Titan release of the forms designer"
         }
         ] %}
         {{ contentsListWithBody({ contents: contents, alternative_line_style: true }) }}
     </div>
+
     <div class="govuk-grid-column-two-thirds">
         <div class="app-prose-scope">
             <h2 class="govuk-heading-l" id="key-changes-and-improvements">Summary</h2>
+
+            <div class="govuk-inset-text">
+                <p class="govuk-body">To see how we've improved the forms designer in-depth, feature by feature,
+                    see our <a href="/design-history/index" class="govuk-link govuk-link--no-visited-state">feature
+                        level
+                        design
+                        histories</a>.</p>
+            </div>
 
             <p class="govuk-body">Through 13 rounds of user research conducted between May 2024 and April 2025,
                 involving over 50 participants including content designers, proxy users, and internal stakeholders
@@ -238,7 +244,17 @@ activeLinkId: ""
             text: "Creating a page"
             },
             {
-            text: "Click 'Add page' then immediately hunt for a component"
+            html: "<p class='govuk-body'>Click 'Add page' then:
+            <ul class='govuk-list govuk-list--bullet'>
+                <li>optionally configure page-level settings, like set a section using the Sections button, adding or
+                    edit routing conditions, configure page heading, guidance, outputs, and summary behaviour</li>
+                <li>Add a component (a question) and use the “Add component” button to choose a question or content type
+                </li>
+                <li>From the “Create component” step, you choose a component from three categories: content components,
+                    input components and select components</li>
+                <li>Once the component is added, it appears on the form page and you can repeat the process to add more
+                    questions.</li>
+            </ul>"
             },
             {
             html: "<p class='govuk-body'>Add new page → Page-type selector</p>
@@ -387,14 +403,15 @@ activeLinkId: ""
             ]
             }) }}
 
+
             {{ govukPagination({
             previous: {
             labelText: "Re-design overview",
             href: "/design-history/forms-designer/index.html"
             },
             next: {
-            labelText: "Changes to features (deep dive)",
-            href: "/design-history/forms-designer/old-new-page2.html"
+            labelText: "User flow breakdown for the Titan release of the forms designer",
+            href: "/design-history/forms-designer/user-flow-breakdown.html"
             }
             }) }}
 

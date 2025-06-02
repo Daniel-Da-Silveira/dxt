@@ -313,217 +313,254 @@ text: "Start latest prototype (Titan MVP 1.2)"
 {% block content %}
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-full">
-    <h2 class="govuk-heading-l">Features</h2>
-    <div class="govuk-inset-text">
-      <h3 class="govuk-heading-s">Understanding the design process</h3>
-      <p class="govuk-body">Each feature has gone through multiple rounds of user research and testing. The design
-        history link provides access to:</p>
-      <ul class="govuk-list govuk-list--bullet">
-        <li>Research findings and insights</li>
-        <li>Design iterations and improvements</li>
-        <li>User feedback and testing results</li>
-        <li>Implementation decisions and rationale</li>
-      </ul>
+
+    {%- from "moj/components/ticket-panel/macro.njk" import mojTicketPanel -%}
+
+    <div class="govuk-grid-column-two-thirds">
+
+      {{ mojTicketPanel({
+      attributes: {
+      "aria-label": "Read an overview of the re-design of the forms designer"
+      },
+      items: [{
+      html: ' <h2 class="govuk-heading-m govuk-!-margin-bottom-2">Read an overview of the re-design of the forms
+        designer</h2>
+      <p class="govuk-body">The Defra Forms Designer (DxT) has undergone a major re-design to improve usability,
+        accessibility, and efficiency. Read an overview of the re-design and the changes made
+        to the tool.</p>
+      <a class="govuk-button govuk-!-margin-bottom-1" data-module="govuk-button"
+        href="/design-history/forms-designer/index.html" target="_blank" rel="noopener noreferrer">
+        Read overview
+      </a>',
+      attributes: {
+      "aria-label": "Section 1"
+      },
+      classes: "moj-ticket-panel__content--green govuk-!-margin-bottom-6"
+      }]
+      }) }}
     </div>
-    {% set testedTableData = [] %}
-    {% set inProgressTableData = [] %}
+    <div class="govuk-grid-column-full">
 
-    {% for feature in sortedFeatures %}
-    {% set researchRoundsText = '' %}
-    {% for round in feature.researchRounds %}
-    {% if not loop.first %}{% set researchRoundsText = researchRoundsText + '<br>' %}{% endif %}
-    {% set researchRoundsText = researchRoundsText + round.date + ' (Round ' + round.round + ')' %}
-    {% endfor %}
-    {% set detailsHtml = govukDetails({
-    summaryText: "View rounds",
-    html: researchRoundsText
-    }) %}
+      <h2 class="govuk-heading-l">Features</h2>
+      <details class="govuk-details">
+        <summary class="govuk-details__summary">
+          <span class="govuk-details__summary-text">
+            Understanding the design process
+          </span>
+        </summary>
+        <div class="govuk-details__text">
+          <h3 class="govuk-heading-s">Understanding the design process</h3>
+          <p class="govuk-body">Each feature has gone through multiple rounds of user research and testing. The design
+            history link provides access to:</p>
+          <ul class="govuk-list govuk-list--bullet">
+            <li>Research findings and insights</li>
+            <li>Design iterations and improvements</li>
+            <li>User feedback and testing results</li>
+            <li>Implementation decisions and rationale</li>
+          </ul>
+        </div>
+      </details>
 
-    {% set designHistoryLink = '' %}
-    {% if feature.designHistoryHref and feature.designHistoryHref != "" %}
-    {% set designHistoryLink = '<a class="govuk-link" href="' + feature.designHistoryHref + '">View<span
-        class="govuk-visually-hidden"> design history for ' + feature.name + '</span></a>' %}
-    {% endif %}
+      {% set testedTableData = [] %}
+      {% set inProgressTableData = [] %}
 
-    {% set featureRow = [
-    { text: feature.name },
-    { text: feature.problem },
-    { html: '<strong class="govuk-tag govuk-tag--' + feature.statusClass + '">' + feature.status + '</strong>' },
-    { text: feature.phase },
-    { text: feature.researchRounds.length + ' rounds' },
-    { html: detailsHtml },
-    { html: designHistoryLink }
-    ] %}
+      {% for feature in sortedFeatures %}
+      {% set researchRoundsText = '' %}
+      {% for round in feature.researchRounds %}
+      {% if not loop.first %}{% set researchRoundsText = researchRoundsText + '<br>' %}{% endif %}
+      {% set researchRoundsText = researchRoundsText + round.date + ' (Round ' + round.round + ')' %}
+      {% endfor %}
+      {% set detailsHtml = govukDetails({
+      summaryText: "View rounds",
+      html: researchRoundsText
+      }) %}
 
-    {% if feature.status == "Tested" %}
-    {% set testedTableData = (testedTableData.push(featureRow), testedTableData) %}
-    {% else %}
-    {% set inProgressTableData = (inProgressTableData.push(featureRow), inProgressTableData) %}
-    {% endif %}
-    {% endfor %}
+      {% set designHistoryLink = '' %}
+      {% if feature.designHistoryHref and feature.designHistoryHref != "" %}
+      {% set designHistoryLink = '<a class="govuk-link" href="' + feature.designHistoryHref + '">View<span
+          class="govuk-visually-hidden"> design history for ' + feature.name + '</span></a>' %}
+      {% endif %}
 
-    {% set testedCount = testedTableData | length %}
-    {% set inProgressCount = inProgressTableData | length %}
+      {% set featureRow = [
+      { text: feature.name },
+      { text: feature.problem },
+      { html: '<strong class="govuk-tag govuk-tag--' + feature.statusClass + '">' + feature.status + '</strong>' },
+      { text: feature.phase },
+      { text: feature.researchRounds.length + ' rounds' },
+      { html: detailsHtml },
+      { html: designHistoryLink }
+      ] %}
 
-    {{ govukTabs({
-    items: [
-    {
-    label: "In progress (" + inProgressCount + ")",
-    id: "in-progress",
-    panel: {
-    html: govukTable({
-    attributes: { "data-module": "moj-sortable-table" },
-    head: [
-    { text: "Feature", attributes: { "aria-sort": "ascending" } },
-    { text: "Problem statement" },
-    { text: "Status" },
-    { text: "Phase" },
-    { text: "Number of rounds" },
-    { text: "Rounds tested" },
-    { text: "Design history" }
-    ],
-    rows: inProgressTableData
-    })
-    }
-    },
-    {
-    label: "Tested (" + testedCount + ")",
-    id: "tested",
-    panel: {
-    html: govukTable({
-    attributes: { "data-module": "moj-sortable-table" },
-    head: [
-    { text: "Feature", attributes: { "aria-sort": "ascending" } },
-    { text: "Problem statement" },
-    { text: "Status" },
-    { text: "Phase" },
-    { text: "Number of rounds" },
-    { text: "Rounds tested" },
-    { text: "Design history" }
-    ],
-    rows: testedTableData
-    })
-    }
-    }
-    ]
-    }) }}
-  </div>
+      {% if feature.status == "Tested" %}
+      {% set testedTableData = (testedTableData.push(featureRow), testedTableData) %}
+      {% else %}
+      {% set inProgressTableData = (inProgressTableData.push(featureRow), inProgressTableData) %}
+      {% endif %}
+      {% endfor %}
 
-  <div class="govuk-grid-column-full govuk-grid-column-two-thirds-from-desktop">
-    <h2 class="govuk-heading-l govuk-!-margin-top-6">Design System</h2>
-    <p class="govuk-body">
-      Explore our <a class="govuk-link--no-visited-state" href="/design-system/components.html">design system
-        components</a> and <a class="govuk-link--no-visited-state" href="/design-system/user-journeys/home.html">user
-        journeys</a>.
-    </p>
+      {% set testedCount = testedTableData | length %}
+      {% set inProgressCount = inProgressTableData | length %}
 
-    <hr class="govuk-section-break govuk-section-break--xl govuk-section-break--visible">
-
-    <h2 class="govuk-heading-l">Documentation</h2>
-    <h3 class="govuk-heading-m">Editor Components</h3>
-    <p class="govuk-body"><a class="govuk-link--no-visited-state"
-        href="/design-system/editor/configuration-panel.html">Configuration panels</a></p>
-    <p class="govuk-body"><a class="govuk-link--no-visited-state" href="/design-system/editor/guided-input.html">Guided
-        input</a></p>
-    <p class="govuk-body"><a class="govuk-link--no-visited-state"
-        href="/design-system/editor/preview-panel.html">Preview panels</a></p>
-
-    <h3 class="govuk-heading-m">Form Management</h3>
-    <p class="govuk-body"><a class="govuk-link--no-visited-state" href="/design-system/reordering/pages.html">Page
-        reordering</a></p>
-    <p class="govuk-body"><a class="govuk-link--no-visited-state"
-        href="/design-system/reordering/questions.html">Question reordering</a></p>
-    <p class="govuk-body"><a class="govuk-link--no-visited-state" href="/design-system/deletion/pages.html">Page
-        deletion</a></p>
-  </div>
-</div>
-
-
-
-{% endblock %}
-
-{% block pageScripts %}
-<script src="/public/javascripts/moj-sortable-table.js"></script>
-<script>
-  // Helper to extract all dates from a string and return the most recent one
-  function getMostRecentDate(detailsText) {
-    const monthMap = {
-      'Jan': 0, 'Feb': 1, 'Mar': 2, 'Apr': 3, 'May': 4, 'Jun': 5,
-      'Jul': 6, 'Aug': 7, 'Sep': 8, 'Oct': 9, 'Nov': 10, 'Dec': 11
-    };
-    const dateRegex = /([A-Za-z]+) (\d{4})/g;
-    let match;
-    let maxDate = new Date(0);
-    while ((match = dateRegex.exec(detailsText)) !== null) {
-      const month = match[1];
-      const year = parseInt(match[2]);
-      if (monthMap[month] !== undefined) {
-        const d = new Date(year, monthMap[month], 1);
-        if (d > maxDate) maxDate = d;
-      }
-    }
-    return maxDate;
-  }
-
-  // Sort table rows by most recent research round date
-  function sortTableByRecentDate() {
-    const tables = document.querySelectorAll('.govuk-table')
-    tables.forEach(table => {
-      const tbody = table.querySelector('tbody')
-      const rows = Array.from(tbody.querySelectorAll('tr'))
-
-      // Sort rows by most recent research round date
-      rows.sort((a, b) => {
-        const detailsA = a.querySelector('.govuk-details__text').textContent
-        const detailsB = b.querySelector('.govuk-details__text').textContent
-        const maxDateA = getMostRecentDate(detailsA)
-        const maxDateB = getMostRecentDate(detailsB)
-        return maxDateB - maxDateA
+      {{ govukTabs({
+      items: [
+      {
+      label: "In progress (" + inProgressCount + ")",
+      id: "in-progress",
+      panel: {
+      html: govukTable({
+      attributes: { "data-module": "moj-sortable-table" },
+      head: [
+      { text: "Feature", attributes: { "aria-sort": "ascending" } },
+      { text: "Problem statement" },
+      { text: "Status" },
+      { text: "Phase" },
+      { text: "Number of rounds" },
+      { text: "Rounds tested" },
+      { text: "Design history" }
+      ],
+      rows: inProgressTableData
       })
+      }
+      },
+      {
+      label: "Tested (" + testedCount + ")",
+      id: "tested",
+      panel: {
+      html: govukTable({
+      attributes: { "data-module": "moj-sortable-table" },
+      head: [
+      { text: "Feature", attributes: { "aria-sort": "ascending" } },
+      { text: "Problem statement" },
+      { text: "Status" },
+      { text: "Phase" },
+      { text: "Number of rounds" },
+      { text: "Rounds tested" },
+      { text: "Design history" }
+      ],
+      rows: testedTableData
+      })
+      }
+      }
+      ]
+      }) }}
+    </div>
+    {#
+    <div class="govuk-grid-column-full govuk-grid-column-two-thirds-from-desktop">
+      <h2 class="govuk-heading-l govuk-!-margin-top-6">Design System</h2>
+      <p class="govuk-body">
+        Explore our <a class="govuk-link--no-visited-state" href="/design-system/components.html">design system
+          components</a> and <a class="govuk-link--no-visited-state" href="/design-system/user-journeys/home.html">user
+          journeys</a>.
+      </p>
 
-      // Re-append rows in sorted order
-      rows.forEach(row => tbody.appendChild(row))
-    })
-  }
+      <hr class="govuk-section-break govuk-section-break--xl govuk-section-break--visible">
 
-  // Override the default sorting behavior
-  document.addEventListener('DOMContentLoaded', () => {
-    // Initial sort
-    sortTableByRecentDate()
+      <h2 class="govuk-heading-l">Documentation</h2>
+      <h3 class="govuk-heading-m">Editor Components</h3>
+      <p class="govuk-body"><a class="govuk-link--no-visited-state"
+          href="/design-system/editor/configuration-panel.html">Configuration panels</a></p>
+      <p class="govuk-body"><a class="govuk-link--no-visited-state"
+          href="/design-system/editor/guided-input.html">Guided
+          input</a></p>
+      <p class="govuk-body"><a class="govuk-link--no-visited-state"
+          href="/design-system/editor/preview-panel.html">Preview panels</a></p>
 
-    // Override the click handler for sortable columns
-    const sortableHeaders = document.querySelectorAll('.govuk-table__header[aria-sort]')
-    sortableHeaders.forEach(header => {
-      header.addEventListener('click', (e) => {
-        e.preventDefault()
-        const table = header.closest('.govuk-table')
+      <h3 class="govuk-heading-m">Form Management</h3>
+      <p class="govuk-body"><a class="govuk-link--no-visited-state" href="/design-system/reordering/pages.html">Page
+          reordering</a></p>
+      <p class="govuk-body"><a class="govuk-link--no-visited-state"
+          href="/design-system/reordering/questions.html">Question reordering</a></p>
+      <p class="govuk-body"><a class="govuk-link--no-visited-state" href="/design-system/deletion/pages.html">Page
+          deletion</a></p>
+    </div>
+  </div> #}
+
+
+
+  {% endblock %}
+
+  {% block pageScripts %}
+  <script src="/public/javascripts/moj-sortable-table.js"></script>
+  <script>
+    // Helper to extract all dates from a string and return the most recent one
+    function getMostRecentDate(detailsText) {
+      const monthMap = {
+        'Jan': 0, 'Feb': 1, 'Mar': 2, 'Apr': 3, 'May': 4, 'Jun': 5,
+        'Jul': 6, 'Aug': 7, 'Sep': 8, 'Oct': 9, 'Nov': 10, 'Dec': 11
+      };
+      const dateRegex = /([A-Za-z]+) (\d{4})/g;
+      let match;
+      let maxDate = new Date(0);
+      while ((match = dateRegex.exec(detailsText)) !== null) {
+        const month = match[1];
+        const year = parseInt(match[2]);
+        if (monthMap[month] !== undefined) {
+          const d = new Date(year, monthMap[month], 1);
+          if (d > maxDate) maxDate = d;
+        }
+      }
+      return maxDate;
+    }
+
+    // Sort table rows by most recent research round date
+    function sortTableByRecentDate() {
+      const tables = document.querySelectorAll('.govuk-table')
+      tables.forEach(table => {
         const tbody = table.querySelector('tbody')
         const rows = Array.from(tbody.querySelectorAll('tr'))
 
-        // Get the column index
-        const columnIndex = Array.from(header.parentElement.children).indexOf(header)
-
-        // Sort rows - first by most recent date, then by the clicked column
+        // Sort rows by most recent research round date
         rows.sort((a, b) => {
           const detailsA = a.querySelector('.govuk-details__text').textContent
           const detailsB = b.querySelector('.govuk-details__text').textContent
           const maxDateA = getMostRecentDate(detailsA)
           const maxDateB = getMostRecentDate(detailsB)
-          if (maxDateA - maxDateB !== 0) {
-            return maxDateB - maxDateA
-          }
-          // If dates are equal, sort by the clicked column
-          const cellA = a.children[columnIndex]
-          const cellB = b.children[columnIndex]
-          const valueA = cellA.textContent.trim()
-          const valueB = cellB.textContent.trim()
-          return valueA.localeCompare(valueB)
+          return maxDateB - maxDateA
         })
 
         // Re-append rows in sorted order
         rows.forEach(row => tbody.appendChild(row))
       })
+    }
+
+    // Override the default sorting behavior
+    document.addEventListener('DOMContentLoaded', () => {
+      // Initial sort
+      sortTableByRecentDate()
+
+      // Override the click handler for sortable columns
+      const sortableHeaders = document.querySelectorAll('.govuk-table__header[aria-sort]')
+      sortableHeaders.forEach(header => {
+        header.addEventListener('click', (e) => {
+          e.preventDefault()
+          const table = header.closest('.govuk-table')
+          const tbody = table.querySelector('tbody')
+          const rows = Array.from(tbody.querySelectorAll('tr'))
+
+          // Get the column index
+          const columnIndex = Array.from(header.parentElement.children).indexOf(header)
+
+          // Sort rows - first by most recent date, then by the clicked column
+          rows.sort((a, b) => {
+            const detailsA = a.querySelector('.govuk-details__text').textContent
+            const detailsB = b.querySelector('.govuk-details__text').textContent
+            const maxDateA = getMostRecentDate(detailsA)
+            const maxDateB = getMostRecentDate(detailsB)
+            if (maxDateA - maxDateB !== 0) {
+              return maxDateB - maxDateA
+            }
+            // If dates are equal, sort by the clicked column
+            const cellA = a.children[columnIndex]
+            const cellB = b.children[columnIndex]
+            const valueA = cellA.textContent.trim()
+            const valueB = cellB.textContent.trim()
+            return valueA.localeCompare(valueB)
+          })
+
+          // Re-append rows in sorted order
+          rows.forEach(row => tbody.appendChild(row))
+        })
+      })
     })
-  })
-</script>
-{% endblock %}
+  </script>
+  {% endblock %}
