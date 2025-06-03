@@ -1,0 +1,96 @@
+<!-- New HTML content for before element -->
+<div id="before-content">
+  <p class="govuk-body-s" style="margin-bottom: 0">
+    <a href="#" class="govuk-link govuk-link--no-visited-state" rel="noreferrer noopener" target="_blank">Preview this
+      page in a new tab</a>
+  </p>
+</div>
+
+<!-- Additional Content Here -->
+<div class="additional-content">
+
+  <div>
+    <!-- Tag for Preview -->
+    {# {{ govukTag({ text: "Preview of page 2", classes: "govuk-tag--yellow
+    govuk-!-margin-bottom-2 govuk-!-margin-top-8" }) }} #}
+    <!-- Form for Preview -->
+    <!-- Dynamic Heading -->
+
+
+
+    <div id="heading-container">
+      {% set setName = data['setName'] or '' %}
+      <span id="dynamic-caption" class="govuk-caption-xl" data-setname="{{ setName }}">{{ data['setName'] or '' }}
+        1</span>
+
+      <h1 class="govuk-heading-xl" id="dynamic-heading">{{ data['pageHeadingYesno'] or '' }}</h1>
+    </div>
+
+    <!-- Guidance Paragraph -->
+    <p class="govuk-body" id="guidance-paragraph">{{ data['guidanceYesno'] or '' }}</p>
+
+    <!-- Question Fieldset -->
+    <div class="govuk-form-group">
+      <fieldset class="govuk-fieldset" aria-describedby="generic-question-hint">
+        <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
+          <div class="govuk-form-group">
+            <h1 class="govuk-label-wrapper">
+              <label class="govuk-label govuk-label--l" for="text-input-field" id="question-label-legend">
+                {{ data['questionLabelInputYesno'] or '' }}
+
+              </label>
+            </h1>
+        </legend>
+        <div id="hint-text-output" class="govuk-hint"> {{ data['hintTextInputYesno'] or '' }}
+        </div>
+        <div class="govuk-radios govuk-radios--inline" data-module="govuk-radios">
+          <div class="govuk-radios__item">
+            <input class="govuk-radios__input" id="yes-option" name="generic-question" type="radio" value="yes">
+            <label class="govuk-label govuk-radios__label" for="yes-option">
+              Yes
+            </label>
+          </div>
+          <div class="govuk-radios__item">
+            <input class="govuk-radios__input" id="no-option" name="generic-question" type="radio" value="no">
+            <label class="govuk-label govuk-radios__label" for="no-option">
+              No
+            </label>
+          </div>
+        </div>
+      </fieldset>
+
+      </label>
+
+      </h1>
+      <div id="hint-text-output" class="govuk-hint">
+
+        {% set setName = data['setName'] or '' %}
+        {% set overview0 = data['overview0'] or '' %}
+
+        {% if overview0 == "morethan1" %}
+        {{ govukButton({
+        text: "Add another " ~ setName,
+        classes: "govuk-button govuk-!-margin-top-3",
+        id: "add-another-set-button",
+        disabled: true
+        }) }}
+        {% else %}
+        {# {{ govukButton({
+        text: "Continue",
+        classes: "govuk-button govuk-!-margin-top-6",
+        id: "once-button",
+        disabled: true
+        }) }} #}
+        {% endif %}
+
+        <script>
+          document.addEventListener("DOMContentLoaded", function () {
+            const dynamicCaption = document.getElementById("dynamic-caption");
+            const setName = dynamicCaption.getAttribute("data-setname");
+
+            if (!setName) {
+              dynamicCaption.style.display = "none";
+            }
+          });
+
+        </script>

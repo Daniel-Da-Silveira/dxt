@@ -1,0 +1,97 @@
+{# <div id="before-content" style="background-color: #cce2d8;">
+  <p class="govuk-body-s" style="margin-bottom: 0; color: #005a30; padding: 2px 8px 3px; text-align: center;">
+    <a href="#" class="govuk-link govuk-link--no-visited-state" rel="noreferrer noopener" target="_blank">
+      Preview this page in a new tab
+    </a>
+  </p>
+</div> #}
+
+{# <!-- Tag for Preview -->
+{{ govukTag({
+  text: "Preview of question",
+  classes: "govuk-tag--yellow govuk-!-margin-bottom-2 govuk-!-margin-top-8"
+}) }} #}
+
+<!-- Heading and Caption -->
+<div class="govuk-form-group govuk-!-margin-top-6" id="heading-container">
+  <h1 class="govuk-heading-xl" id="dynamic-heading">
+    {{ data['pageHeadingInputCheckboxes'] or '' }}
+  </h1>
+  {% if data['guidanceTextareaRadios'] %}
+  <p class="govuk-body" id="guidance-paragraph">
+    {{ data['guidanceTextareaRadios'] }}
+  </p>
+  {% endif %}
+</div>
+
+
+<div class="govuk-form-group">
+  <fieldset class="govuk-fieldset" aria-describedby="listPreview-hint">
+    <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
+      <h1 class="govuk-fieldset__heading">
+        {{ data['multiQuestionLabelInputRadios'] or 'Question' }}
+      </h1>
+    </legend>
+    {% if data['multiQuestionHintTextInputRadios'] %}
+    <div id="listPreview-hint" class="govuk-hint">
+      {{ data['multiQuestionHintTextInputRadios'] }}
+    </div>
+    {% endif %}
+    <div class="govuk-checkboxes" data-module="govuk-checkboxes" id="checkbox-list">
+      {% for option in data.checkboxList %}
+      <div class="govuk-checkboxes__item">
+        <input
+          class="govuk-checkboxes__input"
+          id="listPreview-option{{ loop.index0 }}"
+          name="listPreview"
+          type="checkbox"
+          value="{{ option.label }}"
+        >
+        <label
+          class="govuk-label govuk-checkboxes__label"
+          for="listPreview-option{{ loop.index0 }}"
+        >
+          {{ option.label }}
+        </label>
+      </div>
+      {% endfor %}
+    </div>
+  </fieldset>
+</div>
+
+
+{#
+
+  <!-- Conditional Button -->
+  {% set setName = data['setName'] or '' %}
+  {% set overview0 = data['overview0'] or '' %}
+
+  {% if overview0 == "morethan1" %}
+  {{ govukButton({
+    text: "Add another " ~ setName,
+    classes: "govuk-button govuk-!-margin-top-3",
+    id: "add-another-set-button",
+    disabled: false
+  }) }}
+  {% else %}
+  {{ govukButton({
+    text: "Continue",
+    classes: "govuk-button govuk-!-margin-top-6",
+    id: "once-button",
+    disabled: false
+  }) }}
+  {% endif %} #}
+
+
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    // Hide dynamic caption if `setName` is empty
+    const dynamicCaption = document.getElementById("dynamic-caption");
+    const setName = dynamicCaption.getAttribute("data-setname");
+
+    if (!setName) {
+      dynamicCaption.style.display = "none";
+    }
+  });
+</script>

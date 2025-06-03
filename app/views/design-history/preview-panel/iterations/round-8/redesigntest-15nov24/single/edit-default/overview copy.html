@@ -1,0 +1,1376 @@
+{% extends "layouts/main.html" %}
+
+{% from "components/service-header/macro.njk" import serviceHeader %}
+
+{% set pageName = "Edit page 1 - Apply for a county parish holding number in England" %}
+{% set headingPlaceholder = "Page heading" %}
+{% set guidancePlaceholder = "" %}
+
+{# {% block beforeContent %}
+{{ govukBackLink({
+text: "Back to manage pages",
+href: "javascript:window.history.back()"
+}) }}
+{% endblock %} #}
+
+{% block header %}
+{{ serviceHeader({
+organisationName: "Defra",
+productName: "Forms Designer",
+serviceName: "",
+containerClasses: containerClasses,
+accountName: "Chris Smith",
+homepageLink: "/",
+signOutLink: "/onboarding/sign-out-confirmation",
+navigationItems: [
+{ href: "/library.html", text: "Forms library", id: "nav-library" },
+{ href: "/cph-overview/draft/complete-clean.html", text: "Overview", id: "nav-overview" },
+{ href: "/redesigntest/listing", text: "Editor", id: "nav-editor" }
+],
+activeLinkId: "nav-editor"
+}) }}
+
+<div class="x-govuk-masthead x-govuk-masthead--large">
+  <div class="govuk-width-container">
+    {{ govukBackLink({
+    classes: "govuk-back-link--inverse",
+    text: "Back to add and edit pages",
+    href: "/september/listing/1.html"
+    }) }}
+
+    <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible"
+      style="border-bottom:1px solid white; margin-bottom: 0;">
+
+
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-two-thirds-from-desktop">
+
+        <h1 class="x-govuk-masthead__title">
+          <span class="govuk-caption-l" style="color:white;">Apply for a county parish holding certificate</span>
+
+          Edit page 1
+        </h1>
+        {# <p class="x-govuk-masthead__description">
+          Create and manage the pages in this form.</p> #}
+
+
+
+
+
+      </div>
+    </div>
+  </div>
+</div>
+
+
+{% endblock %}
+
+
+
+{% block content %}
+<!-- Main Grid Row -->
+
+{% from "govuk/components/breadcrumbs/macro.njk" import govukBreadcrumbs %}
+
+{% from "govuk/components/back-link/macro.njk" import govukBackLink %}
+
+
+
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-full ">
+    <div class="govuk-grid-row">
+
+
+      <!-- Left Column for Form Controls -->
+      <div class="govuk-grid-column-one-half-from-desktop" id="container" style="flex: 1 1 75%; overflow-y: auto;">
+        <div class="govuk-summary-card" style="border-left: 10px solid #008938;">
+
+          <div class="govuk-summary-card__content" style="background-color: #f3f2f1;">
+
+            <!-- Question Settings Container -->
+            <div class="govuk-grid-row" id="page-settings-container-1">
+              <div id="question-1">
+                <div class="govuk-summary-card__content" style="margin-bottom: 0;">
+
+                  <nav class="moj-sub-navigation" aria-label="Sub navigation">
+                    <ul class="moj-sub-navigation__list" id="nav-list2">
+                      <!-- Question Link -->
+                      <li class="moj-sub-navigation__item">
+                        <a class="moj-sub-navigation__link" href="#question-1">Page settings</a>
+                      </li>
+                      <!-- Add Question Link -->
+                      <li class="moj-sub-navigation__item">
+                        <a class="moj-sub-navigation__link" aria-current="page" href="#" id="add-question">Overview of
+                          questions</a>
+                      </li>
+                    </ul>
+                  </nav>
+
+
+                  <!-- Container for Radio Buttons -->
+                  <div id="question-type-selection" style="display: none; margin-top: 20px;">
+                    <form id="question-type-form">
+                      {% from "govuk/components/radios/macro.njk" import govukRadios %}
+
+                      {{ govukRadios({
+                      idPrefix: "question-type",
+                      name: "questionType",
+                      classes: "govuk-radios",
+                      fieldset: {
+                      legend: {
+                      text: "What information do you need from users?",
+                      isPageHeading: true,
+                      classes: "govuk-fieldset__legend--m"
+                      }
+                      },
+                      hint: {
+                      text: "You can ask for more information later"
+                      },
+                      items: [
+                      {
+                      value: "text",
+                      text: "Written answer",
+                      hint: {
+                      text: "A short or long answer as text or number"
+                      },
+                      id: "question-type-text"
+                      },
+                      {
+                      value: "date",
+                      text: "Date",
+                      hint: {
+                      text: "A day, month and year or month and year only"
+                      },
+                      id: "question-type-date",
+                      name: "questionType"
+                      },
+                      {
+                      value: "address",
+                      text: "UK address",
+                      hint: {
+                      text: "A street address, town or city and postcode"
+                      },
+                      id: "question-type-uk-address"
+                      },
+                      {
+                      value: "phone",
+                      text: "Phone number",
+                      hint: {
+                      text: "A text box that users can enter numbers and some symbols into, such as '+'"
+                      },
+                      id: "question-type-phone"
+                      },
+                      {
+                      value: "file",
+                      text: "1 file or multiple files",
+                      hint: {
+                      text: "Users can select and upload any type of file"
+                      },
+                      id: "question-type-file-upload"
+                      },
+                      {
+                      divider: "or"
+                      },
+                      {
+                      value: "list",
+                      text: "A list of options that users can choose from",
+                      id: "question-type-select-list"
+                      }
+                      ]
+                      }) }}
+
+                      <div class="govuk-button-group">
+                        <button id="continue-button" class="govuk-button" type="button">Continue</button>
+                        <a id="cancel-button" class="govuk-link" href="#">Cancel</a>
+                      </div>
+                      <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
+                    </form>
+                  </div>
+
+
+                  <!-- Question Tag -->
+                  <strong class="govuk-tag govuk-tag--green govuk-!-margin-bottom-2">Question 1
+                    (date)</strong>
+
+                  {% set morethan1Html %}
+                  <div class="govuk-form-group">
+                    <fieldset class="govuk-fieldset" role="group" aria-describedby="dob-hint">
+                      <legend class="govuk-fieldset__legend govuk-fieldset__legend">
+                        <h1 class="govuk-fieldset__heading">Set the minimum and maximum times a user can
+                          answer questions</h1>
+                      </legend>
+                      <div id="dob-hint" class="govuk-hint">The range must be between 2 and 25</div>
+                      <div class="govuk-date-input" id="dob">
+                        <div class="govuk-date-input__item">
+                          <div class="govuk-form-group">
+                            <label class="govuk-label govuk-date-input__label" for="dob-day">Min</label>
+                            <input class="govuk-input govuk-date-input__input govuk-input--width-2" id="dob-day"
+                              name="dob-day" type="text" autocomplete="bday-day" inputmode="numeric">
+                          </div>
+                        </div>
+                        <div class="govuk-date-input__item">
+                          <div class="govuk-form-group">
+                            <label class="govuk-label govuk-date-input__label" for="dob-month">Max</label>
+                            <input class="govuk-input govuk-date-input__input govuk-input--width-2" id="dob-month"
+                              name="dob-month" type="text" autocomplete="bday-month" inputmode="numeric">
+                          </div>
+                        </div>
+                      </div>
+                    </fieldset>
+                  </div>
+
+                  {{ govukInput({
+                  label: {
+                  text: "Give this set of questions a name",
+                  classes: "govuk-label",
+                  isPageHeading: true
+                  },
+                  hint: {
+                  text: "Use the subject of the questions for the question set name. For example, if the
+                  questions are about pets, the question set name might be ‘pet’."
+                  },
+                  id: "set-name",
+                  name: "setName"
+                  }) }}
+                  {% endset -%}
+
+                  {{ govukRadios({
+                  name: "responseType",
+                  fieldset: {
+                  legend: {
+                  text: "How many times can people answer the question on this page?",
+                  isPageHeading: true,
+                  classes: "govuk-fieldset__legend--m"
+                  }
+                  },
+                  hint: {
+                  text: "Turn the questions on this page into a set of questions that users can answer
+                  multiple
+                  times"
+                  },
+                  items: [
+                  {
+                  value: "once",
+                  text: "Once",
+                  id: "once",
+                  conditional: {
+                  html: onceHtml
+                  }
+                  },
+                  {
+                  value: "morethan1",
+                  text: "More than once",
+                  id: "more-than-1",
+                  conditional: {
+                  html: morethan1Html
+                  }
+                  }
+                  ]
+                  }) }}
+
+                  <!-- Question and Hint Text Inputs -->
+                  <div class="govuk-form-group">
+                    {{ govukInput({
+                    label: {
+                    text: "Question",
+                    classes: "govuk-label--m"
+                    },
+                    id: "question-label-input",
+                    name: "question-label",
+                    classes: "govuk-input",
+                    input: {
+                    type: "text"
+                    }
+                    }) }}
+                  </div>
+                  <div class="govuk-form-group">
+                    {{ govukTextarea({
+                    label: {
+                    text: "Hint text (optional)",
+                    classes: "govuk-label--m"
+                    },
+                    id: "hint-text-input",
+                    name: "hintTextInput",
+                    classes: "govuk-textarea",
+                    rows: 2
+                    }) }}
+                  </div>
+
+                  <!-- Question Settings -->
+                  <div class="govuk-form-group">
+                    <fieldset class="govuk-fieldset">
+                      <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">
+                        <h1 class="govuk-fieldset__heading">Question settings</h1>
+                      </legend>
+                      <!-- Checkbox for Additional Settings -->
+                      {{ govukCheckboxes({
+                      idPrefix: "additional-settings",
+                      classes: "govuk-checkboxes--small",
+                      items: [
+                      {
+                      id: "optional",
+                      name: "optional",
+                      value: "optional",
+                      text: "Make this question optional",
+                      checked: false
+                      }
+                      ]
+                      }) }}
+                    </fieldset>
+                  </div>
+
+                  <!-- Error Message Label Input -->
+                  <div class="govuk-form-group">
+                    {{ govukInput({
+                    label: {
+                    text: "Add a short label for error messages",
+                    classes: "govuk-label--m"
+                    },
+                    hint: {
+                    text: "If the short label is ‘date of birth’ the error message is ‘Enter a valid date of
+                    birth’."
+                    },
+                    id: "error-label-input",
+                    name: "error-label",
+                    classes: "govuk-input",
+                    input: {
+                    type: "text"
+                    }
+                    }) }}
+                  </div>
+
+                  <details class="govuk-details" data-module="govuk-details">
+                    <summary class="govuk-details__summary">
+                      <span class="govuk-details__summary-text">
+                        Add guidance above this question (optional)
+                      </span>
+                    </summary>
+                    <div class="govuk-details__text">
+                      <!-- Default Content for Question 1 -->
+                      <div id="question-1-content" class="question-content" style="margin-top: 10px;">
+
+                        <!-- Page Heading Input -->
+                        <div class="govuk-form-group">
+                          <label class="govuk-label govuk-label--m govuk-!-margin-top-0" for="page-heading-input">
+                            Page heading
+                          </label>
+                          <span id="page-heading-input-hint" class="govuk-hint">
+                            Page headings should be a statement and not a question. For example, ‘Passport
+                            information’
+                          </span>
+                          <input class="govuk-input" id="page-heading-input" name="pageHeading" type="text"
+                            aria-describedby="page-heading-input-hint">
+                        </div>
+
+                        <!-- Guidance Text Textarea -->
+                        <div class="govuk-form-group">
+                          <label class="govuk-label govuk-label--m" for="guidance-textarea">
+                            Guidance text (optional)
+                          </label>
+                          <span id="guidance-textarea-hint" class="govuk-hint">
+                            Use Markdown to format the content or add hyperlinks
+                          </span>
+                          <textarea class="govuk-textarea" id="guidance-textarea" name="guidanceText" rows="5"
+                            aria-describedby="guidance-textarea-hint"></textarea>
+                        </div>
+
+                      </div>
+                    </div>
+                  </details>
+
+                  <!-- Answer Limits -->
+                  <details class="govuk-details">
+                    <summary class="govuk-details__summary">
+                      <span class="govuk-details__summary-text">Set answer limits (optional)</span>
+                    </summary>
+                    <div class="govuk-details__text">
+                      <!-- Checkbox for Answer Limits -->
+                      {{ govukCheckboxes({
+                      idPrefix: "contact",
+                      name: "contact",
+                      items: [
+                      {
+                      value: "betweenDates",
+                      text: "Answer must be between two dates",
+                      id: "contact-betweenDates",
+                      conditional: {
+                      html: govukDateInput({
+                      id: "first-date",
+                      namePrefix: "first-date",
+                      fieldset: {
+                      legend: {
+                      text: "First date",
+                      classes: "govuk-fieldset__legend--m"
+                      }
+                      },
+                      items: [
+                      {
+                      name: "day",
+                      classes: "govuk-input--width-2",
+                      attributes: {
+                      inputmode: "numeric"
+                      }
+                      },
+                      {
+                      name: "month",
+                      classes: "govuk-input--width-2",
+                      attributes: {
+                      inputmode: "numeric"
+                      }
+                      },
+                      {
+                      name: "year",
+                      classes: "govuk-input--width-4",
+                      attributes: {
+                      inputmode: "numeric"
+                      }
+                      }
+                      ]
+                      }) + govukDateInput({
+                      id: "second-date",
+                      namePrefix: "second-date",
+                      fieldset: {
+                      legend: {
+                      text: "Second date",
+                      classes: "govuk-fieldset__legend--m"
+                      }
+                      },
+                      items: [
+                      {
+                      name: "day",
+                      classes: "govuk-input--width-2",
+                      attributes: {
+                      inputmode: "numeric"
+                      }
+                      },
+                      {
+                      name: "month",
+                      classes: "govuk-input--width-2",
+                      attributes: {
+                      inputmode: "numeric"
+                      }
+                      },
+                      {
+                      name: "year",
+                      classes: "govuk-input--width-4",
+                      attributes: {
+                      inputmode: "numeric"
+                      }
+                      }
+                      ]
+                      })
+                      }
+                      }
+                      ]
+                      }) }}
+                    </div>
+                  </details>
+
+                  <!-- Section Break -->
+                  <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
+
+                  <h2 class="govuk-heading-m">Question summary</h2>
+
+                  {{ govukSummaryList({
+                  rows: [
+                  {
+                  key: {
+                  text: "Page type"
+                  },
+                  value: {
+                  text: "1 question"
+                  },
+                  actions: {
+                  items: [
+                  {
+                  href: "#",
+                  text: "Change",
+                  visuallyHiddenText: "name"
+                  }
+                  ]
+                  }
+                  },
+                  {
+                  key: {
+                  text: "Information requested"
+                  },
+                  value: {
+                  text: "Date"
+                  },
+                  actions: {
+                  items: [
+                  {
+                  href: "#",
+                  text: "Change",
+                  visuallyHiddenText: "date of birth"
+                  }
+                  ]
+                  }
+                  }
+                  ]
+                  }) }}
+                  <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
+
+                  <div class="govuk-button-group">
+                    {{ govukButton({
+                    text: "Save changes",
+                    id: "save-changes-button"
+                    }) }}
+
+                    <p class="govuk-body">
+                      <a href="#" class="govuk-link govuk-link--no-visited-state">Delete question</a>
+                    </p>
+                  </div>
+                  {# DIV BEFORE THE END OF THE QUESTION-1-CONTENT #}
+                </div>
+
+                <!-- Placeholder for new questions -->
+                <div id="new-questions" style="margin-top: 20px;">
+                  <!-- Each question added dynamically will go here -->
+                </div>
+              </div>
+            </div>
+          </div>
+          </dd>
+        </div>
+        </dl>
+      </div>
+
+
+      <!-- Right Column for Additional Content -->
+      <div class="govuk-grid-column-one-half-from-desktop" id="second-container"
+        style="outline: solid 1px #008938; height: 100%; position: sticky; top: 0; padding: 20px; box-shadow: 5px 10px #008938;">
+
+        <!-- New HTML content for before element -->
+        <div id="before-content">
+          <p class="govuk-body-s" style="margin-bottom: 0;">
+            <a href="#" class="govuk-link govuk-link--no-visited-state" rel="noreferrer noopener"
+              target="_blank">Preview
+              this page in a new tab</a>
+          </p>
+        </div>
+
+        <!-- Additional Content Here -->
+        <div class="additional-content">
+          <!-- Header Template Usage -->
+          {{ govukHeader({
+          homepageUrl: null,
+          serviceName: null,
+          classes: "govuk-!-margin-top-8"
+          }) }}
+          <div>
+            <!-- Tag for Preview -->
+            {{ govukTag({ text: "Preview of page 1", classes: "govuk-tag--yellow govuk-!-margin-bottom-2
+            govuk-!-margin-top-2" }) }}
+            <!-- Form for Preview -->
+            <form>
+              <!-- Dynamic Heading -->
+              <div id="heading-container">
+                <span id="dynamic-caption" class="govuk-caption-l"></span>
+                <h1 class="govuk-heading-l" id="dynamic-heading"></h1>
+              </div>
+
+              <!-- Guidance Paragraph -->
+              <p class="govuk-body" id="guidance-paragraph"></p>
+              <!-- Date Input Group -->
+              <div class="govuk-form-group">
+                <fieldset class="govuk-fieldset" role="group">
+                  <legend class="govuk-fieldset__legend govuk-fieldset__legend--l" id="date-input-legend">Question 1
+                  </legend>
+                  <div class="govuk-form-group">
+                    <!-- Date Input Hint -->
+                    <div id="date-input-hint" name="dateinputhint1" class="govuk-hint"></div>
+                    <!-- Date Input Fields -->
+                    <div class="govuk-date-input" id="date-input" data-module="govuk-date-input">
+                      <!-- Day Input -->
+                      <div class="govuk-date-input__item" id="day-input-wrapper">
+                        <div class="govuk-form-group">
+                          <label class="govuk-label govuk-date-input__label" for="date-day">Day</label>
+                          <input class="govuk-input govuk-date-input__input govuk-input--width-2" id="date-day"
+                            name="date-day" type="text">
+                        </div>
+                      </div>
+                      <!-- Month Input -->
+                      <div class="govuk-date-input__item" id="month-input-wrapper">
+                        <div class="govuk-form-group">
+                          <label class="govuk-label govuk-date-input__label" for="date-month">Month</label>
+                          <input class="govuk-input govuk-date-input__input govuk-input--width-2" id="date-month"
+                            name="date-month" type="text" pattern="[0-9]*">
+                        </div>
+                      </div>
+                      <!-- Year Input -->
+                      <div class="govuk-date-input__item" id="year-input-wrapper">
+                        <div class="govuk-form-group">
+                          <label class="govuk-label govuk-date-input__label" for="date-year">Year</label>
+                          <input class="govuk-input govuk-date-input__input govuk-input--width-4" id="date-year"
+                            name="date-year" type="text" pattern="[0-9]*">
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </fieldset>
+              </div>
+            </form>
+            <!-- Details for Error Message Preview -->
+            <details class="govuk-details">
+              <summary class="govuk-details__summary">
+                <span class="govuk-details__summary-text">Error messages for this question</span>
+              </summary>
+              <div class="govuk-details__text">
+                <!-- Error Messages Section -->
+                <div class="govuk-error-summary" data-module="govuk-error-summary">
+                  <h2 class="govuk-error-summary__title">There is a problem</h2>
+                  <ul class="govuk-list govuk-error-summary__list">
+                    <li>
+                      <a id="date-input-error" class="govuk-error-message">
+                        <span class="govuk-visually-hidden" id="date-input-error">Error:</span>
+                        Enter <span id="error-dynamic-text">date of birth</span>
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </details>
+            {{ govukButton({
+            text: "Continue",
+            classes: "govuk-button govuk-!-margin-top-3",
+            id: "once-button",
+            disabled: true
+            }) }}
+
+            {{ govukButton({
+            text: "Add another [question set name]",
+            classes: "govuk-button govuk-!-margin-top-3",
+            id: "add-another-set-button",
+            disabled: true,
+            attributes: { style: "display:none;" }
+            }) }}
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <script>
+      document.addEventListener('DOMContentLoaded', function () {
+        const addQuestionLink = document.getElementById('add-question');
+        const questionTypeSelection = document.getElementById('question-type-selection');
+        const continueButton = document.getElementById('continue-button');
+        const cancelButton = document.getElementById('cancel-button');
+        const navList = document.getElementById('nav-list2');
+        const questionContents = {}; // Object to store content sections by question ID
+        const secondContainer = document.getElementById('second-container'); // Reference to the container where date inputs will be added
+        const saveChangesButton = document.getElementById('save-changes-button'); // Target the "Save Changes" button by ID
+        const summaryContainer = document.getElementById('summary-container'); // Container for the summary list
+        const pageHeadingInput = document.getElementById('page-heading-input'); // Page heading input
+        const pageHeadingTextSpan = document.getElementById('page-1-heading-text'); // Span in accordion header
+        const setNameInput = document.getElementById('set-name');
+        const dynamicCaption = document.getElementById('dynamic-caption');
+        const moreThanOnceRadio = document.getElementById('more-than-1'); // Reference to the "More than once" radio button
+        const onceRadio = document.querySelector('input[value="once"]'); // Reference to the "Once" radio button
+        const addAnotherSetButton = document.getElementById('add-another-set-button');
+        const onceButton = document.getElementById('once-button');
+
+        let questionCount = 1; // Counter to track the number of questions
+
+        // Initialize with default question
+        questionContents['question-1'] = document.getElementById('question-1-content');
+
+        // Function to display an error message next to each input or radio button group
+        function displayFieldError(inputElement, errorMessage) {
+          if (!inputElement) return; // Prevent further processing if the element doesn't exist
+
+          // Check if the inputElement is part of a radio button group
+          const formGroup = inputElement.closest('.govuk-form-group');
+
+          if (formGroup) {
+            formGroup.classList.add('govuk-form-group--error');
+
+            // If it's a radio button, we need to place the error message in a specific spot
+            if (inputElement.type === 'radio') {
+              let errorElement = formGroup.querySelector('.govuk-error-message');
+
+              if (!errorElement) {
+                const fieldset = formGroup.querySelector('fieldset');
+                if (fieldset) {
+                  errorElement = document.createElement('p');
+                  errorElement.className = 'govuk-error-message';
+                  errorElement.id = `${inputElement.name}-error`; // Use the name attribute for error ID
+                  errorElement.innerHTML = `<span class="govuk-visually-hidden">Error:</span> ${errorMessage}`;
+                  fieldset.insertBefore(errorElement, fieldset.firstChild);
+                  fieldset.setAttribute('aria-describedby', errorElement.id);
+                }
+              }
+            } else {
+              // For other input types, handle the error message as usual
+              let errorElement = formGroup.querySelector('.govuk-error-message');
+              if (!errorElement) {
+                errorElement = document.createElement('p');
+                errorElement.className = 'govuk-error-message';
+                errorElement.innerHTML = `<span class="govuk-visually-hidden">Error:</span> ${errorMessage}`;
+                formGroup.insertBefore(errorElement, inputElement);
+              }
+
+              // Add error class to input element
+              inputElement.classList.add('govuk-input--error');
+              inputElement.setAttribute('aria-describedby', `${errorElement.id}`);
+            }
+          }
+        }
+
+
+        // Function to display error summary at the top of the content area
+        function displayErrorSummary(errors) {
+          clearErrorSummary(); // Clear previous error summary
+
+          if (errors.length > 0) {
+            const errorSummary = document.createElement('div');
+            errorSummary.className = 'govuk-error-summary';
+            errorSummary.setAttribute('role', 'alert');
+            errorSummary.setAttribute('aria-labelledby', 'error-summary-title');
+            errorSummary.setAttribute('tabindex', '-1');
+
+            let errorListItems = '';
+            errors.forEach(error => {
+              errorListItems += `<li><a href="#${error.href}">${error.text}</a></li>`;
+            });
+
+            errorSummary.innerHTML =
+              `<h2 class="govuk-error-summary__title" id="error-summary-title">There is a problem</h2>
+          <div class="govuk-error-summary__body">
+              <ul class="govuk-list govuk-error-summary__list">
+                  ${errorListItems}
+              </ul>
+          </div>`;
+
+            // Insert the error summary at the top of the summary container
+            summaryContainer.prepend(errorSummary);
+
+            // Scroll the error summary into view and focus it
+            errorSummary.scrollIntoView({ behavior: 'auto', block: 'center' });
+            errorSummary.focus();
+          }
+        }
+
+        // Function to clear error messages and summary
+        function clearErrors() {
+          const errorElements = document.querySelectorAll('.govuk-error-message');
+          errorElements.forEach(errorElement => errorElement.remove());
+
+          const errorInputs = document.querySelectorAll('.govuk-input--error');
+          errorInputs.forEach(input => {
+            input.classList.remove('govuk-input--error');
+            const formGroup = input.closest('.govuk-form-group');
+            if (formGroup) {
+              formGroup.classList.remove('govuk-form-group--error');
+            }
+          });
+
+          clearErrorSummary();
+        }
+
+        // Function to clear the error summary
+        function clearErrorSummary() {
+          const errorSummary = document.querySelector('.govuk-error-summary');
+          if (errorSummary) {
+            errorSummary.remove();
+          }
+        }
+
+        // Validation function
+        function validateFields() {
+          clearErrors(); // Clear previous errors
+          let isValid = true;
+          const errors = [];
+
+          // Validate radio buttons (id="once" or id="more-than-1")
+          const onceRadio = document.getElementById('once');
+          const moreThanOnceRadio = document.getElementById('more-than-1');
+          if (!(onceRadio.checked || moreThanOnceRadio.checked)) {
+            isValid = false;
+            const errorMessage = 'Select how many times people can answer the question';
+
+            // Display the error message correctly for radio buttons
+            displayFieldError(onceRadio, errorMessage); // Error will be displayed using the first radio button as reference
+
+            errors.push({ text: errorMessage, href: 'once' }); // Using 'once' as the href reference
+          }
+
+
+
+          // Validate question label input (id="question-label-input")
+          const questionLabelInput = document.getElementById('question-label-input');
+          if (questionLabelInput && !questionLabelInput.value.trim()) {
+            isValid = false;
+            const errorMessage = 'Enter a question for this page';
+            displayFieldError(questionLabelInput, errorMessage);
+            errors.push({ text: errorMessage, href: 'question-label-input' });
+          }
+
+          // Validate error label input (id="error-label-input")
+          const errorLabelInput = document.getElementById('error-label-input');
+          if (errorLabelInput && !errorLabelInput.value.trim()) {
+            isValid = false;
+            const errorMessage = 'Enter a short label for error messages';
+            displayFieldError(errorLabelInput, errorMessage);
+            errors.push({ text: errorMessage, href: 'error-label-input' });
+          }
+
+
+
+
+          // Loop through all question contents
+          Object.keys(questionContents).forEach(questionId => {
+            const questionContent = questionContents[questionId];
+
+            // Validate question label
+            const questionLabelInput = questionContent.querySelector('.govuk-input[name="question-label"]');
+            if (questionLabelInput && !questionLabelInput.value.trim()) {
+              isValid = false;
+              const errorMessage = `Question label is required for ${questionId}.`;
+              displayFieldError(questionLabelInput, errorMessage);
+              errors.push({ text: errorMessage, href: questionLabelInput.id });
+            }
+
+            // Validate error label input, but only if it exists
+            const errorLabelInput = questionContent.querySelector('.govuk-input[name="error-label"]');
+            if (errorLabelInput && !errorLabelInput.value.trim()) {
+              isValid = false;
+              const errorMessage = `Error label is required for ${questionId}.`;
+              displayFieldError(errorLabelInput, errorMessage);
+              errors.push({ text: errorMessage, href: errorLabelInput.id });
+            }
+
+            // Additional validations can be added here
+          });
+
+          if (!isValid) {
+            displayErrorSummary(errors);
+          }
+
+          return isValid;
+        }
+
+
+        // Function to display success message
+        function displaySuccessMessage() {
+          clearMessages(); // Clear previous messages
+
+          const successBanner = document.createElement('div');
+          successBanner.className = 'govuk-notification-banner govuk-notification-banner--success';
+          successBanner.setAttribute('role', 'alert');
+          successBanner.setAttribute('aria-labelledby', 'govuk-notification-banner-title');
+
+          successBanner.innerHTML =
+            `<div class="govuk-notification-banner__header">
+          <h2 class="govuk-notification-banner__title" id="govuk-notification-banner-title">Success</h2>
+        </div>
+        <div class="govuk-notification-banner__content">
+          <h3 class="govuk-notification-banner__heading">Changes saved</h3>
+        </div>`;
+
+          // Insert the success banner after the sub-navigation
+          summaryContainer.prepend(successBanner);
+
+          // Scroll the success banner into view and focus it
+          successBanner.scrollIntoView({ behavior: 'auto', block: 'center' });
+          successBanner.focus();
+
+          // Add event listener to remove success message when any link or button is clicked
+          document.addEventListener('click', function removeSuccessMessage(event) {
+            if (event.target.tagName === 'A' || event.target.tagName === 'BUTTON') {
+              successBanner.remove(); // Remove the success message
+              document.removeEventListener('click', removeSuccessMessage); // Remove this event listener
+            }
+          });
+        }
+
+        // Function to clear messages
+        function clearMessages() {
+          clearErrorSummary();
+          const notificationBanner = document.querySelector('.govuk-notification-banner');
+          if (notificationBanner) {
+            notificationBanner.remove();
+          }
+        }
+
+        function updateAccordionHeading() {
+          // Get the value from the question-label-input field
+          const newHeading = document.getElementById('question-label-input').value.trim();
+
+          // Update the pageHeadingTextSpan element with the new heading
+          pageHeadingTextSpan.innerHTML = newHeading;
+
+          if (newHeading) {
+            pageHeadingTextSpan.textContent = newHeading;
+
+            // Check if the "more-than-1" radio button is selected
+            if (moreThanOnceRadio.checked) {
+              // Append the Repeater tag after the heading text
+              pageHeadingTextSpan.innerHTML += `
+        <span class="govuk-tag govuk-tag--purple" style="margin-left: 8px;">
+          Repeater
+        </span>`;
+            }
+          }
+        }
+
+
+        // Event listener for "Save changes" button click
+        document.addEventListener('click', function (event) {
+          if (event.target && event.target.id === 'save-changes-button') {
+            event.preventDefault();
+
+            // Validate fields before updating the summary list
+            if (!validateFields()) {
+              console.log('Validation failed');
+              return;
+            }
+
+            // If validation passes, you can update other parts of the UI but skip the summary list
+            console.log('Saving changes...');
+            // updateSummaryList(); // Comment out or remove this line if you don't want to update the summary list
+            updateAccordionHeading();
+            displaySuccessMessage(); // Optional: to show a success banner or message
+          }
+        });
+
+        // You can also comment out or remove the updateSummaryList function itself if it's no longer needed
+        /*
+        function updateSummaryList() {
+          // Clear the existing summary list
+          summaryContainer.innerHTML = '';
+
+          // Collect all question labels
+          const summaryList = document.createElement('dl');
+          summaryList.className = 'govuk-summary-list';
+
+          Object.keys(questionContents).forEach((questionId, index) => {
+            const questionContent = questionContents[questionId];
+            const questionLabelInput = questionContent.querySelector('.govuk-input[name="question-label"]');
+            const questionLabel = questionLabelInput ? questionLabelInput.value.trim() : `Question ${index + 1}`;
+
+            // Create the summary row div
+            const rowDiv = document.createElement('div');
+            rowDiv.className = 'govuk-summary-list__row';
+
+            // Create the key div
+            const keyDiv = document.createElement('dt');
+            keyDiv.className = 'govuk-summary-list__key';
+            keyDiv.textContent = `Question ${index + 1}`;
+
+            // Create the value div
+            const valueDiv = document.createElement('dd');
+            valueDiv.className = 'govuk-summary-list__value';
+            valueDiv.textContent = questionLabel || `Question ${index + 1}`;
+
+            // Append the key and value divs to the row div
+            rowDiv.appendChild(keyDiv);
+            rowDiv.appendChild(valueDiv);
+
+            // Append the row div to the summary list
+            summaryList.appendChild(rowDiv);
+          });
+
+          summaryContainer.appendChild(summaryList);
+        }
+        */
+
+
+
+
+        // Function to update the "Add another [question set name]" button
+        function updateAddAnotherSetButton() {
+          const setName = setNameInput.value.trim();
+          if (moreThanOnceRadio.checked && setName) {
+            addAnotherSetButton.textContent = `Add another ${setName}`;
+            addAnotherSetButton.disabled = false;
+          } else {
+            addAnotherSetButton.textContent = "Add another [question set name]";
+            addAnotherSetButton.disabled = true;
+          }
+        }
+
+        // Event listener for when the "More than once" radio button is selected
+        moreThanOnceRadio.addEventListener('change', function () {
+          if (moreThanOnceRadio.checked) {
+            updateAddAnotherSetButton();
+          }
+        });
+
+        // Initial call to set the button state and text on page load
+        updateAddAnotherSetButton();
+
+        // Function to add and remove highlight class based on focus and blur events
+        function applyHighlightOnFocus(inputElementId, targetElementId) {
+          const inputElement = document.getElementById(inputElementId);
+          const targetElement = document.getElementById(targetElementId);
+
+          if (inputElement && targetElement) {
+            inputElement.addEventListener('focus', function () {
+              targetElement.classList.add('highlight');
+            });
+
+            inputElement.addEventListener('blur', function () {
+              targetElement.classList.remove('highlight');
+            });
+          } else {
+            console.error(`Element not found: ${inputElementId} or ${targetElementId}`);
+          }
+        }
+
+        // Function to show caption when "More than once" is selected
+        function showCaptionWithPlaceholder() {
+          dynamicCaption.textContent = "Question set name"; // Set the initial placeholder
+          dynamicCaption.style.display = "block"; // Ensure the caption is visible
+        }
+
+        // Function to hide caption and clear input when "Once" is selected
+        function hideCaptionAndClearInput() {
+          dynamicCaption.style.display = "none"; // Hide the caption
+          // setNameInput.style.display = "none"; // Hide the set-name input
+          // setNameInput.value = ""; // Clear the set-name input value
+        }
+
+        // Event listener for when the "Once" radio button is selected
+        onceRadio.addEventListener('change', function () {
+          if (onceRadio.checked) {
+            hideCaptionAndClearInput(); // Hide the caption and clear the input
+          }
+        });
+
+        // Function to capitalize the first letter of the first word
+        function capitalizeFirstWord(text) {
+          return text.charAt(0).toUpperCase() + text.slice(1);
+        }
+
+        // Function to update the dynamic caption and heading with the user's input
+        function updateDynamicCaptionAndHeading() {
+          const setName = setNameInput.value.trim() || "";
+          const capitalizedSetName = capitalizeFirstWord(setName); // Capitalize only the first word
+          dynamicCaption.textContent = setName ? `${capitalizedSetName} 1` : "";
+        }
+
+        // Event listener for when the set-name input changes
+        setNameInput.addEventListener('input', updateDynamicCaptionAndHeading);
+
+        // Initial call to set the dynamic caption and heading on page load
+        updateDynamicCaptionAndHeading();
+
+        // Event listener for when the "More than once" radio button is selected
+        moreThanOnceRadio.addEventListener('change', function () {
+          if (moreThanOnceRadio.checked) {
+            showCaptionWithPlaceholder(); // Show the caption with the placeholder
+          }
+        });
+
+        // Event listener to update dynamic-caption and dynamic-heading on input change
+        setNameInput.addEventListener('input', updateDynamicCaptionAndHeading);
+
+        // Initial call to set the dynamic caption and heading on page load
+        updateDynamicCaptionAndHeading();
+
+        // Apply the highlight effect to the set-name input
+        applyHighlightOnFocus('set-name', 'dynamic-caption');
+
+        // Initially hide the "Add another [question set name]" button
+        addAnotherSetButton.style.display = 'none';
+
+        // Function to update the "Add another [question set name]" button
+        function updateAddAnotherSetButton() {
+          const setName = setNameInput.value.trim();
+          if (moreThanOnceRadio.checked && setName) {
+            addAnotherSetButton.textContent = `Add another ${setName}`;
+            addAnotherSetButton.disabled = false;
+            addAnotherSetButton.style.display = 'inline-block'; // Show the button
+          } else {
+            addAnotherSetButton.textContent = "Add another [question set name]";
+            addAnotherSetButton.disabled = true;
+            addAnotherSetButton.style.display = 'none'; // Hide the button
+          }
+        }
+
+        // Event listeners for dynamic behavior
+        setNameInput.addEventListener('input', updateAddAnotherSetButton);
+        moreThanOnceRadio.addEventListener('change', function () {
+          updateAddAnotherSetButton();
+          addAnotherSetButton.style.display = 'inline-block'; // Ensure the button is shown
+        });
+        onceRadio.addEventListener('change', function () {
+          addAnotherSetButton.disabled = true;
+          addAnotherSetButton.textContent = "Add another [question set name]";
+          addAnotherSetButton.style.display = 'none'; // Hide the button
+        });
+
+        // Initialize button state on page load
+        updateAddAnotherSetButton();
+
+        // Define the placeholder text
+        const headingPlaceholder = "";
+        const guidancePlaceholder = "";
+
+        const guidanceTextarea = document.getElementById('guidance-textarea');
+        const dynamicHeading = document.getElementById('dynamic-heading');
+        const guidanceParagraph = document.getElementById('guidance-paragraph');
+
+        // Apply highlight function to input-target pairs
+        applyHighlightOnFocus('question-label-input', 'date-input-legend');
+        applyHighlightOnFocus('hint-text-input', 'date-input-hint');
+        applyHighlightOnFocus('optional', 'date-input-legend');
+        applyHighlightOnFocus('page-heading-input', 'dynamic-heading');
+        applyHighlightOnFocus('guidance-textarea', 'guidance-paragraph');
+
+        // Function to update the dynamic heading based on the input
+        function updateHeading() {
+          dynamicHeading.textContent = pageHeadingInput.value.trim() || headingPlaceholder;
+        }
+
+        // Event listener to update heading on input change
+        pageHeadingInput.addEventListener('input', updateHeading);
+        updateHeading();
+
+        // Function to update guidance paragraph based on the textarea input
+        function updateGuidanceParagraph() {
+          guidanceParagraph.textContent = guidanceTextarea.value.trim() || guidancePlaceholder;
+        }
+
+        // Event listener to update guidance paragraph on input change
+        guidanceTextarea.addEventListener('input', updateGuidanceParagraph);
+        updateGuidanceParagraph();
+      });
+
+      document.addEventListener('DOMContentLoaded', function () {
+        const moreThanOnceRadio = document.getElementById('more-than-1');
+        const onceRadio = document.getElementById('once');
+        const onceButton = document.getElementById('once-button');
+        const addAnotherSetButton = document.getElementById('add-another-set-button');
+        const setNameInput = document.getElementById('set-name');
+
+        // Function to toggle button visibility based on selected radio button
+        function toggleButtonVisibility() {
+          if (moreThanOnceRadio.checked) {
+            onceButton.style.display = 'none'; // Hide "Continue" button
+            addAnotherSetButton.style.display = 'inline-block'; // Show "Add another [question set name]" button
+          } else if (onceRadio.checked) {
+            onceButton.style.display = 'inline-block'; // Show "Continue" button
+            addAnotherSetButton.style.display = 'none'; // Hide "Add another [question set name]" button
+          }
+        }
+
+        // Function to update the state of the "Add another [question set name]" button
+        function updateAddAnotherSetButton() {
+          const setName = setNameInput.value.trim();
+          if (setName && moreThanOnceRadio.checked) {
+            addAnotherSetButton.textContent = `Add another ${setName}`;
+            addAnotherSetButton.disabled = false;
+          } else {
+            addAnotherSetButton.textContent = "Add another [question set name]";
+            addAnotherSetButton.disabled = true;
+          }
+        }
+
+        // Add event listeners to radio buttons
+        moreThanOnceRadio.addEventListener('change', toggleButtonVisibility);
+        onceRadio.addEventListener('change', toggleButtonVisibility);
+
+        // Add event listener to the set-name input to dynamically update the button text
+        setNameInput.addEventListener('input', updateAddAnotherSetButton);
+
+        // Initialize visibility and button state on page load
+        toggleButtonVisibility();
+        updateAddAnotherSetButton();
+      });
+
+      document.addEventListener('DOMContentLoaded', function () {
+        // Get references to the input, textarea, legend, hint, and checkbox elements
+        const questionLabelInput = document.getElementById('question-label-input');
+        const questionLegend = document.getElementById('date-input-legend');
+        const hintTextArea = document.getElementById('hint-text-input');
+        const hintDiv = document.getElementById('date-input-hint');
+        const optionalCheckbox = document.getElementById('optional');
+        const monthYearCheckbox = document.getElementById('month-year-checkbox');
+        const dayInputWrapper = document.getElementById('day-input-wrapper');
+        const errorLabelInput = document.getElementById('error-label-input');
+        const errorDynamicText = document.getElementById('error-dynamic-text');
+
+        // Check if input and legend elements exist to avoid null reference errors
+        if (questionLabelInput && questionLegend) {
+          // Add event listener to update legend text on input change
+          questionLabelInput.addEventListener('input', function () {
+            // Update legend text with input value or default to 'Question 1' if input is empty
+            questionLegend.textContent = questionLabelInput.value.trim() || 'Question 1';
+          });
+        } else {
+          console.error("Input or Legend element not found");
+        }
+
+        // Check if textarea and hint elements exist to avoid null reference errors
+        if (hintTextArea && hintDiv) {
+          // Add event listener to update hint text on input change
+          hintTextArea.addEventListener('input', function () {
+            // Update hint text with textarea value or clear if empty
+            hintDiv.textContent = hintTextArea.value.trim() || '';
+          });
+        } else {
+          console.error("Textarea or Hint element not found");
+        }
+
+        // Function to update labels based on checkbox state
+        function updateLabels() {
+          const suffix = optionalCheckbox.checked ? ' (optional)' : '';
+          const questionLabelText = questionLabelInput.value;
+          const dateLegendText = questionLegend.textContent;
+
+          // Update input and legend text with the optional suffix
+          questionLabelInput.value = questionLabelText.replace(/\s*\(optional\)$/, '') + suffix;
+          questionLegend.textContent = dateLegendText.replace(/\s*\(optional\)$/, '') + suffix;
+        }
+
+        // Check if checkbox exists and add event listener
+        if (optionalCheckbox) {
+          // Add event listener to update labels when checkbox is toggled
+          optionalCheckbox.addEventListener('change', updateLabels);
+        } else {
+          console.error("Optional checkbox element not found");
+        }
+
+        // Toggle the display of the day input wrapper based on the checkbox state
+        if (monthYearCheckbox && dayInputWrapper) {
+          // Add event listener to toggle day input visibility
+          monthYearCheckbox.addEventListener('change', function () {
+            // Hide the day input if the checkbox is checked, otherwise show it
+            dayInputWrapper.style.display = this.checked ? 'none' : 'inline-block';
+          });
+        } else {
+          console.error("Month-Year Checkbox or Day Input Wrapper not found");
+        }
+
+        // Update the error dynamic text based on the error label input
+        if (errorLabelInput && errorDynamicText) {
+          // Add event listener to update the error text dynamically
+          errorLabelInput.addEventListener('input', function () {
+            errorDynamicText.textContent = this.value.trim() || 'date of birth'; // Default to 'date of birth' if input is empty
+          });
+        } else {
+          console.error("Error Label Input or Error Dynamic Text element not found");
+        }
+
+        // Function to add and remove highlight class based on focus and blur events
+        function applyHighlightOnFocus(inputElementId, targetElementId) {
+          const inputElement = document.getElementById(inputElementId);
+          const targetElement = document.getElementById(targetElementId);
+
+          if (inputElement && targetElement) {
+            // Add highlight class on focus
+            inputElement.addEventListener('focus', function () {
+              targetElement.classList.add('highlight');
+            });
+
+            // Remove highlight class on blur
+            inputElement.addEventListener('blur', function () {
+              targetElement.classList.remove('highlight');
+            });
+          } else {
+            console.error(`Element not found: ${inputElementId} or ${targetElementId}`);
+          }
+        }
+
+        // Define the placeholder text
+        const headingPlaceholder = "";
+        const guidancePlaceholder = "";
+
+        const pageHeadingInput = document.getElementById('page-heading-input');
+        const guidanceTextarea = document.getElementById('guidance-textarea');
+        const dynamicHeading = document.getElementById('dynamic-heading');
+        const guidanceParagraph = document.getElementById('guidance-paragraph');
+
+        // Apply highlight function to input-target pairs
+        applyHighlightOnFocus('question-label-input', 'date-input-legend');
+        applyHighlightOnFocus('hint-text-input', 'date-input-hint');
+        applyHighlightOnFocus('optional', 'date-input-legend');
+        applyHighlightOnFocus('page-heading-input', 'dynamic-heading');
+        applyHighlightOnFocus('guidance-textarea', 'guidance-paragraph');
+        applyHighlightOnFocus('error-label-input', 'error-dynamic-text'); // Apply highlight to error label input
+
+        // Function to update the dynamic heading based on the input
+        function updateHeading() {
+          dynamicHeading.textContent = pageHeadingInput.value.trim() || headingPlaceholder;
+        }
+
+        // Event listener to update heading on input change
+        pageHeadingInput.addEventListener('input', updateHeading);
+        updateHeading();
+
+        // Function to update guidance paragraph based on the textarea input
+        function updateGuidanceParagraph() {
+          guidanceParagraph.textContent = guidanceTextarea.value.trim() || guidancePlaceholder;
+        }
+
+        // Event listener to update guidance paragraph on input change
+        guidanceTextarea.addEventListener('input', updateGuidanceParagraph);
+        updateGuidanceParagraph();
+      });
+    </script>
+
+
+
+
+    <style>
+      /* .custom-background-padding {
+                      background-color: #f3f2f1;
+                      border-left: 10px solid #008938;
+                      padding: 15px;
+                    }
+
+                    .custom-background-padding-end-pages {
+                      background-color: #f3f2f1;
+                      border-left: 10px solid #b1b4b6;
+                      padding: 15px;
+                    }
+
+                    .govuk-summary-card__content {
+                      background-color: #f3f2f1;
+                      padding: 15px 15px 15px 0;
+                    } */
+
+      .highlight {
+        background-color: #FFE5CC;
+        border-bottom: 2px solid #FFB266;
+      }
+
+      #before-content {
+        position: absolute;
+        top: 0;
+        left: 10 !important;
+        right: 0;
+        /* Ensure the right side is aligned with the container edge */
+        width: 100%;
+        padding: 10px !important;
+
+
+
+        /* Remove padding to avoid affecting the width */
+        box-sizing: border-box;
+        /* Ensure content, padding, and borders are within width */
+        z-index: 1;
+        border-bottom: 1px solid #008938;
+        padding-left: 10px;
+        /* Add padding-left specifically for content */
+      }
+
+      #second-container {
+        padding: 0;
+        /* Ensure no padding on the container itself */
+        box-sizing: border-box;
+        /* Ensure container handles padding/border correctly */
+      }
+
+      #second-container>* {
+        padding-left: 0px;
+        z-index: 2;
+        /* Ensure content is above the #before-content */
+      }
+    </style>
+
+    {% endblock %}

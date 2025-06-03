@@ -1,0 +1,82 @@
+
+     <div class="border-left-container-radios">
+
+<div id="radio-list">
+<fieldset class="govuk-fieldset">
+<legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
+<h1 class="govuk-fieldset__heading" id="multi-question-label-output-autocomplete">
+ Question
+</h1>
+</legend>
+
+<!-- Custom radios without govuk-form-group -->
+<fieldset class="govuk-fieldset" aria-describedby="listPreview-hint">
+
+  <fieldset class="govuk-fieldset" aria-describedby="multi-question-listPreview-hint">
+    <div id="multi-question-listPreview-hint" name="multiQuestionListPreviewHint" class="govuk-hint"></div>  <!-- autocomplete preview -->
+
+  <div class="govuk-form-group">
+    <label id="autocomplete-label" class="govuk-label" for="autocomplete-input">
+      Start typing to select an option
+    </label>
+    <div id="autocomplete-container"></div>
+  </div>
+
+  <!-- autocomplete preview -->
+
+</div>
+</fieldset>
+</fieldset>
+</div>
+
+
+
+
+<div>
+     {% set setName = data['setName'] or '' %}
+     {% set overview0 = data['overview0'] or '' %}
+
+     {% if overview0 == "morethan1" %}
+     {{ govukButton({
+       text: "Add another " ~ setName,
+       classes: "govuk-button govuk-!-margin-top-3",
+       id: "add-another-set-button",
+       disabled: true
+     }) }}
+     {% else %}
+     {# {{ govukButton({
+       text: "Continue",
+       classes: "govuk-button govuk-!-margin-top-6",
+       id: "once-button",
+       disabled: true
+     }) }} #}
+     {% endif %}
+   </div>
+ </div>
+</div>
+</div>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+const dynamicCaption = document.getElementById("dynamic-caption");
+const setName = dynamicCaption.getAttribute("data-setname");
+
+if (!setName) {
+dynamicCaption.style.display = "none";
+}
+});
+
+</script>
+
+<style>
+  .border-left-container-radios {
+    border-left: 10px solid #ffb266;
+    padding-left: 20px;
+  }
+
+  .highlight {
+  background-color: #ffe5cc;
+  border-bottom: 2px solid #ffb266;
+}
+
+</style>

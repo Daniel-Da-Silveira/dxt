@@ -1,0 +1,454 @@
+{% extends "layouts/main.html" %}
+
+{% from "components/service-header/macro.njk" import serviceHeader %}
+
+{% set pageName = "Add and edit your pages - Apply for a county parish holding number in England" %}
+
+{% block header %}
+{{ serviceHeader({
+organisationName: "Defra",
+productName: "Forms Designer",
+serviceName: "",
+containerClasses: containerClasses,
+accountName: "Chris Smith",
+homepageLink: "/",
+signOutLink: "/onboarding/sign-out-confirmation",
+navigationItems: [
+{ href: "/library.html", text: "Forms library", id: "nav-library" },
+{ href: "/cph-overview/draft/complete-clean.html", text: "Overview", id: "nav-overview" },
+{ href: "/redesigntest/listing", text: "Editor", id: "nav-editor" }
+],
+activeLinkId: "nav-editor"
+}) }}
+
+<div class="x-govuk-masthead x-govuk-masthead--large">
+    <div class="govuk-width-container">
+        {{ govukBackLink({
+        classes: "govuk-back-link--inverse",
+        text: "Back to overview",
+        href: "#"
+        }) }}
+
+        <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible"
+            style="border-bottom:1px solid white; margin-bottom: 0;">
+
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-two-thirds-from-desktop">
+                <h1 class="x-govuk-masthead__title">
+                    <span class="govuk-caption-l" style="color: white;">Apply for a county parish holding number</span>
+                    Add and edit pages
+                </h1>
+                <div class="govuk-button-group">
+                    <a href="/redesigntest/questionnumber.html" role="button" draggable="false"
+                        class="govuk-button govuk-button--inverse" data-module="govuk-button">
+                        Add new page
+                    </a>
+                    <a href="#" role="button" draggable="false" class="govuk-button govuk-button--secondary"
+                        data-module="govuk-button">
+                        Re-order pages
+                    </a>
+                    <a href="#" class="govuk-link govuk-link--inverse">Preview form</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+{% block content %}
+<style>
+    .app-header--full-width-border {
+        border-bottom: 10px solid #1f70b8;
+    }
+
+    .x-govuk-masthead {
+        background-color: #008531 !important;
+    }
+
+    .preview-container {
+        display: none;
+        outline: solid 1px #008938;
+        position: sticky;
+        top: 0;
+        padding: 20px;
+        box-shadow: 5px 10px #008938;
+        margin-bottom:30px;
+    }
+</style>
+
+<form class="form" action="/september/questionnumber" method="post">
+    <div class="govuk-grid-row">
+
+
+        <div class="govuk-grid-column-two-thirds-from-desktop " id="container" style="overflow-y: auto;">
+
+            {# Short Written Answer #}
+
+            {% if data['questionLabelInputShortText'] %}
+
+            <div class="govuk-summary-card govuk-!-margin-bottom-5 " style="border-left: 10px solid #008938;">
+                <div class="govuk-summary-card__title-wrapper">
+                    <h2 class="govuk-summary-card__title">Page 1: {{ data['questionLabelInputShortText'] or '' }}</h2>
+                    <ul class="govuk-summary-card__actions">
+                        <li class="govuk-summary-card__action">
+                            <a class="govuk-link" id="editpage1" href="/redesigntest/templates/1-question/shorttext/overview.html">Edit<span class="govuk-visually-hidden">page 1</span></a>
+                        </li>
+                        <li class="govuk-summary-card__action">
+                            <a class="govuk-link preview-link" data-preview="shorttext-preview" href="#">Preview<span class="govuk-visually-hidden">page 1</span></a>
+                            <a class="govuk-link close-link" data-preview="shorttext-preview" style="display: none;" href="#">Close Preview<span class="govuk-visually-hidden">page 1</span></a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+            <div class="govuk-grid-row">
+                <div class="govuk-grid-column-one-third">
+                    <div class="preview-container" id="shorttext-preview">
+                        <div id="dynamic-preview-content-shorttext">
+                            <!-- Dynamic content for Short Text Preview -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            {% endif %}
+
+
+
+            {# Long Written Answer #}
+
+            {% if data['questionLabelInputTextArea'] %}
+            <div class="govuk-grid-column-two-thirds-from-desktop" id="container"">
+
+            <div class="govuk-summary-card" style="border-left: 10px solid #008938;">
+                <div class="govuk-summary-card__title-wrapper">
+                    <h2 class="govuk-summary-card__title">Page 2: {{ data['questionLabelInputTextArea'] or '' }}</h2>
+                    <ul class="govuk-summary-card__actions">
+                        <li class="govuk-summary-card__action">
+                            <a class="govuk-link" id="editpage2" href="/redesigntest/templates/1-question/textarea/overview.html">Edit<span class="govuk-visually-hidden">page 2</span></a>
+                        </li>
+                        <li class="govuk-summary-card__action">
+                            <a class="govuk-link preview-link" data-preview="textarea-preview" href="#">Preview<span class="govuk-visually-hidden">page 2</span></a>
+                            <a class="govuk-link close-link" data-preview="textarea-preview" style="display: none;" href="#">Close Preview<span class="govuk-visually-hidden">page 2</span></a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+            <div class="govuk-grid-row ">
+                <div class="govuk-grid-column-one-third ">
+                    <div class="preview-container " id="textarea-preview">
+                        <div id="dynamic-preview-content-textarea">
+                            <!-- Dynamic content for Text Area Preview -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+
+            {# =========================================================
+DATE
+========================================================= #}
+{% if data['questionLabelInputDate'] %}
+<div class="govuk-grid-column-two-thirds-from-desktop" id="container">
+    <div class="govuk-summary-card" style="border-left: 10px solid #008938;">
+        <div class="govuk-summary-card__title-wrapper">
+            <h2 class="govuk-summary-card__title">
+                Page 3: {{ data['questionLabelInputDate'] or '' }}
+                <span id="page-1-heading-text"></span>
+            </h2>
+            <ul class="govuk-summary-card__actions">
+                <li class="govuk-summary-card__action">
+                    <a class="govuk-link" id="editpage3" href="/redesigntest/templates/1-question/date/overview.html">Edit<span class="govuk-visually-hidden">page 3</span></a>
+                </li>
+                <li class="govuk-summary-card__action">
+                    <a class="govuk-link preview-link" data-preview="date-preview" href="#">Preview<span class="govuk-visually-hidden">page 3</span></a>
+                    <a class="govuk-link close-link" data-preview="date-preview" style="display: none;" href="#">Close Preview<span class="govuk-visually-hidden">page 3</span></a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-one-third">
+        <div class="preview-container" id="date-preview">
+            <div id="dynamic-preview-content-date">
+                <!-- Dynamic content for Date Preview -->
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
+
+{# =========================================================
+ADDRESS
+========================================================= #}
+{% if data['questionLabelInputAddress'] %}
+<div class="govuk-grid-column-two-thirds-from-desktop" id="container">
+    <div class="govuk-summary-card" style="border-left: 10px solid #008938;">
+        <div class="govuk-summary-card__title-wrapper">
+            <h2 class="govuk-summary-card__title">
+                Page 4: {{ data['questionLabelInputAddress'] or '' }}
+                <span id="page-1-heading-text"></span>
+            </h2>
+            <ul class="govuk-summary-card__actions">
+                <li class="govuk-summary-card__action">
+                    <a class="govuk-link" id="editpage4" href="/redesigntest/templates/1-question/address/overview.html">Edit<span class="govuk-visually-hidden">page 4</span></a>
+                </li>
+                <li class="govuk-summary-card__action">
+                    <a class="govuk-link preview-link" data-preview="address-preview" href="#">Preview<span class="govuk-visually-hidden">page 4</span></a>
+                    <a class="govuk-link close-link" data-preview="address-preview" style="display: none;" href="#">Close Preview<span class="govuk-visually-hidden">page 4</span></a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-one-third">
+        <div class="preview-container" id="address-preview">
+            <div id="dynamic-preview-content-address">
+                <!-- Dynamic content for Address Preview -->
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
+
+{# =========================================================
+PHONE
+========================================================= #}
+{% if data['questionLabelInputPhone'] %}
+<div class="govuk-grid-column-two-thirds-from-desktop" id="container">
+    <div class="govuk-summary-card" style="border-left: 10px solid #008938;">
+        <div class="govuk-summary-card__title-wrapper">
+            <h2 class="govuk-summary-card__title">
+                Page 5: {{ data['questionLabelInputPhone'] or '' }}
+                <span id="page-1-heading-text"></span>
+            </h2>
+            <ul class="govuk-summary-card__actions">
+                <li class="govuk-summary-card__action">
+                    <a class="govuk-link" id="editpage5" href="/redesigntest/templates/1-question/phone/overview.html">Edit<span class="govuk-visually-hidden">page 5</span></a>
+                </li>
+                <li class="govuk-summary-card__action">
+                    <a class="govuk-link preview-link" data-preview="phone-preview" href="#">Preview<span class="govuk-visually-hidden">page 5</span></a>
+                    <a class="govuk-link close-link" data-preview="phone-preview" style="display: none;" href="#">Close Preview<span class="govuk-visually-hidden">page 5</span></a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-one-third">
+        <div class="preview-container" id="phone-preview">
+            <div id="dynamic-preview-content-phone">
+                <!-- Dynamic content for Phone Preview -->
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
+
+{# =========================================================
+EMAIL
+========================================================= #}
+{% if data['questionLabelInputEmail'] %}
+<div class="govuk-grid-column-two-thirds-from-desktop" id="container">
+    <div class="govuk-summary-card" style="border-left: 10px solid #008938;">
+        <div class="govuk-summary-card__title-wrapper">
+            <h2 class="govuk-summary-card__title">
+                Page 6: {{ data['questionLabelInputEmail'] or '' }}
+                <span id="page-1-heading-text"></span>
+            </h2>
+            <ul class="govuk-summary-card__actions">
+                <li class="govuk-summary-card__action">
+                    <a class="govuk-link" id="editpage6" href="/redesigntest/templates/1-question/email/overview.html">Edit<span class="govuk-visually-hidden">page 6</span></a>
+                </li>
+                <li class="govuk-summary-card__action">
+                    <a class="govuk-link preview-link" data-preview="email-preview" href="#">Preview<span class="govuk-visually-hidden">page 6</span></a>
+                    <a class="govuk-link close-link" data-preview="email-preview" style="display: none;" href="#">Close Preview<span class="govuk-visually-hidden">page 6</span></a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-one-third">
+        <div class="preview-container" id="email-preview">
+            <div id="dynamic-preview-content-email">
+                <!-- Dynamic content for Email Preview -->
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
+
+{# =========================================================
+RADIOS
+========================================================= #}
+{% if data['questionLabelInputRadios'] %}
+<div class="govuk-grid-column-two-thirds-from-desktop" id="container">
+    <div class="govuk-summary-card" style="border-left: 10px solid #008938;">
+        <div class="govuk-summary-card__title-wrapper">
+            <h2 class="govuk-summary-card__title">
+                Page 7: {{ data['questionLabelInputRadios'] or '' }}
+                <span id="page-1-heading-text"></span>
+            </h2>
+            <ul class="govuk-summary-card__actions">
+                <li class="govuk-summary-card__action">
+                    <a class="govuk-link" id="editpage7" href="/redesigntest/templates/1-question/radios/overview.html">Edit<span class="govuk-visually-hidden">page 7</span></a>
+                </li>
+                <li class="govuk-summary-card__action">
+                    <a class="govuk-link preview-link" data-preview="radios-preview" href="#">Preview<span class="govuk-visually-hidden">page 7</span></a>
+                    <a class="govuk-link close-link" data-preview="radios-preview" style="display: none;" href="#">Close Preview<span class="govuk-visually-hidden">page 7</span></a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-one-third">
+        <div class="preview-container" id="radios-preview">
+            <div id="dynamic-preview-content-radios">
+                <!-- Dynamic content for Radios Preview -->
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
+
+{# =========================================================
+YES/NO
+========================================================= #}
+{% if data['questionLabelInputYesno'] %}
+<div class="govuk-grid-column-two-thirds-from-desktop" id="container">
+    <div class="govuk-summary-card" style="border-left: 10px solid #008938;">
+        <div class="govuk-summary-card__title-wrapper">
+            <h2 class="govuk-summary-card__title">
+                Page 8: {{ data['questionLabelInputYesno'] or '' }}
+                <span id="page-1-heading-text"></span>
+            </h2>
+            <ul class="govuk-summary-card__actions">
+                <li class="govuk-summary-card__action">
+                    <a class="govuk-link" id="editpage8" href="/redesigntest/templates/1-question/yesno/overview.html">Edit<span class="govuk-visually-hidden">page 8</span></a>
+                </li>
+                <li class="govuk-summary-card__action">
+                    <a class="govuk-link preview-link" data-preview="yesno-preview" href="#">Preview<span class="govuk-visually-hidden">page 8</span></a>
+                    <a class="govuk-link close-link" data-preview="yesno-preview" style="display: none;" href="#">Close Preview<span class="govuk-visually-hidden">page 8</span></a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-one-third">
+        <div class="preview-container" id="yesno-preview">
+            <div id="dynamic-preview-content-yesno">
+                <!-- Dynamic content for Yes/No Preview -->
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
+
+
+
+
+            {# Additional question types (Date, Address, Phone, etc.) can be added here following the same structure #}
+
+        </div>
+
+
+    </div>
+</form>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const previewContainers = document.querySelectorAll('.preview-container');
+        const dynamicPreviewContents = {
+            "shorttext-preview": `{% include "/redesigntest/templates/previews/shorttext/overview.html" %}`,
+            "textarea-preview": `{% include "/redesigntest/templates/previews/textarea/overview.html" %}`,
+            "date-preview": `{% include "/redesigntest/templates/previews/date/overview.html" %}`,
+            "address-preview": `{% include "/redesigntest/templates/previews/address/overview.html" %}`,
+            "phone-preview": `{% include "/redesigntest/templates/previews/phone/overview.html" %}`,
+            "email-preview": `{% include "/redesigntest/templates/previews/email/overview.html" %}`,
+            "radios-preview": `{% include "/redesigntest/templates/previews/radios/overview.html" %}`,
+            "yesno-preview": `{% include "/redesigntest/templates/previews/yesno/overview.html" %}`
+        };
+
+        // Function to toggle between Preview and Close Preview links
+        function togglePreviewLinks(previewId, showPreview) {
+            const previewLink = document.querySelector(`a[data-preview="${previewId}"]`);
+            const closeLink = document.querySelector(`a[data-preview="${previewId}"] + a`);
+
+            if (previewLink && closeLink) {
+                previewLink.style.display = showPreview ? "none" : "inline";
+                closeLink.style.display = showPreview ? "inline" : "none";
+            }
+        }
+
+        // Function to load the correct preview template based on the clicked link
+        function loadPreviewContent(previewId) {
+            const previewContainer = document.getElementById(previewId);
+            if (previewContainer) {
+                previewContainer.innerHTML = dynamicPreviewContents[previewId]; // Load HTML directly
+            } else {
+                console.error(`Preview container with ID ${previewId} does not exist.`);
+            }
+        }
+
+        // Add event listeners to all preview and close links
+        document.querySelectorAll(".preview-link").forEach(link => {
+            link.addEventListener("click", function (e) {
+                e.preventDefault();
+                const linkId = this.dataset.preview;
+
+                // Show the selected preview
+                loadPreviewContent(linkId);
+                const selectedPreview = document.getElementById(linkId);
+                if (selectedPreview) {
+                    selectedPreview.style.display = "block"; // Show the selected preview
+                }
+
+                // Update visibility of the close link
+                togglePreviewLinks(linkId, true);
+
+                // Show the second container if it's not already visible
+                const secondContainer = document.getElementById('second-container');
+                secondContainer.style.display = "block";
+            });
+        });
+
+        document.querySelectorAll(".close-link").forEach(link => {
+            link.addEventListener("click", function (e) {
+                e.preventDefault();
+                const previewId = this.dataset.preview;
+
+                // Hide the selected preview
+                const previewContainer = document.getElementById(previewId);
+                if (previewContainer) {
+                    previewContainer.style.display = "none";
+                }
+
+                // Update visibility of the links
+                togglePreviewLinks(previewId, false);
+
+                // Hide the second container if no previews are visible
+                const anyVisiblePreview = Array.from(previewContainers).some(container => container.style.display === "block");
+                const secondContainer = document.getElementById('second-container');
+                if (!anyVisiblePreview) {
+                    secondContainer.style.display = "none";
+                }
+            });
+        });
+    });
+</script>
+
+{% endblock %}

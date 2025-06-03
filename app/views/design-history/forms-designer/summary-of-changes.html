@@ -67,7 +67,7 @@ activeLinkId: "histories-and-prototypes"
         items: [
         {
         text: "Design History",
-        href: "/design-history/index.html"
+        href: "/index.html"
         },
         {
         text: "Transforming the Defra Forms Designer: A design history",
@@ -151,6 +151,10 @@ activeLinkId: "histories-and-prototypes"
         <div class="app-prose-scope">
             <h2 class="govuk-heading-l" id="key-changes-and-improvements">Summary</h2>
 
+            <p class="govuk-body-l">The redesign replaces a component-driven, tool-heavy experience with a task-driven,
+                guided approach that dramatically
+                reduces complexity and cognitive load.
+
             <div class="govuk-inset-text">
                 <p class="govuk-body">To see how we've improved the forms designer in-depth, feature by feature,
                     see our <a href="/design-history/index" class="govuk-link govuk-link--no-visited-state">feature
@@ -176,21 +180,10 @@ activeLinkId: "histories-and-prototypes"
                     single Page overview screen</li>
                 <li><strong>Contextual choices:</strong> Options are revealed progressively based on user
                     intent, reducing cognitive load</li>
-                <li><strong>Clear save points:</strong> Explicit save actions and visual feedback on changes
-                </li>
             </ul>
 
-            <div class="govuk-inset-text">
-                <p class="govuk-body">The redesign replaces a component-driven, tool-heavy experience with a
-                    task-driven, guided approach that dramatically reduces complexity and cognitive load.</p>
-            </div>
 
-            <div class="govuk-inset-text">
-                <p class="govuk-body">The new system provides clear separation of concerns between form, page,
-                    and question levels, with explicit save points and contextual controls that appear only when
-                    needed.</p>
-
-            </div>
+            <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
 
             {{ govukTable({
             caption: "Comparison of form builder approaches",
@@ -308,11 +301,10 @@ activeLinkId: "histories-and-prototypes"
             ],
             [
             {
-            text: "Condition Builder"
+            text: "Condition builder"
             },
             {
-            text: "Single-condition modal; supports AND/OR logic, but no preview, no reusability, no visual
-            feedback"
+            text: "Condition modal; supports AND/OR logic, but no preview"
             },
             {
             html: "<p class='govuk-body'>Intuitive condition builder with:</p>

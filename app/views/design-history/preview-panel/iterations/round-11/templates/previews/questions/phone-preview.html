@@ -1,0 +1,34 @@
+{# {% if currentPage.questions.length == 0 %}
+<p>No questions have been added yet.</p>
+{% else %}
+{% for question in currentPage.questions %} #}
+
+
+<div class="govuk-form-group">
+    <label class="govuk-label govuk-label--l" for="phone-number-input" id="question-label-legend">
+        {{ question.label or data['questionLabelInputPhone'] or '' }}
+    </label>
+    <div id="hint-text-output" class="govuk-hint">
+        {{ question.hint or '' }}
+    </div>
+    <input class="govuk-input govuk-input--width-20" id="phone-number-input" name="phoneNumber" type="tel"
+        autocomplete="tel">
+</div>
+{# {% endfor %}
+{% endif %} #}
+
+{# {% if overview0 == "morethan1" %}
+{{ govukButton({
+text: "Add another " ~ setName,
+classes: "govuk-button govuk-!-margin-top-3",
+id: "add-another-set-button",
+disabled: true
+}) }}
+{% else %}
+{{ govukButton({
+text: "Continue",
+classes: "govuk-button govuk-!-margin-top-6",
+id: "once-button",
+disabled: true
+}) }}
+{% endif %} #}

@@ -1,0 +1,19 @@
+{% extends "layouts/main.html" %}
+
+{% block content %}
+<div class="govuk-grid-row">
+  <!-- Left Column for Form Controls -->
+  <div class="govuk-grid-column-one-half-from-desktop" id="form-container">
+{% include "/editor-components/questions/checkboxes.njk" %}
+  </div>
+
+  <!-- Right Column for Preview -->
+  <div class="govuk-grid-column-one-half-from-desktop" id="preview-container">
+    {% include "/editor-components/previews/checkboxes-preview.njk" %}
+  </div>
+</div>
+
+<!-- Include your JavaScript and CSS files here -->
+<script src="/assets/js/dynamic-update.js"></script>
+<link rel="stylesheet" href="/assets/css/styles.css">
+{% endblock %}

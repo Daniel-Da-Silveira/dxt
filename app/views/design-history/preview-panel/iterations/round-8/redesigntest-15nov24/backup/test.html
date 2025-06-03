@@ -1,0 +1,111 @@
+{% extends "layouts/main.html" %}
+
+{% from "components/service-header/macro.njk" import serviceHeader %}
+
+{% set pageName = "agora - Apply for a county parish holding number in England" %}
+{% set headingPlaceholder = "Page heading" %}
+{% set guidancePlaceholder = "" %}
+
+{% block pageTitle %}
+  MILAGRE –
+  {{ serviceName }}
+  – GOV.UK Prototype Kit
+{% endblock %}
+
+{% block beforeContent %}
+  {{ govukBackLink({
+    text: "Back",
+    href: "javascript:window.history.back()"
+  }) }}
+{% endblock %}
+
+{% block content %}
+  <!DOCTYPE html>
+  <html lang="en">
+    <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Dynamic Legend Update</title>
+      <link rel="stylesheet" href="https://govuk-frontend.herokuapp.com/v3.14.0/govuk/all.css">
+    </head>
+    <body>
+
+      <!-- Input field to update the legend dynamically -->
+      <div class="govuk-form-group">
+        <label class="govuk-label" for="question-label-input">Question Label</label>
+        <input class="govuk-input" id="question-label-input" name="question-label" type="text">
+      </div>
+
+      <!-- Fieldset with legend that will be updated -->
+      <fieldset class="govuk-fieldset">
+        <legend class="govuk-fieldset__legend govuk-fieldset__legend--m" id="date-input-legend">Question 1</legend>
+        <!-- Example content -->
+        <div class="govuk-form-group">
+          <label class="govuk-label" for="example-input">Example Input</label>
+          <input class="govuk-input" id="example-input" name="example-input" type="text">
+        </div>
+      </fieldset>
+
+      <script>
+        // Ensure the DOM is fully loaded before executing the script
+        document.addEventListener('DOMContentLoaded', function () {
+          // Get references to the input and legend elements
+          const questionLabelInput = document.getElementById('question-label-input');
+          const questionLegend = document.getElementById('date-input-legend');
+
+          // Check if elements exist to avoid null reference errors
+          if (questionLabelInput && questionLegend) {
+            // Add event listener to update legend text on input change
+            questionLabelInput.addEventListener('input', function () {
+              // Update legend text with input value or default to 'Question 1' if input is empty
+              questionLegend.textContent = questionLabelInput
+                .value
+                .trim() || 'Question 1';
+            });
+          } else {
+            console.error("Input or Legend element not found");
+          }
+        });
+      </script>
+
+    </body>
+  </html>
+
+  <style>
+    .custom-background-padding {
+      background-color: #f3f2f1;
+      border-left: 10px solid #008938;
+      padding: 15px;
+    }
+
+    .govuk-summary-card__content {
+      background-color: #f3f2f1;
+      padding: 15px 15px 15px 0;
+    }
+
+    .highlight {
+      background-color: #FFE5CC;
+      border-bottom: 2px solid #FFB266;
+
+      &::after,
+      &::before {
+        clip-path: inset(100%);
+        clip: rect(1px, 1px, 1px, 1px);
+        height: 1px;
+        overflow: hidden;
+        position: absolute;
+        white-space: nowrap;
+        width: 1px;
+      }
+
+      &::before {
+        content: " [highlight start] ";
+      }
+
+      &::after {
+        content: " [highlight end] ";
+      }
+    }
+  </style>
+
+{% endblock %}

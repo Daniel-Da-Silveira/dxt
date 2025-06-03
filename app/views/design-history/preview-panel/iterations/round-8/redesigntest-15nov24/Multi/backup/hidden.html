@@ -1,0 +1,1056 @@
+{% extends "layouts/main.html" %}
+{% from "components/service-header/macro.njk" import serviceHeader %}
+{% set pageName = "Edit page 1 - Apply for a county parish holding number in England" %}
+{% set headingPlaceholder = "Page heading" %}
+{% set guidancePlaceholder = "" %}
+{#  #}
+{% block header %}
+  {{ serviceHeader({
+    organisationName: "Defra",
+    productName: "Forms Designer",
+    serviceName: "",
+    containerClasses: containerClasses,
+    accountName: "Chris Smith",
+    homepageLink: "/",
+    signOutLink: "/onboarding/sign-out-confirmation",
+    navigationItems: [
+      { href: "/library.html", text: "Forms library", id: "nav-library" },
+      { href: "/cph-overview/draft/complete-clean.html", text: "Overview", id: "nav-overview" },
+      { href: "/redesigntest/listing", text: "Editor", id: "nav-editor" }    ],
+    activeLinkId: "nav-editor"
+  }) }}
+
+<div class="x-govuk-masthead x-govuk-masthead--large">
+  <div class="govuk-width-container">
+    {{ govukBackLink({ classes: "govuk-back-link--inverse", text: "Back to add
+    and edit pages", href: "/september/listing/2.html" }) }}
+
+    <hr
+      class="govuk-section-break govuk-section-break--m govuk-section-break--visible"
+      style="border-bottom: 1px solid white; margin-bottom: 0"
+    />
+
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-two-thirds-from-desktop">
+        <h1 class="x-govuk-masthead__title">
+          <span class="govuk-caption-l" style="color: white"
+            >Apply for a county parish holding certificate</span
+          >
+
+          Edit page 2
+        </h1>
+
+        <p class="govuk-body" style="color: white">Last saved at <time>5:24pm</time></p>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %} {% block content %}
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-full">
+    <div class="govuk-grid-row">
+      <!-- Left Column for Form Controls -->
+      <div
+        class="govuk-grid-column-one-half-from-desktop"
+        id="container"
+        style="flex: 1 1 75%; overflow-y: auto"
+      >
+        <div class="govuk-summary-card govuk-!-margin-top-0" style="border-left: 10px solid #008938">
+          <div
+            class="govuk-summary-card__content govuk-!-padding-top-0"
+            style="background-color: #f3f2f1"
+          >
+           <!-- Navigation Tabs -->
+<nav class="moj-sub-navigation govuk-!-padding-top-0 govuk-!-margin-bottom-2" aria-label="Sub navigation">
+  <ul class="moj-sub-navigation__list" id="nav-list2">
+    <!-- Page Settings Tab (Visible by Default) -->
+    <li class="moj-sub-navigation__item active" data-tab="page-settings">
+      <a class="moj-sub-navigation__link" href="#page-settings">Page settings</a>
+    </li>
+
+    <!-- Overview of Questions Tab (Initially Hidden) -->
+    <li class="moj-sub-navigation__item" data-tab="overview" style="display:none;">
+      <a class="moj-sub-navigation__link" href="#overview">Overview of Questions</a>
+    </li>
+
+    <!-- Question 1 Tab (Initially Hidden) -->
+    <li class="moj-sub-navigation__item" data-tab="question-1" style="display:none;">
+      <a class="moj-sub-navigation__link" href="#question-1">Question 1</a>
+    </li>
+
+    <!-- New Tab for Overview-1 -->
+    <li class="moj-sub-navigation__item" data-tab="overview-1" style="display:none;">
+      <a class="moj-sub-navigation__link" href="#overview-1">Overview</a>
+    </li>
+
+  </ul>
+</nav>
+
+<!-- TAB CONTENTS -->
+            <!-- Page Settings Content -->
+            <div class="tab-content" id="page-settings-content" style="display:block; margin-top: 20px;">
+
+              <span class="govuk-caption-l" id="page-caption">Page 2</span>
+
+                        <h2 class="govuk-heading-l" id="page-heading">Page settings</h2>
+
+
+              <form>
+                <!-- Page Heading Input -->
+                {{ govukInput({
+                  label: {
+                    text: "Page heading",
+                    classes: "govuk-label--m govuk-!-margin-top-0",
+                    isPageHeading: false
+                  },
+                  hint: {
+                    html: "This should be a statement, not a question. For example, 'Passport information’"
+                  },
+                  id: "page-heading-input",
+                  name: "pageHeading",
+                  classes: "govuk-input",
+                  describedBy: "page-heading-input-hint",
+                  input: {
+                    type: "text",
+                    id: "page-heading-input"
+                  }
+                }) }}
+
+                <!-- Guidance Text Textarea -->
+                {{ govukTextarea({
+                  label: {
+                    text: "Guidance text (optional)",
+                    classes: "govuk-label--m"
+                  },
+                  hint: {
+                    text: "You can use Markdown if you want to format the content or add links"
+                  },
+                  id: "guidance-textarea",
+                  name: "guidanceText",
+                  classes: "govuk-textarea",
+                  rows: 3,
+                  describedBy: "guidance-textarea-hint"
+                }) }}
+
+                {% from "govuk/components/radios/macro.njk" import govukRadios %}
+                {% from "govuk/components/input/macro.njk" import govukInput %}
+
+                {% set morethan1Html %}
+                <div class="govuk-form-group">
+                  <fieldset class="govuk-fieldset" role="group" aria-describedby="dob-hint">
+                    <legend class="govuk-fieldset__legend govuk-fieldset__legend">
+                      <h1 class="govuk-fieldset__heading">Set the minimum and maximum times a user can
+                        answer
+                        questions</h1>
+                    </legend>
+                    <div id="dob-hint" class="govuk-hint">The range must be between 2 and 25</div>
+                    <div class="govuk-date-input" id="dob">
+                      <div class="govuk-date-input__item">
+                        <div class="govuk-form-group">
+                          <label class="govuk-label govuk-date-input__label" for="dob-day">Min</label>
+                          <input class="govuk-input govuk-date-input__input govuk-input--width-2" id="dob-day"
+                            name="dob-day" type="text" autocomplete="bday-day" inputmode="numeric">
+                        </div>
+                      </div>
+                      <div class="govuk-date-input__item">
+                        <div class="govuk-form-group">
+                          <label class="govuk-label govuk-date-input__label" for="dob-month">Max</label>
+                          <input class="govuk-input govuk-date-input__input govuk-input--width-2"
+                            id="dob-month" name="dob-month" type="text" autocomplete="bday-month"
+                            inputmode="numeric">
+                        </div>
+                      </div>
+                    </div>
+                  </fieldset>
+                </div>
+
+                {{ govukInput({
+                label: {
+                text: "Give this set of questions a name",
+                classes: "govuk-label",
+                isPageHeading: true
+                },
+                hint: {
+                text: "Use the subject of the questions for the question set name. For example, if the
+                questions are about pets, the question set name might be ‘pet’."
+                },
+                id: "set-name",
+                name: "setName"
+                }) }}
+                {% endset -%}
+
+                {{ govukRadios({
+                  name: "responseType",
+                  fieldset: {
+                    legend: {
+                      text: "Do you need users to answer the same question repeatedly?",
+                      isPageHeading: true,
+                      classes: "govuk-fieldset__legend--m"
+                    }
+                  },
+                  hint: {
+                    text: "For example, a microchip number for multiple pets or national grid reference for multiple sites"
+                  },
+                  items: [
+                    {
+                      value: "once",
+                      text: "No, just once",
+                      id: "once",
+                      conditional: {
+                        html: onceHtml
+                      }
+                    },
+                    {
+                      value: "morethan1",
+                      text: "Yes, more than once",
+                      id: "more-than-1",
+                      conditional: {
+                        html: morethan1Html
+                      }
+                    }
+                  ]
+                }) }}
+
+                <div class="govuk-button-group">
+                  {{ govukButton({
+                    text: "Continue",
+                    id: "save-changes-button",
+                    type: "button"
+                  }) }}
+
+                  <p class="govuk-body">
+                    <a href="#" class="govuk-link govuk-link--no-visited-state">
+                      Delete page
+                    </a>
+                  </p>
+                </div>
+              </form>
+            </div>
+
+<!-- Overview Content after adding first question (Hidden by Default) -->
+<div class="tab-content" id="overview-1-content" style="display:none;">
+  <!-- Content for Overview -->
+  <span class="govuk-caption-l" id="page-caption">Page 2</span>
+
+  <h2 class="govuk-heading-l" id="page-heading">Overview of questions</h2>
+  <dl class="govuk-summary-list">
+    <div class="govuk-summary-list__row">
+      <dt class="govuk-summary-list__key">
+        Name
+      </dt>
+      <dd class="govuk-summary-list__value">
+        Sarah Philips
+      </dd>
+      <dd class="govuk-summary-list__actions">
+        <a class="govuk-link" href="#">Change<span class="govuk-visually-hidden"> name</span></a>
+      </dd>
+    </div>
+  </dl>
+  <button class="govuk-button" id="add-next-question-button">Add another question</button>
+</div>
+
+
+ <!-- Overview Content (Hidden by Default) -->
+ <div class="tab-content" id="overview-content" style="display:none;">
+  <!-- Content for Overview -->
+  <span class="govuk-caption-l" id="page-caption">Page 2</span>
+
+  <h2 class="govuk-heading-l" id="page-heading">Overview of questions</h2>
+  <p class="govuk-body">You have not added any questions to this page.</p>
+  <button class="govuk-button" id="add-first-question-button">Add first question</button>
+</div>
+
+<!-- Question 1 Content (Hidden by Default) -->
+<div class="tab-content" id="question-1-content" style="display:none;">
+  <!-- Content for Question 1 -->
+  <div id="info-page-radio-group">
+    <form class="form">
+      <span class="govuk-caption-l">Question 1</span>
+
+      <div class="govuk-form-group">
+        <fieldset class="govuk-fieldset" aria-describedby="questiontype2-hint">
+          <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
+            <h1 class="govuk-fieldset__heading">
+              What information do you need from users?
+            </h1>
+          </legend>
+
+          <div id="questiontype2-hint" class="govuk-hint">
+            You can ask for more information later
+          </div>
+
+          <div class="govuk-radios" data-module="govuk-radios">
+
+<!-- Written Answer Option -->
+<div class="govuk-radios__item">
+  <input class="govuk-radios__input" id="questiontype2" name="questiontype2" type="radio" value="text" aria-controls="conditional-questiontype2" aria-expanded="false">
+  <label class="govuk-label govuk-radios__label" for="questiontype2">Written answer</label>
+</div>
+
+<!-- Conditional: Type of Written Answer -->
+<div class="govuk-radios__conditional govuk-radios__conditional--hidden" id="conditional-questiontype2">
+  <div class="govuk-form-group">
+    <fieldset class="govuk-fieldset">
+      <legend class="govuk-fieldset__legend govuk-fieldset__legend">Type of written answer</legend>
+      <div class="govuk-radios" data-module="govuk-radios">
+        <div class="govuk-radios__item">
+          <input class="govuk-radios__input" id="shortText" name="writtenAnswerType" type="radio" value="shortText">
+          <label class="govuk-label govuk-radios__label" for="shortText">Short text</label>
+        </div>
+        <div class="govuk-radios__item">
+          <input class="govuk-radios__input" id="longText" name="writtenAnswerType" type="radio" value="longText">
+          <label class="govuk-label govuk-radios__label" for="longText">Long text</label>
+        </div>
+        <div class="govuk-radios__item">
+          <input class="govuk-radios__input" id="number" name="writtenAnswerType" type="radio" value="number">
+          <label class="govuk-label govuk-radios__label" for="number">Number</label>
+        </div>
+      </div>
+    </fieldset>
+  </div>
+</div>
+
+            <!-- Date Option -->
+            <div class="govuk-radios__item">
+              <input class="govuk-radios__input" id="questiontype2-2" name="questiontype2" type="radio" value="date" aria-describedby="questiontype2-2-item-hint" aria-controls="conditional-questiontype2-2" aria-expanded="false">
+              <label class="govuk-label govuk-radios__label" for="questiontype2-2">
+                Date
+              </label>
+              <div id="questiontype2-2-item-hint" class="govuk-hint govuk-radios__hint">
+                A day, month and year or month and year only
+              </div>
+            </div>
+
+            <!-- Conditional: Type of Date -->
+            <div class="govuk-radios__conditional govuk-radios__conditional--hidden" id="conditional-questiontype2-2">
+              <div class="govuk-form-group">
+                <fieldset class="govuk-fieldset">
+                  <legend class="govuk-fieldset__legend govuk-fieldset__legend">
+                    <h1 class="govuk-fieldset__heading">
+                      Type of date
+                    </h1>
+                  </legend>
+
+                  <div class="govuk-radios" data-module="govuk-radios">
+                    <div class="govuk-radios__item">
+                      <input class="govuk-radios__input" id="day-month-year" name="dateType" type="radio" value="day-month-year">
+                      <label class="govuk-label govuk-radios__label" for="day-month-year">
+                        Day, month and year
+                      </label>
+                    </div>
+
+                    <div class="govuk-radios__item">
+                      <input class="govuk-radios__input" id="month-year" name="dateType" type="radio" value="month-year">
+                      <label class="govuk-label govuk-radios__label" for="month-year">
+                        Month and year
+                      </label>
+                    </div>
+                  </div>
+                </fieldset>
+              </div>
+            </div>
+
+            <!-- UK Address Option -->
+            <div class="govuk-radios__item">
+              <input class="govuk-radios__input" id="questiontype2-3" name="questiontype2" type="radio" value="address" aria-describedby="questiontype2-3-item-hint">
+              <label class="govuk-label govuk-radios__label" for="questiontype2-3">
+                UK address
+              </label>
+              <div id="questiontype2-3-item-hint" class="govuk-hint govuk-radios__hint">
+                A street address, town or city and postcode
+              </div>
+            </div>
+
+            <!-- Phone Number Option -->
+            <div class="govuk-radios__item">
+              <input class="govuk-radios__input" id="questiontype2-4" name="questiontype2" type="radio" value="phone" aria-describedby="questiontype2-4-item-hint">
+              <label class="govuk-label govuk-radios__label" for="questiontype2-4">
+                Phone number
+              </label>
+              <div id="questiontype2-4-item-hint" class="govuk-hint govuk-radios__hint">
+                A text box that users can enter numbers and some symbols into, such as '+'
+              </div>
+            </div>
+
+            <!-- Supporting Evidence Option -->
+            <div class="govuk-radios__item">
+              <input class="govuk-radios__input" id="questiontype2-5" name="questiontype2" type="radio" value="file" aria-describedby="questiontype2-5-item-hint">
+              <label class="govuk-label govuk-radios__label" for="questiontype2-5">
+                Supporting evidence
+              </label>
+              <div id="questiontype2-5-item-hint" class="govuk-hint govuk-radios__hint">
+                Ask users to upload documents and photos
+              </div>
+            </div>
+
+            <!-- Email Address Option -->
+            <div class="govuk-radios__item">
+              <input class="govuk-radios__input" id="questiontype2-6" name="questiontype2" type="radio" value="email" aria-describedby="questiontype2-6-item-hint">
+              <label class="govuk-label govuk-radios__label" for="questiontype2-6">
+                Email address
+              </label>
+              <div id="questiontype2-6-item-hint" class="govuk-hint govuk-radios__hint">
+                A text box that users can enter their email address into
+              </div>
+            </div>
+
+            <div class="govuk-radios__divider">or</div>
+
+            <!-- List Option -->
+            <div class="govuk-radios__item">
+              <input class="govuk-radios__input" id="questiontype2-8" name="questiontype2" type="radio" value="list" aria-controls="conditional-questiontype2-8" aria-expanded="false">
+              <label class="govuk-label govuk-radios__label" for="questiontype2-8">
+                Ask users to choose from a list of options
+              </label>
+            </div>
+
+            <!-- Conditional: Type of List -->
+            <div class="govuk-radios__conditional govuk-radios__conditional--hidden" id="conditional-questiontype2-8">
+              <div class="govuk-form-group">
+                <fieldset class="govuk-fieldset">
+                  <legend class="govuk-fieldset__legend govuk-fieldset__legend">
+                    <h1 class="govuk-fieldset__heading">
+                      Type of list
+                    </h1>
+                  </legend>
+
+                  <div class="govuk-radios" data-module="govuk-radios">
+                    <div class="govuk-radios__item">
+                      <input class="govuk-radios__input" id="yesnoList" name="listType" type="radio" value="yesnoList" aria-describedby="yesnoList-item-hint">
+                      <label class="govuk-label govuk-radios__label" for="yesnoList">
+                        Yes or No
+                      </label>
+                      <div id="yesnoList-item-hint" class="govuk-hint govuk-radios__hint">
+                        Allow users to answer either ‘Yes’ or ‘No’
+                      </div>
+                    </div>
+
+                    <div class="govuk-radios__item">
+                      <input class="govuk-radios__input" id="checkboxList" name="listType" type="radio" value="checkboxList" aria-describedby="checkboxList-item-hint">
+                      <label class="govuk-label govuk-radios__label" for="checkboxList">
+                        Checkboxes
+                      </label>
+                      <div id="checkboxList-item-hint" class="govuk-hint govuk-radios__hint">
+                        A list for users to select multiple answers
+                      </div>
+                    </div>
+
+                    <div class="govuk-radios__item">
+                      <input class="govuk-radios__input" id="radioList" name="listType" type="radio" value="radioList" aria-describedby="radioList-item-hint">
+                      <label class="govuk-label govuk-radios__label" for="radioList">
+                        Radios
+                      </label>
+                      <div id="radioList-item-hint" class="govuk-hint govuk-radios__hint">
+                        A list for users to select one answer
+                      </div>
+                    </div>
+
+                    <div class="govuk-radios__item">
+                      <input class="govuk-radios__input" id="selectList" name="listType" type="radio" value="selectList" aria-describedby="selectList-item-hint">
+                      <label class="govuk-label govuk-radios__label" for="selectList">
+                        Select
+                      </label>
+                      <div id="selectList-item-hint" class="govuk-hint govuk-radios__hint">
+                        A drop-down list for users to select one answer
+                      </div>
+                    </div>
+                  </div>
+                </fieldset>
+              </div>
+            </div>
+
+          </div>
+        </fieldset>
+      </div>
+
+      <button type="submit" class="govuk-button" data-module="govuk-button" id="question-type-continue">
+        Continue
+      </button>
+    </form>
+  </div>
+</div>
+
+
+
+          </div>
+        </div>
+      </div>
+
+      <!-- Right Column for Additional Content -->
+      <div
+        class="govuk-grid-column-one-half-from-desktop"
+        id="second-container"
+        style="
+          outline: solid 1px #008938;
+          height: 100%;
+          position: sticky;
+          top: 0;
+          padding: 20px;
+          box-shadow: 5px 10px #008938;
+        "
+      >
+        <!-- New HTML content for before element -->
+        <div id="before-content">
+          <p class="govuk-body-s" style="margin-bottom: 0">
+            <a
+              href="#"
+              class="govuk-link govuk-link--no-visited-state"
+              rel="noreferrer noopener"
+              target="_blank"
+              >Preview this page in a new tab</a
+            >
+          </p>
+        </div>
+
+        <!-- Additional Content Here -->
+        <div class="additional-content">
+
+          <div>
+            <!-- Tag for Preview -->
+            {{ govukTag({ text: "Preview of page 2", classes: "govuk-tag--yellow govuk-!-margin-bottom-2 govuk-!-margin-top-8" }) }}
+            <!-- Form for Preview -->
+            <form>
+              <!-- Dynamic Heading -->
+              <div id="heading-container">
+                <span id="dynamic-caption" class="govuk-caption-l"></span>
+                <h1 class="govuk-heading-l" id="dynamic-heading"></h1>
+              </div>
+
+              <!-- Guidance Paragraph -->
+              <p class="govuk-body" id="guidance-paragraph"></p>
+
+<div class="question-preview" id="short-text-component" style="display:none;">
+  <div class="govuk-form-group">
+    <label class="govuk-label govuk-label--m" for="short-text-label-output" id="short-text-label-output-dynamic">
+      Question 1
+    </label>
+    <div class="govuk-hint" id="short-text-question-hint">
+      <!-- This will show the hint text -->
+    </div>
+    <input class="govuk-input" id="short-text-label-input" name="shortTextInput" type="text" aria-describedby="short-text-question-hint">
+  </div>
+</div>
+
+
+
+
+
+            </form>
+
+            {{ govukButton({ text: "Continue", classes: "govuk-button govuk-!-margin-top-3", id: "once-button", disabled: true }) }} {{
+            govukButton({ text: "Add another [question set name]", classes:
+            "govuk-button govuk-!-margin-top-3", id: "add-another-set-button",
+            disabled: true, attributes: { style: "display:none;" } }) }}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+  const domElements = {
+    questionInput: document.getElementById('question-label-input-q1'),
+    dynamicHeading: document.getElementById('question-label-output')
+  };
+
+  // Initialize the event listeners
+  initializeEventListeners();
+
+  function initializeEventListeners() {
+    const inputListeners = [
+      { element: domElements.questionInput, event: "input", handler: updateHeading }
+    ];
+
+    inputListeners.forEach(bindListener);
+
+    // Initialize the heading text on page load
+    updateHeading();
+  }
+
+  function bindListener({ element, event, handler }) {
+    if (element) {
+      element.addEventListener(event, handler);
+    } else {
+      console.error(`Element not found for event listener: ${event}`);
+    }
+  }
+
+  function updateHeading() {
+    const defaultHeading = "Question 1";
+    setTextContent(domElements.dynamicHeading, domElements.questionInput.value.trim(), defaultHeading);
+  }
+
+  function setTextContent(element, value, defaultValue) {
+    if (element) {
+      element.textContent = value || defaultValue; // Use default if no value
+    } else {
+      console.error(`Element not found: ${element}`);
+    }
+  }
+});
+
+</script>
+
+
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    // Cache references to static DOM elements
+    const domElements = {
+      pageHeadingInput: document.getElementById("page-heading-input"),
+      guidanceTextarea: document.getElementById("guidance-textarea"),
+      dynamicHeading: document.getElementById("dynamic-heading"),
+      guidanceParagraph: document.getElementById("guidance-paragraph"),
+      shortTextHintDiv: document.getElementById("short-text-question-hint"),
+      errorLabelInput: document.getElementById("error-label-input"),
+      errorDynamicText: document.getElementById("error-dynamic-text"),
+      typeLabel: document.getElementById("type-label"),
+      saveToOverviewButton: document.getElementById("save-to-overview"),
+      addNextQuestionButton: document.getElementById("add-next-question-button") // Added reference for type label
+    };
+
+    // Initialize all event listeners for static elements
+    initializeEventListeners();
+
+    function initializeEventListeners() {
+      const inputListeners = [
+        { element: domElements.pageHeadingInput, event: "input", handler: updateHeading },
+        { element: domElements.guidanceTextarea, event: "input", handler: updateGuidanceParagraph },
+      ];
+
+      inputListeners.forEach(bindListener);
+
+      // Initialize state on page load
+      updateHeading();
+      updateGuidanceParagraph();
+      applyHighlights();
+      updateTypeLabel(); // Initialize the type label on page load
+    }
+
+    function bindListener({ element, event, handler }) {
+      if (element) {
+        element.addEventListener(event, handler);
+      } else {
+        console.error(`Element not found for event listener: ${event}`);
+      }
+    }
+
+    function updateShortTextLabel() {
+      const labelElement = document.getElementById("short-text-label-output");
+      const inputElement = domElements.shorttextlabelinputdynamic;
+
+      if (labelElement && inputElement) {
+        labelElement.textContent = inputElement.value.trim() || "Default Question Label";
+      }
+    }
+
+    function updateShortTextHint() {
+      if (domElements.shortTextHintDiv && domElements.hintTextArea) {
+        domElements.shortTextHintDiv.textContent = domElements.hintTextArea.value.trim() || ""; // Clear if no input
+      }
+    }
+
+    function updateHeading() {
+      setTextContent(domElements.dynamicHeading, domElements.pageHeadingInput.value.trim(), "Page heading");
+    }
+
+    function updateGuidanceParagraph() {
+      setTextContent(domElements.guidanceParagraph, domElements.guidanceTextarea.value.trim(), "");
+    }
+
+    function setTextContent(element, value, defaultValue) {
+      if (element) {
+        element.textContent = value || defaultValue; // Use default if no value
+      } else {
+        console.error(`Element not found: ${element}`);
+      }
+    }
+
+    function updateShortTextLabelDynamic() {
+      if (domElements.shortTextLabelOutputDynamic && domElements.shortTextLabelInputDynamic) {
+        domElements.shortTextLabelOutputDynamic.textContent = domElements.shortTextLabelInputDynamic.value.trim() || "Default Question Label";
+      }
+    }
+
+    function updateShortTextHintDynamic() {
+      if (domElements.shortTextHintDiv && domElements.hintTextAreaDynamic) {
+        domElements.shortTextHintDiv.textContent = domElements.hintTextAreaDynamic.value.trim() || ""; // Clear if no input
+      }
+    }
+
+    function applyHighlights() {
+      const highlightPairs = [
+        { inputId: "short-text-label-input-dynamic", targetId: "short-text-label-output-dynamic" },
+        { inputId: "hint-text-input", targetId: "short-text-question-hint" },
+        { inputId: "page-heading-input", targetId: "dynamic-heading" },
+        { inputId: "guidance-textarea", targetId: "guidance-paragraph" },
+        { inputId: "hint-text-input-dynamic", targetId: "short-text-question-hint" },
+      ];
+
+      highlightPairs.forEach(({ inputId, targetId }) => {
+        applyHighlightOnFocus(inputId, targetId);
+      });
+    }
+
+    function applyHighlightOnFocus(inputElementId, targetElementId) {
+      const inputElement = document.getElementById(inputElementId);
+      const targetElement = document.getElementById(targetElementId);
+
+      if (inputElement && targetElement) {
+        inputElement.addEventListener("focus", () => targetElement.classList.add("highlight"));
+        inputElement.addEventListener("blur", () => targetElement.classList.remove("highlight"));
+      } else {
+        console.error(`Input or target element not found: ${inputElementId}, ${targetElementId}`);
+      }
+    }
+
+    /**
+     * Activates a given tab and displays its corresponding content.
+     * @param {Element} tab - The tab link element to activate.
+     */
+    const tabs = document.querySelectorAll(".moj-sub-navigation__link");
+    const contents = document.querySelectorAll(".tab-content");
+    const conditionalContainer = document.getElementById("conditional-questiontype2");
+
+    const secondContainer = document.querySelector("#second-container .additional-content");
+    const guidanceParagraph = document.getElementById("guidance-paragraph");
+
+  // Function to activate a given tab
+  const activateTab = (tab) => {
+    // Deactivate all tabs and remove aria-current attribute
+    tabs.forEach(t => {
+      t.parentElement.classList.remove("active");
+      t.removeAttribute("aria-current");
+    });
+    contents.forEach(content => content.style.display = "none"); // Hide all contents
+
+    // Activate the selected tab
+    tab.parentElement.classList.add("active");
+    tab.setAttribute("aria-current", "page"); // Add aria-current to the active tab
+
+    // Show the corresponding content section
+    const targetId = tab.getAttribute("href").substring(1) + "-content";
+    const targetContent = document.getElementById(targetId);
+    if (targetContent) {
+      targetContent.style.display = "block"; // Show the selected tab content
+    } else {
+      console.error(`Content section with id "${targetId}" not found.`);
+    }
+  };
+
+  // Event listener for the "Continue" button to activate 'overview-1'
+  if (domElements.saveToOverviewButton) {
+    domElements.saveToOverviewButton.addEventListener("click", (event) => {
+      event.preventDefault(); // Prevent form submission or default button behavior
+
+      // Find the 'overview-1' tab link
+      const overview1TabLink = document.querySelector('a[href="#overview-1"]');
+      if (overview1TabLink) {
+        activateTab(overview1TabLink); // Activate the 'overview-1' tab
+      } else {
+        console.error('Overview-1 tab link not found.');
+      }
+    });
+  } else {
+    console.error('Save to Overview button not found.');
+  }
+
+  // Event listener for the "Add another question" button
+  if (domElements.addNextQuestionButton) {
+    domElements.addNextQuestionButton.addEventListener("click", (event) => {
+      event.preventDefault(); // Prevent default button behavior
+
+      // Logic to add another question goes here
+      // For example, you might activate a new question tab or append a new question form
+
+      console.log("Add another question button clicked.");
+      // Implement the desired functionality
+    });
+  } else {
+    console.error('Add next question button not found.');
+  }
+    // Initialize tabs by adding click event listeners
+    tabs.forEach(tab => {
+      tab.addEventListener("click", (event) => {
+        event.preventDefault();
+        activateTab(tab);
+      });
+    });
+
+    // Optionally, activate the first tab on load
+    if (tabs.length > 0) {
+      activateTab(tabs[0]);
+    }
+
+    /**
+     * Handles the action to show a hidden tab.
+     * @param {string} tabData - The data-tab attribute of the tab to show.
+     */
+    const showTab = (tabData) => {
+      const tabLi = document.querySelector(`li[data-tab="${tabData}"]`);
+      const tabLink = tabLi ? tabLi.querySelector(".moj-sub-navigation__link") : null;
+      if (tabLi && tabLink) {
+        tabLi.style.display = "block"; // Ensure the tab is visible
+        activateTab(tabLink); // Activate the tab and set aria-current
+      } else {
+        console.error(`Tab with data-tab="${tabData}" not found.`);
+      }
+    };
+
+    // Handle the "Save changes" button to show the Overview tab
+    const saveChangesButton = document.getElementById("save-changes-button");
+    if (saveChangesButton) {
+      saveChangesButton.addEventListener("click", (event) => {
+        event.preventDefault();
+        // Show and activate the Overview tab
+        showTab("overview");
+      });
+    }
+
+    // Handle the "Add first question" button to show the first question tab
+    const addFirstQuestionButton = document.getElementById("add-first-question-button");
+    if (addFirstQuestionButton) {
+      addFirstQuestionButton.addEventListener("click", (event) => {
+        event.preventDefault();
+        // Check if the button exists in the DOM and trigger action
+        showTab("question-1"); // Make sure the tab name matches your setup
+      });
+    } else {
+      console.error('Add first question button not found in DOM');
+    }
+
+    // Handle the "question-type-continue" button to dynamically update `question-1-content`
+    const continueButton = document.getElementById("question-type-continue");
+    const question1Content = document.getElementById("question-1-content");
+
+    if (continueButton) {
+      continueButton.addEventListener("click", (event) => {
+        event.preventDefault();
+
+        // Get the selected question type radio button
+        const selectedQuestionType = document.querySelector('input[name="questiontype2"]:checked');
+
+        if (selectedQuestionType) {
+          console.log("Selected question type: ", selectedQuestionType.value);
+
+          // Handle the case for 'text' type and show the conditional written answer options
+          if (selectedQuestionType.value === "text") {
+            conditionalContainer.classList.remove("govuk-radios__conditional--hidden");
+            conditionalContainer.setAttribute("aria-expanded", "true");
+          }
+
+          // Handle dynamic content injection based on the writtenAnswerType selected
+          const selectedWrittenAnswerType = document.querySelector('input[name="writtenAnswerType"]:checked');
+          if (selectedWrittenAnswerType) {
+            question1Content.innerHTML = ''; // Clear existing content
+
+            switch (selectedWrittenAnswerType.value) {
+              case "shortText":
+                // Insert the new HTML content with unique IDs
+                question1Content.innerHTML = `
+                  <div class="govuk-form-group">
+  <label class="govuk-label govuk-label--m" for="short-text-label-input-dynamic" id="short-text-label-output-dynamic-1">Question Label 1</label>
+  <input class="govuk-input" id="short-text-label-input-dynamic" name="short-text-label-input-dynamic" type="text">
+</div>
+
+
+                  <div class="govuk-form-group">
+                    <label class="govuk-label govuk-label--m" for="hint-text-input-dynamic">Hint (optional)</label>
+                    <textarea class="govuk-textarea" id="hint-text-input-dynamic" rows="3" name="hint-text-input-dynamic" type="text"></textarea>
+                  </div>
+
+                  <!-- Question Settings -->
+                  <div class="govuk-form-group">
+                    <fieldset class="govuk-fieldset">
+                      <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">Manage how the question is displayed</legend>
+                    
+                      <div class="govuk-checkboxes govuk-checkboxes--small">
+                        <div class="govuk-checkboxes__item">
+                          <input class="govuk-checkboxes__input" id="optional-dynamic" name="optional-dynamic" type="checkbox" value="optional">
+                          <label class="govuk-label govuk-checkboxes__label" for="optional-dynamic">Make this question optional</label>
+                        </div>
+                      </div>
+                    </fieldset>
+                  </div>
+                  <!-- Error Message Label Input -->
+                  <div class="govuk-form-group">
+                    <label class="govuk-label govuk-label--m" for="error-label-input-dynamic">Short description</label>
+                    <span class="govuk-hint">
+                      Enter a short description for this question like 'licence period'. Short descriptions are used in error messages and on the check your answers page.
+                    </span>
+                    <input class="govuk-input" id="error-label-input-dynamic" name="error-label-dynamic" type="text">
+                  </div>
+                  <!-- Answer Limits -->
+                  <details class="govuk-details">
+                    <summary class="govuk-details__summary">
+                      <span class="govuk-details__summary-text">Set answer limits (optional)</span>
+                    </summary>
+                    <div class="govuk-details__text">
+                      <!-- Additional settings can go here -->
+                    </div>
+                  </details>
+
+                  <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
+
+<h2 class="govuk-heading-m">Question settings</h2>
+
+                  <dl class="govuk-summary-list">
+  <div class="govuk-summary-list__row">
+    <dt class="govuk-summary-list__key">
+      Type of information
+    </dt>
+    <dd class="govuk-summary-list__value" id="type-label">
+      Written (short text)
+    </dd>
+    <dd class="govuk-summary-list__actions">
+      <a class="govuk-link" href="#">Change<span class="govuk-visually-hidden"> type</span></a>
+    </dd>
+  </div></div>
+
+<button type="submit" class="govuk-button govuk-!-margin-top-4" id="save-to-overview" name="saveToOverview" data-module="govuk-button">
+  Continue
+</button>
+                `;
+
+                // Show the short-text component (if needed)
+                document.getElementById('short-text-component').style.display = 'block'; // Unhide the short text component
+
+                // Re-cache the newly added elements with unique IDs
+                domElements.shortTextLabelInputDynamic = document.getElementById("short-text-label-input-dynamic");
+                domElements.shortTextLabelOutputDynamic = document.getElementById("short-text-label-output-dynamic");
+                domElements.hintTextAreaDynamic = document.getElementById("hint-text-input-dynamic");
+
+                // Attach event listeners to the newly added elements
+                if (domElements.shortTextLabelInputDynamic) {
+                  domElements.shortTextLabelInputDynamic.addEventListener('input', updateShortTextLabelDynamic);
+                } else {
+                  console.error("short-text-label-input-dynamic not found after dynamic insertion.");
+                }
+
+                if (domElements.hintTextAreaDynamic) {
+                  domElements.hintTextAreaDynamic.addEventListener('input', updateShortTextHintDynamic);
+                } else {
+                  console.error("hint-text-input-dynamic not found after dynamic insertion.");
+                }
+
+                break;
+
+              // Handle other cases (longText, number, etc.)
+              case "longText":
+                question1Content.innerHTML = `
+                  <h2>LONG TEXT</h2>
+                  <label for="long-text-input">Enter long text:</label>
+                  <textarea id="long-text-input" class="govuk-textarea"></textarea>
+                `;
+                break;
+              case "number":
+                question1Content.innerHTML = `
+                  <h2>NUMBER</h2>
+                  <label for="number-input">Enter a number:</label>
+                  <input type="number" id="number-input" class="govuk-input">
+                `;
+                break;
+              default:
+                console.error("No valid written answer type selected.");
+            }
+          } else {
+            console.error("No written answer type selected.");
+          }
+        } else {
+          console.error("No question type selected.");
+        }
+      });
+    }
+
+    // Update the type-label dynamically based on user selection
+    const radioButtons = document.querySelectorAll('input[name="questiontype2"], input[name="writtenAnswerType"], input[name="dateType"], input[name="listType"]');
+
+    function updateTypeLabel() {
+  const selectedRadio = document.querySelector('input[name="questiontype2"]:checked') ||
+                        document.querySelector('input[name="writtenAnswerType"]:checked') ||
+                        document.querySelector('input[name="dateType"]:checked') ||
+                        document.querySelector('input[name="listType"]:checked');
+
+  if (selectedRadio && domElements.typeLabel) {  // Ensure typeLabel exists
+    const selectedLabel = document.querySelector(`label[for="${selectedRadio.id}"]`);
+    domElements.typeLabel.textContent = selectedLabel ? selectedLabel.textContent.trim() : "Unknown type";
+  } else {
+    console.error("Selected radio button or typeLabel element not found.");
+  }
+}
+
+    // Attach event listener to all radio buttons for updating type label
+    radioButtons.forEach(radio => {
+      radio.addEventListener('change', updateTypeLabel);
+    });
+
+    // Initialize type label on page load
+    updateTypeLabel();
+
+  });
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <style>
+
+.hidden {
+  display: none;
+}
+
+      .highlight {
+        background-color: #ffe5cc;
+        border-bottom: 2px solid #ffb266;
+      }
+
+      #before-content {
+        position: absolute;
+        top: 0;
+        left: 10 !important;
+        right: 0;
+        /* Ensure the right side is aligned with the container edge */
+        width: 100%;
+        padding: 10px !important;
+
+        /* Remove padding to avoid affecting the width */
+        box-sizing: border-box;
+        /* Ensure content, padding, and borders are within width */
+        z-index: 1;
+        border-bottom: 1px solid #008938;
+        padding-left: 10px;
+        /* Add padding-left specifically for content */
+      }
+
+      #second-container {
+        padding: 0;
+        /* Ensure no padding on the container itself */
+        box-sizing: border-box;
+        /* Ensure container handles padding/border correctly */
+      }
+
+      #second-container > * {
+        padding-left: 0px;
+        z-index: 2;
+        /* Ensure content is above the #before-content */
+      }
+    </style>
+
+    {% endblock %}
+  </div>
+</div>

@@ -1,0 +1,60 @@
+
+
+
+
+    <fieldset class="govuk-fieldset">
+      <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
+        <h1 class="govuk-fieldset__heading" id="question-label-legend">
+          {{ data['multiQuestionLabelInputAddress'] or '' }}
+        </h1>
+      </legend>
+      <div class="govuk-hint" id="hint-text-output">{{ data['hintTextInputAddress'] or '' }}</div>
+
+      <!-- Address Line 1 -->
+      <div class="govuk-form-group">
+        <label class="govuk-label" for="address-line-1">
+          Address line 1
+        </label>
+        <input class="govuk-input" id="address-line-1" name="addressLine1" type="text" autocomplete="address-line1">
+      </div>
+
+      <!-- Address Line 2 (Optional) -->
+      <div class="govuk-form-group">
+        <label class="govuk-label" for="address-line-2">
+          Address line 2 (optional)
+        </label>
+        <input class="govuk-input" id="address-line-2" name="addressLine2" type="text" autocomplete="address-line2">
+      </div>
+
+      <!-- Town or City -->
+      <div class="govuk-form-group">
+        <label class="govuk-label" for="address-town">
+          Town or city
+        </label>
+        <input class="govuk-input govuk-!-width-two-thirds" id="address-town" name="addressTown" type="text"
+          autocomplete="address-level2">
+      </div>
+
+      <!-- Postcode -->
+      <div class="govuk-form-group">
+        <label class="govuk-label" for="address-postcode">
+          Postcode
+        </label>
+        <input class="govuk-input govuk-input--width-10" id="address-postcode" name="addressPostcode" type="text"
+          autocomplete="postal-code">
+      </div>
+    </fieldset>
+
+
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const dynamicCaption = document.getElementById("dynamic-caption");
+        const setName = dynamicCaption.getAttribute("data-setname");
+
+        if (!setName) {
+          dynamicCaption.style.display = "none";
+        }
+      });
+
+    </script>
