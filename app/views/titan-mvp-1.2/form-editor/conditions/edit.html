@@ -100,12 +100,135 @@ activeLinkId: "nav-editor"
             </div>
 
             <form id="condition-form" method="post" action="/titan-mvp-1.2/form-editor/conditions-manager/edit"
-                data-initial-condition="{{ condition | dump | safe | replace("'", "&#39;") | replace('"', '&quot;') }}">
+                data-initial-condition="{{ condition | dump | safe | replace("'", "&#39;") | replace('"', '&quot;') }}"
+                data-is-joined-condition="{% if isJoinedCondition %}true{% else %}false{% endif %}">
 
                 <div class="govuk-form-group app-form-container">
                     <input type="hidden" name="conditionId" value="{{ condition.id }}">
                     <input type="hidden" name="rules" id="rulesData">
 
+                    {% if isJoinedCondition %}
+                    <!-- Joined Condition Edit Interface -->
+                    <div class="govuk-form-group">
+                        <fieldset class="govuk-fieldset">
+                            <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">
+                                Joined conditions
+                            </legend>
+                            <div class="govuk-hint">
+                                Select at least two conditions
+                            </div>
+
+                            <div class="govuk-checkboxes govuk-checkboxes--small" data-module="govuk-checkboxes">
+                                {% for availableCondition in availableConditions %}
+                                <div class="govuk-checkboxes__item">
+                                    <input class="govuk-checkboxes__input" id="condition-{{ availableCondition.id }}"
+                                        name="selectedConditions" type="checkbox" value="{{ availableCondition.id }}"
+                                        data-condition-name="{{ availableCondition.name }}" {% if availableCondition.id
+                                        in selectedConditionIds %}checked{% endif %}>
+                                    <label class="govuk-label govuk-checkboxes__label"
+                                        for="condition-{{ availableCondition.id }}">
+                                        <span class="govuk-!-font-weight-bold">{{ availableCondition.name }}</span>
+                                        {% if availableCondition.source == 'page-level' %}
+                                        <br><span class="govuk-body-s govuk-!-color-grey-1">{{
+                                            availableCondition.pageName }}</span>
+                                        {% endif %}
+                                        <br><span class="govuk-body-s">{{ availableCondition.text }}</span>
+                                    </label>
+                                </div>
+                                {% endfor %}
+                            </div>
+                        </fieldset>
+                    </div>
+
+                    <!-- Join selected conditions button for joined conditions -->
+                    {# <button class="govuk-button govuk-button--inverse" id="join-conditions-button"
+                        data-action="show-form" data-form-id="join-conditions-form-container"
+                        style="display: block; align-items: center;">
+                        <svg width="40" height="20" viewBox="0 0 28 14" fill="none" xmlns="http://www.w3.org/2000/svg"
+                            aria-hidden="true" style="vertical-align: middle; margin-right: 4px;">
+                            <circle cx="10" cy="7" r="6" fill="#b1b4b6" stroke="#0b0c0c" stroke-width="0.5" />
+                            <circle cx="16" cy="7" r="6" fill="#505a5f" stroke="#0b0c0c" stroke-width="0.5" />
+                            <ellipse cx="13" cy="7" rx="3" ry="6" fill="#0b0c0c" fill-opacity="0.2" />
+                        </svg>
+                        Update selected conditions
+                    </button> #}
+                    <div id="additional-conditions-joined"></div>
+
+                    <div class="govuk-form-group">
+                        <fieldset class="govuk-fieldset">
+                            <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">
+                                How do you want to combine these conditions?
+                            </legend>
+                            <div class="govuk-radios govuk-radios--inline" data-module="govuk-radios">
+                                <div class="govuk-radios__item">
+                                    <input class="govuk-radios__input" id="logical-operator-and" name="logicalOperator"
+                                        type="radio" value="AND" {% if joinedConditionOperator=='AND' %}checked{% endif
+                                        %}>
+                                    <label class="govuk-label govuk-radios__label" for="logical-operator-and">
+                                        All conditions must be met (AND)
+                                    </label>
+                                </div>
+                                <div class="govuk-radios__item">
+                                    <input class="govuk-radios__input" id="logical-operator-or" name="logicalOperator"
+                                        type="radio" value="OR" {% if joinedConditionOperator=='OR' %}checked{% endif
+                                        %}>
+                                    <label class="govuk-label govuk-radios__label" for="logical-operator-or">
+                                        Any condition can be met (OR)
+                                    </label>
+                                </div>
+                            </div>
+                        </fieldset>
+                    </div>
+
+                    <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
+
+                    {% if formPages %}
+                    <div class="govuk-form-group">
+                        <fieldset class="govuk-fieldset">
+                            <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">
+                                Pages this condition is currently applied to
+                            </legend>
+                            <div class="govuk-checkboxes govuk-checkboxes--small" data-module="govuk-checkboxes">
+                                {% for page in formPages %}
+                                {% set isChecked = false %}
+                                {% for p in pagesWithCondition %}
+                                {% if p.pageId == page.pageId %}
+                                {% set isChecked = true %}
+                                {% endif %}
+                                {% endfor %}
+                                <div class="govuk-checkboxes__item">
+                                    <input class="govuk-checkboxes__input" id="page-{{ page.pageId }}" name="pages"
+                                        type="checkbox" value="{{ page.pageId }}" {% if isChecked %}checked{% endif %}>
+                                    <label class="govuk-label govuk-checkboxes__label" for="page-{{ page.pageId }}">
+                                        Page {{ loop.index }}: {{ page.pageHeading or page.title or (page.questions and
+                                        page.questions[0] and page.questions[0].label) or 'Page ' ~ loop.index }}
+                                    </label>
+                                </div>
+                                {% endfor %}
+                            </div>
+                        </fieldset>
+                    </div>
+                    {% endif %}
+
+                    <div class="govuk-form-group">
+                        <label class="govuk-label govuk-label--m" for="conditionName">
+                            {% if isJoinedCondition %}
+                            Joined condition name
+                            {% else %}
+                            Condition name
+                            {% endif %}
+                        </label>
+                        <div class="govuk-hint">
+                            Condition names help you to identify conditions in your form, for
+                            example, 'Not a farmer'.
+                            Users will not see condition names.
+                        </div>
+                        <input class="govuk-input" id="conditionName" name="conditionName" type="text" required
+                            value="{{ condition.conditionName }}">
+                    </div>
+
+                    {% else %}
+                    <!-- Regular Condition Edit Interface -->
                     <div class="govuk-form-group">
                         <label class="govuk-label" for="questionSelect">
                             Select a question
@@ -228,6 +351,7 @@ activeLinkId: "nav-editor"
                             </div>
                         </fieldset>
                     </div>
+
                     <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
                     {% if formPages %}
                     <div class="govuk-form-group">
@@ -259,7 +383,11 @@ activeLinkId: "nav-editor"
 
                     <div class="govuk-form-group">
                         <label class="govuk-label govuk-label--m" for="conditionName">
+                            {% if isJoinedCondition %}
+                            Joined condition name
+                            {% else %}
                             Condition name
+                            {% endif %}
                         </label>
                         <div class="govuk-hint">
                             Condition names help you to identify conditions in your form, for
@@ -269,6 +397,7 @@ activeLinkId: "nav-editor"
                         <input class="govuk-input" id="conditionName" name="conditionName" type="text" required
                             value="{{ condition.conditionName }}">
                     </div>
+                    {% endif %}
 
                     <div class="govuk-button-group">
                         <button type="submit" class="govuk-button">Continue</button>
@@ -589,80 +718,227 @@ activeLinkId: "nav-editor"
             });
         }
 
+        // --- JOINED CONDITIONS: Add another condition logic ---
+        const addConditionLinkJoined = document.getElementById('join-conditions-button');
+        const additionalConditionsJoined = document.getElementById('additional-conditions-joined');
+        const joinedCheckboxesContainer = document.querySelector('.govuk-checkboxes[data-module="govuk-checkboxes"]');
+        let joinedConditionCount = 0;
+
+        if (addConditionLinkJoined && additionalConditionsJoined && joinedCheckboxesContainer) {
+            addConditionLinkJoined.addEventListener('click', function (e) {
+                e.preventDefault();
+                joinedConditionCount++;
+
+                // Create the add condition UI (mirroring non-joined logic)
+                const newConditionDiv = document.createElement('div');
+                newConditionDiv.className = 'condition-item app-form-container';
+                newConditionDiv.innerHTML = `
+                    <button class="govuk-button govuk-button--secondary govuk-button--warning remove-condition-link-joined" 
+                            style="position: absolute; top: 15px; right: 15px;">
+                        <svg class="govuk-!-margin-right-1" style="position: relative; top: 2px" width="12" height="12" 
+                            viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M10.5 1.5L1.5 10.5" stroke="currentColor" stroke-width="2"/>
+                            <path d="M1.5 1.5L10.5 10.5" stroke="currentColor" stroke-width="2"/>
+                        </svg>
+                        Remove condition
+                    </button>
+                    <fieldset class="govuk-fieldset">
+                        <legend class="govuk-fieldset__legend govuk-fieldset__legend--s">
+                            Additional condition ${joinedConditionCount}
+                        </legend>
+                        <div class="govuk-form-group">
+                            <label class="govuk-label">Select a question</label>
+                            <select class="govuk-select condition-question-joined" name="question-joined-${joinedConditionCount}" required>
+                                <option value="">Choose a question</option>
+                                {% for question in availableQuestions %}
+                                <option value="{{ question.value }}" data-type="{{ question.type }}"
+                                    data-options='{{ question.options | dump | safe }}'>
+                                    {{ question.text }}
+                                </option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="govuk-form-group">
+                            <label class="govuk-label">Condition type</label>
+                            <select class="govuk-select" name="operator-joined-${joinedConditionCount}">
+                                <option value="is" selected>is</option>
+                                <option value="is-not">is not</option>
+                            </select>
+                        </div>
+                        <div class="govuk-form-group condition-value-container-joined">
+                            <label class="govuk-label">Select a value</label>
+                            <!-- Value inputs will be dynamically populated here -->
+                        </div>
+                        <button class="govuk-button govuk-button--secondary govuk-!-margin-top-2 save-new-condition-joined" type="button">Save condition</button>
+                    </fieldset>
+                `;
+                additionalConditionsJoined.appendChild(newConditionDiv);
+
+                // Add event listeners for the new condition
+                const questionSelect = newConditionDiv.querySelector('.condition-question-joined');
+                const valueContainer = newConditionDiv.querySelector('.condition-value-container-joined');
+                const removeLink = newConditionDiv.querySelector('.remove-condition-link-joined');
+                const saveButton = newConditionDiv.querySelector('.save-new-condition-joined');
+
+                // Add change event listener for question select
+                if (questionSelect) {
+                    questionSelect.addEventListener('change', function () {
+                        updateValueContainer(valueContainer, this, null, joinedConditionCount);
+                    });
+                }
+
+                // Add click handler for remove link
+                if (removeLink) {
+                    removeLink.addEventListener('click', function (e) {
+                        e.preventDefault();
+                        newConditionDiv.remove();
+                    });
+                }
+
+                // Save new condition handler
+                if (saveButton) {
+                    saveButton.addEventListener('click', function (e) {
+                        e.preventDefault();
+                        // Gather values
+                        const selectedQuestion = questionSelect.options[questionSelect.selectedIndex];
+                        const questionText = selectedQuestion ? selectedQuestion.text : '';
+                        const questionType = selectedQuestion ? selectedQuestion.getAttribute('data-type') : '';
+                        const operatorSelect = newConditionDiv.querySelector('select[name^="operator-joined-"]');
+                        const operator = operatorSelect ? operatorSelect.value : 'is';
+                        let value;
+                        if (questionType === 'checkboxes') {
+                            const checkedInputs = valueContainer.querySelectorAll('input[type="checkbox"]:checked');
+                            value = Array.from(checkedInputs).map(input => input.value);
+                        } else {
+                            const checkedInput = valueContainer.querySelector('input:checked');
+                            value = checkedInput ? checkedInput.value : null;
+                        }
+                        if (!questionText || !operator || !value) {
+                            alert('Please complete all fields for the new condition.');
+                            return;
+                        }
+                        // Generate a unique ID for the new condition
+                        const newId = 'joined-new-' + Date.now() + '-' + Math.floor(Math.random() * 10000);
+                        // Add the new condition as a checkbox to the joined conditions list and preselect it
+                        const checkboxDiv = document.createElement('div');
+                        checkboxDiv.className = 'govuk-checkboxes__item';
+                        checkboxDiv.innerHTML = `
+                            <input class="govuk-checkboxes__input" id="condition-${newId}"
+                                name="selectedConditions" type="checkbox" value="${newId}"
+                                checked data-condition-name="${questionText}">
+                            <label class="govuk-label govuk-checkboxes__label" for="condition-${newId}">
+                                <span class="govuk-!-font-weight-bold">${questionText}</span><br>
+                                <span class="govuk-body-s">${questionText} ${operator} '${value}'</span>
+                            </label>
+                        `;
+                        joinedCheckboxesContainer.appendChild(checkboxDiv);
+                        // Remove the add condition UI
+                        newConditionDiv.remove();
+                    });
+                }
+            });
+        }
+
         // Add form submit handler to collect all values
         const form = document.getElementById('condition-form');
         form.addEventListener('submit', function (e) {
             e.preventDefault();
 
-            // Collect all rules
-            const rules = [];
+            // Check if this is a joined condition
+            const isJoinedCondition = form.getAttribute('data-is-joined-condition') === 'true';
 
-            // Add main condition
-            const mainQuestion = document.querySelector('.main-question');
-            const mainOperator = document.querySelector('.main-operator');
-            const mainValueContainer = document.querySelector('.main-value-container');
+            if (isJoinedCondition) {
+                // Handle joined condition submission
+                const selectedConditions = document.querySelectorAll('input[name="selectedConditions"]:checked');
+                const conditionIds = Array.from(selectedConditions).map(checkbox => checkbox.value);
+                const logicalOperator = document.querySelector('input[name="logicalOperator"]:checked')?.value || 'AND';
 
-            if (mainQuestion && mainOperator && mainValueContainer) {
-                const mainQuestionText = mainQuestion.options[mainQuestion.selectedIndex].text;
-                const questionType = mainQuestion.options[mainQuestion.selectedIndex].getAttribute('data-type');
-
-                // Handle different input types
-                let mainValue;
-                if (questionType === 'checkboxes') {
-                    // For checkboxes, collect all checked values
-                    const checkedInputs = mainValueContainer.querySelectorAll('input[type="checkbox"]:checked');
-                    mainValue = Array.from(checkedInputs).map(input => input.value);
-                } else {
-                    // For radio buttons and other single-value inputs
-                    const checkedInput = mainValueContainer.querySelector('input:checked');
-                    mainValue = checkedInput ? checkedInput.value : null;
+                if (conditionIds.length < 2) {
+                    alert('Please select at least two conditions to join');
+                    return;
                 }
 
-                if (mainValue) {
-                    rules.push({
-                        questionText: mainQuestionText,
-                        operator: mainOperator.value,
-                        value: mainValue
-                    });
-                }
-            }
+                // Create a special rules structure for joined conditions
+                const rules = [{
+                    type: 'joined',
+                    conditionIds: conditionIds,
+                    logicalOperator: logicalOperator
+                }];
 
-            // Add additional conditions
-            const conditions = document.querySelectorAll('.condition-item');
-            conditions.forEach((condition, index) => {
-                const questionSelect = condition.querySelector('.condition-question');
-                const operatorSelect = condition.querySelector('select[name^="operator-"]');
-                const valueContainer = condition.querySelector('.condition-value-container');
+                // Add rules to hidden input
+                document.getElementById('rulesData').value = JSON.stringify(rules);
+            } else {
+                // Handle regular condition submission
+                // Collect all rules
+                const rules = [];
 
-                if (questionSelect && operatorSelect && valueContainer) {
-                    const questionText = questionSelect.options[questionSelect.selectedIndex].text;
-                    const questionType = questionSelect.options[questionSelect.selectedIndex].getAttribute('data-type');
+                // Add main condition
+                const mainQuestion = document.querySelector('.main-question');
+                const mainOperator = document.querySelector('.main-operator');
+                const mainValueContainer = document.querySelector('.main-value-container');
+
+                if (mainQuestion && mainOperator && mainValueContainer) {
+                    const mainQuestionText = mainQuestion.options[mainQuestion.selectedIndex].text;
+                    const questionType = mainQuestion.options[mainQuestion.selectedIndex].getAttribute('data-type');
 
                     // Handle different input types
-                    let value;
+                    let mainValue;
                     if (questionType === 'checkboxes') {
                         // For checkboxes, collect all checked values
-                        const checkedInputs = valueContainer.querySelectorAll('input[type="checkbox"]:checked');
-                        value = Array.from(checkedInputs).map(input => input.value);
+                        const checkedInputs = mainValueContainer.querySelectorAll('input[type="checkbox"]:checked');
+                        mainValue = Array.from(checkedInputs).map(input => input.value);
                     } else {
                         // For radio buttons and other single-value inputs
-                        const checkedInput = valueContainer.querySelector('input:checked');
-                        value = checkedInput ? checkedInput.value : null;
+                        const checkedInput = mainValueContainer.querySelector('input:checked');
+                        mainValue = checkedInput ? checkedInput.value : null;
                     }
 
-                    if (value) {
+                    if (mainValue) {
                         rules.push({
-                            questionText: questionText,
-                            operator: operatorSelect.value,
-                            value: value,
-                            logicalOperator: document.querySelector('input[name="logicalOperator"]:checked')?.value || 'AND'
+                            questionText: mainQuestionText,
+                            operator: mainOperator.value,
+                            value: mainValue
                         });
                     }
                 }
-            });
 
-            // Add rules to hidden input
-            document.getElementById('rulesData').value = JSON.stringify(rules);
+                // Add additional conditions
+                const conditions = document.querySelectorAll('.condition-item');
+                conditions.forEach((condition, index) => {
+                    const questionSelect = condition.querySelector('.condition-question');
+                    const operatorSelect = condition.querySelector('select[name^="operator-"]');
+                    const valueContainer = condition.querySelector('.condition-value-container');
+
+                    if (questionSelect && operatorSelect && valueContainer) {
+                        const questionText = questionSelect.options[questionSelect.selectedIndex].text;
+                        const questionType = questionSelect.options[questionSelect.selectedIndex].getAttribute('data-type');
+
+                        // Handle different input types
+                        let value;
+                        if (questionType === 'checkboxes') {
+                            // For checkboxes, collect all checked values
+                            const checkedInputs = valueContainer.querySelectorAll('input[type="checkbox"]:checked');
+                            value = Array.from(checkedInputs).map(input => input.value);
+                        } else {
+                            // For radio buttons and other single-value inputs
+                            const checkedInput = valueContainer.querySelector('input:checked');
+                            value = checkedInput ? checkedInput.value : null;
+                        }
+
+                        if (value) {
+                            rules.push({
+                                questionText: questionText,
+                                operator: operatorSelect.value,
+                                value: value,
+                                logicalOperator: document.querySelector('input[name="logicalOperator"]:checked')?.value || 'AND'
+                            });
+                        }
+                    }
+                });
+
+                // Add rules to hidden input
+                document.getElementById('rulesData').value = JSON.stringify(rules);
+            }
 
             // Submit the form
             this.submit();

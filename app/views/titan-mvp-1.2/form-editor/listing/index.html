@@ -61,28 +61,6 @@ activeLinkId: "nav-editor"
 {% endblock %}
 
 {% block content %}
-{% if data.showUploadSuccess %}
-<div class="govuk-grid-row" id="success-notification">
-    <div class="govuk-grid-column-one-third">
-        {{ govukNotificationBanner({
-        type: "success",
-        text: "Form uploaded successfully",
-        titleText: "Success",
-        classes: "govuk-!-margin-bottom-4"
-        }) }}
-    </div>
-</div>
-
-<script>
-    // Hide the notification after 15 seconds
-    setTimeout(function () {
-        const notification = document.getElementById('success-notification');
-        if (notification) {
-            notification.style.display = 'none';
-        }
-    }, 15000);
-</script>
-{% endif %}
 
 <style>
     .guidance-card {
@@ -251,6 +229,53 @@ activeLinkId: "nav-editor"
                 <div class="govuk-grid-row">
                     <div
                         class="govuk-grid-column-full-from-desktop govuk-grid-column-full-from-tablet govuk-grid-column-full">
+
+                        {% if data.showUploadSuccess %}
+                        <div class="govuk-grid-row" id="success-notification">
+                            <div class="govuk-grid-column-one-half">
+                                {{ govukNotificationBanner({
+                                type: "success",
+                                text: "Form uploaded successfully",
+                                titleText: "Success",
+                                classes: "govuk-!-margin-bottom-4"
+                                }) }}
+                            </div>
+                        </div>
+
+                        <script>
+                            // Hide the notification after 15 seconds
+                            setTimeout(function () {
+                                const notification = document.getElementById('success-notification');
+                                if (notification) {
+                                    notification.style.display = 'none';
+                                }
+                            }, 15000);
+                        </script>
+                        {% endif %}
+
+                        {% if request.query.pageOrderUpdated %}
+                        <div class="govuk-grid-row" id="page-order-success-notification">
+                            <div class="govuk-grid-column-one-third">
+                                {{ govukNotificationBanner({
+                                type: "success",
+                                text: "Page order updated successfully",
+                                titleText: "Success",
+                                classes: "govuk-!-margin-bottom-4"
+                                }) }}
+                            </div>
+                        </div>
+
+                        <script>
+                            // Hide the notification after 10 seconds
+                            setTimeout(function () {
+                                const notification = document.getElementById('page-order-success-notification');
+                                if (notification) {
+                                    notification.style.display = 'none';
+                                }
+                            }, 10000);
+                        </script>
+                        {% endif %}
+
                         {% if formPages.length > 0 %}
                         <h2 class="govuk-heading-m" id="pages-count-heading">
                             <span class="govuk-visually-hidden">pages</span>

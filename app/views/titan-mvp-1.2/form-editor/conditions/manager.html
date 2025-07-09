@@ -290,9 +290,9 @@ activeLinkId: "nav-editor"
                                 {% set fromPage = (formPages | selectattr('pageId', 'equalto', fromPageId) | list |
                                 first) %}
                                 <option value="{{ question.value }}" data-type="{{ question.type }}"
-                                    data-options='{{ question.options | dump | safe }}' {% if query.fromQuestionId %} {%
-                                    if question.value|string==query.fromQuestionId|string %}selected{% endif %} {% elif
-                                    fromPage and fromPage.questions and fromPage.questions[0] and
+                                    data-options="{{ question.options | dump | escape }}" {% if query.fromQuestionId %}
+                                    {% if question.value|string==query.fromQuestionId|string %}selected{% endif %} {%
+                                    elif fromPage and fromPage.questions and fromPage.questions[0] and
                                     (question.value|string==fromPage.questions[0].questionId|string) %} selected {%
                                     endif %}>
                                     {{ question.text }}
@@ -977,6 +977,10 @@ activeLinkId: "nav-editor"
                         const options = JSON.parse(optionsData);
 
                         if (questionType === 'autocomplete') {
+                            // DEBUG: Log options and questionType
+                            console.log('Autocomplete options:', options);
+                            console.log('Question type:', questionType);
+
                             // Create checkboxes for autocomplete options
                             const fieldset = document.createElement('div');
                             fieldset.className = 'govuk-form-group';
@@ -986,7 +990,7 @@ activeLinkId: "nav-editor"
                             checkboxesDiv.setAttribute('data-module', 'govuk-checkboxes');
 
                             // Add options to checkboxes
-                            if (options && Array.isArray(options)) {
+                            if (options && Array.isArray(options) && options.length > 0) {
                                 options.forEach((option, index) => {
                                     const itemDiv = document.createElement('div');
                                     itemDiv.className = 'govuk-checkboxes__item';
@@ -996,17 +1000,24 @@ activeLinkId: "nav-editor"
                                     input.type = 'checkbox';
                                     input.id = 'value-' + conditionCount + '-' + index;
                                     input.name = 'value-' + conditionCount;
-                                    input.value = option.value || option.text || option.label;
+                                    input.value = option.value || option.label || option.text || "";
 
                                     const label = document.createElement('label');
                                     label.className = 'govuk-label govuk-checkboxes__label';
                                     label.htmlFor = 'value-' + conditionCount + '-' + index;
-                                    label.textContent = option.text || option.label || option.value;
+                                    label.textContent = option.label || option.value || option.text || "";
 
                                     itemDiv.appendChild(input);
                                     itemDiv.appendChild(label);
                                     checkboxesDiv.appendChild(itemDiv);
                                 });
+                            } else {
+                                // Show a warning in the UI if options are missing
+                                const warn = document.createElement('div');
+                                warn.style.color = 'red';
+                                warn.style.margin = '10px 0';
+                                warn.textContent = 'No options found for this autocomplete question.';
+                                checkboxesDiv.appendChild(warn);
                             }
 
                             fieldset.appendChild(checkboxesDiv);

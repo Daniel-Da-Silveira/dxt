@@ -5,6 +5,7 @@ const path = require("path");
 const lists = require("../../routes/lists");
 const sections = require("../../routes/sections");
 const terms = require("../../data/dictionary.json");
+const express = require("express");
 
 // Add middleware to make terms available to all templates
 router.use((req, res, next) => {
@@ -62,6 +63,110 @@ router.use((req, res, next) => {
         email: "david.miller@defra.gov.uk",
         role: "Admin",
       },
+    ];
+  }
+  next();
+});
+
+// Add middleware to initialize checkAnswersItems and sections for check answers flows
+router.use((req, res, next) => {
+  if (!req.session.data.checkAnswersItems) {
+    req.session.data.checkAnswersItems = [
+      {
+        id: 1,
+        type: "question",
+        key: "Business registered with RPA",
+        value: "Yes",
+        section: null,
+      },
+      {
+        id: 2,
+        type: "question",
+        key: "Country for livestock",
+        value: "England",
+        section: null,
+      },
+      {
+        id: 3,
+        type: "question",
+        key: "Arrival date of livestock",
+        value: "20 04 2024",
+        section: null,
+      },
+      {
+        id: 4,
+        type: "question",
+        key: "Type of livestock",
+        value: "Cow",
+        section: null,
+      },
+      {
+        id: 5,
+        type: "question",
+        key: "Applicant's name",
+        value: "John Doe",
+        section: null,
+      },
+      {
+        id: 6,
+        type: "question",
+        key: "Business name",
+        value: "Doe Farms Ltd",
+        section: null,
+      },
+      {
+        id: 7,
+        type: "question",
+        key: "Main phone number",
+        value: "07700 900457",
+        section: null,
+      },
+      {
+        id: 8,
+        type: "question",
+        key: "Email address",
+        value: "john.doe@example.com",
+        section: null,
+      },
+      {
+        id: 9,
+        type: "question",
+        key: "Business address",
+        value: "123 Farm Lane, Rural Town",
+        section: null,
+      },
+      {
+        id: 10,
+        type: "question",
+        key: "Business purpose",
+        value: "Livestock farming",
+        section: null,
+      },
+      {
+        id: 11,
+        type: "question",
+        key: "National Grid field number",
+        value: "NG123456",
+        section: null,
+      },
+      {
+        id: 12,
+        type: "question",
+        key: "Methodology statement",
+        value: "1 file uploaded",
+        section: null,
+      },
+    ];
+  }
+  if (!req.session.data.sections) {
+    req.session.data.sections = [
+      { id: "section1", name: "Business details", title: "Business details" },
+      {
+        id: "section2",
+        name: "Livestock information",
+        title: "Livestock information",
+      },
+      { id: "section3", name: "Contact details", title: "Contact details" },
     ];
   }
   next();
@@ -665,6 +770,7 @@ router.get("/titan-mvp-1.2/form-editor/listing", function (req, res) {
     form: {
       name: formData.formName || "Form name",
     },
+    request: req,
   });
 });
 
@@ -692,6 +798,7 @@ router.get("/titan-mvp-1.2/form-editor/listing.html", function (req, res) {
     form: {
       name: formData.formName || "Form name",
     },
+    request: req,
   });
 });
 
@@ -795,6 +902,11 @@ router.post("/titan-mvp-1.2/information-type-answer-nf", function (req, res) {
     newQuestion.type = "autocomplete";
     newQuestion.subType = "autocomplete";
     newQuestion.options = [];
+
+    // Clear any existing autocomplete session data to prevent old data from appearing
+    delete req.session.data["question-label-input-autocomplete"];
+    delete req.session.data["hint-text-input-autocomplete"];
+    delete req.session.data["autocompleteOptionsData"];
   }
 
   currentPage.questions.push(newQuestion);
@@ -863,6 +975,13 @@ router.get("/titan-mvp-1.2/question-configuration", function (req, res) {
   } else if (mainType === "email") {
     templateToRender =
       "/titan-mvp-1.2/form-editor/question-type/email/edit-nf.html";
+  } else if (
+    (mainType === "list" && listSubType === "select") ||
+    mainType === "autocomplete" ||
+    listSubType === "autocomplete"
+  ) {
+    templateToRender =
+      "/titan-mvp-1.2/form-editor/question-type/autocomplete-nf/edit.html";
   } else if (mainType === "list") {
     if (listSubType === "yes-no") {
       templateToRender =
@@ -873,9 +992,6 @@ router.get("/titan-mvp-1.2/question-configuration", function (req, res) {
     } else if (listSubType === "radios") {
       templateToRender =
         "/titan-mvp-1.2/form-editor/question-type/radios-nf/edit.html";
-    } else if (listSubType === "select") {
-      templateToRender =
-        "/titan-mvp-1.2/form-editor/question-type/autocomplete-nf/edit.html";
     }
   }
 
@@ -885,7 +1001,7 @@ router.get("/titan-mvp-1.2/question-configuration", function (req, res) {
     },
     pageNumber: pageNumber,
     questionNumber: questionNumber,
-    data: formData,
+    data: req.session.data,
   });
 });
 
@@ -965,21 +1081,41 @@ router.post("/titan-mvp-1.2/question-configuration-save", function (req, res) {
       } else if (listSubType === "radios") {
         questionLabel =
           req.body["multiQuestionLabelInputRadios"] || "Radios question";
-      } else if (listSubType === "select") {
+      } else if (listSubType === "select" || listSubType === "autocomplete") {
         questionLabel =
-          req.body["questionLabelInputAutocomplete"] || "Select an option";
+          req.body["questionLabelInputAutocomplete"] ||
+          req.body["question-label-input-autocomplete"] ||
+          "Select an option";
       } else {
         questionLabel = req.body["questionLabelInputList"] || "List question";
       }
       break;
+    case "autocomplete":
+      questionLabel =
+        req.body["questionLabelInputAutocomplete"] ||
+        req.body["question-label-input-autocomplete"] ||
+        "Select an option";
+      break;
     default:
-      questionLabel = "Test question";
+      questionLabel =
+        req.body["questionLabelInputAutocomplete"] ||
+        req.body["question-label-input-autocomplete"] ||
+        "Test question";
       break;
   }
 
   let questionHint = "";
   if (questionType === "address") {
     questionHint = req.body["hintTextInputAddress"] || "";
+  } else if (
+    (questionType === "list" &&
+      (listSubType === "select" || listSubType === "autocomplete")) ||
+    questionType === "autocomplete"
+  ) {
+    questionHint =
+      req.body["hintTextInputAutocomplete"] ||
+      req.body["hint-text-input-autocomplete"] ||
+      "";
   } else {
     questionHint = req.body["questionHintInput"] || "";
   }
@@ -998,7 +1134,148 @@ router.post("/titan-mvp-1.2/question-configuration-save", function (req, res) {
     } catch (e) {
       questionOptions = [];
     }
+  } else if (questionType === "autocomplete") {
+    try {
+      questionOptions = JSON.parse(req.body.autocompleteOptionsData || "[]");
+    } catch (e) {
+      questionOptions = [];
+    }
   }
+
+  // If questionOptions is still empty for autocomplete/list questions, try to get from existing question or session
+  if (
+    questionOptions.length === 0 &&
+    ((questionType === "list" && listSubType === "select") ||
+      questionType === "autocomplete")
+  ) {
+    // First try existing question
+    const existingQuestionIndex = req.session.data["currentQuestionIndex"];
+    const existingQuestion = currentPage.questions[existingQuestionIndex];
+    if (existingQuestion && existingQuestion.options) {
+      questionOptions = existingQuestion.options;
+    } else {
+      // Try to get from session autocompleteOptionsData
+      const sessionOptionsData = req.session.data["autocompleteOptionsData"];
+      if (sessionOptionsData) {
+        try {
+          questionOptions = JSON.parse(sessionOptionsData);
+        } catch (e) {
+          // Silently handle parsing errors
+        }
+      }
+    }
+  }
+
+  // Normalize autocomplete options to always be objects with label and value
+  if (
+    (questionType === "list" && listSubType === "select") ||
+    questionType === "autocomplete"
+  ) {
+    questionOptions = questionOptions.map((opt) => {
+      if (typeof opt === "string") {
+        return { label: opt, value: opt };
+      } else if (typeof opt === "object" && opt !== null) {
+        return {
+          label: opt.label || opt.value || "",
+          value: opt.value || opt.label || "",
+        };
+      } else {
+        return { label: String(opt), value: String(opt) };
+      }
+    });
+  }
+
+  // --- AUTOCOMPLETE CONFLICT DETECTION LOGIC ---
+  if (
+    (questionType === "list" && listSubType === "select") ||
+    questionType === "autocomplete"
+  ) {
+    // Build newItems from the new question options first
+    const newItems = questionOptions.map((opt) =>
+      typeof opt === "string" ? opt : opt.value || opt.label
+    );
+
+    // Find the old options for this question
+    const existingQuestionIndex = req.session.data["currentQuestionIndex"];
+    const existingQuestion = currentPage.questions[existingQuestionIndex];
+    const oldOptions =
+      existingQuestion && existingQuestion.options
+        ? existingQuestion.options
+        : [];
+    const oldValues = oldOptions.map((opt) =>
+      typeof opt === "string" ? opt : opt.value || opt.label
+    );
+    const newValues = questionOptions.map((opt) =>
+      typeof opt === "string" ? opt : opt.value || opt.label
+    );
+    const removedItems = oldValues.filter((val) => !newValues.includes(val));
+
+    // Check form-level conditions for references to removed items
+    const formData = req.session.data || {};
+    const conditions = formData.conditions || [];
+    const conflicts = [];
+
+    for (const condition of conditions) {
+      const referencedItems = [];
+      for (const rule of condition.rules || []) {
+        // Only check rules for this question (by label or questionId)
+        if (
+          rule.questionText === questionLabel ||
+          rule.questionId === (existingQuestion && existingQuestion.questionId)
+        ) {
+          if (Array.isArray(rule.value)) {
+            referencedItems.push(
+              ...rule.value.filter((val) => removedItems.includes(val))
+            );
+          } else if (removedItems.includes(rule.value)) {
+            referencedItems.push(rule.value);
+          }
+        }
+      }
+      if (referencedItems.length > 0) {
+        // Create a separate conflict entry for each referenced item
+        referencedItems.forEach((item) => {
+          // Try to find a similar item in the new options for suggestion
+          const suggestedNewItem =
+            newItems.find(
+              (newItem) =>
+                newItem.toLowerCase().includes(item.toLowerCase()) ||
+                item.toLowerCase().includes(newItem.toLowerCase())
+            ) ||
+            newItems[0] ||
+            "";
+
+          conflicts.push({
+            originalItem: item,
+            suggestedNewItem,
+            conditionName: condition.conditionName,
+            editUrl: `/titan-mvp-1.2/form-editor/conditions/edit/${condition.id}`,
+            removeUrl: `/titan-mvp-1.2/form-editor/conditions/delete/${condition.id}`,
+          });
+        });
+      }
+    }
+    if (conflicts.length > 0) {
+      // Store conflicts in session for the GET route
+      req.session.data.conflicts = conflicts;
+      req.session.data.pendingNewItems = newItems;
+      req.session.data.pendingQuestionOptions = questionOptions;
+
+      return res.render(
+        "titan-mvp-1.2/form-editor/question-type/autocomplete-nf/resolve-list-conflicts",
+        {
+          conflicts,
+          newItems,
+          question: {
+            label: questionLabel,
+            options: questionOptions,
+          },
+          form: { name: formData.formName || "Form name" },
+        }
+      );
+    }
+  }
+  // --- END AUTOCOMPLETE CONFLICT DETECTION LOGIC ---
 
   let existingQuestionIndex = req.session.data["currentQuestionIndex"];
   if (
@@ -1103,6 +1380,32 @@ router.get("/titan-mvp-1.2/edit-question", function (req, res) {
   req.session.data["currentQuestionIndex"] = foundQuestionIndex;
 
   const question = formPages[foundPageIndex].questions[foundQuestionIndex];
+
+  // Normalize autocomplete options to always be objects with label and value
+  if (
+    (question.type === "list" && question.subType === "select") ||
+    question.type === "autocomplete"
+  ) {
+    question.options = (question.options || []).map((opt) => {
+      if (typeof opt === "string") {
+        return { label: opt, value: opt };
+      } else if (typeof opt === "object" && opt !== null) {
+        return {
+          label: opt.label || opt.value || "",
+          value: opt.value || opt.label || "",
+        };
+      } else {
+        return { label: String(opt), value: String(opt) };
+      }
+    });
+  }
+
+  // Always set the session data for the edit form from the specific question being edited
+  req.session.data["question-label-input-autocomplete"] = question.label || "";
+  req.session.data["hint-text-input-autocomplete"] = question.hint || "";
+  req.session.data["autocompleteOptionsData"] = JSON.stringify(
+    question.options || []
+  );
 
   req.session.data["currentQuestionType"] = question.type;
   if (question.type === "text") {
@@ -2308,6 +2611,7 @@ router.post(
       id: Date.now(),
       conditionName: newConditionName,
       logicalOperator: operator,
+      joinedConditionIds: conditionIds, // Store the original condition IDs
       rules: [],
     };
 
@@ -2372,7 +2676,7 @@ router.post(
     // Add the new condition to the form-level conditions
     formData.conditions.push(newCondition);
 
-    // --- Apply to selected pages if any were checked ---
+    // --- APPLY TO SELECTED PAGES IF ANY WERE CHECKED ---
     let selectedPages = [];
     try {
       selectedPages = (
@@ -2787,6 +3091,12 @@ router.get(
       return res.redirect("/titan-mvp-1.2/form-editor/conditions/manager");
     }
 
+    // Check if this is a joined condition
+    const isJoinedCondition =
+      condition.logicalOperator &&
+      condition.rules &&
+      condition.rules.length > 1;
+
     // Get all available questions for conditions
     const availableQuestions = formPages
       .flatMap((page) => page.questions)
@@ -2815,6 +3125,86 @@ router.get(
       )
       .map((page, index) => ({ ...page, pageNumber: index + 1 }));
 
+    // If this is a joined condition, get all available conditions for selection
+    let availableConditions = [];
+    let selectedConditionIds = [];
+    if (isJoinedCondition) {
+      // Get all form-level conditions (exclude only the current condition)
+      if (formData.conditions) {
+        availableConditions.push(
+          ...formData.conditions
+            .filter((c) => String(c.id) !== String(conditionId))
+            .map((c) => ({
+              id: String(c.id),
+              name: c.conditionName,
+              text: c.text,
+              source: "form-level",
+            }))
+        );
+      }
+
+      // Get all page-level conditions (exclude only the current condition)
+      formPages.forEach((page) => {
+        if (page.conditions) {
+          availableConditions.push(
+            ...page.conditions
+              .filter((c) => String(c.id) !== String(conditionId))
+              .map((c) => ({
+                id: String(c.id),
+                name: c.conditionName,
+                text: c.text,
+                source: "page-level",
+                pageName: page.pageHeading || `Page ${page.pageId}`,
+              }))
+          );
+        }
+      });
+
+      // Remove duplicates based on condition ID
+      availableConditions = availableConditions.filter(
+        (condition, index, self) =>
+          index === self.findIndex((c) => String(c.id) === String(condition.id))
+      );
+
+      // Identify which conditions are currently part of this joined condition
+      // Only use joinedConditionIds for preselection; do not use fallback logic
+      if (
+        condition.joinedConditionIds &&
+        condition.joinedConditionIds.length > 0
+      ) {
+        // Use the stored condition IDs
+        selectedConditionIds = condition.joinedConditionIds.map((id) =>
+          String(id)
+        );
+      } else if (condition.rules && condition.rules.length > 0) {
+        // Fallback: Extract unique question texts from the rules to identify the original conditions
+        const questionTexts = [
+          ...new Set(condition.rules.map((rule) => rule.questionText)),
+        ];
+
+        // Find conditions that have matching question texts
+        const allConditions = [];
+        if (formData.conditions) {
+          allConditions.push(...formData.conditions);
+        }
+        formPages.forEach((page) => {
+          if (page.conditions) {
+            allConditions.push(...page.conditions);
+          }
+        });
+
+        // Find conditions that match the question texts in the joined condition
+        allConditions.forEach((c) => {
+          if (
+            c.rules &&
+            c.rules.some((rule) => questionTexts.includes(rule.questionText))
+          ) {
+            selectedConditionIds.push(String(c.id));
+          }
+        });
+      }
+    }
+
     // Render the template with pagesWithCondition
     res.render("titan-mvp-1.2/form-editor/conditions/edit.html", {
       condition,
@@ -2823,121 +3213,11 @@ router.get(
       pagesWithCondition,
       formName: formData.formName || "Default Form Name",
       formPages, // Add this line
+      isJoinedCondition,
+      availableConditions,
+      selectedConditionIds,
+      joinedConditionOperator: condition.logicalOperator || "AND",
     });
-  }
-);
-
-// Handle the POST request for editing conditions (adapted from 1.0)
-router.post(
-  "/titan-mvp-1.2/form-editor/conditions-manager/edit",
-  function (req, res) {
-    const formData = req.session.data || {};
-    const formPages = req.session.data.formPages || [];
-    const conditionId = req.body.conditionId;
-
-    // Find the original condition before updating
-    let originalCondition = null;
-    let foundInFormLevel = false;
-
-    // First check form-level conditions
-    if (formData.conditions) {
-      const formLevelIndex = formData.conditions.findIndex(
-        (c) => String(c.id) === conditionId
-      );
-      if (formLevelIndex !== -1) {
-        originalCondition = JSON.parse(
-          JSON.stringify(formData.conditions[formLevelIndex])
-        ); // Deep copy
-        foundInFormLevel = true;
-      }
-    }
-
-    // If not found in form-level, check page-level conditions
-    if (!originalCondition) {
-      for (const page of formPages) {
-        if (page.conditions) {
-          const found = page.conditions.find(
-            (c) => String(c.id) === conditionId
-          );
-          if (found) {
-            originalCondition = JSON.parse(JSON.stringify(found)); // Deep copy
-            break;
-          }
-        }
-      }
-    }
-
-    if (!originalCondition) {
-      console.error("Condition not found:", conditionId);
-      return res.redirect("/titan-mvp-1.2/form-editor/conditions/manager");
-    }
-
-    // Parse rules if it's a string, or use directly if it's already an object
-    let rules;
-    try {
-      if (req.body.rules) {
-        rules =
-          typeof req.body.rules === "string"
-            ? JSON.parse(req.body.rules)
-            : req.body.rules;
-        if (!Array.isArray(rules)) {
-          rules = [rules];
-        }
-      } else {
-        console.error("No rules provided in request");
-        rules = [];
-      }
-    } catch (e) {
-      console.error("Error handling rules:", e);
-      rules = [];
-    }
-
-    // Create the updated condition
-    const updatedCondition = {
-      id: conditionId,
-      conditionName: req.body.conditionName,
-      rules: rules.map((rule) => ({
-        questionText: rule.questionText,
-        operator: rule.operator,
-        value: rule.value,
-        logicalOperator: rule.logicalOperator,
-      })),
-      text: rules
-        .map((rule, index) => {
-          const valueText = Array.isArray(rule.value)
-            ? rule.value.map((v) => `'${v}'`).join(" or ")
-            : `'${rule.value}'`;
-          return index === 0
-            ? `${rule.questionText} ${rule.operator} ${valueText}`
-            : `${rule.logicalOperator} ${rule.questionText} ${rule.operator} ${valueText}`;
-        })
-        .join(" "),
-    };
-
-    // --- NEW: Store pending changes instead of updating formPages ---
-    let selectedPages = [];
-    if (Array.isArray(req.body.pages)) {
-      selectedPages = req.body.pages;
-    } else if (req.body.pages) {
-      selectedPages = [req.body.pages];
-    }
-
-    // Store the current pagesWithCondition before updating formPages
-    const beforePagesWithCondition = formPages
-      .filter(
-        (page) =>
-          page.conditions &&
-          page.conditions.some((c) => String(c.id) === String(conditionId))
-      )
-      .map((page, index) => ({ ...page, pageNumber: index + 1 }));
-
-    req.session.data.originalCondition = originalCondition;
-    req.session.data.pendingConditionUpdate = updatedCondition;
-    req.session.data.pendingConditionPages = selectedPages;
-    req.session.data._pagesWithConditionBeforeEdit = beforePagesWithCondition;
-
-    // Redirect to the review page
-    res.redirect("/titan-mvp-1.2/form-editor/conditions/edit-review");
   }
 );
 
@@ -3286,6 +3566,114 @@ router.get("/titan-mvp-1.2/form-editor/reorder/main.html", function (req, res) {
   });
 });
 
+// Helper: Detect page order conflicts
+function detectPageOrderConflicts(formPages, originalOrder) {
+  // Build a map of questionId -> page index for current order
+  const questionToPageIndex = {};
+  formPages.forEach((page, pageIdx) => {
+    if (page.questions) {
+      page.questions.forEach((q) => {
+        if (q.questionId) {
+          questionToPageIndex[q.questionId] = pageIdx;
+        }
+      });
+    }
+  });
+  // Build a map for the original order if provided
+  let originalQuestionToPageIndex = {};
+  let originalPageIdToIndex = {};
+  let originalPageIdToTitle = {};
+  if (originalOrder && Array.isArray(originalOrder)) {
+    originalOrder.forEach((page, pageIdx) => {
+      originalPageIdToIndex[page.pageId] = pageIdx;
+      // Use pageHeading, or fallback to first question's label
+      originalPageIdToTitle[page.pageId] =
+        page.pageHeading ||
+        (page.questions && page.questions[0] && page.questions[0].label) ||
+        null;
+      if (page.questions) {
+        page.questions.forEach((q) => {
+          if (q.questionId) {
+            originalQuestionToPageIndex[q.questionId] = pageIdx;
+          }
+        });
+      }
+    });
+  }
+  // Find conflicts
+  const conflicts = [];
+  formPages.forEach((page, pageIdx) => {
+    if (page.conditions) {
+      page.conditions.forEach((condition) => {
+        if (condition.rules) {
+          condition.rules.forEach((rule) => {
+            // Match rule.questionText to question.label
+            const questionEntry = Object.entries(questionToPageIndex).find(
+              ([qid, idx]) => {
+                const question = formPages[idx].questions.find(
+                  (q) => String(q.questionId) === String(qid)
+                );
+                return question && question.label === rule.questionText;
+              }
+            );
+            if (questionEntry) {
+              const [qid, questionPageIdx] = questionEntry;
+              if (questionPageIdx > pageIdx) {
+                // Find original page numbers and title if possible
+                let originalConditionPageNumber = null;
+                let originalQuestionPageNumber = null;
+                let originalPageTitle = null;
+                if (originalOrder && Array.isArray(originalOrder)) {
+                  const origPageIdx = originalPageIdToIndex[page.pageId];
+                  originalConditionPageNumber =
+                    origPageIdx !== undefined ? origPageIdx + 1 : null;
+                  originalPageTitle =
+                    originalPageIdToTitle[page.pageId] || null;
+                  const origQPageIdx = originalQuestionToPageIndex[qid];
+                  originalQuestionPageNumber =
+                    origQPageIdx !== undefined ? origQPageIdx + 1 : null;
+                }
+                // Always provide a title for the new order as well
+                const newPageTitle =
+                  page.pageHeading ||
+                  (page.questions &&
+                    page.questions[0] &&
+                    page.questions[0].label) ||
+                  null;
+                conflicts.push({
+                  pageId: page.pageId, // Add pageId for backend processing
+                  pageWithCondition: newPageTitle || `Page ${pageIdx + 1}`,
+                  pageNumber: pageIdx + 1,
+                  conditionName:
+                    condition.conditionName || `Condition ${condition.id}`,
+                  conditionText:
+                    condition.text ||
+                    condition.conditionName ||
+                    `Condition ${condition.id}`,
+                  referencedQuestion: rule.questionText,
+                  questionPageNumber: questionPageIdx + 1,
+                  conditionId: condition.id,
+                  canMoveQuestion: true,
+                  canMovePage: true,
+                  // New fields for before/after
+                  originalConditionPageNumber,
+                  originalQuestionPageNumber,
+                  originalPageTitle,
+                  conditionValue: rule.value,
+                  // Include the full condition rules for display
+                  rules: condition.rules || [],
+                });
+              }
+            }
+          });
+        }
+      });
+    }
+  });
+  return conflicts;
+}
+
+// Update page order and check for conflicts
 router.post("/titan-mvp-1.2/update-page-order", function (req, res) {
   const orderedIds = req.body.orderedIds;
   if (!orderedIds || !Array.isArray(orderedIds)) {
@@ -3304,14 +3692,27 @@ router.post("/titan-mvp-1.2/update-page-order", function (req, res) {
     }
   });
 
-  // If we have a valid new order, update the session and respond with success
+  // If we have a valid new order, update the session and check for conflicts
   if (newOrder.length > 0) {
+    // Save the original order before updating
+    const originalOrder = [...formPages];
     req.session.data["formPages"] = newOrder;
-    console.log(
-      "Updated formPages order:",
-      newOrder.map((page) => page.pageId)
-    );
-    return res.json({ success: true });
+    // Detect conflicts, passing the original order
+    const conflicts = detectPageOrderConflicts(newOrder, originalOrder);
+    if (conflicts.length > 0) {
+      req.session.data.pageOrderConflicts = conflicts;
+      return res.json({
+        success: false,
+        redirect: "/titan-mvp-1.2/form-editor/reorder/resolve-page-conflicts",
+      });
+    } else {
+      req.session.data.pageOrderConflicts = null;
+      return res.json({
+        success: true,
+        redirect:
+          "/titan-mvp-1.2/form-editor/listing.html?pageOrderUpdated=true",
+      });
+    }
   } else {
     return res.json({
       success: false,
@@ -3319,6 +3720,54 @@ router.post("/titan-mvp-1.2/update-page-order", function (req, res) {
     });
   }
 });
+
+// Route to resolve page order conflicts after reordering
+router.get(
+  "/titan-mvp-1.2/form-editor/reorder/resolve-page-conflicts",
+  function (req, res) {
+    const formData = req.session.data || {};
+    const conflicts = formData.pageOrderConflicts || [];
+    res.render(
+      "titan-mvp-1.2/form-editor/reorder/resolve-page-conflicts.html",
+      {
+        form: { name: formData.formName || "Form name" },
+        conflicts,
+        warnings: [],
+      }
+    );
+  }
+);
+
+// Handle force save with condition removal
+router.post(
+  "/titan-mvp-1.2/form-editor/reorder/resolve-page-conflicts",
+  function (req, res) {
+    const formData = req.session.data || {};
+    const conflicts = formData.pageOrderConflicts || [];
+    const formPages = formData.formPages || [];
+
+    // Remove all conditions that are in the conflicts list
+    conflicts.forEach((conflict) => {
+      const page = formPages.find((p) => p.pageId === conflict.pageId);
+      if (page && page.conditions) {
+        page.conditions = page.conditions.filter(
+          (c) => String(c.id) !== String(conflict.conditionId)
+        );
+      }
+    });
+
+    // Clear the conflicts from session
+    delete req.session.data.pageOrderConflicts;
+
+    // Save the updated pages back to session
+    req.session.data.formPages = formPages;
+
+    // Redirect to the listing page with success message
+    res.redirect(
+      "/titan-mvp-1.2/form-editor/listing.html?pageOrderUpdated=true"
+    );
+  }
+);
 
 // Update the guidance overview route
 router.post("/titan-mvp-1.2/form-editor/guidance/overview", (req, res) => {
@@ -3455,43 +3904,6 @@ router.get("/titan-mvp-1.2/form-editor/edit-guidance", function (req, res) {
   );
 });
 
-// Catch-all route for any .html file in titan-mvp-1.2 (must be last)
-router.get("/titan-mvp-1.2/*", function (req, res, next) {
-  console.log("CATCH-ALL ROUTE: /titan-mvp-1.2/*", req.path);
-  const path = req.path.replace(/^\/titan-mvp-1.2\//, "");
-  if (!path.match(/^[a-zA-Z0-9\-_\/]+(\.html)?$/)) return next();
-  const viewName = path.replace(/\.html$/, "");
-  const formData = req.session.data || {};
-  let users = formData.users || [];
-  // Add semanticName and lowercase role
-  users = users.map((user) => ({
-    ...user,
-    semanticName: emailToName(user.email),
-    role: user.role ? user.role.toLowerCase() : user.role,
-  }));
-  // Clear success message after displaying
-  const successMessage = formData.successMessage;
-  if (formData.successMessage) {
-    delete formData.successMessage;
-  }
-  res.render(
-    `titan-mvp-1.2/${viewName}`,
-    {
-      data: {
-        users: users,
-        successMessage: successMessage,
-      },
-      form: {
-        name: formData.formName || "Form name",
-      },
-    },
-    function (err, html) {
-      if (err) return next();
-      res.send(html);
-    }
-  );
-});
-
 // API endpoint for creating new sections
 router.post("/titan-mvp-1.2/form-editor/api/sections", (req, res) => {
   try {
@@ -3550,3 +3962,736 @@ router.post("/titan-mvp-1.2/form-editor/section/create", function (req, res) {
   // Redirect back to the form with the new section selected
   res.redirect(returnUrl + "?section=" + newSection.id);
 });
+
+// Handle the POST request for editing conditions (adapted from 1.0)
+router.post(
+  "/titan-mvp-1.2/form-editor/conditions-manager/edit",
+  function (req, res) {
+    const formData = req.session.data || {};
+    const formPages = req.session.data.formPages || [];
+    const conditionId = req.body.conditionId;
+
+    // Find the original condition before updating
+    let originalCondition = null;
+    let foundInFormLevel = false;
+
+    // First check form-level conditions
+    if (formData.conditions) {
+      const formLevelIndex = formData.conditions.findIndex(
+        (c) => String(c.id) === conditionId
+      );
+      if (formLevelIndex !== -1) {
+        originalCondition = JSON.parse(
+          JSON.stringify(formData.conditions[formLevelIndex])
+        ); // Deep copy
+        foundInFormLevel = true;
+      }
+    }
+
+    // If not found in form-level, check page-level conditions
+    if (!originalCondition) {
+      for (const page of formPages) {
+        if (page.conditions) {
+          const found = page.conditions.find(
+            (c) => String(c.id) === conditionId
+          );
+          if (found) {
+            originalCondition = JSON.parse(JSON.stringify(found)); // Deep copy
+            break;
+          }
+        }
+      }
+    }
+
+    if (!originalCondition) {
+      console.error("Condition not found:", conditionId);
+      return res.redirect("/titan-mvp-1.2/form-editor/conditions/manager");
+    }
+
+    // Parse rules if it's a string, or use directly if it's already an object
+    let rules;
+    try {
+      if (req.body.rules) {
+        rules =
+          typeof req.body.rules === "string"
+            ? JSON.parse(req.body.rules)
+            : req.body.rules;
+        if (!Array.isArray(rules)) {
+          rules = [rules];
+        }
+      } else {
+        console.error("No rules provided in request");
+        rules = [];
+      }
+    } catch (e) {
+      console.error("Error handling rules:", e);
+      rules = [];
+    }
+
+    // Check if this is a joined condition update
+    let updatedCondition;
+    if (rules.length === 1 && rules[0].type === "joined") {
+      const joinedRule = rules[0];
+      const conditionIds = joinedRule.conditionIds;
+      const logicalOperator = joinedRule.logicalOperator;
+
+      // Find all the conditions to be joined
+      const conditionsToJoin = [];
+
+      // First check form-level conditions
+      if (formData.conditions) {
+        formData.conditions.forEach((condition) => {
+          if (
+            conditionIds.includes(condition.id.toString()) &&
+            !conditionsToJoin.some((c) => c.id === condition.id)
+          ) {
+            conditionsToJoin.push(condition);
+          }
+        });
+      }
+
+      // Then check page-level conditions
+      formPages.forEach((page) => {
+        if (page.conditions) {
+          page.conditions.forEach((condition) => {
+            if (
+              conditionIds.includes(condition.id.toString()) &&
+              !conditionsToJoin.some((c) => c.id === condition.id)
+            ) {
+              conditionsToJoin.push(condition);
+            }
+          });
+        }
+      });
+
+      // Sort conditions to match the order of conditionIds
+      conditionsToJoin.sort((a, b) => {
+        return (
+          conditionIds.indexOf(a.id.toString()) -
+          conditionIds.indexOf(b.id.toString())
+        );
+      });
+
+      // Create the updated joined condition
+      updatedCondition = {
+        id: conditionId,
+        conditionName: req.body.conditionName,
+        logicalOperator: logicalOperator,
+        joinedConditionIds: conditionIds, // Store the condition IDs that were joined
+        rules: [],
+      };
+
+      // Add rules from all conditions, setting logicalOperator for every rule after the first
+      let ruleCounter = 0;
+      conditionsToJoin.forEach((condition) => {
+        condition.rules.forEach((rule) => {
+          updatedCondition.rules.push({
+            ...rule,
+            logicalOperator: ruleCounter === 0 ? null : logicalOperator,
+          });
+          ruleCounter++;
+        });
+      });
+
+      // Create the text representation of the joined condition
+      updatedCondition.text = updatedCondition.rules
+        .map((rule, idx) => {
+          const valueText = Array.isArray(rule.value)
+            ? rule.value.map((v) => `'${v}'`).join(" or ")
+            : `'${rule.value}'`;
+          // Add the logical operator before all but the first rule
+          if (idx > 0 && rule.logicalOperator) {
+            return `${rule.logicalOperator} '${rule.questionText}' ${rule.operator} ${valueText}`;
+          }
+          return `'${rule.questionText}' ${rule.operator} ${valueText}`;
+        })
+        .join(" ");
+    } else {
+      // Handle regular condition update
+      updatedCondition = {
+        id: conditionId,
+        conditionName: req.body.conditionName,
+        rules: rules.map((rule) => ({
+          questionText: rule.questionText,
+          operator: rule.operator,
+          value: rule.value,
+          logicalOperator: rule.logicalOperator,
+        })),
+        text: rules
+          .map((rule, index) => {
+            const valueText = Array.isArray(rule.value)
+              ? rule.value.map((v) => `'${v}'`).join(" or ")
+              : `'${rule.value}'`;
+            return index === 0
+              ? `${rule.questionText} ${rule.operator} ${valueText}`
+              : `${rule.logicalOperator} ${rule.questionText} ${rule.operator} ${valueText}`;
+          })
+          .join(" "),
+      };
+    }
+
+    // --- NEW: Store pending changes instead of updating formPages ---
+    let selectedPages = [];
+    if (Array.isArray(req.body.pages)) {
+      selectedPages = req.body.pages;
+    } else if (req.body.pages) {
+      selectedPages = [req.body.pages];
+    }
+
+    // Store the current pagesWithCondition before updating formPages
+    const beforePagesWithCondition = formPages
+      .filter(
+        (page) =>
+          page.conditions &&
+          page.conditions.some((c) => String(c.id) === String(conditionId))
+      )
+      .map((page, index) => ({ ...page, pageNumber: index + 1 }));
+
+    req.session.data.originalCondition = originalCondition;
+    req.session.data.pendingConditionUpdate = updatedCondition;
+    req.session.data.pendingConditionPages = selectedPages;
+    req.session.data._pagesWithConditionBeforeEdit = beforePagesWithCondition;
+
+    // Redirect to the review page
+    res.redirect("/titan-mvp-1.2/form-editor/conditions/edit-review");
+  }
+);
+
+// ── AUTOCOMPLETE LIST CONFLICTS ──
+router.get(
+  "/titan-mvp-1.2/form-editor/question-type/autocomplete-nf/resolve-list-conflicts",
+  (req, res) => {
+    const formData = req.session.data || {};
+    const formPages = formData.formPages || [];
+    const pageIndex = formData.currentPageIndex || 0;
+    const questionIndex = formData.currentQuestionIndex || 0;
+    const currentPage = formPages[pageIndex] || { questions: [] };
+    const question = currentPage.questions[questionIndex] || {};
+
+    // Try to get newItems from stored session data first, then fall back to current question
+    let newItems = formData.pendingNewItems || [];
+    if (newItems.length === 0 && Array.isArray(question.options)) {
+      newItems = question.options.map((opt) =>
+        typeof opt === "object" ? opt.label || opt.value : opt
+      );
+    }
+
+    // Use stored conflicts from session (already in correct format)
+    let conflicts = formData.conflicts || [];
+
+    res.render(
+      "titan-mvp-1.2/form-editor/question-type/autocomplete-nf/resolve-list-conflicts",
+      {
+        conflicts,
+        newItems,
+        question: {
+          label: question.label || "Question",
+          options: question.options || [],
+        },
+      }
+    );
+  }
+);
+
+// Handle POST for resolving conflicts
+router.post(
+  "/titan-mvp-1.2/form-editor/question-type/autocomplete-nf/resolve-list-conflicts",
+  (req, res) => {
+    const formData = req.session.data || {};
+    const mapping = req.body.mapping || {};
+    const conditions = formData.conditions || [];
+    // For each mapping, update all rules in all conditions
+    for (const [oldValue, newValue] of Object.entries(mapping)) {
+      for (const condition of conditions) {
+        for (const rule of condition.rules || []) {
+          if (Array.isArray(rule.value)) {
+            rule.value = rule.value.map((val) =>
+              val === oldValue ? newValue : val
+            );
+          } else if (rule.value === oldValue) {
+            rule.value = newValue;
+          }
+        }
+      }
+    }
+    req.session.data.conditions = conditions;
+
+    // Clear the conflict data from session
+    delete req.session.data.conflicts;
+    delete req.session.data.pendingNewItems;
+    delete req.session.data.pendingQuestionOptions;
+
+    // Redirect to the page overview
+    res.redirect("/titan-mvp-1.2/page-overview");
+  }
+);
+
+// Choose section for ungrouped question (GET)
+router.get(
+  "/titan-mvp-1.2/form-editor/check-answers/choose-section",
+  function (req, res) {
+    console.log("=== CHOOSE SECTION ROUTE HIT ===");
+    console.log("Full URL:", req.url);
+    console.log("Query params:", JSON.stringify(req.query, null, 2));
+    console.log("Session data exists:", !!req.session.data);
+    console.log("RAW session.data:", JSON.stringify(req.session.data, null, 2));
+
+    const itemId = req.query.item;
+    let item = null;
+    const checkAnswersItems = req.session.data.checkAnswersItems || [];
+    const sections = req.session.data.sections || [];
+
+    // Log available IDs for debugging
+    console.log("=== CHOOSE SECTION DEBUG ===");
+    console.log("Requested itemId:", itemId, "Type:", typeof itemId);
+    console.log(
+      "Available IDs:",
+      checkAnswersItems.map((i) => i.id)
+    );
+    console.log("Session checkAnswersItems length:", checkAnswersItems.length);
+    console.log(
+      "Session checkAnswersItems:",
+      JSON.stringify(checkAnswersItems, null, 2)
+    );
+    console.log(
+      "Available sections:",
+      sections.map((s) => ({ id: s.id, title: s.title }))
+    );
+
+    // Try both string and number comparison
+    item = checkAnswersItems.find((i) => String(i.id) === String(itemId));
+    console.log("Found item:", item);
+
+    if (!item) {
+      // Show debug info in template
+      return res.render(
+        "titan-mvp-1.2/form-editor/check-answers/choose-section.html",
+        {
+          item: null,
+          sections,
+          debug: {
+            itemId,
+            availableIds: checkAnswersItems.map((i) => i.id),
+            sessionData: checkAnswersItems,
+            sections: sections,
+          },
+        }
+      );
+    }
+    res.render("titan-mvp-1.2/form-editor/check-answers/choose-section.html", {
+      item,
+      sections,
+      debug: null,
+    });
+  }
+);
+
+// Choose section for ungrouped question (POST)
+router.post(
+  "/titan-mvp-1.2/form-editor/check-answers/choose-section",
+  function (req, res) {
+    console.log("=== CHOOSE SECTION POST ===");
+    console.log("Request body:", req.body);
+
+    const itemId = req.body.itemId;
+    const sectionId = req.body.sectionId;
+    let item = null;
+    const checkAnswersItems = req.session.data.checkAnswersItems || [];
+    const sections = req.session.data.sections || [];
+
+    console.log("ItemId:", itemId, "SectionId:", sectionId);
+    console.log(
+      "Available items:",
+      checkAnswersItems.map((i) => ({ id: i.id, key: i.key }))
+    );
+    console.log(
+      "Available sections:",
+      sections.map((s) => ({ id: s.id, title: s.title }))
+    );
+
+    item = checkAnswersItems.find((i) => String(i.id) === String(itemId));
+
+    if (!item) {
+      console.error("Item not found in checkAnswersItems:", itemId);
+      return res.redirect("/titan-mvp-1.2/form-editor/check-answers/organize");
+    }
+
+    if (item && sectionId) {
+      // Convert sectionId to number to match the frontend format
+      const numericSectionId = parseInt(sectionId);
+      item.section = numericSectionId;
+      // Save back to session
+      req.session.data.checkAnswersItems = checkAnswersItems;
+      console.log("Updated item", itemId, "to section", numericSectionId);
+    }
+
+    res.redirect("/titan-mvp-1.2/form-editor/check-answers/organize");
+  }
+);
+
+// Test route to check session data
+router.get("/titan-mvp-1.2/test-session", function (req, res) {
+  console.log("=== TEST SESSION ROUTE ===");
+  console.log("Session data:", JSON.stringify(req.session.data, null, 2));
+
+  res.json({
+    checkAnswersItems: req.session.data.checkAnswersItems || [],
+    sections: req.session.data.sections || [],
+    hasData: !!req.session.data,
+    sessionData: req.session.data,
+  });
+});
+
+// Test route to simulate choose-section with item ID 1
+router.get("/titan-mvp-1.2/test-choose-section-1", function (req, res) {
+  const itemId = "1";
+  const checkAnswersItems = req.session.data.checkAnswersItems || [];
+
+  console.log("=== TEST CHOOSE SECTION ===");
+  console.log("ItemId:", itemId);
+  console.log("CheckAnswersItems:", checkAnswersItems);
+
+  const item = checkAnswersItems.find((i) => String(i.id) === String(itemId));
+  console.log("Found item:", item);
+
+  res.json({
+    itemId: itemId,
+    item: item,
+    checkAnswersItems: checkAnswersItems,
+    found: !!item,
+  });
+});
+
+// Test route for choose-section template
+router.get("/titan-mvp-1.2/test-choose-section", function (req, res) {
+  const testItem = {
+    id: 1,
+    key: "Test question text",
+    value: "Test answer",
+  };
+  const testSections = [
+    { id: "section1", name: "Test Section 1", title: "Test Section 1" },
+    { id: "section2", name: "Test Section 2", title: "Test Section 2" },
+  ];
+
+  res.render("titan-mvp-1.2/form-editor/check-answers/choose-section.html", {
+    item: testItem,
+    sections: testSections,
+  });
+});
+
+// Organize check answers page (GET)
+router.get(
+  "/titan-mvp-1.2/form-editor/check-answers/organize",
+  function (req, res) {
+    if (!req.session.data.checkAnswersItems) {
+      req.session.data.checkAnswersItems = [
+        {
+          id: 1,
+          key: "Business registered with RPA",
+          value: "Yes",
+          section: null,
+        },
+        {
+          id: 2,
+          key: "Country for livestock",
+          value: "England",
+          section: null,
+        },
+        {
+          id: 3,
+          key: "Arrival date of livestock",
+          value: "20 04 2024",
+          section: null,
+        },
+        { id: 4, key: "Type of livestock", value: "Cow", section: null },
+        { id: 5, key: "Applicant's name", value: "John Doe", section: null },
+        { id: 6, key: "Business name", value: "Doe Farms Ltd", section: null },
+        {
+          id: 7,
+          key: "Main phone number",
+          value: "07700 900457",
+          section: null,
+        },
+        {
+          id: 8,
+          key: "Email address",
+          value: "john.doe@example.com",
+          section: null,
+        },
+        {
+          id: 9,
+          key: "Business address",
+          value: "123 Farm Lane, Rural Town",
+          section: null,
+        },
+        {
+          id: 10,
+          key: "Business purpose",
+          value: "Livestock farming",
+          section: null,
+        },
+        {
+          id: 11,
+          key: "National Grid field number",
+          value: "NG123456",
+          section: null,
+        },
+        {
+          id: 12,
+          key: "Methodology statement",
+          value: "1 file uploaded",
+          section: null,
+        },
+      ];
+    }
+
+    // Initialize sections if they don't exist
+    if (!req.session.data.sections) {
+      req.session.data.sections = [
+        {
+          id: "section1",
+          name: "Business details",
+          title: "Business details",
+        },
+        {
+          id: "section2",
+          name: "Livestock information",
+          title: "Livestock information",
+        },
+        {
+          id: "section3",
+          name: "Contact details",
+          title: "Contact details",
+        },
+      ];
+    }
+
+    res.render("titan-mvp-1.2/form-editor/check-answers/organize.html");
+  }
+);
+
+// Get session data for check answers
+router.get(
+  "/titan-mvp-1.2/form-editor/check-answers/get-session-data",
+  (req, res) => {
+    res.json({
+      checkAnswersItems: req.session.data.checkAnswersItems || [],
+      sections: req.session.data.sections || [],
+    });
+  }
+);
+
+// Sync checkAnswersItems and sections from frontend JS to session
+router.post(
+  "/titan-mvp-1.2/form-editor/check-answers/sync",
+  express.json(),
+  (req, res) => {
+    console.log("=== SYNC ENDPOINT HIT ===");
+    console.log("Request body:", req.body);
+    console.log(
+      "Before sync - checkAnswersItems:",
+      req.session.data.checkAnswersItems?.length || 0
+    );
+    console.log(
+      "Before sync - sections:",
+      req.session.data.sections?.length || 0
+    );
+
+    if (req.body.checkAnswersItems) {
+      req.session.data.checkAnswersItems = req.body.checkAnswersItems;
+      console.log(
+        "Updated checkAnswersItems:",
+        req.body.checkAnswersItems.length
+      );
+    }
+    if (req.body.sections) {
+      req.session.data.sections = req.body.sections;
+      console.log("Updated sections:", req.body.sections.length);
+      console.log(
+        "Section details:",
+        req.body.sections.map((s) => ({ id: s.id, title: s.title }))
+      );
+    }
+
+    console.log(
+      "After sync - checkAnswersItems:",
+      req.session.data.checkAnswersItems?.length || 0
+    );
+    console.log(
+      "After sync - sections:",
+      req.session.data.sections?.length || 0
+    );
+
+    res.json({ success: true });
+  }
+);
+
+// Catch-all route for any .html file in titan-mvp-1.2 (must be last)
+router.get("/titan-mvp-1.2/*", function (req, res, next) {
+  console.log("CATCH-ALL ROUTE: /titan-mvp-1.2/*", req.path);
+  const path = req.path.replace(/^\/titan-mvp-1.2\//, "");
+  if (!path.match(/^[a-zA-Z0-9\-_\/]+(\.html)?$/)) return next();
+  const viewName = path.replace(/\.html$/, "");
+  const formData = req.session.data || {};
+  let users = formData.users || [];
+  // Add semanticName and lowercase role
+  users = users.map((user) => ({
+    ...user,
+    semanticName: emailToName(user.email),
+    role: user.role ? user.role.toLowerCase() : user.role,
+  }));
+  // Clear success message after displaying
+  const successMessage = formData.successMessage;
+  if (formData.successMessage) {
+    delete formData.successMessage;
+  }
+  res.render(
+    `titan-mvp-1.2/${viewName}`,
+    {
+      data: {
+        users: users,
+        successMessage: successMessage,
+      },
+      form: {
+        name: formData.formName || "Form name",
+      },
+    },
+    function (err, html) {
+      if (err) return next();
+      res.send(html);
+    }
+  );
+});
+
+// Assign a checkAnswersItem to a section (PoC, no JS required)
+router.post(
+  "/titan-mvp-1.2/form-editor/check-answers/assign-section",
+  function (req, res) {
+    const itemId = req.body.itemId;
+    const sectionId = req.body.sectionId;
+    const checkAnswersItems = req.session.data.checkAnswersItems || [];
+    const sections = req.session.data.sections || [];
+    // Find the item and update its section (always as string)
+    const item = checkAnswersItems.find((i) => String(i.id) === String(itemId));
+    const sectionExists = sections.some(
+      (s) => String(s.id) === String(sectionId)
+    );
+    if (item && sectionId && sectionExists) {
+      item.section = String(sectionId);
+      req.session.data.checkAnswersItems = checkAnswersItems;
+      console.log(
+        `[ASSIGN-SECTION] Updated item ${itemId} to section ${sectionId}`
+      );
+    } else {
+      console.log(
+        `[ASSIGN-SECTION] Failed to update: item=${!!item}, sectionId=${sectionId}, sectionExists=${sectionExists}`
+      );
+    }
+    // Log the updated checkAnswersItems
+    console.log(
+      "[ASSIGN-SECTION] checkAnswersItems:",
+      JSON.stringify(req.session.data.checkAnswersItems, null, 2)
+    );
+    // Redirect back to the PoC organize page
+    res.redirect("/titan-mvp-1.2/form-editor/check-answers/organize-poc");
+  }
+);
+
+// PoC organize page route
+router.get(
+  "/titan-mvp-1.2/form-editor/check-answers/organize-poc",
+  function (req, res) {
+    // Only initialize if truly missing
+    if (!req.session.data.checkAnswersItems) {
+      req.session.data.checkAnswersItems = [
+        {
+          id: 1,
+          type: "page",
+          key: "Business details",
+          value: "Page with multiple questions",
+          section: null,
+          questions: [
+            { label: "Business registered with RPA", value: "Yes" },
+            { label: "Business name", value: "Doe Farms Ltd" },
+            { label: "Business address", value: "123 Farm Lane, Rural Town" },
+          ],
+        },
+        {
+          id: 2,
+          type: "question",
+          key: "Country for livestock",
+          value: "England",
+          section: null,
+        },
+        {
+          id: 3,
+          type: "question",
+          key: "Arrival date of livestock",
+          value: "20 04 2024",
+          section: null,
+        },
+        {
+          id: 4,
+          type: "page",
+          key: "Livestock information",
+          value: "Page with multiple questions",
+          section: null,
+          questions: [
+            { label: "Type of livestock", value: "Cow" },
+            { label: "Number of animals", value: "25" },
+            { label: "Breed", value: "Holstein Friesian" },
+          ],
+        },
+        {
+          id: 5,
+          type: "question",
+          key: "Applicant's name",
+          value: "John Doe",
+          section: null,
+        },
+        {
+          id: 6,
+          type: "page",
+          key: "Contact details",
+          value: "Page with multiple questions",
+          section: null,
+          questions: [
+            { label: "Main phone number", value: "07700 900457" },
+            { label: "Email address", value: "john.doe@example.com" },
+            { label: "Alternative contact", value: "Jane Doe - 07700 900458" },
+          ],
+        },
+        {
+          id: 7,
+          type: "question",
+          key: "Business purpose",
+          value: "Livestock farming",
+          section: null,
+        },
+        {
+          id: 8,
+          type: "question",
+          key: "National Grid field number",
+          value: "NG123456",
+          section: null,
+        },
+        {
+          id: 9,
+          type: "question",
+          key: "Methodology statement",
+          value: "1 file uploaded",
+          section: null,
+        },
+      ];
+      console.log(
+        "[ORGANIZE-POC] Initialized checkAnswersItems with default data"
+      );
+    }
+    if (!req.session.data.sections) {
+      req.session.data.sections = [];
+      console.log("[ORGANIZE-POC] Initialized sections as empty array");
+    }
+    res.render("titan-mvp-1.2/form-editor/check-answers/organize-poc.html");
+  }
+);

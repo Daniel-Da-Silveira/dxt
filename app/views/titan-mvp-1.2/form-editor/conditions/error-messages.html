@@ -184,6 +184,39 @@
                 </div>
             </div>
 
+            <!-- Edit Joined Conditions Errors -->
+            <div class="govuk-form-group govuk-form-group--error">
+                <fieldset class="govuk-fieldset">
+                    <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">
+                        Joined conditions
+                    </legend>
+                    <p id="joined-conditions-error" class="govuk-error-message">
+                        <span class="govuk-visually-hidden">Error:</span> Select at least two conditions to join
+                    </p>
+                    <div class="govuk-hint">
+                        Select at least two conditions
+                    </div>
+                    <div class="govuk-checkboxes govuk-checkboxes--small" data-module="govuk-checkboxes">
+                        <div class="govuk-checkboxes__item">
+                            <input class="govuk-checkboxes__input" id="edit-condition-1" name="selectedConditions"
+                                type="checkbox" value="1">
+                            <label class="govuk-label govuk-checkboxes__label" for="edit-condition-1">
+                                <span class="govuk-!-font-weight-bold">Condition 1</span><br>
+                                <span class="govuk-body-s">Are you a farmer? is 'Yes'</span>
+                            </label>
+                        </div>
+                        <div class="govuk-checkboxes__item">
+                            <input class="govuk-checkboxes__input" id="edit-condition-2" name="selectedConditions"
+                                type="checkbox" value="2">
+                            <label class="govuk-label govuk-checkboxes__label" for="edit-condition-2">
+                                <span class="govuk-!-font-weight-bold">Condition 2</span><br>
+                                <span class="govuk-body-s">What type of livestock do you have? is 'Cattle'</span>
+                            </label>
+                        </div>
+                    </div>
+                </fieldset>
+            </div>
+
             <!-- Joined Condition Name -->
             <div class="govuk-form-group govuk-form-group--error">
                 <label class="govuk-label" for="joined-condition-name">

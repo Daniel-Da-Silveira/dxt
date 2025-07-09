@@ -529,5 +529,14 @@ module.exports = {
     "3",
     "4",
     "5"
+  ],
+  "efwfewfew": [
+    "chicken",
+    "may"
+  ],
+  "t43t4t4": [
+    "chicken",
+    "mayo",
+    "salad"
   ]
 }

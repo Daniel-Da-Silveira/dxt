@@ -1,0 +1,63 @@
+{% extends "layouts/main.html" %}
+{% set pageName = "Choose section for question" %}
+
+{% block content %}
+<div class="govuk-width-container">
+    <a href="/titan-mvp-1.2/form-editor/check-answers/organize" class="govuk-back-link">Back</a>
+    <h1 class="govuk-heading-l">Add to section</h1>
+    {% if debug %}
+    <div class="govuk-inset-text">
+        <strong>Debug info:</strong><br>
+        Requested itemId: {{ debug.itemId }}<br>
+        Available IDs: {{ debug.availableIds | join(', ') }}<br>
+        <strong>Available sections:</strong><br>
+        {% if debug.sections and debug.sections.length > 0 %}
+        {% for section in debug.sections %}
+        - ID: {{ section.id }}, Title: {{ section.title or section.name }}<br>
+        {% endfor %}
+        {% else %}
+        <em>No sections found in session</em><br>
+        {% endif %}
+        <strong>Session data:</strong><br>
+        <pre>{{ debug.sessionData | dump }}</pre>
+    </div>
+    {% endif %}
+    <form method="post" action="/titan-mvp-1.2/form-editor/check-answers/choose-section">
+        <input type="hidden" name="itemId" value="{{ item.id }}">
+        <div class="govuk-form-group">
+            <label class="govuk-label govuk-label--m">Question</label>
+            <div class="govuk-inset-text">
+                {% if item %}
+                {{ item.key|default(item.text)|default(item.question)|default("No question text found") }}
+                {% if not (item.key or item.text or item.question) %}
+                <br><small>Item ID: {{ item.id }}</small>
+                <br><small>Available properties: {{ item | keys | join(', ') }}</small>
+                {% endif %}
+                {% else %}
+                <strong>No item object found</strong>
+                {% endif %}
+            </div>
+        </div>
+        <div class="govuk-form-group">
+            <label class="govuk-label govuk-label--m" for="sectionId">Section</label>
+            {% if sections and sections.length > 0 %}
+            <select class="govuk-select" id="sectionId" name="sectionId" required>
+                <option value="">Select a section</option>
+                {% for section in sections %}
+                <option value="{{ section.id }}">{{ section.title or section.name }}</option>
+                {% endfor %}
+            </select>
+            {% else %}
+            <div class="govuk-inset-text">
+                <p>No sections available. Please create a section first on the organize page.</p>
+                <a href="/titan-mvp-1.2/form-editor/check-answers/organize" class="govuk-button">Back to organize
+                    page</a>
+            </div>
+            {% endif %}
+        </div>
+        {% if sections and sections.length > 0 %}
+        <button type="submit" class="govuk-button">Add to section</button>
+        {% endif %}
+    </form>
+</div>
+{% endblock %}

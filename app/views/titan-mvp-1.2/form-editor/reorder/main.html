@@ -353,32 +353,6 @@ activeLinkId: "nav-editor"
 
             // Ensure order is updated on page load
             updateOrderInputs();
-
-            document.getElementById('save-order-button').addEventListener('click', function (e) {
-                e.preventDefault(); // Prevent the default link behavior (e.g., navigating or reloading the page)
-
-                // HTML for the notification banner
-                const notificationHTML = `
-                    <div class="govuk-notification-banner govuk-notification-banner--success" role="alert" aria-labelledby="govuk-notification-banner-title" data-module="govuk-notification-banner">
-                        <div class="govuk-notification-banner__header">
-                            <h2 class="govuk-notification-banner__title" id="govuk-notification-banner-title">
-                                Success
-                            </h2>
-                        </div>
-                        <div class="govuk-notification-banner__content">
-                            <h3 class="govuk-notification-banner__heading">
-                                Changes saved
-                            </h3>
-                        </div>
-                    </div>
-                `;
-
-                // Insert the notification banner into the container
-                document.getElementById('notification-banner-container').innerHTML = notificationHTML;
-
-                // // Optional: Scroll to the notification banner
-                // document.getElementById('notification-banner-container').scrollIntoView({ behavior: 'smooth' });
-            });
         </script>
 
         <script>
@@ -400,26 +374,16 @@ activeLinkId: "nav-editor"
                     .then(response => response.json())
                     .then(data => {
                         if (data.success) {
-                            // Display a success notification (preserving your current notification HTML)
-                            const notificationHTML = `
-          <div class="govuk-notification-banner govuk-notification-banner--success" role="alert" aria-labelledby="govuk-notification-banner-title" data-module="govuk-notification-banner">
-            <div class="govuk-notification-banner__header">
-              <h2 class="govuk-notification-banner__title" id="govuk-notification-banner-title">
-                Success
-              </h2>
-            </div>
-            <div class="govuk-notification-banner__content">
-              <h3 class="govuk-notification-banner__heading">
-                Changes saved
-              </h3>
-            </div>
-          </div>
-        `;
-                            document.getElementById('notification-banner-container').innerHTML = notificationHTML;
-                            // Remove or comment out the redirect code below if you don't want an automatic redirect
-                            // setTimeout(() => {
-                            //   window.location.href = "/titan-mvp-1/form-editor/listing.html";
-                            // }, 1000);
+                            if (data.redirect) {
+                                // If there's a redirect URL, go there immediately
+                                window.location.href = data.redirect;
+                            } else {
+                                // Redirect to listing page immediately
+                                window.location.href = "/titan-mvp-1.2/form-editor/listing.html?pageOrderUpdated=true";
+                            }
+                        } else if (data.redirect) {
+                            // If the backend returns a redirect (e.g., for conflict resolution), go there
+                            window.location.href = data.redirect;
                         } else {
                             console.error("Error updating order:", data.message);
                         }

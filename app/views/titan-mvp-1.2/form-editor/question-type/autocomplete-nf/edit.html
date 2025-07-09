@@ -16,16 +16,16 @@ accountName: "Chris Smith",
 homepageLink: "/",
 signOutLink: "/onboarding/sign-out-confirmation",
 navigationItems: [
-{ href: "/titan-mvp-1/library.html", text: "Forms library", id: "nav-library" },
-{ href: "/cph-overview/draft/complete-clean.html", text: "Overview", id: "nav-overview" },
-{ href: "/titan-mvp-1/form-editor/listing", text: "Editor", id: "nav-editor" } ],
+{ href: "/titan-mvp-1.2/library", text: "Forms library", id: "nav-library" },
+{ href: "/titan-mvp-1.2/form-overview/index", text: "Overview", id: "nav-overview" },
+{ href: "/titan-mvp-1.2/form-editor/listing", text: "Editor", id: "nav-editor" } ],
 activeLinkId: "nav-editor"
 }) }}
 
 <div class="x-govuk-masthead x-govuk-masthead--large">
   <div class="govuk-width-container">
     {{ govukBackLink({ classes: "govuk-back-link--inverse govuk-!-margin-bottom-0", text:
-    commonTerms.form_editor.information_type.back, href: "/titan-mvp-1/form-editor/listing.html" }) }}
+    commonTerms.form_editor.information_type.back, href: "/titan-mvp-1.2/form-editor/listing.html" }) }}
 
     <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible"
       style="border-bottom: 1px solid white; margin-bottom: 0" />
@@ -105,13 +105,17 @@ activeLinkId: "nav-editor"
                           describedBy: "hint-text-input-autocomplete"
                           }) }}
 
+
+                          <!-- END DEBUG -->
+
                           <!-- List config -->
                           <div class="govuk-form-group">
                             <h2 class="govuk-heading-m moj-add-another__heading" tabindex="-1">{{
                               commonTerms.form_editor.information_type.list.autocomplete.options.title }}</h2>
 
                             <!-- Hidden input for options data -->
-                            <input type="hidden" id="autocompleteOptionsData" name="autocompleteOptionsData" value="[]">
+                            <input type="hidden" id="autocompleteOptionsData" name="autocompleteOptionsData"
+                              value="{{ data['autocompleteOptionsData'] | default('[]') }}">
 
                             <!-- autocomplete -->
                             <div class="govuk-form-group">
@@ -675,9 +679,20 @@ activeLinkId: "nav-editor"
       });
     </script>
 
-
-
-
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        var optionsData = document.getElementById("autocompleteOptionsData").value;
+        var textarea = document.getElementById("csv-input");
+        if (optionsData && textarea) {
+          try {
+            var options = JSON.parse(optionsData);
+            textarea.value = options.map(opt => opt.label || opt.value || opt).join("\n");
+          } catch (e) {
+            // fallback: do nothing
+          }
+        }
+      });
+    </script>
 
     <style>
       /* Styles for the reorderable list */
