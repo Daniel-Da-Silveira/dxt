@@ -4695,3 +4695,21 @@ router.get(
     res.render("titan-mvp-1.2/form-editor/check-answers/organize-poc.html");
   }
 );
+
+// Handle section visibility toggle (hide from respondents)
+router.post(
+  "/titan-mvp-1.2/form-editor/check-answers/hide-section",
+  function (req, res) {
+    const sectionId = req.body.sectionId;
+    // Checkbox is only present if checked, so treat missing as false
+    const hide = !!req.body.hideSectionFromRespondents;
+    const sections = req.session.data.sections || [];
+    const section = sections.find((s) => String(s.id) === String(sectionId));
+    if (section) {
+      section.hideFromRespondents = hide;
+      section.settingsSaved = true; // Mark that settings have been saved
+      req.session.data.sections = sections;
+    }
+    res.redirect("/titan-mvp-1.2/form-editor/check-answers/organize-poc");
+  }
+);

@@ -2893,3 +2893,13 @@ to
 .gem-c-contents-list__list-item--active .gem-c-contents-list__nested-list {
   display: block;
 }
+
+.app-form-container,
+.condition-item {
+  background: #f3f2f1;
+  padding: 20px;
+  margin-bottom: 15px;
+  position: relative;
+  border-left: 5px solid #008938;
+  outline: 1px solid #b1b4b6;
+}
