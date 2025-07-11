@@ -4478,6 +4478,8 @@ router.get(
     res.json({
       checkAnswersItems: req.session.data.checkAnswersItems || [],
       sections: req.session.data.sections || [],
+      declarationText: req.session.data.declarationText || "",
+      declarationOption: req.session.data.declarationOption || "no-declaration",
     });
   }
 );
@@ -4524,6 +4526,216 @@ router.post(
     );
 
     res.json({ success: true });
+  }
+);
+
+// Save declaration text to session
+router.post(
+  "/titan-mvp-1.2/form-editor/check-answers/save-declaration",
+  express.json(),
+  (req, res) => {
+    console.log("=== SAVE DECLARATION ENDPOINT HIT ===");
+    console.log("Request body:", req.body);
+
+    if (req.body.declarationText !== undefined) {
+      req.session.data.declarationText = req.body.declarationText;
+      console.log("Saved declaration text:", req.body.declarationText);
+    }
+
+    res.json({ success: true });
+  }
+);
+
+// Modular settings page with reusable components
+router.get(
+  "/titan-mvp-1.2/form-editor/check-answers/settings-modular",
+  function (req, res) {
+    const tab = req.query.tab;
+    const add = req.query.add;
+    const formData = req.session.data || {};
+
+    // Initialize tab visibility flags if not present
+    if (formData.showDeclarationTab === undefined)
+      formData.showDeclarationTab = false;
+    if (formData.showSectionsTab === undefined)
+      formData.showSectionsTab = false;
+
+    // Determine which tab to show based on query params
+    let currentTab = "page-settings";
+    if (add === "declaration") {
+      formData.showDeclarationTab = true;
+      currentTab = "declaration";
+    } else if (add === "sections") {
+      formData.showSectionsTab = true;
+      currentTab = "sections";
+    } else if (tab === "declaration") {
+      formData.showDeclarationTab = true;
+      currentTab = "declaration";
+    } else if (tab === "sections") {
+      formData.showSectionsTab = true;
+      currentTab = "sections";
+    }
+
+    // If we're on a specific tab, make sure the tab is visible in the nav
+    if (currentTab === "declaration") {
+      formData.showDeclarationTab = true;
+    } else if (currentTab === "sections") {
+      formData.showSectionsTab = true;
+
+      // Initialize checkAnswersItems and sections data if not present (like organize-poc route)
+      if (!formData.checkAnswersItems) {
+        formData.checkAnswersItems = [
+          {
+            id: 1,
+            type: "page",
+            key: "Business details",
+            value: "Page with multiple questions",
+            section: null,
+            questions: [
+              { label: "Business registered with RPA", value: "Yes" },
+              { label: "Business name", value: "Doe Farms Ltd" },
+              { label: "Business address", value: "123 Farm Lane, Rural Town" },
+            ],
+          },
+          {
+            id: 2,
+            type: "question",
+            key: "Country for livestock",
+            value: "England",
+            section: null,
+          },
+          {
+            id: 3,
+            type: "question",
+            key: "Arrival date of livestock",
+            value: "20 04 2024",
+            section: null,
+          },
+          {
+            id: 4,
+            type: "page",
+            key: "Livestock information",
+            value: "Page with multiple questions",
+            section: null,
+            questions: [
+              { label: "Type of livestock", value: "Cow" },
+              { label: "Number of animals", value: "25" },
+              { label: "Breed", value: "Holstein Friesian" },
+            ],
+          },
+          {
+            id: 5,
+            type: "question",
+            key: "Applicant's name",
+            value: "John Doe",
+            section: null,
+          },
+          {
+            id: 6,
+            type: "page",
+            key: "Contact details",
+            value: "Page with multiple questions",
+            section: null,
+            questions: [
+              { label: "Main phone number", value: "07700 900457" },
+              { label: "Email address", value: "john.doe@example.com" },
+              {
+                label: "Alternative contact",
+                value: "Jane Doe - 07700 900458",
+              },
+            ],
+          },
+          {
+            id: 7,
+            type: "question",
+            key: "Business purpose",
+            value: "Livestock farming",
+            section: null,
+          },
+          {
+            id: 8,
+            type: "question",
+            key: "National Grid field number",
+            value: "NG123456",
+            section: null,
+          },
+          {
+            id: 9,
+            type: "question",
+            key: "Methodology statement",
+            value: "1 file uploaded",
+            section: null,
+          },
+        ];
+        console.log(
+          "[MODULAR] Initialized checkAnswersItems with default data"
+        );
+      }
+      if (!formData.sections) {
+        formData.sections = [];
+        console.log("[MODULAR] Initialized sections as empty array");
+      }
+    }
+
+    req.session.data = formData;
+
+    const renderData = {
+      ...formData,
+      showDeclarationTab: formData.showDeclarationTab,
+      showSectionsTab: formData.showSectionsTab,
+      currentTab: currentTab,
+    };
+
+    console.log("=== RENDER DATA ===");
+    console.log("currentTab:", renderData.currentTab);
+    console.log("showDeclarationTab:", renderData.showDeclarationTab);
+    console.log("showSectionsTab:", renderData.showSectionsTab);
+
+    res.render("titan-mvp-1.2/form-editor/check-answers/settings-modular", {
+      data: renderData,
+    });
+  }
+);
+
+// POST route for modular settings page to handle form submissions
+router.post(
+  "/titan-mvp-1.2/form-editor/check-answers/settings-modular",
+  function (req, res) {
+    const formData = req.session.data || {};
+
+    // Handle form submissions from the modular page
+    // This can handle any form data submitted from the modular components
+
+    // Update session data with form submissions
+    Object.assign(formData, req.body);
+
+    // Handle declaration form submission specifically
+    if (req.body.declarationOption) {
+      formData.declarationOption = req.body.declarationOption;
+      console.log("Saved declaration option:", req.body.declarationOption);
+    }
+    if (req.body.checkAnswersGuidanceTextInput) {
+      formData.declarationText = req.body.checkAnswersGuidanceTextInput;
+      console.log(
+        "Saved declaration text:",
+        req.body.checkAnswersGuidanceTextInput
+      );
+    }
+
+    // Determine which tab to redirect to based on form data
+    let redirectTab = "page-settings";
+    if (req.body.currentTab) {
+      redirectTab = req.body.currentTab;
+    } else if (req.body.declarationOption) {
+      redirectTab = "declaration";
+    }
+
+    req.session.data = formData;
+
+    // Redirect back to the modular page with the appropriate tab
+    res.redirect(
+      `/titan-mvp-1.2/form-editor/check-answers/settings-modular?tab=${redirectTab}`
+    );
   }
 );
 
@@ -4593,8 +4805,79 @@ router.post(
       "[ASSIGN-SECTION] checkAnswersItems:",
       JSON.stringify(req.session.data.checkAnswersItems, null, 2)
     );
-    // Redirect back to the PoC organize page
-    res.redirect("/titan-mvp-1.2/form-editor/check-answers/organize-poc");
+    // Redirect back to the settings page with sections tab
+    res.redirect(
+      "/titan-mvp-1.2/form-editor/check-answers/settings-modular?tab=sections"
+    );
+  }
+);
+
+// Settings v2 page with persistent tabs
+router.get(
+  "/titan-mvp-1.2/form-editor/check-answers/settings-v2",
+  function (req, res) {
+    const tab = req.query.tab;
+    const add = req.query.add;
+    const formData = req.session.data || {};
+
+    // Initialize tab visibility flags if not present
+    if (formData.showDeclarationTab === undefined)
+      formData.showDeclarationTab = false;
+    if (formData.showSectionsTab === undefined)
+      formData.showSectionsTab = false;
+
+    // Set flags based on the requested action
+    if (add === "declaration") {
+      formData.showDeclarationTab = true;
+    }
+    if (add === "sections") {
+      formData.showSectionsTab = true;
+    }
+
+    // Optionally, allow direct tab navigation
+    if (tab === "declaration") {
+      formData.showDeclarationTab = true;
+    }
+    if (tab === "sections") {
+      formData.showSectionsTab = true;
+    }
+
+    // Set current tab for the template
+    let currentTab = "page-settings";
+    if (tab === "declaration") {
+      currentTab = "declaration";
+    } else if (tab === "sections") {
+      currentTab = "sections";
+    }
+
+    // Debug log
+    console.log(
+      "DEBUG route: showDeclarationTab:",
+      formData.showDeclarationTab,
+      "showSectionsTab:",
+      formData.showSectionsTab,
+      "currentTab:",
+      currentTab
+    );
+
+    req.session.data = formData;
+
+    res.render("titan-mvp-1.2/form-editor/check-answers/settings-v2", {
+      data: {
+        ...formData,
+        showDeclarationTab: formData.showDeclarationTab,
+        showSectionsTab: formData.showSectionsTab,
+        currentTab: currentTab,
+      },
+    });
+  }
+);
+
+// Example page showing modular components
+router.get(
+  "/titan-mvp-1.2/form-editor/check-answers/example-modular",
+  function (req, res) {
+    res.render("titan-mvp-1.2/form-editor/check-answers/example-modular");
   }
 );
 
@@ -4710,6 +4993,8 @@ router.post(
       section.settingsSaved = true; // Mark that settings have been saved
       req.session.data.sections = sections;
     }
-    res.redirect("/titan-mvp-1.2/form-editor/check-answers/organize-poc");
+    res.redirect(
+      "/titan-mvp-1.2/form-editor/check-answers/settings-modular?tab=sections"
+    );
   }
 );
