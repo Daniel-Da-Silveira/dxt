@@ -6,7 +6,7 @@
 {% set guidancePlaceholder = "" %}
 
 <!-- Marked.js (for Markdown parsing) -->
-<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/marked@4.3.0/marked.min.js"></script>
 
 {% block header %}
 {{ serviceHeader({
@@ -182,7 +182,7 @@ navigationItems: [
     });
 </script>
 
-<script src="https://cdn.jsdelivr.net/npm/marked@4.0.12/marked.min.js"></script>
+
 <script>
     document.addEventListener("DOMContentLoaded", function () {
         const domElements = {
@@ -218,15 +218,22 @@ navigationItems: [
         // Function to update the guidance paragraph with rendered Markdown
         function updateGuidanceParagraph() {
             const markdownText = domElements.checkAnswersGuidanceTextInput.value;
-            if (typeof marked === "function") {
+            console.log('Markdown text:', markdownText);
+            console.log('Marked available:', typeof marked !== 'undefined');
+            console.log('Marked.parse available:', typeof marked !== 'undefined' && marked.parse);
+
+            if (typeof marked !== 'undefined' && marked.parse) {
                 try {
-                    const renderedHtml = marked(markdownText);
+                    const renderedHtml = marked.parse(markdownText);
+                    console.log('Rendered HTML:', renderedHtml);
                     domElements.guidanceParagraph.innerHTML = renderedHtml;
                 } catch (error) {
                     console.error("Error rendering Markdown:", error);
+                    domElements.guidanceParagraph.textContent = markdownText;
                 }
             } else {
                 // Fallback to plain text if marked isn't available
+                console.log('Marked not available, using plain text');
                 domElements.guidanceParagraph.textContent = markdownText;
             }
         }
@@ -339,9 +346,9 @@ navigationItems: [
                     if (data.declarationText) {
                         const guidanceParagraph = document.getElementById('guidance-paragraph');
                         if (guidanceParagraph) {
-                            if (typeof marked === "function") {
+                            if (typeof marked !== 'undefined' && marked.parse) {
                                 try {
-                                    const renderedHtml = marked(data.declarationText);
+                                    const renderedHtml = marked.parse(data.declarationText);
                                     guidanceParagraph.innerHTML = renderedHtml;
                                 } catch (error) {
                                     console.error("Error rendering Markdown:", error);

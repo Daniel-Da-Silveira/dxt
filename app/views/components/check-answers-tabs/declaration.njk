@@ -5,6 +5,7 @@
 <form class="form" action="/titan-mvp-1.2/form-editor/check-answers/settings-modular" method="post">
   <input type="hidden" name="currentTab" value="declaration">
   <input type="hidden" name="declarationOption" value="yes-declaration">
+  <input type="hidden" name="autoSetDeclaration" value="true">
 
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 
@@ -83,7 +84,7 @@
 
   <div class="govuk-button-group">
     {{ govukButton({
-      text: "Save",
+      text: "Accept and send",
       type: "submit",
       id: "continue-button"
     }) }}
@@ -98,10 +99,21 @@
   document.addEventListener('DOMContentLoaded', function() {
     const textarea = document.getElementById('check-answers-guidance-text-input');
     const guidanceParagraph = document.getElementById('guidance-paragraph');
-    const continueButton = document.getElementById('once-button');
+    const continueButton = document.getElementById('continue-button');
 
     // Load existing declaration text from session
     loadDeclarationText();
+
+    // Automatically set button text to "Accept and send" since we're on the declaration tab
+    if (continueButton) {
+      continueButton.textContent = "Save";
+    }
+
+    // Also update the main button on the settings page
+    const mainButton = document.getElementById('once-button');
+    if (mainButton) {
+      mainButton.textContent = "Accept and send";
+    }
 
     // Save declaration text to session when user types
     if (textarea) {
