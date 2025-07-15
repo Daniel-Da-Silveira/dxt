@@ -3419,6 +3419,910 @@ router.post(
   }
 );
 
+// Extended demo listing route with even more comprehensive form data
+router.get(
+  "/titan-mvp-1.2/form-editor/listing/demo-extended",
+  function (req, res) {
+    // Create extended demo form data with 25+ pages
+    const extendedDemoFormPages = [
+      // Pages 1-15 from the basic demo (reusing the same structure)
+      // Page 1: Business Registration
+      {
+        pageId: "page1",
+        pageType: "question",
+        pageHeading: "",
+        questions: [
+          {
+            questionId: "q1",
+            label: "Is your business registered with RPA?",
+            type: "list",
+            subType: "yes-no",
+            options: [
+              { value: "yes", text: "Yes" },
+              { value: "no", text: "No" },
+            ],
+          },
+        ],
+        conditions: [],
+        order: 1,
+      },
+      // Page 2: Business Type (conditional)
+      {
+        pageId: "page2",
+        pageType: "question",
+        pageHeading: "",
+        questions: [
+          {
+            questionId: "q2",
+            label: "What type of business are you?",
+            type: "list",
+            subType: "radios",
+            options: [
+              { value: "sole-trader", text: "Sole trader" },
+              { value: "partnership", text: "Partnership" },
+              { value: "limited-company", text: "Limited company" },
+              { value: "charity", text: "Charity" },
+              { value: "other", text: "Other" },
+            ],
+          },
+        ],
+        conditions: [
+          {
+            id: "cond1",
+            conditionName: "Business Registered",
+            rules: [
+              {
+                questionText: "Is your business registered with RPA?",
+                operator: "is",
+                value: "yes",
+              },
+            ],
+          },
+        ],
+        order: 2,
+      },
+      // Page 3: Guidance Page
+      {
+        pageId: "page3",
+        pageType: "guidance",
+        guidanceOnlyHeadingInput: "Important Information",
+        guidanceOnlyGuidanceTextInput:
+          "Before proceeding with your application, please ensure you have all the necessary documentation ready. This includes your business registration certificate, financial records, and any relevant permits.",
+        conditions: [
+          {
+            id: "cond2",
+            conditionName: "Business Type Selected",
+            rules: [
+              {
+                questionText: "What type of business are you?",
+                operator: "is",
+                value: "limited-company",
+              },
+            ],
+          },
+        ],
+        order: 3,
+      },
+      // Page 4: Contact Details
+      {
+        pageId: "page4",
+        pageType: "question",
+        pageHeading: "Contact Details",
+        questions: [
+          {
+            questionId: "q3",
+            label: "Full name",
+            type: "text",
+            subType: "short-answer-nf",
+          },
+          {
+            questionId: "q4",
+            label: "Email address",
+            type: "email",
+          },
+          {
+            questionId: "q5",
+            label: "Phone number",
+            type: "phone",
+          },
+        ],
+        conditions: [],
+        order: 4,
+      },
+      // Page 5: Business Address
+      {
+        pageId: "page5",
+        pageType: "question",
+        pageHeading: "",
+        questions: [
+          {
+            questionId: "q6",
+            label: "Business address",
+            type: "address",
+          },
+        ],
+        conditions: [
+          {
+            id: "cond3",
+            conditionName: "Limited Company",
+            rules: [
+              {
+                questionText: "What type of business are you?",
+                operator: "is",
+                value: "limited-company",
+              },
+            ],
+          },
+        ],
+        order: 5,
+      },
+      // Page 6: Financial Information
+      {
+        pageId: "page6",
+        pageType: "question",
+        pageHeading: "Financial Information",
+        questions: [
+          {
+            questionId: "q7",
+            label: "Annual turnover",
+            type: "text",
+            subType: "numbers",
+          },
+          {
+            questionId: "q8",
+            label: "Number of employees",
+            type: "text",
+            subType: "numbers",
+          },
+        ],
+        conditions: [
+          {
+            id: "cond4",
+            conditionName: "Large Business",
+            rules: [
+              {
+                questionText: "What type of business are you?",
+                operator: "is",
+                value: "limited-company",
+              },
+            ],
+          },
+        ],
+        order: 6,
+      },
+      // Page 7: Industry Sector
+      {
+        pageId: "page7",
+        pageType: "question",
+        pageHeading: "",
+        questions: [
+          {
+            questionId: "q9",
+            label: "What industry sector are you in?",
+            type: "list",
+            subType: "select",
+            options: [
+              { value: "agriculture", text: "Agriculture" },
+              { value: "manufacturing", text: "Manufacturing" },
+              { value: "retail", text: "Retail" },
+              { value: "services", text: "Services" },
+              { value: "construction", text: "Construction" },
+              { value: "technology", text: "Technology" },
+              { value: "healthcare", text: "Healthcare" },
+              { value: "education", text: "Education" },
+              { value: "other", text: "Other" },
+            ],
+          },
+        ],
+        conditions: [],
+        order: 7,
+      },
+      // Page 8: Agriculture Specific (conditional)
+      {
+        pageId: "page8",
+        pageType: "question",
+        pageHeading: "Agriculture Details",
+        questions: [
+          {
+            questionId: "q10",
+            label: "What type of agriculture do you practice?",
+            type: "list",
+            subType: "checkboxes",
+            options: [
+              { value: "crops", text: "Crop farming" },
+              { value: "livestock", text: "Livestock farming" },
+              { value: "dairy", text: "Dairy farming" },
+              { value: "poultry", text: "Poultry farming" },
+              { value: "mixed", text: "Mixed farming" },
+            ],
+          },
+          {
+            questionId: "q11",
+            label: "Farm size (hectares)",
+            type: "text",
+            subType: "numbers",
+          },
+        ],
+        conditions: [
+          {
+            id: "cond5",
+            conditionName: "Agriculture Sector",
+            rules: [
+              {
+                questionText: "What industry sector are you in?",
+                operator: "is",
+                value: "agriculture",
+              },
+            ],
+          },
+        ],
+        order: 8,
+      },
+      // Page 9: Livestock Specific (conditional)
+      {
+        pageId: "page9",
+        pageType: "question",
+        pageHeading: "Livestock Information",
+        questions: [
+          {
+            questionId: "q12",
+            label: "What types of livestock do you keep?",
+            type: "list",
+            subType: "checkboxes",
+            options: [
+              { value: "cattle", text: "Cattle" },
+              { value: "sheep", text: "Sheep" },
+              { value: "pigs", text: "Pigs" },
+              { value: "poultry", text: "Poultry" },
+              { value: "horses", text: "Horses" },
+            ],
+          },
+          {
+            questionId: "q13",
+            label: "Total number of animals",
+            type: "text",
+            subType: "numbers",
+          },
+        ],
+        conditions: [
+          {
+            id: "cond6",
+            conditionName: "Livestock Farming",
+            rules: [
+              {
+                questionText: "What type of agriculture do you practice?",
+                operator: "is",
+                value: "livestock",
+              },
+            ],
+          },
+        ],
+        order: 9,
+      },
+      // Page 10: Manufacturing Specific (conditional)
+      {
+        pageId: "page10",
+        pageType: "question",
+        pageHeading: "Manufacturing Details",
+        questions: [
+          {
+            questionId: "q14",
+            label: "What do you manufacture?",
+            type: "text",
+            subType: "long-answer",
+          },
+          {
+            questionId: "q15",
+            label: "Production capacity (units per year)",
+            type: "text",
+            subType: "numbers",
+          },
+        ],
+        conditions: [
+          {
+            id: "cond7",
+            conditionName: "Manufacturing Sector",
+            rules: [
+              {
+                questionText: "What industry sector are you in?",
+                operator: "is",
+                value: "manufacturing",
+              },
+            ],
+          },
+        ],
+        order: 10,
+      },
+      // Page 11: Compliance History
+      {
+        pageId: "page11",
+        pageType: "question",
+        pageHeading: "",
+        questions: [
+          {
+            questionId: "q16",
+            label: "Have you had any compliance issues in the last 5 years?",
+            type: "list",
+            subType: "yes-no",
+            options: [
+              { value: "yes", text: "Yes" },
+              { value: "no", text: "No" },
+            ],
+          },
+        ],
+        conditions: [],
+        order: 11,
+      },
+      // Page 12: Compliance Details (conditional)
+      {
+        pageId: "page12",
+        pageType: "question",
+        pageHeading: "Compliance Details",
+        questions: [
+          {
+            questionId: "q17",
+            label: "Please describe the compliance issues",
+            type: "text",
+            subType: "long-answer",
+          },
+          {
+            questionId: "q18",
+            label: "When did these issues occur?",
+            type: "date",
+            subType: "day-month-year",
+          },
+          {
+            questionId: "q19",
+            label: "Have these issues been resolved?",
+            type: "list",
+            subType: "yes-no",
+            options: [
+              { value: "yes", text: "Yes" },
+              { value: "no", text: "No" },
+            ],
+          },
+        ],
+        conditions: [
+          {
+            id: "cond8",
+            conditionName: "Compliance Issues",
+            rules: [
+              {
+                questionText:
+                  "Have you had any compliance issues in the last 5 years?",
+                operator: "is",
+                value: "yes",
+              },
+            ],
+          },
+        ],
+        order: 12,
+      },
+      // Page 13: Documentation
+      {
+        pageId: "page13",
+        pageType: "question",
+        pageHeading: "Supporting Documentation",
+        questions: [
+          {
+            questionId: "q20",
+            label: "Please upload your business plan",
+            type: "file",
+          },
+          {
+            questionId: "q21",
+            label: "Please upload financial statements",
+            type: "file",
+          },
+        ],
+        conditions: [
+          {
+            id: "cond9",
+            conditionName: "Large Business Documentation",
+            rules: [
+              {
+                questionText: "What type of business are you?",
+                operator: "is",
+                value: "limited-company",
+              },
+            ],
+          },
+        ],
+        order: 13,
+      },
+      // Page 14: Additional Information
+      {
+        pageId: "page14",
+        pageType: "question",
+        pageHeading: "",
+        questions: [
+          {
+            questionId: "q22",
+            label: "Is there anything else you would like to tell us?",
+            type: "text",
+            subType: "long-answer",
+          },
+        ],
+        conditions: [],
+        order: 14,
+      },
+      // Page 15: Declaration
+      {
+        pageId: "page15",
+        pageType: "guidance",
+        guidanceOnlyHeadingInput: "Declaration",
+        guidanceOnlyGuidanceTextInput:
+          "By submitting this application, you confirm that all information provided is accurate and complete to the best of your knowledge. You understand that providing false information may result in the rejection of your application or legal action.",
+        conditions: [],
+        order: 15,
+      },
+      // Additional pages for extended demo
+      // Page 16: Environmental Impact Assessment
+      {
+        pageId: "page16",
+        pageType: "question",
+        pageHeading: "",
+        questions: [
+          {
+            questionId: "q23",
+            label: "Do you conduct environmental impact assessments?",
+            type: "list",
+            subType: "yes-no",
+            options: [
+              { value: "yes", text: "Yes" },
+              { value: "no", text: "No" },
+            ],
+          },
+        ],
+        conditions: [
+          {
+            id: "cond10",
+            conditionName: "Large Business Environmental",
+            rules: [
+              {
+                questionText: "What type of business are you?",
+                operator: "is",
+                value: "limited-company",
+              },
+            ],
+          },
+        ],
+        order: 16,
+      },
+      // Page 17: Environmental Details
+      {
+        pageId: "page17",
+        pageType: "question",
+        pageHeading: "Environmental Assessment Details",
+        questions: [
+          {
+            questionId: "q24",
+            label: "What environmental assessments do you conduct?",
+            type: "list",
+            subType: "checkboxes",
+            options: [
+              { value: "air-quality", text: "Air quality monitoring" },
+              { value: "water-quality", text: "Water quality testing" },
+              {
+                value: "waste-management",
+                text: "Waste management assessment",
+              },
+              { value: "biodiversity", text: "Biodiversity impact assessment" },
+              { value: "carbon-footprint", text: "Carbon footprint analysis" },
+            ],
+          },
+          {
+            questionId: "q25",
+            label: "Frequency of assessments",
+            type: "list",
+            subType: "radios",
+            options: [
+              { value: "monthly", text: "Monthly" },
+              { value: "quarterly", text: "Quarterly" },
+              { value: "annually", text: "Annually" },
+              { value: "as-needed", text: "As needed" },
+            ],
+          },
+        ],
+        conditions: [
+          {
+            id: "cond11",
+            conditionName: "Environmental Assessment Required",
+            rules: [
+              {
+                questionText:
+                  "Do you conduct environmental impact assessments?",
+                operator: "is",
+                value: "yes",
+              },
+            ],
+          },
+        ],
+        order: 17,
+      },
+      // Page 18: Health and Safety
+      {
+        pageId: "page18",
+        pageType: "question",
+        pageHeading: "Health and Safety Information",
+        questions: [
+          {
+            questionId: "q26",
+            label: "Do you have a health and safety policy?",
+            type: "list",
+            subType: "yes-no",
+            options: [
+              { value: "yes", text: "Yes" },
+              { value: "no", text: "No" },
+            ],
+          },
+          {
+            questionId: "q27",
+            label: "Number of health and safety incidents in last year",
+            type: "text",
+            subType: "numbers",
+          },
+        ],
+        conditions: [],
+        order: 18,
+      },
+      // Page 19: Training and Development
+      {
+        pageId: "page19",
+        pageType: "question",
+        pageHeading: "",
+        questions: [
+          {
+            questionId: "q28",
+            label: "Do you provide training to employees?",
+            type: "list",
+            subType: "yes-no",
+            options: [
+              { value: "yes", text: "Yes" },
+              { value: "no", text: "No" },
+            ],
+          },
+        ],
+        conditions: [
+          {
+            id: "cond12",
+            conditionName: "Large Business Training",
+            rules: [
+              {
+                questionText: "What type of business are you?",
+                operator: "is",
+                value: "limited-company",
+              },
+            ],
+          },
+        ],
+        order: 19,
+      },
+      // Page 20: Training Details
+      {
+        pageId: "page20",
+        pageType: "question",
+        pageHeading: "Training Program Details",
+        questions: [
+          {
+            questionId: "q29",
+            label: "What types of training do you provide?",
+            type: "list",
+            subType: "checkboxes",
+            options: [
+              { value: "safety", text: "Health and safety training" },
+              { value: "technical", text: "Technical skills training" },
+              { value: "management", text: "Management training" },
+              { value: "compliance", text: "Compliance training" },
+              { value: "customer-service", text: "Customer service training" },
+            ],
+          },
+          {
+            questionId: "q30",
+            label: "Average training hours per employee per year",
+            type: "text",
+            subType: "numbers",
+          },
+        ],
+        conditions: [
+          {
+            id: "cond13",
+            conditionName: "Training Provided",
+            rules: [
+              {
+                questionText: "Do you provide training to employees?",
+                operator: "is",
+                value: "yes",
+              },
+            ],
+          },
+        ],
+        order: 20,
+      },
+      // Page 21: Quality Assurance
+      {
+        pageId: "page21",
+        pageType: "question",
+        pageHeading: "",
+        questions: [
+          {
+            questionId: "q31",
+            label: "Do you have a quality assurance system?",
+            type: "list",
+            subType: "yes-no",
+            options: [
+              { value: "yes", text: "Yes" },
+              { value: "no", text: "No" },
+            ],
+          },
+        ],
+        conditions: [
+          {
+            id: "cond14",
+            conditionName: "Manufacturing Quality",
+            rules: [
+              {
+                questionText: "What industry sector are you in?",
+                operator: "is",
+                value: "manufacturing",
+              },
+            ],
+          },
+        ],
+        order: 21,
+      },
+      // Page 22: Quality System Details
+      {
+        pageId: "page22",
+        pageType: "question",
+        pageHeading: "Quality System Details",
+        questions: [
+          {
+            questionId: "q32",
+            label: "What quality standards do you follow?",
+            type: "list",
+            subType: "checkboxes",
+            options: [
+              { value: "iso9001", text: "ISO 9001" },
+              { value: "iso14001", text: "ISO 14001" },
+              { value: "iso45001", text: "ISO 45001" },
+              { value: "bsi", text: "BSI standards" },
+              { value: "custom", text: "Custom standards" },
+            ],
+          },
+          {
+            questionId: "q33",
+            label: "When was your last quality audit?",
+            type: "date",
+            subType: "day-month-year",
+          },
+        ],
+        conditions: [
+          {
+            id: "cond15",
+            conditionName: "Quality System Exists",
+            rules: [
+              {
+                questionText: "Do you have a quality assurance system?",
+                operator: "is",
+                value: "yes",
+              },
+            ],
+          },
+        ],
+        order: 22,
+      },
+      // Page 23: Supply Chain
+      {
+        pageId: "page23",
+        pageType: "question",
+        pageHeading: "",
+        questions: [
+          {
+            questionId: "q34",
+            label: "Do you have suppliers based outside the UK?",
+            type: "list",
+            subType: "yes-no",
+            options: [
+              { value: "yes", text: "Yes" },
+              { value: "no", text: "No" },
+            ],
+          },
+        ],
+        conditions: [
+          {
+            id: "cond16",
+            conditionName: "International Supply Chain",
+            rules: [
+              {
+                questionText: "What type of business are you?",
+                operator: "is",
+                value: "limited-company",
+              },
+            ],
+          },
+        ],
+        order: 23,
+      },
+      // Page 24: Supply Chain Details
+      {
+        pageId: "page24",
+        pageType: "question",
+        pageHeading: "International Supply Chain Details",
+        questions: [
+          {
+            questionId: "q35",
+            label: "Which countries do you source from?",
+            type: "list",
+            subType: "checkboxes",
+            options: [
+              { value: "china", text: "China" },
+              { value: "india", text: "India" },
+              { value: "usa", text: "United States" },
+              { value: "germany", text: "Germany" },
+              { value: "france", text: "France" },
+              { value: "other-eu", text: "Other EU countries" },
+              { value: "other", text: "Other countries" },
+            ],
+          },
+          {
+            questionId: "q36",
+            label: "Percentage of materials sourced internationally",
+            type: "text",
+            subType: "numbers",
+          },
+        ],
+        conditions: [
+          {
+            id: "cond17",
+            conditionName: "International Suppliers",
+            rules: [
+              {
+                questionText: "Do you have suppliers based outside the UK?",
+                operator: "is",
+                value: "yes",
+              },
+            ],
+          },
+        ],
+        order: 24,
+      },
+      // Page 25: Final Review
+      {
+        pageId: "page25",
+        pageType: "guidance",
+        guidanceOnlyHeadingInput: "Final Review",
+        guidanceOnlyGuidanceTextInput:
+          "Please review all the information you have provided. Ensure all details are accurate and complete. You will have the opportunity to make changes on the next page before final submission.",
+        conditions: [],
+        order: 25,
+      },
+    ];
+
+    // Create comprehensive form-level conditions
+    const extendedDemoConditions = [
+      {
+        id: "form-cond1",
+        conditionName: "Agriculture Business",
+        rules: [
+          {
+            questionText: "What industry sector are you in?",
+            operator: "is",
+            value: "agriculture",
+          },
+        ],
+      },
+      {
+        id: "form-cond2",
+        conditionName: "Large Business",
+        rules: [
+          {
+            questionText: "What type of business are you?",
+            operator: "is",
+            value: "limited-company",
+          },
+        ],
+      },
+      {
+        id: "form-cond3",
+        conditionName: "Compliance Issues",
+        rules: [
+          {
+            questionText:
+              "Have you had any compliance issues in the last 5 years?",
+            operator: "is",
+            value: "yes",
+          },
+        ],
+      },
+      {
+        id: "form-cond4",
+        conditionName: "Complex Application",
+        rules: [
+          {
+            questionText: "What type of business are you?",
+            operator: "is",
+            value: "limited-company",
+          },
+          {
+            logicalOperator: "AND",
+            questionText: "What industry sector are you in?",
+            operator: "is",
+            value: "agriculture",
+          },
+        ],
+      },
+      {
+        id: "form-cond5",
+        conditionName: "Manufacturing with Quality",
+        rules: [
+          {
+            questionText: "What industry sector are you in?",
+            operator: "is",
+            value: "manufacturing",
+          },
+          {
+            logicalOperator: "AND",
+            questionText: "Do you have a quality assurance system?",
+            operator: "is",
+            value: "yes",
+          },
+        ],
+      },
+      {
+        id: "form-cond6",
+        conditionName: "International Business",
+        rules: [
+          {
+            questionText: "What type of business are you?",
+            operator: "is",
+            value: "limited-company",
+          },
+          {
+            logicalOperator: "AND",
+            questionText: "Do you have suppliers based outside the UK?",
+            operator: "is",
+            value: "yes",
+          },
+        ],
+      },
+    ];
+
+    // Create extended demo sections
+    const extendedDemoSections = [
+      {
+        id: "section1",
+        name: "Business Information",
+        title: "Business Information",
+      },
+      { id: "section2", name: "Contact Details", title: "Contact Details" },
+      { id: "section3", name: "Industry Specific", title: "Industry Specific" },
+      { id: "section4", name: "Compliance", title: "Compliance" },
+      { id: "section5", name: "Documentation", title: "Documentation" },
+      { id: "section6", name: "Environmental", title: "Environmental" },
+      { id: "section7", name: "Health and Safety", title: "Health and Safety" },
+      { id: "section8", name: "Training", title: "Training" },
+      { id: "section9", name: "Quality", title: "Quality" },
+      { id: "section10", name: "Supply Chain", title: "Supply Chain" },
+    ];
+
+    // No sections assigned to pages for cleaner interface
+
+    res.render("titan-mvp-1.2/form-editor/listing/index", {
+      formPages: extendedDemoFormPages,
+      sections: extendedDemoSections,
+      form: {
+        name: "Extended Business Application Form",
+      },
+      request: req,
+      data: {
+        conditions: extendedDemoConditions,
+        formName: "Extended Business Application Form",
+      },
+    });
+  }
+);
+
 // Export the router
 module.exports = router;
 
@@ -5098,3 +6002,1848 @@ router.post(
     );
   }
 );
+
+// Demo listing route with comprehensive form data
+router.get("/titan-mvp-1.2/form-editor/listing/demo", function (req, res) {
+  // Create comprehensive demo form data
+  const demoFormPages = [
+    // Page 1: Business Registration
+    {
+      pageId: "page1",
+      pageType: "question",
+      pageHeading: "Business Registration",
+      questions: [
+        {
+          questionId: "q1",
+          label: "Is your business registered with RPA?",
+          type: "list",
+          subType: "yes-no",
+          options: [
+            { value: "yes", text: "Yes" },
+            { value: "no", text: "No" },
+          ],
+        },
+      ],
+      conditions: [],
+      order: 1,
+    },
+    // Page 2: Business Type (conditional)
+    {
+      pageId: "page2",
+      pageType: "question",
+      pageHeading: "Business Type",
+      questions: [
+        {
+          questionId: "q2",
+          label: "What type of business are you?",
+          type: "list",
+          subType: "radios",
+          options: [
+            { value: "sole-trader", text: "Sole trader" },
+            { value: "partnership", text: "Partnership" },
+            { value: "limited-company", text: "Limited company" },
+            { value: "charity", text: "Charity" },
+            { value: "other", text: "Other" },
+          ],
+        },
+      ],
+      conditions: [
+        {
+          id: "cond1",
+          conditionName: "Business Registered",
+          rules: [
+            {
+              questionText: "Is your business registered with RPA?",
+              operator: "is",
+              value: "yes",
+            },
+          ],
+        },
+      ],
+      order: 2,
+    },
+    // Page 3: Guidance Page
+    {
+      pageId: "page3",
+      pageType: "guidance",
+      guidanceOnlyHeadingInput: "Important Information",
+      guidanceOnlyGuidanceTextInput:
+        "Before proceeding with your application, please ensure you have all the necessary documentation ready. This includes your business registration certificate, financial records, and any relevant permits.",
+      conditions: [
+        {
+          id: "cond2",
+          conditionName: "Business Type Selected",
+          rules: [
+            {
+              questionText: "What type of business are you?",
+              operator: "is",
+              value: "limited-company",
+            },
+          ],
+        },
+      ],
+      order: 3,
+    },
+    // Page 4: Contact Details
+    {
+      pageId: "page4",
+      pageType: "question",
+      pageHeading: "Contact Details",
+      questions: [
+        {
+          questionId: "q3",
+          label: "Full name",
+          type: "text",
+          subType: "short-answer-nf",
+        },
+        {
+          questionId: "q4",
+          label: "Email address",
+          type: "email",
+        },
+        {
+          questionId: "q5",
+          label: "Phone number",
+          type: "phone",
+        },
+      ],
+      conditions: [],
+      order: 4,
+    },
+    // Page 5: Business Address
+    {
+      pageId: "page5",
+      pageType: "question",
+      pageHeading: "Business Address",
+      questions: [
+        {
+          questionId: "q6",
+          label: "Business address",
+          type: "address",
+        },
+      ],
+      conditions: [
+        {
+          id: "cond3",
+          conditionName: "Limited Company",
+          rules: [
+            {
+              questionText: "What type of business are you?",
+              operator: "is",
+              value: "limited-company",
+            },
+          ],
+        },
+      ],
+      order: 5,
+    },
+    // Page 6: Financial Information
+    {
+      pageId: "page6",
+      pageType: "question",
+      pageHeading: "Financial Information",
+      questions: [
+        {
+          questionId: "q7",
+          label: "Annual turnover",
+          type: "text",
+          subType: "numbers",
+        },
+        {
+          questionId: "q8",
+          label: "Number of employees",
+          type: "text",
+          subType: "numbers",
+        },
+      ],
+      conditions: [
+        {
+          id: "cond4",
+          conditionName: "Large Business",
+          rules: [
+            {
+              questionText: "What type of business are you?",
+              operator: "is",
+              value: "limited-company",
+            },
+          ],
+        },
+      ],
+      order: 6,
+    },
+    // Page 7: Industry Sector
+    {
+      pageId: "page7",
+      pageType: "question",
+      pageHeading: "Industry Sector",
+      questions: [
+        {
+          questionId: "q9",
+          label: "What industry sector are you in?",
+          type: "list",
+          subType: "select",
+          options: [
+            { value: "agriculture", text: "Agriculture" },
+            { value: "manufacturing", text: "Manufacturing" },
+            { value: "retail", text: "Retail" },
+            { value: "services", text: "Services" },
+            { value: "construction", text: "Construction" },
+            { value: "technology", text: "Technology" },
+            { value: "healthcare", text: "Healthcare" },
+            { value: "education", text: "Education" },
+            { value: "other", text: "Other" },
+          ],
+        },
+      ],
+      conditions: [],
+      order: 7,
+    },
+    // Page 8: Agriculture Specific (conditional)
+    {
+      pageId: "page8",
+      pageType: "question",
+      pageHeading: "Agriculture Details",
+      questions: [
+        {
+          questionId: "q10",
+          label: "What type of agriculture do you practice?",
+          type: "list",
+          subType: "checkboxes",
+          options: [
+            { value: "crops", text: "Crop farming" },
+            { value: "livestock", text: "Livestock farming" },
+            { value: "dairy", text: "Dairy farming" },
+            { value: "poultry", text: "Poultry farming" },
+            { value: "mixed", text: "Mixed farming" },
+          ],
+        },
+        {
+          questionId: "q11",
+          label: "Farm size (hectares)",
+          type: "text",
+          subType: "numbers",
+        },
+      ],
+      conditions: [
+        {
+          id: "cond5",
+          conditionName: "Agriculture Sector",
+          rules: [
+            {
+              questionText: "What industry sector are you in?",
+              operator: "is",
+              value: "agriculture",
+            },
+          ],
+        },
+      ],
+      order: 8,
+    },
+    // Page 9: Livestock Specific (conditional)
+    {
+      pageId: "page9",
+      pageType: "question",
+      pageHeading: "Livestock Information",
+      questions: [
+        {
+          questionId: "q12",
+          label: "What types of livestock do you keep?",
+          type: "list",
+          subType: "checkboxes",
+          options: [
+            { value: "cattle", text: "Cattle" },
+            { value: "sheep", text: "Sheep" },
+            { value: "pigs", text: "Pigs" },
+            { value: "poultry", text: "Poultry" },
+            { value: "horses", text: "Horses" },
+          ],
+        },
+        {
+          questionId: "q13",
+          label: "Total number of animals",
+          type: "text",
+          subType: "numbers",
+        },
+      ],
+      conditions: [
+        {
+          id: "cond6",
+          conditionName: "Livestock Farming",
+          rules: [
+            {
+              questionText: "What type of agriculture do you practice?",
+              operator: "is",
+              value: "livestock",
+            },
+          ],
+        },
+      ],
+      order: 9,
+    },
+    // Page 10: Manufacturing Specific (conditional)
+    {
+      pageId: "page10",
+      pageType: "question",
+      pageHeading: "Manufacturing Details",
+      questions: [
+        {
+          questionId: "q14",
+          label: "What do you manufacture?",
+          type: "text",
+          subType: "long-answer",
+        },
+        {
+          questionId: "q15",
+          label: "Production capacity (units per year)",
+          type: "text",
+          subType: "numbers",
+        },
+      ],
+      conditions: [
+        {
+          id: "cond7",
+          conditionName: "Manufacturing Sector",
+          rules: [
+            {
+              questionText: "What industry sector are you in?",
+              operator: "is",
+              value: "manufacturing",
+            },
+          ],
+        },
+      ],
+      order: 10,
+    },
+    // Page 11: Compliance History
+    {
+      pageId: "page11",
+      pageType: "question",
+      pageHeading: "Compliance History",
+      questions: [
+        {
+          questionId: "q16",
+          label: "Have you had any compliance issues in the last 5 years?",
+          type: "list",
+          subType: "yes-no",
+          options: [
+            { value: "yes", text: "Yes" },
+            { value: "no", text: "No" },
+          ],
+        },
+      ],
+      conditions: [],
+      order: 11,
+    },
+    // Page 12: Compliance Details (conditional)
+    {
+      pageId: "page12",
+      pageType: "question",
+      pageHeading: "Compliance Details",
+      questions: [
+        {
+          questionId: "q17",
+          label: "Please describe the compliance issues",
+          type: "text",
+          subType: "long-answer",
+        },
+        {
+          questionId: "q18",
+          label: "When did these issues occur?",
+          type: "date",
+          subType: "day-month-year",
+        },
+        {
+          questionId: "q19",
+          label: "Have these issues been resolved?",
+          type: "list",
+          subType: "yes-no",
+          options: [
+            { value: "yes", text: "Yes" },
+            { value: "no", text: "No" },
+          ],
+        },
+      ],
+      conditions: [
+        {
+          id: "cond8",
+          conditionName: "Compliance Issues",
+          rules: [
+            {
+              questionText:
+                "Have you had any compliance issues in the last 5 years?",
+              operator: "is",
+              value: "yes",
+            },
+          ],
+        },
+      ],
+      order: 12,
+    },
+    // Page 13: Documentation
+    {
+      pageId: "page13",
+      pageType: "question",
+      pageHeading: "Supporting Documentation",
+      questions: [
+        {
+          questionId: "q20",
+          label: "Please upload your business plan",
+          type: "file",
+        },
+        {
+          questionId: "q21",
+          label: "Please upload financial statements",
+          type: "file",
+        },
+      ],
+      conditions: [
+        {
+          id: "cond9",
+          conditionName: "Large Business Documentation",
+          rules: [
+            {
+              questionText: "What type of business are you?",
+              operator: "is",
+              value: "limited-company",
+            },
+          ],
+        },
+      ],
+      order: 13,
+    },
+    // Page 14: Additional Information
+    {
+      pageId: "page14",
+      pageType: "question",
+      pageHeading: "Additional Information",
+      questions: [
+        {
+          questionId: "q22",
+          label: "Is there anything else you would like to tell us?",
+          type: "text",
+          subType: "long-answer",
+        },
+      ],
+      conditions: [],
+      order: 14,
+    },
+    // Page 15: Declaration
+    {
+      pageId: "page15",
+      pageType: "guidance",
+      guidanceOnlyHeadingInput: "Declaration",
+      guidanceOnlyGuidanceTextInput:
+        "By submitting this application, you confirm that all information provided is accurate and complete to the best of your knowledge. You understand that providing false information may result in the rejection of your application or legal action.",
+      conditions: [],
+      order: 15,
+    },
+  ];
+
+  // Create comprehensive form-level conditions
+  const demoConditions = [
+    {
+      id: "form-cond1",
+      conditionName: "Agriculture Business",
+      rules: [
+        {
+          questionText: "What industry sector are you in?",
+          operator: "is",
+          value: "agriculture",
+        },
+      ],
+    },
+    {
+      id: "form-cond2",
+      conditionName: "Large Business",
+      rules: [
+        {
+          questionText: "What type of business are you?",
+          operator: "is",
+          value: "limited-company",
+        },
+      ],
+    },
+    {
+      id: "form-cond3",
+      conditionName: "Compliance Issues",
+      rules: [
+        {
+          questionText:
+            "Have you had any compliance issues in the last 5 years?",
+          operator: "is",
+          value: "yes",
+        },
+      ],
+    },
+    {
+      id: "form-cond4",
+      conditionName: "Complex Application",
+      rules: [
+        {
+          questionText: "What type of business are you?",
+          operator: "is",
+          value: "limited-company",
+        },
+        {
+          logicalOperator: "AND",
+          questionText: "What industry sector are you in?",
+          operator: "is",
+          value: "agriculture",
+        },
+      ],
+    },
+  ];
+
+  // Create demo sections
+  const demoSections = [
+    {
+      id: "section1",
+      name: "Business Information",
+      title: "Business Information",
+    },
+    { id: "section2", name: "Contact Details", title: "Contact Details" },
+    { id: "section3", name: "Industry Specific", title: "Industry Specific" },
+    { id: "section4", name: "Compliance", title: "Compliance" },
+    { id: "section5", name: "Documentation", title: "Documentation" },
+  ];
+
+  // No sections assigned to pages for cleaner interface
+
+  res.render("titan-mvp-1.2/form-editor/listing/index", {
+    formPages: demoFormPages,
+    sections: demoSections,
+    form: {
+      name: "Comprehensive Business Application Form",
+    },
+    request: req,
+    data: {
+      conditions: demoConditions,
+      formName: "Comprehensive Business Application Form",
+    },
+  });
+});
+
+// CPH Form Demo Route
+router.get("/titan-mvp-1.2/form-editor/listing/cph-demo", function (req, res) {
+  // Create CPH form pages based on the JSON structure
+  const cphFormPages = [
+    // Page 1: Age check
+    {
+      pageId: "page1",
+      pageType: "question",
+      pageHeading: "",
+      questions: [
+        {
+          questionId: "q1",
+          label: "Are you 18 or older?",
+          type: "list",
+          subType: "yes-no",
+        },
+      ],
+      conditions: [],
+      order: 1,
+    },
+    // Page 2: RPA Registration check
+    {
+      pageId: "page2",
+      pageType: "question",
+      pageHeading: "",
+      questions: [
+        {
+          questionId: "q2",
+          label:
+            "Are you or your business already registered with the Rural Payments Agency?",
+          type: "list",
+          subType: "yes-no",
+        },
+      ],
+      conditions: [],
+      order: 2,
+    },
+    // Page 3: Already registered (exit page)
+    {
+      pageId: "page3",
+      pageType: "guidance",
+      guidanceOnlyHeadingInput:
+        "Already registered with the Rural Payments Agency",
+      guidanceOnlyGuidanceTextInput:
+        "You cannot use this form if you're already registered on the Rural Payments service. The Rural Payments Agency (RPA) already has much of the information it needs to process your application. You must apply by phone instead.",
+      conditions: [
+        {
+          id: "cond1",
+          conditionName: "Already Registered with RPA",
+          rules: [
+            {
+              questionText: "Registered with the Rural Payments Agency",
+              operator: "is",
+              value: "true",
+            },
+          ],
+        },
+      ],
+      order: 3,
+      isExitPage: true,
+    },
+    // Page 4: Country selection
+    {
+      pageId: "page4",
+      pageType: "question",
+      pageHeading: "",
+      questions: [
+        {
+          questionId: "q3",
+          label: "What country will you keep livestock in?",
+          type: "list",
+          subType: "radios",
+          options: [
+            { value: "England", text: "England" },
+            { value: "Northern Ireland", text: "Northern Ireland" },
+            { value: "Scotland", text: "Scotland" },
+            { value: "Wales", text: "Wales" },
+          ],
+        },
+      ],
+      conditions: [],
+      order: 4,
+    },
+    // Page 5: Cannot use service (exit page)
+    {
+      pageId: "page5",
+      pageType: "guidance",
+      guidanceOnlyHeadingInput: "You cannot use this service",
+      guidanceOnlyGuidanceTextInput:
+        "You cannot use this service to apply for a county parish holding (CPH) number if you live in Northern Ireland, Scotland or Wales.",
+      conditions: [
+        {
+          id: "cond2",
+          conditionName: "Non-England Location",
+          rules: [
+            {
+              questionText: "Country where you will keep livestock",
+              operator: "is",
+              value: "Northern Ireland",
+            },
+            {
+              logicalOperator: "OR",
+              questionText: "Country where you will keep livestock",
+              operator: "is",
+              value: "Scotland",
+            },
+            {
+              logicalOperator: "OR",
+              questionText: "Country where you will keep livestock",
+              operator: "is",
+              value: "Wales",
+            },
+          ],
+        },
+      ],
+      order: 5,
+      isExitPage: true,
+    },
+    // Page 6: Business or hobbyist
+    {
+      pageId: "page6",
+      pageType: "question",
+      pageHeading: "",
+      questions: [
+        {
+          questionId: "q4",
+          label: "Are you a hobbyist keeper or a business?",
+          type: "list",
+          subType: "radios",
+          options: [
+            { value: "hobbyist", text: "I'm a hobbyist keeper" },
+            {
+              value: "business",
+              text: "I'm registering on behalf of a business",
+            },
+          ],
+        },
+      ],
+      conditions: [],
+      order: 6,
+    },
+    // Page 7: Applicant name (hobbyist path)
+    {
+      pageId: "page7",
+      pageType: "question",
+      pageHeading: "What's your name?",
+      questions: [
+        {
+          questionId: "q5",
+          label: "Title",
+          type: "text",
+          subType: "short-answer-nf",
+        },
+        {
+          questionId: "q6",
+          label: "First name",
+          type: "text",
+          subType: "short-answer-nf",
+        },
+        {
+          questionId: "q7",
+          label: "Middle name",
+          type: "text",
+          subType: "short-answer-nf",
+        },
+        {
+          questionId: "q8",
+          label: "Last name",
+          type: "text",
+          subType: "short-answer-nf",
+        },
+      ],
+      conditions: [
+        {
+          id: "cond3",
+          conditionName: "Hobbyist Keeper",
+          rules: [
+            {
+              questionText: "Are you a hobbyist keeper or a business?",
+              operator: "is",
+              value: "hobbyist",
+            },
+          ],
+        },
+      ],
+      order: 7,
+    },
+    // Page 8: Applicant name (business path)
+    {
+      pageId: "page8",
+      pageType: "question",
+      pageHeading: "What's the name of the applicant?",
+      questions: [
+        {
+          questionId: "q9",
+          label: "Title",
+          type: "text",
+          subType: "short-answer-nf",
+        },
+        {
+          questionId: "q10",
+          label: "First name",
+          type: "text",
+          subType: "short-answer-nf",
+        },
+        {
+          questionId: "q11",
+          label: "Middle name",
+          type: "text",
+          subType: "short-answer-nf",
+        },
+        {
+          questionId: "q12",
+          label: "Last name",
+          type: "text",
+          subType: "short-answer-nf",
+        },
+      ],
+      conditions: [
+        {
+          id: "cond4",
+          conditionName: "Business Registration",
+          rules: [
+            {
+              questionText: "Are you a hobbyist keeper or a business?",
+              operator: "is",
+              value: "business",
+            },
+          ],
+        },
+      ],
+      order: 8,
+    },
+    // Page 9: Business name
+    {
+      pageId: "page9",
+      pageType: "question",
+      pageHeading: "",
+      questions: [
+        {
+          questionId: "q13",
+          label: "What is the name of the business?",
+          type: "text",
+          subType: "short-answer-nf",
+        },
+      ],
+      conditions: [
+        {
+          id: "cond5",
+          conditionName: "Business Registration",
+          rules: [
+            {
+              questionText: "Are you a hobbyist keeper or a business?",
+              operator: "is",
+              value: "business",
+            },
+          ],
+        },
+      ],
+      order: 9,
+    },
+    // Page 10: Telephone numbers
+    {
+      pageId: "page10",
+      pageType: "question",
+      pageHeading: "Telephone numbers",
+      questions: [
+        {
+          questionId: "q14",
+          label: "What's your main phone number?",
+          type: "phone",
+        },
+        {
+          questionId: "q15",
+          label: "What's your second phone number?",
+          type: "phone",
+        },
+      ],
+      conditions: [],
+      order: 10,
+    },
+    // Page 11: Email address
+    {
+      pageId: "page11",
+      pageType: "question",
+      pageHeading: "",
+      questions: [
+        {
+          questionId: "q16",
+          label: "What's your email address?",
+          type: "email",
+        },
+      ],
+      conditions: [],
+      order: 11,
+    },
+    // Page 12: Home address
+    {
+      pageId: "page12",
+      pageType: "question",
+      pageHeading: "",
+      questions: [
+        {
+          questionId: "q17",
+          label: "What's your home address?",
+          type: "address",
+        },
+      ],
+      conditions: [
+        {
+          id: "cond6",
+          conditionName: "Email Address Provided",
+          rules: [
+            {
+              questionText: "Email address",
+              operator: "is not empty",
+              value: "",
+            },
+          ],
+        },
+      ],
+      order: 12,
+    },
+    // Page 13: Business address
+    {
+      pageId: "page13",
+      pageType: "question",
+      pageHeading: "",
+      questions: [
+        {
+          questionId: "q18",
+          label: "What's your business address?",
+          type: "address",
+        },
+      ],
+      conditions: [
+        {
+          id: "cond7",
+          conditionName: "Business Registration",
+          rules: [
+            {
+              questionText: "Are you a hobbyist keeper or a business?",
+              operator: "is",
+              value: "business",
+            },
+          ],
+        },
+      ],
+      order: 13,
+    },
+    // Page 14: Business address same as home
+    {
+      pageId: "page14",
+      pageType: "question",
+      pageHeading: "",
+      questions: [
+        {
+          questionId: "q19",
+          label: "Is your business address the same as your home address?",
+          type: "list",
+          subType: "yes-no",
+        },
+      ],
+      conditions: [
+        {
+          id: "cond8",
+          conditionName: "Business Registration",
+          rules: [
+            {
+              questionText: "Are you a hobbyist keeper or a business?",
+              operator: "is",
+              value: "business",
+            },
+          ],
+        },
+      ],
+      order: 14,
+    },
+    // Page 15: Legal status
+    {
+      pageId: "page15",
+      pageType: "question",
+      pageHeading: "",
+      questions: [
+        {
+          questionId: "q20",
+          label: "Legal status of your business",
+          type: "list",
+          subType: "radios",
+          options: [
+            { value: "sole-trader", text: "Sole trader" },
+            { value: "partnership", text: "Partnership" },
+            { value: "private-limited", text: "Private limited company (Ltd)" },
+            { value: "limited-partnership", text: "Limited partnership (LP)" },
+            { value: "charitable-trust", text: "Charitable trust" },
+            { value: "something-else", text: "Something else" },
+          ],
+        },
+      ],
+      conditions: [
+        {
+          id: "cond9",
+          conditionName: "Business Registration",
+          rules: [
+            {
+              questionText: "Are you a hobbyist keeper or a business?",
+              operator: "is",
+              value: "business",
+            },
+          ],
+        },
+      ],
+      order: 15,
+    },
+    // Page 16: Companies House
+    {
+      pageId: "page16",
+      pageType: "question",
+      pageHeading: "",
+      questions: [
+        {
+          questionId: "q21",
+          label: "What's your company number?",
+          type: "text",
+          subType: "short-answer-nf",
+        },
+      ],
+      conditions: [
+        {
+          id: "cond10",
+          conditionName: "Must Have Companies House Number",
+          rules: [
+            {
+              questionText: "Business legal status",
+              operator: "is",
+              value: "private-limited",
+            },
+            {
+              logicalOperator: "OR",
+              questionText: "Business legal status",
+              operator: "is",
+              value: "limited-partnership",
+            },
+          ],
+        },
+      ],
+      order: 16,
+    },
+    // Page 17: Charity number
+    {
+      pageId: "page17",
+      pageType: "question",
+      pageHeading: "",
+      questions: [
+        {
+          questionId: "q22",
+          label: "What's your charity number?",
+          type: "text",
+          subType: "numbers",
+        },
+      ],
+      conditions: [
+        {
+          id: "cond11",
+          conditionName: "Must Have Charity Number",
+          rules: [
+            {
+              questionText: "Business legal status",
+              operator: "is",
+              value: "charitable-trust",
+            },
+          ],
+        },
+      ],
+      order: 17,
+    },
+    // Page 18: Business purpose
+    {
+      pageId: "page18",
+      pageType: "question",
+      pageHeading: "",
+      questions: [
+        {
+          questionId: "q23",
+          label: "What is the main purpose of your business?",
+          type: "list",
+          subType: "radios",
+          options: [
+            { value: "farmer", text: "Farmer" },
+            {
+              value: "professional-livestock",
+              text: "Professional livestock keeper",
+            },
+            { value: "meat-industry", text: "Meat industry" },
+            { value: "land-manager", text: "Land manager" },
+            { value: "education", text: "Education provider or trainer" },
+            { value: "something-else", text: "Something else" },
+          ],
+        },
+      ],
+      conditions: [
+        {
+          id: "cond12",
+          conditionName: "Business Registration",
+          rules: [
+            {
+              questionText: "Are you a hobbyist keeper or a business?",
+              operator: "is",
+              value: "business",
+            },
+          ],
+        },
+      ],
+      order: 18,
+    },
+    // Page 19: Business type (something else)
+    {
+      pageId: "page19",
+      pageType: "question",
+      pageHeading: "",
+      questions: [
+        {
+          questionId: "q24",
+          label: "What type of business do you have?",
+          type: "text",
+          subType: "short-answer-nf",
+        },
+      ],
+      conditions: [
+        {
+          id: "cond13",
+          conditionName: "Other Business Type",
+          rules: [
+            {
+              questionText: "Business type",
+              operator: "is",
+              value: "something-else",
+            },
+          ],
+        },
+      ],
+      order: 19,
+    },
+    // Page 20: Livestock selection
+    {
+      pageId: "page20",
+      pageType: "question",
+      pageHeading: "",
+      questions: [
+        {
+          questionId: "q25",
+          label: "What livestock will you keep?",
+          type: "list",
+          subType: "checkboxes",
+          options: [
+            { value: "cattle", text: "Cattle" },
+            { value: "camelids", text: "Camelids" },
+            { value: "deer", text: "Deer" },
+            { value: "goats", text: "Goats" },
+            { value: "pigs", text: "Pigs" },
+            { value: "sheep", text: "Sheep" },
+            { value: "poultry-50-plus", text: "More than 50 poultry" },
+            {
+              value: "poultry-under-50",
+              text: "Less than 50 poultry or other captive birds",
+            },
+            { value: "racing-pigeons", text: "Racing pigeons" },
+            { value: "animal-by-products", text: "Animal by-products" },
+          ],
+        },
+      ],
+      conditions: [],
+      order: 20,
+    },
+    // Page 21: Cannot use service (exit page)
+    {
+      pageId: "page21",
+      pageType: "guidance",
+      guidanceOnlyHeadingInput: "You must use a different service",
+      guidanceOnlyGuidanceTextInput:
+        "If you're a keeper of less than 50 poultry or other captive birds, you must register with the Animal and Plant Health Agency (APHA). This includes any birds you keep as pets.",
+      conditions: [
+        {
+          id: "cond14",
+          conditionName: "Less Than 50 Birds or Racing Pigeons",
+          rules: [
+            {
+              questionText: "Livestock that you keep",
+              operator: "contains",
+              value: "poultry-under-50",
+            },
+            {
+              logicalOperator: "OR",
+              questionText: "Livestock that you keep",
+              operator: "contains",
+              value: "racing-pigeons",
+            },
+          ],
+        },
+      ],
+      order: 21,
+      isExitPage: true,
+    },
+    // Page 22: Animal by-products use
+    {
+      pageId: "page22",
+      pageType: "question",
+      pageHeading: "",
+      questions: [
+        {
+          questionId: "q26",
+          label: "What do you use animal by-products for?",
+          type: "text",
+          subType: "short-answer-nf",
+        },
+      ],
+      conditions: [
+        {
+          id: "cond15",
+          conditionName: "Contains Animal By-products",
+          rules: [
+            {
+              questionText: "Livestock that you keep",
+              operator: "contains",
+              value: "animal-by-products",
+            },
+          ],
+        },
+      ],
+      order: 22,
+    },
+    // Page 23: Market/Showground/Zoo
+    {
+      pageId: "page23",
+      pageType: "question",
+      pageHeading: "",
+      questions: [
+        {
+          questionId: "q27",
+          label: "Is your business a market, showground or zoo?",
+          type: "list",
+          subType: "radios",
+          options: [
+            { value: "market", text: "Market" },
+            { value: "showground", text: "Showground" },
+            { value: "zoo", text: "Zoo" },
+            { value: "none", text: "None of the above" },
+          ],
+        },
+      ],
+      conditions: [],
+      order: 23,
+    },
+    // Page 24: Second contact
+    {
+      pageId: "page24",
+      pageType: "question",
+      pageHeading: "",
+      questions: [
+        {
+          questionId: "q28",
+          label: "Do you want to add a second contact?",
+          type: "list",
+          subType: "yes-no",
+        },
+      ],
+      conditions: [
+        {
+          id: "cond16",
+          conditionName: "Business Registration",
+          rules: [
+            {
+              questionText: "Are you a hobbyist keeper or a business?",
+              operator: "is",
+              value: "business",
+            },
+          ],
+        },
+      ],
+      order: 24,
+    },
+    // Page 25: Second contact details
+    {
+      pageId: "page25",
+      pageType: "question",
+      pageHeading: "Contact details of the second contact",
+      questions: [
+        {
+          questionId: "q29",
+          label: "Title",
+          type: "text",
+          subType: "short-answer-nf",
+        },
+        {
+          questionId: "q30",
+          label: "First name of second contact",
+          type: "text",
+          subType: "short-answer-nf",
+        },
+        {
+          questionId: "q31",
+          label: "Middle name of second contact",
+          type: "text",
+          subType: "short-answer-nf",
+        },
+        {
+          questionId: "q32",
+          label: "Last name of second contact",
+          type: "text",
+          subType: "short-answer-nf",
+        },
+        {
+          questionId: "q33",
+          label: "Phone number of second contact",
+          type: "phone",
+        },
+        {
+          questionId: "q34",
+          label: "Email address of second contact",
+          type: "email",
+        },
+        {
+          questionId: "q35",
+          label: "Home address for the second contact",
+          type: "address",
+        },
+      ],
+      conditions: [
+        {
+          id: "cond17",
+          conditionName: "Second Contact Required",
+          rules: [
+            {
+              questionText: "Second contact",
+              operator: "is",
+              value: "true",
+            },
+          ],
+        },
+      ],
+      order: 25,
+    },
+    // Page 26: Arrival date
+    {
+      pageId: "page26",
+      pageType: "question",
+      pageHeading: "",
+      questions: [
+        {
+          questionId: "q36",
+          label: "What date will the livestock or animal by-products arrive?",
+          type: "date",
+          subType: "day-month-year",
+        },
+      ],
+      conditions: [],
+      order: 26,
+    },
+    // Page 27: Must arrive within 6 weeks (exit page)
+    {
+      pageId: "page27",
+      pageType: "guidance",
+      guidanceOnlyHeadingInput: "The livestock must arrive within 6 weeks",
+      guidanceOnlyGuidanceTextInput:
+        "The livestock or animal by-products must arrive within 6 weeks from today's date. You cannot apply for your county parish number (CPH) number now as the date you have entered is more than 6 weeks from today's date.",
+      conditions: [
+        {
+          id: "cond18",
+          conditionName: "Livestock Not Within 6 Weeks",
+          rules: [
+            {
+              questionText:
+                "What date will the livestock or animal by-products arrive?",
+              operator: "is more than",
+              value: "6 weeks",
+            },
+          ],
+        },
+      ],
+      order: 27,
+      isExitPage: true,
+    },
+    // Page 28: Keep livestock at home
+    {
+      pageId: "page28",
+      pageType: "question",
+      pageHeading: "",
+      questions: [
+        {
+          questionId: "q37",
+          label:
+            "Will you keep livestock or use animal by-products at your home address?",
+          type: "list",
+          subType: "yes-no",
+        },
+      ],
+      conditions: [],
+      order: 28,
+    },
+    // Page 29: Livestock address
+    {
+      pageId: "page29",
+      pageType: "question",
+      pageHeading: "",
+      questions: [
+        {
+          questionId: "q38",
+          label:
+            "What's the address where you'll keep livestock or use animal by-products?",
+          type: "address",
+        },
+      ],
+      conditions: [
+        {
+          id: "cond19",
+          conditionName: "Will Keep Livestock at Home",
+          rules: [
+            {
+              questionText:
+                "Will you keep livestock or use animal by-products at your home address?",
+              operator: "is",
+              value: "true",
+            },
+          ],
+        },
+      ],
+      order: 29,
+    },
+    // Page 30: National Grid field number
+    {
+      pageId: "page30",
+      pageType: "question",
+      pageHeading: "",
+      questions: [
+        {
+          questionId: "q39",
+          label:
+            "What's the National Grid field number for the main area where you'll keep livestock or use animal by-products?",
+          type: "text",
+          subType: "short-answer-nf",
+        },
+      ],
+      conditions: [],
+      order: 30,
+    },
+    // Page 31: Additional locations
+    {
+      pageId: "page31",
+      pageType: "question",
+      pageHeading: "",
+      questions: [
+        {
+          questionId: "q40",
+          label:
+            "Will you keep livestock or use animal by-products anywhere else?",
+          type: "list",
+          subType: "yes-no",
+        },
+      ],
+      conditions: [],
+      order: 31,
+    },
+    // Page 32: Additional field numbers
+    {
+      pageId: "page32",
+      pageType: "question",
+      pageHeading:
+        "National Grid field numbers for other land and buildings where you'll keep livestock",
+      questions: [
+        {
+          questionId: "q41",
+          label: "National Grid field number for additional field 2",
+          type: "text",
+          subType: "short-answer-nf",
+        },
+        {
+          questionId: "q42",
+          label: "National Grid field number for additional field 3",
+          type: "text",
+          subType: "short-answer-nf",
+        },
+        {
+          questionId: "q43",
+          label: "National Grid field number for additional field 4",
+          type: "text",
+          subType: "short-answer-nf",
+        },
+        {
+          questionId: "q44",
+          label: "National Grid field number for additional field 5",
+          type: "text",
+          subType: "short-answer-nf",
+        },
+        {
+          questionId: "q45",
+          label: "National Grid field number for additional field 6",
+          type: "text",
+          subType: "short-answer-nf",
+        },
+        {
+          questionId: "q46",
+          label: "National Grid field number for additional field 7",
+          type: "text",
+          subType: "short-answer-nf",
+        },
+        {
+          questionId: "q47",
+          label: "National Grid field number for additional field 8",
+          type: "text",
+          subType: "short-answer-nf",
+        },
+        {
+          questionId: "q48",
+          label: "National Grid field number for additional field 9",
+          type: "text",
+          subType: "short-answer-nf",
+        },
+      ],
+      conditions: [
+        {
+          id: "cond20",
+          conditionName: "Will Keep Livestock Elsewhere",
+          rules: [
+            {
+              questionText:
+                "Will you keep livestock or use animal by-products anywhere else?",
+              operator: "is",
+              value: "true",
+            },
+          ],
+        },
+      ],
+      order: 32,
+    },
+    // Page 33: Land ownership
+    {
+      pageId: "page33",
+      pageType: "question",
+      pageHeading: "",
+      questions: [
+        {
+          questionId: "q49",
+          label: "Do you own the land?",
+          type: "list",
+          subType: "yes-no",
+        },
+      ],
+      conditions: [],
+      order: 33,
+    },
+    // Page 34: Tenancy agreement
+    {
+      pageId: "page34",
+      pageType: "question",
+      pageHeading: "",
+      questions: [
+        {
+          questionId: "q50",
+          label: "Is your tenancy agreement for more than one year?",
+          type: "list",
+          subType: "yes-no",
+        },
+      ],
+      conditions: [
+        {
+          id: "cond21",
+          conditionName: "Does Not Own Land",
+          rules: [
+            {
+              questionText: "Do you own the land?",
+              operator: "is",
+              value: "false",
+            },
+          ],
+        },
+      ],
+      order: 34,
+    },
+    // Page 35: Landowner CPH number
+    {
+      pageId: "page35",
+      pageType: "question",
+      pageHeading: "",
+      questions: [
+        {
+          questionId: "q51",
+          label: "Does the landowner have a CPH number for the land?",
+          type: "list",
+          subType: "yes-no",
+        },
+      ],
+      conditions: [
+        {
+          id: "cond22",
+          conditionName: "Long Term Tenancy",
+          rules: [
+            {
+              questionText: "Is your tenancy agreement for more than one year?",
+              operator: "is",
+              value: "true",
+            },
+          ],
+        },
+      ],
+      order: 35,
+    },
+    // Page 36: Additional information
+    {
+      pageId: "page36",
+      pageType: "question",
+      pageHeading: "",
+      questions: [
+        {
+          questionId: "q52",
+          label: "Do you want to tell us anything else?",
+          type: "list",
+          subType: "yes-no",
+        },
+      ],
+      conditions: [],
+      order: 36,
+    },
+    // Page 37: Additional information text
+    {
+      pageId: "page37",
+      pageType: "question",
+      pageHeading: "",
+      questions: [
+        {
+          questionId: "q53",
+          label: "What do you want to tell us?",
+          type: "text",
+          subType: "long-answer",
+        },
+      ],
+      conditions: [
+        {
+          id: "cond23",
+          conditionName: "Wants to Provide Additional Information",
+          rules: [
+            {
+              questionText: "Anything else to tell us",
+              operator: "is",
+              value: "true",
+            },
+          ],
+        },
+      ],
+      order: 37,
+    },
+    // Page 38: Rural payments
+    {
+      pageId: "page38",
+      pageType: "question",
+      pageHeading: "",
+      questions: [
+        {
+          questionId: "q54",
+          label: "Do you intend to claim funding from the RPA?",
+          type: "list",
+          subType: "yes-no",
+        },
+      ],
+      conditions: [],
+      order: 38,
+    },
+    // Page 39: Proof of ownership
+    {
+      pageId: "page39",
+      pageType: "question",
+      pageHeading: "",
+      questions: [
+        {
+          questionId: "q55",
+          label: "Proof of ownership",
+          type: "file",
+        },
+      ],
+      conditions: [],
+      order: 39,
+    },
+    // Page 40: Pizza selection (repeater)
+    {
+      pageId: "page40",
+      pageType: "question",
+      pageHeading: "What would like to eat?",
+      questions: [
+        {
+          questionId: "q56",
+          label: "Select field",
+          type: "list",
+          subType: "select",
+          options: [
+            { value: "c&t", text: "c&t" },
+            { value: "pepperoni", text: "Pepperoni" },
+          ],
+        },
+      ],
+      conditions: [],
+      order: 40,
+      setName: "Pizza",
+    },
+  ];
+
+  // Create CPH form conditions
+  const cphConditions = [
+    {
+      id: "form-cond1",
+      conditionName: "Already Registered with RPA",
+      rules: [
+        {
+          questionText: "Registered with the Rural Payments Agency",
+          operator: "is",
+          value: "true",
+        },
+      ],
+    },
+    {
+      id: "form-cond2",
+      conditionName: "Non-England Location",
+      rules: [
+        {
+          questionText: "Country where you will keep livestock",
+          operator: "is",
+          value: "Northern Ireland",
+        },
+        {
+          logicalOperator: "OR",
+          questionText: "Country where you will keep livestock",
+          operator: "is",
+          value: "Scotland",
+        },
+        {
+          logicalOperator: "OR",
+          questionText: "Country where you will keep livestock",
+          operator: "is",
+          value: "Wales",
+        },
+      ],
+    },
+    {
+      id: "form-cond3",
+      conditionName: "Hobbyist Keeper",
+      rules: [
+        {
+          questionText: "Are you a hobbyist keeper or a business?",
+          operator: "is",
+          value: "hobbyist",
+        },
+      ],
+    },
+    {
+      id: "form-cond4",
+      conditionName: "Business Registration",
+      rules: [
+        {
+          questionText: "Are you a hobbyist keeper or a business?",
+          operator: "is",
+          value: "business",
+        },
+      ],
+    },
+    {
+      id: "form-cond5",
+      conditionName: "Must Have Companies House Number",
+      rules: [
+        {
+          questionText: "Business legal status",
+          operator: "is",
+          value: "private-limited",
+        },
+        {
+          logicalOperator: "OR",
+          questionText: "Business legal status",
+          operator: "is",
+          value: "limited-partnership",
+        },
+      ],
+    },
+    {
+      id: "form-cond6",
+      conditionName: "Must Have Charity Number",
+      rules: [
+        {
+          questionText: "Business legal status",
+          operator: "is",
+          value: "charitable-trust",
+        },
+      ],
+    },
+    {
+      id: "form-cond7",
+      conditionName: "Other Business Type",
+      rules: [
+        {
+          questionText: "Business type",
+          operator: "is",
+          value: "something-else",
+        },
+      ],
+    },
+    {
+      id: "form-cond8",
+      conditionName: "Less Than 50 Birds or Racing Pigeons",
+      rules: [
+        {
+          questionText: "Livestock that you keep",
+          operator: "contains",
+          value: "poultry-under-50",
+        },
+        {
+          logicalOperator: "OR",
+          questionText: "Livestock that you keep",
+          operator: "contains",
+          value: "racing-pigeons",
+        },
+      ],
+    },
+    {
+      id: "form-cond9",
+      conditionName: "Contains Animal By-products",
+      rules: [
+        {
+          questionText: "Livestock that you keep",
+          operator: "contains",
+          value: "animal-by-products",
+        },
+      ],
+    },
+    {
+      id: "form-cond10",
+      conditionName: "Second Contact Required",
+      rules: [
+        {
+          questionText: "Second contact",
+          operator: "is",
+          value: "true",
+        },
+      ],
+    },
+    {
+      id: "form-cond11",
+      conditionName: "Livestock Not Within 6 Weeks",
+      rules: [
+        {
+          questionText:
+            "What date will the livestock or animal by-products arrive?",
+          operator: "is more than",
+          value: "6 weeks",
+        },
+      ],
+    },
+    {
+      id: "form-cond12",
+      conditionName: "Will Keep Livestock at Home",
+      rules: [
+        {
+          questionText:
+            "Will you keep livestock or use animal by-products at your home address?",
+          operator: "is",
+          value: "true",
+        },
+      ],
+    },
+    {
+      id: "form-cond13",
+      conditionName: "Will Keep Livestock Elsewhere",
+      rules: [
+        {
+          questionText:
+            "Will you keep livestock or use animal by-products anywhere else?",
+          operator: "is",
+          value: "true",
+        },
+      ],
+    },
+    {
+      id: "form-cond14",
+      conditionName: "Does Not Own Land",
+      rules: [
+        {
+          questionText: "Do you own the land?",
+          operator: "is",
+          value: "false",
+        },
+      ],
+    },
+    {
+      id: "form-cond15",
+      conditionName: "Long Term Tenancy",
+      rules: [
+        {
+          questionText: "Is your tenancy agreement for more than one year?",
+          operator: "is",
+          value: "true",
+        },
+      ],
+    },
+    {
+      id: "form-cond16",
+      conditionName: "Wants to Provide Additional Information",
+      rules: [
+        {
+          questionText: "Anything else to tell us",
+          operator: "is",
+          value: "true",
+        },
+      ],
+    },
+  ];
+
+  res.render("titan-mvp-1.2/form-editor/listing/index", {
+    formPages: cphFormPages,
+    sections: [],
+    form: {
+      name: "Apply for a county parish holding (CPH) number",
+    },
+    request: req,
+    data: {
+      conditions: cphConditions,
+      formName: "Apply for a county parish holding (CPH) number",
+    },
+  });
+});

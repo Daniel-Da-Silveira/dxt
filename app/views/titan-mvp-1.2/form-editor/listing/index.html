@@ -56,6 +56,21 @@ activeLinkId: "nav-editor"
                 Preview form
             </a>
         </div>
+
+        <!-- Demo links for testing -->
+        {# <div style="margin-top: 10px;">
+            <a href="/titan-mvp-1.2/form-editor/listing/demo" class="govuk-link govuk-link--inverse">
+                View Demo Form (15 pages with conditions)
+            </a>
+            <br>
+            <a href="/titan-mvp-1.2/form-editor/listing/demo-extended" class="govuk-link govuk-link--inverse">
+                View Extended Demo Form (25 pages with complex conditions)
+            </a>
+            <br>
+            <a href="/titan-mvp-1.2/form-editor/listing/cph-demo" class="govuk-link govuk-link--inverse">
+                View CPH Form Demo (40 pages with complex conditions)
+            </a>
+        </div> #}
     </div>
 </div>
 {% endblock %}
@@ -105,13 +120,38 @@ activeLinkId: "nav-editor"
 
             // Update visibility of page cards
             let visiblePages = 0;
+            let foundExitPage = false;
+
             pageCards.forEach(card => {
                 const cardConditions = (card.dataset.conditions || '').split(',').filter(Boolean);
+                const isExitPage = card.querySelector('.govuk-tag--pink') !== null;
+
+                // Only apply exit page logic when filters are selected
+                if (selectedConditions.length > 0) {
+                    // Check if this exit page's conditions are met
+                    const exitPageConditionsMet = isExitPage && (
+                        cardConditions.length === 0 ||
+                        selectedConditions.some(condition => cardConditions.includes(condition))
+                    );
+
+                    // If we've found an exit page with conditions met, hide all subsequent pages
+                    if (foundExitPage) {
+                        card.style.display = 'none';
+                        return;
+                    }
+
+                    // Mark that we've found an exit page with conditions met
+                    if (exitPageConditionsMet) {
+                        foundExitPage = true;
+                    }
+                }
 
                 // Show the card if:
                 // 1. No conditions are selected (show all), OR
-                // 2. The card has one of the selected conditions
+                // 2. The card has no conditions (always show), OR
+                // 3. The card has one of the selected conditions
                 const shouldShow = selectedConditions.length === 0 ||
+                    cardConditions.length === 0 ||
                     selectedConditions.some(condition => cardConditions.includes(condition));
 
                 card.style.display = shouldShow ? 'block' : 'none';
