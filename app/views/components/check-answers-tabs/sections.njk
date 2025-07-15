@@ -405,23 +405,14 @@ Users will only see this section heading on the check your answers page         
       
       if (group.items.length > 0) {
         // Show section with items
-        if (isPreviewSection) {
-          html += '<div class="border-left-container-preview">';
-        }
         html += `<h2 class="${headingClass}">${group.section.title}</h2>`;
         html += '<div class="govuk-summary-list govuk-!-margin-bottom-9">';
         group.items.forEach(item => {
           html += renderPreviewItem(item);
         });
         html += '</div>';
-        if (isPreviewSection) {
-          html += '</div>';
-        }
       } else {
         // Show section even if empty (for both preview and real sections)
-        if (isPreviewSection) {
-          html += '<div class="border-left-container-preview">';
-        }
         html += `<h2 class="${headingClass}">${group.section.title}</h2>`;
         html += '<div class="govuk-summary-list govuk-!-margin-bottom-9">';
         html += '<div class="govuk-summary-list__row">';
@@ -430,9 +421,6 @@ Users will only see this section heading on the check your answers page         
         html += '<dd class="govuk-summary-list__actions"></dd>';
         html += '</div>';
         html += '</div>';
-        if (isPreviewSection) {
-          html += '</div>';
-        }
       }
     });
 
@@ -725,10 +713,5 @@ Users will only see this section heading on the check your answers page         
   .preview-section-heading {
     background-color: #ffe5cc;
     border-bottom: 2px solid #ffb266;
-  }
-
-  .border-left-container-preview {
-    border-left: 4px solid #ffb266;
-    padding-left: 20px;
   }
 </style>
