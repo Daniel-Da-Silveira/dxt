@@ -590,6 +590,26 @@ Users will only see this section heading on the check your answers page         
         renderPreview();
       });
     });
+
+    // Add event listeners for unassign functionality
+    document.querySelectorAll('.js-remove-from-section').forEach(link => {
+      link.addEventListener('click', function (e) {
+        e.preventDefault();
+        
+        const itemElement = this.closest('.gem-c-reorderable-list__item');
+        const itemId = itemElement.getAttribute('data-item-id');
+        
+        // Find the item and remove its section assignment
+        const item = checkAnswersItems.find(i => String(i.id) === String(itemId));
+        if (item) {
+          item.section = null;
+          
+          syncToSession();
+          renderOrganizationList();
+          renderPreview();
+        }
+      });
+    });
   }
 </script>
 
