@@ -1,6 +1,9 @@
 {% from "govuk/components/input/macro.njk" import govukInput %}
 {% from "govuk/components/button/macro.njk" import govukButton %}
 
+<!-- Marked.js (for Markdown parsing) -->
+<script src="https://cdn.jsdelivr.net/npm/marked@4.3.0/marked.min.js"></script>
+
 <span class="govuk-caption-l">Check answers</span>
 <h2 class="govuk-heading-l">Add and organise sections</h2>
 
@@ -75,31 +78,31 @@
           checkAnswersItems = [
             {
               id: 1, type: 'page', key: 'Business details', value: 'Page with multiple questions', section: null, questions: [
-                { label: 'Business registered with RPA', value: 'Yes' },
-                { label: 'Business name', value: 'Doe Farms Ltd' },
-                { label: 'Business address', value: '123 Farm Lane, Rural Town' }
+                { label: 'Business registered with RPA', value: 'Answer goes here' },
+                { label: 'Business name', value: 'Answer goes here' },
+                { label: 'Business address', value: 'Answer goes here' }
               ]
             },
             { id: 2, type: 'question', key: 'Country for livestock', value: 'Answer goes here', section: null },
-            { id: 3, type: 'question', key: 'Arrival date of livestock', value: '20 04 2024', section: null },
+            { id: 3, type: 'question', key: 'Arrival date of livestock', value: 'Answer goes here', section: null },
             {
               id: 4, type: 'page', key: 'Livestock information', value: 'Page with multiple questions', section: null, questions: [
-                { label: 'Type of livestock', value: 'Cow' },
-                { label: 'Number of animals', value: '25' },
-                { label: 'Breed', value: 'Holstein Friesian' }
+                { label: 'Type of livestock', value: 'Answer goes here' },
+                { label: 'Number of animals', value: 'Answer goes here' },
+                { label: 'Breed', value: 'Answer goes here' }
               ]
             },
-            { id: 5, type: 'question', key: 'Applicant\'s name', value: 'John Doe', section: null },
+            { id: 5, type: 'question', key: 'Applicant\'s name', value: 'Answer goes here', section: null },
             {
               id: 6, type: 'page', key: 'Contact details', value: 'Page with multiple questions', section: null, questions: [
-                { label: 'Main phone number', value: '07700 900457' },
-                { label: 'Email address', value: 'john.doe@example.com' },
-                { label: 'Alternative contact', value: 'Jane Doe - 07700 900458' }
+                { label: 'Main phone number', value: 'Answer goes here' },
+                { label: 'Email address', value: 'Answer goes here' },
+                { label: 'Alternative contact', value: 'Answer goes here' }
               ]
             },
-            { id: 7, type: 'question', key: 'Business purpose', value: 'Livestock farming', section: null },
-            { id: 8, type: 'question', key: 'National Grid field number', value: 'NG123456', section: null },
-            { id: 9, type: 'question', key: 'Methodology statement', value: '1 file uploaded', section: null },
+            { id: 7, type: 'question', key: 'Business purpose', value: 'Answer goes here', section: null },
+            { id: 8, type: 'question', key: 'National Grid field number', value: 'Answer goes here', section: null },
+            { id: 9, type: 'question', key: 'Methodology statement', value: 'Answer goes here', section: null },
             { id: 10, type: 'guidance', key: 'Important information', value: 'Guidance page', section: null, guidanceText: 'Please ensure all information provided is accurate and up to date. This helps us process your application more efficiently.' },
             { id: 11, type: 'guidance', key: 'Data protection notice', value: 'Guidance page', section: null, guidanceText: 'Your personal information will be processed in accordance with the Data Protection Act 2018. We will only use your data for the purposes stated in this application.' },
             { id: 12, type: 'guidance', key: 'Application process', value: 'Guidance page', section: null, guidanceText: 'After submitting your application, we will review the information provided and may contact you for additional details. Processing typically takes 10-15 working days.' }
@@ -127,6 +130,7 @@
   document.addEventListener('DOMContentLoaded', function () {
     initializeSectionsTab();
     setupSectionHeadingPreview();
+    loadDeclarationText();
   });
 
   // Setup real-time preview for section heading input
@@ -610,6 +614,57 @@ Users will only see this section heading on the check your answers page         
         }
       });
     });
+  }
+
+  // Load and render declaration text with markdown support
+  function loadDeclarationText() {
+    fetch('/titan-mvp-1.2/form-editor/check-answers/get-session-data')
+      .then(response => response.json())
+      .then(data => {
+        if (data.declarationText && data.declarationOption === 'yes-declaration') {
+          updateDeclarationText(data.declarationText);
+          updateButtonText(true);
+        } else {
+          updateButtonText(false);
+        }
+      })
+      .catch(error => {
+        console.error('Error loading declaration text:', error);
+      });
+  }
+
+  // Update declaration text with markdown rendering
+  function updateDeclarationText(markdownText) {
+    const guidanceParagraph = document.getElementById('guidance-paragraph');
+    if (!guidanceParagraph) return;
+
+    if (typeof marked !== 'undefined' && marked.parse) {
+      try {
+        const renderedHtml = marked.parse(markdownText);
+        guidanceParagraph.innerHTML = renderedHtml;
+        guidanceParagraph.style.display = 'block';
+      } catch (error) {
+        console.error("Error rendering Markdown:", error);
+        guidanceParagraph.textContent = markdownText;
+        guidanceParagraph.style.display = 'block';
+      }
+    } else {
+      // Fallback to plain text if marked isn't available
+      guidanceParagraph.textContent = markdownText;
+      guidanceParagraph.style.display = 'block';
+    }
+  }
+
+  // Update button text based on declaration presence
+  function updateButtonText(hasDeclaration) {
+    const sendButton = document.getElementById('once-button');
+    if (!sendButton) return;
+
+    if (hasDeclaration) {
+      sendButton.textContent = 'Accept and send';
+    } else {
+      sendButton.textContent = 'Send';
+    }
   }
 </script>
 

@@ -69,8 +69,8 @@ navigationItems: [
                                         <!-- Sub Navigation -->
                                         {{ checkAnswersSubNav(
                                         currentTab=data.currentTab or 'page-settings',
-                                        showDeclarationTab=data.showDeclarationTab,
-                                        showSectionsTab=data.showSectionsTab,
+                                        showDeclarationTab=true,
+                                        showSectionsTab=true,
                                         baseUrl="/titan-mvp-1.2/form-editor/check-answers/settings-modular"
                                         ) }}
 
@@ -97,7 +97,7 @@ navigationItems: [
 
     <!-- RIGHT COLUMN: Check Answers Preview -->
     <div class="govuk-grid-column-one-half-from-desktop" id="second-container"
-        style="outline: solid 1px #008938; height: 100%; position: sticky; top: 0; padding: 20px; box-shadow: 5px 10px #008938; overflow-y: auto; max-height: 100vh;">
+        style="outline: solid 1px #008938; position: sticky; top: 0; padding: 20px; box-shadow: 5px 10px #008938; min-height: 100vh; height: fit-content; align-self: flex-start;">
         <!-- Before content -->
         <div id="before-content" style="background-color: #cce2d8;">
             <p class="govuk-body-s" style="margin-bottom: 0; color: #005a30; padding: 2px 8px 3px; text-align: center;">
@@ -144,15 +144,15 @@ navigationItems: [
                     </div>
 
                     <!-- Guidance Paragraph -->
-                    <div class="govuk-!-margin-top-6">
+                    <div class="govuk-!-margin-top-0 govuk-!-padding-top-0 govuk-!-margin-bottom-6">
                         <p class="govuk-body" id="guidance-paragraph">
                             {{ data['checkAnswersGuidanceTextInput'] or '' }}
                         </p>
-                        <div id="dynamic-guidance-text" class="govuk-body"></div>
+                        <div id="dynamic-guidance-text" class="govuk-body govuk-!-margin-bottom-4"></div>
                     </div>
 
                     <!-- Send Button -->
-                    <button class="govuk-button govuk-!-margin-top-6" id="once-button" disabled>
+                    <button class="govuk-button " id="once-button" disabled>
                         Send
                     </button>
 
@@ -404,7 +404,7 @@ navigationItems: [
                 if (group.section) {
                     html += `<h2 class="govuk-heading-m">${group.section.title || group.section.name}</h2>`;
                 }
-                html += '<div class="govuk-summary-list govuk-!-margin-bottom-9">';
+                html += '<div class="govuk-summary-list">';
                 group.items.forEach(item => {
                     html += renderPreviewItem(item);
                 });
@@ -463,10 +463,10 @@ navigationItems: [
     function renderDefaultPreview() {
         const container = document.getElementById('dynamic-summary-list');
         container.innerHTML = `
-            <div class="govuk-summary-list govuk-!-margin-bottom-9">
+            <div class="govuk-summary-list">
                 <div class="govuk-summary-list__row">
                     <dt class="govuk-summary-list__key">Business registered with RPA</dt>
-                    <dd class="govuk-summary-list__value">Yes</dd>
+                    <dd class="govuk-summary-list__value">Answer goes here</dd>
                     <dd class="govuk-summary-list__actions">
                         <a class="govuk-link govuk-link--no-visited-state" href="#" style="color: #b1b4b6; cursor: default;" onclick="event.preventDefault(); event.stopPropagation(); this.blur(); return false;">
                             Change<span class="govuk-visually-hidden"> registration status</span>
@@ -475,7 +475,7 @@ navigationItems: [
                 </div>
                 <div class="govuk-summary-list__row">
                     <dt class="govuk-summary-list__key">Country for livestock</dt>
-                    <dd class="govuk-summary-list__value">England</dd>
+                    <dd class="govuk-summary-list__value">Answer goes here</dd>
                     <dd class="govuk-summary-list__actions">
                         <a class="govuk-link govuk-link--no-visited-state" href="#" style="color: #b1b4b6; cursor: default;" onclick="event.preventDefault(); event.stopPropagation(); this.blur(); return false;">
                             Change<span class="govuk-visually-hidden"> country</span>
@@ -484,7 +484,7 @@ navigationItems: [
                 </div>
                 <div class="govuk-summary-list__row">
                     <dt class="govuk-summary-list__key">Arrival date of livestock</dt>
-                    <dd class="govuk-summary-list__value">20 04 2024</dd>
+                    <dd class="govuk-summary-list__value">Answer goes here</dd>
                     <dd class="govuk-summary-list__actions">
                         <a class="govuk-link govuk-link--no-visited-state" href="#" style="color: #b1b4b6; cursor: default;" onclick="event.preventDefault(); event.stopPropagation(); this.blur(); return false;">
                             Change<span class="govuk-visually-hidden"> arrival date</span>
@@ -493,7 +493,7 @@ navigationItems: [
                 </div>
                 <div class="govuk-summary-list__row">
                     <dt class="govuk-summary-list__key">Type of livestock</dt>
-                    <dd class="govuk-summary-list__value">Cow</dd>
+                    <dd class="govuk-summary-list__value">Answer goes here</dd>
                     <dd class="govuk-summary-list__actions">
                         <a class="govuk-link govuk-link--no-visited-state" href="#" style="color: #b1b4b6; cursor: default;" onclick="event.preventDefault(); event.stopPropagation(); this.blur(); return false;">
                             Change<span class="govuk-visually-hidden"> livestock type</span>
@@ -502,7 +502,7 @@ navigationItems: [
                 </div>
                 <div class="govuk-summary-list__row">
                     <dt class="govuk-summary-list__key">Applicant's name</dt>
-                    <dd class="govuk-summary-list__value">John Doe</dd>
+                    <dd class="govuk-summary-list__value">Answer goes here</dd>
                     <dd class="govuk-summary-list__actions">
                         <a class="govuk-link govuk-link--no-visited-state" href="#" style="color: #b1b4b6; cursor: default;" onclick="event.preventDefault(); event.stopPropagation(); this.blur(); return false;">
                             Change<span class="govuk-visually-hidden"> applicant name</span>
@@ -511,7 +511,7 @@ navigationItems: [
                 </div>
                 <div class="govuk-summary-list__row">
                     <dt class="govuk-summary-list__key">Business name</dt>
-                    <dd class="govuk-summary-list__value">Doe Farms Ltd</dd>
+                    <dd class="govuk-summary-list__value">Answer goes here</dd>
                     <dd class="govuk-summary-list__actions">
                         <a class="govuk-link govuk-link--no-visited-state" href="#" style="color: #b1b4b6; cursor: default;" onclick="event.preventDefault(); event.stopPropagation(); this.blur(); return false;">
                             Change<span class="govuk-visually-hidden"> business name</span>
@@ -520,7 +520,7 @@ navigationItems: [
                 </div>
                 <div class="govuk-summary-list__row">
                     <dt class="govuk-summary-list__key">Main phone number</dt>
-                    <dd class="govuk-summary-list__value">07700 900457</dd>
+                    <dd class="govuk-summary-list__value">Answer goes here</dd>
                     <dd class="govuk-summary-list__actions">
                         <a class="govuk-link govuk-link--no-visited-state" href="#" style="color: #b1b4b6; cursor: default;" onclick="event.preventDefault(); event.stopPropagation(); this.blur(); return false;">
                             Change<span class="govuk-visually-hidden"> phone number</span>
@@ -529,7 +529,7 @@ navigationItems: [
                 </div>
                 <div class="govuk-summary-list__row">
                     <dt class="govuk-summary-list__key">Email address</dt>
-                    <dd class="govuk-summary-list__value">john.doe@example.com</dd>
+                    <dd class="govuk-summary-list__value">Answer goes here</dd>
                     <dd class="govuk-summary-list__actions">
                         <a class="govuk-link govuk-link--no-visited-state" href="#" style="color: #b1b4b6; cursor: default;" onclick="event.preventDefault(); event.stopPropagation(); this.blur(); return false;">
                             Change<span class="govuk-visually-hidden"> email address</span>
@@ -538,7 +538,7 @@ navigationItems: [
                 </div>
                 <div class="govuk-summary-list__row">
                     <dt class="govuk-summary-list__key">Business address</dt>
-                    <dd class="govuk-summary-list__value">123 Farm Lane, Rural Town</dd>
+                    <dd class="govuk-summary-list__value">Answer goes here</dd>
                     <dd class="govuk-summary-list__actions">
                         <a class="govuk-link govuk-link--no-visited-state" href="#" style="color: #b1b4b6; cursor: default;" onclick="event.preventDefault(); event.stopPropagation(); this.blur(); return false;">
                             Change<span class="govuk-visually-hidden"> business address</span>
@@ -547,7 +547,7 @@ navigationItems: [
                 </div>
                 <div class="govuk-summary-list__row">
                     <dt class="govuk-summary-list__key">Business purpose</dt>
-                    <dd class="govuk-summary-list__value">Livestock farming</dd>
+                    <dd class="govuk-summary-list__value">Answer goes here</dd>
                     <dd class="govuk-summary-list__actions">
                         <a class="govuk-link govuk-link--no-visited-state" href="#" style="color: #b1b4b6; cursor: default;" onclick="event.preventDefault(); event.stopPropagation(); this.blur(); return false;">
                             Change<span class="govuk-visually-hidden"> business purpose</span>
@@ -556,7 +556,7 @@ navigationItems: [
                 </div>
                 <div class="govuk-summary-list__row">
                     <dt class="govuk-summary-list__key">National Grid field number</dt>
-                    <dd class="govuk-summary-list__value">NG123456</dd>
+                    <dd class="govuk-summary-list__value">Answer goes here</dd>
                     <dd class="govuk-summary-list__actions">
                         <a class="govuk-link govuk-link--no-visited-state" href="#" style="color: #b1b4b6; cursor: default;" onclick="event.preventDefault(); event.stopPropagation(); this.blur(); return false;">
                             Change<span class="govuk-visually-hidden"> field number</span>
@@ -565,7 +565,7 @@ navigationItems: [
                 </div>
                 <div class="govuk-summary-list__row">
                     <dt class="govuk-summary-list__key">Methodology statement</dt>
-                    <dd class="govuk-summary-list__value">1 file uploaded</dd>
+                    <dd class="govuk-summary-list__value">Answer goes here</dd>
                     <dd class="govuk-summary-list__actions">
                         <a class="govuk-link govuk-link--no-visited-state" href="#" style="color: #b1b4b6; cursor: default;" onclick="event.preventDefault(); event.stopPropagation(); this.blur(); return false;">
                             Change<span class="govuk-visually-hidden"> methodology statement</span>
