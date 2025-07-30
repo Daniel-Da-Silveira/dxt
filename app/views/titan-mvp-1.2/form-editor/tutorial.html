@@ -49,25 +49,33 @@ containerClasses: "govuk-width-container"
                             </div></button>
                         <ul class="app-vertical-nav__list" id="tutorial-nav-collapsible-nav-0">
                             <li class="app-vertical-nav__item">
-                                <a class="app-vertical-nav__link" href="#short-text">Short text inputs</a>
+                                <a class="app-vertical-nav__link" href="#text-inputs-summary">Types of written
+                                    answers</a>
                             </li>
                             <li class="app-vertical-nav__item">
-                                <a class="app-vertical-nav__link" href="#email">Email address inputs</a>
+                                <a class="app-vertical-nav__link" href="#short-text">Short answer (a single line)</a>
                             </li>
                             <li class="app-vertical-nav__item">
-                                <a class="app-vertical-nav__link" href="#phone">Phone number inputs</a>
+                                <a class="app-vertical-nav__link" href="#long-text">Long answer (more than a single
+                                    line)</a>
                             </li>
                             <li class="app-vertical-nav__item">
-                                <a class="app-vertical-nav__link" href="#numbers">Number inputs</a>
+                                <a class="app-vertical-nav__link" href="#numbers">Numbers only</a>
                             </li>
                             <li class="app-vertical-nav__item">
-                                <a class="app-vertical-nav__link" href="#long-text">Long text inputs</a>
+                                <a class="app-vertical-nav__link" href="#email">Email address</a>
                             </li>
                             <li class="app-vertical-nav__item">
-                                <a class="app-vertical-nav__link" href="#text-inputs-summary">Text inputs summary</a>
+                                <a class="app-vertical-nav__link" href="#phone">Phone number</a>
                             </li>
+
+                            {# <li class="app-vertical-nav__item">
+                                <a class="app-vertical-nav__link" href="#long-text">Long answer (more than a single
+                                    line)</a>
+                            </li> #}
+
                             <li class="app-vertical-nav__item">
-                                <a class="app-vertical-nav__link" href="#radio-buttons">Radio buttons</a>
+                                <a class="app-vertical-nav__link" href="#radio-buttons">Radios</a>
                             </li>
                             <li class="app-vertical-nav__item">
                                 <a class="app-vertical-nav__link" href="#checkboxes">Checkboxes</a>
@@ -95,7 +103,7 @@ containerClasses: "govuk-width-container"
                                 <a class="app-vertical-nav__link" href="#style-guide">GOV.UK style guide</a>
                             </li>
                             <li class="app-vertical-nav__item">
-                                <a class="app-vertical-nav__link" href="#design">Good vs bad design</a>
+                                <a class="app-vertical-nav__link" href="#design">Good vs bad question design</a>
                             </li>
                             <li class="app-vertical-nav__item">
                                 <a class="app-vertical-nav__link" href="#short-descriptions">Short descriptions</a>
@@ -117,9 +125,9 @@ containerClasses: "govuk-width-container"
                                 </svg>
                             </div></button>
                         <ul class="app-vertical-nav__list" hidden="" id="tutorial-nav-collapsible-nav-2">
-                            <li class="app-vertical-nav__item">
+                            {# <li class="app-vertical-nav__item">
                                 <a class="app-vertical-nav__link" href="#guidance">Guidance pages</a>
-                            </li>
+                            </li> #}
                             <li class="app-vertical-nav__item">
                                 <a class="app-vertical-nav__link" href="#guidance-design">Guidance design</a>
                             </li>
@@ -201,9 +209,10 @@ containerClasses: "govuk-width-container"
 
         <!-- Short text section -->
         <div id="short-text-section" class="tutorial-section" style="display: none;">
-            <h1 class="govuk-heading-l">Short text inputs</h1>
+            <h1 class="govuk-heading-l">Short answer (a single line)</h1>
 
-            <p class="govuk-body">Short text inputs are perfect for names, titles, and brief answers. They're the
+            <p class="govuk-body">Short answer (a single line) inputs are perfect for names, titles, and brief answers.
+                They're the
                 most
                 common type of text input in forms.</p>
 
@@ -220,7 +229,7 @@ containerClasses: "govuk-width-container"
                 </div>
             </div>
 
-            <h3 class="govuk-heading-m">When to use short text:</h3>
+            <h3 class="govuk-heading-m">When to use short answer (a single line):</h3>
             <ul class="govuk-list govuk-list--bullet">
                 <li>Names (first name, last name, full name)</li>
                 <li>Job titles and roles</li>
@@ -280,7 +289,7 @@ containerClasses: "govuk-width-container"
 
         <!-- Email address section -->
         <div id="email-section" class="tutorial-section" style="display: none;">
-            <h1 class="govuk-heading-l">Email address inputs</h1>
+            <h1 class="govuk-heading-l">Email address</h1>
 
             <p class="govuk-body">Email address inputs are specifically designed for email addresses with built-in
                 validation and formatting.</p>
@@ -348,7 +357,7 @@ containerClasses: "govuk-width-container"
                     </div>
 
                     <button class="govuk-button govuk-button--secondary"
-                        onclick="checkSectionAnswer('email-test', 'email', 'Correct! Email inputs provide built-in validation and formatting specifically for email addresses.'); return false;">
+                        onclick="checkSectionAnswer('email-test', 'email', 'Email inputs provide built-in validation and formatting specifically for email addresses.', 'Email inputs provide built-in validation and formatting specifically for email addresses.'); return false;">
                         Check answer
                     </button>
 
@@ -360,7 +369,7 @@ containerClasses: "govuk-width-container"
 
         <!-- Phone number section -->
         <div id="phone-section" class="tutorial-section" style="display: none;">
-            <h1 class="govuk-heading-l">Phone number inputs</h1>
+            <h1 class="govuk-heading-l">Phone number</h1>
 
             <p class="govuk-body">Phone number inputs are designed for telephone numbers with proper formatting and
                 validation for different phone number formats.</p>
@@ -392,9 +401,9 @@ containerClasses: "govuk-width-container"
 
         <!-- Numbers section -->
         <div id="numbers-section" class="tutorial-section" style="display: none;">
-            <h1 class="govuk-heading-l">Number inputs</h1>
+            <h1 class="govuk-heading-l">Numbers only</h1>
 
-            <p class="govuk-body">Number inputs are designed for numerical data like amounts, quantities, or IDs.
+            <p class="govuk-body">Numbers only inputs are designed for numerical data like amounts, quantities, or IDs.
                 They
                 provide better user experience for numeric data entry.</p>
 
@@ -411,7 +420,7 @@ containerClasses: "govuk-width-container"
                 </div>
             </div>
 
-            <h3 class="govuk-heading-m">When to use number inputs:</h3>
+            <h3 class="govuk-heading-m">When to use numbers only:</h3>
             <ul class="govuk-list govuk-list--bullet">
                 <li>Quantities and amounts</li>
                 <li>Age and dates</li>
@@ -425,9 +434,10 @@ containerClasses: "govuk-width-container"
 
         <!-- Long text section -->
         <div id="long-text-section" class="tutorial-section" style="display: none;">
-            <h1 class="govuk-heading-l">Long text inputs (Textareas)</h1>
+            <h1 class="govuk-heading-l">Long answer (more than a single line)</h1>
 
-            <p class="govuk-body">Long text inputs (textareas) are perfect for longer responses, explanations, or
+            <p class="govuk-body">Long answer (more than a single line) inputs are perfect for longer responses,
+                explanations, or
                 detailed information that needs more space than a single line.</p>
 
             <p class="govuk-body">Learn more about <a href="https://design-system.service.gov.uk/components/textarea/"
@@ -443,7 +453,7 @@ containerClasses: "govuk-width-container"
                 </div>
             </div>
 
-            <h3 class="govuk-heading-m">When to use long text inputs:</h3>
+            <h3 class="govuk-heading-m">When to use long answer (more than a single line):</h3>
             <ul class="govuk-list govuk-list--bullet">
                 <li>Detailed explanations</li>
                 <li>Comments and feedback</li>
@@ -465,7 +475,7 @@ containerClasses: "govuk-width-container"
 
             <div class="govuk-summary-list">
                 <div class="govuk-summary-list__row">
-                    <dt class="govuk-summary-list__key">Short text</dt>
+                    <dt class="govuk-summary-list__key">Short answer (a single line)</dt>
                     <dd class="govuk-summary-list__value">Names, titles, brief answers</dd>
                     <dd class="govuk-summary-list__actions">
                         <span class="govuk-tag govuk-tag--green">Most common</span>
@@ -486,14 +496,14 @@ containerClasses: "govuk-width-container"
                     </dd>
                 </div>
                 <div class="govuk-summary-list__row">
-                    <dt class="govuk-summary-list__key">Numbers</dt>
+                    <dt class="govuk-summary-list__key">Numbers only</dt>
                     <dd class="govuk-summary-list__value">Quantities, amounts, IDs</dd>
                     <dd class="govuk-summary-list__actions">
                         <span class="govuk-tag govuk-tag--purple">Numeric data</span>
                     </dd>
                 </div>
                 <div class="govuk-summary-list__row">
-                    <dt class="govuk-summary-list__key">Long text</dt>
+                    <dt class="govuk-summary-list__key">Long answer (more than a single line)</dt>
                     <dd class="govuk-summary-list__value">Detailed explanations, comments</dd>
                     <dd class="govuk-summary-list__actions">
                         <span class="govuk-tag govuk-tag--orange">Multi-line</span>
@@ -516,9 +526,9 @@ containerClasses: "govuk-width-container"
 
         <!-- Radio buttons section -->
         <div id="radio-buttons-section" class="tutorial-section" style="display: none;">
-            <h1 class="govuk-heading-l">When should you use radio buttons?</h1>
+            <h1 class="govuk-heading-l">When should you use radios?</h1>
 
-            <p class="govuk-body">Radio buttons are used when users must choose one option from a list. The
+            <p class="govuk-body">Radios are used when users must choose one option from a list. The
                 Forms
                 Designer offers different types for different scenarios.</p>
 
@@ -528,7 +538,7 @@ containerClasses: "govuk-width-container"
 
             <div class="govuk-grid-row">
                 <div class="govuk-grid-column-one-half">
-                    <h3 class="govuk-heading-m">Standard radio buttons</h3>
+                    <h3 class="govuk-heading-m">Standard radios</h3>
                     <p class="govuk-body">For choosing one option from a list.</p>
                     <div class="govuk-form-group">
                         <fieldset class="govuk-fieldset">
@@ -574,7 +584,7 @@ containerClasses: "govuk-width-container"
                 </div>
             </div>
 
-            <!-- Test your knowledge: Radio buttons -->
+            <!-- Test your knowledge: Radios -->
             <div class="govuk-summary-card">
                 <div class="govuk-summary-card__title-wrapper">
                     <h2 class="govuk-summary-card__title">Test your knowledge</h2>
@@ -612,7 +622,7 @@ containerClasses: "govuk-width-container"
                     </div>
 
                     <button class="govuk-button govuk-button--secondary"
-                        onclick="checkSectionAnswer('radio-test', 'radio', 'Since users can only have one preferred contact method, radio buttons are the best choice for single selection.', 'Since users can only have one preferred contact method, radio buttons are the best choice for single selection.'); return false;">
+                        onclick="checkSectionAnswer('radio-test', 'radio', 'Since users can only have one preferred contact method, radios are the best choice for single selection.', 'Since users can only have one preferred contact method, radios are the best choice for single selection.'); return false;">
                         Check answer
                     </button>
 
@@ -1151,7 +1161,8 @@ containerClasses: "govuk-width-container"
 
             <p class="govuk-body">A declaration allows users to confirm they understand or agree to something
                 before submitting the form. Declarations are added to the bottom of check answers pages using
-                markdown.
+                markdown formatting for easy editing. Users must confirm the declaration before submitting, and they
+                should be clear and specific about what users are agreeing to.
             </p>
 
             <div class="govuk-tabs" data-module="govuk-tabs">
@@ -1216,15 +1227,7 @@ containerClasses: "govuk-width-container"
                 </div>
             </div>
 
-            <div class="govuk-inset-text">
-                <h3 class="govuk-heading-s">How declarations work:</h3>
-                <ul class="govuk-list govuk-list--bullet">
-                    <li>Declarations are added to the bottom of check answers pages</li>
-                    <li>They use markdown formatting for easy editing</li>
-                    <li>Users must confirm the declaration before submitting</li>
-                    <li>They should be clear and specific about what users are agreeing to</li>
-                </ul>
-            </div>
+
         </div>
 
         <!-- Short descriptions section -->
@@ -1698,15 +1701,22 @@ containerClasses: "govuk-width-container"
                         <input class="govuk-input" id="good-question" name="good-question" type="text">
                     </div>
 
-                    <div class="govuk-inset-text">
-                        <p class="govuk-body"><strong>Why this is good:</strong></p>
-                        <ul class="govuk-list govuk-list--bullet">
-                            <li>Clear, specific question</li>
-                            <li>Helpful hint text</li>
-                            <li>Appropriate input type</li>
-                            <li>Follows GOV.UK style</li>
-                        </ul>
-                    </div>
+                    <p class="govuk-body">
+                        <span style="display: inline-flex; align-items: center; gap: 8px;">
+                            <svg width="20" height="20" viewBox="0 0 20 20" fill="none"
+                                xmlns="http://www.w3.org/2000/svg"
+                                style="background: #00703c; border-radius: 50%; padding: 2px;">
+                                <path d="M8 15L3 10L4.41 8.59L8 12.17L15.59 4.58L17 6L8 15Z" fill="white" />
+                            </svg>
+                            <strong>Why this is good:</strong>
+                        </span>
+                    </p>
+                    <ul class="govuk-list govuk-list--bullet">
+                        <li>Clear, specific question</li>
+                        <li>Helpful hint text</li>
+                        <li>Appropriate input type</li>
+                        <li>Follows GOV.UK style</li>
+                    </ul>
                 </div>
 
                 <div class="govuk-tabs__panel govuk-tabs__panel--hidden" id="bad-example">
@@ -1719,19 +1729,22 @@ containerClasses: "govuk-width-container"
                         <input class="govuk-input" id="bad-question" name="bad-question" type="text">
                     </div>
 
-                    <div class="govuk-warning-text">
-                        <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
-                        <strong class="govuk-warning-text__text">
-                            <span class="govuk-warning-text__assistive">Warning</span>
-                            Why this is bad:
-                        </strong>
-                        <ul class="govuk-list govuk-list--bullet">
-                            <li>Vague question - what name?</li>
-                            <li>No guidance or context</li>
-                            <li>Could lead to errors</li>
-                            <li>Poor user experience</li>
-                        </ul>
-                    </div>
+                    <p class="govuk-body">
+                        <span style="display: inline-flex; align-items: center; gap: 8px;">
+                            <svg width="20" height="20" viewBox="0 0 20 20" fill="none"
+                                xmlns="http://www.w3.org/2000/svg"
+                                style="background: #d4351c; border-radius: 50%; padding: 2px;">
+                                <path d="M6 6L14 14M14 6L6 14" stroke="white" stroke-width="2" stroke-linecap="round" />
+                            </svg>
+                            <strong>Why this is bad:</strong>
+                        </span>
+                    </p>
+                    <ul class="govuk-list govuk-list--bullet">
+                        <li>Vague question - what name?</li>
+                        <li>No guidance or context</li>
+                        <li>Could lead to errors</li>
+                        <li>Poor user experience</li>
+                    </ul>
                 </div>
             </div>
 
@@ -2133,10 +2146,7 @@ containerClasses: "govuk-width-container"
             <p class="govuk-body">Choosing the right question type helps users provide the information you need
                 quickly and accurately.</p>
 
-            <p class="govuk-body">Learn more about <a href="https://design-system.service.gov.uk/components/date-input/"
-                    class="govuk-link">date
-                    inputs</a>, <a href="https://design-system.service.gov.uk/components/select/"
-                    class="govuk-link">select dropdowns</a>, and other form components.</p>
+
 
             <div class="govuk-tabs" data-module="govuk-tabs">
                 <h2 class="govuk-tabs__title">Contents</h2>
@@ -2182,7 +2192,7 @@ containerClasses: "govuk-width-container"
                     <div class="govuk-inset-text">
                         <p class="govuk-body"><strong>Why this is appropriate:</strong></p>
                         <ul class="govuk-list govuk-list--bullet">
-                            <li>Radio buttons for single choice</li>
+                            <li>Radios for single choice</li>
                             <li>Clear, mutually exclusive options</li>
                             <li>Helpful hint explains the purpose</li>
                             <li>Follows GOV.UK design patterns</li>
@@ -2219,13 +2229,11 @@ containerClasses: "govuk-width-container"
         <div id="guidance-design-section" class="tutorial-section" style="display: none;">
             <h1 class="govuk-heading-l">How do you create effective guidance pages?</h1>
 
-            <p class="govuk-body">Guidance pages should provide clear, helpful information that helps users
-                understand what they need to do.</p>
+            <p class="govuk-body">Guidance pages provide information to users without requiring them to answer
+                questions. They're commonly used for exit pages, eligibility checks, and providing important information
+                that users need to understand before proceeding or after completing a form.</p>
 
-            <p class="govuk-body">Learn more about <a href="https://design-system.service.gov.uk/components/inset-text/"
-                    class="govuk-link">inset
-                    text</a> and <a href="https://design-system.service.gov.uk/components/panel/"
-                    class="govuk-link">panels</a> for displaying guidance content.</p>
+
 
             <div class="govuk-tabs" data-module="govuk-tabs">
                 <h2 class="govuk-tabs__title">Contents</h2>
@@ -2243,55 +2251,63 @@ containerClasses: "govuk-width-container"
                     <p class="govuk-body">This guidance is clear and helpful:</p>
 
                     <div class="govuk-inset-text">
-                        <h3 class="govuk-heading-s">Before you start</h3>
-                        <p class="govuk-body">You'll need:</p>
-                        <ul class="govuk-list govuk-list--bullet">
-                            <li>Your passport or driving licence</li>
-                            <li>Your National Insurance number</li>
-                            <li>Details of your current employment</li>
-                        </ul>
-                        <p class="govuk-body">This application takes about 10 minutes to complete.</p>
+                        <h3 class="govuk-heading-s">This road is not eligible for repair</h3>
+                        <p class="govuk-body">Based on your report, this road does not meet our criteria for pothole
+                            repair at this time.</p>
+                        <p class="govuk-body">We only repair potholes that are deeper than 40mm and wider than 300mm.
+                            Your reported pothole appears to be smaller than these minimum requirements.</p>
+                        <p class="govuk-body">If you think this assessment is wrong, contact us at <a href="#"
+                                class="govuk-link">highways@defra.gov.uk</a></p>
                     </div>
+
+                    <p class="govuk-body">
+                        <span style="display: inline-flex; align-items: center; gap: 8px;">
+                            <svg width="20" height="20" viewBox="0 0 20 20" fill="none"
+                                xmlns="http://www.w3.org/2000/svg"
+                                style="background: #00703c; border-radius: 50%; padding: 2px;">
+                                <path d="M8 15L3 10L4.41 8.59L8 12.17L15.59 4.58L17 6L8 15Z" fill="white" />
+                            </svg>
+                            <strong>Why this is good:</strong>
+                        </span>
+                    </p>
+                    <ul class="govuk-list govuk-list--bullet">
+                        <li>Clear heading explains the situation</li>
+                        <li>Explains specific criteria for pothole repair</li>
+                        <li>Provides technical details (40mm depth, 300mm width)</li>
+                        <li>Offers contact information for questions</li>
+                        <li>Uses GOV.UK design patterns</li>
+                    </ul>
+
+
 
                     <div class="govuk-inset-text">
-                        <p class="govuk-body"><strong>Why this is good:</strong></p>
+                        <h3 class="govuk-heading-s">About potholes</h3>
+                        <p class="govuk-body">A pothole is a depression or hole in the road surface caused by wear and
+                            tear, weather conditions, or poor construction.</p>
+                        <p class="govuk-body">We classify potholes based on their size and depth:</p>
                         <ul class="govuk-list govuk-list--bullet">
-                            <li>Clear heading explains the purpose</li>
-                            <li>Specific list of what's needed</li>
-                            <li>Sets expectations about time</li>
-                            <li>Uses GOV.UK design patterns</li>
+                            <li><strong>Minor:</strong> Less than 25mm deep and 150mm wide</li>
+                            <li><strong>Moderate:</strong> 25-40mm deep and 150-300mm wide</li>
+                            <li><strong>Major:</strong> More than 40mm deep and wider than 300mm</li>
                         </ul>
+                        <p class="govuk-body">Only major potholes are eligible for immediate repair. Minor and moderate
+                            potholes are monitored and repaired during scheduled maintenance.</p>
                     </div>
 
-                    <h4 class="govuk-heading-s">Example success message</h4>
-                    <p class="govuk-body">When users complete actions successfully, you can show them a notification
-                        banner like this:</p>
-
-                    <div class="govuk-notification-banner govuk-notification-banner--success" role="alert"
-                        aria-labelledby="govuk-notification-banner-title" data-module="govuk-notification-banner">
-                        <div class="govuk-notification-banner__header">
-                            <h2 class="govuk-notification-banner__title" id="govuk-notification-banner-title">
-                                Success
-                            </h2>
-                        </div>
-                        <div class="govuk-notification-banner__content">
-                            <h3 class="govuk-notification-banner__heading">
-                                Training outcome recorded and trainee withdrawn
-                            </h3>
-                            <p class="govuk-body">Contact <a class="govuk-notification-banner__link"
-                                    href="#">example@department.gov.uk</a> if you think there's a problem.</p>
-                        </div>
-                    </div>
-
-                    <div class="govuk-inset-text">
-                        <p class="govuk-body"><strong>Why this success message is effective:</strong></p>
-                        <ul class="govuk-list govuk-list--bullet">
-                            <li>Clear, specific heading tells users exactly what happened</li>
-                            <li>Provides next steps or contact information if needed</li>
-                            <li>Uses the GOV.UK notification banner component</li>
-                            <li>Appears at the top of the page for maximum visibility</li>
-                        </ul>
-                    </div>
+                    <span style="display: inline-flex; align-items: center; gap: 8px;">
+                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"
+                            style="background: #00703c; border-radius: 50%; padding: 2px;">
+                            <path d="M8 15L3 10L4.41 8.59L8 12.17L15.59 4.58L17 6L8 15Z" fill="white" />
+                        </svg>
+                        <strong>Why this is good:</strong>
+                    </span>
+                    <ul class="govuk-list govuk-list--bullet">
+                        <li>Clear heading explains the topic</li>
+                        <li>Provides educational information about potholes</li>
+                        <li>Uses structured classification system</li>
+                        <li>Explains policy clearly with technical details</li>
+                        <li>Uses GOV.UK design patterns</li>
+                    </ul>
                 </div>
 
                 <div class="govuk-tabs__panel govuk-tabs__panel--hidden" id="bad-guidance">
@@ -2299,23 +2315,29 @@ containerClasses: "govuk-width-container"
                     <p class="govuk-body">This guidance is unclear and unhelpful:</p>
 
                     <div class="govuk-inset-text">
-                        <h3 class="govuk-heading-s">Important information</h3>
-                        <p class="govuk-body">You might need some stuff. We're not sure what exactly, but
-                            probably
-                            some documents. It could take a while, maybe 5 minutes or maybe an hour, depending
-                            on
-                            how fast you are.</p>
+                        <h3 class="govuk-heading-s">Sorry</h3>
+                        <p class="govuk-body">We can't process your pothole report right now. We're not sure what the
+                            problem is, but something's wrong with your submission. Maybe try again later or call
+                            someone if you have questions.</p>
                     </div>
 
-                    <div class="govuk-inset-text">
-                        <p class="govuk-body"><strong>Why this is bad:</strong></p>
-                        <ul class="govuk-list govuk-list--bullet">
-                            <li>Vague about what's needed</li>
-                            <li>Uncertain about time commitment</li>
-                            <li>Unprofessional tone</li>
-                            <li>No clear structure</li>
-                        </ul>
-                    </div>
+                    <p class="govuk-body">
+                        <span style="display: inline-flex; align-items: center; gap: 8px;">
+                            <svg width="20" height="20" viewBox="0 0 20 20" fill="none"
+                                xmlns="http://www.w3.org/2000/svg"
+                                style="background: #d4351c; border-radius: 50%; padding: 2px;">
+                                <path d="M6 6L14 14M14 6L6 14" stroke="white" stroke-width="2" stroke-linecap="round" />
+                            </svg>
+                            <strong>Why this is bad:</strong>
+                        </span>
+                    </p>
+                    <ul class="govuk-list govuk-list--bullet">
+                        <li>Vague about why the report can't be processed</li>
+                        <li>Uncertain about what to do next</li>
+                        <li>Unprofessional and unclear tone</li>
+                        <li>No clear guidance or contact information</li>
+                        <li>Doesn't explain the technical issue properly</li>
+                    </ul>
                 </div>
             </div>
 
@@ -2371,15 +2393,22 @@ containerClasses: "govuk-width-container"
                         </fieldset>
                     </div>
 
-                    <div class="govuk-inset-text">
-                        <p class="govuk-body"><strong>Why this is accessible:</strong></p>
-                        <ul class="govuk-list govuk-list--bullet">
-                            <li>Proper fieldset and legend structure</li>
-                            <li>Labels associated with inputs</li>
-                            <li>Clear, descriptive text</li>
-                            <li>Uses GOV.UK Design System components</li>
-                        </ul>
-                    </div>
+                    <p class="govuk-body">
+                        <span style="display: inline-flex; align-items: center; gap: 8px;">
+                            <svg width="20" height="20" viewBox="0 0 20 20" fill="none"
+                                xmlns="http://www.w3.org/2000/svg"
+                                style="background: #00703c; border-radius: 50%; padding: 2px;">
+                                <path d="M8 15L3 10L4.41 8.59L8 12.17L15.59 4.58L17 6L8 15Z" fill="white" />
+                            </svg>
+                            <strong>Why this is accessible:</strong>
+                        </span>
+                    </p>
+                    <ul class="govuk-list govuk-list--bullet">
+                        <li>Proper fieldset and legend structure</li>
+                        <li>Labels associated with inputs</li>
+                        <li>Clear, descriptive text</li>
+                        <li>Uses GOV.UK Design System components</li>
+                    </ul>
                 </div>
 
                 <div class="govuk-tabs__panel govuk-tabs__panel--hidden" id="inaccessible-form">
@@ -2394,15 +2423,22 @@ containerClasses: "govuk-width-container"
                         <span>No</span>
                     </div>
 
-                    <div class="govuk-inset-text">
-                        <p class="govuk-body"><strong>Why this is inaccessible:</strong></p>
-                        <ul class="govuk-list govuk-list--bullet">
-                            <li>No fieldset or legend structure</li>
-                            <li>Inputs not associated with labels</li>
-                            <li>Uses generic HTML instead of GOV.UK components</li>
-                            <li>Poor semantic structure</li>
-                        </ul>
-                    </div>
+                    <p class="govuk-body">
+                        <span style="display: inline-flex; align-items: center; gap: 8px;">
+                            <svg width="20" height="20" viewBox="0 0 20 20" fill="none"
+                                xmlns="http://www.w3.org/2000/svg"
+                                style="background: #d4351c; border-radius: 50%; padding: 2px;">
+                                <path d="M6 6L14 14M14 6L6 14" stroke="white" stroke-width="2" stroke-linecap="round" />
+                            </svg>
+                            <strong>Why this is inaccessible:</strong>
+                        </span>
+                    </p>
+                    <ul class="govuk-list govuk-list--bullet">
+                        <li>No fieldset or legend structure</li>
+                        <li>Inputs not associated with labels</li>
+                        <li>Uses generic HTML instead of GOV.UK components</li>
+                        <li>Poor semantic structure</li>
+                    </ul>
                 </div>
             </div>
 
@@ -2472,7 +2508,7 @@ containerClasses: "govuk-width-container"
                     <option value="email">Email address</option>
                     <option value="phone">Phone number</option>
                     <option value="numbers">Numbers</option>
-                    <option value="radios">Radio buttons</option>
+                    <option value="radios">Radios</option>
                     <option value="yesno">Yes/No question</option>
                     <option value="checkboxes">Checkboxes</option>
                     <option value="textarea">Text area</option>
@@ -2552,7 +2588,7 @@ containerClasses: "govuk-width-container"
                 </div>
 
                 <button class="govuk-button govuk-button--secondary"
-                    onclick="checkKnowledgeAnswer('question-1', 'short-text', 'Correct! Reference numbers are brief, single-line responses that work perfectly with short text inputs. They\'re easy to type and validate.'); return false;">
+                    onclick="checkKnowledgeAnswer('question-1', 'short-text', 'Reference numbers are brief, single-line responses that work perfectly with short text inputs. They\'re easy to type and validate.', 'Reference numbers are brief, single-line responses that work perfectly with short text inputs. They\'re easy to type and validate.'); return false;">
                     Check answer
                 </button>
 
@@ -2563,7 +2599,7 @@ containerClasses: "govuk-width-container"
                 </button>
             </div>
 
-            <!-- Question 2: Radio buttons vs checkboxes -->
+            <!-- Question 2: Radios vs checkboxes -->
             <div id="question-2" class="knowledge-question" style="display: none;">
                 <h2 class="govuk-heading-m">Question 2: Multiple choice scenarios</h2>
 
@@ -2583,7 +2619,7 @@ containerClasses: "govuk-width-container"
                             <div class="govuk-radios__item">
                                 <input class="govuk-radios__input" id="q2-radio" name="question-2" type="radio"
                                     value="radio">
-                                <label class="govuk-label govuk-radios__label" for="q2-radio">Radio buttons</label>
+                                <label class="govuk-label govuk-radios__label" for="q2-radio">Radios</label>
                             </div>
                             <div class="govuk-radios__item">
                                 <input class="govuk-radios__input" id="q2-checkbox" name="question-2" type="radio"
@@ -2600,7 +2636,7 @@ containerClasses: "govuk-width-container"
                 </div>
 
                 <button class="govuk-button govuk-button--secondary"
-                    onclick="checkKnowledgeAnswer('question-2', 'checkbox', 'Correct! Since users can speak multiple languages, checkboxes are the best choice. They allow users to select all that apply.'); return false;">
+                    onclick="checkKnowledgeAnswer('question-2', 'checkbox', 'Since users can speak multiple languages, checkboxes are the best choice. They allow users to select all that apply.', 'Since users can speak multiple languages, checkboxes are the best choice. They allow users to select all that apply.'); return false;">
                     Check answer
                 </button>
 
@@ -2647,7 +2683,7 @@ containerClasses: "govuk-width-container"
                 </div>
 
                 <button class="govuk-button govuk-button--secondary"
-                    onclick="checkKnowledgeAnswer('question-3', 'conditions', 'Correct! Conditions allow you to show or hide pages based on user answers, creating personalized experiences that adapt to different user needs.'); return false;">
+                    onclick="checkKnowledgeAnswer('question-3', 'conditions', 'Conditions allow you to show or hide pages based on user answers, creating personalized experiences that adapt to different user needs.', 'Conditions allow you to show or hide pages based on user answers, creating personalized experiences that adapt to different user needs.'); return false;">
                     Check answer
                 </button>
 
@@ -2684,7 +2720,7 @@ containerClasses: "govuk-width-container"
                 </div>
 
                 <button class="govuk-button govuk-button--secondary"
-                    onclick="checkKnowledgeAnswer('question-4', 'good', 'Correct! The first option uses plain English and is direct, following GOV.UK style guidelines. It\'s clear, concise, and user-friendly.'); return false;">
+                    onclick="checkKnowledgeAnswer('question-4', 'good', 'The first option uses plain English and is direct, following GOV.UK style guidelines. It\'s clear, concise, and user-friendly.', 'The first option uses plain English and is direct, following GOV.UK style guidelines. It\'s clear, concise, and user-friendly.'); return false;">
                     Check answer
                 </button>
 
@@ -2730,7 +2766,7 @@ containerClasses: "govuk-width-container"
                 </div>
 
                 <button class="govuk-button govuk-button--secondary"
-                    onclick="checkKnowledgeAnswer('question-5', 'labels', 'Correct! Proper labels and fieldset structure are essential for screen readers and other assistive technologies. GOV.UK Design System components are built with accessibility in mind.'); return false;">
+                    onclick="checkKnowledgeAnswer('question-5', 'labels', 'Proper labels and fieldset structure are essential for screen readers and other assistive technologies. GOV.UK Design System components are built with accessibility in mind.', 'Proper labels and fieldset structure are essential for screen readers and other assistive technologies. GOV.UK Design System components are built with accessibility in mind.'); return false;">
                     Check answer
                 </button>
 
@@ -2762,7 +2798,7 @@ containerClasses: "govuk-width-container"
                     <h3 class="govuk-heading-s">Key takeaways:</h3>
                     <ul class="govuk-list govuk-list--bullet">
                         <li>Choose the right input type for your data</li>
-                        <li>Use radio buttons for single choices, checkboxes for multiple selections</li>
+                        <li>Use radios for single choices, checkboxes for multiple selections</li>
                         <li>Conditions create dynamic, personalized experiences</li>
                         <li>Write clear, specific questions in plain English</li>
                         <li>Always consider accessibility in your form design</li>
@@ -2854,7 +2890,7 @@ containerClasses: "govuk-width-container"
                     <li><a href="#" onclick="jumpToSection(2); return false;" class="govuk-link">Short text
                             inputs</a>
                     </li>
-                    <li><a href="#" onclick="jumpToSection(8); return false;" class="govuk-link">Radio buttons</a>
+                    <li><a href="#" onclick="jumpToSection(8); return false;" class="govuk-link">Radios</a>
                     </li>
                     <li><a href="#" onclick="jumpToSection(9); return false;" class="govuk-link">Checkboxes</a></li>
                 </ul>
@@ -3181,7 +3217,7 @@ containerClasses: "govuk-width-container"
 
     .knowledge-question h2 {
         margin-top: 0;
-        color: #0b0c0c;
+        /* color: #0b0c0c; */
     }
 
     /* Override incorrect notification banner background color for tutorial - only for specific sections */
@@ -3467,7 +3503,7 @@ containerClasses: "govuk-width-container"
         }, 100);
     }
 
-    function checkKnowledgeAnswer(questionName, correctAnswer, feedbackMessage) {
+    function checkKnowledgeAnswer(questionName, correctAnswer, correctMessage, incorrectMessage) {
         const selectedAnswer = document.querySelector(`input[name="${questionName}"]:checked`);
 
         if (!selectedAnswer) {
@@ -3488,6 +3524,7 @@ containerClasses: "govuk-width-container"
         const feedbackElement = document.getElementById(feedbackId);
 
         if (feedbackElement) {
+            const message = isCorrect ? correctMessage : incorrectMessage;
             feedbackElement.innerHTML = `
                 <div class="govuk-notification-banner ${isCorrect ? 'govuk-notification-banner--success' : 'govuk-notification-banner--error'}" role="alert" aria-labelledby="govuk-notification-banner-title" data-module="govuk-notification-banner" tabindex="-1">
                     <div class="govuk-notification-banner__header">
@@ -3497,7 +3534,7 @@ containerClasses: "govuk-width-container"
                     </div>
                     <div class="govuk-notification-banner__content">
                         <p class="govuk-notification-banner__heading">
-                            ${feedbackMessage}
+                            ${message}
                         </p>
                     </div>
                 </div>
@@ -3858,9 +3895,9 @@ containerClasses: "govuk-width-container"
             const message = isCorrect ? correctFeedback : incorrectFeedback;
 
             feedbackElement.innerHTML = `
-                <div class="govuk-notification-banner${isCorrect ? ' govuk-notification-banner--success' : ''}" role="${isCorrect ? 'alert' : 'region'}" aria-labelledby="govuk-notification-banner-title" data-module="govuk-notification-banner" tabindex="-1">
+                <div class="govuk-notification-banner${isCorrect ? ' govuk-notification-banner--success' : ' govuk-notification-banner--error'}" role="${isCorrect ? 'alert' : 'region'}" aria-labelledby="govuk-notification-banner-title" data-module="govuk-notification-banner" tabindex="-1">
                     <div class="govuk-notification-banner__header">
-                        <h2 class="govuk-notification-banner__title" id="govuk-notification-banner-title">
+                        <h2 class="govuk-notification-banner__title--inverse" id="govuk-notification-banner-title">
                             ${title}
                         </h2>
                     </div>
