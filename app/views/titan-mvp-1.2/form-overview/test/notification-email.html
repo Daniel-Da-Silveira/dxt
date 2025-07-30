@@ -1,0 +1,189 @@
+{% extends "layouts/main.html" %}
+
+{% from "components/service-header/macro.njk" import serviceHeader %}
+
+{% set pageName = "Where submitted forms are sent - Apply for a county parish holding number in England" %}
+
+{% block header %}
+{{ serviceHeader({
+organisationName: "Defra",
+productName: "Forms Designer",
+serviceName: "",
+accountName: "Chris Smith",
+homepageLink: "/",
+signOutLink: "/titan-mvp-1.2/onboarding/sign-out-confirmation",
+navigationItems: [
+{
+href: "/titan-mvp-1.2/library",
+text: "Forms library",
+id: "nav-library"
+},
+{
+href: "/titan-mvp-1.2/form-overview/index",
+text: "Overview",
+id: "nav-overview"
+},{
+href: "/titan-mvp-1.2/form-editor/listing",
+text: 'Editor',
+id: 'nav-editor'
+}],
+activeLinkId: "/"
+}) }}
+{% endblock %}
+
+{% block beforeContent %}
+{{ govukBackLink({
+text: "Back",
+href: "javascript:window.history.back()"
+}) }}
+{% endblock %}
+
+{% block content %}
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    {# <p class="govuk-body">It should be a shared government email inbox and you should test it before making a form
+      live.
+      The email address must end with 'gov.uk'.</p> #}
+
+    <form action="/titan-mvp-1.2/form-overview/index/support/notification-email" method="post">
+
+      <span class="govuk-caption-xl">Apply for a county-parish-holding-number</span>
+
+      {% set emailOnlyHtml %}
+      {{ govukInput({
+      id: "notification-email",
+      name: "notificationEmail",
+      type: "email",
+      autocomplete: "email",
+      spellcheck: false,
+      classes: "govuk-!-width-one-third",
+      label: {
+      text: "Email address"
+      }
+      }) }}
+      {% endset -%}
+
+      {% set machineReadableHtml %}
+      {{ govukRadios({
+      name: "machineReadableFormat",
+      fieldset: {
+      legend: {
+      text: "Which format do you want?",
+      classes: "govuk-fieldset__legend--m"
+      }
+      },
+      items: [
+      {
+      value: "json",
+      text: "JSON",
+      hint: {
+      text: "JavaScript Object Notation format"
+      }
+      },
+      {
+      value: "xml",
+      text: "XML",
+      hint: {
+      text: "Extensible Markup Language format"
+      }
+      },
+      {
+      value: "csv",
+      text: "CSV",
+      hint: {
+      text: "Comma-separated values format"
+      }
+      }
+      ]
+      }) }}
+
+      {{ govukInput({
+      id: "machine-readable-email",
+      name: "machineReadableEmail",
+      type: "email",
+      autocomplete: "email",
+      spellcheck: false,
+      classes: "govuk-!-width-one-third",
+      label: {
+      text: "Email address"
+      }
+      }) }}
+      {% endset -%}
+
+      {% set plainTextAndMachineReadableHtml %}
+      {{ govukInput({
+      id: "plain-text-and-machine-readable-email",
+      name: "plainTextAndMachineReadableEmail",
+      type: "email",
+      autocomplete: "email",
+      spellcheck: false,
+      classes: "govuk-!-width-one-third",
+      label: {
+      text: "Email address"
+      }
+      }) }}
+      {% endset -%}
+
+
+      {{ govukRadios({
+      name: "notificationEmail",
+      fieldset: {
+      legend: {
+      text: "How do you want to receive submitted forms?",
+      isPageHeading: true,
+      classes: "govuk-fieldset__legend--xl"
+      }
+      },
+      hint: {
+      text: "It should be a shared government email inbox and you should test it before making a form live. The email
+      address must
+      end with ‘gov.uk’."
+      },
+      items: [
+      {
+      value: "email-only",
+      text: "Plain text email only",
+      hint: {
+      text: "A plain text email designed for human readability."
+      },
+      conditional: {
+      html: emailOnlyHtml
+      }
+      },
+      {
+      value: "machine-readable-only",
+      text: "Machine readable email only",
+      hint: {
+      text: "A structured email designed for software or automated tools."
+      },
+      conditional: {
+      html: machineReadableHtml
+      }
+      },
+      {
+      divider: "or"
+      },
+      {
+      value: "email-and-machine-readable",
+      text: "Plain text and machine readable email",
+      conditional: {
+      html: plainTextAndMachineReadableHtml
+      }
+      }
+      ]
+      }) }}
+
+      {% from "govuk/components/button/macro.njk" import govukButton %}
+
+      <div class="govuk-button-group">
+        {{ govukButton({
+        text: "Save and continue"
+        }) }}
+        <a href="/titan-mvp-1.2/form-overview/index" class="govuk-button govuk-button--secondary">Cancel</a>
+      </div>
+    </form>
+  </div>
+</div>
+
+
+{% endblock %}

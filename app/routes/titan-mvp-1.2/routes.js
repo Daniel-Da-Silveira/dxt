@@ -794,7 +794,6 @@ router.get("/titan-mvp-1.2/form-editor/listing", function (req, res) {
     request: req,
   });
 });
-
 // Add non-.html route for listing
 router.get("/titan-mvp-1.2/form-editor/listing.html", function (req, res) {
   const formPages = req.session.data["formPages"] || [];
@@ -1592,7 +1591,6 @@ router.post("/titan-mvp-1.2/create-new-form/organisation-name", (req, res) => {
 
   res.redirect("/titan-mvp-1.2/create-new-form/policy-sme");
 });
-
 router.get("/titan-mvp-1.2/create-new-form/policy-sme", (req, res) => {
   // Initialize session data if it doesn't exist
   req.session.data = req.session.data || {};
@@ -2381,6 +2379,43 @@ router.get(
   }
 );
 
+// Knowledge check routes (end-of-journey)
+router.get("/form-editor/knowledge-check/:question", function (req, res) {
+  const question = req.params.question;
+  res.render("titan-mvp-1.2/form-editor/knowledge-check/" + question, {
+    feedback: null,
+  });
+});
+
+router.post("/form-editor/knowledge-check/:question", function (req, res) {
+  const question = req.params.question;
+  const answer = req.body.answer;
+  // Example feedback logic (expand per question)
+  let feedback = {};
+  if (question === "q1") {
+    if (answer === "a") {
+      feedback = {
+        type: "success",
+        message:
+          "Correct! Consolidating knowledge checks at the end helps reduce fatigue and improve retention.",
+        example:
+          "This approach lets users focus on learning before being assessed.",
+      };
+    } else {
+      feedback = {
+        type: "error",
+        message:
+          "Not quite. The main benefit is reducing cognitive fatigue and improving retention.",
+        example:
+          "Placing questions at the end avoids interrupting the learning flow.",
+      };
+    }
+  }
+  // Add more question logic as needed
+  res.render("titan-mvp-1.2/form-editor/knowledge-check/" + question, {
+    feedback,
+  });
+});
 // Live form overview route
 router.get("/titan-mvp-1.2/form-overview/live/index", (req, res) => {
   const formData = req.session.data || {};
@@ -3168,7 +3203,6 @@ router.post(
     res.redirect("/titan-mvp-1.2/form-editor/conditions/manager");
   }
 );
-
 // Edit condition page (adapted from 1.0)
 router.get(
   "/titan-mvp-1.2/form-editor/conditions/edit/:id",
@@ -4762,7 +4796,6 @@ router.get(
     );
   }
 );
-
 // Handle force save with condition removal
 router.post(
   "/titan-mvp-1.2/form-editor/reorder/resolve-page-conflicts",
@@ -5436,7 +5469,6 @@ router.get("/titan-mvp-1.2/test-choose-section", function (req, res) {
     sections: testSections,
   });
 });
-
 // Organize check answers page (GET)
 router.get(
   "/titan-mvp-1.2/form-editor/check-answers/organize",
@@ -6221,7 +6253,6 @@ router.get("/titan-mvp-1.2/ai/task/form-aim", (req, res) => {
     formAimStarted: req.session.data.formAimStarted,
   });
 });
-
 router.post("/titan-mvp-1.2/ai/task/form-aim", (req, res) => {
   req.session.data = req.session.data || {};
 
@@ -6698,7 +6729,6 @@ router.post(
     );
   }
 );
-
 // Demo listing route with comprehensive form data
 router.get("/titan-mvp-1.2/form-editor/listing/demo", function (req, res) {
   // Create comprehensive demo form data
@@ -7218,7 +7248,6 @@ router.get("/titan-mvp-1.2/form-editor/listing/demo", function (req, res) {
     },
   });
 });
-
 // CPH Form Demo Route
 router.get("/titan-mvp-1.2/form-editor/listing/cph-demo", function (req, res) {
   // Create CPH form pages based on the JSON structure
@@ -8541,5 +8570,15 @@ router.get("/titan-mvp-1.2/form-editor/listing/cph-demo", function (req, res) {
       conditions: cphConditions,
       formName: "Apply for a county parish holding (CPH) number",
     },
+  });
+});
+
+// Tutorial route
+router.get("/titan-mvp-1.2/form-editor/tutorial", function (req, res) {
+  res.render("titan-mvp-1.2/form-editor/tutorial", {
+    form: {
+      name: "Forms Designer Tutorial",
+    },
+    data: req.session.data || {},
   });
 });

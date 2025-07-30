@@ -2903,3 +2903,205 @@ to
   border-left: 5px solid #008938;
   outline: 1px solid #b1b4b6;
 }
+
+// App Vertical Navigation Styles - Based on MoJ Design System
+.app-layout__sidebar {
+  background-color: #fff;
+  padding-bottom: 20px;
+  z-index: 1;
+  position: sticky;
+  top: 0;
+  overflow-y: auto;
+  border-right: 1px solid #b1b4b6;
+  height: 100vh;
+}
+
+@media (min-width: 40.0625em) {
+  .app-layout__sidebar {
+    padding-bottom: 30px;
+  }
+}
+
+.app-vertical-nav {
+  margin-bottom: 20px;
+  padding-bottom: 20px;
+  position: relative;
+}
+
+@media (min-width: 40.0625em) {
+  .app-vertical-nav {
+    margin-bottom: 30px;
+    padding-bottom: 30px;
+  }
+}
+
+.app-vertical-nav:after {
+  background-color: #b1b4b6;
+  bottom: 0;
+  content: "";
+  height: 1px;
+  left: 20px;
+  position: absolute;
+  right: 20px;
+}
+
+.app-vertical-nav__header {
+  color: #505a5f;
+  font-family: GDS Transport, arial, sans-serif;
+  margin-bottom: 15px;
+  padding-left: 19px;
+  padding-right: 19px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-size: 1.125rem;
+  font-weight: 600;
+  line-height: 1.1111111111;
+}
+
+@media (min-width: 40.0625em) {
+  .app-vertical-nav__header {
+    font-size: 1.5rem;
+    line-height: 1.25;
+  }
+}
+
+.app-vertical-nav__list {
+  font-family: GDS Transport, arial, sans-serif;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.25;
+}
+
+@media (min-width: 40.0625em) {
+  .app-vertical-nav__list {
+    font-size: 1.1875rem;
+    line-height: 1.3157894737;
+  }
+}
+
+.app-vertical-nav__item {
+  position: relative;
+  margin-bottom: 2px;
+}
+
+.app-vertical-nav__toggle {
+  background-color: initial;
+  border: none;
+  border-left: 4px solid transparent;
+  color: #1d70b8;
+  display: block;
+  font-family: GDS Transport, arial, sans-serif;
+  padding: 12px 38px 10px 20px;
+  text-align: left;
+  text-decoration: none;
+  width: 100%;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.25;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+@media (min-width: 40.0625em) {
+  .app-vertical-nav__toggle {
+    font-size: 1.1875rem;
+    line-height: 1.3157894737;
+  }
+}
+
+.app-vertical-nav__toggle:hover {
+  background-color: #f3f2f1;
+  color: #1d70b8;
+}
+
+.app-vertical-nav__list .app-vertical-nav__list {
+  font-family: GDS Transport, arial, sans-serif;
+  padding-left: 15px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-size: 0.875rem;
+  font-weight: 400;
+  line-height: 1.1428571429;
+  margin-top: 5px;
+}
+
+@media (min-width: 40.0625em) {
+  .app-vertical-nav__list .app-vertical-nav__list {
+    font-size: 1rem;
+    line-height: 1.25;
+  }
+}
+
+.app-vertical-nav__link {
+  border-left: 4px solid transparent;
+  color: #1d70b8;
+  display: block;
+  padding: 12px 38px 10px 20px;
+  text-decoration: none;
+  transition: background-color 0.2s ease, border-left-color 0.2s ease;
+}
+
+.app-vertical-nav__link:hover {
+  background-color: #f3f2f1;
+  color: #1d70b8;
+  border-left-color: #1d70b8;
+}
+
+.app-vertical-nav__link:visited {
+  color: #1d70b8;
+}
+
+.app-vertical-nav__indicator {
+  align-items: center;
+  display: flex;
+  height: 24px;
+  justify-content: center;
+  position: absolute;
+  right: 15px;
+  top: 10px;
+  width: 24px;
+  transition: transform 0.2s ease;
+}
+
+@media (min-width: 40.0625em) {
+  .app-vertical-nav__indicator {
+    top: 12px;
+  }
+}
+
+.app-vertical-nav__item .app-vertical-nav__indicator {
+  transform: rotate(180deg);
+}
+
+.app-vertical-nav__item--open .app-vertical-nav__indicator {
+  transform: rotate(0deg);
+}
+
+.app-vertical-nav__item--active > .app-vertical-nav__link {
+  background-color: #1d70b8;
+  color: #fff;
+  border-left-color: #1d70b8;
+}
+
+.app-vertical-nav__item--active > .app-vertical-nav__link:hover {
+  background-color: #003078;
+  color: #fff;
+}
+
+.app-vertical-nav__link--active {
+  background-color: #1d70b8;
+  color: #fff;
+  border-left-color: #1d70b8;
+}
+
+.app-vertical-nav__link--active:hover {
+  background-color: #003078;
+  color: #fff;
+}

@@ -1,0 +1,213 @@
+{% extends "layouts/main.html" %}
+
+{% from "components/service-header/macro.njk" import serviceHeader %}
+
+{% set formLibrary = require("data/form-library.json") %}
+
+{% switch data["sort"] %}
+{% case "updated-oldest" %}
+{% set sortBy = "updated.date" %}
+{% set sortReverse = false %}
+{% case "status" %}
+{% set sortBy = "status" %}
+{% set sortReverse = false %}
+{% case "published-newest" %}
+{% set filterBy = "published" %}
+{% set sortBy = "published.date" %}
+{% set sortReverse = true %}
+{% case "published-oldest" %}
+{% set filterBy = "published" %}
+{% set sortBy = "published.date" %}
+{% set sortReverse = false %}
+{% endswitch %}
+
+{% set formItems = formLibrary.items | selectattr(filterBy) if filterBy else formLibrary.items %}
+{% set formItems = formItems | sort(attribute="updated.date", reverse=true) %}
+
+{% set pageCount = (formItems.length / 25) | round(0, "ceil") %}
+{% set pageCurrent = data["page"] | abs if data["page"] and data["page"] | abs <= pageCount else 1 %} {% set pageName
+    -%} Forms library (page {{ pageCurrent }} of {{ pageCount }}) {%- endset %} {% block header %} {{ serviceHeader({
+    organisationName: "Defra" , productName: "Forms Designer" , serviceName: "" , accountName: "Chris Smith" ,
+    homepageLink: "/" , signOutLink: "/form-designer-v2/onboarding/sign-out-confirmation" , navigationItems: [{
+    href: "/" , text: "Forms library" , id: "form-library" }], activeLinkId: "form-library" }) }} {% endblock %} {%
+    block content %} <div class="govuk-grid-row">
+    <div class="govuk-grid-column-full">
+        <h1 class="govuk-heading-xl">Forms library</h1>
+    </div>
+    </div>
+
+    <form>
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-full">
+                <div class="app-field-group">
+                    <div class="app-field-group__item">
+                        <input type="hidden" name="page" value="1">
+
+                        {{ govukSelect({
+                        id: "sort",
+                        name: "sort",
+                        label: {
+                        text: "Sort by",
+                        classes: "app-field-group__label"
+                        },
+                        classes: "app-field-group__input",
+                        items: [
+                        {
+                        value: "updated-newest",
+                        text: "Updated (newest)",
+                        selected: true
+                        },
+                        {
+                        value: "updated-oldest",
+                        text: "Updated (oldest)"
+                        },
+                        {
+                        value: "status",
+                        text: "Status"
+                        },
+                        {
+                        value: "published-newest",
+                        text: "Published (newest)"
+                        },
+                        {
+                        value: "published-oldest",
+                        text: "Published (oldest)"
+                        }
+                        ],
+                        value: data["sort"]
+                        }) }}
+                    </div>
+                    <div class="app-field-group__item">
+                        {{ govukButton({
+                        text: "Sort forms",
+                        classes: "govuk-button--secondary app-field-group__button"
+                        }) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="govuk-grid-row">
+            <div id="search-results" aria-describedby="search-results-heading"
+                class="app-search__results govuk-grid-column-two-thirds-from-desktop">
+                <h2 id="search-results-heading" class="govuk-heading-m">
+                    <span class="govuk-visually-hidden">Search results</span>
+                    {{ formItems.length }} forms
+                </h2>
+
+                <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
+
+                {{ govukButton({
+                text: "Create new form",
+                href: "/form-designer-v2/forms/new-form/form-name"
+                }) }}
+
+                {% set formsByPage = (formItems | sort(attribute=sortBy, reverse=sortReverse) if sortBy else formItems)
+                | slice(pageCount) %}
+
+                {% set formRowsMobile = [] %}
+                {% set formRowsDesktop = [] %}
+
+                {% for formItem in formsByPage[pageCurrent - 1] %}
+                {% set formHref = formItem.href if formItem.href else "/form-designer-v2/" + formItem.path %}
+
+                {% set formName %}
+                <a href="{{ formHref }}" class="govuk-link govuk-link--no-visited-state">
+                    {{ formItem.name }}
+                </a>
+                {% endset %}
+
+                {% set formUpdated %}
+                <span class="app-display-until-desktop">Updated </span>{{ formItem.updated.date | govukDate("truncate")
+                }}<br>
+                by {{ formItem.updated.name }}
+                {% endset %}
+
+                {% set formNameUpdated %}
+                {{ formName | safe }}
+                <p class="govuk-!-margin-top-2 govuk-!-margin-bottom-1">
+                    {{ formUpdated | safe }}
+                </p>
+                {% endset %}
+
+                {% set formStatus %}
+                {% set tagDraft = govukTag({ text: "Draft", classes: "govuk-tag--orange govuk-!-margin-bottom-1" }) %}
+                {% set tagLive = govukTag({ text: "Live", classes: "govuk-tag--green govuk-!-margin-top-1" }) %}
+
+                {% switch formItem.status %}
+                {% case "draft" %}
+                {{ tagDraft }}
+                {% case "draft-live" %}
+                {{ tagDraft }} {{ tagLive }}
+                {% case "live" %}
+                {{ tagLive }}
+                {% endswitch %}
+                {% endset %}
+
+                {% set formRowsMobile = (formRowsMobile.push([
+                {
+                html: formNameUpdated
+                },
+                {
+                html: formStatus
+                }
+                ]), formRowsMobile) %}
+
+                {% set formRowsDesktop = (formRowsDesktop.push([
+                {
+                html: formName
+                },
+                {
+                html: formUpdated
+                },
+                {
+                html: formStatus
+                }
+                ]), formRowsDesktop) %}
+                {% endfor %}
+
+                {{ govukTable({
+                classes: "app-display-until-desktop",
+                head: [
+                {
+                text: "Name",
+                classes: "govuk-!-width-three-quarters"
+                },
+                {
+                text: "Status"
+                }
+                ],
+                rows: formRowsMobile
+                }) }}
+
+                {{ govukTable({
+                classes: "app-display-from-desktop",
+                head: [
+                {
+                text: "Name",
+                classes: "govuk-!-width-one-half"
+                },
+                {
+                text: "Last updated"
+                },
+                {
+                text: "Status"
+                }
+                ],
+                rows: formRowsDesktop
+                }) }}
+
+                {% set pageItems = [] %}
+
+                {% for forms in formsByPage %}
+                {% set isPrevious = loop.index - pageCurrent == -1 %}
+                {% set isUpcoming = loop.index >= pageCurrent and loop.index - pageCurrent <= 2 %} {% if loop.first or
+                    loop.last or isPrevious or isUpcoming %} {% set pageItems=(pageItems.push({ number: loop.index,
+                    href: "?page=" + loop.index, current: loop.index==pageCurrent }), pageItems) %} {% else %} {% set
+                    pageItems=(pageItems.push({ ellipsis: true }), pageItems) %} {% endif %} {% endfor %} {{
+                    govukPagination({ previous: { href: "?page=" + (pageCurrent - 1) } if pageCurrent> 1,
+                    next: {
+                    href: "?page=" + (pageCurrent + 1)
+                    } if pageCurrent < pageCount, items: pageItems }) }} </div>
+            </div>
+    </form>
+    {% endblock %}

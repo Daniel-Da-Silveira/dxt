@@ -1,0 +1,162 @@
+{% extends "design-history/template.html" %}
+
+{% set featureName = "Short description for error messages" %}
+{% set latestVersionLink = "/titan-mvp-1.2/question.html" %}
+{% set status = "Tested" %}
+{% set statusColor = "green" %}
+{% set userNeed = "Users need to provide clear, meaningful error messages so they can help users complete forms
+correctly." %}
+{% set phase = "Private beta" %}
+{% set category = "Form editor" %}
+{% set description = "This feature lets users add a short description to questions, which is used to generate validation
+error messages automatically or to preview them before editing." %}
+
+{% set journeySteps = [
+{
+number: "3",
+title: "Form design",
+subtitles: [
+{ text: "Create and edit questions", isCurrent: true },
+{ text: "Set up page conditions", isCurrent: false }
+],
+isCurrent: true
+}
+] %}
+
+{% set researchRounds = [
+"Round 6 – September 2024",
+"Round 7 – October 2024",
+"Round 8 – November 2024",
+"Round 13 – March 2025"
+] %}
+
+{% set improvements = [
+"Clarified how short description is used in error messages",
+"Added preview of error message using short description",
+"Allowed full custom override of error messages"
+] %}
+
+{% set researchHistory = [
+{
+roundNumber: "13",
+researchDate: "March 2025",
+researchFinding: "Users misunderstood the role of short description. Policy users wanted to control the tone of error
+messages. Support for editable error message was strong.",
+changeMade: "Enabled custom error messages alongside short description."
+},
+{
+roundNumber: "8",
+researchDate: "November 2024",
+researchFinding: "Participants confused short description with label or help text. They wanted to see how the error
+would appear.",
+changeMade: "Added preview panel showing how error reads using short description."
+},
+{
+roundNumber: "7",
+researchDate: "October 2024",
+researchFinding: "Short description was not clearly understood. Users didn’t realise it generated the error. Feedback
+showed desire for control.",
+changeMade: "Improved guidance text and context for short description field."
+},
+{
+roundNumber: "6",
+researchDate: "September 2024",
+researchFinding: "Participants liked the idea of error automation but needed clearer guidance on short description.",
+changeMade: "Planned to introduce contextual help and inline preview."
+}
+] %}
+
+{% set researchSummaries = [
+{
+title: "Round 13 – March 2025",
+summary: "Validation and error messaging tested with policy and content designers.",
+sections: [
+{
+type: "content",
+content: "**Method:** Remote interviews and usability walkthroughs\n\n**Participants:** Policy SMEs and content
+designers from Waste, RPA, and Trade"
+},
+{
+type: "findings",
+content: [
+"Short description still misunderstood by most users",
+"Participants wanted full control over message wording",
+"Concerns about how automated errors sounded to users",
+"Desire to preview and override system-generated messages"
+]
+},
+{
+type: "quotes",
+content: [
+"'I’d never assume short description was for error messages.'",
+"'This doesn’t sound like how we’d talk to farmers – can I just write the message myself?'"
+]
+}
+]
+},
+{
+title: "Round 8 – November 2024",
+summary: "Tested how users understood and used short description across the form editor.",
+sections: [
+{
+type: "findings",
+content: [
+"Users confused short description with label or help text",
+"Short description’s connection to error message not obvious",
+"Wanted live preview of how error would read",
+"Too many fields caused cognitive overload"
+]
+},
+{
+type: "quotes",
+content: [
+"'There’s too many places to write text – label, short description, hint…'",
+"'If that becomes the error, I need to see it as I write it.'"
+]
+}
+]
+},
+{
+title: "Round 7 – October 2024",
+summary: "Explored how error messages were configured through short description.",
+sections: [
+{
+type: "findings",
+content: [
+"Users did not realise the short description became part of the error message",
+"Felt disconnected from what the user would actually see",
+"Mixed responses on whether to use short description or write full message"
+]
+},
+{
+type: "quotes",
+content: [
+"'I just want to write the error message myself.'",
+"'It’s not clear what this field does.'"
+]
+}
+]
+},
+{
+title: "Round 6 – September 2024",
+summary: "Initial testing of automated validation approach using short descriptions.",
+sections: [
+{
+type: "findings",
+content: [
+"Participants liked the idea in theory",
+"Expected better explanation of how it worked",
+"Unclear where error messages came from"
+]
+},
+{
+type: "quotes",
+content: [
+"'This is nice – but I’d need to understand what it does more clearly.'"
+]
+}
+]
+}
+] %}
+
+{% set relatedPosts = [] %}

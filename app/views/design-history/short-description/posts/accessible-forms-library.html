@@ -1,0 +1,98 @@
+{% extends "design-history/templates/post-template.html" %}
+
+{% set title = "Creating an accessible forms library using the GOV.UK table component" %}
+{% set category = "Form library" %}
+{% set postType = "Post" %}
+{% set publishDate = "2 March 2024" %}
+
+{% set breadcrumbItems = [
+{
+text: "Design History",
+href: "/index.html"
+},
+{
+text: "Form Library",
+href: "/design-history/form-library/index.html"
+},
+{
+text: "Accessible Forms Library"
+}
+] %}
+
+{% set relatedPosts = [
+{
+text: "Using the GOV.UK tags component to show the status of forms",
+href: "/design-history/form-library/posts/form-status-tags.html",
+date: "12 April 2024"
+},
+{
+text: "Making it easier to find forms",
+href: "/design-history/form-library/posts/finding-forms.html",
+date: "3 March 2024"
+}
+] %}
+
+{% block postContent %}
+<h2 class="govuk-heading-l">What we changed</h2>
+<ul class="govuk-list govuk-list--bullet">
+    <li>Changed from a <code class="govuk-code">govuk-grid-column-full</code> to a <code
+            class="govuk-code">govuk-grid-column-two-thirds</code> page layout. Although full page width layout allows
+        us to fit more content on the page, when users magnify their screens, they are likely to miss content that is
+        hidden beyond the horizontal fold</li>
+    <li>Removed the 'created by column'</li>
+    <li>Truncated dates</li>
+    <li>At breakpoints of less than 769px, the table will wrap to just to 2 columns</li>
+</ul>
+
+<h2 class="govuk-heading-l">Why we changed this</h2>
+<ul class="govuk-list govuk-list--bullet">
+    <li>We moved away from the full-page width layout because although it allows us to fit more content on the page,
+        when users magnify their screens they are likely to miss content that is hidden beyond the horizontal fold.</li>
+    <li>To increase accessibility further, we wrapped table contents into two columns when viewing at less than 769px.
+        This further ensured that users didn't need to scroll vertically or horizontally in order to scan for
+        information</li>
+    <li>We removed the created by column because users reported that they didn't need to see this information in the
+        library, and was more important for them to see the Form name, Last updated information and the status of the
+        forms</li>
+    <li>We followed the GOV.UK style guide of 'when space is an issue - in tables or publication titles, for example -
+        you can use truncated months: Jan, Feb'</li>
+</ul>
+
+<figure class="govuk-image">
+    <img src="/public/images/form-library/table-component/01.png"
+        alt="Table with full page width design, and the MoJ sortable table component" class="govuk-!-width-full">
+    <figcaption class="govuk-body-s">Table with full page width design, and the MoJ sortable table component (before
+        changes)</figcaption>
+</figure>
+
+<figure class="govuk-image">
+    <img src="/public/images/form-library/table-component/02.png"
+        alt="Table with two-thirds page width design at more than 769px, 3 column layout" class="govuk-!-width-full">
+    <figcaption class="govuk-body-s">Table with two-thirds page width design at more than 769px, 3 column layout (after
+        changes)</figcaption>
+</figure>
+
+<figure class="govuk-image">
+    <img src="/public/images/form-library/table-component/03.png"
+        alt="Table with two-thirds page width design at less than 769px, 2 column layout" class="govuk-!-width-full">
+    <figcaption class="govuk-body-s">Table with two-thirds page width design at less than 769px, 2 column layout (after
+        changes)</figcaption>
+</figure>
+
+<h2 class="govuk-heading-l">Things we considered</h2>
+<p class="govuk-body">We considered using <a href="https://design-system.service.gov.uk/components/summary-list/"
+        class="govuk-link">GOV.UK summary list component</a>, but feedback from users was that it made pages too long
+    and it was more important for them to find things at a snapshot view.</p>
+
+<figure class="govuk-image">
+    <img src="/public/images/form-library/table-component/04.png" alt="Summary lists version of the form library"
+        class="govuk-!-width-full">
+    <figcaption class="govuk-body-s">Summary lists version of the form library</figcaption>
+</figure>
+
+<figure class="govuk-image">
+    <img src="/public/images/form-library/table-component/05.png" alt="Summary cards version of the form library"
+        class="govuk-!-width-full">
+    <figcaption class="govuk-body-s">Summary cards version of the form library</figcaption>
+</figure>
+{% endblock %}
