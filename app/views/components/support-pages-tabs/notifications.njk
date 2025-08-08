@@ -1,0 +1,72 @@
+{% from "govuk/components/summary-list/macro.njk" import govukSummaryList %}
+
+<h1 class="govuk-heading-l">Notifications and next steps</h1>
+
+<form class="form" action="/titan-mvp-1.2/form-editor/listing" method="post">
+  {{ govukSummaryList({
+    rows: [
+      {
+        key: {
+          text: "Notification email"
+        },
+        value: {
+          html: '<span id="notification-value">Loading notification email...</span>'
+        },
+        actions: {
+          items: [
+            {
+              html: '<a href="/titan-mvp-1.2/form-overview/support/notification-email" class="govuk-link govuk-link--no-visited-state" id="notification-action">Add notification email</a>'
+            }
+          ]
+        }
+      },
+      {
+        key: {
+          text: "Next steps"
+        },
+        value: {
+          html: '<span id="next-steps-value">Loading next steps...</span>'
+        },
+        actions: {
+          items: [
+            {
+              html: '<a href="/titan-mvp-1.2/form-overview/support/next-steps" class="govuk-link govuk-link--no-visited-state" id="next-steps-action">Add next steps</a>'
+            }
+          ]
+        }
+      }
+    ]
+  }) }}
+
+  <a href="#notifications-preview" class="govuk-skip-link" style="margin-bottom: 30px!important;" data-module="govuk-skip-link">
+    Skip to notifications preview
+  </a>
+</form>
+
+<script>
+  // Load notifications data and update the display
+  document.addEventListener('DOMContentLoaded', function() {
+    const notificationValue = document.getElementById('notification-value');
+    const notificationAction = document.getElementById('notification-action');
+    const nextStepsValue = document.getElementById('next-steps-value');
+    const nextStepsAction = document.getElementById('next-steps-action');
+
+    // Handle notification email
+    {% if data['notificationEmail'] %}
+      notificationValue.textContent = "{{ data['notificationEmail'] }}";
+      notificationAction.textContent = 'Change';
+    {% else %}
+      notificationValue.innerHTML = '<a href="/titan-mvp-1.2/form-overview/support/notification-email" class="govuk-link govuk-link--no-visited-state">Add notification email</a>';
+      notificationAction.style.display = 'none';
+    {% endif %}
+
+    // Handle next steps
+    {% if data['nextSteps'] %}
+      nextStepsValue.textContent = "{{ data['nextSteps'] }}";
+      nextStepsAction.textContent = 'Change';
+    {% else %}
+      nextStepsValue.innerHTML = '<a href="/titan-mvp-1.2/form-overview/support/next-steps" class="govuk-link govuk-link--no-visited-state">Add next steps</a>';
+      nextStepsAction.style.display = 'none';
+    {% endif %}
+  });
+</script> 

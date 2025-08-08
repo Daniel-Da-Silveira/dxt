@@ -1,162 +1,488 @@
 {% extends "layouts/main.html" %}
-
 {% from "components/service-header/macro.njk" import serviceHeader %}
-
-{% set pageName = "Email address for support - Apply for a county parish holding number in England" %}
+{% from "components/support-pages-sub-nav/macro.njk" import supportPagesSubNav %}
+{% from "govuk/components/input/macro.njk" import govukInput %}
+{% from "govuk/components/textarea/macro.njk" import govukTextarea %}
+{% set pageName = "Add email address - Apply for a county parish holding number in England" %}
 
 {% block header %}
 {{ serviceHeader({
 organisationName: "Defra",
 productName: "Forms Designer",
 serviceName: "",
+containerClasses: containerClasses,
 accountName: "Chris Smith",
 homepageLink: "/",
 signOutLink: "/titan-mvp-1.2/onboarding/sign-out-confirmation",
 navigationItems: [
-{
-href: "/titan-mvp-1.2/library",
-text: "Forms library",
-id: "nav-library"
-},
-{
-href: "/titan-mvp-1.2/form-overview/index",
-text: "Overview",
-id: "nav-overview"
-},{
-href: "/titan-mvp-1.2/form-editor/listing",
-text: 'Editor',
-id: 'nav-editor'
-}],
-activeLinkId: "/"
+{ href: "/titan-mvp-1.2/library", text: "Forms library", id: "nav-library" },
+{ href: "/titan-mvp-1.2/form-overview/index", text: "Overview", id: "nav-overview" },
+{ href: "/titan-mvp-1.2/form-editor/listing", text: "Editor", id: "nav-editor", active: true }
+]
 }) }}
-{% endblock %}
 
-{% block beforeContent %}
-{{ govukBackLink({
-text: "Back",
-href: "/titan-mvp-1.2/form-overview/index"
-}) }}
+<div class="x-govuk-masthead x-govuk-masthead--large">
+  <div class="govuk-width-container">
+
+    {{ govukBackLink({
+    classes: "govuk-back-link--inverse govuk-!-margin-bottom-0",
+    text: "Back to support pages",
+    href: "/titan-mvp-1.2/form-editor/support-pages-settings"
+    }) }}
+
+    <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible"
+      style="border-bottom: 1px solid white; margin-bottom: 0;" />
+
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-full-from-desktop">
+        <h1 class="x-govuk-masthead__title">
+          Add email address
+        </h1>
+      </div>
+    </div>
+  </div>
+</div>
 {% endblock %}
 
 {% block content %}
+
+<!-- Outer grid row to hold BOTH columns side by side from desktop width -->
 <div class="govuk-grid-row">
-  <div class="govuk-grid-column-two-thirds-from-desktop">
-    <!-- <h1 class="govuk-heading-xl">Apply for a county parish holding number in England</h1> -->
 
-    {% from "govuk/components/summary-list/macro.njk" import govukSummaryList %}
+  <!-- LEFT COLUMN: Form Controls -->
+  <div class="govuk-grid-column-one-half-from-desktop" id="container"
+    style="flex: 1 1 75%; height: 100%; overflow-y: auto;">
+    <div class="govuk-summary-card govuk-!-margin-top-0" style="border-left: 10px solid #b1b4b6;">
+      <div class="govuk-summary-card__content govuk-!-padding-top-0" style="background-color: #f8f8f8;">
+        <dl class="govuk-summary-list">
+          <div class="govuk-summary-list__row">
+            <dd class="govuk-summary-list__value">
 
-    {% from "govuk/components/inset-text/macro.njk" import govukInsetText %}
+              <!-- Form Container -->
+              <div class="govuk-grid-row" id="form-container">
+                <div id="email-form">
+                  <div class="govuk-summary-card__content" style="margin-bottom: 0;">
 
-    {% from "govuk/components/checkboxes/macro.njk" import govukCheckboxes %}
-    {% from "govuk/components/input/macro.njk" import govukInput %}
-    {% from "govuk/components/textarea/macro.njk" import govukTextarea %}
-    {% from "govuk/components/textarea/macro.njk" import govukTextarea %}
-    <span class="govuk-caption-l">Apply for a county parish holding number in England</span>
-    <h1 class="govuk-heading-l">
-      Email address for support
-    </h1>
+                    <!-- Sub Navigation -->
+                    {{ supportPagesSubNav(
+                    currentTab='email-address',
+                    baseUrl="/titan-mvp-1.2/form-editor/support-pages-settings"
+                    ) }}
 
-    <form action="/titan-mvp-1.2/form-overview/index/support/email" method="post">
-      {{ govukInput({
-      label: {
-      text: "Email address"
-      },
-      hint: {
-      text: "Enter a dedicated support team email address. Do not enter a named individual. For example,
-      'support@defra.gov.uk'"
-      },
-      id: "emailAddress",
-      name: "emailAddress",
-      type: "email",
-      autocomplete: "email",
-      spellcheck: false,
-      value: form.support.email
-      }) }}
+                    <!-- Form Content -->
+                    <h1 class="govuk-heading-l">Email address for support
+                    </h1>
 
-      {{ govukInput({
-      label: {
-      text: "Response time"
-      },
-      hint: {
-      text: "Enter how long it takes to receive a response, for example, 'We aim to respond within 2 working days'"
-      },
-      id: "responseTime",
-      name: "responseTime",
-      type: "text",
-      autocomplete: "off",
-      spellcheck: false
-      }) }}
 
-      <div class="govuk-button-group">
-        <button type="submit" class="govuk-button" data-module="govuk-button">
-          Save and continue
-        </button>
-        <a href="/titan-mvp-1.2/form-overview/index" class="govuk-button govuk-button--secondary"
-          data-module="govuk-button">
-          Cancel
-        </a>
+                    <form class="form" action="/titan-mvp-1.2/form-overview/support/add-email" method="post">
+
+                      {{ govukInput({
+                      label: {
+                      text: "Email address",
+                      classes: "govuk-label--m",
+                      isPageHeading: false
+                      },
+                      hint: {
+                      text: "Enter a dedicated support team email address. Do not enter a named individual. For example,
+                      'support@defra.gov.uk'
+                      "
+                      },
+                      id: "emailAddress",
+                      name: "emailAddress",
+                      type: "email",
+                      value: data['emailAddress'] or '',
+                      placeholder: ""
+                      }) }}
+
+                      {{ govukTextarea({
+                      label: {
+                      text: "Response time",
+                      classes: "govuk-label--m",
+                      isPageHeading: false
+                      },
+                      hint: {
+                      text: "For example, 'We aim to respond within 2 working days'"
+                      },
+                      id: "responseTime",
+                      name: "responseTime",
+                      rows: 3,
+                      value: data['responseTime'] or '',
+                      placeholder: ""
+                      }) }}
+
+                      <div class="govuk-button-group">
+                        <button class="govuk-button" data-module="govuk-button">
+                          Save email address
+                        </button>
+                        <button type="submit" class="govuk-button govuk-button--warning" data-module="govuk-button ">
+                          Delete
+                        </button>
+                      </div>
+                    </form>
+
+                  </div> <!-- .govuk-summary-card__content -->
+                </div> <!-- #email-form -->
+              </div> <!-- #form-container -->
+
+            </dd>
+          </div>
+        </dl>
       </div>
-    </form>
+    </div>
   </div>
-</div>
+  <!-- END LEFT COLUMN -->
 
-<details class="govuk-details">
-  <summary class="govuk-details__summary">
-    <span class="govuk-details__summary-text">
-      View error messages
-    </span>
-  </summary>
-  <div class="govuk-details__text">
-    {% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
+  <!-- RIGHT COLUMN: Preview -->
+  <div class="govuk-grid-column-one-half-from-desktop" id="second-container"
+    style="outline: solid 1px #008938; position: sticky; top: 0; padding: 20px; box-shadow: 5px 10px #008938; height: fit-content; align-self: flex-start;">
+    <!-- Before content -->
+    <div id="before-content" style="background-color: #cce2d8;">
+      <p class="govuk-body-s" style="margin-bottom: 0; color: #005a30; padding: 2px 8px 3px; text-align: center;">
+        Preview
+      </p>
+    </div>
 
-    {{ govukErrorSummary({
-    titleText: "There is a problem",
-    errorList: [
-    {
-    text: "Enter an email address for dedicated support in the correct format",
-    href: "#emailAddress"
-    },
-    {
-    text: "Enter a response time for receiving responses",
-    href: "#responseTime"
+    <div style="margin-top: 60px!important;">
+      {% from "govuk/components/tabs/macro.njk" import govukTabs %}
+
+      <div class="govuk-tabs" data-module="govuk-tabs">
+        <h2 class="govuk-tabs__title">Contents</h2>
+        <ul class="govuk-tabs__list">
+          <li class="govuk-tabs__list-item govuk-tabs__list-item--selected">
+            <a class="govuk-tabs__tab" href="#tab-one">Page preview</a>
+          </li>
+        </ul>
+
+        <div class="govuk-tabs__panel" id="tab-one">
+          <!-- Page Preview Content -->
+          <p class="govuk-body-s" style="margin-bottom: 30px; border-bottom: #008938 1px;">
+            <a href="#" class="govuk-link govuk-link--no-visited-state" rel="noreferrer noopener" target="_blank">
+              Preview this page in a new tab
+            </a>
+          </p>
+
+          <!-- Dynamic Preview Content -->
+          <div id="dynamic-preview">
+            {% if data['emailAddress'] or data['responseTime'] %}
+            <h2 class="govuk-heading-l">Get help with your form</h2>
+
+            <div class="border-left-container">
+              <h3 class="govuk-heading-m">Email address</h3>
+              <div id="email-preview">
+                <div class="email-content">
+                  {% if data['emailAddress'] %}
+                  <p class="govuk-body">{{ data['emailAddress'] }}</p>
+                  {% endif %}
+                  {% if data['responseTime'] %}
+                  <p class="govuk-body">{{ data['responseTime'] }}</p>
+                  {% endif %}
+                </div>
+              </div>
+            </div>
+            {% else %}
+            <h2 class="govuk-heading-l">Get help with your form</h2>
+            <div class="border-left-container">
+              <h3 class="govuk-heading-m">Email address</h3>
+              <div id="email-preview">
+                <div class="email-content">
+                  <p class="govuk-body">Email address and response time for users to get help</p>
+                </div>
+              </div>
+            </div>
+            {% endif %}
+          </div>
+
+          <a href="#tab-one-email" class="govuk-skip-link" style="margin-bottom: 30px!important;"
+            data-module="govuk-skip-link">
+            Skip to email address form
+          </a>
+        </div> <!-- End of Tab One -->
+      </div> <!-- End of govuk-tabs -->
+    </div> <!-- End of margin-top: 60px container -->
+  </div> <!-- End of second-container -->
+
+  <!-- END RIGHT COLUMN -->
+
+</div> <!-- End .govuk-grid-row (which wraps both columns) -->
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    // Update preview when form inputs change
+    const emailInput = document.getElementById('emailAddress');
+    const responseTimeInput = document.getElementById('responseTime');
+
+    function updatePreview() {
+      const emailAddress = emailInput.value.trim();
+      const responseTime = responseTimeInput.value.trim();
+      const dynamicPreview = document.getElementById('dynamic-preview');
+
+      if (emailAddress || responseTime) {
+        dynamicPreview.innerHTML = `
+          <h2 class="govuk-heading-l">Get help with your form</h2>
+          <div class="border-left-container">
+            <h3 class="govuk-heading-m">Email address</h3>
+            <div id="email-preview">
+              <div class="email-content">
+                ${emailAddress ? `<p class="govuk-body">${emailAddress}</p>` : ''}
+                ${responseTime ? `<p class="govuk-body">${responseTime}</p>` : ''}
+              </div>
+            </div>
+          </div>
+        `;
+      } else {
+        // Always show placeholder when field is empty
+        dynamicPreview.innerHTML = `
+          <h2 class="govuk-heading-l">Get help with your form</h2>
+          <div class="border-left-container">
+            <h3 class="govuk-heading-m">Email address</h3>
+            <div id="email-preview">
+              <div class="email-content"><p class="govuk-body">Email address and response time for users to get help</p></div>
+            </div>
+          </div>
+        `;
+      }
     }
-    ]
-    }) }}
 
-    {{ govukInput({
-    label: {
-    text: "Email address"
-    },
-    hint: {
-    text: "Enter a dedicated support team email address. Do not enter a named individual. For example,
-    'support@defra.gov.uk'"
-    },
-    errorMessage: {
-    text: "Enter an email address for dedicated support in the correct format"
-    },
-    id: "emailAddress",
-    name: "emailAddress",
-    type: "email",
-    autocomplete: "email",
-    spellcheck: false
-    }) }}
+    // Initialize preview on page load only if no server-side content exists
+    const dynamicPreview = document.getElementById('dynamic-preview');
+    const hasServerContent = dynamicPreview.querySelector('.email-content p') &&
+      dynamicPreview.querySelector('.email-content p').textContent.trim() !== 'Email address and response time for users to get help';
 
-    {{ govukInput({
-    label: {
-    text: "Response time"
-    },
-    hint: {
-    text: "Enter how long it takes to receive a response, for example, 'We aim to respond within 2 working days'"
-    },
-    errorMessage: {
-    text: "Enter a response time for receiving responses"
-    },
-    id: "responseTime",
-    name: "responseTime",
-    type: "text",
-    autocomplete: "off",
-    spellcheck: false
-    }) }}
-  </div>
-</details>
+    if (!hasServerContent) {
+      updatePreview();
+    }
+
+    // Highlight preview when email field is focused
+    emailInput.addEventListener('focus', function () {
+      const dynamicPreview = document.getElementById('dynamic-preview');
+
+      // Show placeholder if field is empty
+      if (!emailInput.value.trim()) {
+        dynamicPreview.innerHTML = `
+          <h2 class="govuk-heading-l">Get help with your form</h2>
+          <div class="border-left-container">
+            <h3 class="govuk-heading-m">Email address</h3>
+            <div id="email-preview">
+              <div class="email-content highlight"><p class="govuk-body" style="color: #000;">Email address and response time for users to get help</p></div>
+            </div>
+          </div>
+        `;
+      } else {
+        // Show actual content if field has value
+        const responseTime = responseTimeInput.value.trim();
+        dynamicPreview.innerHTML = `
+          <h2 class="govuk-heading-l">Get help with your form</h2>
+          <div class="border-left-container">
+            <h3 class="govuk-heading-m">Email address</h3>
+            <div id="email-preview">
+              <div class="email-content highlight">
+                <p class="govuk-body">${emailInput.value}</p>
+                ${responseTime ? `<p class="govuk-body">${responseTime}</p>` : ''}
+              </div>
+            </div>
+          </div>
+        `;
+      }
+    });
+
+    // Highlight preview when response time field is focused
+    responseTimeInput.addEventListener('focus', function () {
+      const dynamicPreview = document.getElementById('dynamic-preview');
+      const emailAddress = emailInput.value.trim();
+      const responseTime = responseTimeInput.value.trim();
+
+      if (emailAddress) {
+        // Show content with highlight when email exists
+        dynamicPreview.innerHTML = `
+          <h2 class="govuk-heading-l">Get help with your form</h2>
+          <div class="border-left-container">
+            <h3 class="govuk-heading-m">Email address</h3>
+            <div id="email-preview">
+              <div class="email-content highlight">
+                <p class="govuk-body">${emailAddress}</p>
+                ${responseTime ? `<p class="govuk-body">${responseTime}</p>` : '<p class="govuk-body" style="color: #000;">Response time</p>'}
+              </div>
+            </div>
+          </div>
+        `;
+      } else {
+        // Show placeholder if no email
+        dynamicPreview.innerHTML = `
+          <h2 class="govuk-heading-l">Get help with your form</h2>
+          <div class="border-left-container">
+            <h3 class="govuk-heading-m">Email address</h3>
+            <div id="email-preview">
+              <div class="email-content highlight"><p class="govuk-body" style="color: #000;">Email address and response time for users to get help</p></div>
+            </div>
+          </div>
+        `;
+      }
+    });
+
+    // Remove highlight and show content when email field loses focus
+    emailInput.addEventListener('blur', function () {
+      const dynamicPreview = document.getElementById('dynamic-preview');
+      const emailAddress = emailInput.value.trim();
+      const responseTime = responseTimeInput.value.trim();
+
+      if (emailAddress || responseTime) {
+        // Show formatted content when either field has content
+        dynamicPreview.innerHTML = `
+          <h2 class="govuk-heading-l">Get help with your form</h2>
+          <div class="border-left-container">
+            <h3 class="govuk-heading-m">Email address</h3>
+            <div id="email-preview">
+              <div class="email-content">
+                ${emailAddress ? `<p class="govuk-body">${emailAddress}</p>` : ''}
+                ${responseTime ? `<p class="govuk-body">${responseTime}</p>` : ''}
+              </div>
+            </div>
+          </div>
+        `;
+      } else {
+        // Always show placeholder when field is empty
+        dynamicPreview.innerHTML = `
+          <h2 class="govuk-heading-l">Get help with your form</h2>
+          <div class="border-left-container">
+            <h3 class="govuk-heading-m">Email address</h3>
+            <div id="email-preview">
+              <div class="email-content"><p class="govuk-body">Email address and response time for users to get help</p></div>
+            </div>
+          </div>
+        `;
+      }
+    });
+
+    // Remove highlight and show content when response time field loses focus
+    responseTimeInput.addEventListener('blur', function () {
+      const dynamicPreview = document.getElementById('dynamic-preview');
+      const emailAddress = emailInput.value.trim();
+      const responseTime = responseTimeInput.value.trim();
+
+      if (emailAddress || responseTime) {
+        // Show formatted content when either field has content
+        dynamicPreview.innerHTML = `
+          <h2 class="govuk-heading-l">Get help with your form</h2>
+          <div class="border-left-container">
+            <h3 class="govuk-heading-m">Email address</h3>
+            <div id="email-preview">
+              <div class="email-content">
+                ${emailAddress ? `<p class="govuk-body">${emailAddress}</p>` : ''}
+                ${responseTime ? `<p class="govuk">${responseTime}</p>` : ''}
+              </div>
+            </div>
+          </div>
+        `;
+      } else {
+        // Always show placeholder when field is empty
+        dynamicPreview.innerHTML = `
+          <h2 class="govuk-heading-l">Get help with your form</h2>
+          <div class="border-left-container">
+            <h3 class="govuk-heading-m">Email address</h3>
+            <div id="email-preview">
+              <div class="email-content"><p class="govuk-body">Email address and response time for users to get help</p></div>
+            </div>
+          </div>
+        `;
+      }
+    });
+
+    // Update preview when form inputs change (maintain highlight when focused)
+    emailInput.addEventListener('input', function () {
+      if (document.activeElement === emailInput) {
+        const dynamicPreview = document.getElementById('dynamic-preview');
+        const emailAddress = emailInput.value.trim();
+        const responseTime = responseTimeInput.value.trim();
+
+        if (emailAddress || responseTime) {
+          dynamicPreview.innerHTML = `
+            <h2 class="govuk-heading-l">Get help with your form</h2>
+            <div class="border-left-container">
+              <h3 class="govuk-heading-m">Email address</h3>
+              <div id="email-preview">
+                <div class="email-content highlight">
+                  ${emailAddress ? `<p class="govuk-body">${emailAddress}</p>` : ''}
+                  ${responseTime ? `<p class="govuk">${responseTime}</p>` : ''}
+                </div>
+              </div>
+            </div>
+          `;
+        } else {
+          dynamicPreview.innerHTML = `
+            <h2 class="govuk-heading-l">Get help with your form</h2>
+            <div class="border-left-container">
+              <h3 class="govuk-heading-m">Email address</h3>
+              <div id="email-preview">
+                <div class="email-content highlight"><p class="govuk-body" style="color: #000;">Email address and response time for users to get help</p></div>
+              </div>
+            </div>
+          `;
+        }
+      } else {
+        updatePreview();
+      }
+    });
+
+    responseTimeInput.addEventListener('input', function () {
+      if (document.activeElement === responseTimeInput) {
+        const dynamicPreview = document.getElementById('dynamic-preview');
+        const emailAddress = emailInput.value.trim();
+        const responseTime = responseTimeInput.value.trim();
+
+        if (emailAddress || responseTime) {
+          dynamicPreview.innerHTML = `
+            <h2 class="govuk-heading-l">Get help with your form</h2>
+            <div class="border-left-container">
+              <h3 class="govuk-heading-m">Email address</h3>
+              <div id="email-preview">
+                <div class="email-content highlight">
+                  ${emailAddress ? `<p class="govuk-body">${emailAddress}</p>` : ''}
+                  ${responseTime ? `<p class="govuk-body">${responseTime}</p>` : ''}
+                </div>
+              </div>
+            </div>
+          `;
+        } else {
+          dynamicPreview.innerHTML = `
+            <h2 class="govuk-heading-l">Get help with your form</h2>
+            <div class="border-left-container">
+              <h3 class="govuk-heading-m">Email address</h3>
+              <div id="email-preview">
+                <div class="email-content highlight"><p class="govuk-body" style="color: #000;">Email address and response time for users to get help</p></div>
+              </div>
+            </div>
+          `;
+        }
+      } else {
+        updatePreview();
+      }
+    });
+  });
+</script>
+
+<style>
+  .preview-container {
+    outline: solid 1px #b1b4b6;
+    position: sticky;
+    overflow-y: auto;
+    height: 100vh;
+    top: 0;
+    padding: 20px;
+    box-shadow: 5px 10px #b1b4b6;
+    margin-bottom: 30px;
+  }
+
+  .highlight {
+    background-color: #ffe5cc;
+    border-bottom: 2px solid #ffb266;
+    margin-bottom: 10px;
+    padding: 0;
+  }
+
+  .border-left-container {
+    border-left: 10px solid #ffb266;
+    padding-left: 20px;
+  }
+</style>
+
 {% endblock %}

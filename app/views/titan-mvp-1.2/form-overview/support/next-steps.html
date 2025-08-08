@@ -41,7 +41,8 @@ href: "/titan-mvp-1.2/form-overview/draft/overview"
 
 {% block content %}
 <div class="govuk-grid-row">
-  <div class="govuk-grid-column-two-thirds-from-desktop">
+  <!-- LEFT COLUMN: Form -->
+  <div class="govuk-grid-column-one-half-from-desktop">
     {% from "govuk/components/summary-list/macro.njk" import govukSummaryList %}
     {% from "govuk/components/inset-text/macro.njk" import govukInsetText %}
     {% from "govuk/components/textarea/macro.njk" import govukTextarea %}
@@ -90,16 +91,13 @@ href: "/titan-mvp-1.2/form-overview/draft/overview"
       name: "nextSteps",
       id: "next-steps",
       label: {
-      text: "What will happen after a user submits a form?",
-      classes: "govuk-label--m govuk-!-padding-top-4",
-      isPageHeading: true
-      },
+      text: "What will happen after a user submits a form?" },
       value: form.nextSteps
       }) }}
 
       <div class="govuk-button-group">
         <button type="submit" class="govuk-button" data-module="govuk-button">
-          Save and continue
+          Save
         </button>
         <a href="/titan-mvp-1.2/form-overview/index" class="govuk-button govuk-button--secondary"
           data-module="govuk-button">
@@ -108,7 +106,157 @@ href: "/titan-mvp-1.2/form-overview/draft/overview"
       </div>
     </form>
   </div>
-</div>
+
+  <!-- RIGHT COLUMN: Preview -->
+  <div class="govuk-grid-column-one-half-from-desktop" id="second-container"
+    style="outline: solid 1px #008938; position: sticky; top: 0; padding: 20px; box-shadow: 5px 10px #008938; min-height: 100vh; height: fit-content; align-self: flex-start;">
+    <!-- Before content -->
+    <div id="before-content" style="background-color: #cce2d8;">
+      <p class="govuk-body-s" style="margin-bottom: 0; color: #005a30; padding: 2px 8px 3px; text-align: center;">
+        Preview
+      </p>
+    </div>
+
+    <div style="margin-top: 60px!important;">
+      {% from "govuk/components/tabs/macro.njk" import govukTabs %}
+
+      <div class="govuk-tabs" data-module="govuk-tabs">
+        <h2 class="govuk-tabs__title">Contents</h2>
+        <ul class="govuk-tabs__list">
+          <li class="govuk-tabs__list-item govuk-tabs__list-item--selected">
+            <a class="govuk-tabs__tab" href="#tab-one">Page preview</a>
+          </li>
+        </ul>
+
+        <div class="govuk-tabs__panel" id="tab-one">
+          <!-- Page Preview Content -->
+          <p class="govuk-body-s" style="margin-bottom: 30px; border-bottom: #008938 1px;">
+            <a href="#" class="govuk-link govuk-link--no-visited-state" rel="noreferrer noopener" target="_blank">
+              Preview this page in a new tab
+            </a>
+          </p>
+
+          <!-- Dynamic Preview Content -->
+          <div id="dynamic-preview">
+            {% if data['nextSteps'] %}
+
+            <h2 class="govuk-heading-l">What happens next</h2>
+            <div class="next-steps-content">
+              <p class="govuk-body">{{ data['nextSteps'] }}</p>
+            </div>
+            {% else %}
+
+            <h2 class="govuk-heading-l">What happens next</h2>
+            {% endif %}
+          </div>
+
+          <a href="#tab-one-next-steps" class="govuk-skip-link" style="margin-bottom: 30px!important;"
+            data-module="govuk-skip-link">
+            Skip to next steps form
+          </a>
+        </div> <!-- End of Tab One -->
+      </div> <!-- End of govuk-tabs -->
+    </div> <!-- End of margin-top: 60px container -->
+  </div> <!-- End of second-container -->
+
+  <!-- END RIGHT COLUMN -->
+</div> <!-- End .govuk-grid-row (which wraps both columns) -->
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    // Update preview when form inputs change
+    const nextStepsInput = document.getElementById('next-steps');
+    const dynamicPreview = document.getElementById('dynamic-preview');
+
+    function updatePreview() {
+      const nextSteps = nextStepsInput.value.trim();
+
+      if (nextSteps) {
+        dynamicPreview.innerHTML = `
+          <h2 class="govuk-heading-l">What happens next</h2>
+          <div class="next-steps-content highlight">
+            <p class="govuk-body">${nextSteps}</p>
+          </div>
+        `;
+      } else {
+        dynamicPreview.innerHTML = `
+          <h2 class="govuk-heading-l">What happens next</h2>
+          <div class="next-steps-content highlight">
+            <p class="govuk-body" style="color: #000;">Next steps</p>
+          </div>
+        `;
+      }
+    }
+
+    // Initialize preview on page load
+    updatePreview();
+
+    // Highlight preview when form field is focused
+    nextStepsInput.addEventListener('focus', function () {
+      const nextSteps = nextStepsInput.value.trim();
+
+      if (nextSteps) {
+        dynamicPreview.innerHTML = `
+          <h2 class="govuk-heading-l">What happens next</h2>
+          <div class="next-steps-content highlight">
+            <p class="govuk-body">${nextSteps}</p>
+          </div>
+        `;
+      } else {
+        dynamicPreview.innerHTML = `
+          <h2 class="govuk-heading-l">What happens next</h2>
+          <div class="next-steps-content highlight">
+            <p class="govuk-body" style="color: #000;">Next steps</p>
+          </div>
+        `;
+      }
+    });
+
+    // Remove highlight and show content when form field loses focus
+    nextStepsInput.addEventListener('blur', function () {
+      const nextSteps = nextStepsInput.value.trim();
+
+      if (nextSteps) {
+        dynamicPreview.innerHTML = `
+          <h2 class="govuk-heading-l">What happens next</h2>
+          <div class="next-steps-content">
+            <p class="govuk-body">${nextSteps}</p>
+          </div>
+        `;
+      } else {
+        dynamicPreview.innerHTML = '<h2 class="govuk-heading-l">What happens next</h2>';
+      }
+    });
+
+    // Update preview when form inputs change (maintain highlight when focused)
+    nextStepsInput.addEventListener('input', function () {
+      if (document.activeElement === nextStepsInput) {
+        updatePreview();
+      } else {
+        updatePreview();
+      }
+    });
+  });
+</script>
+
+<style>
+  .preview-container {
+    outline: solid 1px #b1b4b6;
+    position: sticky;
+    overflow-y: auto;
+    height: 100vh;
+    top: 0;
+    padding: 20px;
+    box-shadow: 5px 10px #b1b4b6;
+    margin-bottom: 30px;
+  }
+
+  .highlight {
+    background-color: #ffe5cc;
+    border-bottom: 2px solid #ffb266;
+    margin-bottom: 10px;
+  }
+</style>
 
 <details class="govuk-details">
   <summary class="govuk-details__summary">

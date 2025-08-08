@@ -1,0 +1,67 @@
+{% extends "layouts/main.html" %}
+{% from "components/service-header/macro.njk" import serviceHeader %}
+
+{% block pageTitle %}
+Support – Defra Form Designer – GOV.UK Prototype Kit
+{% endblock %}
+
+{% block header %}
+{{ serviceHeader({
+organisationName: "Defra",
+productName: "Form Designer",
+serviceName: "",
+homepageLink: "/",
+signInLink: "/titan-mvp-1.2/onboarding/sign-in",
+navigationItems: [
+{ href: "/titan-mvp-1.2/product-pages/get-started", text: "Get started", id: "nav-get-started" },
+{ href: "/titan-mvp-1.2/product-pages/features", text: "Features", id: "nav-features" },
+{ href: "/titan-mvp-1.2/product-pages/resources", text: "Resources", id: "nav-resources" },
+{ href: "/titan-mvp-1.2/product-pages/support", text: "Support", id: "nav-support" }
+],
+activeLinkId: "nav-support"
+}) }}
+
+{{ xGovukMasthead({
+inverse: true,
+title: {
+text: "Support"
+}
+}) }}
+{% endblock %}
+
+{% block content %}
+
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+
+        <p class="govuk-body">If you're taking part in private beta, ask for support by sending a message to the:</p>
+        <ul class="govuk-list govuk-list--bullet">
+            <li><a href="https://defra.slack.com/archives/C0703000000000000" class="govuk-link">Defra Forms Slack
+                    support channel</a></li>
+            <li><a href="https://teams.microsoft.com/l/channel/19%3A19%40thread.tacv2/Defra%2520Forms%2520Support%2520-%2520Private%2520Beta?groupId=19%3A19%40thread.tacv2&tenantId=72f988bf-86f1-41af-91ab-2d7cd011db47"
+                    class="govuk-link">Defra Forms Microsoft Teams support channel</a></li>
+        </ul>
+
+        <h2 class="govuk-heading-l">Support hours</h2>
+        <p class="govuk-body">We are available to support you between 9am and 5pm Monday to Friday.</p>
+
+        <h2 class="govuk-heading-l">General questions</h2>
+        <p class="govuk-body">For general questions about Defra Forms, speak to Mark Duncan or Phil Hargreaves.</p>
+
+        <h3 class="govuk-heading-m">Mark Duncan</h3>
+        <p class="govuk-body">Lead Product Manager for Defra Forms<br>
+            <a href="mailto:mark.duncan@defra.gov.uk" class="govuk-link">mark.duncan@defra.gov.uk</a>
+        </p>
+
+        <h3 class="govuk-heading-m">Phil Hargreaves</h3>
+        <p class="govuk-body">Delivery Lead for Defra Forms<br>
+            <a href="mailto:phil.hargreaves@defra.gov.uk" class="govuk-link">phil.hargreaves@defra.gov.uk</a>
+        </p>
+
+        <p class="govuk-body">Or use the Defra Forms shared mailbox at <a href="mailto:defraforms@defra.gov.uk"
+                class="govuk-link">defraforms@defra.gov.uk</a>.</p>
+
+    </div>
+</div>
+
+{% endblock %}

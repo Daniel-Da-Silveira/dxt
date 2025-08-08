@@ -1,0 +1,190 @@
+{% extends "layouts/main.html" %}
+{% from "components/service-header/macro.njk" import serviceHeader %}
+{% from "govuk/components/breadcrumbs/macro.njk" import govukBreadcrumbs %}
+{% from "components/contents-list-with-body.njk" import contentsListWithBody %}
+
+{% block pageTitle %}
+Question protocols – Good form design guide – Defra Form Designer – GOV.UK Prototype Kit
+{% endblock %}
+
+{% block header %}
+{{ serviceHeader({
+organisationName: "Defra",
+productName: "Form Designer",
+serviceName: "",
+homepageLink: "/",
+signInLink: "/titan-mvp-1.2/onboarding/sign-in",
+navigationItems: [
+{ href: "/titan-mvp-1.2/product-pages/get-started", text: "Get started", id: "nav-get-started" },
+{ href: "/titan-mvp-1.2/product-pages/features", text: "Features", id: "nav-features" },
+{ href: "/titan-mvp-1.2/product-pages/resources", text: "Resources", id: "nav-resources" },
+{ href: "/titan-mvp-1.2/product-pages/support", text: "Support", id: "nav-support" }
+],
+activeLinkId: "nav-resources"
+}) }}
+
+<div class="x-govuk-masthead x-govuk-masthead--large">
+    <div class="govuk-width-container">
+        {{ govukBreadcrumbs({
+        classes: "govuk-breadcrumbs--inverse",
+        items: [
+        {
+        text: "Resources",
+        href: "/titan-mvp-1.2/product-pages/resources"
+        },
+        {
+        text: "Good form design guide",
+        href: "/titan-mvp-1.2/product-pages/resources"
+        },
+        {
+        text: "Question protocols"
+        }
+        ]
+        }) }}
+
+        <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible"
+            style="border-bottom: 1px solid white; margin-bottom: 0" />
+
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-full-from-desktop">
+                <h1 class="x-govuk-masthead__title" id="question-protocols">
+                    <span class="govuk-caption-l" style="color: white;">Good form design guide</span>
+                    Question protocols
+                </h1>
+                <div class="govuk-body" style="color: white; margin-top: 1em;">
+                    <span class="govuk-tag govuk-tag--grey">Guide</span>
+                    <span style="margin-left: 1em;">Everything you need to design accessible, user-friendly forms</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-one-quarter app-contents-list--sticky govuk-!-padding-right-0">
+        {% set contents = [
+        {
+        href: "/titan-mvp-1.2/product-pages/resources/does-this-need-to-be-a-form",
+        text: "Does this need to be a form?"
+        },
+        {
+        href: "/titan-mvp-1.2/product-pages/resources/accessibility-and-inclusion",
+        text: "Accessibility and inclusion"
+        },
+        {
+        href: "/titan-mvp-1.2/product-pages/resources/working-with-subject-matter-experts",
+        text: "Working with subject matter experts (SMEs)"
+        },
+        {
+        href: "/titan-mvp-1.2/product-pages/resources/question-protocols",
+        text: "Question protocols",
+        items: [
+        {
+        href: "#usage",
+        text: "Usage"
+        },
+        {
+        href: "#source",
+        text: "Source"
+        },
+        {
+        href: "#veracity",
+        text: "Veracity"
+        },
+        {
+        href: "#maintenance",
+        text: "Maintenance"
+        },
+        {
+        href: "#structure",
+        text: "Structure"
+        }
+        ]
+        },
+        {
+        href: "/titan-mvp-1.2/product-pages/resources/prototyping-a-form",
+        text: "Prototyping a form"
+        },
+        {
+        href: "/titan-mvp-1.2/product-pages/resources/form-pages-on-govuk",
+        text: "Form pages on GOV.UK"
+        },
+        {
+        href: "/titan-mvp-1.2/product-pages/resources/peer-reviewing-forms",
+        text: "Peer reviewing forms"
+        },
+        {
+        href: "/titan-mvp-1.2/product-pages/resources/privacy-notices",
+        text: "Privacy notices"
+        }
+        ] %}
+        {{ contentsListWithBody({ contents: contents, alternative_line_style: true, activeHref:
+        "/titan-mvp-1.2/product-pages/resources/question-protocols" }) }}
+    </div>
+    <div class="govuk-grid-column-two-thirds">
+        <div class="app-prose-scope">
+
+            <p class="govuk-body">Each additional question in a form increases the risk that someone will abandon the
+                form.</p>
+            <p class="govuk-body">Question protocols help you to collect only the right information. But they take a
+                while to do, so best used for long and complex forms.</p>
+            <p class="govuk-body">Question protocols typically cover these themes and questions.</p>
+
+            <h2 id="usage" class="govuk-heading-l">Usage</h2>
+            <ul class="govuk-list govuk-list--bullet">
+                <li>Why do we need this information?</li>
+                <li>What decisions are made with it?</li>
+                <li>Is it mandatory? If not, why are we still asking for it?</li>
+                <li>Where is it used? By whom?</li>
+            </ul>
+
+            <h2 id="source" class="govuk-heading-l">Source</h2>
+            <ul class="govuk-list govuk-list--bullet">
+                <li>Do we already have this data?</li>
+                <li>How easy is it for the user to provide it?</li>
+                <li>When is it needed (for example, after an eligibility check)?</li>
+                <li>What format do we need it in?</li>
+            </ul>
+
+            <h2 id="veracity" class="govuk-heading-l">Veracity</h2>
+            <ul class="govuk-list govuk-list--bullet">
+                <li>How will we validate the information is correct?</li>
+                <li>What happens if the data is wrong or missing?</li>
+            </ul>
+
+            <h2 id="maintenance" class="govuk-heading-l">Maintenance</h2>
+            <ul class="govuk-list govuk-list--bullet">
+                <li>How often is this information likely to change?</li>
+                <li>How will we find out it has changed?</li>
+                <li>Who in Defra will own this data?</li>
+                <li>Where will it be stored?</li>
+                <li>When will it be archived or deleted?</li>
+            </ul>
+
+            <h2 id="structure" class="govuk-heading-l">Structure</h2>
+            <ul class="govuk-list govuk-list--bullet">
+                <li>Can this information be structured as data?</li>
+                <li>How do we create that structure?</li>
+                <li>Will we need an 'other' field, at least to start with?</li>
+            </ul>
+            <p class="govuk-body">Use this spreadsheet to run a protocol session with your colleagues.</p>
+
+            {% from "govuk/components/pagination/macro.njk" import govukPagination %}
+
+            {{ govukPagination({
+            previous: {
+            labelText: "Working with subject matter experts (SMEs)",
+            href: "/titan-mvp-1.2/product-pages/resources/working-with-subject-matter-experts"
+            },
+            next: {
+            labelText: "Prototyping a form",
+            href: "/titan-mvp-1.2/product-pages/resources/prototyping-a-form"
+            }
+            }) }}
+
+        </div>
+    </div>
+</div>
+{% endblock %}

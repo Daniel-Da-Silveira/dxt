@@ -1,187 +1,382 @@
 {% extends "layouts/main.html" %}
-
 {% from "components/service-header/macro.njk" import serviceHeader %}
-
-{% set pageName = "Contact link for support - Apply for a county parish holding number in England" %}
+{% from "components/support-pages-sub-nav/macro.njk" import supportPagesSubNav %}
+{% set pageName = "Add online contact link - Apply for a county parish holding number in England" %}
 
 {% block header %}
 {{ serviceHeader({
 organisationName: "Defra",
 productName: "Forms Designer",
 serviceName: "",
+containerClasses: containerClasses,
 accountName: "Chris Smith",
 homepageLink: "/",
 signOutLink: "/titan-mvp-1.2/onboarding/sign-out-confirmation",
 navigationItems: [
-{
-href: "/titan-mvp-1.2/library",
-text: "Forms library",
-id: "nav-library"
-},
-{
-href: "/titan-mvp-1.2/form-overview/index",
-text: "Overview",
-id: "nav-overview"
-},{
-href: "/titan-mvp-1.2/form-editor/listing",
-text: 'Editor',
-id: 'nav-editor'
-}],
-activeLinkId: "/"
+{ href: "/titan-mvp-1.2/library", text: "Forms library", id: "nav-library" },
+{ href: "/titan-mvp-1.2/form-overview/index", text: "Overview", id: "nav-overview" },
+{ href: "/titan-mvp-1.2/form-editor/listing", text: "Editor", id: "nav-editor", active: true }
+]
 }) }}
-{% endblock %}
 
-{% block beforeContent %}
-{{ govukBackLink({
-text: "Back",
-href: "/titan-mvp-1.2/form-overview/index"
-}) }}
+<div class="x-govuk-masthead x-govuk-masthead--large">
+  <div class="govuk-width-container">
+
+    {{ govukBackLink({
+    classes: "govuk-back-link--inverse govuk-!-margin-bottom-0",
+    text: "Back to support pages",
+    href: "/titan-mvp-1.2/form-editor/support-pages-settings"
+    }) }}
+
+    <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible"
+      style="border-bottom: 1px solid white; margin-bottom: 0;" />
+
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-full-from-desktop">
+        <h1 class="x-govuk-masthead__title">
+          Add online contact link
+        </h1>
+      </div>
+    </div>
+  </div>
+</div>
 {% endblock %}
 
 {% block content %}
+
+<!-- Outer grid row to hold BOTH columns side by side from desktop width -->
 <div class="govuk-grid-row">
-  <div class="govuk-grid-column-two-thirds-from-desktop">
-    <!-- <h1 class="govuk-heading-xl">Apply for a county parish holding number in England</h1> -->
 
-    {% from "govuk/components/summary-list/macro.njk" import govukSummaryList %}
+  <!-- LEFT COLUMN: Form Controls -->
+  <div class="govuk-grid-column-one-half-from-desktop" id="container"
+    style="flex: 1 1 75%; height: 100%; overflow-y: auto;">
+    <div class="govuk-summary-card govuk-!-margin-top-0" style="border-left: 10px solid #b1b4b6;">
+      <div class="govuk-summary-card__content govuk-!-padding-top-0" style="background-color: #f8f8f8;">
+        <dl class="govuk-summary-list">
+          <div class="govuk-summary-list__row">
+            <dd class="govuk-summary-list__value">
 
-    {% from "govuk/components/inset-text/macro.njk" import govukInsetText %}
+              <!-- Form Container -->
+              <div class="govuk-grid-row" id="form-container">
+                <div id="contact-link-form">
+                  <div class="govuk-summary-card__content" style="margin-bottom: 0;">
 
-    {% from "govuk/components/checkboxes/macro.njk" import govukCheckboxes %}
-    {% from "govuk/components/input/macro.njk" import govukInput %}
-    {% from "govuk/components/textarea/macro.njk" import govukTextarea %}
-    {% from "govuk/components/textarea/macro.njk" import govukTextarea %}
-    <span class="govuk-caption-l">Apply for a county parish holding number in England</span>
-    <h1 class="govuk-heading-l">
-      Contact link for support
-    </h1>
+                    <!-- Sub Navigation -->
+                    {{ supportPagesSubNav(
+                    currentTab='online-contact',
+                    baseUrl="/titan-mvp-1.2/form-editor/support-pages-settings"
+                    ) }}
 
-    <form action="/titan-mvp-1.2/form-overview/index/support/link" method="post">
-      {{ govukInput({
-      id: "contactLink",
-      name: "contactLink",
-      classes: "govuk-label--l",
-      isPageHeading: true,
-      label: {
-      text: "Contact link"
-      },
-      hint: {
-      text: "For example, 'https://www.gov.uk/guidance/contact-defra'"
-      },
-      value: form.support.link
-      }) }}
+                    <!-- Original Form Content -->
+                    <span class="govuk-caption-l">Apply for a county parish holding number in England</span>
+                    <h1 class="govuk-heading-l">
+                      Contact link for support
+                    </h1>
 
-      {{ govukInput({
-      id: "contactLinkDescription",
-      name: "contactLinkDescription",
-      classes: "govuk-!-width-full",
-      label: {
-      text: "Text to describe the contact link"
-      },
-      hint: {
-      text: "For example, 'Online contact form'"
-      }
-      }) }}
+                    <form action="/titan-mvp-1.2/form-overview/support/add-contact-link" method="post">
+                      {% from "govuk/components/input/macro.njk" import govukInput %}
 
-      <div class="govuk-button-group">
-        <button type="submit" class="govuk-button" data-module="govuk-button">
-          Save and continue
-        </button>
-        <a href="/titan-mvp-1.2/form-overview/index" class="govuk-button govuk-button--secondary"
-          data-module="govuk-button">
-          Cancel
-        </a>
+                      {{ govukInput({
+                      id: "contactLink",
+                      name: "contactLink",
+                      classes: "govuk-label--m",
+                      isPageHeading: false,
+                      label: {
+                      text: "Contact link"
+                      },
+                      hint: {
+                      text: "For example, 'https://www.gov.uk/guidance/contact-defra'"
+                      },
+                      value: data['contactLink'] or ''
+                      }) }}
+
+                      {{ govukInput({
+                      id: "contactLinkDescription",
+                      name: "contactLinkDescription",
+                      classes: "govuk-!-width-full",
+                      label: {
+                      text: "Text to describe the contact link"
+                      },
+                      hint: {
+                      text: "For example, 'Online contact form'"
+                      },
+                      value: data['contactLinkDescription'] or ''
+                      }) }}
+
+                      <div class="govuk-button-group">
+                        <button type="submit" class="govuk-button" data-module="govuk-button">
+                          Save contact link
+                        </button>
+                        <button type="submit" class="govuk-button govuk-button--warning" data-module="govuk-button">
+                          Delete
+                        </button>
+                      </div>
+                    </form>
+
+                  </div> <!-- .govuk-summary-card__content -->
+                </div> <!-- #contact-link-form -->
+              </div> <!-- #form-container -->
+
+            </dd>
+          </div>
+        </dl>
       </div>
-    </form>
+    </div>
   </div>
-</div>
+  <!-- END LEFT COLUMN -->
 
-<details class="govuk-details">
-  <summary class="govuk-details__summary">
-    <span class="govuk-details__summary-text">
-      View error messages
-    </span>
-  </summary>
-  <div class="govuk-details__text">
-    {% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
-    {% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
+  <!-- RIGHT COLUMN: Preview -->
+  <div class="govuk-grid-column-one-half-from-desktop" id="second-container"
+    style="outline: solid 1px #008938; position: sticky; top: 0; padding: 20px; box-shadow: 5px 10px #008938; height: fit-content; align-self: flex-start;">
+    <!-- Before content -->
+    <div id="before-content" style="background-color: #cce2d8;">
+      <p class="govuk-body-s" style="margin-bottom: 0; color: #005a30; padding: 2px 8px 3px; text-align: center;">
+        Preview
+      </p>
+    </div>
 
-    <p class="govuk-body-l">Empty string</p>
+    <div style="margin-top: 60px!important;">
+      {% from "govuk/components/tabs/macro.njk" import govukTabs %}
 
-    {{ govukErrorSummary({
-    titleText: "There is a problem",
-    errorList: [
-    {
-    text: "Enter a contact link for support",
-    href: "#contactLink"
-    },
-    {
-    text: "Enter text to describe the contact link for support",
-    href: "#contactLinkDescription"
-    }
-    ]
-    }) }}
+      <div class="govuk-tabs" data-module="govuk-tabs">
+        <h2 class="govuk-tabs__title">Contents</h2>
+        <ul class="govuk-tabs__list">
+          <li class="govuk-tabs__list-item govuk-tabs__list-item--selected">
+            <a class="govuk-tabs__tab" href="#tab-one">Page preview</a>
+          </li>
+        </ul>
 
-    {{ govukInput({
-    id: "contactLink",
-    name: "contactLink",
-    classes: "govuk-label--l",
-    isPageHeading: true,
-    label: {
-    text: "Contact link"
-    },
-    hint: {
-    text: "For example, 'https://www.gov.uk/guidance/contact-defra'"
-    },
-    errorMessage: {
-    text: "Enter a contact link for support"
-    }
-    }) }}
+        <div class="govuk-tabs__panel" id="tab-one">
+          <!-- Page Preview Content -->
+          <p class="govuk-body-s" style="margin-bottom: 30px; border-bottom: #008938 1px;">
+            <a href="#" class="govuk-link govuk-link--no-visited-state" rel="noreferrer noopener" target="_blank">
+              Preview this page in a new tab
+            </a>
+          </p>
 
-    {{ govukInput({
-    id: "contactLinkDescription",
-    name: "contactLinkDescription",
-    classes: "govuk-!-width-full",
-    label: {
-    text: "Text to describe the contact link"
-    },
-    hint: {
-    text: "For example, 'Online contact form'"
-    },
-    errorMessage: {
-    text: "Enter text to describe the contact link for support"
-    }
-    }) }}
+          <!-- Dynamic Preview Content -->
+          <div id="dynamic-preview">
+            {% if data['contactLink'] %}
+            <h2 class="govuk-heading-l">Get help with your form</h2>
 
-    <p class="govuk-body-l">Incorrect URL format</p>
+            <div class="border-left-container">
+              <h3 class="govuk-heading-m">Online contact form</h3>
+              <div id="contact-link-preview">
+                <div class="contact-link-content">
+                  {% if data['contactLinkDescription'] %}
+                  <p class="govuk-body"><a href="{{ data['contactLink'] }}"
+                      class="govuk-link govuk-link--no-visited-state" target="_blank" rel="noopener noreferrer">{{
+                      data['contactLinkDescription'] }}</a></p>
+                  {% else %}
+                  <p class="govuk-body"><a href="{{ data['contactLink'] }}"
+                      class="govuk-link govuk-link--no-visited-state" target="_blank" rel="noopener noreferrer">{{
+                      data['contactLink'] }}</a></p>
+                  {% endif %}
+                </div>
+              </div>
+            </div>
+            {% else %}
+            <h2 class="govuk-heading-l">Get help with your form</h2>
+            <div class="border-left-container">
+              <h3 class="govuk-heading-m">Online contact form</h3>
+              <div id="contact-link-preview">
+                <div class="contact-link-content">
+                  <p class="govuk-body">Online contact link details for users to get help</p>
+                </div>
+              </div>
+            </div>
+            {% endif %}
+          </div>
 
-    {{ govukErrorSummary({
-    titleText: "There is a problem",
-    errorList: [
-    {
-    text: "Enter a contact link for support in the correct format",
-    href: "#contactLink"
-    }
-    ]
-    }) }}
-
-    {{ govukInput({
-    id: "contactLink",
-    name: "contactLink",
-    classes: "govuk-label--l",
-    isPageHeading: true,
-    label: {
-    text: "Contact link"
-    },
-    hint: {
-    text: "For example, 'https://www.gov.uk/guidance/contact-defra'"
-    },
-    errorMessage: {
-    text: "Enter a contact link for support in the correct format"
-    }
-    }) }}
-
+          <a href="#tab-one-contact-link" class="govuk-skip-link" style="margin-bottom: 30px!important;"
+            data-module="govuk-skip-link">
+            Skip to contact link form
+          </a>
+        </div>
+      </div>
+    </div>
   </div>
-</details>
+  <!-- END RIGHT COLUMN -->
+
+</div> <!-- End .govuk-grid-row (which wraps both columns) -->
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    // Update preview when form inputs change
+    const contactLinkInput = document.getElementById('contactLink');
+    const contactLinkDescriptionInput = document.getElementById('contactLinkDescription');
+    const contactLinkPreview = document.getElementById('contact-link-preview');
+
+    function updatePreview() {
+      const link = contactLinkInput.value.trim();
+      const description = contactLinkDescriptionInput.value.trim();
+      const dynamicPreview = document.getElementById('dynamic-preview');
+
+      if (link && description) {
+        dynamicPreview.innerHTML = `
+          <h2 class="govuk-heading-l">Get help with your form</h2>
+          <div class="border-left-container">
+            <h3 class="govuk-heading-m">Online contact form</h3>
+            <div id="contact-link-preview">
+              <div class="contact-link-content"><p class="govuk-body"><a href="${link}" class="govuk-link govuk-link--no-visited-state" target="_blank" rel="noopener noreferrer">${description}</a></p></div>
+            </div>
+          </div>
+        `;
+      } else if (link) {
+        dynamicPreview.innerHTML = `
+          <h2 class="govuk-heading-l">Get help with your form</h2>
+          <div class="border-left-container">
+            <h3 class="govuk-heading-m">Online contact form</h3>
+            <div id="contact-link-preview">
+              <div class="contact-link-content"><p class="govuk-body"><a href="${link}" class="govuk-link govuk-link--no-visited-state" target="_blank" rel="noopener noreferrer">${link}</a></p></div>
+            </div>
+          </div>
+        `;
+      } else {
+        // Always show placeholder when field is empty
+        dynamicPreview.innerHTML = `
+          <h2 class="govuk-heading-l">Get help with your form</h2>
+          <div class="border-left-container">
+            <h3 class="govuk-heading-m">Online contact form</h3>
+            <div id="contact-link-preview">
+              <div class="contact-link-content"><p class="govuk-body">Online contact link details for users to get help</p></div>
+            </div>
+          </div>
+        `;
+      }
+    }
+
+    // Initialize preview on page load only if no server-side content exists
+    const dynamicPreview = document.getElementById('dynamic-preview');
+    const hasServerContent = dynamicPreview.querySelector('.contact-link-content p') &&
+      dynamicPreview.querySelector('.contact-link-content p').textContent.trim() !== 'Online contact link details for users to get help';
+
+    if (!hasServerContent) {
+      updatePreview();
+    }
+
+    // Highlight preview when form field is focused
+    contactLinkInput.addEventListener('focus', function () {
+      const dynamicPreview = document.getElementById('dynamic-preview');
+
+      // Show placeholder if field is empty
+      if (!contactLinkInput.value.trim()) {
+        dynamicPreview.innerHTML = `
+          <h2 class="govuk-heading-l">Get help with your form</h2>
+          <div class="border-left-container">
+            <h3 class="govuk-heading-m">Online contact form</h3>
+            <div id="contact-link-preview">
+              <div class="contact-link-content highlight"><p class="govuk-body" style="color: #000;">Online contact link details for users to get help</p></div>
+            </div>
+          </div>
+        `;
+      } else {
+        // Show actual content if field has value
+        const description = contactLinkDescriptionInput.value.trim();
+        if (description) {
+          dynamicPreview.innerHTML = `
+            <h2 class="govuk-heading-l">Get help with your form</h2>
+            <div class="border-left-container">
+              <h3 class="govuk-heading-m">Online contact form</h3>
+              <div id="contact-link-preview">
+                <div class="contact-link-content highlight"><p class="govuk-body"><a href="${contactLinkInput.value}" class="govuk-link govuk-link--no-visited-state" target="_blank" rel="noopener noreferrer">${description}</a></p></div>
+              </div>
+            </div>
+          `;
+        } else {
+          dynamicPreview.innerHTML = `
+            <h2 class="govuk-heading-l">Get help with your form</h2>
+            <div class="border-left-container">
+              <h3 class="govuk-heading-m">Online contact form</h3>
+              <div id="contact-link-preview">
+                <div class="contact-link-content highlight"><p class="govuk-body"><a href="${contactLinkInput.value}" class="govuk-link govuk-link--no-visited-state" target="_blank" rel="noopener noreferrer">${contactLinkInput.value}</a></p></div>
+              </div>
+            </div>
+          `;
+        }
+      }
+    });
+
+    // Remove highlight and show content when form field loses focus
+    contactLinkInput.addEventListener('blur', function () {
+      const dynamicPreview = document.getElementById('dynamic-preview');
+
+      if (contactLinkInput.value.trim()) {
+        // Show formatted content when field has value
+        const description = contactLinkDescriptionInput.value.trim();
+        if (description) {
+          dynamicPreview.innerHTML = `
+            <h2 class="govuk-heading-l">Get help with your form</h2>
+            <div class="border-left-container">
+              <h3 class="govuk-heading-m">Online contact form</h3>
+              <div id="contact-link-preview">
+                <div class="contact-link-content"><p class="govuk-body"><a href="${contactLinkInput.value}" class="govuk-link govuk-link--no-visited-state" target="_blank" rel="noopener noreferrer">${description}</a></p></div>
+              </div>
+            </div>
+          `;
+        } else {
+          dynamicPreview.innerHTML = `
+            <h2 class="govuk-heading-l">Get help with your form</h2>
+            <div class="border-left-container">
+              <h3 class="govuk-heading-m">Online contact form</h3>
+              <div id="contact-link-preview">
+                <div class="contact-link-content"><p class="govuk-body"><a href="${contactLinkInput.value}" class="govuk-link govuk-link--no-visited-state" target="_blank" rel="noopener noreferrer">${contactLinkInput.value}</a></p></div>
+              </div>
+            </div>
+          `;
+        }
+      } else {
+        // Always show placeholder when field is empty
+        dynamicPreview.innerHTML = `
+          <h2 class="govuk-heading-l">Get help with your form</h2>
+          <div class="border-left-container">
+            <h3 class="govuk-heading-m">Online contact form</h3>
+            <div id="contact-link-preview">
+              <div class="contact-link-content"><p class="govuk-body">Online contact link details for users to get help</p></div>
+            </div>
+          </div>
+        `;
+      }
+    });
+
+    // Update preview when form inputs change (only when focused)
+    contactLinkInput.addEventListener('input', function () {
+      if (document.activeElement === contactLinkInput) {
+        updatePreview();
+      }
+    });
+
+    contactLinkDescriptionInput.addEventListener('input', function () {
+      if (document.activeElement === contactLinkInput || document.activeElement === contactLinkDescriptionInput) {
+        updatePreview();
+      }
+    });
+  });
+</script>
+
+<style>
+  .preview-container {
+    outline: solid 1px #b1b4b6;
+    position: sticky;
+    overflow-y: auto;
+    height: 100vh;
+    top: 0;
+    padding: 20px;
+    box-shadow: 5px 10px #b1b4b6;
+    margin-bottom: 30px;
+  }
+
+  .highlight {
+    background-color: #ffe5cc;
+    border-bottom: 2px solid #ffb266;
+    margin-bottom: 10px;
+    padding: 0;
+  }
+
+  .border-left-container {
+    border-left: 10px solid #ffb266;
+    padding-left: 20px;
+  }
+</style>
 
 {% endblock %}

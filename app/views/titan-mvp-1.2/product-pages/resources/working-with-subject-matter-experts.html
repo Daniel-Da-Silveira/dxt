@@ -1,0 +1,169 @@
+{% extends "layouts/main.html" %}
+{% from "components/service-header/macro.njk" import serviceHeader %}
+{% from "govuk/components/breadcrumbs/macro.njk" import govukBreadcrumbs %}
+{% from "components/contents-list-with-body.njk" import contentsListWithBody %}
+
+{% block pageTitle %}
+Working with subject matter experts (SMEs) – Good form design guide – Defra Form Designer – GOV.UK Prototype Kit
+{% endblock %}
+
+{% block header %}
+{{ serviceHeader({
+organisationName: "Defra",
+productName: "Form Designer",
+serviceName: "",
+homepageLink: "/",
+signInLink: "/titan-mvp-1.2/onboarding/sign-in",
+navigationItems: [
+{ href: "/titan-mvp-1.2/product-pages/get-started", text: "Get started", id: "nav-get-started" },
+{ href: "/titan-mvp-1.2/product-pages/features", text: "Features", id: "nav-features" },
+{ href: "/titan-mvp-1.2/product-pages/resources", text: "Resources", id: "nav-resources" },
+{ href: "/titan-mvp-1.2/product-pages/support", text: "Support", id: "nav-support" }
+],
+activeLinkId: "nav-resources"
+}) }}
+
+<div class="x-govuk-masthead x-govuk-masthead--large">
+    <div class="govuk-width-container">
+        {{ govukBreadcrumbs({
+        classes: "govuk-breadcrumbs--inverse",
+        items: [
+        {
+        text: "Resources",
+        href: "/titan-mvp-1.2/product-pages/resources"
+        },
+        {
+        text: "Good form design guide",
+        href: "/titan-mvp-1.2/product-pages/resources"
+        },
+        {
+        text: "Working with subject matter experts (SMEs)"
+        }
+        ]
+        }) }}
+
+        <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible"
+            style="border-bottom: 1px solid white; margin-bottom: 0" />
+
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-full-from-desktop">
+                <h1 class="x-govuk-masthead__title" id="working-with-subject-matter-experts">
+                    <span class="govuk-caption-l" style="color: white;">Good form design guide</span>
+                    Working with subject matter experts (SMEs)
+                </h1>
+                <div class="govuk-body" style="color: white; margin-top: 1em;">
+                    <span class="govuk-tag govuk-tag--grey">Guide</span>
+                    <span style="margin-left: 1em;">Everything you need to design accessible, user-friendly forms</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-one-quarter app-contents-list--sticky govuk-!-padding-right-0">
+        {% set contents = [
+        {
+        href: "/titan-mvp-1.2/product-pages/resources/does-this-need-to-be-a-form",
+        text: "Does this need to be a form?"
+        },
+        {
+        href: "/titan-mvp-1.2/product-pages/resources/accessibility-and-inclusion",
+        text: "Accessibility and inclusion"
+        },
+        {
+        href: "/titan-mvp-1.2/product-pages/resources/working-with-subject-matter-experts",
+        text: "Working with subject matter experts (SMEs)",
+        items: [
+        {
+        href: "#screening-questions",
+        text: "Screening questions"
+        },
+        {
+        href: "#exploration-workshop",
+        text: "Exploration workshop"
+        }
+        ]
+        },
+        {
+        href: "/titan-mvp-1.2/product-pages/resources/question-protocols",
+        text: "Question protocols"
+        },
+        {
+        href: "/titan-mvp-1.2/product-pages/resources/prototyping-a-form",
+        text: "Prototyping a form"
+        },
+        {
+        href: "/titan-mvp-1.2/product-pages/resources/form-pages-on-govuk",
+        text: "Form pages on GOV.UK"
+        },
+        {
+        href: "/titan-mvp-1.2/product-pages/resources/peer-reviewing-forms",
+        text: "Peer reviewing forms"
+        },
+        {
+        href: "/titan-mvp-1.2/product-pages/resources/privacy-notices",
+        text: "Privacy notices"
+        }
+        ] %}
+        {{ contentsListWithBody({ contents: contents, alternative_line_style: true, activeHref:
+        "/titan-mvp-1.2/product-pages/resources/working-with-subject-matter-experts" }) }}
+    </div>
+    <div class="govuk-grid-column-two-thirds">
+        <div class="app-prose-scope">
+
+            <p class="govuk-body">There could be lots of people involved in a form.</p>
+            <p class="govuk-body">Start by figuring out:</p>
+            <ul class="govuk-list govuk-list--bullet">
+                <li>who has information you need to make the form</li>
+                <li>who will help draft</li>
+                <li>who needs to sign off</li>
+            </ul>
+
+            <h2 id="screening-questions" class="govuk-heading-l">Screening questions</h2>
+            <p class="govuk-body">Use these screening questions to check if your SME is prepared to make a form.</p>
+            <ul class="govuk-list govuk-list--bullet">
+                <li>What's the name and email address of the form owner?</li>
+                <li>If the form exists, is there a link to it?</li>
+                <li>If the form is updated frequently?</li>
+                <li>How many form submissions do you expect per year? (an estimate is fine but try and find evidence if
+                    you can)</li>
+                <li>What is the email address submissions will go to?</li>
+                <li>Do you need to collect payment from users?</li>
+                <li>Do you need location data for premises that don't have an address?</li>
+                <li>Do you need to collect documents and images?</li>
+                <li>Do users need to answer a set of repeated questions?</li>
+                <li>Will the form need to calculate answers provided by the user?</li>
+                <li>Is there an existing guide on GOV.UK?</li>
+                <li>Do you have a deadline and what's the reason for it?</li>
+                <li>How long does your form need to be available GOV.UK?</li>
+            </ul>
+
+            <h2 id="exploration-workshop" class="govuk-heading-l">Exploration workshop</h2>
+            <p class="govuk-body">You might want to host a workshop with your SME to gather more requirements. You can
+                use the Mural workshop template. Update the board with any information you have and consider:</p>
+            <ul class="govuk-list govuk-list--bullet">
+                <li>asking a second content designer to help you take notes</li>
+                <li>recording the exploration workshop to refer to later</li>
+                <li>using the auto transcript feature</li>
+            </ul>
+
+            {% from "govuk/components/pagination/macro.njk" import govukPagination %}
+
+            {{ govukPagination({
+            previous: {
+            labelText: "Accessibility and inclusion",
+            href: "/titan-mvp-1.2/product-pages/resources/accessibility-and-inclusion"
+            },
+            next: {
+            labelText: "Question protocols",
+            href: "/titan-mvp-1.2/product-pages/resources/question-protocols"
+            }
+            }) }}
+
+        </div>
+    </div>
+</div>
+{% endblock %}

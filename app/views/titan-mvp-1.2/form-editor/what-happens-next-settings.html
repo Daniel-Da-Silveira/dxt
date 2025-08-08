@@ -1,0 +1,975 @@
+{% extends "layouts/main.html" %}
+
+{% from "components/service-header/macro.njk" import serviceHeader %}
+{% from "govuk/components/notification-banner/macro.njk" import govukNotificationBanner %}
+
+{% set pageName = "What happens next settings - " + form.name %}
+
+{% block header %}
+{{ serviceHeader({
+organisationName: "Defra",
+productName: "Forms Designer",
+serviceName: "",
+containerClasses: containerClasses,
+accountName: "Chris Smith",
+homepageLink: "/",
+signOutLink: "/titan-mvp-1.2/onboarding/sign-out-confirmation",
+navigationItems: [
+{ href: "/titan-mvp-1.2/library", text: "Forms library", id: "nav-library" },
+{ href: "/titan-mvp-1.2/form-overview/simplified/index-tabs.html", text: "Overview", id: "nav-overview" },
+{ href: "/titan-mvp-1.2/form-editor/listing", text: "Editor", id: "nav-editor", active: true }
+]
+}) }}
+
+<div class="x-govuk-masthead x-govuk-masthead--large">
+    <div class="govuk-width-container">
+
+        {{ govukBackLink({
+        classes: "govuk-back-link--inverse govuk-!-margin-bottom-0",
+        text: "Back to add and edit pages",
+        href: "/titan-mvp-1.2/form-editor/listing-v2"
+        }) }}
+
+        <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible"
+            style="border-bottom: 1px solid white; margin-bottom: 0;" />
+
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-full-from-desktop">
+                <h1 class="x-govuk-masthead__title">
+                    Form name
+                </h1>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block beforeContent %}
+{% endblock %}
+
+{% block content %}
+
+<!-- Outer grid row to hold BOTH columns side by side from desktop width -->
+<div class="govuk-grid-row">
+
+    <!-- LEFT COLUMN: Page Settings / Form Controls -->
+    <div class="govuk-grid-column-one-half-from-desktop" id="container"
+        style="flex: 1 1 75%; height: 100%; overflow-y: auto;">
+        <div class="govuk-summary-card govuk-!-margin-top-0" style="border-left: 10px solid #b1b4b6;">
+            <div class="govuk-summary-card__content govuk-!-padding-top-0" style="background-color: #f8f8f8;">
+                <dl class="govuk-summary-list">
+                    <div class="govuk-summary-list__row">
+                        <dd class="govuk-summary-list__value">
+
+                            <!-- What happens next Settings Container -->
+                            <div class="govuk-grid-row" id="what-happens-next-settings-container-1">
+                                <div id="what-happens-next-settings-1">
+                                    <div class="govuk-summary-card__content" style="margin-bottom: 0;">
+
+                                        <!-- Sub Navigation -->
+                                        <nav class="moj-sub-navigation" aria-label="What happens next navigation">
+                                            <ul class="moj-sub-navigation__list">
+                                                <li class="moj-sub-navigation__item">
+                                                    <a class="moj-sub-navigation__link" aria-current="page"
+                                                        href="#page-overview">Page overview</a>
+                                                </li>
+                                                <li class="moj-sub-navigation__item">
+                                                    <a class="moj-sub-navigation__link" href="#next-steps">What
+                                                        happens next</a>
+                                                </li>
+                                                <li class="moj-sub-navigation__item">
+                                                    <a class="moj-sub-navigation__link" href="#notification-email">Email
+                                                        format</a>
+                                                </li>
+                                            </ul>
+                                        </nav>
+
+                                        <!-- Tab Content -->
+                                        {% set whatHappensNextData = data %}
+
+                                        <!-- Page Overview Content -->
+                                        <div id="page-overview-content">
+                                            <h1 class="govuk-heading-l">What happens next overview</h1>
+                                            <p class="govuk-body">Configure what happens after users submit their form.
+                                            </p>
+                                            <p class="govuk-body">This information appears on the form submission page
+                                                and in confirmation emails.</p>
+
+                                            {{ govukSummaryList({
+                                            rows: [
+                                            {
+                                            key: {
+                                            text: "What happens next"
+                                            },
+                                            value: {
+                                            html: '<span id="next-steps-summary">' + (whatHappensNextData.nextSteps or
+                                                '<a href="#" onclick="navigateToNextSteps(); return false;"
+                                                    class="govuk-link govuk-link--no-visited-state">Enter next
+                                                    steps</a>') + '</span>'
+                                            },
+                                            actions: {
+                                            items: [
+                                            {
+                                            html: '<a href="#" onclick="navigateToNextSteps(); return false;"
+                                                class="govuk-link govuk-link--no-visited-state"
+                                                id="next-steps-summary-action">' + (whatHappensNextData.nextSteps and
+                                                'Change' or '') + '</a>'
+                                            }
+                                            ]
+                                            }
+                                            },
+                                            {
+                                            key: {
+                                            text: "Email format"
+                                            },
+                                            value: {
+                                            html: '<span id="submission-type-summary">' +
+                                                (whatHappensNextData.submissionType == 'machine-readable' and
+                                                'Machine readable only' + (whatHappensNextData.submissionVersion and '
+                                                (v' + whatHappensNextData.submissionVersion + ')' or '') or
+                                                whatHappensNextData.submissionType == 'human-only' and 'Human only
+                                                (as-is today)' or
+                                                '<a href="#" onclick="navigateToNotificationEmail(); return false;"
+                                                    class="govuk-link govuk-link--no-visited-state">Choose submission
+                                                    type</a>') + '</span>'
+                                            },
+                                            actions: {
+                                            items: [
+                                            {
+                                            html: '<a href="#" onclick="navigateToNotificationEmail(); return false;"
+                                                class="govuk-link govuk-link--no-visited-state"
+                                                id="submission-type-summary-action">' +
+                                                (whatHappensNextData.submissionType and 'Change' or '') + '</a>'
+                                            }
+                                            ]
+                                            }
+                                            },
+                                            {
+                                            key: {
+                                            text: "Email address"
+                                            },
+                                            value: {
+                                            html: '<span id="notification-email-summary">' +
+                                                (whatHappensNextData.notificationEmail or '<a href="#"
+                                                    onclick="navigateToNotificationEmail(); return false;"
+                                                    class="govuk-link govuk-link--no-visited-state">Enter email
+                                                    address</a>') + '</span>'
+                                            },
+                                            actions: {
+                                            items: [
+                                            {
+                                            html: '<a href="#" onclick="navigateToNotificationEmail(); return false;"
+                                                class="govuk-link govuk-link--no-visited-state"
+                                                id="notification-email-summary-action">' +
+                                                (whatHappensNextData.notificationEmail and 'Change' or '') + '</a>'
+                                            }
+                                            ]
+                                            }
+                                            }
+                                            ]
+                                            }) }}
+
+                                            <a href="#page-overview-preview" class="govuk-skip-link"
+                                                style="margin-bottom: 30px!important;" data-module="govuk-skip-link">
+                                                Skip to page overview preview
+                                            </a>
+                                        </div>
+
+                                        <!-- Next Steps Content -->
+                                        <div id="next-steps-content" style="display: none;">
+                                            <h1 class="govuk-heading-l">Tell users what happens after they submit their
+                                                form</h1>
+                                            <p class="govuk-body">Add some information to tell people what will happen
+                                                after they've submitted their form, and when - so they know what to
+                                                expect.
+                                            </p>
+
+                                            <h2 class="govuk-heading-s">Example</h2>
+                                            {% from "govuk/components/inset-text/macro.njk" import govukInsetText %}
+                                            {{ govukInsetText({ text: "We will send you an email to let you know the
+                                            outcome. You will usually get a response within 10 working days." }) }}
+
+                                            {# <p class="govuk-body">
+                                                The email confirmation will also include the contact details you provide
+                                                for the form, and the date and time of submission.
+                                            </p> #}
+
+                                            <h2 class="govuk-heading-m">Where this text is shown</h2>
+
+                                            <p class="govuk-body">
+                                                The information you include here appears on the form submission page
+                                                under the heading 'What happens next'. The text also appears in the form
+                                                submission confirmation email. Emails are sent automatically using
+                                                GOV.UK Notify.
+                                            </p>
+                                            {#
+                                            <p class="govuk-body">
+                                                The text also appears in the form submission confirmation email. Users
+                                                can opt-in to receive a confirmation email at the end of the form.
+                                                Emails are sent automatically using GOV.UK Notify.
+                                            </p> #}
+
+                                            {% from "govuk/components/warning-text/macro.njk" import govukWarningText %}
+
+                                            {# {{ govukWarningText({
+                                            html: "If you use markdown to format the text, <a
+                                                class='govuk-link govuk-link--no-visited-state'
+                                                rel='noreferrer noopener' target='_blank'
+                                                href='https://www.notifications.service.gov.uk/using-notify/formatting'>check
+                                                the formatting restrictions for GOV.UK Notify (opens in new tab)</a>.",
+                                            iconFallbackText: "Warning"
+                                            }) }} #}
+
+                                            <!-- Next Steps Form -->
+                                            {% from "govuk/components/textarea/macro.njk" import govukTextarea %}
+                                            {% from "govuk/components/button/macro.njk" import govukButton %}
+
+                                            <form method="post"
+                                                action="/titan-mvp-1.2/form-editor/what-happens-next-settings">
+                                                {{ govukTextarea({
+                                                name: "nextSteps",
+                                                id: "next-steps",
+                                                label: {
+                                                text: "What will happen after a user submits a form?",
+                                                classes: "govuk-label--m",
+                                                isPageHeading: false
+                                                },
+
+                                                value: data['nextSteps'] or ''
+                                                }) }}
+
+                                                {% from "govuk/components/details/macro.njk" import govukDetails %}
+
+                                                {{ govukDetails({
+                                                summaryText: "Help with markdown",
+                                                html: "<div id='markdown-help'>
+                                                    <p>You can use markdown to format your text:</p>
+                                                    <ul>
+                                                        <li>Use <code>*</code> for bullet points</li>
+                                                        <li>Use <code>**text**</code> for <strong>bold text</strong>
+                                                        </li>
+                                                        <li>Use <code>*text*</code> for <em>italic text</em></li>
+                                                        <li>Use <code>[link text](url)</code> for <a href='#'>links</a>
+                                                        </li>
+                                                        <li>Use <code>#</code> for headings</li>
+                                                        <li>Use <code>##</code> for subheadings</li>
+                                                        <li>Use <code>></code> for block quotes</li>
+                                                    </ul>
+                                                    <div class='markdown-preview'
+                                                        style='margin-top: 20px; padding: 15px; background-color: #f8f9fa; border: 1px solid #dee2e6; border-radius: 4px;'>
+                                                        <h4 style='margin-top: 0;'>Live Preview:</h4>
+                                                        <div id='markdown-live-preview'>
+                                                            <p class='govuk-body'>Start typing to see a live preview...
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                </div>"
+                                                }) }}
+
+                                                {{ govukButton({
+                                                text: "Save",
+                                                attributes: {
+                                                id: "next-steps-submit"
+                                                }
+                                                }) }}
+                                            </form>
+
+                                            <a href="#next-steps-preview" class="govuk-skip-link"
+                                                style="margin-bottom: 30px!important;" data-module="govuk-skip-link">
+                                                Skip to next steps preview
+                                            </a>
+                                        </div>
+
+                                        <!-- Notification Email Content (initially hidden) -->
+                                        <div id="notification-email-content" style="display: none;">
+
+
+
+
+                                            {% from "govuk/components/radios/macro.njk" import govukRadios %}
+                                            {% from "govuk/components/input/macro.njk" import govukInput %}
+                                            {% from "govuk/components/button/macro.njk" import govukButton %}
+
+                                            <form method="post"
+                                                action="/titan-mvp-1.2/form-editor/what-happens-next-settings">
+
+                                                {{ govukRadios({
+                                                name: "submissionType",
+                                                id: "submission-type",
+                                                fieldset: {
+                                                legend: {
+                                                text: "Which format do you want to receive submitted forms?",
+                                                isPageHeading: true,
+                                                classes: "govuk-fieldset__legend--l"
+                                                }
+                                                },
+                                                items: [
+                                                {
+                                                value: "human-only",
+                                                text: "Human readable format",
+                                                hint: {
+                                                text: "Human-readable format for manual processing",
+                                                classes: "govuk-hint"
+                                                },
+                                                checked: data['submissionType'] == 'human-only' or not
+                                                data['submissionType']
+                                                },
+                                                {
+                                                value: "machine-readable",
+                                                text: "Machine readable",
+                                                hint: {
+                                                text: "Structured data format for automated processing"
+                                                },
+                                                checked: data['submissionType'] == 'machine-readable',
+                                                conditional: {
+                                                html: '<div class="govuk-form-group" id="version-selection">
+                                                    <fieldset class="govuk-fieldset">
+                                                        <legend
+                                                            class="govuk-fieldset__legend govuk-fieldset__legend--s">
+                                                            Select version
+                                                        </legend>
+                                                        <div class="govuk-radios" data-module="govuk-radios">
+                                                            <div class="govuk-radios__item">
+                                                                <input class="govuk-radios__input" id="version-1-3"
+                                                                    name="submissionVersion" type="radio"
+                                                                    value="1.3" ' + (data[' submissionVersion']=='1.3'
+                                                                    or not data['submissionVersion'] and 'checked' or ''
+                                                                    )
+                                                                    + '>
+                                                                <label class="govuk-label govuk-radios__label" for="version-1-3">
+                                                                    v1.3 (latest)
+                                                                </label>
+                                                            </div>
+                                                            <div class="govuk-radios__item">
+                                                                <input class="govuk-radios__input" id="version-1-2" name="submissionVersion" type="radio" value="1.2" '
+                                                                    + (data['submissionVersion']=='1.2' and 'checked'
+                                                                    or '' )
+                                                                    + '>
+                                                                <label class="govuk-label govuk-radios__label" for="version-1-2">
+                                                                    v1.2
+                                                                </label>
+                                                            </div>
+                                                            <div class="govuk-radios__item">
+                                                                <input class="govuk-radios__input" id="version-1-1" name="submissionVersion" type="radio" value="1.1" '
+                                                                    + (data['submissionVersion']=='1.1' and 'checked'
+                                                                    or '' ) + '>
+                                                                <label class="govuk-label govuk-radios__label" for="version-1-1">
+                                                                    v1.1
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                    </fieldset>
+                                                </div>' } } ] }) }} {{ govukInput({ label: { text: "What email address should submitted forms be sent
+                                                                to?" , classes: "govuk-label--m" }, hint: {
+                                                                    text: "Used to send submitted forms for processing"
+                                                                    }, id: "notification-email" ,
+                                                                    name: "notificationEmail" , type: "email" , value:
+                                                                    data['notificationEmail'] or '' , attributes: {
+                                                                    pattern: ".*@.*\\.gov\\.uk$" ,
+                                                                    title: "Email address must end with .gov.uk" } }) }}
+                                                                    {{ govukButton({ text: "Save" , attributes: {
+                                                                    id: "notification-email-submit" } }) }} </form>
+
+                                                                <a href="#notification-email-preview"
+                                                                    class="govuk-skip-link"
+                                                                    style="margin-bottom: 30px!important;"
+                                                                    data-module="govuk-skip-link">
+                                                                    Skip to notification email preview
+                                                                </a>
+                                                            </div>
+
+                                                            <script>
+                                                                // Trigger preview update after what happens next details are loaded
+                                                                document.addEventListener('DOMContentLoaded', function () {
+                                                                    if (typeof updatePreview === 'function') {
+                                                                        setTimeout(updatePreview, 50);
+                                                                    }
+                                                                });
+                                                            </script>
+
+                                                        </div> <!-- .govuk-summary-card__content -->
+                                                </div> <!-- #what-happens-next-settings-1 -->
+                                        </div> <!-- #what-happens-next-settings-container-1 -->
+
+                        </dd>
+                    </div>
+                </dl>
+            </div>
+        </div>
+    </div>
+    <!-- END LEFT COLUMN -->
+
+    <!-- RIGHT COLUMN: What happens next Preview -->
+    <div class="govuk-grid-column-one-half-from-desktop" id="second-container"
+        style="outline: solid 1px #008938; position: sticky; top: 0; padding: 20px; box-shadow: 5px 10px #008938; min-height: 100vh; height: fit-content; align-self: flex-start;">
+        <!-- Before content -->
+        <div id="before-content" style="background-color: #cce2d8;">
+            <p class="govuk-body-s" style="margin-bottom: 0; color: #005a30; padding: 2px 8px 3px; text-align: center;">
+                Preview
+            </p>
+        </div>
+
+        <div style="margin-top: 60px!important;">
+            {% from "govuk/components/tabs/macro.njk" import govukTabs %}
+
+            <div class="govuk-tabs" data-module="govuk-tabs">
+                <h2 class="govuk-tabs__title">Contents</h2>
+                <ul class="govuk-tabs__list">
+                    <li class="govuk-tabs__list-item govuk-tabs__list-item--selected">
+                        <a class="govuk-tabs__tab" href="#confirmation-page">Confirmation page</a>
+                    </li>
+                    <li class="govuk-tabs__list-item">
+                        <a class="govuk-tabs__tab" href="#confirmation-email">Confirmation email</a>
+                    </li>
+                </ul>
+
+                <div class="govuk-tabs__panel" id="confirmation-page">
+                    <!-- Confirmation Page Preview Content -->
+                    <p class="govuk-body-s" style="margin-bottom: 30px; border-bottom: #008938 1px;">
+                        <a href="#" class="govuk-link govuk-link--no-visited-state" rel="noreferrer noopener"
+                            target="_blank">
+                            Preview this page in a new tab
+                        </a>
+                    </p>
+
+                    <!-- Dynamic Preview Content -->
+                    <div id="dynamic-what-happens-next-preview">
+                        {% if data['nextSteps'] %}
+                        <div class="govuk-panel govuk-panel--confirmation">
+                            <h1 class="govuk-panel__title">
+                                Form submitted
+                            </h1>
+                        </div>
+                        <div class="border-left-container">
+                            <h2 class="govuk-heading-m">What happens next</h2>
+                            <div class="next-steps-content">
+                                <p class="govuk-body">{{ data['nextSteps'] }}</p>
+                            </div>
+                        </div>
+                        {% else %}
+                        <div class="govuk-panel govuk-panel--confirmation">
+                            <h1 class="govuk-panel__title">
+                                Form submitted
+                            </h1>
+                        </div>
+                        <div class="border-left-container">
+                            <h2 class="govuk-heading-m">What happens next</h2>
+                            <div class="next-steps-content">
+                                <p class="govuk-body">What will happen after a user submits a form</p>
+                            </div>
+                        </div>
+                        {% endif %}
+                    </div>
+
+                    <a href="#confirmation-page-preview" class="govuk-skip-link" style="margin-bottom: 30px!important;"
+                        data-module="govuk-skip-link">
+                        Skip to confirmation page preview
+                    </a>
+                </div> <!-- End of Confirmation Page Tab -->
+
+                <div class="govuk-tabs__panel" id="confirmation-email">
+                    <!-- Confirmation Email Preview Content -->
+                    <p class="govuk-body-s" style="margin-bottom: 30px; border-bottom: #008938 1px;">
+                        <a href="#" class="govuk-link govuk-link--no-visited-state" rel="noreferrer noopener"
+                            target="_blank">
+                            Preview this email in a new tab
+                        </a>
+                    </p>
+
+                    <!-- Dynamic Email Preview Content -->
+                    <div id="dynamic-email-preview">
+                        <!-- Email content will be populated by JavaScript -->
+                    </div>
+
+                    <a href="#confirmation-email-preview" class="govuk-skip-link" style="margin-bottom: 30px!important;"
+                        data-module="govuk-skip-link">
+                        Skip to confirmation email preview
+                    </a>
+                </div> <!-- End of Confirmation Email Tab -->
+            </div> <!-- End of govuk-tabs -->
+        </div> <!-- End of margin-top: 60px container -->
+    </div> <!-- End of second-container -->
+
+    <!-- END RIGHT COLUMN -->
+
+</div> <!-- End .govuk-grid-row (which wraps both columns) -->
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        // Set up MOJ sub-navigation
+        setupMOJNavigation();
+
+        // Set up form input event listeners
+        setupFormInputs();
+
+        // Initialize conditional reveals
+        handleSubmissionTypeChange();
+
+        // Initialize markdown preview
+        updateMarkdownPreview();
+        updateNotificationMarkdownPreview();
+
+        // Show preview panel initially since "Page overview" is the default active tab
+        const previewContainer = document.getElementById('second-container');
+        if (previewContainer) {
+            previewContainer.style.display = 'none';
+        }
+    });
+
+    function setupFormInputs() {
+        const nextStepsInput = document.getElementById('next-steps');
+        const notificationEmailInput = document.getElementById('notification-email');
+        const notificationEmailContentInput = document.getElementById('notification-email-content-textarea');
+        const submissionTypeRadios = document.querySelectorAll('input[name="submissionType"]');
+        const submissionVersionRadios = document.querySelectorAll('input[name="submissionVersion"]');
+
+        if (nextStepsInput) {
+            nextStepsInput.addEventListener('input', function () {
+                if (document.activeElement === nextStepsInput) {
+                    // Field is focused - show with highlight
+                    updatePreviewWithHighlight();
+                } else {
+                    // Field is not focused - show without highlight
+                    updatePreview();
+                }
+                updateMarkdownPreview();
+            });
+
+            // Add focus/blur highlighting
+            nextStepsInput.addEventListener('focus', function () {
+                updatePreviewWithHighlight();
+            });
+
+            nextStepsInput.addEventListener('blur', function () {
+                updatePreview();
+            });
+        }
+
+        if (notificationEmailInput) {
+            notificationEmailInput.addEventListener('input', function () {
+                updatePreview();
+            });
+        }
+
+        if (notificationEmailContentInput) {
+            notificationEmailContentInput.addEventListener('input', function () {
+                updatePreview();
+                updateNotificationMarkdownPreview();
+            });
+        }
+
+        if (submissionTypeRadios) {
+            submissionTypeRadios.forEach(function (radio) {
+                radio.addEventListener('change', function () {
+                    handleSubmissionTypeChange();
+                    updatePreview();
+                });
+            });
+        }
+
+        if (submissionVersionRadios) {
+            submissionVersionRadios.forEach(function (radio) {
+                radio.addEventListener('change', function () {
+                    updatePreview();
+                });
+            });
+        }
+    }
+
+    function updateMarkdownPreview() {
+        const nextStepsInput = document.getElementById('next-steps');
+        const markdownPreview = document.getElementById('markdown-live-preview');
+
+        if (nextStepsInput && markdownPreview) {
+            const markdownText = nextStepsInput.value;
+
+            if (markdownText.trim()) {
+                // Convert markdown to HTML
+                const htmlContent = convertMarkdownToHtml(markdownText);
+                markdownPreview.innerHTML = htmlContent;
+            } else {
+                markdownPreview.innerHTML = '<p class="govuk-body">Start typing to see a live preview...</p>';
+            }
+        }
+    }
+
+    function updateNotificationMarkdownPreview() {
+        const notificationEmailContentInput = document.getElementById('notification-email-content-textarea');
+        const notificationMarkdownPreview = document.getElementById('notification-markdown-live-preview');
+
+        if (notificationEmailContentInput && notificationMarkdownPreview) {
+            const markdownText = notificationEmailContentInput.value;
+
+            if (markdownText.trim()) {
+                // Convert markdown to HTML
+                const htmlContent = convertMarkdownToHtml(markdownText);
+                notificationMarkdownPreview.innerHTML = htmlContent;
+            } else {
+                notificationMarkdownPreview.innerHTML = '<p class="govuk-body">Start typing to see a live preview...</p>';
+            }
+        }
+    }
+
+    function convertMarkdownToHtml(markdown) {
+        if (!markdown) return '<p class="govuk-body">Start typing to see a live preview...</p>';
+
+        let html = markdown;
+
+        // Convert **text** to <strong>text</strong>
+        html = html.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+
+        // Convert *text* to <em>text</em> (but not list markers)
+        html = html.replace(/(?<!^)\*([^*]+?)\*(?!\*)/g, '<em>$1</em>');
+
+        // Convert [text](url) to <a href="url">text</a>
+        html = html.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" class="govuk-link">$1</a>');
+
+        // Convert # heading to <h3>heading</h3>
+        html = html.replace(/^# (.*$)/gm, '<h3 class="govuk-heading-s">$1</h3>');
+
+        // Convert ## subheading to <h4>subheading</h4>
+        html = html.replace(/^## (.*$)/gm, '<h4 class="govuk-heading-s">$1</h4>');
+
+        // Convert > blockquote to <blockquote>text</blockquote>
+        html = html.replace(/^> (.*$)/gm, '<blockquote class="govuk-inset-text">$1</blockquote>');
+
+        // Convert - list items to <ul><li>item</li></ul>
+        const lines = html.split('\n');
+        let inList = false;
+        let listItems = [];
+
+        for (let i = 0; i < lines.length; i++) {
+            const line = lines[i];
+            if (line.trim().startsWith('- ')) {
+                if (!inList) {
+                    inList = true;
+                }
+                listItems.push(`<li class="govuk-body">${line.trim().substring(2)}</li>`);
+            } else {
+                if (inList && listItems.length > 0) {
+                    lines[i - listItems.length] = `<ul class="govuk-list govuk-list--bullet">${listItems.join('')}</ul>`;
+                    // Remove the list item lines
+                    for (let j = 0; j < listItems.length - 1; j++) {
+                        lines.splice(i - listItems.length + 1, 1);
+                    }
+                    listItems = [];
+                    inList = false;
+                }
+            }
+        }
+
+        // Handle list at the end
+        if (inList && listItems.length > 0) {
+            lines[lines.length - listItems.length] = `<ul class="govuk-list govuk-list--bullet">${listItems.join('')}</ul>`;
+            // Remove the list item lines
+            for (let j = 0; j < listItems.length - 1; j++) {
+                lines.splice(lines.length - listItems.length + 1, 1);
+            }
+        }
+
+        html = lines.join('\n');
+
+        // Convert line breaks to <br> for non-block elements
+        html = html.replace(/\n/g, '<br>');
+
+        // Wrap in paragraph if no other block elements
+        if (!html.includes('<h3') && !html.includes('<h4') && !html.includes('<ul') && !html.includes('<ol') && !html.includes('<blockquote')) {
+            html = '<p class="govuk-body">' + html + '</p>';
+        }
+
+        return html;
+    }
+
+    function handleSubmissionTypeChange() {
+        const machineReadableRadio = document.querySelector('input[value="machine-readable"]');
+        const versionSelection = document.getElementById('version-selection');
+
+        if (machineReadableRadio && machineReadableRadio.checked) {
+            // Show version selection when machine readable is selected
+            if (versionSelection) {
+                versionSelection.style.display = 'block';
+            }
+        } else {
+            // Hide version selection when human only is selected
+            if (versionSelection) {
+                versionSelection.style.display = 'none';
+            }
+        }
+    }
+
+    function setupMOJNavigation() {
+        const pageOverviewLink = document.querySelector('a[href="#page-overview"]');
+        const nextStepsLink = document.querySelector('a[href="#next-steps"]');
+        const notificationLink = document.querySelector('a[href="#notification-email"]');
+        const pageOverviewContent = document.getElementById('page-overview-content');
+        const nextStepsContent = document.getElementById('next-steps-content');
+        const notificationEmailContent = document.getElementById('notification-email-content');
+
+        if (pageOverviewLink) {
+            pageOverviewLink.addEventListener('click', function (e) {
+                e.preventDefault();
+
+                // Update navigation state
+                pageOverviewLink.setAttribute('aria-current', 'page');
+                nextStepsLink.removeAttribute('aria-current');
+                notificationLink.removeAttribute('aria-current');
+
+                // Show page overview content, hide other content
+                pageOverviewContent.style.display = 'block';
+                nextStepsContent.style.display = 'none';
+                notificationEmailContent.style.display = 'none';
+
+                // Hide preview panel for page overview
+                const previewContainer = document.getElementById('second-container');
+                if (previewContainer) {
+                    previewContainer.style.display = 'none';
+                }
+            });
+        }
+
+        if (nextStepsLink) {
+            nextStepsLink.addEventListener('click', function (e) {
+                e.preventDefault();
+
+                // Update navigation state
+                nextStepsLink.setAttribute('aria-current', 'page');
+                pageOverviewLink.removeAttribute('aria-current');
+                notificationLink.removeAttribute('aria-current');
+
+                // Show next steps content, hide other content
+                pageOverviewContent.style.display = 'none';
+                nextStepsContent.style.display = 'block';
+                notificationEmailContent.style.display = 'none';
+
+                // Show preview panel for next steps
+                const previewContainer = document.getElementById('second-container');
+                if (previewContainer) {
+                    previewContainer.style.display = 'block';
+                }
+
+                // Update preview for next steps
+                updatePreview();
+            });
+        }
+
+        if (notificationLink) {
+            notificationLink.addEventListener('click', function (e) {
+                e.preventDefault();
+
+                // Update navigation state
+                notificationLink.setAttribute('aria-current', 'page');
+                pageOverviewLink.removeAttribute('aria-current');
+                nextStepsLink.removeAttribute('aria-current');
+
+                // Show notification content, hide other content
+                pageOverviewContent.style.display = 'none';
+                nextStepsContent.style.display = 'none';
+                notificationEmailContent.style.display = 'block';
+
+                // Hide preview panel for notification email
+                const previewContainer = document.getElementById('second-container');
+                if (previewContainer) {
+                    previewContainer.style.display = 'none';
+                }
+            });
+        }
+    }
+
+    function updatePreview() {
+        const previewContainer = document.getElementById('dynamic-what-happens-next-preview');
+        const emailPreviewContainer = document.getElementById('dynamic-email-preview');
+
+        // Only update preview when next steps tab is active
+        const nextStepsInput = document.getElementById('next-steps');
+        let nextStepsContent = '';
+
+        // Check if input exists and has content
+        if (nextStepsInput && nextStepsInput.value.trim() !== '') {
+            nextStepsContent = nextStepsInput.value.trim();
+        }
+
+        if (nextStepsContent) {
+            // Show full next steps when data is available
+            const convertedContent = convertMarkdownToHtml(nextStepsContent);
+            previewContainer.innerHTML = `
+                <div class="govuk-panel govuk-panel--confirmation">
+                    <h1 class="govuk-panel__title">
+                        Form submitted
+                    </h1>
+                </div>
+                <div class="border-left-container">
+                    <h2 class="govuk-heading-m">What happens next</h2>
+                    <div class="next-steps-content">
+                        ${convertedContent}
+                    </div>
+                </div>
+            `;
+        } else {
+            // Always show placeholder when field is empty
+            previewContainer.innerHTML = `
+                <div class="govuk-panel govuk-panel--confirmation">
+                    <h1 class="govuk-panel__title">
+                        Form submitted
+                    </h1>
+                </div>
+                <div class="border-left-container">
+                    <h2 class="govuk-heading-m">What happens next</h2>
+                    <div class="next-steps-content">
+                        <p class="govuk-body">What will happen after a user submits a form</p>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Update email preview as well
+        if (emailPreviewContainer) {
+            const emailContent = generateConfirmationEmail(nextStepsContent);
+            emailPreviewContainer.innerHTML = emailContent;
+        }
+    }
+
+    function updatePreviewWithHighlight() {
+        const previewContainer = document.getElementById('dynamic-what-happens-next-preview');
+        const emailPreviewContainer = document.getElementById('dynamic-email-preview');
+
+        // Only update preview when next steps tab is active
+        const nextStepsInput = document.getElementById('next-steps');
+        let nextStepsContent = '';
+
+        // Check if input exists and has content
+        if (nextStepsInput && nextStepsInput.value.trim() !== '') {
+            nextStepsContent = nextStepsInput.value.trim();
+        }
+
+        if (nextStepsContent) {
+            // Show full next steps when data is available with highlight
+            const convertedContent = convertMarkdownToHtml(nextStepsContent);
+            previewContainer.innerHTML = `
+                <div class="govuk-panel govuk-panel--confirmation">
+                    <h1 class="govuk-panel__title">
+                        Form submitted
+                    </h1>
+                </div>
+                <div class="border-left-container">
+                    <h2 class="govuk-heading-m">What happens next</h2>
+                    <div class="next-steps-content highlight">
+                        ${convertedContent}
+                    </div>
+                </div>
+            `;
+        } else {
+            // Show placeholder when focused but no content
+            previewContainer.innerHTML = `
+                <div class="govuk-panel govuk-panel--confirmation">
+                    <h1 class="govuk-panel__title">
+                        Form submitted
+                    </h1>
+                </div>
+                <div class="border-left-container">
+                    <h2 class="govuk-heading-m">What happens next</h2>
+                    <div class="next-steps-content highlight">
+                        <p class="govuk-body" style="color: #000;">What will happen after a user submits a form</p>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Update email preview as well with highlight
+        if (emailPreviewContainer) {
+            const emailContent = generateConfirmationEmail(nextStepsContent, true);
+            emailPreviewContainer.innerHTML = emailContent;
+        }
+    }
+
+    function generateConfirmationEmail(nextStepsContent, shouldHighlight = false) {
+        let whatHappensNextContent = '';
+
+        if (nextStepsContent) {
+            whatHappensNextContent = convertMarkdownToHtml(nextStepsContent);
+        } else {
+            // Always show placeholder when no content (whether focused or not)
+            whatHappensNextContent = '<p class="govuk-body" style="color: #000;">What will happen after a user submits a form</p>';
+        }
+
+        const highlightClass = shouldHighlight ? 'highlight' : '';
+
+        return `
+           
+                <p class="govuk-body"><strong>Subject:</strong> Form submitted to Rural Payments Agency (RPA)</p>
+                <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
+
+                <h2 class="govuk-heading-l">We have your form</h2>
+
+            <div class="govuk-body">
+
+                <p>We received your form submission for ‘Form name’ on Thursday 3 April 2025 at 10:00am.</p>
+
+
+            
+                <div class="border-left-container">
+                    <h3 class="govuk-heading-m govuk-!-margin-top-6">What happens next</h3>
+                    <div class="next-steps-content ${highlightClass}">
+                        ${whatHappensNextContent}
+                    </div>
+                </div>
+
+                                 <h2 class="govuk-heading-m govuk-!-margin-top-6">Get help</h2>
+                 <div class="contact-details-content">
+<div class="govuk-summary-list ">
+    <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key govuk-hint" style="font-weight: normal;">Contact details you add will appear here.</dt><dd class="govuk-summary-list__actions">
+            </dd>
+            </div>
+            </div>                 
+   
+                    <p class="govuk-body">Do not reply to this email. We do not monitor replies to this email address.
+                    
+</p>
+                    <p class="govuk-body">From Rural Payments Agency (RPA)</p> 
+
+
+            </div>
+        `;
+    }
+
+    function navigateToNextSteps() {
+        const nextStepsLink = document.querySelector('a[href="#next-steps"]');
+        if (nextStepsLink) {
+            nextStepsLink.click();
+        }
+    }
+
+    function navigateToNotificationEmail() {
+        const notificationLink = document.querySelector('a[href="#notification-email"]');
+        if (notificationLink) {
+            notificationLink.click();
+        }
+    }
+</script>
+
+<style>
+    .preview-container {
+        outline: solid 1px #b1b4b6;
+        position: sticky;
+        overflow-y: auto;
+        height: 100vh;
+        top: 0;
+        padding: 20px;
+        box-shadow: 5px 10px #b1b4b6;
+        margin-bottom: 30px;
+    }
+
+    .highlight {
+        background-color: #ffe5cc;
+        border-bottom: 2px solid #ffb266;
+        margin-bottom: 10px;
+        padding: 0;
+    }
+
+    .border-left-container {
+        border-left: 10px solid #ffb266;
+        padding-left: 20px;
+    }
+</style>
+
+{% endblock %}

@@ -1,0 +1,834 @@
+{% extends "layouts/main.html" %}
+{% from "components/service-header/macro.njk" import serviceHeader %}
+
+{% block pageTitle %}
+Features – Defra Form Designer – GOV.UK Prototype Kit
+{% endblock %}
+
+{% block header %}
+{{ serviceHeader({
+organisationName: "Defra",
+productName: "Form Designer",
+serviceName: "",
+homepageLink: "/",
+signInLink: "/titan-mvp-1.2/onboarding/sign-in",
+navigationItems: [
+{ href: "/titan-mvp-1.2/product-pages/get-started", text: "Get started", id: "nav-get-started" },
+{ href: "/titan-mvp-1.2/product-pages/features", text: "Features", id: "nav-features" },
+{ href: "/titan-mvp-1.2/product-pages/resources", text: "Resources", id: "nav-resources" },
+{ href: "/titan-mvp-1.2/product-pages/support", text: "Support", id: "nav-support" }
+],
+activeLinkId: "nav-features"
+}) }}
+
+{{ xGovukMasthead({
+inverse: true,
+title: {
+text: "Features"
+},
+description: {
+html: "The Defra Form Designer is in private beta. We're working on some <a href='#coming-soon' class='govuk-link'>
+    exciting features</a> right now. <br><br>See available features below."
+}
+}) }}
+{% endblock %}
+
+{% block content %}
+
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+        <!-- Form Management Cards -->
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-full">
+                <h2 class="govuk-heading-l govuk-!-margin-top-4">Form Management</h2>
+            </div>
+        </div>
+
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-full govuk-grid-column-one-third-from-desktop">
+                <div class="govuk-card govuk-card--contained govuk-card--feature">
+                    <div class="govuk-card__content">
+                        <div class="govuk-card__header">
+                            <div class="feature-icon">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <rect x="3" y="3" width="18" height="18" rx="2" stroke="#0B0C0C" stroke-width="2"
+                                        fill="none" />
+                                    <path d="M8 9H16M8 12H16M8 15H13" stroke="#0B0C0C" stroke-width="2"
+                                        stroke-linecap="round" />
+                                </svg>
+                            </div>
+                            <h3 class="govuk-heading-s">Library of existing forms</h3>
+                        </div>
+                        <p class="govuk-body">Search for forms by title, keyword, author and status.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="govuk-grid-column-full govuk-grid-column-one-third-from-desktop">
+                <div class="govuk-card govuk-card--contained govuk-card--feature">
+                    <div class="govuk-card__content">
+                        <div class="govuk-card__header">
+                            <div class="feature-icon">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <circle cx="12" cy="12" r="10" stroke="#0B0C0C" stroke-width="2" fill="none" />
+                                    <path d="M12 16V12M12 8H12.01" stroke="#0B0C0C" stroke-width="2"
+                                        stroke-linecap="round" />
+                                </svg>
+                            </div>
+                            <h3 class="govuk-heading-s">Form information</h3>
+                        </div>
+                        <p class="govuk-body">Add data about your form including:</p>
+                        <ul class="govuk-list govuk-list--bullet govuk-!-margin-top-2">
+                            <li>where submission data is sent</li>
+                            <li>contact details for support</li>
+                            <li>what happens after someone submits the form</li>
+                            <li>privacy policy</li>
+                            <li>organisation details</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
+
+        <!-- Form Design Cards -->
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-full">
+                <h2 class="govuk-heading-l govuk-!-margin-top-4">Form design</h2>
+            </div>
+        </div>
+
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-full govuk-grid-column-one-third-from-desktop">
+                <div class="govuk-card govuk-card--contained govuk-card--feature">
+                    <div class="govuk-card__content">
+                        <div class="govuk-card__header">
+                            <div class="feature-icon">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <!-- Template layout icon for multiple page types -->
+                                    <rect x="3" y="3" width="18" height="18" rx="2" stroke="#0B0C0C" stroke-width="2"
+                                        fill="none" />
+                                    <rect x="6" y="6" width="6" height="3" stroke="#0B0C0C" stroke-width="2"
+                                        fill="none" />
+                                    <rect x="6" y="11" width="6" height="3" stroke="#0B0C0C" stroke-width="2"
+                                        fill="none" />
+                                    <rect x="6" y="16" width="6" height="3" stroke="#0B0C0C" stroke-width="2"
+                                        fill="none" />
+                                    <rect x="14" y="6" width="5" height="3" stroke="#0B0C0C" stroke-width="2"
+                                        fill="none" />
+                                    <rect x="14" y="11" width="5" height="3" stroke="#0B0C0C" stroke-width="2"
+                                        fill="none" />
+                                    <rect x="14" y="16" width="5" height="3" stroke="#0B0C0C" stroke-width="2"
+                                        fill="none" />
+                                </svg>
+                            </div>
+                            <h3 class="govuk-heading-s">Page types</h3>
+                        </div>
+                        <p class="govuk-body">The Defra Form Designer supports:</p>
+                        <ul class="govuk-list govuk-list--bullet govuk-!-margin-top-2">
+                            <li>question pages</li>
+                            <li>guidance pages</li>
+                            <li>check your answers pages</li>
+                            <li>confirmation pages</li>
+                            <li>exit pages</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="govuk-grid-column-full govuk-grid-column-one-third-from-desktop">
+                <div class="govuk-card govuk-card--contained govuk-card--feature">
+                    <div class="govuk-card__content">
+                        <div class="govuk-card__header">
+                            <div class="feature-icon">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path
+                                        d="M10.29 3.86L1.82 18A2 2 0 0 0 3.54 21H20.46A2 2 0 0 0 22.18 18L13.71 3.86A2 2 0 0 0 10.29 3.86Z"
+                                        stroke="#0B0C0C" stroke-width="2" fill="none" />
+                                    <path d="M12 9V13M12 17H12.01" stroke="#0B0C0C" stroke-width="2"
+                                        stroke-linecap="round" />
+                                </svg>
+                            </div>
+                            <h3 class="govuk-heading-s">Error messages</h3>
+                        </div>
+                        <p class="govuk-body">Error messages are automatically generated using a short description and
+                            can be
+                            previewed in real time too.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="govuk-grid-column-full govuk-grid-column-one-third-from-desktop">
+                <div class="govuk-card govuk-card--contained govuk-card--feature">
+                    <div class="govuk-card__content">
+                        <div class="govuk-card__header">
+                            <div class="feature-icon">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <rect x="3" y="6" width="18" height="12" rx="2" stroke="#0B0C0C" stroke-width="2"
+                                        fill="none" />
+                                    <path d="M7 10H17M7 14H13" stroke="#0B0C0C" stroke-width="2"
+                                        stroke-linecap="round" />
+                                </svg>
+                            </div>
+                            <h3 class="govuk-heading-s">Answer limits</h3>
+                        </div>
+                        <p class="govuk-body">Limit the answers users can provide. For example, minimum and maximum
+                            character
+                            lengths or date ranges.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-full govuk-grid-column-one-third-from-desktop">
+                <div class="govuk-card govuk-card--contained govuk-card--feature">
+                    <div class="govuk-card__content">
+                        <div class="govuk-card__header">
+                            <div class="feature-icon">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <!-- Question mark icon for guidance -->
+                                    <circle cx="12" cy="12" r="10" stroke="#0B0C0C" stroke-width="2" fill="none" />
+                                    <path
+                                        d="M9.09 9C9.3251 8.33167 9.78915 7.76811 10.4 7.40921C11.0108 7.05031 11.7289 6.91894 12.4272 7.03871C13.1255 7.15849 13.7588 7.52252 14.2151 8.06375C14.6713 8.60499 14.9211 9.29202 14.92 10C14.92 12 11.92 13 11.92 13"
+                                        stroke="#0B0C0C" stroke-width="2" stroke-linecap="round"
+                                        stroke-linejoin="round" />
+                                    <path d="M12 17H12.01" stroke="#0B0C0C" stroke-width="2" stroke-linecap="round"
+                                        stroke-linejoin="round" />
+                                </svg>
+                            </div>
+                            <h3 class="govuk-heading-s">Form guidance</h3>
+                        </div>
+                        <p class="govuk-body">Add guidance and hint text to question or create a specific guidance page.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="govuk-grid-column-full govuk-grid-column-one-third-from-desktop">
+                <div class="govuk-card govuk-card--contained govuk-card--feature">
+                    <div class="govuk-card__content">
+                        <div class="govuk-card__header">
+                            <div class="feature-icon">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <!-- Branching flow icon for conditional logic -->
+                                    <path d="M12 20V12M12 12L8 8M12 12L16 8" stroke="#0B0C0C" stroke-width="2"
+                                        stroke-linecap="round" stroke-linejoin="round" />
+                                    <circle cx="12" cy="20" r="1.5" fill="#0B0C0C" />
+                                    <circle cx="8" cy="8" r="1.5" fill="#0B0C0C" />
+                                    <circle cx="16" cy="8" r="1.5" fill="#0B0C0C" />
+                                </svg>
+                            </div>
+                            <h3 class="govuk-heading-s">Conditions</h3>
+                        </div>
+                        <p class="govuk-body">Use conditions to show or skip pages based on answers. Combine 2
+                            conditions
+                            together for complex routing.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="govuk-grid-column-full govuk-grid-column-one-third-from-desktop">
+                <div class="govuk-card govuk-card--contained govuk-card--feature">
+                    <div class="govuk-card__content">
+                        <div class="govuk-card__header">
+                            <div class="feature-icon">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <!-- Formal declaration document with seal -->
+                                    <rect x="3" y="3" width="18" height="18" rx="1" stroke="#0B0C0C" stroke-width="2"
+                                        fill="none" />
+                                    <path d="M6 7H15M6 9H15M6 11H12" stroke="#0B0C0C" stroke-width="2"
+                                        stroke-linecap="round" />
+                                    <!-- Seal/emblem -->
+                                    <circle cx="12" cy="16" r="3" stroke="#0B0C0C" stroke-width="2" fill="none" />
+                                    <circle cx="12" cy="16" r="1" stroke="#0B0C0C" stroke-width="1" fill="none" />
+                                    <path d="M12 13L12 15M10 16L14 16" stroke="#0B0C0C" stroke-width="1"
+                                        stroke-linecap="round" />
+                                </svg>
+                            </div>
+                            <h3 class="govuk-heading-s">Form declaration</h3>
+                        </div>
+                        <p class="govuk-body">Include declaration text at the end of the form for users to agree to.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
+
+        <!-- Information Types Cards -->
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-full">
+                <h2 class="govuk-heading-l govuk-!-margin-top-4">Information types</h2>
+            </div>
+        </div>
+
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-full govuk-grid-column-one-third-from-desktop">
+                <div class="govuk-card govuk-card--contained govuk-card--feature">
+                    <div class="govuk-card__content">
+                        <div class="govuk-card__header">
+                            <div class="feature-icon">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <!-- Aa 123 icon for text and numbers -->
+                                    <rect x="3" y="3" width="18" height="18" rx="2" stroke="#0B0C0C" stroke-width="2"
+                                        fill="none" />
+                                    <text x="6" y="10" font-family="Arial" font-size="6" fill="#0B0C0C"
+                                        font-weight="bold">Aa</text>
+                                    <text x="6" y="18" font-family="Arial" font-size="6" fill="#0B0C0C"
+                                        font-weight="bold">123</text>
+                                </svg>
+                            </div>
+                            <h3 class="govuk-heading-s">Text & Numbers</h3>
+                        </div>
+                        <p class="govuk-body">You can ask users for:</p>
+                        <ul class="govuk-list govuk-list--bullet govuk-!-margin-top-2">
+                            <li>a long or short written answer</li>
+                            <li>a number</li>
+                            <li>a date</li>
+                            <li>a UK address</li>
+                            <li>a phone number</li>
+                            <li>an email address</li>
+                            <li>supporting information like a file or image</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="govuk-grid-column-full govuk-grid-column-one-third-from-desktop">
+                <div class="govuk-card govuk-card--contained govuk-card--feature">
+                    <div class="govuk-card__content">
+                        <div class="govuk-card__header">
+                            <div class="feature-icon">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path
+                                        d="M21 15V19C21 19.5304 20.7893 20.0391 20.4142 20.4142C20.0391 20.7893 19.5304 21 19 21H5C4.46957 21 3.96086 20.7893 3.58579 20.4142C3.21071 20.0391 3 19.5304 3 19V15"
+                                        stroke="#0B0C0C" stroke-width="2" stroke-linecap="round"
+                                        stroke-linejoin="round" />
+                                    <path d="M7 10L12 15L17 10" stroke="#0B0C0C" stroke-width="2" stroke-linecap="round"
+                                        stroke-linejoin="round" />
+                                    <path d="M12 15V3" stroke="#0B0C0C" stroke-width="2" stroke-linecap="round"
+                                        stroke-linejoin="round" />
+                                </svg>
+                            </div>
+                            <h3 class="govuk-heading-s">File upload</h3>
+                        </div>
+                        <p class="govuk-body">Allow users to securely upload supporting documents.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
+
+        <!-- Selection Options Cards -->
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-full">
+                <h2 class="govuk-heading-l govuk-!-margin-top-4">Selecting from a list</h2>
+            </div>
+        </div>
+
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-full govuk-grid-column-one-third-from-desktop">
+                <div class="govuk-card govuk-card--contained govuk-card--feature">
+                    <div class="govuk-card__content">
+                        <div class="govuk-card__header">
+                            <div class="feature-icon">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path
+                                        d="M9 12L11 14L15 10M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z"
+                                        stroke="#0B0C0C" stroke-width="2" fill="none" />
+                                </svg>
+                            </div>
+                            <h3 class="govuk-heading-s">Yes or no</h3>
+                        </div>
+                        <p class="govuk-body">Ask users to select answers from a list of options. Formats include:</p>
+                        <ul class="govuk-list govuk-list--bullet govuk-!-margin-top-2">
+                            <li>Yes or no</li>
+                            <li>Checkboxes</li>
+                            <li>Radios</li>
+                            <li>Autocomplete</li>
+                            <li>Select</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
+
+        <!-- Advanced Features Cards -->
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-full">
+                <h2 class="govuk-heading-l govuk-!-margin-top-4">Advanced Features</h2>
+            </div>
+        </div>
+
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-full govuk-grid-column-one-third-from-desktop">
+                <div class="govuk-card govuk-card--contained govuk-card--feature">
+                    <div class="govuk-card__content">
+                        <div class="govuk-card__header">
+                            <div class="feature-icon">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <!-- Duplicate/repeat icon -->
+                                    <rect x="4" y="4" width="8" height="12" stroke="#0B0C0C" stroke-width="2"
+                                        fill="none" />
+                                    <rect x="12" y="8" width="8" height="12" stroke="#0B0C0C" stroke-width="2"
+                                        fill="none" />
+                                    <path d="M8 8H12M8 10H12M8 12H10" stroke="#0B0C0C" stroke-width="2"
+                                        stroke-linecap="round" />
+                                </svg>
+                            </div>
+                            <h3 class="govuk-heading-s">Repeating questions</h3>
+                        </div>
+                        <p class="govuk-body">Get repeated sets of data from users with repeating questions. Design the
+                            question
+                            once and set the number of times you want users to answer it.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="govuk-grid-column-full govuk-grid-column-one-third-from-desktop">
+                <div class="govuk-card govuk-card--contained govuk-card--feature">
+                    <div class="govuk-card__content">
+                        <div class="govuk-card__header">
+                            <div class="feature-icon">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M1 12S5 4 12 4S23 12 23 12S19 20 12 20S1 12 1 12Z" stroke="#0B0C0C"
+                                        stroke-width="2" fill="none" />
+                                    <circle cx="12" cy="12" r="3" stroke="#0B0C0C" stroke-width="2" fill="none" />
+                                </svg>
+                            </div>
+                            <h3 class="govuk-heading-s">Previewing a form</h3>
+                        </div>
+                        <p class="govuk-body">Preview your form in real time as you build it. Use the preview link to
+                            test the
+                            layout and conditions end to end. Share a preview link with others without affecting your
+                            form.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="govuk-grid-column-full govuk-grid-column-one-third-from-desktop">
+                <div class="govuk-card govuk-card--contained govuk-card--feature">
+                    <div class="govuk-card__content">
+                        <div class="govuk-card__header">
+                            <div class="feature-icon">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path
+                                        d="M4 4H20C21.1 4 22 4.9 22 6V18C22 19.1 21.1 20 20 20H4C2.9 20 2 19.1 2 18V6C2 4.9 2.9 4 4 4Z"
+                                        stroke="#0B0C0C" stroke-width="2" stroke-linecap="round"
+                                        stroke-linejoin="round" />
+                                    <polyline points="22,6 12,13 2,6" stroke="#0B0C0C" stroke-width="2"
+                                        stroke-linecap="round" stroke-linejoin="round" />
+                                </svg>
+                            </div>
+                            <h3 class="govuk-heading-s">Submitted forms</h3>
+                        </div>
+                        <p class="govuk-body">Data from a form submission is automatically sent to the shared mailbox
+                            you signed
+                            up with.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
+
+        <!-- Features Coming Soon Section -->
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-full">
+                <h2 class="govuk-heading-l govuk-!-margin-top-4" id="coming-soon">Features coming soon</h2>
+
+            </div>
+        </div>
+
+        <p class="govuk-body-l">We're working on exciting new capabilities to enhance
+            your form building experience.</p>
+
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-full govuk-grid-column-one-third-from-desktop">
+                <div class="govuk-card govuk-card--contained govuk-card--feature govuk-card--coming-soon">
+                    <div class="govuk-card__content">
+                        <div class="govuk-card__header">
+                            <div class="feature-icon">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path
+                                        d="M4 4H20C21.1 4 22 4.9 22 6V18C22 19.1 21.1 20 20 20H4C2.9 20 2 19.1 2 18V6C2 4.9 2.9 4 4 4Z"
+                                        stroke="#0B0C0C" stroke-width="2" stroke-linecap="round"
+                                        stroke-linejoin="round" />
+                                    <polyline points="22,6 12,13 2,6" stroke="#0B0C0C" stroke-width="2"
+                                        stroke-linecap="round" stroke-linejoin="round" />
+                                </svg>
+                            </div>
+                            <h3 class="govuk-heading-s">Confirmation emails</h3>
+                        </div>
+                        <p class="govuk-body govuk-!-margin-bottom-2">Users receive a confirmation email after
+                            submitting a
+                            form. Confirmation emails include:</p>
+                        <ul class="govuk-list govuk-list--bullet govuk-!-margin-top-2 govuk-!-margin-bottom-2">
+                            <li>name of form</li>
+                            <li>date and time of submission</li>
+                            <li>what happens next</li>
+                            <li>support information</li>
+                        </ul>
+                        <span class="govuk-tag govuk-tag--green">Coming soon</span>
+                    </div>
+                </div>
+            </div>
+            <div class="govuk-grid-column-full govuk-grid-column-one-third-from-desktop">
+                <div class="govuk-card govuk-card--contained govuk-card--feature govuk-card--coming-soon">
+                    <div class="govuk-card__content">
+                        <div class="govuk-card__header">
+                            <div class="feature-icon">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path
+                                        d="M19 21L12 16L5 21V5C5 4.46957 5.21071 3.96086 5.58579 3.58579C5.96086 3.21071 6.46957 3 7 3H17C17.5304 3 18.0391 3.21071 18.4142 3.58579C18.7893 3.96086 19 4.46957 19 5V21Z"
+                                        stroke="#0B0C0C" stroke-width="2" stroke-linecap="round"
+                                        stroke-linejoin="round" />
+                                </svg>
+                            </div>
+                            <h3 class="govuk-heading-s">Save and exit</h3>
+                        </div>
+                        <p class="govuk-body govuk-!-margin-bottom-2">Users can save their form progress and return
+                            within 28
+                            days using a magic link.</p>
+                        <span class="govuk-tag govuk-tag--green">Coming soon</span>
+                    </div>
+                </div>
+            </div>
+            <div class="govuk-grid-column-full govuk-grid-column-one-third-from-desktop">
+                <div class="govuk-card govuk-card--contained govuk-card--feature govuk-card--coming-soon">
+                    <div class="govuk-card__content">
+                        <div class="govuk-card__header">
+                            <div class="feature-icon">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path
+                                        d="M20 21V19C20 17.9391 19.5786 16.9217 18.8284 16.1716C18.0783 15.4214 17.0609 15 16 15H8C6.93913 15 5.92172 15.4214 5.17157 16.1716C4.42143 16.9217 4 17.9391 4 19V21"
+                                        stroke="#0B0C0C" stroke-width="2" stroke-linecap="round"
+                                        stroke-linejoin="round" />
+                                    <circle cx="12" cy="7" r="4" stroke="#0B0C0C" stroke-width="2" fill="none" />
+                                </svg>
+                            </div>
+                            <h3 class="govuk-heading-s">User management</h3>
+                        </div>
+                        <p class="govuk-body govuk-!-margin-bottom-2">Manage who can edit and publish forms by assigning
+                            roles
+                            and permissions to people in your team.</p>
+                        <span class="govuk-tag govuk-tag--green">Coming soon</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-full govuk-grid-column-one-third-from-desktop">
+                <div class="govuk-card govuk-card--contained govuk-card--feature govuk-card--coming-soon">
+                    <div class="govuk-card__content">
+                        <div class="govuk-card__header">
+                            <div class="feature-icon">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path
+                                        d="M14 2H6C4.89543 2 4 2.89543 4 4V20C4 21.1046 4.89543 22 6 22H18C19.1046 22 20 21.1046 20 20V8L14 2Z"
+                                        stroke="#0B0C0C" stroke-width="2" fill="none" />
+                                    <path d="M14 2V8H20" stroke="#0B0C0C" stroke-width="2" />
+                                    <path d="M16 13H8M16 17H8M10 9H8" stroke="#0B0C0C" stroke-width="2"
+                                        stroke-linecap="round" />
+                                </svg>
+                            </div>
+                            <h3 class="govuk-heading-s">Auditing</h3>
+                        </div>
+                        <p class="govuk-body govuk-!-margin-bottom-2">See the changes made to your form over time with a
+                            clear
+                            audit trial.</p>
+                        <span class="govuk-tag govuk-tag--green">Coming soon</span>
+                    </div>
+                </div>
+            </div>
+            <div class="govuk-grid-column-full govuk-grid-column-one-third-from-desktop">
+                <div class="govuk-card govuk-card--contained govuk-card--feature govuk-card--coming-soon">
+                    <div class="govuk-card__content">
+                        <div class="govuk-card__header">
+                            <div class="feature-icon">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M10 13A5 5 0 0 0 20 13V21H4V13A5 5 0 0 0 10 13Z" stroke="#0B0C0C"
+                                        stroke-width="2" fill="none" />
+                                    <path d="M8 21V13A2 2 0 0 1 12 13V21" stroke="#0B0C0C" stroke-width="2" />
+                                    <path d="M12 3V7M12 11V13" stroke="#0B0C0C" stroke-width="2"
+                                        stroke-linecap="round" />
+                                </svg>
+                            </div>
+                            <h3 class="govuk-heading-s">API integration</h3>
+                        </div>
+                        <p class="govuk-body govuk-!-margin-bottom-2">Import data from form submissions into your
+                            backend
+                            system.</p>
+                        <span class="govuk-tag govuk-tag--green">Coming soon</span>
+                    </div>
+                </div>
+            </div>
+            <div class="govuk-grid-column-full govuk-grid-column-one-third-from-desktop">
+                <div class="govuk-card govuk-card--contained govuk-card--feature govuk-card--coming-soon">
+                    <div class="govuk-card__content">
+                        <div class="govuk-card__header">
+                            <div class="feature-icon">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <!-- Column layout icon for page sections -->
+                                    <rect x="3" y="3" width="18" height="18" rx="2" stroke="#0B0C0C" stroke-width="2"
+                                        fill="none" />
+                                    <rect x="6" y="6" width="3" height="12" stroke="#0B0C0C" stroke-width="2"
+                                        fill="none" />
+                                    <rect x="11" y="6" width="3" height="12" stroke="#0B0C0C" stroke-width="2"
+                                        fill="none" />
+                                    <rect x="16" y="6" width="3" height="12" stroke="#0B0C0C" stroke-width="2"
+                                        fill="none" />
+                                </svg>
+                            </div>
+                            <h3 class="govuk-heading-s">Page sections</h3>
+                        </div>
+                        <p class="govuk-body govuk-!-margin-bottom-2">Categorise questions into sections. Show and hide
+                            sections
+                            from users and use section headings on the 'check your answers page'.</p>
+                        <span class="govuk-tag govuk-tag--green">Coming soon</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-full govuk-grid-column-one-third-from-desktop">
+                <div class="govuk-card govuk-card--contained govuk-card--feature govuk-card--coming-soon">
+                    <div class="govuk-card__content">
+                        <div class="govuk-card__header">
+                            <div class="feature-icon">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path
+                                        d="M14 2H6C4.89543 2 4 2.89543 4 4V20C4 21.1046 4.89543 22 6 22H18C19.1046 22 20 21.1046 20 20V8L14 2Z"
+                                        stroke="#0B0C0C" stroke-width="2" fill="none" />
+                                    <path d="M14 2V8H20" stroke="#0B0C0C" stroke-width="2" />
+                                    <path d="M16 13H8M16 17H8M10 9H8" stroke="#0B0C0C" stroke-width="2"
+                                        stroke-linecap="round" />
+                                </svg>
+                            </div>
+                            <h3 class="govuk-heading-s">Data output</h3>
+                        </div>
+                        <p class="govuk-body govuk-!-margin-bottom-2">Choose how to retrieve submission data.</p>
+                        <ol class="govuk-list govuk-list--number govuk-!-margin-top-2 govuk-!-margin-bottom-2">
+                            <li>In a human readable format (standard HTML email)</li>
+                            <li>In a machine readable format that robots and computers can easily read</li>
+                        </ol>
+                        <span class="govuk-tag govuk-tag--green">Coming soon</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="govuk-grid-column-one-third">
+        <!-- Related Navigation -->
+        <div data-module="ga4-link-tracker" class="gem-c-related-navigation govuk-!-display-none-print">
+            <h2 id="related-nav-related_items-e527fdbf" class="gem-c-related-navigation__main-heading">
+                Related content
+            </h2>
+            <nav class="gem-c-related-navigation__nav-section" aria-labelledby="related-nav-related_items-e527fdbf"
+                data-module="gem-toggle">
+                <ul class="gem-c-related-navigation__link-list">
+                    <li class="gem-c-related-navigation__link">
+                        <a class="govuk-link govuk-link gem-c-related-navigation__section-link govuk-link gem-c-related-navigation__section-link--other"
+                            data-ga4-link="{&quot;event_name&quot;:&quot;navigation&quot;,&quot;type&quot;:&quot;related content&quot;,&quot;index_section&quot;:&quot;1&quot;,&quot;index_link&quot;:&quot;1&quot;,&quot;index_section_count&quot;:&quot;1&quot;,&quot;index_total&quot;:&quot;2&quot;,&quot;section&quot;:&quot;Related content&quot;}"
+                            href="/design-history">
+                            Design history
+                        </a>
+                        <p class="govuk-body-s">We record user research findings and design changes.</p>
+                    </li>
+                    <li class="gem-c-related-navigation__link">
+                        <a class="govuk-link govuk-link gem-c-related-navigation__section-link govuk-link gem-c-related-navigation__section-link--other"
+                            data-ga4-link="{&quot;event_name&quot;:&quot;navigation&quot;,&quot;type&quot;:&quot;related content&quot;,&quot;index_section&quot;:&quot;1&quot;,&quot;index_link&quot;:&quot;2&quot;,&quot;index_section_count&quot;:&quot;1&quot;,&quot;index_total&quot;:&quot;2&quot;,&quot;section&quot;:&quot;Related content&quot;}"
+                            href="/demo-form">
+                            Register as a unicorn breeder demo form
+                        </a>
+                        <p class="govuk-body-s">Try the Register as a unicorn breeder demo form to find out how we can
+                            capture information.</p>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+<style>
+    /* Enhanced styling inspired by Notion's visual concepts while maintaining GOV.UK Design System */
+    .govuk-grid-row {
+        display: flex;
+        flex-wrap: wrap;
+    }
+
+    .govuk-grid-column-full,
+    .govuk-grid-column-one-third-from-desktop {
+        display: flex;
+    }
+
+    .govuk-card--feature {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        transition: all 0.2s ease-in-out;
+        border: 2px solid #b1b4b6;
+        background-color: #ffffff;
+    }
+
+    /* .govuk-card--feature:hover {
+        border-color: #0b0c0c;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    } */
+
+    .govuk-card__content {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        padding: 1.5rem;
+    }
+
+    .govuk-card__header {
+        margin-bottom: 1rem;
+        padding-bottom: 0.5rem;
+        border-bottom: 1px solid #d8dde0;
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+    }
+
+    .govuk-card__header h3 {
+        margin: 0;
+        color: #0b0c0c;
+    }
+
+    .feature-icon {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 32px;
+        height: 32px;
+        flex-shrink: 0;
+    }
+
+    .govuk-card__content p,
+    .govuk-card__content ul {
+        flex: 1;
+        margin-bottom: 0;
+    }
+
+    .govuk-card--coming-soon {
+        /* opacity: 0.8; */
+        background-color: #f8f9fa;
+    }
+
+    /* .govuk-card--coming-soon:hover {
+        opacity: 1;
+        background-color: #ffffff;
+    } */
+
+    .govuk-inset-text {
+        border-left: 4px solid #00703c;
+        background-color: #f8f9fa;
+        padding: 1.5rem;
+        margin: 2rem 0;
+    }
+
+    .govuk-body-l {
+        font-size: 1.25rem;
+        line-height: 1.5;
+    }
+
+    /* Enhanced spacing for better visual hierarchy */
+    .govuk-heading-l {
+        margin-bottom: 1.5rem;
+    }
+
+    .govuk-heading-m {
+        margin-bottom: 1rem;
+    }
+
+    /* Improved card spacing */
+    .govuk-card {
+        margin-bottom: 1rem;
+    }
+
+    /* GOV.UK Related Navigation Component Styles */
+    .gem-c-related-navigation {
+        border-top: 2px solid #00703c;
+        margin-bottom: 60px;
+        color: #0b0c0c;
+    }
+
+    .gem-c-related-navigation__main-heading {
+        margin-top: 15px;
+        margin-bottom: 10px;
+        font-family: "GDS Transport", arial, sans-serif;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        font-weight: 700;
+        font-size: 1.1875rem;
+        line-height: 1.3157894737;
+    }
+
+    .gem-c-related-navigation__nav-section {
+        margin-bottom: 30px;
+    }
+
+    .gem-c-related-navigation__link-list {
+        padding: 0;
+        margin: 0;
+        list-style: none;
+        margin-bottom: 1.25em;
+    }
+
+    .gem-c-related-navigation__link {
+        list-style-type: none;
+        margin-top: 15px;
+        font-family: "GDS Transport", arial, sans-serif;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        font-weight: 400;
+        font-size: 1rem;
+        line-height: 1.45;
+    }
+
+    @media (min-width: 40.0625em) {
+        .gem-c-related-navigation__link {
+            line-height: 1.28;
+        }
+    }
+
+    @media all {
+        .govuk-link {
+            font-family: "GDS Transport", arial, sans-serif;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            text-decoration: underline;
+            text-decoration-thickness: max(1px, .0625rem);
+            text-underline-offset: .1578em;
+        }
+    }
+
+    .gem-c-related-navigation__section-link {
+        font-weight: bold;
+    }
+
+    .gem-c-related-navigation__section-link--other {
+        font-weight: normal;
+    }
+</style>
+
+{% endblock %}

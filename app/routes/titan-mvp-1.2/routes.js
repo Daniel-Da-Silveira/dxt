@@ -822,6 +822,62 @@ router.get("/titan-mvp-1.2/form-editor/listing.html", function (req, res) {
   });
 });
 
+// Add route for listing-v2
+router.get("/titan-mvp-1.2/form-editor/listing-v2", function (req, res) {
+  const formPages = req.session.data["formPages"] || [];
+  const formData = req.session.data || {};
+  // Ensure each question inside each page has its own options array
+  formPages.forEach((page) => {
+    page.questions.forEach((question) => {
+      if (question.subType === "radios" || question.subType === "checkboxes") {
+        question.options = question.options || [];
+      }
+    });
+  });
+  // Get all sections
+  const sections = formData.sections || [];
+  // Clear the success flag after showing it
+  if (formData.showUploadSuccess) {
+    delete req.session.data.showUploadSuccess;
+  }
+  res.render("titan-mvp-1.2/form-editor/listing-v2", {
+    formPages,
+    sections,
+    form: {
+      name: formData.formName || "Form name",
+    },
+    request: req,
+  });
+});
+
+// Add .html route for listing-v2
+router.get("/titan-mvp-1.2/form-editor/listing-v2.html", function (req, res) {
+  const formPages = req.session.data["formPages"] || [];
+  const formData = req.session.data || {};
+  // Ensure each question inside each page has its own options array
+  formPages.forEach((page) => {
+    page.questions.forEach((question) => {
+      if (question.subType === "radios" || question.subType === "checkboxes") {
+        question.options = question.options || [];
+      }
+    });
+  });
+  // Get all sections
+  const sections = formData.sections || [];
+  // Clear the success flag after showing it
+  if (formData.showUploadSuccess) {
+    delete req.session.data.showUploadSuccess;
+  }
+  res.render("titan-mvp-1.2/form-editor/listing-v2", {
+    formPages,
+    sections,
+    form: {
+      name: formData.formName || "Form name",
+    },
+    request: req,
+  });
+});
+
 // Page type selection
 router.get("/titan-mvp-1.2/form-editor/page-type.html", function (req, res) {
   const formData = req.session.data || {};
@@ -1728,6 +1784,52 @@ router.get("/titan-mvp-1.2/form-overview/index/", (req, res) => {
   });
 });
 
+// Route handler for index-tabs page
+router.get("/titan-mvp-1.2/form-overview/simplified/index-tabs", (req, res) => {
+  const formData = req.session.data || {};
+
+  // Create the preview URL
+  const urlFriendlyName = (formData.formName || "Form name")
+    .toLowerCase()
+    .replace(/[^a-z0-9]/g, "-")
+    .replace(/-+/g, "-")
+    .replace(/^-|-$/g, "");
+
+  const previewUrl = `https://forms-runner.prototype.cdp-int.defra.cloud/preview/draft/${urlFriendlyName}`;
+
+  // Create the form object that the templates expect
+  const form = {
+    name: formData.formName || "Form name",
+    status: {
+      text: "Draft",
+      color: "orange",
+    },
+    previewUrl: previewUrl,
+    createdAt: formData.formDetails?.createdAt || new Date().toISOString(),
+    updatedAt: formData.formDetails?.lastUpdated || new Date().toISOString(),
+    organisation: {
+      name: formData.formDetails?.organisation || "Not set",
+    },
+    team: {
+      name: formData.formDetails?.teamName || "Not set",
+      email: formData.formDetails?.email || "Not set",
+    },
+    support: {
+      phone: formData.formDetails?.support?.phone,
+      email: formData.formDetails?.support?.email,
+      link: formData.formDetails?.support?.link,
+    },
+    nextSteps: formData.formDetails?.nextSteps,
+    privacyNotice: formData.formDetails?.privacyNotice,
+    notificationEmail: formData.formDetails?.notificationEmail,
+  };
+
+  res.render("titan-mvp-1.2/form-overview/simplified/index-tabs", {
+    form: form,
+    pageName: `Overview - ${form.name}`,
+  });
+});
+
 // Add POST route handler for saving page changes
 router.post("/titan-mvp-1.2/form-overview/index", (req, res) => {
   const formData = req.session.data || {};
@@ -1800,13 +1902,17 @@ router.post("/titan-mvp-1.2/form-overview/index/support/phone", (req, res) => {
     lastUpdated: new Date().toISOString(),
   };
 
+  // Also save to top-level data for template access
+  formData.moreDetail = phoneDetails;
+
   req.session.data = formData;
-  res.redirect("/titan-mvp-1.2/form-overview/index");
+  res.redirect("/titan-mvp-1.2/form-overview/support/add-telephone");
 });
 
 router.get("/titan-mvp-1.2/form-overview/index/support/email", (req, res) => {
   const formData = req.session.data || {};
   res.render("titan-mvp-1.2/form-overview/support/add-email", {
+    data: formData,
     form: {
       name: formData.formName || "Form name",
       support: {
@@ -1833,42 +1939,179 @@ router.post("/titan-mvp-1.2/form-overview/index/support/email", (req, res) => {
     lastUpdated: new Date().toISOString(),
   };
 
+  // Also save to top-level data for template access
+  formData.emailAddress = emailAddress;
+  formData.responseTime = responseTime;
+
   req.session.data = formData;
-  res.redirect("/titan-mvp-1.2/form-overview/index");
+  res.redirect("/titan-mvp-1.2/form-overview/support/add-email");
 });
 
-router.get("/titan-mvp-1.2/form-overview/index/support/link", (req, res) => {
+// Add the correct GET handler for the phone number form path
+router.get("/titan-mvp-1.2/form-overview/support/add-telephone", (req, res) => {
   const formData = req.session.data || {};
-  res.render("titan-mvp-1.2/form-overview/support/add-contact-link", {
+  res.render("titan-mvp-1.2/form-overview/support/add-telephone", {
+    data: formData,
     form: {
       name: formData.formName || "Form name",
       support: {
-        link: formData.formDetails?.support?.link || "",
+        phone: formData.formDetails?.support?.phone || "",
       },
     },
-    pageName: "Add contact link for support",
+    pageName: "Add phone number for support",
   });
 });
 
-router.post("/titan-mvp-1.2/form-overview/index/support/link", (req, res) => {
+// Add the correct POST handler for the phone number form
+router.post(
+  "/titan-mvp-1.2/form-overview/support/add-telephone",
+  (req, res) => {
+    const formData = req.session.data || {};
+    const moreDetail = req.body.moreDetail;
+
+    // Save to session data
+    if (!formData.formDetails) {
+      formData.formDetails = {};
+    }
+    if (!formData.formDetails.support) {
+      formData.formDetails.support = {};
+    }
+
+    formData.formDetails.support.phone = moreDetail;
+
+    // Also save to top-level data for template access
+    formData.moreDetail = moreDetail;
+
+    req.session.data = formData;
+    res.redirect("/titan-mvp-1.2/form-overview/support/add-telephone");
+  }
+);
+
+// Add the correct GET handler for the privacy notice form path
+router.get(
+  "/titan-mvp-1.2/form-overview/support/add-privacy-notice",
+  (req, res) => {
+    const formData = req.session.data || {};
+    res.render("titan-mvp-1.2/form-overview/support/add-privacy-notice", {
+      data: formData,
+      form: {
+        name: formData.formName || "Form name",
+        support: {
+          privacyNotice: formData.formDetails?.support?.privacyNotice || "",
+        },
+      },
+      pageName: "Add privacy notice link",
+    });
+  }
+);
+
+// Add the correct POST handler for the privacy notice form
+router.post(
+  "/titan-mvp-1.2/form-overview/support/add-privacy-notice",
+  (req, res) => {
+    const formData = req.session.data || {};
+    const privacyNoticeLink = req.body.privacyNoticeLink;
+
+    // Save to session data
+    if (!formData.formDetails) {
+      formData.formDetails = {};
+    }
+    if (!formData.formDetails.support) {
+      formData.formDetails.support = {};
+    }
+
+    formData.formDetails.support.privacyNotice = privacyNoticeLink;
+
+    // Also save to top-level data for template access
+    formData.privacyNoticeLink = privacyNoticeLink;
+
+    req.session.data = formData;
+    res.redirect("/titan-mvp-1.2/form-editor/support-pages-settings");
+  }
+);
+
+// POST route handler for phone support page
+router.post("/titan-mvp-1.2/form-overview/support/phone", (req, res) => {
+  const formData = req.session.data || {};
+  const phoneNumber = req.body.phoneNumber;
+
+  // Save to session data
+  if (!formData.formDetails) {
+    formData.formDetails = {};
+  }
+  if (!formData.formDetails.support) {
+    formData.formDetails.support = {};
+  }
+
+  formData.formDetails.support.phone = phoneNumber;
+
+  req.session.data = formData;
+  res.redirect("/titan-mvp-1.2/form-overview/simplified/index-tabs");
+});
+
+// POST route handler for email support page
+router.post("/titan-mvp-1.2/form-overview/support/email", (req, res) => {
+  const formData = req.session.data || {};
+  const emailAddress = req.body.emailAddress;
+  const responseTime = req.body.responseTime;
+
+  // Save to session data
+  if (!formData.formDetails) {
+    formData.formDetails = {};
+  }
+  if (!formData.formDetails.support) {
+    formData.formDetails.support = {};
+  }
+
+  formData.formDetails.support.email = emailAddress;
+  formData.formDetails.support.responseTime = responseTime;
+
+  req.session.data = formData;
+  res.redirect("/titan-mvp-1.2/form-overview/simplified/index-tabs");
+});
+
+// POST route handler for contact link support page
+router.post("/titan-mvp-1.2/form-overview/support/link", (req, res) => {
   const formData = req.session.data || {};
   const contactLink = req.body.contactLink;
   const contactLinkDescription = req.body.contactLinkDescription;
 
-  // Update the form details with the contact link and description
-  formData.formDetails = {
-    ...formData.formDetails,
-    support: {
-      ...formData.formDetails?.support,
-      link: contactLink,
-      linkDescription: contactLinkDescription,
-    },
-    lastUpdated: new Date().toISOString(),
-  };
+  // Save to session data
+  if (!formData.formDetails) {
+    formData.formDetails = {};
+  }
+  if (!formData.formDetails.support) {
+    formData.formDetails.support = {};
+  }
+
+  formData.formDetails.support.link = contactLink;
+  formData.formDetails.support.linkDescription = contactLinkDescription;
 
   req.session.data = formData;
-  res.redirect("/titan-mvp-1.2/form-overview/index");
+  res.redirect("/titan-mvp-1.2/form-overview/simplified/index-tabs");
 });
+
+// POST route handler for privacy notice support page
+router.post(
+  "/titan-mvp-1.2/form-overview/support/privacy-notice",
+  (req, res) => {
+    const formData = req.session.data || {};
+    const privacyLink = req.body.privacyLink;
+
+    // Save to session data
+    if (!formData.formDetails) {
+      formData.formDetails = {};
+    }
+    if (!formData.formDetails.support) {
+      formData.formDetails.support = {};
+    }
+
+    formData.formDetails.support.privacyNotice = privacyLink;
+
+    req.session.data = formData;
+    res.redirect("/titan-mvp-1.2/form-overview/simplified/index-tabs");
+  }
+);
 
 router.get(
   "/titan-mvp-1.2/form-overview/index/support/next-steps",
@@ -5680,6 +5923,158 @@ router.post(
     }
 
     res.json({ success: true });
+  }
+);
+
+// Contact details routes - must come before support-pages-settings
+// Add the correct GET handler for the new email form path
+router.get("/titan-mvp-1.2/form-overview/support/add-email", (req, res) => {
+  const formData = req.session.data || {};
+  res.render("titan-mvp-1.2/form-overview/support/add-email", {
+    data: formData,
+    form: {
+      name: formData.formName || "Form name",
+      support: {
+        email: formData.formDetails?.support?.email || "",
+      },
+    },
+    pageName: "Add email address for support",
+  });
+});
+
+// Add the correct POST handler for the new form action
+router.post("/titan-mvp-1.2/form-overview/support/add-email", (req, res) => {
+  const formData = req.session.data || {};
+  const emailAddress = req.body.emailAddress;
+  const responseTime = req.body.responseTime;
+
+  // Save to session data
+  if (!formData.formDetails) {
+    formData.formDetails = {};
+  }
+  if (!formData.formDetails.support) {
+    formData.formDetails.support = {};
+  }
+
+  formData.formDetails.support.email = emailAddress;
+  formData.formDetails.support.responseTime = responseTime;
+
+  // Also save to top-level data for template access
+  formData.emailAddress = emailAddress;
+  formData.responseTime = responseTime;
+
+  req.session.data = formData;
+  res.redirect("/titan-mvp-1.2/form-overview/support/add-email");
+});
+
+// Add the correct GET handler for the contact link form path
+router.get(
+  "/titan-mvp-1.2/form-overview/support/add-contact-link",
+  (req, res) => {
+    const formData = req.session.data || {};
+    res.render("titan-mvp-1.2/form-overview/support/add-contact-link", {
+      data: formData,
+      form: {
+        name: formData.formName || "Form name",
+        support: {
+          link: formData.formDetails?.support?.link || "",
+          linkDescription: formData.formDetails?.support?.linkDescription || "",
+        },
+      },
+      pageName: "Add contact link for support",
+    });
+  }
+);
+
+// Add the correct POST handler for the contact link form
+router.post(
+  "/titan-mvp-1.2/form-overview/support/add-contact-link",
+  (req, res) => {
+    const formData = req.session.data || {};
+    const contactLink = req.body.contactLink;
+    const contactLinkDescription = req.body.contactLinkDescription;
+
+    // Save to session data
+    if (!formData.formDetails) {
+      formData.formDetails = {};
+    }
+    if (!formData.formDetails.support) {
+      formData.formDetails.support = {};
+    }
+
+    formData.formDetails.support.link = contactLink;
+    formData.formDetails.support.linkDescription = contactLinkDescription;
+
+    // Also save to top-level data for template access
+    formData.contactLink = contactLink;
+    formData.contactLinkDescription = contactLinkDescription;
+
+    req.session.data = formData;
+    res.redirect("/titan-mvp-1.2/form-overview/support/add-contact-link");
+  }
+);
+
+// Add the correct GET handler for the phone number form path
+router.get("/titan-mvp-1.2/form-overview/support/add-telephone", (req, res) => {
+  const formData = req.session.data || {};
+  res.render("titan-mvp-1.2/form-overview/support/add-telephone", {
+    data: formData,
+    form: {
+      name: formData.formName || "Form name",
+      support: {
+        phone: formData.formDetails?.support?.phone || "",
+      },
+    },
+    pageName: "Add phone number for support",
+  });
+});
+
+// Add the correct POST handler for the phone number form
+router.post(
+  "/titan-mvp-1.2/form-overview/support/add-telephone",
+  (req, res) => {
+    const formData = req.session.data || {};
+    const moreDetail = req.body.moreDetail;
+
+    // Save to session data
+    if (!formData.formDetails) {
+      formData.formDetails = {};
+    }
+    if (!formData.formDetails.support) {
+      formData.formDetails.support = {};
+    }
+
+    formData.formDetails.support.phone = moreDetail;
+
+    // Also save to top-level data for template access
+    formData.moreDetail = moreDetail;
+
+    req.session.data = formData;
+    res.redirect("/titan-mvp-1.2/form-overview/support/add-telephone");
+  }
+);
+
+// Support pages settings page with sub-navigation
+router.get(
+  "/titan-mvp-1.2/form-editor/support-pages-settings",
+  function (req, res) {
+    const tab = req.query.tab;
+    const formData = req.session.data || {};
+
+    // Determine which tab to show based on query params
+    let currentTab = "contact-details";
+    if (tab === "notifications") {
+      currentTab = "notifications";
+    } else if (tab === "privacy-notice") {
+      currentTab = "privacy-notice";
+    }
+
+    // Add the current tab to the formData so it's accessible as data.supportCurrentTab
+    formData.supportCurrentTab = currentTab;
+
+    res.render("titan-mvp-1.2/form-editor/support-pages-settings", {
+      data: formData,
+    });
   }
 );
 

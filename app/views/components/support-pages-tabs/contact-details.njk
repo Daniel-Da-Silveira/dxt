@@ -1,0 +1,70 @@
+{% from "govuk/components/summary-list/macro.njk" import govukSummaryList %}
+
+<h1 class="govuk-heading-l">Contact details for support pages overview</h1>
+
+<p class="govuk-body">You must provide at least one way for users to get help.</p>
+
+<p class="govuk-body">The contact details are shown in the footer of every page of the form.</p>
+
+{{ govukSummaryList({
+  rows: [
+    {
+      key: {
+        text: "Phone number"
+      },
+      value: {
+        html: '<span id="phone-value">{% if contactData["moreDetail"] %}{{ contactData["moreDetail"] | safe }}{% else %}<a href="/titan-mvp-1.2/form-overview/support/add-telephone" class="govuk-link govuk-link--no-visited-state">Enter phone number for support</a>{% endif %}</span>'
+      },
+      actions: {
+        items: [
+          {
+            html: '<a href="/titan-mvp-1.2/form-overview/support/add-telephone" class="govuk-link govuk-link--no-visited-state" id="phone-action">{% if contactData["moreDetail"] %}Change{% else %}Enter phone number for support{% endif %}</a>'
+          }
+        ]
+      }
+    },
+    {
+      key: {
+        text: "Email address"
+      },
+      value: {
+        html: '<span id="email-value">{% if contactData["emailAddress"] %}{{ contactData["emailAddress"] | safe }}{% else %}<a href="/titan-mvp-1.2/form-overview/support/add-email" class="govuk-link govuk-link--no-visited-state">Enter email address for support</a>{% endif %}</span>'
+      },
+      actions: {
+        items: [
+          {
+            html: '<a href="/titan-mvp-1.2/form-overview/support/add-email" class="govuk-link govuk-link--no-visited-state" id="email-action">{% if contactData["emailAddress"] %}Change{% else %}Enter email address for support{% endif %}</a>'
+          }
+        ]
+      }
+    },
+    {
+      key: {
+        text: "Online contact link"
+      },
+      value: {
+        html: '<span id="online-contact-value">{% if contactData["contactLink"] %}{% if contactData["contactLinkDescription"] %}{{ contactData["contactLinkDescription"] | safe }}{% else %}{{ contactData["contactLink"] | safe }}{% endif %}{% else %}<a href="/titan-mvp-1.2/form-overview/support/add-contact-link" class="govuk-link govuk-link--no-visited-state">Add online contact link</a>{% endif %}</span>'
+      },
+      actions: {
+        items: [
+          {
+            html: '<a href="/titan-mvp-1.2/form-overview/support/add-contact-link" class="govuk-link govuk-link--no-visited-state" id="online-contact-action">{% if contactData["contactLink"] %}Change{% else %}Add online contact link{% endif %}</a>'
+          }
+        ]
+      }
+    }
+  ]
+}) }}
+
+<a href="#contact-details-preview" class="govuk-skip-link" style="margin-bottom: 30px!important;" data-module="govuk-skip-link">
+  Skip to contact details preview
+</a>
+
+<script>
+  // Trigger preview update after contact details are loaded
+  document.addEventListener('DOMContentLoaded', function() {
+    if (typeof updatePreview === 'function') {
+      setTimeout(updatePreview, 50);
+    }
+  });
+</script>

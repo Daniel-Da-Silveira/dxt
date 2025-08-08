@@ -1,0 +1,411 @@
+{% extends "layouts/main.html" %}
+{% from "components/service-header/macro.njk" import serviceHeader %}
+
+{% block pageTitle %}
+Features – Defra Form Designer – GOV.UK Prototype Kit
+{% endblock %}
+
+{% block header %}
+{{ serviceHeader({
+organisationName: "Defra",
+productName: "Form Designer",
+serviceName: "",
+homepageLink: "/",
+signInLink: "/titan-mvp-1.2/onboarding/sign-in",
+navigationItems: [
+{ href: "/titan-mvp-1.2/product-pages/get-started", text: "Get started", id: "nav-get-started" },
+{ href: "/titan-mvp-1.2/product-pages/features", text: "Features", id: "nav-features" },
+{ href: "/titan-mvp-1.2/product-pages/resources", text: "Resources", id: "nav-resources" },
+{ href: "/titan-mvp-1.2/product-pages/support", text: "Support", id: "nav-support" }
+],
+activeLinkId: "nav-features"
+}) }}
+
+{{ xGovukMasthead({
+inverse: true,
+title: {
+text: "Features and capabilities"
+},
+description: {
+text: "Explore what the Defra Form Designer can do for you."
+},
+startButton: {
+text: "Sign in",
+href: "/titan-mvp-1.2/onboarding/sign-in"
+},
+image: {
+src: "/public/images/homepage-icon.svg",
+alt: "Payment screen on mobile and dashboard with refund function."
+}
+}) }}
+{% endblock %}
+
+{% block content %}
+
+{# <div class="govuk-width-container"> #}
+    {# <div class="govuk-main-wrapper govuk-main-wrapper--l"> #}
+
+        <!-- Current Features Section -->
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-full">
+                <h2 class="govuk-heading-l">Current features</h2>
+                <p class="govuk-body govuk-!-font-size-19">The Defra Form designer is in private beta. We're working on
+                    some exciting features right now.</p>
+            </div>
+        </div>
+
+        <!-- Form Management Cards -->
+        <div class="govuk-grid-row govuk-!-margin-bottom-6">
+            <div class="govuk-grid-column-full">
+                <h3 class="govuk-heading-m">Form Management</h3>
+            </div>
+        </div>
+
+        <div class="govuk-grid-row govuk-!-margin-bottom-8">
+            <div class="govuk-grid-column-one-half">
+                <div class="govuk-card govuk-card--feature">
+                    <div class="govuk-card__content">
+                        <div class="govuk-card__icon">📚</div>
+                        <h4 class="govuk-heading-s">Library of existing forms</h4>
+                        <p class="govuk-body">Search for forms by title, keyword, author and status.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="govuk-grid-column-one-half">
+                <div class="govuk-card govuk-card--feature">
+                    <div class="govuk-card__content">
+                        <div class="govuk-card__icon">ℹ️</div>
+                        <h4 class="govuk-heading-s">Form information</h4>
+                        <p class="govuk-body">Add data about your form including submission destinations, contact
+                            details, privacy policy and organisation details.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Form Design Cards -->
+        <div class="govuk-grid-row govuk-!-margin-bottom-6">
+            <div class="govuk-grid-column-full">
+                <h3 class="govuk-heading-m">Form Design</h3>
+            </div>
+        </div>
+
+        <div class="govuk-grid-row govuk-!-margin-bottom-8">
+            <div class="govuk-grid-column-one-third">
+                <div class="govuk-card govuk-card--feature">
+                    <div class="govuk-card__content">
+                        <div class="govuk-card__icon">📄</div>
+                        <h4 class="govuk-heading-s">Page types</h4>
+                        <p class="govuk-body">Question pages, guidance pages, check your answers pages, confirmation
+                            pages, and exit pages.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="govuk-grid-column-one-third">
+                <div class="govuk-card govuk-card--feature">
+                    <div class="govuk-card__content">
+                        <div class="govuk-card__icon">⚠️</div>
+                        <h4 class="govuk-heading-s">Error messages</h4>
+                        <p class="govuk-body">Automatically generated error messages with real-time preview
+                            capabilities.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="govuk-grid-column-one-third">
+                <div class="govuk-card govuk-card--feature">
+                    <div class="govuk-card__content">
+                        <div class="govuk-card__icon">📏</div>
+                        <h4 class="govuk-heading-s">Answer limits</h4>
+                        <p class="govuk-body">Set minimum and maximum character lengths or date ranges for user
+                            responses.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="govuk-grid-row govuk-!-margin-bottom-8">
+            <div class="govuk-grid-column-one-third">
+                <div class="govuk-card govuk-card--feature">
+                    <div class="govuk-card__content">
+                        <div class="govuk-card__icon">💡</div>
+                        <h4 class="govuk-heading-s">Form guidance</h4>
+                        <p class="govuk-body">Add guidance and hint text to questions or create specific guidance pages.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="govuk-grid-column-one-third">
+                <div class="govuk-card govuk-card--feature">
+                    <div class="govuk-card__content">
+                        <div class="govuk-card__icon">🔗</div>
+                        <h4 class="govuk-heading-s">Conditions</h4>
+                        <p class="govuk-body">Show or skip pages based on answers. Combine 2 conditions for complex
+                            routing.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="govuk-grid-column-one-third">
+                <div class="govuk-card govuk-card--feature">
+                    <div class="govuk-card__content">
+                        <div class="govuk-card__icon">📝</div>
+                        <h4 class="govuk-heading-s">Form declaration</h4>
+                        <p class="govuk-body">Include declaration text at the end of the form for users to agree to.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Information Types Cards -->
+        <div class="govuk-grid-row govuk-!-margin-bottom-6">
+            <div class="govuk-grid-column-full">
+                <h3 class="govuk-heading-m">Information Types</h3>
+            </div>
+        </div>
+
+        <div class="govuk-grid-row govuk-!-margin-bottom-8">
+            <div class="govuk-grid-column-one-half">
+                <div class="govuk-card govuk-card--feature">
+                    <div class="govuk-card__content">
+                        <div class="govuk-card__icon">📝</div>
+                        <h4 class="govuk-heading-s">Text & Numbers</h4>
+                        <ul class="govuk-list govuk-list--bullet">
+                            <li>Long or short written answers</li>
+                            <li>Numbers</li>
+                            <li>Dates</li>
+                            <li>UK addresses</li>
+                            <li>Phone numbers</li>
+                            <li>Email addresses</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="govuk-grid-column-one-half">
+                <div class="govuk-card govuk-card--feature">
+                    <div class="govuk-card__content">
+                        <div class="govuk-card__icon">📎</div>
+                        <h4 class="govuk-heading-s">File Upload</h4>
+                        <p class="govuk-body">Allow users to securely upload supporting documents and images.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Selection Options Cards -->
+        <div class="govuk-grid-row govuk-!-margin-bottom-6">
+            <div class="govuk-grid-column-full">
+                <h3 class="govuk-heading-m">Selection Options</h3>
+            </div>
+        </div>
+
+        <div class="govuk-grid-row govuk-!-margin-bottom-8">
+            <div class="govuk-grid-column-one-third">
+                <div class="govuk-card govuk-card--feature">
+                    <div class="govuk-card__content">
+                        <div class="govuk-card__icon">✅</div>
+                        <h4 class="govuk-heading-s">Yes or No</h4>
+                        <p class="govuk-body">Simple binary choices for clear decision making.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="govuk-grid-column-one-third">
+                <div class="govuk-card govuk-card--feature">
+                    <div class="govuk-card__content">
+                        <div class="govuk-card__icon">☑️</div>
+                        <h4 class="govuk-heading-s">Checkboxes</h4>
+                        <p class="govuk-body">Multiple choice selections for comprehensive data collection.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="govuk-grid-column-one-third">
+                <div class="govuk-card govuk-card--feature">
+                    <div class="govuk-card__content">
+                        <div class="govuk-card__icon">🔘</div>
+                        <h4 class="govuk-heading-s">Radio buttons</h4>
+                        <p class="govuk-body">Single choice options from a predefined list.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="govuk-grid-row govuk-!-margin-bottom-8">
+            <div class="govuk-grid-column-one-half">
+                <div class="govuk-card govuk-card--feature">
+                    <div class="govuk-card__content">
+                        <div class="govuk-card__icon">🔍</div>
+                        <h4 class="govuk-heading-s">Autocomplete</h4>
+                        <p class="govuk-body">Smart search functionality for large datasets.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="govuk-grid-column-one-half">
+                <div class="govuk-card govuk-card--feature">
+                    <div class="govuk-card__content">
+                        <div class="govuk-card__icon">📋</div>
+                        <h4 class="govuk-heading-s">Select dropdowns</h4>
+                        <p class="govuk-body">Organized lists for structured data input.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Advanced Features Cards -->
+        <div class="govuk-grid-row govuk-!-margin-bottom-6">
+            <div class="govuk-grid-column-full">
+                <h3 class="govuk-heading-m">Advanced Features</h3>
+            </div>
+        </div>
+
+        <div class="govuk-grid-row govuk-!-margin-bottom-8">
+            <div class="govuk-grid-column-one-half">
+                <div class="govuk-card govuk-card--feature">
+                    <div class="govuk-card__content">
+                        <div class="govuk-card__icon">🔄</div>
+                        <h4 class="govuk-heading-s">Repeating questions</h4>
+                        <p class="govuk-body">Get repeated sets of data from users. Design once, use multiple times.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="govuk-grid-column-one-half">
+                <div class="govuk-card govuk-card--feature">
+                    <div class="govuk-card__content">
+                        <div class="govuk-card__icon">👁️</div>
+                        <h4 class="govuk-heading-s">Preview your form</h4>
+                        <p class="govuk-body">Real-time preview as you build. Test layout and conditions end-to-end.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Features Coming Soon Section -->
+        <div class="govuk-grid-row govuk-!-margin-top-9">
+            <div class="govuk-grid-column-full">
+                <h2 class="govuk-heading-l">Features coming soon</h2>
+                <p class="govuk-body govuk-!-font-size-19">We're working on exciting new capabilities to enhance your
+                    form building experience.</p>
+            </div>
+        </div>
+
+        <div class="govuk-grid-row govuk-!-margin-bottom-6">
+            <div class="govuk-grid-column-one-third">
+                <div class="govuk-card govuk-card--feature govuk-card--coming-soon">
+                    <div class="govuk-card__content">
+                        <div class="govuk-card__icon">📧</div>
+                        <h4 class="govuk-heading-s">Confirmation emails</h4>
+                        <p class="govuk-body">Users receive confirmation emails with form details, submission time, and
+                            next steps.</p>
+                        <span class="govuk-tag govuk-tag--blue">Coming soon</span>
+                    </div>
+                </div>
+            </div>
+            <div class="govuk-grid-column-one-third">
+                <div class="govuk-card govuk-card--feature govuk-card--coming-soon">
+                    <div class="govuk-card__content">
+                        <div class="govuk-card__icon">💾</div>
+                        <h4 class="govuk-heading-s">Save and exit</h4>
+                        <p class="govuk-body">Users can save progress and return within 28 days using a magic link.</p>
+                        <span class="govuk-tag govuk-tag--blue">Coming soon</span>
+                    </div>
+                </div>
+            </div>
+            <div class="govuk-grid-column-one-third">
+                <div class="govuk-card govuk-card--feature govuk-card--coming-soon">
+                    <div class="govuk-card__content">
+                        <div class="govuk-card__icon">👥</div>
+                        <h4 class="govuk-heading-s">User management</h4>
+                        <p class="govuk-body">Manage who can edit and publish forms with roles and permissions.</p>
+                        <span class="govuk-tag govuk-tag--blue">Coming soon</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="govuk-grid-row govuk-!-margin-bottom-8">
+            <div class="govuk-grid-column-one-third">
+                <div class="govuk-card govuk-card--feature govuk-card--coming-soon">
+                    <div class="govuk-card__content">
+                        <div class="govuk-card__icon">📊</div>
+                        <h4 class="govuk-heading-s">Auditing</h4>
+                        <p class="govuk-body">See changes made to your form over time with a clear audit trail.</p>
+                        <span class="govuk-tag govuk-tag--blue">Coming soon</span>
+                    </div>
+                </div>
+            </div>
+            <div class="govuk-grid-column-one-third">
+                <div class="govuk-card govuk-card--feature govuk-card--coming-soon">
+                    <div class="govuk-card__content">
+                        <div class="govuk-card__icon">🔌</div>
+                        <h4 class="govuk-heading-s">API integration</h4>
+                        <p class="govuk-body">Import data from form submissions into your backend system.</p>
+                        <span class="govuk-tag govuk-tag--blue">Coming soon</span>
+                    </div>
+                </div>
+            </div>
+            <div class="govuk-grid-column-one-third">
+                <div class="govuk-card govuk-card--feature govuk-card--coming-soon">
+                    <div class="govuk-card__content">
+                        <div class="govuk-card__icon">📑</div>
+                        <h4 class="govuk-heading-s">Page sections</h4>
+                        <p class="govuk-body">Categorise questions into sections with headings on check answers pages.
+                        </p>
+                        <span class="govuk-tag govuk-tag--blue">Coming soon</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Additional Information -->
+        <div class="govuk-grid-row govuk-!-margin-top-9">
+            <div class="govuk-grid-column-one-half">
+                <h2 class="govuk-heading-m">Design history</h2>
+                <p class="govuk-body">We record user research findings and design changes.</p>
+            </div>
+            <div class="govuk-grid-column-one-half">
+                <h2 class="govuk-heading-m">Demo form</h2>
+                <p class="govuk-body">Try the Register as a unicorn breeder demo form to find out how we can capture
+                    information.</p>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<style>
+    .govuk-card--feature {
+        border: 1px solid #d4351c;
+        border-radius: 8px;
+        padding: 1.5rem;
+        margin-bottom: 1rem;
+        transition: all 0.3s ease;
+        height: 100%;
+    }
+
+    .govuk-card--feature:hover {
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        transform: translateY(-2px);
+    }
+
+    .govuk-card--coming-soon {
+        border-color: #00703c;
+        opacity: 0.8;
+    }
+
+    .govuk-card__icon {
+        font-size: 2rem;
+        margin-bottom: 1rem;
+        display: block;
+    }
+
+    .govuk-card__content h4 {
+        margin-top: 0;
+        color: #0b0c0c;
+    }
+
+    .govuk-tag--blue {
+        background-color: #00703c;
+        color: white;
+        margin-top: 1rem;
+        display: inline-block;
+    }
+</style>
+
+{% endblock %}

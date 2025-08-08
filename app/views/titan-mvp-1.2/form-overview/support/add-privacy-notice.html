@@ -1,0 +1,128 @@
+{% extends "layouts/main.html" %}
+{% from "components/service-header/macro.njk" import serviceHeader %}
+{% from "components/support-pages-sub-nav/macro.njk" import supportPagesSubNav %}
+{% from "govuk/components/input/macro.njk" import govukInput %}
+{% set pageName = "Add privacy notice link - Apply for a county parish holding number in England" %}
+
+{% block header %}
+{{ serviceHeader({
+organisationName: "Defra",
+productName: "Forms Designer",
+serviceName: "",
+containerClasses: containerClasses,
+accountName: "Chris Smith",
+homepageLink: "/",
+signOutLink: "/titan-mvp-1.2/onboarding/sign-out-confirmation",
+navigationItems: [
+{ href: "/titan-mvp-1.2/library", text: "Forms library", id: "nav-library" },
+{ href: "/titan-mvp-1.2/form-overview/index", text: "Overview", id: "nav-overview" },
+{ href: "/titan-mvp-1.2/form-editor/listing", text: "Editor", id: "nav-editor", active: true }
+]
+}) }}
+
+<div class="x-govuk-masthead x-govuk-masthead--large">
+    <div class="govuk-width-container">
+
+        {{ govukBackLink({
+        classes: "govuk-back-link--inverse govuk-!-margin-bottom-0",
+        text: "Back to support pages",
+        href: "/titan-mvp-1.2/form-editor/support-pages-settings"
+        }) }}
+
+        <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible"
+            style="border-bottom: 1px solid white; margin-bottom: 0;" />
+
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-full-from-desktop">
+                <h1 class="x-govuk-masthead__title">
+                    Form name
+                </h1>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block content %}
+
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-one-half-from-desktop">
+        <div class="govuk-summary-card govuk-!-margin-top-0" style="border-left: 10px solid #b1b4b6;">
+            <div class="govuk-summary-card__content govuk-!-padding-top-0" style="background-color: #f8f8f8;">
+                <dl class="govuk-summary-list">
+                    <div class="govuk-summary-list__row">
+                        <dd class="govuk-summary-list__value">
+
+                            <!-- Form Container -->
+                            <div class="govuk-grid-row" id="form-container">
+                                <div id="privacy-notice-form">
+                                    <div class="govuk-summary-card__content" style="margin-bottom: 0;">
+
+                                        <!-- Sub Navigation -->
+                                        {{ supportPagesSubNav(
+                                        currentTab='privacy-notice',
+                                        baseUrl="/titan-mvp-1.2/form-editor/support-pages-settings"
+                                        ) }}
+
+                                        <!-- Form Content -->
+                                        <h1 class="govuk-heading-l">Privacy notice for this form
+                                        </h1>
+
+                                        <p class="govuk-body">To comply with the UK General Data Protection Regulation
+                                            (UK GDPR), you must provide privacy information for the people
+                                            who will enter their data into your form.</p>
+
+
+
+                                        <form class="form"
+                                            action="/titan-mvp-1.2/form-overview/support/add-privacy-notice"
+                                            method="post">
+
+
+
+                                            {{ govukInput({
+                                            label: {
+                                            text: "Link to privacy notice for this form
+                                            ",
+                                            classes: "govuk-label--m",
+                                            isPageHeading: false
+                                            },
+                                            hint: {
+                                            text: "For example, https://www.gov.uk/help/privacy-notice"
+                                            },
+                                            id: "privacyNoticeLink",
+                                            name: "privacyNoticeLink",
+                                            type: "url",
+                                            value: data['privacyNoticeLink'] or '',
+                                            placeholder: "https://www.gov.uk/help/privacy-notice"
+                                            }) }}
+
+                                            <div class="govuk-button-group">
+                                                <button class="govuk-button" data-module="govuk-button">
+                                                    Save privacy notice link
+                                                </button>
+                                                <button type="submit" class="govuk-button govuk-button--warning"
+                                                    data-module="govuk-button ">
+                                                    Delete
+                                                </button>
+                                                {# <a href="/titan-mvp-1.2/form-editor/support-pages-settings"
+                                                    class="govuk-button govuk-button--secondary"
+                                                    data-module="govuk-button">
+                                                    Cancel
+                                                </a> #}
+                                            </div>
+                                        </form>
+
+                                    </div> <!-- .govuk-summary-card__content -->
+                                </div> <!-- #privacy-notice-form -->
+                            </div> <!-- #form-container -->
+
+                        </dd>
+                    </div>
+                </dl>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

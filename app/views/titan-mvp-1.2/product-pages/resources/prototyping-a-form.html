@@ -1,0 +1,166 @@
+{% extends "layouts/main.html" %}
+{% from "components/service-header/macro.njk" import serviceHeader %}
+{% from "govuk/components/breadcrumbs/macro.njk" import govukBreadcrumbs %}
+{% from "components/contents-list-with-body.njk" import contentsListWithBody %}
+
+{% block pageTitle %}
+Prototyping a form – Good form design guide – Defra Form Designer – GOV.UK Prototype Kit
+{% endblock %}
+
+{% block header %}
+{{ serviceHeader({
+organisationName: "Defra",
+productName: "Form Designer",
+serviceName: "",
+homepageLink: "/",
+signInLink: "/titan-mvp-1.2/onboarding/sign-in",
+navigationItems: [
+{ href: "/titan-mvp-1.2/product-pages/get-started", text: "Get started", id: "nav-get-started" },
+{ href: "/titan-mvp-1.2/product-pages/features", text: "Features", id: "nav-features" },
+{ href: "/titan-mvp-1.2/product-pages/resources", text: "Resources", id: "nav-resources" },
+{ href: "/titan-mvp-1.2/product-pages/support", text: "Support", id: "nav-support" }
+],
+activeLinkId: "nav-resources"
+}) }}
+
+<div class="x-govuk-masthead x-govuk-masthead--large">
+    <div class="govuk-width-container">
+        {{ govukBreadcrumbs({
+        classes: "govuk-breadcrumbs--inverse",
+        items: [
+        {
+        text: "Resources",
+        href: "/titan-mvp-1.2/product-pages/resources"
+        },
+        {
+        text: "Good form design guide",
+        href: "/titan-mvp-1.2/product-pages/resources"
+        },
+        {
+        text: "Prototyping a form"
+        }
+        ]
+        }) }}
+
+        <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible"
+            style="border-bottom: 1px solid white; margin-bottom: 0" />
+
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-full-from-desktop">
+                <h1 class="x-govuk-masthead__title" id="prototyping-a-form">
+                    <span class="govuk-caption-l" style="color: white;">Good form design guide</span>
+                    Prototyping a form
+                </h1>
+                <div class="govuk-body" style="color: white; margin-top: 1em;">
+                    <span class="govuk-tag govuk-tag--grey">Guide</span>
+                    <span style="margin-left: 1em;">Everything you need to design accessible, user-friendly forms</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-one-quarter app-contents-list--sticky govuk-!-padding-right-0">
+        {% set contents = [
+        {
+        href: "/titan-mvp-1.2/product-pages/resources/does-this-need-to-be-a-form",
+        text: "Does this need to be a form?"
+        },
+        {
+        href: "/titan-mvp-1.2/product-pages/resources/accessibility-and-inclusion",
+        text: "Accessibility and inclusion"
+        },
+        {
+        href: "/titan-mvp-1.2/product-pages/resources/working-with-subject-matter-experts",
+        text: "Working with subject matter experts (SMEs)"
+        },
+        {
+        href: "/titan-mvp-1.2/product-pages/resources/question-protocols",
+        text: "Question protocols"
+        },
+        {
+        href: "/titan-mvp-1.2/product-pages/resources/prototyping-a-form",
+        text: "Prototyping a form",
+        items: [
+        {
+        href: "#avoid-routing",
+        text: "Avoid routing"
+        },
+        {
+        href: "#avoid-duplicating-questions",
+        text: "Avoid duplicating questions"
+        }
+        ]
+        },
+        {
+        href: "/titan-mvp-1.2/product-pages/resources/form-pages-on-govuk",
+        text: "Form pages on GOV.UK"
+        },
+        {
+        href: "/titan-mvp-1.2/product-pages/resources/peer-reviewing-forms",
+        text: "Peer reviewing forms"
+        },
+        {
+        href: "/titan-mvp-1.2/product-pages/resources/privacy-notices",
+        text: "Privacy notices"
+        }
+        ] %}
+        {{ contentsListWithBody({ contents: contents, alternative_line_style: true, activeHref:
+        "/titan-mvp-1.2/product-pages/resources/prototyping-a-form" }) }}
+    </div>
+    <div class="govuk-grid-column-two-thirds">
+        <div class="app-prose-scope">
+
+            <p class="govuk-body">Before creating your form, it's useful to first develop a wireframe version of the
+                form. You can do this in Mural. Use one Sticky per question, and map out any routing (for example, for
+                yes/no questions).</p>
+            <p class="govuk-body">Prototyping helps you to:</p>
+            <ul class="govuk-list govuk-list--bullet">
+                <li>show the user's journey clearly</li>
+                <li>decide where grouping makes sense</li>
+                <li>reduce unnecessary pages</li>
+                <li>avoid redundant questions</li>
+                <li>talk through the form with SMEs and stakeholders</li>
+            </ul>
+            <p class="govuk-body">See an example of a form wireframe.</p>
+
+            <h2 id="avoid-routing" class="govuk-heading-l">Avoid routing</h2>
+            <p class="govuk-body">Routing adds complexity and should be used sparingly.</p>
+            <p class="govuk-body">It's a good idea to:</p>
+            <ul class="govuk-list govuk-list--bullet">
+                <li>keep users on a single, predictable path</li>
+                <li>reduce the number of decision points</li>
+            </ul>
+            <p class="govuk-body">If a route changes the context or focus of the form, consider making multiple context
+                specific forms instead - the data will be more valuable.</p>
+
+            <h2 id="avoid-duplicating-questions" class="govuk-heading-l">Avoid duplicating questions</h2>
+            <p class="govuk-body">Reducing duplicate questions improves efficiency and the user experience.</p>
+            <p class="govuk-body">Avoid duplication by:</p>
+            <ul class="govuk-list govuk-list--bullet">
+                <li>only asking for information once</li>
+                <li>reusing data across different steps</li>
+                <li>allowing users to review and confirm assumed information</li>
+                <li>removing optional fields unless critical</li>
+            </ul>
+
+            {% from "govuk/components/pagination/macro.njk" import govukPagination %}
+
+            {{ govukPagination({
+            previous: {
+            labelText: "Question protocols",
+            href: "/titan-mvp-1.2/product-pages/resources/question-protocols"
+            },
+            next: {
+            labelText: "Form pages on GOV.UK",
+            href: "/titan-mvp-1.2/product-pages/resources/form-pages-on-govuk"
+            }
+            }) }}
+
+        </div>
+    </div>
+</div>
+{% endblock %}

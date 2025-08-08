@@ -1,0 +1,312 @@
+{% extends "layouts/main.html" %}
+{% from "components/service-header/macro.njk" import serviceHeader %}
+{% from "components/support-pages-sub-nav/macro.njk" import supportPagesSubNav %}
+{% set pageName = "Edit Support pages - Apply for a county parish holding number in England" %}
+{% set headingPlaceholder = "Page heading" %}
+{% set guidancePlaceholder = "" %}
+
+{% block header %}
+{{ serviceHeader({
+organisationName: "Defra",
+productName: "Forms Designer",
+serviceName: "",
+containerClasses: containerClasses,
+accountName: "Chris Smith",
+homepageLink: "/",
+signOutLink: "/titan-mvp-1.2/onboarding/sign-out-confirmation",
+navigationItems: [
+{ href: "/titan-mvp-1.2/library", text: "Forms library", id: "nav-library" },
+{ href: "/titan-mvp-1.2/form-overview/index", text: "Overview", id: "nav-overview" },
+{ href: "/titan-mvp-1.2/form-editor/listing", text: "Editor", id: "nav-editor", active: true }
+]
+}) }}
+
+<div class="x-govuk-masthead x-govuk-masthead--large">
+    <div class="govuk-width-container">
+
+        {{ govukBackLink({
+        classes: "govuk-back-link--inverse govuk-!-margin-bottom-0",
+        text: "Back to add and edit pages",
+        href: "/titan-mvp-1.2/form-editor/listing-v2"
+        }) }}
+
+        <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible"
+            style="border-bottom: 1px solid white; margin-bottom: 0;" />
+
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-full-from-desktop">
+                <h1 class="x-govuk-masthead__title">
+                    Form name
+                </h1>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block content %}
+
+<!-- Outer grid row to hold BOTH columns side by side from desktop width -->
+<div class="govuk-grid-row">
+
+    <!-- LEFT COLUMN: Page Settings / Form Controls -->
+    <div class="govuk-grid-column-one-half-from-desktop" id="container"
+        style="flex: 1 1 75%; height: 100%; overflow-y: auto;">
+        <div class="govuk-summary-card govuk-!-margin-top-0" style="border-left: 10px solid #b1b4b6;">
+            <div class="govuk-summary-card__content govuk-!-padding-top-0" style="background-color: #f8f8f8;">
+                <dl class="govuk-summary-list">
+                    <div class="govuk-summary-list__row">
+                        <dd class="govuk-summary-list__value">
+
+                            <!-- Support Pages Settings Container -->
+                            <div class="govuk-grid-row" id="support-settings-container-1">
+                                <div id="support-settings-1">
+                                    <div class="govuk-summary-card__content" style="margin-bottom: 0;">
+
+                                        <!-- Sub Navigation -->
+                                        {{ supportPagesSubNav(
+                                        currentTab=data.supportCurrentTab or 'contact-details',
+                                        baseUrl="/titan-mvp-1.2/form-editor/support-pages-settings"
+                                        ) }}
+
+                                        <!-- Tab Content -->
+                                        {% if data.supportCurrentTab == 'notifications' %}
+                                        {% include "components/support-pages-tabs/notifications.njk" %}
+                                        {% elif data.supportCurrentTab == 'privacy-notice' %}
+                                        {% include "components/support-pages-tabs/privacy-notice.njk" %}
+                                        {% else %}
+                                        {% set contactData = data %}
+
+                                        <!-- Contact Details Content -->
+                                        <h1 class="govuk-heading-l">Contact and privacy information</h1>
+                                        <p class="govuk-body">You must provide at least one way for users to get help
+                                            and a link to a privacy notice.
+                                        </p>
+                                        <p class="govuk-body">The contact details and privacy notice link are shown in
+                                            the footer of every page of the form. The contact details are
+                                            also included in the confirmation email.</p>
+
+                                        {{ govukSummaryList({
+                                        rows: [
+                                        {
+                                        key: {
+                                        text: "Phone number"
+                                        },
+                                        value: {
+                                        html: '<span id="phone-value">' + (contactData.moreDetail or '<a
+                                                href="/titan-mvp-1.2/form-overview/support/add-telephone"
+                                                class="govuk-link govuk-link--no-visited-state">Enter phone number for
+                                                support</a>') + '</span>'
+                                        },
+                                        actions: {
+                                        items: [
+                                        {
+                                        html: '<a href="/titan-mvp-1.2/form-overview/support/add-telephone"
+                                            class="govuk-link govuk-link--no-visited-state" id="phone-action">' +
+                                            (contactData.moreDetail and 'Change' or '') +
+                                            '</a>'
+                                        }
+                                        ]
+                                        }
+                                        },
+                                        {
+                                        key: {
+                                        text: "Email address"
+                                        },
+                                        value: {
+                                        html: '<span id="email-value">' + (contactData.emailAddress or '<a
+                                                href="/titan-mvp-1.2/form-overview/support/add-email"
+                                                class="govuk-link govuk-link--no-visited-state">Enter email address for
+                                                support</a>') + '</span>'
+                                        },
+                                        actions: {
+                                        items: [
+                                        {
+                                        html: '<a href="/titan-mvp-1.2/form-overview/support/add-email"
+                                            class="govuk-link govuk-link--no-visited-state" id="email-action">' +
+                                            (contactData.emailAddress and 'Change' or '')
+                                            + '</a>'
+                                        }
+                                        ]
+                                        }
+                                        },
+                                        {
+                                        key: {
+                                        text: "Online contact link"
+                                        },
+                                        value: {
+                                        html: '<span id="online-contact-value">' + (contactData.contactLink and
+                                            (contactData.contactLinkDescription or contactData.contactLink) or '<a
+                                                href="/titan-mvp-1.2/form-overview/support/add-contact-link"
+                                                class="govuk-link govuk-link--no-visited-state">Add online contact
+                                                link</a>') + '</span>'
+                                        },
+                                        actions: {
+                                        items: [
+                                        {
+                                        html: '<a href="/titan-mvp-1.2/form-overview/support/add-contact-link"
+                                            class="govuk-link govuk-link--no-visited-state" id="online-contact-action">'
+                                            + (contactData.contactLink and 'Change' or '') +
+                                            '</a>'
+                                        }
+                                        ]
+                                        }
+                                        },
+                                        {
+                                        key: {
+                                        text: "Privacy notice link"
+                                        },
+                                        value: {
+                                        html: '<span id="privacy-notice-value">' + (contactData.privacyNoticeLink or '<a
+                                                href="/titan-mvp-1.2/form-overview/support/add-privacy-notice"
+                                                class="govuk-link govuk-link--no-visited-state">Add privacy notice
+                                                link</a>') + '</span>'
+                                        },
+                                        actions: {
+                                        items: [
+                                        {
+                                        html: '<a href="/titan-mvp-1.2/form-overview/support/add-privacy-notice"
+                                            class="govuk-link govuk-link--no-visited-state" id="privacy-notice-action">'
+                                            +
+                                            (contactData.privacyNoticeLink and 'Change' or '') +
+                                            '</a>'
+                                        }
+                                        ]
+                                        }
+                                        }
+                                        ]
+                                        }) }}
+
+                                        <a href="#contact-details-preview" class="govuk-skip-link"
+                                            style="margin-bottom: 30px!important;" data-module="govuk-skip-link">
+                                            Skip to contact details preview
+                                        </a>
+
+                                        <script>
+                                            // Trigger preview update after contact details are loaded
+                                            document.addEventListener('DOMContentLoaded', function () {
+                                                if (typeof updatePreview === 'function') {
+                                                    setTimeout(updatePreview, 50);
+                                                }
+                                            });
+                                        </script>
+                                        {% endif %}
+
+                                    </div> <!-- .govuk-summary-card__content -->
+                                </div> <!-- #support-settings-1 -->
+                            </div> <!-- #support-settings-container-1 -->
+
+                        </dd>
+                    </div>
+                </dl>
+            </div>
+        </div>
+    </div>
+    <!-- END LEFT COLUMN -->
+
+    <!-- RIGHT COLUMN: Support Pages Preview -->
+    <div class="govuk-grid-column-one-half-from-desktop" id="second-container"
+        style="outline: solid 1px #008938; position: sticky; top: 0; padding: 20px; box-shadow: 5px 10px #008938; height: fit-content; align-self: flex-start;">
+        <!-- Before content -->
+        <div id="before-content" style="background-color: #cce2d8;">
+            <p class="govuk-body-s" style="margin-bottom: 0; color: #005a30; padding: 2px 8px 3px; text-align: center;">
+                Preview
+            </p>
+        </div>
+
+        <div style="margin-top: 60px!important;">
+            {% from "govuk/components/tabs/macro.njk" import govukTabs %}
+
+            <div class="govuk-tabs" data-module="govuk-tabs">
+                <h2 class="govuk-tabs__title">Contents</h2>
+                <ul class="govuk-tabs__list">
+                    <li class="govuk-tabs__list-item govuk-tabs__list-item--selected">
+                        <a class="govuk-tabs__tab" href="#tab-one">Page preview</a>
+                    </li>
+                </ul>
+
+                <div class="govuk-tabs__panel" id="tab-one">
+                    <!-- Page Preview Content -->
+                    <p class="govuk-body-s" style="margin-bottom: 30px; border-bottom: #008938 1px;">
+                        <a href="#" class="govuk-link govuk-link--no-visited-state" rel="noreferrer noopener"
+                            target="_blank">
+                            Preview this page in a new tab
+                        </a>
+                    </p>
+
+                    <!-- Dynamic Preview Content -->
+                    <div id="dynamic-support-preview">
+                        <h2 class="govuk-heading-l">Get help with your form</h2>
+
+                        {% if data['moreDetail'] %}
+                        <h3 class="govuk-heading-m">Telephone</h3>
+                        <p class="govuk-body">{{ data['moreDetail'] }}</p>
+                        <p class="govuk-body"><a href="https://www.gov.uk/call-charges"
+                                class="govuk-link govuk-link--no-visited-state">Find out about call charges</a></p>
+                        {% endif %}
+
+                        {% if data['emailAddress'] or data['responseTime'] %}
+                        <h3 class="govuk-heading-m">Email address</h3>
+                        {% if data['emailAddress'] %}
+                        <p class="govuk-body">{{ data['emailAddress'] }}</p>
+                        {% endif %}
+                        {% if data['responseTime'] %}
+                        <p class="govuk-body">{{ data['responseTime'] }}</p>
+                        {% endif %}
+                        {% endif %}
+
+                        {% if data['contactLink'] %}
+                        <h3 class="govuk-heading-m">Online contact form</h3>
+                        {% if data['contactLinkDescription'] %}
+                        <p class="govuk-body"><a href="{{ data['contactLink'] }}"
+                                class="govuk-link govuk-link--no-visited-state" target="_blank"
+                                rel="noopener noreferrer">{{ data['contactLinkDescription'] }}</a></p>
+                        {% else %}
+                        <p class="govuk-body"><a href="{{ data['contactLink'] }}"
+                                class="govuk-link govuk-link--no-visited-state" target="_blank"
+                                rel="noopener noreferrer">{{ data['contactLink'] }}</a></p>
+                        {% endif %}
+                        {% endif %}
+
+                        {% if data['privacyNoticeLink'] %}
+                        <h3 class="govuk-heading-m">Privacy notice</h3>
+                        <p class="govuk-body"><a href="{{ data['privacyNoticeLink'] }}"
+                                class="govuk-link govuk-link--no-visited-state" target="_blank"
+                                rel="noopener noreferrer">Privacy notice</a></p>
+                        {% endif %}
+                    </div>
+
+                    <a href="#tab-one-support-pages" class="govuk-skip-link" style="margin-bottom: 30px!important;"
+                        data-module="govuk-skip-link">
+                        Skip to support pages settings
+                    </a>
+                </div> <!-- End of Tab One -->
+            </div> <!-- End of govuk-tabs -->
+        </div> <!-- End of margin-top: 60px container -->
+    </div> <!-- End of second-container -->
+
+    <!-- END RIGHT COLUMN -->
+
+</div> <!-- End .govuk-grid-row (which wraps both columns) -->
+
+<script>
+    // Simple script to handle tab switching if needed
+    document.addEventListener("DOMContentLoaded", function () {
+        // Any additional client-side functionality can be added here
+    });
+</script>
+
+<style>
+    .preview-container {
+        outline: solid 1px #b1b4b6;
+        position: sticky;
+        overflow-y: auto;
+        height: 100vh;
+        top: 0;
+        padding: 20px;
+        box-shadow: 5px 10px #b1b4b6;
+        margin-bottom: 30px;
+    }
+</style>
+
+{% endblock %}

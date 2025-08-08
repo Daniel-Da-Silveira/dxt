@@ -2,8 +2,7 @@
 
 {% from "components/service-header/macro.njk" import serviceHeader %}
 
-{% set pageName = "Provide a link to privacy information for this form - Apply for a county parish holding number in
-England" %}
+{% set pageName = "Provide a link to privacy information for this form - Employee Onboarding" %}
 
 {% block header %}
 {{ serviceHeader({
@@ -17,35 +16,32 @@ navigationItems: [
 {
 href: "/titan-mvp-1.2/library",
 text: "Forms library",
-id: "nav-library"
+id: "library"
 },
 {
-href: "/titan-mvp-1.2/form-overview/index",
+href: "/titan-mvp-1.2/form-overview/simplified/index-tabs",
 text: "Overview",
-id: "nav-overview"
+id: "overview"
 },{
-href: "/titan-mvp-1.2/form-editor/listing",
+href: "/titan-mvp-1.2/form-editor/listing-v2",
 text: 'Editor',
-id: 'nav-editor'
+id: 'editor'
 }],
-activeLinkId: "/"
+activeLinkId: "overview"
 }) }}
 {% endblock %}
 
 {% block beforeContent %}
 {{ govukBackLink({
 text: "Back",
-href: "/titan-mvp-1.2/form-overview/index"
+href: "/titan-mvp-1.2/form-overview/simplified/index-tabs"
 }) }}
 {% endblock %}
 
 {% block content %}
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds-from-desktop">
-    {% from "govuk/components/summary-list/macro.njk" import govukSummaryList %}
-    {% from "govuk/components/input/macro.njk" import govukInput %}
-
-    <span class="govuk-caption-l">Apply for a county parish holding number in England</span>
+    <span class="govuk-caption-l">Employee Onboarding</span>
     <h1 class="govuk-heading-l">
       Privacy notice for this form
     </h1>
@@ -53,12 +49,13 @@ href: "/titan-mvp-1.2/form-overview/index"
     <p class="govuk-body-l">To comply with the UK General Data Protection Regulation (UK GDPR), you must provide privacy
       information for the people who will enter their data into your form.</p>
 
-    <form action="/titan-mvp-1.2/form-overview/index/support/privacy-notice" method="post">
+    <form action="/titan-mvp-1.2/form-overview/support/privacy-notice" method="post">
+      {% from "govuk/components/input/macro.njk" import govukInput %}
       {{ govukInput({
       label: {
       text: "Link to privacy notice for this form",
       classes: "govuk-label--m govuk-!-padding-top-4",
-      isPageHeading: true
+      isPageHeading: false
       },
       hint: {
       text: "For example, https://www.gov.uk/help/privacy-notice"
@@ -75,7 +72,7 @@ href: "/titan-mvp-1.2/form-overview/index"
         <button type="submit" class="govuk-button" data-module="govuk-button">
           Save and continue
         </button>
-        <a href="/titan-mvp-1.2/form-overview/index" class="govuk-button govuk-button--secondary"
+        <a href="/titan-mvp-1.2/form-overview/simplified/index-tabs" class="govuk-button govuk-button--secondary"
           data-module="govuk-button">
           Cancel
         </a>
@@ -109,7 +106,7 @@ href: "/titan-mvp-1.2/form-overview/index"
     label: {
     text: "Link to privacy notice for this form",
     classes: "govuk-label--m govuk-!-padding-top-4",
-    isPageHeading: true
+    isPageHeading: false
     },
     hint: {
     text: "For example, https://www.gov.uk/help/privacy-notice"
@@ -140,7 +137,7 @@ href: "/titan-mvp-1.2/form-overview/index"
     label: {
     text: "Link to privacy notice for this form",
     classes: "govuk-label--m govuk-!-padding-top-4",
-    isPageHeading: true
+    isPageHeading: false
     },
     hint: {
     text: "For example, https://www.gov.uk/help/privacy-notice"

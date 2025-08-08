@@ -91,6 +91,51 @@
 }
 
 @import "patterns/flow-builder";
+// Import GOV.UK step-by-step component styles for spacing, circles and lines
+@import "../../../node_modules/@govuk-prototype-kit/step-by-step/sass/step-by-step-navigation";
+
+// Defra styling for step-by-step navigation
+.app-step-nav {
+  .app-step-nav__circle--number {
+    background-color: #00823b;
+    border-color: #00823b;
+    color: white;
+    font-weight: bold;
+    text-shadow: none;
+  }
+
+  .app-step-nav__circle-background {
+    color: white;
+    font-weight: bold;
+    text-shadow: none;
+  }
+
+  .app-step-nav__step--active {
+    .app-step-nav__circle--number {
+      background-color: #00823b;
+      border-color: #00823b;
+    }
+  }
+
+  // Defra green connecting lines
+  .app-step-nav__step:after {
+    border-left-color: #00823b;
+  }
+
+  .app-step-nav__step:last-child:before {
+    border-bottom-color: #00823b;
+  }
+
+  // Defra green horizontal lines between sections
+  .app-step-nav__header {
+    border-top-color: #00823b;
+  }
+
+  // Active step indicator
+  .app-step-nav__list-item--active:before {
+    background-color: #00823b;
+  }
+}
 
 // .govuk-width-container {
 //   max-width: 1300px;
@@ -3105,3 +3150,75 @@ to
   background-color: #003078;
   color: #fff;
 }
+
+/* ==========================================================================
+   #TOOLTIP STYLES
+   ========================================================================== */
+
+.tooltip {
+  position: relative;
+  display: inline-block;
+  border-bottom: 2px dotted #1d70b8;
+  cursor: help;
+}
+
+.tooltip .tooltiptext {
+  visibility: hidden;
+  width: 280px;
+  background-color: #fff;
+  color: #000;
+  text-align: left;
+  padding: 12px 16px;
+  border-radius: 0;
+  font-family: "GDS Transport", Arial, sans-serif;
+  font-size: 19px;
+  line-height: 1.5;
+  font-weight: 400;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  border: 2px solid #1d70b8;
+  position: absolute;
+  z-index: 1000;
+  bottom: 140%;
+  left: 50%;
+  margin-left: -140px;
+  opacity: 0;
+  // transition: opacity 0.2s ease-in-out;
+  max-width: 280px;
+  word-wrap: break-word;
+}
+
+.tooltip:hover .tooltiptext {
+  visibility: visible;
+  opacity: 1;
+}
+
+.tooltip .tooltiptext::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  margin-left: -8px; /* Increased from -6px to center the larger arrow */
+  border-width: 8px; /* Increased from 6px to make arrow bigger */
+  border-style: solid;
+  border-color: #1d70b8 transparent transparent transparent;
+}
+
+.tooltip:focus {
+  background-color: $govuk-focus-colour;
+  color: $govuk-focus-text-colour;
+  border-bottom: 3px solid $govuk-focus-text-colour;
+  outline: none;
+  box-shadow: none;
+}
+
+.tooltip:focus .tooltiptext {
+  visibility: visible;
+  opacity: 1;
+}
+
+.app-whats-new {
+  border-bottom: 1px solid $_govuk-rebrand-border-colour-on-blue-tint-95;
+  background-color: $_govuk-rebrand-template-background-colour;
+}
+
+// Progress tracker component removed in favour of GOV.UK step-by-step styles

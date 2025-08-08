@@ -1,7 +1,6 @@
 {% extends "layouts/main.html" %}
-
 {% from "components/service-header/macro.njk" import serviceHeader %}
-
+{% from "components/support-pages-sub-nav/macro.njk" import supportPagesSubNav %}
 {% set pageName = "Phone number for support - Apply for a county parish holding number in England" %}
 
 {% block header %}
@@ -9,111 +8,424 @@
 organisationName: "Defra",
 productName: "Forms Designer",
 serviceName: "",
+containerClasses: containerClasses,
 accountName: "Chris Smith",
 homepageLink: "/",
-signOutLink: "/onboarding/sign-out-confirmation",
+signOutLink: "/titan-mvp-1.2/onboarding/sign-out-confirmation",
 navigationItems: [
-{
-href: "/titan-mvp-1.2/library",
-text: "Forms library",
-id: "nav-library"
-},
-{
-href: "/titan-mvp-1.2/form-overview/index",
-text: "Overview",
-id: "nav-overview"
-},{
-href: "/titan-mvp-1.2/form-editor/listing",
-text: 'Editor',
-id: 'nav-editor'
-}],
-activeLinkId: "/"
+{ href: "/titan-mvp-1.2/library", text: "Forms library", id: "nav-library" },
+{ href: "/titan-mvp-1.2/form-overview/index", text: "Overview", id: "nav-overview" },
+{ href: "/titan-mvp-1.2/form-editor/listing", text: "Editor", id: "nav-editor", active: true }
+]
 }) }}
-{% endblock %}
 
-{% block beforeContent %}
-{{ govukBackLink({
-text: "Back",
-href: "javascript:window.history.back()"
-}) }}
+<div class="x-govuk-masthead x-govuk-masthead--large">
+  <div class="govuk-width-container">
+
+    {{ govukBackLink({
+    classes: "govuk-back-link--inverse govuk-!-margin-bottom-0",
+    text: "Back to support pages",
+    href: "/titan-mvp-1.2/form-editor/support-pages-settings"
+    }) }}
+
+    <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible"
+      style="border-bottom: 1px solid white; margin-bottom: 0;" />
+
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-full-from-desktop">
+        <h1 class="x-govuk-masthead__title">
+          Phone number and opening times
+        </h1>
+      </div>
+    </div>
+  </div>
+</div>
 {% endblock %}
 
 {% block content %}
+
+<!-- Outer grid row to hold BOTH columns side by side from desktop width -->
 <div class="govuk-grid-row">
-  <div class="govuk-grid-column-two-thirds-from-desktop">
-    <span class="govuk-caption-l">Apply for a county parish holding number in England</span>
-    <h1 class="govuk-heading-l">
-      Phone number and opening times
-    </h1>
 
-    <p class="govuk-body">
-      You can provide an optional phone number for support. You must include the opening times.
-    </p>
+  <!-- LEFT COLUMN: Form Controls -->
+  <div class="govuk-grid-column-one-half-from-desktop" id="container"
+    style="flex: 1 1 75%; height: 100%; overflow-y: auto;">
+    <div class="govuk-summary-card govuk-!-margin-top-0" style="border-left: 10px solid #b1b4b6;">
+      <div class="govuk-summary-card__content govuk-!-padding-top-0" style="background-color: #f8f8f8;">
+        <dl class="govuk-summary-list">
+          <div class="govuk-summary-list__row">
+            <dd class="govuk-summary-list__value">
 
-    {% from "govuk/components/inset-text/macro.njk" import govukInsetText %}
-    <h2 class="govuk-heading-s">Example</h2>
+              <!-- Form Container -->
+              <div class="govuk-grid-row" id="form-container">
+                <div id="phone-form">
+                  <div class="govuk-summary-card__content" style="margin-bottom: 0;">
 
-    {{ govukInsetText({
-    html: '
-    <ul class="govuk-list">
-      <li>Telephone: 020 7946 0101</li>
-      <li>Monday to Friday, 8am to 6pm</li>
-    </ul>'
-    }) }}
+                    <!-- Sub Navigation -->
+                    {{ supportPagesSubNav(
+                    currentTab='phone-number',
+                    baseUrl="/titan-mvp-1.2/form-editor/support-pages-settings"
+                    ) }}
 
-    <form action="/titan-mvp-1.2/form-overview/index/support/phone" method="post">
-      {{ govukTextarea({
-      name: "moreDetail",
-      id: "more-detail",
-      label: {
-      text: "What's the phone number and opening times for users to get help?",
-      classes: "govuk-label--m",
-      isPageHeading: true
-      }
-      }) }}
+                    <!-- Original Form Content -->
+                    {# <span class="govuk-caption-l">Apply for a county parish holding number in England</span> #}
+                    <h1 class="govuk-heading-l">
+                      Phone number and opening times
+                    </h1>
 
-      <div class="govuk-button-group">
-        <button type="submit" class="govuk-button" data-module="govuk-button">
-          Save and continue
-        </button>
-        <a class="govuk-link" href="/titan-mvp-1.2/form-overview/index">Cancel</a>
+                    <p class="govuk-body">
+                      You can provide an optional phone number for support. You must include the opening times.
+                    </p>
+
+                    {% from "govuk/components/inset-text/macro.njk" import govukInsetText %}
+                    <h2 class="govuk-heading-s">Example</h2>
+
+                    {{ govukInsetText({
+                    html: '
+                    <ul class="govuk-list">
+                      <li>Telephone: 020 7946 0101</li>
+                      <li>Monday to Friday, 8am to 6pm</li>
+                    </ul>'
+                    }) }}
+
+                    <form action="/titan-mvp-1.2/form-overview/support/add-telephone" method="post">
+                      {% from "govuk/components/textarea/macro.njk" import govukTextarea %}
+                      {{ govukTextarea({
+                      name: "moreDetail",
+                      id: "more-detail",
+                      label: {
+                      text: "What's the phone number and opening times for users to get help?",
+                      classes: "govuk-label--m",
+                      isPageHeading: true
+                      },
+                      value: data['moreDetail'] or ''
+                      }) }}
+
+                      <details class="govuk-details">
+                        <summary class="govuk-details__summary">
+                          <span class="govuk-details__summary-text">
+                            Help with markdown
+                          </span>
+                        </summary>
+                        <div class="govuk-details__text">
+                          <h3 class="govuk-heading-s">Headings and subheadings</h3>
+                          <p class="govuk-body">Use one hash symbol followed by a space for a heading, for example:</p>
+                          <pre class="formatting-example"
+                            style="background-color: white;"><code class="lang-md"># This is a heading</code></pre>
+                          <p class="bottom-gutter-1-3">To add a subheading, use 2 hash symbols:</p>
+                          <pre class="formatting-example"
+                            style="background-color: white;"><code class="lang-md">## This is a subheading</code></pre>
+
+                          <h3 class="govuk-heading-s" id="bullets">Bullet points</h3>
+                          <p class="govuk-body">Use bullet points to help words or phrases stand out in your emails and
+                            letters.</p>
+                          <p class="govuk-body">Copy this example to add bullet points:</p>
+                          <pre class="formatting-example" style="background-color: white;"><code class="lang-md">Introduce bullet points with a lead-in line ending in a colon:
+
+* leave one empty line space after the lead-in line
+* use an asterisk or a dash followed by a space to add an item
+* start each item with a lowercase letter, do not end with a full stop
+* leave one empty line space after the last item</code></pre>
+
+                          <h3 class="govuk-heading-s" id="bullets">Numbered steps</h3>
+                          <p class="govuk-body">Copy this example to add numbered steps:</p>
+                          <pre class="formatting-example" style="background-color: white;"><code class="lang-md">1. Leave one empty line space before starting your list.
+2. Enter a number followed by a full stop and a space to add an item.
+3. Start each item with a capital letter and end it with a full stop.
+4. Leave one empty line space after the last item.</code></pre>
+
+                          <h3 class="govuk-heading-s">Links and URLs</h3>
+                          <p class="govuk-body">To convert text into a link, use square brackets around the link text
+                            and round brackets around the full URL. Make sure there are no spaces between the brackets
+                            or the link will not work. For example:</p>
+                          <pre class="formatting-example"
+                            style="background-color: white;"><code class="lang-md">[Apply now](https://www.gov.uk/example)</code></pre>
+                        </div>
+                      </details>
+
+                      <div class="govuk-button-group">
+                        <button type="submit" class="govuk-button" data-module="govuk-button">
+                          Save phone number
+                        </button>
+
+                        <button type="submit" class="govuk-button govuk-button--warning" data-module="govuk-button ">
+                          Delete
+                        </button>
+                      </div>
+                    </form>
+
+
+
+                  </div> <!-- .govuk-summary-card__content -->
+                </div> <!-- #phone-form -->
+              </div> <!-- #form-container -->
+
+            </dd>
+          </div>
+        </dl>
       </div>
-    </form>
+    </div>
   </div>
-</div>
+  <!-- END LEFT COLUMN -->
 
-<details class="govuk-details">
-  <summary class="govuk-details__summary">
-    <span class="govuk-details__summary-text">
-      View error messages
-    </span>
-  </summary>
-  <div class="govuk-details__text">
-    {% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
+  <!-- RIGHT COLUMN: Preview -->
+  <div class="govuk-grid-column-one-half-from-desktop" id="second-container"
+    style="outline: solid 1px #008938; position: sticky; top: 0; padding: 20px; box-shadow: 5px 10px #008938; height: fit-content; align-self: flex-start;">
+    <!-- Before content -->
+    <div id="before-content" style="background-color: #cce2d8;">
+      <p class="govuk-body-s" style="margin-bottom: 0; color: #005a30; padding: 2px 8px 3px; text-align: center;">
+        Preview
+      </p>
+    </div>
 
-    {{ govukErrorSummary({
-    titleText: "There is a problem",
-    errorList: [
-    {
-    text: "Enter phone number and opening times for users to get help",
-    href: "#"
+    <div style="margin-top: 60px!important;">
+      {% from "govuk/components/tabs/macro.njk" import govukTabs %}
+
+      <div class="govuk-tabs" data-module="govuk-tabs">
+        <h2 class="govuk-tabs__title">Contents</h2>
+        <ul class="govuk-tabs__list">
+          <li class="govuk-tabs__list-item govuk-tabs__list-item--selected">
+            <a class="govuk-tabs__tab" href="#tab-one">Page preview</a>
+          </li>
+        </ul>
+
+        <div class="govuk-tabs__panel" id="tab-one">
+          <!-- Page Preview Content -->
+          <p class="govuk-body-s" style="margin-bottom: 30px; border-bottom: #008938 1px;">
+            <a href="#" class="govuk-link govuk-link--no-visited-state" rel="noreferrer noopener" target="_blank">
+              Preview this page in a new tab
+            </a>
+          </p>
+
+          <!-- Dynamic Preview Content -->
+          <div id="dynamic-preview">
+            {% if data['moreDetail'] %}
+            <h2 class="govuk-heading-l">Get help with your form</h2>
+
+            <div class="border-left-container">
+              <h3 class="govuk-heading-m">Telephone</h3>
+              <div id="phone-preview">
+                <p class="govuk-body">{{ data['moreDetail'] }}</p>
+                <p class="govuk-body"><a href="https://www.gov.uk/call-charges"
+                    class="govuk-link govuk-link--no-visited-state">Find out
+                    about call charges</a></p>
+              </div>
+            </div>
+            {% else %}
+            <h2 class="govuk-heading-l">Get help with your form</h2>
+            <div class="border-left-container">
+              <h3 class="govuk-heading-m">Telephone</h3>
+              <div id="phone-preview">
+                <div class="phone-content">
+                  <p class="govuk-body">Phone number and opening times for users to get help</p>
+                </div>
+                <p class="govuk-body"><a href="https://www.gov.uk/call-charges"
+                    class="govuk-link govuk-link--no-visited-state">Find out about call charges</a></p>
+              </div>
+            </div>
+            {% endif %}
+          </div>
+
+          <a href="#tab-one-phone" class="govuk-skip-link" style="margin-bottom: 30px!important;"
+            data-module="govuk-skip-link">
+            Skip to phone number form
+          </a>
+        </div> <!-- End of Tab One -->
+      </div> <!-- End of govuk-tabs -->
+    </div> <!-- End of margin-top: 60px container -->
+  </div> <!-- End of second-container -->
+
+  <!-- END RIGHT COLUMN -->
+
+</div> <!-- End .govuk-grid-row (which wraps both columns) -->
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    // Update preview when form inputs change
+    const phoneInput = document.getElementById('more-detail');
+    const phonePreview = document.getElementById('phone-preview');
+
+    function parseMarkdown(text) {
+      // Convert markdown to HTML
+      let html = text
+        // Headings
+        .replace(/^### (.*$)/gim, '<h3 class="govuk-heading-s">$1</h3>')
+        .replace(/^## (.*$)/gim, '<h2 class="govuk-heading-m">$1</h2>')
+        .replace(/^# (.*$)/gim, '<h1 class="govuk-heading-l">$1</h1>')
+        // Bold
+        .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+        // Italic
+        .replace(/\*(.*?)\*/g, '<em>$1</em>')
+        // Links
+        .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" class="govuk-link govuk-link--no-visited-state">$1</a>');
+
+      // Handle lists more carefully
+      const lines = html.split('\n');
+      let inList = false;
+      let listItems = [];
+
+      for (let i = 0; i < lines.length; i++) {
+        const line = lines[i];
+        const isListItem = /^[\*\-] (.*)$/.test(line) || /^\d+\. (.*)$/.test(line);
+
+        if (isListItem) {
+          if (!inList) {
+            inList = true;
+            listItems = [];
+          }
+          // Extract the content after the bullet/number
+          const content = line.replace(/^[\*\-] (.*)$/, '$1').replace(/^\d+\. (.*)$/, '$1');
+          listItems.push(`<li class="govuk-body">${content}</li>`);
+        } else {
+          if (inList && listItems.length > 0) {
+            // Close the list
+            const listHtml = `<ul class="govuk-list govuk-list--bullet">${listItems.join('')}</ul>`;
+            lines.splice(i - listItems.length, listItems.length, listHtml);
+            i = i - listItems.length + 1;
+            inList = false;
+            listItems = [];
+          }
+        }
+      }
+
+      // Handle any remaining list at the end
+      if (inList && listItems.length > 0) {
+        const listHtml = `<ul class="govuk-list govuk-list--bullet">${listItems.join('')}</ul>`;
+        lines.splice(lines.length - listItems.length, listItems.length, listHtml);
+      }
+
+      // Join lines and handle line breaks
+      html = lines.join('\n').replace(/\n/g, '<br>').replace(/<br>$/, '');
+
+      return html;
     }
-    ]
-    }) }}
 
-    {{ govukTextarea({
-    name: "moreDetail",
-    id: "more-detail",
-    label: {
-    text: "What's the phone number and opening times for users to get help?",
-    classes: "govuk-label--m",
-    isPageHeading: true
-    },
-    errorMessage: {
-    text: "Enter phone number and opening times for users to get help"
+    function updatePreview() {
+      const phoneNumber = phoneInput.value;
+      const dynamicPreview = document.getElementById('dynamic-preview');
+
+      if (phoneNumber) {
+        const parsedContent = parseMarkdown(phoneNumber);
+        dynamicPreview.innerHTML = `
+          <h2 class="govuk-heading-l">Get help with your form</h2>
+          <div class="border-left-container">
+            <h3 class="govuk-heading-m">Telephone</h3>
+            <div id="phone-preview">
+              <div class="phone-content">${parsedContent}</div>
+              <p class="govuk-body"><a href="https://www.gov.uk/call-charges" class="govuk-link govuk-link--no-visited-state">Find out about call charges</a></p>
+            </div>
+          </div>
+        `;
+      } else {
+        // Always show placeholder when field is empty
+        dynamicPreview.innerHTML = `
+             <h2 class="govuk-heading-l">Get help with your form</h2>
+             <div class="border-left-container-shorttext">
+               <h3 class="govuk-heading-m">Telephone</h3>
+               <div id="phone-preview">
+                 <div class="phone-content"><p class="govuk-body">Phone number and opening times for users to get help</p></div>
+                 <p class="govuk-body"><a href="https://www.gov.uk/call-charges" class="govuk-link govuk-link--no-visited-state">Find out about call charges</a></p>
+               </div>
+             </div>
+           `;
+      }
     }
-    }) }}
-  </div>
-</details>
+
+    // Highlight preview when form field is focused
+    phoneInput.addEventListener('focus', function () {
+      const dynamicPreview = document.getElementById('dynamic-preview');
+
+      // Show placeholder if field is empty
+      if (!phoneInput.value.trim()) {
+        dynamicPreview.innerHTML = `
+          <h2 class="govuk-heading-l">Get help with your form</h2>
+          <div class="border-left-container">
+            <h3 class="govuk-heading-m">Telephone</h3>
+            <div id="phone-preview">
+              <div class="phone-content highlight"><p class="govuk-body" style="color: #000;">Phone number and opening times for users to get help</p></div>
+              <p class="govuk-body"><a href="https://www.gov.uk/call-charges" class="govuk-link govuk-link--no-visited-state">Find out about call charges</a></p>
+            </div>
+          </div>
+        `;
+      } else {
+        // Show actual content if field has value
+        const parsedContent = parseMarkdown(phoneInput.value);
+        dynamicPreview.innerHTML = `
+          <h2 class="govuk-heading-l">Get help with your form</h2>
+          <div class="border-left-container">
+            <h3 class="govuk-heading-m">Telephone</h3>
+            <div id="phone-preview">
+              <div class="phone-content highlight">${parsedContent}</div>
+              <p class="govuk-body"><a href="https://www.gov.uk/call-charges" class="govuk-link govuk-link--no-visited-state">Find out about call charges</a></p>
+            </div>
+          </div>
+        `;
+      }
+    });
+
+    // Remove highlight and show content when form field loses focus
+    phoneInput.addEventListener('blur', function () {
+      const dynamicPreview = document.getElementById('dynamic-preview');
+
+      if (phoneInput.value.trim()) {
+        // Show formatted content when field has value
+        const parsedContent = parseMarkdown(phoneInput.value);
+        dynamicPreview.innerHTML = `
+          <h2 class="govuk-heading-l">Get help with your form</h2>
+          <div class="border-left-container">
+            <h3 class="govuk-heading-m">Telephone</h3>
+            <div id="phone-preview">
+              ${parsedContent}
+              <p class="govuk-body govuk-!-margin-top-2"><a href="https://www.gov.uk/call-charges" class="govuk-link govuk-link--no-visited-state">Find out about call charges</a></p>
+            </div>
+          </div>
+        `;
+      } else {
+        // Always show placeholder when field is empty
+        dynamicPreview.innerHTML = `
+          <h2 class="govuk-heading-l">Get help with your form</h2>
+          <div class="border-left-container">
+            <h3 class="govuk-heading-m">Telephone</h3>
+            <div id="phone-preview">
+              <div class="phone-content"><p class="govuk-body">Phone number and opening times for users to get help</p></div>
+              <p class="govuk-body"><a href="https://www.gov.uk/call-charges" class="govuk-link govuk-link--no-visited-state">Find out about call charges</a></p>
+            </div>
+          </div>
+        `;
+      }
+    });
+
+    // Update preview when form inputs change (only when focused)
+    phoneInput.addEventListener('input', function () {
+      if (document.activeElement === phoneInput) {
+        updatePreview();
+      }
+    });
+  });
+</script>
+
+<style>
+  .preview-container {
+    outline: solid 1px #b1b4b6;
+    position: sticky;
+    overflow-y: auto;
+    height: 100vh;
+    top: 0;
+    padding: 20px;
+    box-shadow: 5px 10px #b1b4b6;
+    margin-bottom: 30px;
+  }
+
+  .highlight {
+    background-color: #ffe5cc;
+    border-bottom: 2px solid #ffb266;
+    margin-bottom: 10px;
+  }
+
+  .border-left-container {
+    border-left: 10px solid #ffb266;
+    padding-left: 20px;
+  }
+</style>
 
 {% endblock %}
