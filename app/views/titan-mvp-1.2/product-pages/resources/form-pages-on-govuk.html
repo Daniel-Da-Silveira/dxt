@@ -26,7 +26,7 @@ activeLinkId: "nav-resources"
 
 <div class="x-govuk-masthead x-govuk-masthead--large">
     <div class="govuk-width-container">
-        {{ govukBreadcrumbs({
+        {# {{ govukBreadcrumbs({
         classes: "govuk-breadcrumbs--inverse",
         items: [
         {
@@ -41,10 +41,11 @@ activeLinkId: "nav-resources"
         text: "Form pages on GOV.UK"
         }
         ]
-        }) }}
+        }) }} #}
 
+        {#
         <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible"
-            style="border-bottom: 1px solid white; margin-bottom: 0" />
+            style="border-bottom: 1px solid white; margin-bottom: 0" /> #}
 
         <div class="govuk-grid-row">
             <div class="govuk-grid-column-full-from-desktop">
@@ -52,10 +53,7 @@ activeLinkId: "nav-resources"
                     <span class="govuk-caption-l" style="color: white;">Good form design guide</span>
                     Form pages on GOV.UK
                 </h1>
-                <div class="govuk-body" style="color: white; margin-top: 1em;">
-                    <span class="govuk-tag govuk-tag--grey">Guide</span>
-                    <span style="margin-left: 1em;">Everything you need to design accessible, user-friendly forms</span>
-                </div>
+
             </div>
         </div>
     </div>
@@ -137,12 +135,15 @@ activeLinkId: "nav-resources"
             <p class="govuk-body">You can add a 'Start now' button to an existing guidance page on GOV.UK for the form
                 you're working on.</p>
             <p class="govuk-body">Start page buttons should only appear once and be used at the start of your form.</p>
-            <p class="govuk-body">Use Govspeak (a simplified version of Markdown) to format the button.</p>
+            <p class="govuk-body">Use <a href="https://govspeak-preview.publishing.service.gov.uk/guide"
+                    class="govuk-link">Govspeak</a> (a simplified version of Markdown) to format the button.</p>
             <p class="govuk-body">Consider the position of the 'Start now' button and how it might change if the content
                 is amended. Get sign off of the start page early on so that it hold things up when the form is otherwise
                 ready to be published.</p>
             <p class="govuk-body">Where appropriate, speak to other content designers who may have recently updated the
-                content, to find out about upcoming amends or improvements.</p>
+                content, to find out about upcoming amends or improvements. See <a
+                    href="https://www.gov.uk/guidance/content-design/writing-for-gov-uk" class="govuk-link">Content
+                    design guidance</a> for more information.</p>
 
             <h2 id="start-page-layout" class="govuk-heading-l">Start page layout</h2>
             <p class="govuk-body">We recommend using a clear structure for your form start page. Say who should use the
@@ -163,9 +164,11 @@ activeLinkId: "nav-resources"
 
             <h2 id="what-form-guidance-should-go-on-a-govuk-page" class="govuk-heading-l">What form guidance should go
                 on a GOV.UK page</h2>
-            <p class="govuk-body">Guidance for filling in the form should be with the form, not separate to the form. Do
+            <p class="govuk-body">Guidance for filling in the form should be built into the form, not separate to the
+                form. Do
                 not have a separate 'how to fill in this form guide' document. It's hard for users to refer back and
-                forward between tabs or documents.</p>
+                forward between tabs or documents. See <a href="https://www.gov.uk/service-manual/design/form-structure"
+                    class="govuk-link">Service manual: structuring forms</a> for more information.</p>
             <p class="govuk-body">Guidance to be read before completing the form must be listed in a before you start
                 section. Avoid referring people out of the form.</p>
             <p class="govuk-body">Guidance for each section must be in that section.</p>

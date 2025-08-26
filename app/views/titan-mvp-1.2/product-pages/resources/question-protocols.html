@@ -26,7 +26,7 @@ activeLinkId: "nav-resources"
 
 <div class="x-govuk-masthead x-govuk-masthead--large">
     <div class="govuk-width-container">
-        {{ govukBreadcrumbs({
+        {# {{ govukBreadcrumbs({
         classes: "govuk-breadcrumbs--inverse",
         items: [
         {
@@ -41,10 +41,11 @@ activeLinkId: "nav-resources"
         text: "Question protocols"
         }
         ]
-        }) }}
+        }) }} #}
 
+        {#
         <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible"
-            style="border-bottom: 1px solid white; margin-bottom: 0" />
+            style="border-bottom: 1px solid white; margin-bottom: 0" /> #}
 
         <div class="govuk-grid-row">
             <div class="govuk-grid-column-full-from-desktop">
@@ -52,10 +53,7 @@ activeLinkId: "nav-resources"
                     <span class="govuk-caption-l" style="color: white;">Good form design guide</span>
                     Question protocols
                 </h1>
-                <div class="govuk-body" style="color: white; margin-top: 1em;">
-                    <span class="govuk-tag govuk-tag--grey">Guide</span>
-                    <span style="margin-left: 1em;">Everything you need to design accessible, user-friendly forms</span>
-                </div>
+
             </div>
         </div>
     </div>
@@ -170,7 +168,9 @@ activeLinkId: "nav-resources"
                 <li>How do we create that structure?</li>
                 <li>Will we need an 'other' field, at least to start with?</li>
             </ul>
-            <p class="govuk-body">Use this spreadsheet to run a protocol session with your colleagues.</p>
+            <p class="govuk-body">Use this <a
+                    href="https://defra.sharepoint.com/:x:/r/teams/Team1466/_layouts/15/Doc.aspx?sourcedoc=%7b7CEE7470-60F1-4F69-8A74-7D1BA31A5ABB%7d&file=DefraForms_question-protocol.xls.xlsx&action=default&mobileredirect=true"
+                    class="govuk-link">spreadsheet</a> to run a protocol session with your colleagues.</p>
 
             {% from "govuk/components/pagination/macro.njk" import govukPagination %}
 

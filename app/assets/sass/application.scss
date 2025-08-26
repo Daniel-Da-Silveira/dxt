@@ -5,6 +5,38 @@
 
 // Add extra styles here
 
+// Custom active navigation link underline color
+.govuk-service-navigation__item--active .govuk-service-navigation__link::after {
+  background-color: #008531 !important;
+}
+
+// Override any border styles on active navigation items
+.govuk-service-navigation__item--active .govuk-service-navigation__link {
+  border-color: #008531 !important;
+}
+
+// Override any other active state styling
+.govuk-service-navigation__item--active {
+  border-color: #008531 !important;
+}
+
+// Force the green color for active links
+.govuk-service-navigation__item--active .govuk-service-navigation__link,
+.govuk-service-navigation__item--active {
+  border-color: #008531 !important;
+  border-bottom-color: #008531 !important;
+}
+
+// Custom footer border color override
+.govuk-footer {
+  border-top-color: #008531 !important;
+}
+
+// Alternative: Target only the rebranded footer specifically
+.govuk-footer.govuk-footer--rebrand {
+  border-top-color: #008531 !important;
+}
+
 // // To make things wide globally
 // @mixin govuk-width-container($width: $govuk-page-width) {
 //   // By default, limit the width of the container to the page width
@@ -91,6 +123,7 @@
 }
 
 @import "patterns/flow-builder";
+@import "patterns/product-page";
 // Import GOV.UK step-by-step component styles for spacing, circles and lines
 @import "../../../node_modules/@govuk-prototype-kit/step-by-step/sass/step-by-step-navigation";
 
@@ -182,7 +215,7 @@ $defra-link-colour: govuk-shade($defra-brand-colour-high-contrast, 25%);
 $defra-link-colour-hover: govuk-shade($defra-link-colour, 50%);
 
 .one-login-header {
-  border-bottom-color: $defra-brand-colour;
+  border-bottom: 1px solid white !important;
 }
 
 .one-login-header__logotype-text {
@@ -195,6 +228,7 @@ $defra-link-colour-hover: govuk-shade($defra-link-colour, 50%);
 }
 
 .service-header__nav-list-item-link {
+  font-weight: bold;
   &:link,
   &:visited {
     color: $defra-link-colour;
@@ -349,6 +383,10 @@ $defra-link-colour-hover: govuk-shade($defra-link-colour, 50%);
     display: none;
     font-size: 19px;
   }
+}
+
+.service-header {
+  border-bottom: 1px solid #b1b4b6 !important;
 }
 
 // Customise tag to fit into header product name
@@ -2181,9 +2219,28 @@ code.lang-md {
   border-bottom: 10px solid #1f70b8;
 }
 
-.x-govuk-masthead {
-  background-color: #008531 !important;
-  /* Replace this with your desired color */
+// .x-govuk-masthead {
+//   background-color: #008531 !important;
+// }
+
+// Style the masthead description text
+// .x-govuk-masthead__description {
+//   color: #000000 !important; // Black text
+// }
+
+// Style the masthead title text
+// .x-govuk-masthead__title {
+//   color: #000000 !important; // Black text
+// }
+
+// Override the visited link color for govuk-link specifically
+.govuk-link:visited {
+  color: #1d70b8 !important; // GOV.UK default visited link color
+}
+
+// Ensure inverse links in masthead don't get visited link styling
+.x-govuk-masthead .govuk-link--inverse:visited {
+  color: white !important; // Keep inverse links white even when visited
 }
 
 .highlight {
@@ -2854,7 +2911,7 @@ to
   padding-top: 10px;
   line-height: 1.3;
   list-style-type: none;
-  color: #008531;
+  color: #008531 !important;
 }
 @media (min-width: 40.0625em) {
   .gem-c-contents-list__list-item {
@@ -2908,6 +2965,25 @@ to
 .gem-c-contents-list__list-item--active > .gem-c-contents-list__link,
 .gem-c-contents-list__link.active {
   color: #0b0c0c !important;
+}
+
+// Override GOV.UK link styles for contents list to ensure consistent colors
+.gem-c-contents-list .gem-c-contents-list__link.govuk-link {
+  color: #008531 !important;
+
+  &:hover {
+    color: #00692f !important; // Darker green on hover
+  }
+
+  &:visited {
+    color: #008531 !important;
+  }
+
+  &:focus {
+    color: #0b0c0c !important;
+    background-color: #ffdd00;
+    box-shadow: 0 -2px #ffdd00, 0 4px #0b0c0c;
+  }
 }
 
 .gem-c-contents-list__link.active-subitem {
@@ -3222,3 +3298,42 @@ to
 }
 
 // Progress tracker component removed in favour of GOV.UK step-by-step styles
+
+/* ==========================================================================
+   #PRODUCT SERVICE HEADER STYLES
+   ========================================================================== */
+
+.product-service-header {
+  .product-one-login-header {
+    background-color: #0a8631;
+
+    border-bottom: 1px solid white;
+
+    .one-login-header__container {
+      background-color: #0a8631;
+    }
+  }
+
+  .product-service-navigation {
+    background-color: #0a8631;
+
+    border-bottom-color: white;
+
+    .product-nav-link {
+      color: white;
+      font-weight: normal;
+    }
+
+    // Override active link styling for product pages
+    .service-header__nav-list-item--active {
+      border-color: white !important;
+    }
+  }
+}
+
+.govuk-inset-text--cta {
+  border-left: 4px solid #00703c;
+  background-color: #f3f2f1;
+  padding: 1.5rem;
+  margin: 2rem 0;
+}

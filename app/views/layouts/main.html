@@ -4,7 +4,39 @@ https://prototype-kit.service.gov.uk/docs/how-to-use-layouts
 #}
 
 {% extends "govuk-prototype-kit/layouts/govuk-branded.njk" %}
+{% set govukRebrand = true %}
 
+{% block footer %}
+{{ govukFooter({
+
+meta: {
+items: [
+{
+href: "/titan-mvp-1.2/product-pages/get-started",
+text: "Get started"
+},
+{
+href: "/titan-mvp-1.2/product-pages/resources",
+text: "Resources"
+},
+{
+href: "/titan-mvp-1.2/product-pages/support",
+text: "Support"
+},
+{
+href: "/manage-prototype",
+text: "Manage prototype"
+},
+{
+href: "/manage-prototype/clear-data",
+text: "Clear data"
+}
+]
+}
+}) }}
+
+{% endblock %}
+{#
 {% block footer %}
 {{ govukFooter({
 
@@ -42,7 +74,7 @@ text: "Clear data"
 }
 }) }}
 
-{% endblock %}
+{% endblock %} #}
 
 {# {% block footer %}
 {{ govukFooter({

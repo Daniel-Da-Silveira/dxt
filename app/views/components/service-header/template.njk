@@ -1,5 +1,5 @@
 {%- from "govuk/components/tag/macro.njk" import govukTag -%}
-
+{% set govukRebrand = true %}
 {#
 Component options:
   - organisationName (string): The name of the organisation
@@ -31,6 +31,7 @@ Component options:
   - homepageLink (string): Option to overwrite the default GOV.UK link. Defaults to "https://home.account.gov.uk/"
   - containerClasses (string): Classes that can be added to the inner container, useful if you want to make the header full width (optional)
 #}
+{% set govukRebrand = true %}
 
 {%- set accountLink = params.accountLink if params.accountLink else "/titan-mvp-1.2/roles/my-account.html" -%}
 {%- set homepageLink = params.homepageLink if params.homepageLink else "/index.html" -%}
@@ -42,7 +43,7 @@ Component options:
   {%- set personColour = "white" if modifier == "focus" else "#008531" %}
         <!--[if gt IE 8]><!-->
           <span class="cross-service-header__button-icon cross-service-header__button-icon--{{class}}">
-            <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg" focusable="false" aria-hidden="true">
+      <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg" focusable="false" aria-hidden="true">
               <circle cx="11" cy="11" r="11" fill="{{backgroundColour}}"/>
               <path fill-rule="evenodd" clip-rule="evenodd" d="M3.29297 18.8487C4.23255 15.4753 7.32741 13 11.0004 13C14.6731 13 17.7678 15.4749 18.7076 18.848C17.8058 19.7338 16.752 20.4654 15.5889 21H11.0004H6.41097C5.24819 20.4655 4.19463 19.7342 3.29297 18.8487Z" fill="{{personColour}}"/>
               <circle cx="11" cy="7.75" r="3.75" fill="{{personColour}}"/>
@@ -52,8 +53,8 @@ Component options:
         <!--<![endif]-->
 {%- endmacro -%}
 <header class="cross-service-header" role="banner" data-module="one-login-header">
-  <div class="one-login-header" data-one-login-header-nav>
-    <div class="one-login-header__container govuk-width-container {%- if params.containerClasses %} {{ params.containerClasses }}{% endif %}">
+  <div class="one-login-header" style="background-color: #008531;" data-one-login-header-nav>
+    <div class="one-login-header__container govuk-width-container" {%- if params.containerClasses %} {{ params.containerClasses }}{% endif %}">
       <div class="one-login-header__logo">
         <a href="{{ homepageLink }}" class="one-login-header__link one-login-header__link--homepage">
           <span class="one-login-header__logotype">
@@ -132,38 +133,28 @@ Component options:
   </div>
   {% if params.serviceName or params.navigationItems %}
   <!-- Start of service navigation -->
-  <div class="service-header" data-one-login-header-nav>
+  <div class="govuk-service-navigation" data-module="govuk-service-navigation" style="background-color: #f4f8fb; border-bottom: 1px solid #b1b4b6;">
     <div class="govuk-width-container {%- if params.containerClasses %} {{ params.containerClasses }}{% endif %}">
-      <div class="service-header__container">
+      <div class="govuk-service-navigation__container">
         {%- if params.serviceName %}
         <!-- The name of your service goes here -->
         <h2 class="service-header__heading">{{ params.serviceName }}</h2>
         {% endif %}
         {%- if params.navigationItems %}
         <div>
-          <!-- Label the toggle button appropriately (you might want to use the name of your service) to provide support for screen reader users -->
-          <button type="button"
-            aria-controls="service-header__nav"
-            data-open-class="cross-service-header__button--open"
-            aria-label="Show service navigation menu"
-            data-label-for-show="Show service navigation menu"
-            data-label-for-hide="Hide service navigation menu"
-            data-text-for-show="Menu"
-            data-text-for-hide="Close"
-            aria-expanded="false"
-            class="cross-service-header__button cross-service-header__button--service-header js-x-header-toggle">
-            <span class="service-header__button-content">Menu</span>
-          </button>
-          <!-- Important! Label your navigation appropriately! When there are multiple navigation landmarks on a page, additional labelling is required to provide support for screen reader users -->
-          <nav aria-label="{{ params.serviceName | default("Navigation", true) }} menu">
-            <ul class="service-header__nav-list service-header__nav" id="service-header__nav" data-open-class="service-header__nav--open">
+          <nav aria-label="{{ params.serviceName | default("Menu", true) }}" class="govuk-service-navigation__wrapper">
+            <button type="button" class="govuk-service-navigation__toggle govuk-js-service-navigation-toggle" aria-controls="navigation" style="color: #008531;">
+              Menu
+            </button>
+            <ul class="govuk-service-navigation__list" id="navigation" style="font-weight: 700;">
               {%- for item in params.navigationItems %}
-              <!-- Use the "service-header__nav-list-item--active" modifier class on the li to visually highlight the page the user is currently viewing -->
-              <li class="service-header__nav-list-item {{ 'service-header__nav-list-item--active' if (item.id == params.activeLinkId) else '' }}">
+              <!-- Use the "govuk-service-navigation__item--active" modifier class on the li to visually highlight the page the user is currently viewing -->
+              <li class="govuk-service-navigation__item {{ 'govuk-service-navigation__item--active' if (item.id == params.activeLinkId) else '' }}">
                 <!-- Use the aria-current="page" attribute on the anchor tag -->
-                <a class="service-header__nav-list-item-link"
+                <a class="govuk-service-navigation__link"
                   {%- if (item.id == params.activeLinkId) -%} aria-current="page" {%- endif %}
-                  href="{{item.href}}">
+                  href="{{item.href}}"
+                  style="color: #008531;">
                   {{item.text}}
                 </a>
               </li>

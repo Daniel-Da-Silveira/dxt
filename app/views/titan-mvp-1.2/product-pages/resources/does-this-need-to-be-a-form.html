@@ -26,7 +26,7 @@ activeLinkId: "nav-resources"
 
 <div class="x-govuk-masthead x-govuk-masthead--large">
     <div class="govuk-width-container">
-        {{ govukBreadcrumbs({
+        {# {{ govukBreadcrumbs({
         classes: "govuk-breadcrumbs--inverse",
         items: [
         {
@@ -41,10 +41,11 @@ activeLinkId: "nav-resources"
         text: "Does this need to be a form?"
         }
         ]
-        }) }}
+        }) }} #}
 
+        {#
         <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible"
-            style="border-bottom: 1px solid white; margin-bottom: 0" />
+            style="border-bottom: 1px solid white; margin-bottom: 0" /> #}
 
         <div class="govuk-grid-row">
             <div class="govuk-grid-column-full-from-desktop">
@@ -52,10 +53,7 @@ activeLinkId: "nav-resources"
                     <span class="govuk-caption-l" style="color: white;">Good form design guide</span>
                     Does this need to be a form?
                 </h1>
-                <div class="govuk-body" style="color: white; margin-top: 1em;">
-                    <span class="govuk-tag govuk-tag--grey">Guide</span>
-                    <span style="margin-left: 1em;">Everything you need to design accessible, user-friendly forms</span>
-                </div>
+
             </div>
         </div>
     </div>
@@ -121,7 +119,9 @@ activeLinkId: "nav-resources"
             <h2 id="when-you-might-need-a-service-assessment" class="govuk-heading-l">When you might need a service
                 assessment</h2>
             <p class="govuk-body">If you expect more than 10,000 submissions per year, you may need to create a service
-                instead. A service is subject to assessments and has a dedicated team.</p>
+                instead. A service is subject to assessments and has a dedicated team. <a
+                    href="https://www.gov.uk/service-manual/service-assessments/check-if-need-to-meet-service-standard"
+                    class="govuk-link">Check if you need to meet the service standard</a>.</p>
             <p class="govuk-body">You won't need an assessment if you're:</p>
             <ul class="govuk-list govuk-list--bullet">
                 <li>using an assured form building tool (like the Defra Form Designer or GOV.UK Forms) to create a form,
@@ -129,7 +129,9 @@ activeLinkId: "nav-resources"
                 <li>expecting to get fewer than 10,000 transactions per year</li>
             </ul>
             <p class="govuk-body">This reflects the fact that forms created using an assured form building platform have
-                government standards 'built in'.</p>
+                government standards 'built in'. See <a
+                    href="https://www.gov.uk/service-manual/service-standard/point-9-create-a-secure-service"
+                    class="govuk-link">Service standard – secure service</a> for more information.</p>
             <p class="govuk-body">Even if you're using an assured form building platform, you may want to follow an
                 assurance process for forms with a higher degree of reputational or financial risk. This will be a
                 lighter touch process than a service assessment - for example, it might be an expert review carried out

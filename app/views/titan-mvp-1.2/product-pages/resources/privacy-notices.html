@@ -26,7 +26,7 @@ activeLinkId: "nav-resources"
 
 <div class="x-govuk-masthead x-govuk-masthead--large">
     <div class="govuk-width-container">
-        {{ govukBreadcrumbs({
+        {# {{ govukBreadcrumbs({
         classes: "govuk-breadcrumbs--inverse",
         items: [
         {
@@ -41,10 +41,11 @@ activeLinkId: "nav-resources"
         text: "Privacy notices"
         }
         ]
-        }) }}
+        }) }} #}
 
+        {#
         <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible"
-            style="border-bottom: 1px solid white; margin-bottom: 0" />
+            style="border-bottom: 1px solid white; margin-bottom: 0" /> #}
 
         <div class="govuk-grid-row">
             <div class="govuk-grid-column-full-from-desktop">
@@ -52,10 +53,7 @@ activeLinkId: "nav-resources"
                     <span class="govuk-caption-l" style="color: white;">Good form design guide</span>
                     Privacy notices
                 </h1>
-                <div class="govuk-body" style="color: white; margin-top: 1em;">
-                    <span class="govuk-tag govuk-tag--grey">Guide</span>
-                    <span style="margin-left: 1em;">Everything you need to design accessible, user-friendly forms</span>
-                </div>
+
             </div>
         </div>
     </div>
@@ -132,9 +130,13 @@ activeLinkId: "nav-resources"
                 <li>how long you'll keep the personal information - or, if there's no set period, how you'll decide how
                     long to keep it</li>
             </ul>
-            <p class="govuk-body">Read the guidance on collection personal information from users and point 9 of the
-                Service Standard.</p>
-            <p class="govuk-body">See an example privacy notice for a form.</p>
+            <p class="govuk-body">Read the guidance on collection personal information from users and <a
+                    href="https://www.gov.uk/service-manual/service-standard/point-9-create-a-secure-service"
+                    class="govuk-link">point 9 of the
+                    Service Standard</a>.</p>
+            <p class="govuk-body">See an <a
+                    href="https://www.gov.uk/government/publications/rye-harbour-privacy-notice/rye-harbour-privacy-notice"
+                    class="govuk-link">example privacy notice for a form</a>.</p>
 
             <h2 id="check-if-your-form-is-covered-by-an-existing-privacy-notice" class="govuk-heading-l">Check if your
                 form is covered by an existing privacy notice</h2>

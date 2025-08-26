@@ -23,6 +23,7 @@
     "hmrc-frontend": "^6.22.0",
     "iframe-resizer": "4.4.2",
     "js-yaml": "^4.1.0",
+    "lottie-web": "^5.12.2",
     "markdown-it-govuk": "^0.4.0",
     "marked": "^13.0.3",
     "nunjucks": "^3.2.4",

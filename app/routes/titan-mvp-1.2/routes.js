@@ -5160,6 +5160,39 @@ router.get("/titan-mvp-1.2/choose.html", function (req, res) {
   res.render("titan-mvp-1.2/choose");
 });
 
+// Product pages routes
+router.get("/titan-mvp-1.2/product-pages/features-4", function (req, res) {
+  res.render("titan-mvp-1.2/product-pages/features-4");
+});
+
+router.get("/titan-mvp-1.2/product-pages/features-3", function (req, res) {
+  res.render("titan-mvp-1.2/product-pages/features-3");
+});
+
+router.get("/titan-mvp-1.2/product-pages/features", function (req, res) {
+  res.render("titan-mvp-1.2/product-pages/features");
+});
+
+router.get("/titan-mvp-1.2/product-pages/homepage", function (req, res) {
+  res.render("titan-mvp-1.2/product-pages/homepage");
+});
+
+router.get("/titan-mvp-1.2/product-pages/about", function (req, res) {
+  res.render("titan-mvp-1.2/product-pages/about");
+});
+
+router.get("/titan-mvp-1.2/product-pages/support", function (req, res) {
+  res.render("titan-mvp-1.2/product-pages/support");
+});
+
+router.get("/titan-mvp-1.2/product-pages/get-started", function (req, res) {
+  res.render("titan-mvp-1.2/product-pages/get-started");
+});
+
+router.get("/titan-mvp-1.2/product-pages/resources", function (req, res) {
+  res.render("titan-mvp-1.2/product-pages/resources");
+});
+
 // Handle prototype routing selection
 router.post("/titan-mvp-1.2/choose", function (req, res) {
   const selection = req.body.prototype;

@@ -27,7 +27,7 @@ activeLinkId: "nav-get-started"
 
 <div class="x-govuk-masthead x-govuk-masthead--large">
     <div class="govuk-width-container">
-        {{ govukBreadcrumbs({
+        {# {{ govukBreadcrumbs({
         classes: "govuk-breadcrumbs--inverse",
         items: [
         {
@@ -44,8 +44,9 @@ activeLinkId: "nav-get-started"
         ]
         }) }}
 
+        {#
         <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible"
-            style="border-bottom: 1px solid white; margin-bottom: 0" />
+            style="border-bottom: 1px solid white; margin-bottom: 0" /> #}
 
         <div class="govuk-grid-row">
             <div class="govuk-grid-column-full-from-desktop">
@@ -329,7 +330,9 @@ activeLinkId: "nav-get-started"
                                 government mailbox – you cannot send submissions to an individual work email address.
                                 This ensures there isn't a single point of failure.</p>
                             <p class="app-step-nav__paragraph govuk-body">If you do not already have a shared mailbox
-                                for your team, use MyIT to request a new mailbox.</p>
+                                for your team, use <a
+                                    href="https://defragroup.service-now.com/esc?id=sc_cat_item&table=sc_cat_item&sys_id=9e67d1c51bcf0a50848b8594e34bcb7a&searchTerm=mailbox"
+                                    class="govuk-link">MyIT service</a> to request a new mailbox.</p>
                         </div>
                     </li>
 
@@ -352,11 +355,17 @@ activeLinkId: "nav-get-started"
                             <p class="app-step-nav__paragraph govuk-body">You must contact your local Data Protection
                                 team to fill in their data protection impact assessment screening questions. Your
                                 answers to the questions will determine if a full data impact assessment is required.
+                                See the <a
+                                    href="https://defra.sharepoint.com/sites/Defraintranet/SitePages/Data-Protection-Impact-Assessment.aspx"
+                                    class="govuk-link">DPIA intranet</a> for guidance.
                             </p>
                             <p class="app-step-nav__paragraph govuk-body">View the:</p>
                             <ul class="govuk-list govuk-list--bullet">
-                                <li>Defra and Animal and Plant Health Agency (APHA) screening questions</li>
-                                <li>Environment Agency screening questions</li>
+                                <li><a href="https://defra.sharepoint.com/sites/Defraintranet/SitePages/data-protection.aspx"
+                                        class="govuk-link">Defra and Animal and Plant Health Agency (APHA) screening
+                                        questions</a></li>
+                                <li><a href="https://defra.sharepoint.com/sites/Community2514/SitePages/Data-protection-policies-and-guidance.aspx"
+                                        class="govuk-link">Environment Agency screening questions</a></li>
                             </ul>
                         </div>
                     </li>
@@ -384,12 +393,17 @@ activeLinkId: "nav-get-started"
                             </p>
                             <p class="app-step-nav__paragraph govuk-body">View the:</p>
                             <ul class="govuk-list govuk-list--bullet">
-                                <li>Defra and Animal and Plant Health Agency (APHA) privacy notice templates</li>
-                                <li>Environment Agency privacy notice templates</li>
+                                <li><a href="https://defra.sharepoint.com/sites/Defraintranet/SitePages/Privacy-notice-templates-(collecting-personal-data).aspx"
+                                        class="govuk-link">Defra and Animal and Plant Health Agency (APHA) privacy
+                                        notice templates</a></li>
+                                <li><a href="https://defra.sharepoint.com/:f:/r/sites/Community2514/Data_protection/Privacy%20notices?csf=1&web=1&e=kQxyXY"
+                                        class="govuk-link">Environment Agency privacy notice templates</a></li>
                             </ul>
                             <p class="app-step-nav__paragraph govuk-body">The Defra Forms team can arrange to publish a
                                 new privacy notice onto GOV.UK.</p>
-                            <p class="app-step-nav__paragraph govuk-body">Find out more about data protection at APHA.
+                            <p class="app-step-nav__paragraph govuk-body">Find out more about <a
+                                    href="https://defra.sharepoint.com/sites/Community3062/SitePages/Data-Protection.aspx"
+                                    class="govuk-link">data protection at APHA</a>.
                             </p>
                         </div>
                     </li>
@@ -464,7 +478,9 @@ activeLinkId: "nav-get-started"
                         <div class="app-step-nav__panel">
                             <p class="app-step-nav__paragraph govuk-body">Once your form is live, you should continue to
                                 support it.</p>
-                            <p class="app-step-nav__paragraph govuk-body">Read the Defra Forms roadmap to find out if an
+                            <p class="app-step-nav__paragraph govuk-body">Read the <a
+                                    href="https://defra.sharepoint.com/sites/def-contentcloud/_layouts/15/DocIdRedir.aspx?ID=CONTENTCLOUD-190616497-7873"
+                                    class="govuk-link">Defra Forms roadmap</a> to find out if an
                                 upcoming feature could enhance your form.</p>
                         </div>
                     </li>

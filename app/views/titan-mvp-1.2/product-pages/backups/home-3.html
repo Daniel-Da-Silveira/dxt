@@ -1,0 +1,922 @@
+{% extends "layouts/main.html" %}
+{% from "components/product-service-header/macro.njk" import productServiceHeader %}
+
+{% block pageTitle %}
+Home – {{ serviceName }} – GOV.UK Prototype Kit
+{% endblock %}
+
+{# {% block beforeContent %}
+{{ govukBackLink({
+text: "Back",
+href: "javascript:window.history.back()"
+}) }}
+{% endblock %} #}
+
+{% block header %}
+{{ productServiceHeader({
+organisationName: "Defra",
+productName: "Form Designer",
+serviceName: "",
+homepageLink: "/titan-mvp-1.2/product-pages/homepage",
+signInLink: "/titan-mvp-1.2/onboarding/sign-in",
+navigationItems: [
+{ href: "/titan-mvp-1.2/product-pages/about", text: "About", id: "nav-about" },
+
+{ href: "/titan-mvp-1.2/product-pages/get-started", text: "Get started", id: "nav-get-started" },
+{ href: "/titan-mvp-1.2/product-pages/features", text: "Features", id: "nav-features" },
+{ href: "/titan-mvp-1.2/product-pages/resources", text: "Resources", id: "nav-resources" },
+{ href: "/titan-mvp-1.2/product-pages/support", text: "Support", id: "nav-support" }
+],
+activeLinkId: "nav-home"
+}) }}
+
+{{ xGovukMasthead({
+inverse: true,
+title: {
+text: "Create and publish Defra forms on GOV.UK"
+},
+description: {
+text: "Make it easier for the public to submit information to Defra."
+},
+startButton: {
+text: "Sign in",
+href: "/titan-mvp-1.2/onboarding/sign-in"
+},
+image: {
+src: "/public/images/homepage-icon2.svg",
+alt: "Payment screen on mobile and dashboard with refund function."
+}
+}) }}
+
+<!-- Three-column feature section inspired by Cognito Forms -->
+<div class="govuk-main-wrapper govuk-main-wrapper--l">
+    <div class="govuk-width-container">
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-one-third">
+                <div class="feature-column">
+                    <div class="feature-icon-large">
+                        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"
+                                stroke="#00703c" stroke-width="2" fill="none" />
+                        </svg>
+                    </div>
+                    <h2 class="govuk-heading-m feature-heading">Build</h2>
+                    <p class="govuk-body">effortless online forms as unique as your process</p>
+                </div>
+            </div>
+            <div class="govuk-grid-column-one-third">
+                <div class="feature-column">
+                    <div class="feature-icon-large">
+                        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"
+                                fill="#00703c" />
+                        </svg>
+                    </div>
+                    <h2 class="govuk-heading-m feature-heading">Collect</h2>
+                    <p class="govuk-body">consistent data from your customers and employees</p>
+                </div>
+            </div>
+            <div class="govuk-grid-column-one-third">
+                <div class="feature-column">
+                    <div class="feature-icon-large">
+                        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"
+                                fill="#00703c" />
+                        </svg>
+                    </div>
+                    <h2 class="govuk-heading-m feature-heading">Take action</h2>
+                    <p class="govuk-body">at the right time with workflow automation and tasks</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="app-whats-new" style=" background-color: #EFF6F3;border-color:#00703c;">
+    <div class=" govuk-main-wrapper govuk-main-wrapper--l">
+        <div class="govuk-width-container">
+            <div class="govuk-grid-row">
+                <div class="govuk-grid-column-two-thirds-from-desktop">
+                    <h2 id="whats-new" class="govuk-heading-l">What's new</h2>
+
+                    <h3 id="22-july-2025" class="govuk-heading-s">22 July 2025: Improved
+                        conditions and accessibility</h3>
+                    <p class="govuk-body">This release includes improvements to conditions and accessibility across
+                        the
+                        service.</p>
+                    <p class="govuk-body">You can now:</p>
+                    <ul class="govuk-list govuk-list--bullet">
+                        <li>Delete conditions</li>
+                        <li>Create and manage combined conditions</li>
+                        <li>Apply conditions to guidance pages</li>
+                        <li>View and manage all conditions from the new listing page</li>
+                    </ul>
+                    <p class="govuk-body">We've also made improvements to the interactive preview panel, enhanced
+                        keyboard navigation with skip links, and fixed several defects – including issues with lost
+                        repeater settings and missing hint text.</p>
+                    <p class="govuk-body"><a href="#" class="govuk-link govuk-link--no-visited-state">Read about
+                            previous updates in the full release
+                            notes</a>.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block content %}
+
+<!-- Feature grid section inspired by Cognito Forms -->
+<div class="govuk-main-wrapper govuk-main-wrapper--l">
+    <div class="govuk-width-container">
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-full">
+                <h2 class="govuk-heading-l feature-section-title">Form Design That Drives Action</h2>
+                <p class="govuk-body-l feature-section-intro">Start with customized online forms that trigger approvals,
+                    updates, notifications, and more the moment they're submitted. Go beyond basic data collection by
+                    bringing your entire network into the workflow process.</p>
+            </div>
+        </div>
+
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-one-third">
+                <div class="feature-card cognito-style" data-color="blue">
+                    <div class="feature-card-icon">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"
+                                stroke="#00703c" stroke-width="2" fill="none" />
+                        </svg>
+                    </div>
+                    <h3 class="govuk-heading-s">No-Code Design</h3>
+                    <p class="govuk-body">Create professional forms without writing code using our intuitive
+                        drag-and-drop interface.</p>
+                    <div class="feature-visual">
+                        <div class="form-preview">
+                            <div class="form-field">
+                                <label>Full Name</label>
+                                <input type="text" placeholder="Enter your name" disabled>
+                            </div>
+                            <div class="form-field">
+                                <label>Email</label>
+                                <input type="email" placeholder="your@email.com" disabled>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="govuk-grid-column-one-third">
+                <div class="feature-card cognito-style" data-color="yellow">
+                    <div class="feature-card-icon">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"
+                                fill="#00703c" />
+                        </svg>
+                    </div>
+                    <h3 class="govuk-heading-s">Conditional Logic</h3>
+                    <p class="govuk-body">Show or hide questions based on user responses to create dynamic, intelligent
+                        forms.</p>
+                    <div class="feature-visual">
+                        <div class="conditional-flow">
+                            <div class="flow-item">Question 1</div>
+                            <div class="flow-arrow">↓</div>
+                            <div class="flow-branch">
+                                <div class="branch-item">If Yes → Question A</div>
+                                <div class="branch-item">If No → Question B</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="govuk-grid-column-one-third">
+                <div class="feature-card cognito-style" data-color="green">
+                    <div class="feature-card-icon">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"
+                                fill="#00703c" />
+                        </svg>
+                    </div>
+                    <h3 class="govuk-heading-s">GOV.UK Integration</h3>
+                    <p class="govuk-body">Publish forms directly to GOV.UK with automatic styling and accessibility
+                        compliance.</p>
+                    <div class="feature-visual">
+                        <div class="govuk-badge">
+                            <span class="govuk-badge__text">GOV.UK</span>
+                        </div>
+                        <div class="integration-status">
+                            <span class="status-dot"></span>
+                            <span>Connected</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-one-third">
+                <div class="feature-card cognito-style" data-color="blue">
+                    <div class="feature-card-icon">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 2 2h8c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-9V3.5L18.5 9H13z"
+                                fill="#00703c" />
+                        </svg>
+                    </div>
+                    <h3 class="govuk-heading-s">File Uploads</h3>
+                    <p class="govuk-body">Allow users to upload documents and images with secure file handling and
+                        validation.</p>
+                    <div class="feature-visual">
+                        <div class="file-upload-area">
+                            <div class="upload-icon">📁</div>
+                            <div class="upload-text">Drag files here or click to browse</div>
+                            <div class="file-list">
+                                <div class="file-item">document.pdf</div>
+                                <div class="file-item">image.jpg</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="govuk-grid-column-one-third">
+                <div class="feature-card cognito-style" data-color="yellow">
+                    <div class="feature-card-icon">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"
+                                fill="#00703c" />
+                        </svg>
+                    </div>
+                    <h3 class="govuk-heading-s">Repeating Sections</h3>
+                    <p class="govuk-body">Create dynamic forms that adapt to user needs with expandable and collapsible
+                        sections.</p>
+                    <div class="feature-visual">
+                        <div class="repeater-section">
+                            <div class="repeater-item">
+                                <span>Item 1</span>
+                                <button class="remove-btn">×</button>
+                            </div>
+                            <div class="repeater-item">
+                                <span>Item 2</span>
+                                <button class="remove-btn">×</button>
+                            </div>
+                            <button class="add-btn">+ Add Another</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="govuk-grid-column-one-third">
+                <div class="feature-card cognito-style" data-color="green">
+                    <div class="feature-card-icon">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"
+                                fill="#00703c" />
+                        </svg>
+                    </div>
+                    <h3 class="govuk-heading-s">Preview & Test</h3>
+                    <p class="govuk-body">Test your forms in real-time with the interactive preview panel before
+                        publishing.</p>
+                    <div class="feature-visual">
+                        <div class="preview-panel">
+                            <div class="preview-header">
+                                <span>Preview Mode</span>
+                                <div class="device-tabs">
+                                    <span class="device-tab active">Desktop</span>
+                                    <span class="device-tab">Mobile</span>
+                                </div>
+                            </div>
+                            <div class="preview-content">
+                                <div class="preview-field">Sample form field</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{# <div class="govuk-grid-row">
+    <div class="govuk-grid-column-full govuk-grid-column-one-half-from-desktop">
+        <div class="govuk-card govuk-card--contained govuk-card--feature">
+            <div class="govuk-card__content">
+                <div class="govuk-card__header">
+                    <div class="feature-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"
+                                stroke="#0B0C0C" stroke-width="2" fill="none" />
+                        </svg>
+                    </div>
+                    <h3 class="govuk-heading-s">Defra Form designer</h3>
+                </div>
+                <p class="govuk-body">
+                    Use our no-code form design tool to create and publish forms on GOV.UK. Watch our <a href="#"
+                        class="govuk-link govuk-link--no-visited-state">overview video</a> or <a href="#"
+                        class="govuk-link govuk-link--no-visited-state">use our
+                        demo form</a>.
+                </p>
+            </div>
+        </div>
+    </div>
+    <div class="govuk-grid-column-full govuk-grid-column-one-half-from-desktop">
+        <div class="govuk-card govuk-card--contained govuk-card--feature">
+            <div class="govuk-card__content">
+                <div class="govuk-card__header">
+                    <div class="feature-icon">
+                        <svg width="24" height="24" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <g clip-path="url(#clip0_33792_59973)">
+                                <path
+                                    d="M60.0001 2.25584C60.0001 1.07225 59.0397 0.11377 57.8571 0.11377H36.1953V8.74486C36.7327 8.4451 37.3514 8.27518 38.0095 8.27518C40.0747 8.27518 41.75 9.94943 41.75 12.0162C41.75 14.0809 40.0756 15.7561 38.0095 15.7561C37.3514 15.7561 36.7327 15.5852 36.1953 15.2874V23.9176H44.8264C44.5277 24.455 44.3567 25.0735 44.3567 25.7312C44.3567 27.7978 46.0311 29.4722 48.0977 29.4722C50.1634 29.4722 51.8376 27.7978 51.8376 25.7312C51.8376 25.0735 51.6668 24.455 51.369 23.9176H60.0001V2.25584Z"
+                                    fill="black" />
+                                <path
+                                    d="M50.3456 32.2701H39.4713C39.0905 32.2701 38.7382 32.4715 38.5454 32.7979L38.556 32.7799L38.5436 32.7999C38.4452 32.9671 38.3955 33.156 38.3955 33.344C38.3955 33.5235 38.4414 33.7047 38.5311 33.8672L39.2166 35.1014C39.3702 35.3791 39.4455 35.6713 39.4466 35.99C39.4457 36.4826 39.2566 36.9369 38.9092 37.2863C38.5598 37.6338 38.1046 37.8228 37.6129 37.8247C37.1203 37.8227 36.665 37.6338 36.3146 37.2863L36.3161 37.2883C35.9675 36.937 35.7791 36.4817 35.7782 35.9901C35.7791 35.6722 35.8545 35.3792 36.0076 35.1006L36.6935 33.8673C36.7838 33.7049 36.8291 33.5246 36.8291 33.3442C36.8291 33.1561 36.7794 32.9672 36.6796 32.7981C36.4863 32.4708 36.1341 32.2703 35.7538 32.2703H27.6172V27.9128C29.0877 27.8898 30.4766 27.3104 31.517 26.268C32.5822 25.2056 33.1723 23.7805 33.1712 22.2752C33.1721 20.7679 32.5818 19.3428 31.517 18.2813C30.4774 17.2388 29.0882 16.6604 27.6172 16.6376V9.54115C27.6168 8.94748 27.1356 8.46631 26.5419 8.46631H4.04859C2.97 8.46549 1.94625 8.8883 1.18547 9.65096C0.429963 10.4071 0.000939052 11.4446 1.55227e-06 12.5156V55.8382C-0.000935948 56.9158 0.422814 57.9391 1.18547 58.7008C1.94156 59.4559 2.97762 59.8854 4.04859 59.8864H47.3759C48.444 59.8855 49.4807 59.4559 50.2357 58.7008C50.9985 57.9391 51.4213 56.9168 51.4203 55.8382V33.345C51.4205 32.7513 50.9393 32.2701 50.3456 32.2701ZM3.32461 12.5156C3.32461 12.2674 3.44016 12.0985 3.53461 12.004C3.63246 11.9066 3.80086 11.7901 4.04859 11.7901H24.2924V20.4155C24.2924 20.6236 24.4027 20.8154 24.5816 20.9213C24.6732 20.9748 24.7758 21.0016 24.8789 21.0016C24.9772 21.0016 25.0751 20.9777 25.1639 20.9281L26.3977 20.2427C26.7456 20.0498 27.1246 19.9515 27.5236 19.9515C28.1435 19.9515 28.7272 20.193 29.1659 20.6312C29.605 21.0712 29.8465 21.6554 29.8465 22.275C29.8465 22.8944 29.605 23.4778 29.1668 23.9168C28.7272 24.3559 28.1435 24.5974 27.5236 24.5974C27.1241 24.5974 26.7456 24.4991 26.3981 24.3062L25.1634 23.6208C25.0752 23.5712 24.9769 23.5473 24.879 23.5473C24.7759 23.5473 24.6732 23.574 24.5817 23.6285C24.4028 23.7335 24.2925 23.9253 24.2925 24.1335V32.7588H18.9517C18.9622 32.626 18.9674 32.4935 18.9674 32.3627C18.9674 30.9834 18.4304 29.688 17.4564 28.7154C16.4832 27.7407 15.1879 27.2044 13.8086 27.2044C12.4297 27.2044 11.1345 27.7408 10.1617 28.7144C9.18668 29.6871 8.64973 30.9834 8.6502 32.3618C8.6502 32.4935 8.65535 32.6253 8.6659 32.7589H3.32461V12.5156ZM24.2925 56.5626H4.04859C3.80086 56.5626 3.63246 56.4462 3.53695 56.3517C3.44016 56.2543 3.32461 56.0853 3.32461 55.8382V35.593H11.9495C12.1572 35.593 12.3495 35.4832 12.4549 35.3047C12.5604 35.1252 12.5633 34.9037 12.4622 34.7224L11.7773 33.4882C11.584 33.1397 11.4861 32.7608 11.4857 32.3627C11.4861 31.7431 11.7282 31.1591 12.1654 30.7199C12.6057 30.2818 13.1896 30.0392 13.8086 30.0392C14.4275 30.0392 15.0114 30.2818 15.4504 30.7189C15.889 31.159 16.131 31.7431 16.1314 32.3617C16.131 32.7616 16.0325 33.1406 15.8412 33.4871L15.1548 34.7213C15.0536 34.9037 15.0566 35.1252 15.1621 35.3037C15.2675 35.4831 15.46 35.5929 15.6675 35.5929H24.2924V40.9355C24.1596 40.925 24.0275 40.9202 23.8968 40.9202C22.517 40.9202 21.2216 41.4567 20.2499 42.4303C19.2744 43.4039 18.7379 44.6993 18.7389 46.0776C18.7379 47.456 19.2744 48.7523 20.2491 49.725C21.2217 50.6996 22.5171 51.236 23.8969 51.236C24.0286 51.236 24.1608 51.2312 24.2925 51.2208V56.5626ZM48.0966 55.8382C48.0966 56.0853 47.9802 56.2534 47.8847 56.3498C47.7873 56.4463 47.6193 56.5628 47.3721 56.5628H27.1284V47.9374C27.1284 47.7293 27.0188 47.5374 26.8392 47.4324C26.7476 47.3779 26.6449 47.3513 26.5419 47.3513C26.4441 47.3513 26.3457 47.3753 26.2574 47.4248L25.0218 48.1103C24.6748 48.303 24.2963 48.4014 23.8968 48.4014C23.2778 48.4014 22.6939 48.159 22.255 47.7217C21.8163 47.2826 21.5743 46.6984 21.5739 46.0788C21.5743 45.4584 21.8164 44.8752 22.2545 44.4361C22.6932 43.9979 23.2768 43.7555 23.8969 43.7545C24.2936 43.7545 24.6724 43.8528 25.0219 44.0456L26.257 44.732C26.3459 44.7817 26.4436 44.8056 26.542 44.8056C26.645 44.8056 26.7477 44.7787 26.8393 44.7254C27.0183 44.6195 27.1286 44.4275 27.1286 44.2194V35.5931H32.4697C32.4593 35.7258 32.454 35.8585 32.454 35.9901C32.4536 37.3676 32.99 38.663 33.9641 39.6365C34.9377 40.6121 36.2336 41.1486 37.6124 41.1486C38.9912 41.1486 40.2866 40.6121 41.2603 39.6376C42.2348 38.6649 42.7704 37.3696 42.7704 35.9903C42.7704 35.8585 42.7656 35.7268 42.7552 35.5932H48.0968V55.8382H48.0966Z"
+                                    fill="black" />
+                            </g>
+                            <defs>
+                                <clipPath id="clip0_33792_59973">
+                                    <rect width="60" height="60" fill="white" />
+                                </clipPath>
+                            </defs>
+                        </svg>
+
+                    </div> #}
+                    <h3 class="govuk-heading-s">Developer plugin</h3>
+                </div>
+                <p class="govuk-body">
+                    Use the plugin to quickly add form pages within your service.
+                </p>
+                <p class="govuk-body">
+                    <a href="#" class="govuk-link govuk-link--no-visited-state">Read the documentation</a>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+<hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
+
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+        <p class="govuk-body">
+            <a href="/titan-mvp-1.2/product-pages/about" class="govuk-link govuk-link--no-visited-state">Learn more
+                about
+                the Defra Forms team and our work to improve online forms</a>.
+        </p>
+    </div>
+</div>
+</div>
+</div>
+
+<style>
+    /* Enhanced styling inspired by Cognito Forms while maintaining GOV.UK Design System */
+    .govuk-grid-row {
+        display: flex;
+        flex-wrap: wrap;
+        margin: 0 -15px;
+    }
+
+    .govuk-grid-column-one-third {
+        padding: 0 15px;
+        margin-bottom: 30px;
+        display: flex;
+    }
+
+    .govuk-grid-column-full,
+    .govuk-grid-column-one-third-from-desktop {
+        display: flex;
+    }
+
+    /* Three-column feature section styling */
+    .feature-column {
+        text-align: center;
+        padding: 2rem 1rem;
+        margin-bottom: 2rem;
+    }
+
+    .feature-icon-large {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 80px;
+        height: 80px;
+        margin: 0 auto 1.5rem;
+        background-color: #f8f9fa;
+        border-radius: 50%;
+        border: 2px solid #00703c;
+    }
+
+    .feature-heading {
+        color: #00703c;
+        margin-bottom: 1rem;
+        font-weight: 700;
+    }
+
+    /* Feature grid section styling */
+    .feature-section-title {
+        text-align: center;
+        color: #00703c;
+        margin-bottom: 1.5rem;
+    }
+
+    .feature-section-intro {
+        text-align: center;
+        color: #505a5f;
+        margin-bottom: 3rem;
+        max-width: 800px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .feature-card {
+        background-color: #ffffff;
+        border: 2px solid #b1b4b6;
+        border-radius: 8px;
+        padding: 1.5rem;
+        height: 100%;
+        transition: all 0.2s ease-in-out;
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .feature-card:hover {
+        border-color: #00703c;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(0, 112, 60, 0.1);
+    }
+
+    /* Cognito Forms-style feature cards */
+    .feature-card.cognito-style {
+        border: none;
+        border-radius: 12px;
+        padding: 2rem;
+        position: relative;
+        overflow: hidden;
+        margin-bottom: 0;
+    }
+
+    .feature-card.cognito-style[data-color="blue"] {
+        background-color: #e3f2fd;
+    }
+
+    .feature-card.cognito-style[data-color="yellow"] {
+        background-color: #fff8e1;
+    }
+
+    .feature-card.cognito-style[data-color="green"] {
+        background-color: #e8f5e8;
+    }
+
+    .feature-card.cognito-style:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+    }
+
+    .feature-card-icon {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 48px;
+        height: 48px;
+        background-color: #f8f9fa;
+        border-radius: 8px;
+        margin-bottom: 1rem;
+    }
+
+    .feature-card.cognito-style .feature-card-icon {
+        background-color: rgba(255, 255, 255, 0.8);
+        border-radius: 12px;
+        width: 56px;
+        height: 56px;
+        margin-bottom: 1.5rem;
+    }
+
+    .feature-card h3 {
+        margin: 0 0 1rem 0;
+        color: #0b0c0c;
+    }
+
+    .feature-card.cognito-style h3 {
+        font-size: 1.125rem;
+        font-weight: 700;
+        margin-bottom: 1rem;
+        color: #1a1a1a;
+    }
+
+    .feature-card p {
+        flex: 1;
+        margin: 0;
+        color: #505a5f;
+    }
+
+    .feature-card.cognito-style p {
+        color: #4a4a4a;
+        line-height: 1.6;
+        margin-bottom: 1.5rem;
+    }
+
+    /* Feature visual elements */
+    .feature-visual {
+        margin-top: auto;
+        padding-top: 1rem;
+    }
+
+    /* Form preview visual */
+    .form-preview {
+        background: rgba(255, 255, 255, 0.7);
+        border-radius: 8px;
+        padding: 1rem;
+        border: 1px solid rgba(0, 0, 0, 0.1);
+    }
+
+    .form-field {
+        margin-bottom: 0.75rem;
+    }
+
+    .form-field label {
+        display: block;
+        font-size: 0.875rem;
+        font-weight: 600;
+        color: #333;
+        margin-bottom: 0.25rem;
+    }
+
+    .form-field input {
+        width: 100%;
+        padding: 0.5rem;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        font-size: 0.875rem;
+        background-color: #f9f9f9;
+    }
+
+    /* Conditional flow visual */
+    .conditional-flow {
+        background: rgba(255, 255, 255, 0.7);
+        border-radius: 8px;
+        padding: 1rem;
+        text-align: center;
+    }
+
+    .flow-item {
+        background: #00703c;
+        color: white;
+        padding: 0.5rem 1rem;
+        border-radius: 20px;
+        font-size: 0.875rem;
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+        display: inline-block;
+    }
+
+    .flow-arrow {
+        font-size: 1.25rem;
+        color: #00703c;
+        margin: 0.5rem 0;
+    }
+
+    .flow-branch {
+        display: flex;
+        gap: 0.5rem;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+
+    .branch-item {
+        background: rgba(0, 112, 60, 0.1);
+        color: #00703c;
+        padding: 0.25rem 0.75rem;
+        border-radius: 12px;
+        font-size: 0.75rem;
+        border: 1px solid rgba(0, 112, 60, 0.2);
+    }
+
+    /* GOV.UK integration visual */
+    .govuk-badge {
+        background: #00703c;
+        color: white;
+        padding: 0.5rem 1rem;
+        border-radius: 20px;
+        font-size: 0.875rem;
+        font-weight: 600;
+        display: inline-block;
+        margin-bottom: 0.75rem;
+    }
+
+    .integration-status {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        font-size: 0.875rem;
+        color: #00703c;
+    }
+
+    .status-dot {
+        width: 8px;
+        height: 8px;
+        background: #00703c;
+        border-radius: 50%;
+        animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+        0% {
+            opacity: 1;
+        }
+
+        50% {
+            opacity: 0.5;
+        }
+
+        100% {
+            opacity: 1;
+        }
+    }
+
+    /* File upload visual */
+    .file-upload-area {
+        background: rgba(255, 255, 255, 0.7);
+        border: 2px dashed #00703c;
+        border-radius: 8px;
+        padding: 1rem;
+        text-align: center;
+    }
+
+    .upload-icon {
+        font-size: 2rem;
+        margin-bottom: 0.5rem;
+    }
+
+    .upload-text {
+        font-size: 0.875rem;
+        color: #00703c;
+        margin-bottom: 0.75rem;
+    }
+
+    .file-list {
+        text-align: left;
+    }
+
+    .file-item {
+        background: rgba(0, 112, 60, 0.1);
+        padding: 0.25rem 0.5rem;
+        border-radius: 4px;
+        font-size: 0.75rem;
+        color: #00703c;
+        margin-bottom: 0.25rem;
+        border: 1px solid rgba(0, 112, 60, 0.2);
+    }
+
+    /* Repeater section visual */
+    .repeater-section {
+        background: rgba(255, 255, 255, 0.7);
+        border-radius: 8px;
+        padding: 1rem;
+    }
+
+    .repeater-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background: rgba(0, 112, 60, 0.1);
+        padding: 0.5rem 0.75rem;
+        border-radius: 6px;
+        margin-bottom: 0.5rem;
+        border: 1px solid rgba(0, 112, 60, 0.2);
+    }
+
+    .repeater-item span {
+        font-size: 0.875rem;
+        color: #00703c;
+        font-weight: 500;
+    }
+
+    .remove-btn {
+        background: #dc3545;
+        color: white;
+        border: none;
+        border-radius: 50%;
+        width: 20px;
+        height: 20px;
+        font-size: 1rem;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        line-height: 1;
+    }
+
+    .add-btn {
+        background: #00703c;
+        color: white;
+        border: none;
+        border-radius: 6px;
+        padding: 0.5rem 1rem;
+        font-size: 0.875rem;
+        cursor: pointer;
+        width: 100%;
+        margin-top: 0.5rem;
+    }
+
+    /* Preview panel visual */
+    .preview-panel {
+        background: rgba(255, 255, 255, 0.7);
+        border-radius: 8px;
+        overflow: hidden;
+        border: 1px solid rgba(0, 0, 0, 0.1);
+    }
+
+    .preview-header {
+        background: #f8f9fa;
+        padding: 0.75rem 1rem;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .preview-header span {
+        font-size: 0.875rem;
+        font-weight: 600;
+        color: #333;
+    }
+
+    .device-tabs {
+        display: flex;
+        gap: 0.25rem;
+    }
+
+    .device-tab {
+        padding: 0.25rem 0.5rem;
+        font-size: 0.75rem;
+        border-radius: 4px;
+        cursor: pointer;
+        background: rgba(0, 0, 0, 0.05);
+        color: #666;
+    }
+
+    .device-tab.active {
+        background: #00703c;
+        color: white;
+    }
+
+    .preview-content {
+        padding: 1rem;
+    }
+
+    .preview-field {
+        background: #f8f9fa;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        padding: 0.75rem;
+        font-size: 0.875rem;
+        color: #666;
+        text-align: center;
+    }
+
+    .govuk-card--feature {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        transition: all 0.2s ease-in-out;
+        border: 2px solid #b1b4b6;
+        background-color: #ffffff;
+    }
+
+    .govuk-card__content {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        padding: 1.5rem;
+    }
+
+    .govuk-card__header {
+        margin-bottom: 1rem;
+        padding-bottom: 0.5rem;
+        border-bottom: 1px solid #d8dde0;
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+    }
+
+    .govuk-card__header h3 {
+        margin: 0;
+        color: #0b0c0c;
+    }
+
+    .feature-icon {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 32px;
+        height: 32px;
+        flex-shrink: 0;
+    }
+
+    .govuk-card__content p,
+    .govuk-card__content ul {
+        flex: 1;
+        margin-bottom: 0;
+    }
+
+    .govuk-inset-text {
+        border-left: 4px solid #00703c;
+        background-color: #f8f9fa;
+        padding: 1.5rem;
+        margin: 2rem 0;
+    }
+
+    .govuk-body-l {
+        font-size: 1.25rem;
+        line-height: 1.5;
+    }
+
+    /* Enhanced spacing for better visual hierarchy */
+    .govuk-heading-l {
+        margin-bottom: 1.5rem;
+    }
+
+    .govuk-heading-m {
+        margin-bottom: 1rem;
+    }
+
+    /* Improved card spacing */
+    .govuk-card {
+        margin-bottom: 1rem;
+    }
+
+    /* GOV.UK Related Navigation Component Styles */
+    .gem-c-related-navigation {
+        border-top: 2px solid #00703c;
+        margin-bottom: 60px;
+        color: #0b0c0c;
+    }
+
+    .gem-c-related-navigation__main-heading {
+        margin-top: 15px;
+        margin-bottom: 10px;
+        font-family: "GDS Transport", arial, sans-serif;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        font-weight: 700;
+        font-size: 1.1875rem;
+        line-height: 1.3157894737;
+    }
+
+    .gem-c-related-navigation__nav-section {
+        margin-bottom: 30px;
+    }
+
+    .gem-c-related-navigation__link-list {
+        padding: 0;
+        margin: 0;
+        list-style: none;
+        margin-bottom: 1.25em;
+    }
+
+    .gem-c-related-navigation__link {
+        list-style-type: none;
+        margin-top: 15px;
+        font-family: "GDS Transport", arial, sans-serif;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        font-weight: 400;
+        font-size: 1rem;
+        line-height: 1.45;
+    }
+
+    @media (min-width: 40.0625em) {
+        .gem-c-related-navigation__link {
+            line-height: 1.28;
+        }
+    }
+
+    @media all {
+        .govuk-link {
+            font-family: "GDS Transport", arial, sans-serif;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            text-decoration: underline;
+            text-decoration-thickness: max(1px, .0625rem);
+            text-underline-offset: .1578em;
+        }
+    }
+
+    .gem-c-related-navigation__section-link {
+        font-weight: bold;
+    }
+
+    .gem-c-related-navigation__section-link--other {
+        font-weight: normal;
+    }
+</style>
+{% endblock %}

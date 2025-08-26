@@ -26,7 +26,7 @@ activeLinkId: "nav-get-started"
 
 <div class="x-govuk-masthead x-govuk-masthead--large">
     <div class="govuk-width-container">
-        {{ govukBreadcrumbs({
+        {# {{ govukBreadcrumbs({
         classes: "govuk-breadcrumbs--inverse",
         items: [
         {
@@ -43,8 +43,9 @@ activeLinkId: "nav-get-started"
         ]
         }) }}
 
+        {#
         <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible"
-            style="border-bottom: 1px solid white; margin-bottom: 0" />
+            style="border-bottom: 1px solid white; margin-bottom: 0" /> #}
 
         <div class="govuk-grid-row">
             <div class="govuk-grid-column-full-from-desktop">
@@ -52,11 +53,9 @@ activeLinkId: "nav-get-started"
                     <span class="govuk-caption-l" style="color: white;">Getting started guide</span>
                     Get access to the Defra Form Designer
                 </h1>
-                <div class="govuk-body" style="color: white; margin-top: 1em;">
-                    <span class="govuk-tag govuk-tag--grey">Guide</span>
-                    <span style="margin-left: 1em;">Follow our step-by-step process to create and publish your
-                        forms</span>
-                </div>
+                {# <p class="x-govuk-masthead__description">
+                    Follow our process to start publishing forms on GOV.UK.
+                </p> #}
             </div>
         </div>
     </div>
@@ -91,17 +90,16 @@ activeLinkId: "nav-get-started"
     <div class="govuk-grid-column-two-thirds">
         <div class="app-prose-scope">
 
-            <p class="govuk-body">If you'd like to be considered as a private beta user and you work in a UCD
+            <p class="govuk-body-l">If you'd like to be considered as a private beta user and you work in a UCD
                 profession,
-                contact us and we'll add you to our waiting list.</p>
+                <a href="/titan-mvp-1.2/product-pages/support" class="govuk-link">contact us</a> and we'll add you to
+                our
+                waiting list.
+            </p>
 
             {% from "govuk/components/pagination/macro.njk" import govukPagination %}
 
             {{ govukPagination({
-            previous: {
-            labelText: "Getting started guide",
-            href: "/titan-mvp-1.2/product-pages/get-started"
-            },
             next: {
             labelText: "Make a form live checklist",
             href: "/titan-mvp-1.2/product-pages/get-started/make-a-form-live-checklist"

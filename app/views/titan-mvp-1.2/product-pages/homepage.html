@@ -1,8 +1,8 @@
 {% extends "layouts/main.html" %}
-{% from "components/service-header/macro.njk" import serviceHeader %}
+{% from "components/product-service-header/macro.njk" import productServiceHeader %}
 
 {% block pageTitle %}
-Content page template – {{ serviceName }} – GOV.UK Prototype Kit
+Defra Form Designer – {{ serviceName }} – GOV.UK Prototype Kit
 {% endblock %}
 
 {# {% block beforeContent %}
@@ -13,7 +13,7 @@ href: "javascript:window.history.back()"
 {% endblock %} #}
 
 {% block header %}
-{{ serviceHeader({
+{{ productServiceHeader({
 organisationName: "Defra",
 productName: "Form Designer",
 serviceName: "",
@@ -27,180 +27,732 @@ navigationItems: [
 { href: "/titan-mvp-1.2/product-pages/resources", text: "Resources", id: "nav-resources" },
 { href: "/titan-mvp-1.2/product-pages/support", text: "Support", id: "nav-support" }
 ],
-activeLinkId: "nav-home"
+activeLinkId: ""
 }) }}
 
+{# Custom masthead implementation that allows positioning "What's new" content in the right column #}
+<div class="x-govuk-masthead x-govuk-masthead--inverse" style="background-color: #0a8631!important;">
+    <div class="govuk-width-container">
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-two-thirds-from-desktop">
+                <h1 class="x-govuk-masthead__title" style="color: white!important;">
+                    Create and publish Defra forms on GOV.UK
+                </h1>
+                <p class="x-govuk-masthead__description" style="color: white!important;">
+                    Make it easier for the public to submit information to Defra.
+                </p>
+                <a href="/titan-mvp-1.2/onboarding/sign-in" role="button" draggable="false"
+                    class="govuk-button govuk-button--inverse govuk-button--start" data-module="govuk-button">
+                    Sign in
+                    <svg class="govuk-button__start-icon" xmlns="http://www.w3.org/2000/svg" width="17.5" height="19"
+                        viewBox="0 0 33 40" aria-hidden="true" focusable="false">
+                        <path fill="currentColor" d="M0 0h13l20 20-20 20H0l20-20z" />
+                    </svg>
+                </a>
+            </div>
+            <div class="govuk-grid-column-one-third-from-desktop">
+                {# "What's new" content positioned where the image would be, following NHS pattern #}
+                <div class="govuk-card govuk-card--feature govuk-!-margin-top-6"
+                    style="background-color:transparent; border: 1px solid #EFF6F3; margin: 0; padding: 0; min-height: fit-content; max-height: fit-content">
+                    <div class="govuk-card__content" style="padding: 20px;">
+
+                        <h2 class="govuk-card__heading govuk-heading-m" style="margin-top: 0; ">
+                            <a href="/titan-mvp-1.2/product-pages/release-notes"
+                                class="govuk-link govuk-link--no-visited-state govuk-link--inverse"
+                                style="color: white !important;">What's
+                                new</a>
+                        </h2>
 
 
+                        <div class="govuk-!-text-align-left govuk-!-margin-bottom-4">
+                            <time class="govuk-body-s" datetime="2025-06-14T14:01:00.000Z"
+                                style="color: white!important;">14 June 2025</time>
+                        </div>
 
-{{ xGovukMasthead({
-inverse: true,
-title: {
-text: "Create and publish Defra forms on GOV.UK"
-},
-description: {
-text: "Make it easier for the public to submit information to Defra."
-},
-startButton: {
-text: "Sign in",
-href: "/titan-mvp-1.2/onboarding/sign-in"
-},
-image: {
-src: "/public/images/homepage-icon2.svg",
-alt: "Payment screen on mobile and dashboard with refund function."
-}
-}) }}
+                        <p class="govuk-body" style="color: white!important;">
+                            New conditions and accessibility improvements and updates to preview panel functionality.
+                        </p>
 
-<div class="app-whats-new">
-    <div class="govuk-main-wrapper govuk-main-wrapper--l">
-        <div class="govuk-width-container">
-            <div class="govuk-grid-row">
-                <div class="govuk-grid-column-two-thirds-from-desktop">
-                    <h2 id="whats-new" class="govuk-heading-l">What's new</h2>
 
-                    <h3 id="22-july-2025" class="govuk-heading-s">22 July 2025: Improved
-                        conditions and accessibility</h3>
-                    <p class="govuk-body">This release includes improvements to conditions and accessibility across
-                        the
-                        service.</p>
-                    <p class="govuk-body">You can now:</p>
-                    <ul class="govuk-list govuk-list--bullet">
-                        <li>Delete conditions</li>
-                        <li>Create and manage combined conditions</li>
-                        <li>Apply conditions to guidance pages</li>
-                        <li>View and manage all conditions from the new listing page</li>
-                    </ul>
-                    <p class="govuk-body">We've also made improvements to the interactive preview panel, enhanced
-                        keyboard navigation with skip links, and fixed several defects – including issues with lost
-                        repeater settings and missing hint text.</p>
-                    <p class="govuk-body"><a href="#" class="govuk-link govuk-link--no-visited-state">Read about
-                            previous updates in the full release
-                            notes</a>.</p>
+                    </div>
 
-                    {# {{ govukDetails({
-                    summaryText: "10 July 2025: Preview panel improvements and condition management",
-                    html: '<p class="govuk-body">This included:</p>
-                    <ul class="govuk-list govuk-list--bullet">
-                        <li>Improvements to the preview panel, including error messages for single-question pages
-                        </li>
-                        <li>Fixes to how repeating questions display in the page overview</li>
-                        <li>The ability to delete conditions</li>
-                        <li>A safeguard preventing conditions being created from guidance pages</li>
-                    </ul>
-                    <p class="govuk-body">Read about previous updates in the <a href="#" class="govuk-link">full
-                            release
-                            notes for 10 July
-                            2025</a> to see what\'s changed.</p>'
-                    }) }} #}
-
-                    {# {{ govukDetails({
-                    summaryText: "16 April 2025: Service moved to new URL for improved access",
-                    html: '<p class="govuk-body">You can now access it at <a href="https://forms.defra.gov.uk/"
-                            class="govuk-link">https://forms.defra.gov.uk/</a></p>
-                    <p class="govuk-body">This update replaces the previous URL:</p>
-                    <p class="govuk-body"><a href="https://forms-designer.prod.cdp-int.defra.cloud/"
-                            class="govuk-link">https://forms-designer.prod.cdp-int.defra.cloud/</a></p>
-                    <p class="govuk-body">The move improves accessibility across ALBs.</p>
-                    <p class="govuk-body">All your forms, files, and links will continue to work as normal, with
-                        redirects in place.</p>
-                    <p class="govuk-body">If you have any questions, contact us at <a
-                            href="mailto:defraforms@defra.gov.uk" class="govuk-link">defraforms@defra.gov.uk</a></p>
-                    '
-                    }) }} #}
+                    {# <p class="govuk-body"
+                        style="color: white; margin-bottom: 0!important; padding-bottom: 0!important;">
+                        <a href="#" class="govuk-link--no-visited-state govuk-link--inverse">Read the full
+                            release notes</a>.
+                    </p> #}
                 </div>
             </div>
         </div>
     </div>
+
 </div>
+</div>
+
 {% endblock %}
 
 {% block content %}
-
-<div class="govuk-grid-row">
-
-
-
-    <div class="govuk-grid-column-full govuk-grid-column-one-half-from-desktop">
-        <div class="govuk-card govuk-card--contained govuk-card--feature">
-            <div class="govuk-card__content">
-                <div class="govuk-card__header">
-                    <div class="feature-icon">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path
-                                d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"
-                                stroke="#0B0C0C" stroke-width="2" fill="none" />
-                        </svg>
-                    </div>
-                    <h3 class="govuk-heading-s">Defra Form designer</h3>
-                </div>
-                <p class="govuk-body">
-                    Use our no-code form design tool to create and publish forms on GOV.UK. Watch our <a href="#"
-                        class="govuk-link govuk-link--no-visited-state">overview video</a> or <a href="#"
-                        class="govuk-link govuk-link--no-visited-state">use our
-                        demo form</a>.
-                </p>
-            </div>
-        </div>
-    </div>
-    <div class="govuk-grid-column-full govuk-grid-column-one-half-from-desktop">
-        <div class="govuk-card govuk-card--contained govuk-card--feature">
-            <div class="govuk-card__content">
-                <div class="govuk-card__header">
-                    <div class="feature-icon">
-                        <svg width="24" height="24" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <g clip-path="url(#clip0_33792_59973)">
-                                <path
-                                    d="M60.0001 2.25584C60.0001 1.07225 59.0397 0.11377 57.8571 0.11377H36.1953V8.74486C36.7327 8.4451 37.3514 8.27518 38.0095 8.27518C40.0747 8.27518 41.75 9.94943 41.75 12.0162C41.75 14.0809 40.0756 15.7561 38.0095 15.7561C37.3514 15.7561 36.7327 15.5852 36.1953 15.2874V23.9176H44.8264C44.5277 24.455 44.3567 25.0735 44.3567 25.7312C44.3567 27.7978 46.0311 29.4722 48.0977 29.4722C50.1634 29.4722 51.8376 27.7978 51.8376 25.7312C51.8376 25.0735 51.6668 24.455 51.369 23.9176H60.0001V2.25584Z"
-                                    fill="black" />
-                                <path
-                                    d="M50.3456 32.2701H39.4713C39.0905 32.2701 38.7382 32.4715 38.5454 32.7979L38.556 32.7799L38.5436 32.7999C38.4452 32.9671 38.3955 33.156 38.3955 33.344C38.3955 33.5235 38.4414 33.7047 38.5311 33.8672L39.2166 35.1014C39.3702 35.3791 39.4455 35.6713 39.4466 35.99C39.4457 36.4826 39.2566 36.9369 38.9092 37.2863C38.5598 37.6338 38.1046 37.8228 37.6129 37.8247C37.1203 37.8227 36.665 37.6338 36.3146 37.2863L36.3161 37.2883C35.9675 36.937 35.7791 36.4817 35.7782 35.9901C35.7791 35.6722 35.8545 35.3792 36.0076 35.1006L36.6935 33.8673C36.7838 33.7049 36.8291 33.5246 36.8291 33.3442C36.8291 33.1561 36.7794 32.9672 36.6796 32.7981C36.4863 32.4708 36.1341 32.2703 35.7538 32.2703H27.6172V27.9128C29.0877 27.8898 30.4766 27.3104 31.517 26.268C32.5822 25.2056 33.1723 23.7805 33.1712 22.2752C33.1721 20.7679 32.5818 19.3428 31.517 18.2813C30.4774 17.2388 29.0882 16.6604 27.6172 16.6376V9.54115C27.6168 8.94748 27.1356 8.46631 26.5419 8.46631H4.04859C2.97 8.46549 1.94625 8.8883 1.18547 9.65096C0.429963 10.4071 0.000939052 11.4446 1.55227e-06 12.5156V55.8382C-0.000935948 56.9158 0.422814 57.9391 1.18547 58.7008C1.94156 59.4559 2.97762 59.8854 4.04859 59.8864H47.3759C48.444 59.8855 49.4807 59.4559 50.2357 58.7008C50.9985 57.9391 51.4213 56.9168 51.4203 55.8382V33.345C51.4205 32.7513 50.9393 32.2701 50.3456 32.2701ZM3.32461 12.5156C3.32461 12.2674 3.44016 12.0985 3.53461 12.004C3.63246 11.9066 3.80086 11.7901 4.04859 11.7901H24.2924V20.4155C24.2924 20.6236 24.4027 20.8154 24.5816 20.9213C24.6732 20.9748 24.7758 21.0016 24.8789 21.0016C24.9772 21.0016 25.0751 20.9777 25.1639 20.9281L26.3977 20.2427C26.7456 20.0498 27.1246 19.9515 27.5236 19.9515C28.1435 19.9515 28.7272 20.193 29.1659 20.6312C29.605 21.0712 29.8465 21.6554 29.8465 22.275C29.8465 22.8944 29.605 23.4778 29.1668 23.9168C28.7272 24.3559 28.1435 24.5974 27.5236 24.5974C27.1241 24.5974 26.7456 24.4991 26.3981 24.3062L25.1634 23.6208C25.0752 23.5712 24.9769 23.5473 24.879 23.5473C24.7759 23.5473 24.6732 23.574 24.5817 23.6285C24.4028 23.7335 24.2925 23.9253 24.2925 24.1335V32.7588H18.9517C18.9622 32.626 18.9674 32.4935 18.9674 32.3627C18.9674 30.9834 18.4304 29.688 17.4564 28.7154C16.4832 27.7407 15.1879 27.2044 13.8086 27.2044C12.4297 27.2044 11.1345 27.7408 10.1617 28.7144C9.18668 29.6871 8.64973 30.9834 8.6502 32.3618C8.6502 32.4935 8.65535 32.6253 8.6659 32.7589H3.32461V12.5156ZM24.2925 56.5626H4.04859C3.80086 56.5626 3.63246 56.4462 3.53695 56.3517C3.44016 56.2543 3.32461 56.0853 3.32461 55.8382V35.593H11.9495C12.1572 35.593 12.3495 35.4832 12.4549 35.3047C12.5604 35.1252 12.5633 34.9037 12.4622 34.7224L11.7773 33.4882C11.584 33.1397 11.4861 32.7608 11.4857 32.3627C11.4861 31.7431 11.7282 31.1591 12.1654 30.7199C12.6057 30.2818 13.1896 30.0392 13.8086 30.0392C14.4275 30.0392 15.0114 30.2818 15.4504 30.7189C15.889 31.159 16.131 31.7431 16.1314 32.3617C16.131 32.7616 16.0325 33.1406 15.8412 33.4871L15.1548 34.7213C15.0536 34.9037 15.0566 35.1252 15.1621 35.3037C15.2675 35.4831 15.46 35.5929 15.6675 35.5929H24.2924V40.9355C24.1596 40.925 24.0275 40.9202 23.8968 40.9202C22.517 40.9202 21.2216 41.4567 20.2499 42.4303C19.2744 43.4039 18.7379 44.6993 18.7389 46.0776C18.7379 47.456 19.2744 48.7523 20.2491 49.725C21.2217 50.6996 22.5171 51.236 23.8969 51.236C24.0286 51.236 24.1608 51.2312 24.2925 51.2208V56.5626ZM48.0966 55.8382C48.0966 56.0853 47.9802 56.2534 47.8847 56.3498C47.7873 56.4463 47.6193 56.5628 47.3721 56.5628H27.1284V47.9374C27.1284 47.7293 27.0188 47.5374 26.8392 47.4324C26.7476 47.3779 26.6449 47.3513 26.5419 47.3513C26.4441 47.3513 26.3457 47.3753 26.2574 47.4248L25.0218 48.1103C24.6748 48.303 24.2963 48.4014 23.8968 48.4014C23.2778 48.4014 22.6939 48.159 22.255 47.7217C21.8163 47.2826 21.5743 46.6984 21.5739 46.0788C21.5743 45.4584 21.8164 44.8752 22.2545 44.4361C22.6932 43.9979 23.2768 43.7555 23.8969 43.7545C24.2936 43.7545 24.6724 43.8528 25.0219 44.0456L26.257 44.732C26.3459 44.7817 26.4436 44.8056 26.542 44.8056C26.645 44.8056 26.7477 44.7787 26.8393 44.7254C27.0183 44.6195 27.1286 44.4275 27.1286 44.2194V35.5931H32.4697C32.4593 35.7258 32.454 35.8585 32.454 35.9901C32.4536 37.3676 32.99 38.663 33.9641 39.6365C34.9377 40.6121 36.2336 41.1486 37.6124 41.1486C38.9912 41.1486 40.2866 40.6121 41.2603 39.6376C42.2348 38.6649 42.7704 37.3696 42.7704 35.9903C42.7704 35.8585 42.7656 35.7268 42.7552 35.5932H48.0968V55.8382H48.0966Z"
-                                    fill="black" />
-                            </g>
-                            <defs>
-                                <clipPath id="clip0_33792_59973">
-                                    <rect width="60" height="60" fill="white" />
-                                </clipPath>
-                            </defs>
-                        </svg>
-
-                    </div>
-                    <h3 class="govuk-heading-s">Developer plugin</h3>
-                </div>
-                <p class="govuk-body">
-                    Use the plugin to quickly add form pages within your service.
-                </p>
-                <p class="govuk-body">
-                    <a href="#" class="govuk-link govuk-link--no-visited-state">Read the documentation</a>
-                </p>
-            </div>
-        </div>
-    </div>
-</div>
-<hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
-
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
-        <p class="govuk-body">
-            <a href="/titan-mvp-1.2/product-pages/about" class="govuk-link govuk-link--no-visited-state">Learn more
-                about
-                the Defra Forms team and our work to improve online forms</a>.
-        </p>
+
+        {# Main content section with tabs #}
+        <div class="govuk-tabs" data-module="govuk-tabs">
+            <h2 class="govuk-tabs__title">
+                Contents
+            </h2>
+            <ul class="govuk-tabs__list">
+                <li class="govuk-tabs__list-item govuk-tabs__list-item--selected">
+                    <a class="govuk-tabs__tab" href="#core-features">
+                        Core features
+                    </a>
+                </li>
+                <li class="govuk-tabs__list-item">
+                    <a class="govuk-tabs__tab" href="#user-experience">
+                        User experience
+                    </a>
+                </li>
+                <li class="govuk-tabs__list-item">
+                    <a class="govuk-tabs__tab" href="#advanced-patterns">
+                        Advanced patterns
+                    </a>
+                </li>
+                <li class="govuk-tabs__list-item">
+                    <a class="govuk-tabs__tab" href="#developer-plugin">
+                        Developer plugin
+                    </a>
+                </li>
+            </ul>
+
+            {# Core features tab #}
+            <div class="govuk-tabs__panel" id="core-features">
+                <h2 class="govuk-heading-l">Core features</h2>
+
+                {# Feature 1: Build accessible forms #}
+                <div class="govuk-grid-row govuk-!-margin-bottom-6">
+                    <div class="govuk-grid-column-two-thirds">
+                        <h3 class="govuk-heading-m">Build accessible forms</h3>
+                        <p class="govuk-body">Create pages with GOV.UK components, validation and guidance built in.
+                            Build forms
+                            that meet accessibility standards and provide a great user experience.</p>
+                        {# <p class="govuk-body">
+                            <a class="govuk-link--no-visited-state" href="/titan-mvp-1.2/product-pages/features">Read
+                                more about
+                                form features</a>
+                        </p> #}
+                    </div>
+                    <div class="govuk-grid-column-one-third">
+                        <img src="/public/images/accessibility-figure.svg" class="govuk-!-width-full"
+                            alt="Diagram showing accessibility features and form components">
+                    </div>
+                </div>
+
+                <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+
+                {# Feature 2: Page conditions #}
+                <div class="govuk-grid-row govuk-!-margin-bottom-6">
+                    <div class="govuk-grid-column-two-thirds">
+                        <h3 class="govuk-heading-m">Page conditions</h3>
+                        <p class="govuk-body">Show pages based on answers, and manage all conditions in one place.
+                        </p>
+                        {# <p class="govuk-body">
+                            <a class="govuk-link--no-visited-state" href="/titan-mvp-1.2/product-pages/features">Learn
+                                about
+                                conditional logic</a>
+                        </p> #}
+                    </div>
+                    <div class="govuk-grid-column-one-third">
+                        <img src="/public/images/conditions_slow.gif" class="govuk-!-width-full"
+                            alt="Diagram showing conditional form flow with branching paths">
+                    </div>
+                </div>
+
+                <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+
+                {# Feature 3: Preview and collaborate #}
+                <div class="govuk-grid-row govuk-!-margin-bottom-6">
+                    <div class="govuk-grid-column-two-thirds">
+                        <h3 class="govuk-heading-m">Preview and collaborate</h3>
+                        <p class="govuk-body">Share draft previews and test your forms before publishing to ensure they
+                            work as expected.</p>
+                        <p class="govuk-body">Use the interactive preview panel to see exactly how your form will
+                            appear
+                            to
+                            users,
+                            and collaborate with team members to refine the user experience.</p>
+
+                    </div>
+                    <div class="govuk-grid-column-one-third">
+                        <img src="/public/images/previewflow.gif" class="govuk-!-width-full"
+                            alt="Animated demonstration of the preview panel showing form editing interface">
+                    </div>
+                </div>
+                <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+
+                {# Tab-specific call-to-action #}
+                <div class="govuk-!-margin-top-6">
+                    <div class="govuk-grid-row">
+                        <div class="govuk-grid-column-two-thirds">
+                            <div class="govuk-inset-text--cta">
+                                <p class="govuk-body govuk-!-margin-bottom-0">
+                                    <a href="/titan-mvp-1.2/product-pages/features"
+                                        class="govuk-link--no-visited-state">View
+                                        full feature list and
+                                        upcoming features</a>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            {# User experience tab #}
+            <div class="govuk-tabs__panel govuk-tabs__panel--hidden" id="user-experience">
+                <h2 class="govuk-heading-l">User experience</h2>
+
+                {# Feature 4: Consistent labels and error messages #}
+                <div class="govuk-grid-row govuk-!-margin-bottom-6">
+                    <div class="govuk-grid-column-two-thirds">
+                        <h3 class="govuk-heading-m">Consistent labels and error messages</h3>
+                        <p class="govuk-body">
+                            Each question's short description automatically generates error messages (using GOV.UK
+                            Design System
+                            templates) as well
+                            as the labels shown on check answers pages and in confirmation emails. This keeps your
+                            forms
+                            consistent
+                            with other GOV.UK forms, and saving
+                            you from writing them yourself so you can focus on designing the rest of your form.
+                        </p>
+
+                    </div>
+                    <div class="govuk-grid-column-one-third-from-desktop">
+                        <img src="/public/images/errors.gif" class="govuk-!-width-full"
+                            alt="Animated demonstration of error message generation and display">
+                    </div>
+                </div>
+
+                <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+
+                {# Feature 5: Save progress #}
+                <div class="govuk-grid-row govuk-!-margin-bottom-6">
+                    <div class="govuk-grid-column-two-thirds">
+                        <h3 class="govuk-heading-m">Let users save their progress and come back to it later</h3>
+                        <p class="govuk-body">
+                            People can save their progress at any point and finish later. We email a
+                            magic link. When they return, they confirm a security answer and carry on
+                            from where they left off. No account needed.
+                        </p>
+                        {# <p class="govuk-body">
+                            <a class="govuk-link--no-visited-state" href="/titan-mvp-1.2/product-pages/features">Learn
+                                about
+                                save and return</a>
+                        </p> #}
+                    </div>
+                    <div class="govuk-grid-column-one-third">
+                        <img src="/public/images/save-exit.svg" class="govuk-!-width-full"
+                            alt="Illustration showing save and return functionality with progress indicator">
+                    </div>
+                </div>
+
+                <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+
+                {# Feature 6: Data retrieval options #}
+                <div class="govuk-grid-row govuk-!-margin-bottom-6">
+                    <div class="govuk-grid-column-two-thirds">
+                        <h3 class="govuk-heading-m">Choose how to retrieve submission data</h3>
+                        <p class="govuk-body">
+                            Flexible options for accessing and managing form submission data. Choose the method that
+                            best fits
+                            your
+                            workflow and requirements.
+                        </p>
+                        {# <p class="govuk-body">
+                            <a class="govuk-link--no-visited-state" href="/titan-mvp-1.2/product-pages/features">Learn
+                                about
+                                data retrieval</a>
+                        </p> #}
+                    </div>
+                    <div class="govuk-grid-column-one-third">
+                        <img src="/public/images/outputs.svg" class="govuk-!-width-full"
+                            alt="Illustration showing data output formats including TXT, JSON and API connections">
+                    </div>
+                </div>
+
+                <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+
+                {# Tab-specific call-to-action #}
+                <div class="govuk-!-margin-top-6">
+                    <div class="govuk-grid-row">
+                        <div class="govuk-grid-column-two-thirds">
+                            <div class="govuk-inset-text--cta">
+                                <p class="govuk-body govuk-!-margin-bottom-0">
+                                    <a href="/titan-mvp-1.2/product-pages/features"
+                                        class="govuk-link--no-visited-state">View
+                                        full feature list and
+                                        upcoming features</a>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            {# Advanced patterns tab #}
+            <div class="govuk-tabs__panel govuk-tabs__panel--hidden" id="advanced-patterns">
+                <h2 class="govuk-heading-l">Advanced patterns</h2>
+
+                {# Feature 7: Add another pattern #}
+                <div class="govuk-grid-row govuk-!-margin-bottom-6">
+                    <div class="govuk-grid-column-two-thirds">
+                        <h3 class="govuk-heading-m">Collect the same information for several items</h3>
+                        <p class="govuk-body">
+                            Based on the <a href="https://design-system.dwp.gov.uk/patterns/add-another-thing"
+                                class="govuk-link--no-visited-state govuk-link--no-visited-state">DWP Design System
+                                'Add
+                                another
+                                thing'
+                                pattern</a>,
+                            this pattern is used when people need to give the same details about more than one
+                            thing.
+                            For
+                            example,
+                            dependants, vehicles or conditions. The questions repeat one item at a time, and users
+                            can
+                            review,
+                            change or remove items before moving on. This keeps the journey simple and clear.
+                        </p>
+                        {# <p class="govuk-body">
+                            <a class="govuk-link--no-visited-state" href="/titan-mvp-1.2/product-pages/features">Learn
+                                about the
+                                add another
+                                pattern</a>
+                        </p> #}
+                    </div>
+                    <div class="govuk-grid-column-one-third">
+                        <img src="/public/images/add-another.svg" class="govuk-!-width-full"
+                            alt="Illustration showing the add another pattern with repeating form sections">
+                    </div>
+                </div>
+
+                <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+
+                {# Feature 8: File upload #}
+                <div class="govuk-grid-row govuk-!-margin-bottom-6">
+                    <div class="govuk-grid-column-two-thirds">
+                        <h3 class="govuk-heading-m">Let users upload more than one file at a time</h3>
+                        <p class="govuk-body">
+                            Follows principles from the HMRC <a
+                                href="https://design.tax.service.gov.uk/hmrc-design-patterns/file-upload/"
+                                class="govuk-link--no-visited-state govuk-link--no-visited-state">file upload
+                                pattern</a>. Users
+                            can upload
+                            multiple
+                            files, and see their progress and status as they are uploaded to their form.
+                        </p>
+                        <ul class="govuk-list govuk-list--bullet">
+                            <li>shows and announces progress while uploading and keeps the button visible to add
+                                more
+                            </li>
+                            <li>lets users remove or replace individual files before continuing</li>
+                            <li>validates type and size per file and explains any errors in plain English</li>
+                        </ul>
+                        {# <p class="govuk-body">
+                            <a class="govuk-link--no-visited-state" href="/titan-mvp-1.2/product-pages/features">See
+                                file upload
+                                details</a>
+                        </p> #}
+                    </div>
+                    <div class="govuk-grid-column-one-third">
+                        <img src="/public/images/files.gif" class="govuk-!-width-full"
+                            alt="Animated demonstration of file upload interface with progress indicators">
+                    </div>
+                </div>
+
+                <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+
+                {# Tab-specific call-to-action #}
+                <div class="govuk-!-margin-top-6">
+                    <div class="govuk-grid-row">
+                        <div class="govuk-grid-column-two-thirds">
+                            <div class="govuk-inset-text--cta">
+                                <p class="govuk-body govuk-!-margin-bottom-0">
+                                    <a href="/titan-mvp-1.2/product-pages/features"
+                                        class="govuk-link--no-visited-state">View
+                                        full feature list and
+                                        upcoming features</a>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            {# Developer tools tab #}
+            <div class="govuk-tabs__panel govuk-tabs__panel--hidden" id="developer-plugin">
+                <h2 class="govuk-heading-l">Developer plugin</h2>
+
+                {# Feature 9: Developer plugin #}
+                <div class="govuk-grid-row govuk-!-margin-bottom-6">
+                    <div class="govuk-grid-column-two-thirds">
+                        <p class="govuk-body">The DEFRA Forms Engine Plugin is built on top of the Hapi framework,
+                            so it
+                            slots
+                            neatly into apps you're already running there. It removes the need to hand-code every
+                            form
+                            page or
+                            journey by letting you define everything in configuration.</p>
+
+                        <p class="govuk-body">The plugin handles rendering, validation, accessibility, and the full
+                            request
+                            lifecycle, while still giving you the freedom to extend it with your own Hapi services,
+                            routes, and
+                            templates.</p>
+
+                        <p class="govuk-body">That means less boilerplate, faster delivery, and accessible forms by
+                            default.</p>
+
+                        <p class="govuk-body">
+                            <a class="govuk-link--no-visited-state" href="#">Read the documentation</a>
+                        </p>
+                    </div>
+                    <div class="govuk-grid-column-one-third">
+                        <img src="/public/images/plugin.svg" class="govuk-!-width-full"
+                            alt="Illustration showing the DEFRA Forms Engine Plugin architecture">
+                    </div>
+                </div>
+
+                <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+
+                {# Tab-specific call-to-action #}
+                <div class="govuk-!-margin-top-6">
+                    <div class="govuk-grid-row">
+                        <div class="govuk-grid-column-two-thirds">
+                            <div class="govuk-inset-text--cta">
+                                <p class="govuk-body govuk-!-margin-bottom-0">
+                                    <a href="/titan-mvp-1.2/product-pages/features"
+                                        class="govuk-link--no-visited-state">View
+                                        full feature list and
+                                        upcoming features</a>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="govuk-grid-row">
+
+            <div class="govuk-grid-column-two-thirds">
+                <h2 class="govuk-heading-l">Who's using Defra Forms</h2>
+            </div>
+            <div class="govuk-grid-column-full organisations-grid">
+                <div class="content-section__image organisations-grid__logo">
+                    <div class="gem-c-organisation-logo brand--department-for-environment-food-rural-affairs">
+                        <div
+                            class="gem-c-organisation-logo__container gem-c-organisation-logo__crest gem-c-organisation-logo__crest--single-identity brand__border-color">
+                            <span class="gem-c-organisation-logo__name">Department<br>for Environment,<br>Food &amp;
+                                Rural
+                                Affairs</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="content-section__image organisations-grid__logo">
+                    <div class="gem-c-organisation-logo brand--department-for-environment-food-rural-affairs">
+                        <div
+                            class="gem-c-organisation-logo__container gem-c-organisation-logo__crest gem-c-organisation-logo__crest--single-identity brand__border-color">
+                            <span class="gem-c-organisation-logo__name">Rural<br>Payments<br>Agency</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="content-section__image organisations-grid__logo">
+                    <div class="gem-c-organisation-logo brand--department-for-environment-food-rural-affairs">
+                        <div
+                            class="gem-c-organisation-logo__container gem-c-organisation-logo__crest gem-c-organisation-logo__crest--single-identity brand__border-color">
+                            <span class="gem-c-organisation-logo__name">Animal &amp;<br>Plant
+                                Health<br>Agency</span>
+                        </div>
+                    </div>
+                </div>
+                <img src="/public/images/fsa.svg" alt="Food Standards Agency – FSA"
+                    class="content-section__image organisations-grid__logo">
+                <img src="/public/images/EA.svg" alt="Environment Agency – EA"
+                    class="content-section__image organisations-grid__logo">
+                <img src="/public/images/NE.svg" alt="Natural England"
+                    class="content-section__image organisations-grid__logo">
+            </div>
+        </div>
     </div>
-</div>
-</div>
 </div>
 
 <style>
-    /* Enhanced styling inspired by Notion's visual concepts while maintaining GOV.UK Design System */
-    .govuk-grid-row {
-        display: flex;
-        flex-wrap: wrap;
+    .content-section {
+        margin-top: 30px;
     }
 
-    .govuk-grid-column-full,
-    .govuk-grid-column-one-third-from-desktop {
-        display: flex;
+    .content-section__title {
+        margin-top: 0;
     }
+
+    .content-section__image {
+        max-width: 100%;
+        margin-bottom: 30px;
+    }
+
+    .content-section__video {
+        border: 1px solid #b1b4b6;
+        height: 0;
+        overflow: hidden;
+        position: relative;
+        padding: 30px 5px 56.25%;
+    }
+
+    .content-section__video iframe,
+    .content-section__video object {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+    }
+
+    .content-section__transcript {
+        margin: 5px 0;
+        padding: 5px 0;
+    }
+
+    .content-section__transcript summary:hover {
+        background-color: #f3f2f1;
+    }
+
+    .content-section--with-top-border {
+        padding-top: 60px;
+        border-top: 1px #b1b4b6 solid;
+    }
+
+    @media (min-width: 40.0625em) {
+        .content-section--with-top-padding {
+            padding-top: 60px;
+        }
+    }
+
+    .content-section {
+        margin-top: 30px;
+    }
+
+    .content-section__title {
+        margin-top: 0;
+    }
+
+    .content-section__image {
+        max-width: 100%;
+        margin-bottom: 30px;
+        margin-right: 30px;
+    }
+
+    .organisations-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 4rem;
+        align-items: start;
+        justify-items: start;
+        margin-top: 20px;
+    }
+
+    @media (min-width: 40.0625em) {
+        .organisations-grid {
+            grid-template-columns: repeat(3, 1fr);
+            gap: 4rem;
+        }
+    }
+
+    @media (min-width: 48.0625em) {
+        .organisations-grid {
+            grid-template-columns: repeat(3, 1fr);
+            gap: 4rem;
+            align-items: center;
+            justify-items: start;
+        }
+    }
+
+    .organisations-grid__logo {
+        width: auto;
+        height: 4em;
+        display: block;
+        max-width: 100%;
+    }
+
+    .organisations-grid__logo--small {
+        height: 2.5em;
+    }
+
+    .feature-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+
+    @media (min-width: 40.0625em) {
+
+        /* tablet */
+        .feature-grid {
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+    }
+
+    @media (min-width: 63.9375em) {
+
+        /* desktop */
+        .feature-grid {
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+        }
+    }
+
+    .feature-card {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        min-height: 260px;
+        padding: 24px;
+        border: 1px solid #b1b4b6;
+        /* GOV.UK mid-grey border */
+        border-radius: 10px;
+        background: #ffffff;
+        box-shadow: 0 1px 0 rgba(11, 12, 12, 0.05);
+        transition: transform .12s ease-out, box-shadow .12s ease-out, border-color .12s ease-out;
+    }
+
+    .feature-card:hover,
+    .feature-card:focus-within {
+        transform: translateY(-2px);
+        border-color: #b1b4b6;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    }
+
+    .feature-card .govuk-heading-m {
+        margin: 0 0 8px 0;
+    }
+
+    .feature-card .govuk-body {
+        margin: 0;
+    }
+
+    .feature-card__cta {
+        margin-top: 12px;
+    }
+
+    .feature-card__thumb {
+        margin-top: auto;
+        /* anchors the thumbnail at the bottom of the card */
+        background: #ffffff;
+        border: 1px solid #b1b4b6;
+        border-radius: 8px;
+        overflow: hidden;
+    }
+
+    /* Force a 16:9 display area and crop video to fill so no black side bars */
+    .feature-card__thumb--16x9 {
+        aspect-ratio: 16 / 9;
+    }
+
+    .feature-card__thumb--16x9 video {
+        height: 100%;
+        object-fit: cover;
+        object-position: center;
+        background: #ffffff;
+    }
+
+    .feature-card__thumb img,
+    .feature-card__thumb svg,
+    .feature-card__thumb video {
+        display: block;
+        width: 100%;
+        height: auto;
+    }
+
+    .feature-card__icon {
+        width: 48px;
+        height: 48px;
+        border-radius: 50%;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 12px;
+        background: rgba(255, 255, 255, 0.6);
+        border: 1px solid rgba(0, 0, 0, 0.05);
+    }
+
+    .feature-card__icon svg {
+        width: 28px;
+        height: 28px;
+    }
+
+    /* subtle status badge (for "Coming soon") */
+    .feature-card__badge {
+        position: absolute;
+        top: 8px;
+        right: 8px;
+    }
+
+    /* Variant backgrounds using GOV.UK palette tints (approx of govuk-tint) */
+    .feature-card--mint {
+        background: #e6f1ec;
+        border-color: #80b89e;
+    }
+
+    /* green 90% bg, 50% border */
+    .feature-card--sand {
+        background: #fffce6;
+        border-color: #ffee80;
+    }
+
+    /* yellow 90% bg, 50% border */
+    .feature-card--peach {
+        background: #fef1eb;
+        border-color: #fabb9c;
+    }
+
+    /* orange 90% bg, 50% border */
+    .feature-card--ice {
+        background: #e8f1f8;
+        border-color: #8eb8dc;
+    }
+
+    /* blue 90% bg, 50% border */
+    .feature-card--lemon {
+        background: #fffce6;
+        border-color: #ffee80;
+    }
+
+    /* yellow 90% bg, 50% border */
+    .feature-card--lilac {
+        background: #edeaf4;
+        border-color: #a696c8;
+    }
+
+    .images {
+        &__width_100 {
+            width: 100%;
+            height: auto;
+            max-height: 120px;
+        }
+
+        &__width_42 {
+            width: 42%;
+            height: auto;
+        }
+
+        &__vertical_align_top {
+            vertical-align: top;
+        }
+    }
+
+    /* purple 90% bg, 50% border */
+
+
+
 
     .govuk-card--feature {
         width: 100%;
@@ -211,17 +763,11 @@ alt: "Payment screen on mobile and dashboard with refund function."
         background-color: #ffffff;
     }
 
-    /* .govuk-card--feature:hover {
-        border-color: #0b0c0c;
-        transform: translateY(-2px);
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    } */
-
     .govuk-card__content {
         flex: 1;
         display: flex;
         flex-direction: column;
-        padding: 1.5rem;
+        /* padding: 1.5rem; */
     }
 
     .govuk-card__header {
@@ -258,31 +804,16 @@ alt: "Payment screen on mobile and dashboard with refund function."
         background-color: #f8f9fa;
     }
 
-    /* .govuk-card--coming-soon:hover {
-        opacity: 1;
-        background-color: #ffffff;
-    } */
-
-    .govuk-inset-text {
+    .govuk-inset-text--cta {
         border-left: 4px solid #00703c;
-        background-color: #f8f9fa;
+        background-color: #f3f2f1;
         padding: 1.5rem;
         margin: 2rem 0;
     }
 
-    .govuk-body-l {
-        font-size: 1.25rem;
-        line-height: 1.5;
-    }
 
-    /* Enhanced spacing for better visual hierarchy */
-    .govuk-heading-l {
-        margin-bottom: 1.5rem;
-    }
 
-    .govuk-heading-m {
-        margin-bottom: 1rem;
-    }
+
 
     /* Improved card spacing */
     .govuk-card {
@@ -354,4 +885,61 @@ alt: "Payment screen on mobile and dashboard with refund function."
         font-weight: normal;
     }
 </style>
+
+<script>
+    document.querySelectorAll('.feature-card__thumb img').forEach(img => {
+        const still = img.getAttribute('src');
+        const anim = img.dataset.gif;
+        const card = img.closest('.feature-card');
+
+        const play = () => img.src = anim;
+        const stop = () => img.src = still;
+
+        card.addEventListener('mouseenter', play);
+        card.addEventListener('mouseleave', stop);
+        card.addEventListener('focusin', play);
+        card.addEventListener('focusout', stop);
+
+        // Respect reduced motion
+        if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+            card.removeEventListener('mouseenter', play);
+            card.removeEventListener('focusin', play);
+        }
+    });
+</script>
+<script>
+    (function () {
+        var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        var cards = document.querySelectorAll('.feature-card');
+        cards.forEach(function (card) {
+            var video = card.querySelector('.feature-card__thumb video');
+            if (!video) return;
+
+            function play() {
+                if (reduceMotion) return;
+                try {
+                    video.currentTime = 0;
+                    var p = video.play();
+                    if (p && p.catch) { p.catch(function () { /* ignore autoplay block */ }); }
+                } catch (e) { }
+            }
+            function stop() {
+                try { video.pause(); } catch (e) { }
+                try { video.currentTime = 0; } catch (e) { }
+            }
+
+            card.addEventListener('mouseenter', play);
+            card.addEventListener('mouseleave', stop);
+            card.addEventListener('focusin', play);
+            card.addEventListener('focusout', stop);
+
+            if ('IntersectionObserver' in window) {
+                var io = new IntersectionObserver(function (entries) {
+                    entries.forEach(function (entry) { if (!entry.isIntersecting) stop(); });
+                }, { threshold: 0.1 });
+                io.observe(video);
+            }
+        });
+    })();
+</script>
 {% endblock %}

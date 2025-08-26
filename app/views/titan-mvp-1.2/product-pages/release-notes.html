@@ -1,0 +1,172 @@
+{% extends "layouts/main.html" %}
+{% from "components/service-header/macro.njk" import serviceHeader %}
+
+{% block pageTitle %}
+Support – Defra Form Designer – GOV.UK Prototype Kit
+{% endblock %}
+
+{% block header %}
+{{ serviceHeader({
+organisationName: "Defra",
+productName: "Form Designer",
+serviceName: "",
+homepageLink: "/titan-mvp-1.2/product-pages/homepage",
+signInLink: "/titan-mvp-1.2/onboarding/sign-in",
+navigationItems: [
+{ href: "/titan-mvp-1.2/product-pages/about", text: "About", id: "nav-about" },
+{ href: "/titan-mvp-1.2/product-pages/get-started", text: "Get started", id: "nav-get-started" },
+{ href: "/titan-mvp-1.2/product-pages/features", text: "Features", id: "nav-features" },
+{ href: "/titan-mvp-1.2/product-pages/resources", text: "Resources", id: "nav-resources" },
+{ href: "/titan-mvp-1.2/product-pages/support", text: "Support", id: "nav-support" }
+],
+activeLinkId: ""
+}) }}
+
+<div class="x-govuk-masthead x-govuk-masthead--large">
+    <div class="govuk-width-container">
+        {# {{ govukBackLink({ classes: "govuk-back-link--inverse govuk-!-margin-bottom-0", text:
+        commonTerms.form_editor.navigation.back_to_add_edit_pages, href: "/titan-mvp-1.2/form-editor/conditions-manager"
+        }) }}
+
+        <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible"
+            style="border-bottom: 1px solid white; margin-bottom: 0" /> #}
+
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-full-from-desktop">
+                <h1 class="x-govuk-masthead__title">
+                    <span class="govuk-caption-l" style="color: white;">What's new</span>
+                    Updates
+                </h1>
+                <p class="x-govuk-masthead__description">
+                    Updates to the Defra Form Designer and Developer Plugin.
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block content %}
+
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+
+        {% from "govuk/components/table/macro.njk" import govukTable %}
+
+        {{ govukTable({
+        caption: "July 2025",
+        captionClasses: "govuk-table__caption--l",
+        firstCellIsHeader: false,
+        head: [
+        {
+        text: "Product",
+        classes: "govuk-!-width-one-quarter"
+        },
+        {
+        text: "Update",
+        classes: "govuk-!-width-three-quarters"
+        }
+        ],
+        rows: [
+        [
+        {
+        text: "Form Designer"
+        },
+        {
+        html: "<p>Final updates for conditions:</p>
+        <ul class='govuk-list govuk-list--bullet'>
+            <li>Delete Conditions</li>
+            <li>Create and Manage Combined Conditions</li>
+            <li>Apply Conditions to a Guidance Page</li>
+            <li>View the Conditions Listing Page</li>
+        </ul>
+        <p>Enhancements to Interactive Preview Panel:</p>
+        <ul class='govuk-list govuk-list--bullet'>
+            <li>Better keyboard navigation using skip links</li>
+            <li>Termination Pages</li>
+            <li>Fixes for defects like lost repeater settings and hint text</li>
+        </ul>"
+        }
+        ],
+        [
+        {
+        text: "Developer Plugin"
+        },
+        {
+        html: "<p>v2.0.1 introduces breaking changes with new Save and Return functionality moved into a
+            <code>saveAndReturn</code> plugin registration option, replacing previous separate functions:
+        </p>
+        <ul class='govuk-list govuk-list--bullet'>
+            <li>keyGenerator</li>
+            <li>sessionHydrator</li>
+            <li>sessionPersister</li>
+        </ul>"
+        }
+        ]
+        ]
+        }) }}
+
+        {{ govukTable({
+        caption: "August 2025",
+        captionClasses: "govuk-table__caption--l",
+        firstCellIsHeader: false,
+        head: [
+        {
+        text: "Product",
+        classes: "govuk-!-width-one-quarter"
+        },
+        {
+        text: "Update",
+        classes: "govuk-!-width-three-quarters"
+        }
+        ],
+        rows: [
+        [
+        {
+        text: "Developer Plugin"
+        },
+        {
+        html: "<p>v2.1.0 introduces the <code>onSave</code> page event.</p>"
+        }
+        ]
+        ]
+        }) }}
+
+        {{ govukTable({
+        caption: "April 2025",
+        captionClasses: "govuk-table__caption--l",
+        firstCellIsHeader: false,
+        head: [
+        {
+        text: "Product",
+        classes: "govuk-!-width-one-quarter"
+        },
+        {
+        text: "Update",
+        classes: "govuk-!-width-three-quarters"
+        }
+        ],
+        rows: [
+        [
+        {
+        text: "Form Designer"
+        },
+        {
+        html: "<p>Service moved to new domain <a href='https://forms.defra.gov.uk/'
+                class='govuk-link'>https://forms.defra.gov.uk/</a> to improve access for colleagues across different
+            ALBs.</p>
+        <p>No disruption expected:</p>
+        <ul class='govuk-list govuk-list--bullet'>
+            <li>Forms and files remain</li>
+            <li>System functions normally</li>
+            <li>Old links will be automatically redirected</li>
+        </ul>"
+        }
+        ]
+        ]
+        }) }}
+
+    </div>
+</div>
+
+{% endblock %}

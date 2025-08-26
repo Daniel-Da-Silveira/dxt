@@ -26,7 +26,7 @@ activeLinkId: "nav-resources"
 
 <div class="x-govuk-masthead x-govuk-masthead--large">
     <div class="govuk-width-container">
-        {{ govukBreadcrumbs({
+        {# {{ govukBreadcrumbs({
         classes: "govuk-breadcrumbs--inverse",
         items: [
         {
@@ -41,10 +41,11 @@ activeLinkId: "nav-resources"
         text: "Peer reviewing forms"
         }
         ]
-        }) }}
+        }) }} #}
 
+        {#
         <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible"
-            style="border-bottom: 1px solid white; margin-bottom: 0" />
+            style="border-bottom: 1px solid white; margin-bottom: 0" /> #}
 
         <div class="govuk-grid-row">
             <div class="govuk-grid-column-full-from-desktop">
@@ -52,10 +53,7 @@ activeLinkId: "nav-resources"
                     <span class="govuk-caption-l" style="color: white;">Good form design guide</span>
                     Peer reviewing forms
                 </h1>
-                <div class="govuk-body" style="color: white; margin-top: 1em;">
-                    <span class="govuk-tag govuk-tag--grey">Guide</span>
-                    <span style="margin-left: 1em;">Everything you need to design accessible, user-friendly forms</span>
-                </div>
+
             </div>
         </div>
     </div>
@@ -143,7 +141,9 @@ activeLinkId: "nav-resources"
 
             <h2 id="2i" class="govuk-heading-l">2i</h2>
             <p class="govuk-body">Ask a colleague to review (or 2i) your work. You could set up a Slack or Teams channel
-                specifically for form 2i-ing or follow whatever method works for you.</p>
+                specifically for form 2i-ing or follow whatever method works for you. See <a
+                    href="https://www.gov.uk/guidance/how-to-publish-on-gov-uk/reviewing-and-approving-content"
+                    class="govuk-link">Reviewing and approving content</a> for more information.</p>
             <p class="govuk-body">The 2i checklist is a good starting point.</p>
 
             {% from "govuk/components/pagination/macro.njk" import govukPagination %}
