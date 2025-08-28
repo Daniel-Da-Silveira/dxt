@@ -499,6 +499,15 @@ html body .x-govuk-masthead .govuk-link--inverse:focus * {
   outline-offset: 0 !important;
 }
 
+// Ensure inverse links within masthead are white
+.x-govuk-masthead .govuk-link--inverse {
+  color: white !important;
+}
+
+.x-govuk-masthead .govuk-link--inverse:hover {
+  color: #f3f2f1 !important;
+}
+
 // Target any other x-govuk components that might have links
 html body [class*="x-govuk"] [class*="link"]:focus,
 html body [class*="x-govuk"] [class*="link"]:focus * {
@@ -562,6 +571,22 @@ html body .govuk-card .govuk-link--inverse:focus * {
   border-color: #0b0c0c !important;
   outline: 3px solid transparent !important;
   outline-offset: 0 !important;
+}
+
+// Ensure inverse links within cards maintain white color
+.govuk-card .govuk-link--inverse,
+.govuk-card--feature .govuk-link--inverse {
+  color: white !important;
+}
+
+.govuk-card .govuk-link--inverse:hover,
+.govuk-card--feature .govuk-link--inverse:hover {
+  color: #f3f2f1 !important;
+}
+
+.govuk-card .govuk-link--inverse:visited,
+.govuk-card--feature .govuk-link--inverse:visited {
+  color: white !important;
 }
 
 // Focus styling for other GOV.UK link variants
@@ -2615,6 +2640,19 @@ code.lang-md {
 // Override the visited link color for govuk-link specifically
 .govuk-link:visited {
   color: #1d70b8 !important; // GOV.UK default visited link color
+}
+
+// Base styling for inverse links to ensure they appear white
+.govuk-link--inverse {
+  color: white !important;
+}
+
+.govuk-link--inverse:hover {
+  color: #f3f2f1 !important; // Light grey on hover
+}
+
+.govuk-link--inverse:visited {
+  color: white !important; // Keep inverse links white even when visited
 }
 
 // Ensure inverse links in masthead don't get visited link styling
