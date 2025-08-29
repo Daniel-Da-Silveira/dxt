@@ -103,8 +103,8 @@ activeLinkId: ""
                     </a>
                 </li>
                 <li class="govuk-tabs__list-item">
-                    <a class="govuk-tabs__tab" href="#developer-plugin">
-                        Developer plugin
+                    <a class="govuk-tabs__tab" href="#developer-toolkit">
+                        Developer Toolkit
                     </a>
                 </li>
             </ul>
@@ -199,14 +199,15 @@ activeLinkId: ""
                     <div class="govuk-grid-column-two-thirds">
                         <h3 class="govuk-heading-m">Consistent labels and error messages</h3>
                         <p class="govuk-body">
-                            Each question's short description automatically generates error messages (using GOV.UK
-                            Design System
-                            templates) as well
-                            as the labels shown on check answers pages and in confirmation emails. This keeps your
-                            forms
-                            consistent
-                            with other GOV.UK forms, and saving
-                            you from writing them yourself so you can focus on designing the rest of your form.
+                            The short description you give each question is automatically used to generate error
+                            messages
+                            (based on <a href="https://design-system.service.gov.uk/components/error-message/"
+                                class="govuk-link--no-visited-state">GOV.UK Design System templates</a>). It also
+                            creates
+                            the labels shown on <a href="https://design-system.service.gov.uk/patterns/check-answers/"
+                                class="govuk-link--no-visited-state">check answer pages</a>.
+                            This keeps your form consistent with other GOV.UK forms and saves you time, so you can
+                            focus on designing the rest of your form.
                         </p>
 
                     </div>
@@ -369,13 +370,13 @@ activeLinkId: ""
             </div>
 
             {# Developer tools tab #}
-            <div class="govuk-tabs__panel govuk-tabs__panel--hidden" id="developer-plugin">
-                <h2 class="govuk-heading-l">Developer plugin</h2>
+            <div class="govuk-tabs__panel govuk-tabs__panel--hidden" id="developer-toolkit">
+                <h2 class="govuk-heading-l">Defra Form Developer Toolkit</h2>
 
                 {# Feature 9: Developer plugin #}
                 <div class="govuk-grid-row govuk-!-margin-bottom-6">
                     <div class="govuk-grid-column-two-thirds">
-                        <p class="govuk-body">The Defra Forms Engine Plugin is built on top of the Hapi framework,
+                        <p class="govuk-body">The Defra Form Developer Toolkit is built on top of the Hapi framework,
                             so it
                             slots
                             neatly into apps you're already running there. It removes the need to hand-code every
@@ -383,7 +384,7 @@ activeLinkId: ""
                             page or
                             journey by letting you define everything in configuration.</p>
 
-                        <p class="govuk-body">The plugin handles rendering, validation, accessibility, and the full
+                        <p class="govuk-body">The Toolkit handles rendering, validation, accessibility, and the full
                             request
                             lifecycle, while still giving you the freedom to extend it with your own Hapi services,
                             routes, and
@@ -398,7 +399,7 @@ activeLinkId: ""
                     </div>
                     <div class="govuk-grid-column-one-third">
                         <img src="/public/images/plugin.svg" class="govuk-!-width-full"
-                            alt="Illustration showing the DEFRA Forms Engine Plugin architecture">
+                            alt="Illustration showing the Defra Form Developer Toolkit architecture">
                     </div>
                 </div>
 
