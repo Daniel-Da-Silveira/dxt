@@ -364,421 +364,422 @@ activeLinkId: "nav-editor"
                 <h1 class="govuk-heading-l" id="dynamic-heading-more-than-1">
                   {{ currentPage.guidanceOnlyHeadingInput or 'Page heading' }}
                 </h1>
-                <div class="govuk-body" id="guidance-paragraph">
-                  {{ currentPage.guidanceOnlyGuidanceTextInput or 'Guidance text' }}
-                </div>
               </div>
-
-              <a href="#edit-page" class="govuk-skip-link" style="margin-bottom: 30px!important;" {%
-                from "govuk/components/radios/macro.njk" import govukRadios %} {% set setName=currentPage.setName or ''
-                %} {# {{ govukButton({ text: "Continue" , classes: "govuk-button govuk-!-margin-top-6" ,
-                id: "once-button" , disabled: true }) }} #} </div>
+              <div class="govuk-body" id="guidance-paragraph">
+                {{ currentPage.guidanceOnlyGuidanceTextInput or 'Guidance text' }}
+              </div>
             </div>
+
+            <a href="#edit-page" class="govuk-skip-link" style="margin-bottom: 30px!important;" {%
+              from "govuk/components/radios/macro.njk" import govukRadios %} {% set setName=currentPage.setName or '' %}
+              {# {{ govukButton({ text: "Continue" , classes: "govuk-button govuk-!-margin-top-6" , id: "once-button" ,
+              disabled: true }) }} #} </div>
           </div>
         </div>
+      </div>
 
-        <script>
-          document.addEventListener("DOMContentLoaded", function () {
-            const domElements = {
-              questionLabelInputEmail: document.getElementById("question-label-input-email"),
-              questionLabelLegend: document.getElementById("question-label-legend"),
-              hintTextInputEmail: document.getElementById("hint-text-input-email"),
-              hintTextOutput: document.getElementById("hint-text-output"),
-              makeOptionalCheckbox: document.getElementById("make-optional"),
-              guidanceOnlyHeadingInput: document.getElementById("guidance-only-page-heading-input"),
-              dynamicHeading: document.getElementById("dynamic-heading-more-than-1"),
-              guidanceEmail: document.getElementById("guidance-only-guidance-text-input"),
-              guidanceParagraph: document.getElementById("guidance-paragraph"),
-              addAnotherSetButton: document.getElementById("add-another-set-button")
-            };
+      <script>
+        document.addEventListener("DOMContentLoaded", function () {
+          const domElements = {
+            questionLabelInputEmail: document.getElementById("question-label-input-email"),
+            questionLabelLegend: document.getElementById("question-label-legend"),
+            hintTextInputEmail: document.getElementById("hint-text-input-email"),
+            hintTextOutput: document.getElementById("hint-text-output"),
+            makeOptionalCheckbox: document.getElementById("make-optional"),
+            guidanceOnlyHeadingInput: document.getElementById("guidance-only-page-heading-input"),
+            dynamicHeading: document.getElementById("dynamic-heading-more-than-1"),
+            guidanceEmail: document.getElementById("guidance-only-guidance-text-input"),
+            guidanceParagraph: document.getElementById("guidance-paragraph"),
+            addAnotherSetButton: document.getElementById("add-another-set-button")
+          };
 
-            initializeEventListeners();
+          initializeEventListeners();
 
-            // Set default placeholders on page load only if no content exists
+          // Set default placeholders on page load only if no content exists
+          if (!domElements.guidanceOnlyHeadingInput.value) {
+            domElements.dynamicHeading.textContent = "Page heading";
+          }
+          if (!domElements.guidanceEmail.value) {
+            domElements.guidanceParagraph.textContent = "Guidance text";
+          }
+
+          function initializeEventListeners() {
+            // Question Label Input
+            if (domElements.questionLabelInputEmail && domElements.questionLabelLegend) {
+              domElements.questionLabelInputEmail.addEventListener("input", updateQuestionLabel);
+              applyHighlightOnFocus(domElements.questionLabelInputEmail, domElements.questionLabelLegend);
+            }
+
+            // Hint Text Input
+            if (domElements.hintTextInputEmail && domElements.hintTextOutput) {
+              domElements.hintTextInputEmail.addEventListener("input", updateHintText);
+              domElements.hintTextInputEmail.addEventListener("focus", showPlaceholderHint);
+              applyHighlightOnFocus(domElements.hintTextInputEmail, domElements.hintTextOutput);
+            }
+
+            // Page Heading Input
+            if (domElements.guidanceOnlyHeadingInput && domElements.dynamicHeading) {
+              console.log('Attaching highlight to:', domElements.dynamicHeading);
+              applyHighlightOnFocus(
+                domElements.guidanceOnlyHeadingInput,
+                domElements.dynamicHeading
+              );
+            } else {
+              console.warn('dynamicHeading or guidanceOnlyHeadingInput not found', domElements);
+            }
+
+            // Guidance Text Input with placeholder behavior on blur
+            if (domElements.guidanceEmail && domElements.guidanceParagraph) {
+              domElements.guidanceEmail.addEventListener("input", updateGuidanceText);
+              domElements.guidanceEmail.addEventListener("focus", showPlaceholderGuidance);
+              domElements.guidanceEmail.addEventListener("blur", clearPlaceholderGuidance);
+              applyHighlightOnFocus(domElements.guidanceEmail, domElements.guidanceParagraph);
+            }
+
+            // Optional Checkbox
+            if (domElements.makeOptionalCheckbox) {
+              domElements.makeOptionalCheckbox.addEventListener("change", updateQuestionLabel);
+            }
+          }
+
+          // Update Question Label with Optional Suffix
+          function updateQuestionLabel() {
+            const suffix = domElements.makeOptionalCheckbox.checked ? " (optional)" : "";
+            domElements.questionLabelLegend.textContent = domElements.questionLabelInputEmail.value || "Question";
+            domElements.questionLabelLegend.textContent += suffix;
+          }
+
+          // Update Hint Text Dynamically
+          function updateHintText() {
+            domElements.hintTextOutput.textContent = domElements.hintTextInputEmail.value || "Hint text";
+          }
+
+          // Update Page Heading Dynamically
+          function updatePageHeading() {
+            domElements.dynamicHeading.textContent = domElements.guidanceOnlyHeadingInput.value || "Page heading";
+          }
+
+          // Update Guidance Text Dynamically
+          function updateGuidanceText() {
+            domElements.guidanceParagraph.textContent = domElements.guidanceEmail.value || "Guidance text";
+          }
+
+          // Apply and Remove Highlight on Focus/Blur
+          function applyHighlightOnFocus(inputElement, targetElement, allTargets = []) {
+            if (inputElement && targetElement) {
+              inputElement.addEventListener("focus", function () {
+                console.log('Input focused, applying highlight to:', targetElement);
+                targetElement.classList.add("highlight");
+                if (!inputElement.value) {
+                  targetElement.textContent = getPlaceholderText(targetElement.id);
+                }
+              });
+              inputElement.addEventListener("blur", function () {
+                targetElement.classList.remove("highlight");
+              });
+
+              // If the input is already focused
+              if (document.activeElement === inputElement) {
+                targetElement.classList.add("highlight");
+              }
+            }
+          }
+
+          // Placeholder functions to show placeholder text when empty
+          function showPlaceholderHint() {
+            if (!domElements.hintTextInputEmail.value) {
+              domElements.hintTextOutput.textContent = "Hint text";
+            }
+          }
+
+          function showPlaceholderHeading() {
             if (!domElements.guidanceOnlyHeadingInput.value) {
               domElements.dynamicHeading.textContent = "Page heading";
             }
+          }
+
+          function showPlaceholderGuidance() {
             if (!domElements.guidanceEmail.value) {
               domElements.guidanceParagraph.textContent = "Guidance text";
             }
+          }
 
-            function initializeEventListeners() {
-              // Question Label Input
-              if (domElements.questionLabelInputEmail && domElements.questionLabelLegend) {
-                domElements.questionLabelInputEmail.addEventListener("input", updateQuestionLabel);
-                applyHighlightOnFocus(domElements.questionLabelInputEmail, domElements.questionLabelLegend);
-              }
-
-              // Hint Text Input
-              if (domElements.hintTextInputEmail && domElements.hintTextOutput) {
-                domElements.hintTextInputEmail.addEventListener("input", updateHintText);
-                domElements.hintTextInputEmail.addEventListener("focus", showPlaceholderHint);
-                applyHighlightOnFocus(domElements.hintTextInputEmail, domElements.hintTextOutput);
-              }
-
-              // Page Heading Input
-              if (domElements.guidanceOnlyHeadingInput && domElements.dynamicHeading) {
-                console.log('Attaching highlight to:', domElements.dynamicHeading);
-                applyHighlightOnFocus(
-                  domElements.guidanceOnlyHeadingInput,
-                  domElements.dynamicHeading
-                );
-              } else {
-                console.warn('dynamicHeading or guidanceOnlyHeadingInput not found', domElements);
-              }
-
-              // Guidance Text Input with placeholder behavior on blur
-              if (domElements.guidanceEmail && domElements.guidanceParagraph) {
-                domElements.guidanceEmail.addEventListener("input", updateGuidanceText);
-                domElements.guidanceEmail.addEventListener("focus", showPlaceholderGuidance);
-                domElements.guidanceEmail.addEventListener("blur", clearPlaceholderGuidance);
-                applyHighlightOnFocus(domElements.guidanceEmail, domElements.guidanceParagraph);
-              }
-
-              // Optional Checkbox
-              if (domElements.makeOptionalCheckbox) {
-                domElements.makeOptionalCheckbox.addEventListener("change", updateQuestionLabel);
-              }
+          // Remove guidance placeholder if the field is empty and focus is lost
+          function clearPlaceholderGuidance() {
+            if (!domElements.guidanceEmail.value) {
+              domElements.guidanceParagraph.textContent = "Guidance text";
             }
+          }
 
-            // Update Question Label with Optional Suffix
-            function updateQuestionLabel() {
-              const suffix = domElements.makeOptionalCheckbox.checked ? " (optional)" : "";
-              domElements.questionLabelLegend.textContent = domElements.questionLabelInputEmail.value || "Question";
-              domElements.questionLabelLegend.textContent += suffix;
-            }
-
-            // Update Hint Text Dynamically
-            function updateHintText() {
-              domElements.hintTextOutput.textContent = domElements.hintTextInputEmail.value || "Hint text";
-            }
-
-            // Update Page Heading Dynamically
-            function updatePageHeading() {
-              domElements.dynamicHeading.textContent = domElements.guidanceOnlyHeadingInput.value || "Page heading";
-            }
-
-            // Update Guidance Text Dynamically
-            function updateGuidanceText() {
-              domElements.guidanceParagraph.textContent = domElements.guidanceEmail.value || "Guidance text";
-            }
-
-            // Apply and Remove Highlight on Focus/Blur
-            function applyHighlightOnFocus(inputElement, targetElement, allTargets = []) {
-              if (inputElement && targetElement) {
-                inputElement.addEventListener("focus", function () {
-                  console.log('Input focused, applying highlight to:', targetElement);
-                  targetElement.classList.add("highlight");
-                  if (!inputElement.value) {
-                    targetElement.textContent = getPlaceholderText(targetElement.id);
-                  }
-                });
-                inputElement.addEventListener("blur", function () {
-                  targetElement.classList.remove("highlight");
-                });
-
-                // If the input is already focused
-                if (document.activeElement === inputElement) {
-                  targetElement.classList.add("highlight");
-                }
-              }
-            }
-
-            // Placeholder functions to show placeholder text when empty
-            function showPlaceholderHint() {
-              if (!domElements.hintTextInputEmail.value) {
-                domElements.hintTextOutput.textContent = "Hint text";
-              }
-            }
-
-            function showPlaceholderHeading() {
-              if (!domElements.guidanceOnlyHeadingInput.value) {
-                domElements.dynamicHeading.textContent = "Page heading";
-              }
-            }
-
-            function showPlaceholderGuidance() {
-              if (!domElements.guidanceEmail.value) {
-                domElements.guidanceParagraph.textContent = "Guidance text";
-              }
-            }
-
-            // Remove guidance placeholder if the field is empty and focus is lost
-            function clearPlaceholderGuidance() {
-              if (!domElements.guidanceEmail.value) {
-                domElements.guidanceParagraph.textContent = "Guidance text";
-              }
-            }
-
-            // Helper function for setting placeholder text
-            function getPlaceholderText(elementId) {
-              const placeholders = {
-                "question-label-legend": "Question",
-                "hint-text-output": "Hint text",
-                "dynamic-heading-more-than-1": "Page heading",
-                "guidance-paragraph": "Guidance text"
-              };
-              return placeholders[elementId] || "";
-            }
-          });
-        </script>
-
-
-        <script>
-          document.addEventListener("DOMContentLoaded", function () {
-            const domElements = {
-              moreThanOnceRadio: document.getElementById("more-than-1"),
-              onceRadio: document.getElementById("once"),
-              addAnotherSetButton: document.getElementById("add-another-set-button"),
-              onceButton: document.getElementById("once-button"),
-              setName: document.getElementById("set-name"),
-              dynamicCaption: document.getElementById("dynamic-caption"),
+          // Helper function for setting placeholder text
+          function getPlaceholderText(elementId) {
+            const placeholders = {
+              "question-label-legend": "Question",
+              "hint-text-output": "Hint text",
+              "dynamic-heading-more-than-1": "Page heading",
+              "guidance-paragraph": "Guidance text"
             };
-
-            initializeEventListeners();
-            toggleCaptionAndButtons(); // Set initial visibility on page load
-
-            function initializeEventListeners() {
-              domElements.moreThanOnceRadio.addEventListener("change", toggleCaptionAndButtons);
-              domElements.onceRadio.addEventListener("change", toggleCaptionAndButtons);
-              domElements.setName.addEventListener("focus", onFocusUpdate);
-              domElements.setName.addEventListener("input", updateDynamicCaptionAndButton);
-              domElements.setName.addEventListener("blur", removeButtonHighlight);
-            }
-
-            function onFocusUpdate() {
-              updateDynamicCaptionAndButton();
-              domElements.dynamicCaption.classList.add("highlight");
-            }
-
-            function updateDynamicCaptionAndButton() {
-              const setName = domElements.setName.value.trim();
-
-              // Update dynamic caption
-              domElements.dynamicCaption.textContent = setName ? `${setName} 1` : "Question set name";
-              domElements.dynamicCaption.style.display = "block";
-
-              // Highlight part of 'Add another' button text
-              const highlightedText = `<span class="highlight" style="color: black;">${setName || "[question set name]"}</span>`;
-              domElements.addAnotherSetButton.innerHTML = `Add another ${highlightedText}`;
-              domElements.addAnotherSetButton.disabled = !setName && domElements.setName !== document.activeElement;
-            }
-
-            function removeButtonHighlight() {
-              const setName = domElements.setName.value.trim();
-              domElements.addAnotherSetButton.innerHTML = `Add another ${setName || "[question set name]"}`;
-              domElements.dynamicCaption.classList.remove("highlight");
-            }
-
-            function toggleCaptionAndButtons() {
-              if (domElements.moreThanOnceRadio.checked) {
-                showCaptionWithPlaceholder();
-                domElements.addAnotherSetButton.style.display = "inline-block";
-                domElements.onceButton.style.display = "none";
-              } else {
-                hideCaptionAndClearInput();
-                domElements.addAnotherSetButton.style.display = "none";
-                domElements.onceButton.style.display = "inline-block";
-              }
-            }
-
-            function showCaptionWithPlaceholder() {
-              domElements.dynamicCaption.textContent = "Question set name";
-              domElements.dynamicCaption.style.display = "block";
-            }
-
-            function hideCaptionAndClearInput() {
-              domElements.dynamicCaption.style.display = "none";
-              domElements.dynamicCaption.classList.remove("highlight");
-            }
-          });
-        </script>
+            return placeholders[elementId] || "";
+          }
+        });
+      </script>
 
 
+      <script>
+        document.addEventListener("DOMContentLoaded", function () {
+          const domElements = {
+            moreThanOnceRadio: document.getElementById("more-than-1"),
+            onceRadio: document.getElementById("once"),
+            addAnotherSetButton: document.getElementById("add-another-set-button"),
+            onceButton: document.getElementById("once-button"),
+            setName: document.getElementById("set-name"),
+            dynamicCaption: document.getElementById("dynamic-caption"),
+          };
 
-        <script>
-          document.addEventListener('DOMContentLoaded', function () {
-            // Get the input elements
-            const headingInput = document.getElementById('guidance-only-page-heading-input');
-            const guidanceInput = document.getElementById('guidance-only-guidance-text-input');
+          initializeEventListeners();
+          toggleCaptionAndButtons(); // Set initial visibility on page load
 
-            // Get the preview elements
-            const headingPreview = document.getElementById('dynamic-heading-more-than-1');
-            const guidancePreview = document.getElementById('guidance-paragraph');
-
-            // Update heading preview
-            headingInput.addEventListener('input', function () {
-              headingPreview.textContent = this.value || 'Page heading';
-            });
-
-            // Update guidance preview with markdown conversion
-            guidanceInput.addEventListener('input', function () {
-              if (typeof marked !== 'undefined') {
-                guidancePreview.innerHTML = marked.parse(this.value || '');
-              } else {
-                guidancePreview.textContent = this.value || '';
-              }
-            });
-          });
-        </script>
-
-
-        <style>
-          .highlight {
-            background-color: #ffe5cc;
-            border-bottom: 2px solid #ffb266;
+          function initializeEventListeners() {
+            domElements.moreThanOnceRadio.addEventListener("change", toggleCaptionAndButtons);
+            domElements.onceRadio.addEventListener("change", toggleCaptionAndButtons);
+            domElements.setName.addEventListener("focus", onFocusUpdate);
+            domElements.setName.addEventListener("input", updateDynamicCaptionAndButton);
+            domElements.setName.addEventListener("blur", removeButtonHighlight);
           }
 
-          #before-content {
-            position: absolute;
-            top: 0;
-            left: 10 !important;
-            right: 0;
-            /* Ensure the right side is aligned with the container edge */
-            width: 100%;
-            padding: 10px !important;
-
-            /* Remove padding to avoid affecting the width */
-            box-sizing: border-box;
-            /* Ensure content, padding, and borders are within width */
-            z-index: 1;
-            border-bottom: 1px solid #008938;
-            padding-left: 10px;
-            /* Add padding-left specifically for content */
+          function onFocusUpdate() {
+            updateDynamicCaptionAndButton();
+            domElements.dynamicCaption.classList.add("highlight");
           }
 
-          #second-container {
-            padding: 0;
-            /* Ensure no padding on the container itself */
-            box-sizing: border-box;
-            /* Ensure container handles padding/border correctly */
+          function updateDynamicCaptionAndButton() {
+            const setName = domElements.setName.value.trim();
+
+            // Update dynamic caption
+            domElements.dynamicCaption.textContent = setName ? `${setName} 1` : "Question set name";
+            domElements.dynamicCaption.style.display = "block";
+
+            // Highlight part of 'Add another' button text
+            const highlightedText = `<span class="highlight" style="color: black;">${setName || "[question set name]"}</span>`;
+            domElements.addAnotherSetButton.innerHTML = `Add another ${highlightedText}`;
+            domElements.addAnotherSetButton.disabled = !setName && domElements.setName !== document.activeElement;
           }
 
-          #second-container>* {
-            padding-left: 0px;
-            z-index: 2;
-            /* Ensure content is above the #before-content */
+          function removeButtonHighlight() {
+            const setName = domElements.setName.value.trim();
+            domElements.addAnotherSetButton.innerHTML = `Add another ${setName || "[question set name]"}`;
+            domElements.dynamicCaption.classList.remove("highlight");
           }
-        </style>
 
-        <script>
-          document.addEventListener('DOMContentLoaded', function () {
-            console.log('Page loaded');
-
-            // Main form submission
-            const mainForm = document.querySelector('form.form');
-            if (mainForm) {
-              console.log('Main form found:', mainForm.action);
-              mainForm.addEventListener('submit', function (e) {
-                console.log('Form submitted');
-                const formData = new FormData(mainForm);
-                console.log('Form data:', Object.fromEntries(formData));
-              });
+          function toggleCaptionAndButtons() {
+            if (domElements.moreThanOnceRadio.checked) {
+              showCaptionWithPlaceholder();
+              domElements.addAnotherSetButton.style.display = "inline-block";
+              domElements.onceButton.style.display = "none";
             } else {
-              console.error('Main form not found');
+              hideCaptionAndClearInput();
+              domElements.addAnotherSetButton.style.display = "none";
+              domElements.onceButton.style.display = "inline-block";
             }
+          }
 
-            // Section handling
-            const sectionSelect = document.getElementById('section');
-            const sectionEditCard = document.getElementById('section-edit-card');
-            const newSectionName = document.getElementById('new-section-name');
-            const saveNewSection = document.getElementById('save-new-section');
-            const cancelCreateSection = document.getElementById('cancel-create-section');
+          function showCaptionWithPlaceholder() {
+            domElements.dynamicCaption.textContent = "Question set name";
+            domElements.dynamicCaption.style.display = "block";
+          }
 
-            // Function to update the preview section caption
-            function updatePreviewSection(sectionName, shouldHighlight = false) {
-              const headingContainer = document.getElementById('heading-container');
-              if (!headingContainer) return;
-              const caption = headingContainer.querySelector('#section-caption');
-              if (caption) {
-                caption.textContent = sectionName || '';
-                caption.classList.toggle('highlight', shouldHighlight && !!sectionName);
+          function hideCaptionAndClearInput() {
+            domElements.dynamicCaption.style.display = "none";
+            domElements.dynamicCaption.classList.remove("highlight");
+          }
+        });
+      </script>
+
+
+
+      <script>
+        document.addEventListener('DOMContentLoaded', function () {
+          // Get the input elements
+          const headingInput = document.getElementById('guidance-only-page-heading-input');
+          const guidanceInput = document.getElementById('guidance-only-guidance-text-input');
+
+          // Get the preview elements
+          const headingPreview = document.getElementById('dynamic-heading-more-than-1');
+          const guidancePreview = document.getElementById('guidance-paragraph');
+
+          // Update heading preview
+          headingInput.addEventListener('input', function () {
+            headingPreview.textContent = this.value || 'Page heading';
+          });
+
+          // Update guidance preview with markdown conversion
+          guidanceInput.addEventListener('input', function () {
+            if (typeof marked !== 'undefined') {
+              guidancePreview.innerHTML = marked.parse(this.value || '');
+            } else {
+              guidancePreview.textContent = this.value || '';
+            }
+          });
+        });
+      </script>
+
+
+      <style>
+        .highlight {
+          background-color: #ffe5cc;
+          border-bottom: 2px solid #ffb266;
+        }
+
+        #before-content {
+          position: absolute;
+          top: 0;
+          left: 10 !important;
+          right: 0;
+          /* Ensure the right side is aligned with the container edge */
+          width: 100%;
+          padding: 10px !important;
+
+          /* Remove padding to avoid affecting the width */
+          box-sizing: border-box;
+          /* Ensure content, padding, and borders are within width */
+          z-index: 1;
+          border-bottom: 1px solid #008938;
+          padding-left: 10px;
+          /* Add padding-left specifically for content */
+        }
+
+        #second-container {
+          padding: 0;
+          /* Ensure no padding on the container itself */
+          box-sizing: border-box;
+          /* Ensure container handles padding/border correctly */
+        }
+
+        #second-container>* {
+          padding-left: 0px;
+          z-index: 2;
+          /* Ensure content is above the #before-content */
+        }
+      </style>
+
+      <script>
+        document.addEventListener('DOMContentLoaded', function () {
+          console.log('Page loaded');
+
+          // Main form submission
+          const mainForm = document.querySelector('form.form');
+          if (mainForm) {
+            console.log('Main form found:', mainForm.action);
+            mainForm.addEventListener('submit', function (e) {
+              console.log('Form submitted');
+              const formData = new FormData(mainForm);
+              console.log('Form data:', Object.fromEntries(formData));
+            });
+          } else {
+            console.error('Main form not found');
+          }
+
+          // Section handling
+          const sectionSelect = document.getElementById('section');
+          const sectionEditCard = document.getElementById('section-edit-card');
+          const newSectionName = document.getElementById('new-section-name');
+          const saveNewSection = document.getElementById('save-new-section');
+          const cancelCreateSection = document.getElementById('cancel-create-section');
+
+          // Function to update the preview section caption
+          function updatePreviewSection(sectionName, shouldHighlight = false) {
+            const headingContainer = document.getElementById('heading-container');
+            if (!headingContainer) return;
+            const caption = headingContainer.querySelector('#section-caption');
+            if (caption) {
+              caption.textContent = sectionName || '';
+              caption.classList.toggle('highlight', shouldHighlight && !!sectionName);
+            }
+          }
+
+          if (sectionSelect) {
+            // Handle section selection change
+            sectionSelect.addEventListener('change', function () {
+              if (this.value === 'create-new') {
+                sectionEditCard.style.display = 'block';
+                this.value = ''; // Reset to no selection
+                updatePreviewSection(null);
+              } else {
+                const selectedOption = this.options[this.selectedIndex];
+                if (selectedOption && selectedOption.value) {
+                  updatePreviewSection(selectedOption.text);
+                } else {
+                  updatePreviewSection(null);
+                }
               }
-            }
+            });
+          }
 
-            if (sectionSelect) {
-              // Handle section selection change
-              sectionSelect.addEventListener('change', function () {
-                if (this.value === 'create-new') {
-                  sectionEditCard.style.display = 'block';
-                  this.value = ''; // Reset to no selection
-                  updatePreviewSection(null);
-                } else {
-                  const selectedOption = this.options[this.selectedIndex];
-                  if (selectedOption && selectedOption.value) {
-                    updatePreviewSection(selectedOption.text);
-                  } else {
-                    updatePreviewSection(null);
+          if (newSectionName) {
+            // Handle input changes
+            newSectionName.addEventListener('input', function () {
+              const sectionName = this.value.trim();
+              if (sectionName) {
+                updatePreviewSection(sectionName, true);
+              } else {
+                updatePreviewSection(null);
+              }
+            });
+
+            // Handle focus - show placeholder
+            newSectionName.addEventListener('focus', function () {
+              if (!this.value.trim()) {
+                updatePreviewSection('Section name', true);
+              }
+            });
+
+            // Handle blur - remove placeholder if empty
+            newSectionName.addEventListener('blur', function () {
+              if (!this.value.trim()) {
+                updatePreviewSection(null);
+              }
+            });
+          }
+
+          if (saveNewSection && newSectionName) {
+            // Handle new section creation
+            saveNewSection.addEventListener('click', async function () {
+              const sectionName = newSectionName.value.trim();
+              if (sectionName) {
+                try {
+                  // Create new section via API
+                  const response = await fetch('/titan-mvp-1.2/form-editor/api/sections', {
+                    method: 'POST',
+                    headers: {
+                      'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                      name: sectionName,
+                      description: ''
+                    }),
+                  });
+
+                  if (!response.ok) {
+                    throw new Error('Failed to create section');
                   }
-                }
-              });
-            }
 
-            if (newSectionName) {
-              // Handle input changes
-              newSectionName.addEventListener('input', function () {
-                const sectionName = this.value.trim();
-                if (sectionName) {
-                  updatePreviewSection(sectionName, true);
-                } else {
-                  updatePreviewSection(null);
-                }
-              });
+                  const newSection = await response.json();
 
-              // Handle focus - show placeholder
-              newSectionName.addEventListener('focus', function () {
-                if (!this.value.trim()) {
-                  updatePreviewSection('Section name', true);
-                }
-              });
+                  // Add new section to select options
+                  const option = new Option(sectionName, newSection.id);
+                  sectionSelect.add(option);
+                  sectionSelect.value = newSection.id;
 
-              // Handle blur - remove placeholder if empty
-              newSectionName.addEventListener('blur', function () {
-                if (!this.value.trim()) {
-                  updatePreviewSection(null);
-                }
-              });
-            }
+                  // Hide the edit card and clear the input
+                  sectionEditCard.style.display = 'none';
+                  newSectionName.value = '';
 
-            if (saveNewSection && newSectionName) {
-              // Handle new section creation
-              saveNewSection.addEventListener('click', async function () {
-                const sectionName = newSectionName.value.trim();
-                if (sectionName) {
-                  try {
-                    // Create new section via API
-                    const response = await fetch('/titan-mvp-1.2/form-editor/api/sections', {
-                      method: 'POST',
-                      headers: {
-                        'Content-Type': 'application/json',
-                      },
-                      body: JSON.stringify({
-                        name: sectionName,
-                        description: ''
-                      }),
-                    });
+                  // Update preview with the new section name
+                  updatePreviewSection(sectionName);
 
-                    if (!response.ok) {
-                      throw new Error('Failed to create section');
-                    }
-
-                    const newSection = await response.json();
-
-                    // Add new section to select options
-                    const option = new Option(sectionName, newSection.id);
-                    sectionSelect.add(option);
-                    sectionSelect.value = newSection.id;
-
-                    // Hide the edit card and clear the input
-                    sectionEditCard.style.display = 'none';
-                    newSectionName.value = '';
-
-                    // Update preview with the new section name
-                    updatePreviewSection(sectionName);
-
-                    // Show success message
-                    const successBanner = document.createElement('div');
-                    successBanner.innerHTML = `
+                  // Show success message
+                  const successBanner = document.createElement('div');
+                  successBanner.innerHTML = `
                     <div class="govuk-notification-banner govuk-notification-banner--success" role="alert">
                       <div class="govuk-notification-banner__header">
                         <h2 class="govuk-notification-banner__title">Success</h2>
@@ -788,13 +789,13 @@ activeLinkId: "nav-editor"
                       </div>
                     </div>
                   `;
-                    document.querySelector('.govuk-grid-column-full').prepend(successBanner);
-                    setTimeout(() => successBanner.remove(), 3000);
-                  } catch (error) {
-                    console.error('Error creating section:', error);
-                    // Show error message
-                    const errorBanner = document.createElement('div');
-                    errorBanner.innerHTML = `
+                  document.querySelector('.govuk-grid-column-full').prepend(successBanner);
+                  setTimeout(() => successBanner.remove(), 3000);
+                } catch (error) {
+                  console.error('Error creating section:', error);
+                  // Show error message
+                  const errorBanner = document.createElement('div');
+                  errorBanner.innerHTML = `
                     <div class="govuk-notification-banner govuk-notification-banner--error" role="alert">
                       <div class="govuk-notification-banner__header">
                         <h2 class="govuk-notification-banner__title">Error</h2>
@@ -804,44 +805,44 @@ activeLinkId: "nav-editor"
                       </div>
                     </div>
                   `;
-                    document.querySelector('.govuk-grid-column-full').prepend(errorBanner);
-                    setTimeout(() => errorBanner.remove(), 3000);
-                  }
+                  document.querySelector('.govuk-grid-column-full').prepend(errorBanner);
+                  setTimeout(() => errorBanner.remove(), 3000);
                 }
-              });
-            }
-
-            if (cancelCreateSection) {
-              // Handle cancel creation
-              cancelCreateSection.addEventListener('click', function (e) {
-                e.preventDefault();
-                sectionEditCard.style.display = 'none';
-                if (newSectionName) {
-                  newSectionName.value = '';
-                }
-                if (sectionSelect) {
-                  sectionSelect.value = '';
-                }
-                updatePreviewSection(null);
-              });
-            }
-
-            // Initialize preview with current section if any
-            if (sectionSelect && sectionSelect.value) {
-              const selectedOption = sectionSelect.options[sectionSelect.selectedIndex];
-              if (selectedOption && selectedOption.value) {
-                updatePreviewSection(selectedOption.text);
               }
+            });
+          }
+
+          if (cancelCreateSection) {
+            // Handle cancel creation
+            cancelCreateSection.addEventListener('click', function (e) {
+              e.preventDefault();
+              sectionEditCard.style.display = 'none';
+              if (newSectionName) {
+                newSectionName.value = '';
+              }
+              if (sectionSelect) {
+                sectionSelect.value = '';
+              }
+              updatePreviewSection(null);
+            });
+          }
+
+          // Initialize preview with current section if any
+          if (sectionSelect && sectionSelect.value) {
+            const selectedOption = sectionSelect.options[sectionSelect.selectedIndex];
+            if (selectedOption && selectedOption.value) {
+              updatePreviewSection(selectedOption.text);
             }
-          });
-        </script>
+          }
+        });
+      </script>
 
-        <!-- Add a test button for highlight -->
-        <button type="button"
-          onclick="document.getElementById('dynamic-heading-more-than-1').classList.toggle('highlight')">Toggle
-          Highlight
-          (Test)</button>
+      <!-- Add a test button for highlight -->
+      <button type="button"
+        onclick="document.getElementById('dynamic-heading-more-than-1').classList.toggle('highlight')">Toggle
+        Highlight
+        (Test)</button>
 
-        {% endblock %}
-      </div>
+      {% endblock %}
     </div>
+  </div>

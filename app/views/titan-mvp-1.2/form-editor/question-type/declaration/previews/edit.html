@@ -1,0 +1,81 @@
+{% extends "layouts/main.html" %}
+{% from "components/service-header/macro.njk" import serviceHeader %}
+
+{% block header %}
+{{ serviceHeader({
+organisationName: "Defra",
+productName: "Form Designer",
+serviceName: "",
+containerClasses: containerClasses,
+accountName: "Chris Smith",
+homepageLink: "/",
+signOutLink: "/onboarding/sign-out-confirmation",
+navigationItems: [
+{ href: "/titan-mvp-1/library.html", text: "Forms library", id: "nav-library" },
+{ href: "/cph-overview/draft/complete-clean.html", text: "Overview", id: "nav-overview" },
+{ href: "/titan-mvp-1/form-editor/listing", text: "Editor", id: "nav-editor" } ],
+activeLinkId: "nav-editor"
+}) }}
+{% endblock %}
+
+{% block content %}
+<div class="govuk-width-container">
+    <main class="govuk-main-wrapper">
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-two-thirds">
+
+                <!-- Declaration Question Preview -->
+                <div class="govuk-form-group">
+                    <fieldset class="govuk-fieldset" aria-describedby="declaration-hint">
+                        <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
+                            <span id="preview-question-label">Declaration question</span>
+                        </legend>
+                        <div id="declaration-hint" class="govuk-hint">
+                            <span id="preview-hint-text">Declaration hint text</span>
+                        </div>
+                        <div class="govuk-checkboxes" data-module="govuk-checkboxes">
+                            <div class="govuk-checkboxes__item">
+                                <input class="govuk-checkboxes__input" id="declaration-checkbox" name="declaration"
+                                    type="checkbox" value="confirmed">
+                                <label class="govuk-label govuk-checkboxes__label" for="declaration-checkbox">
+                                    <span id="preview-declaration-text">I declare that the information I have provided
+                                        is true and accurate to the best of my knowledge.</span>
+                                </label>
+                            </div>
+                        </div>
+                    </fieldset>
+                </div>
+
+                <!-- Continue Button -->
+                {{ govukButton({
+                text: "Continue",
+                type: "button",
+                id: "preview-continue-button"
+                }) }}
+
+            </div>
+        </div>
+    </main>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        // Get preview elements
+        const previewQuestionLabel = document.getElementById("preview-question-label");
+        const previewHintText = document.getElementById("preview-hint-text");
+        const previewDeclarationText = document.getElementById("preview-declaration-text");
+
+        // Set default values if none are provided
+        if (!previewQuestionLabel.textContent.trim()) {
+            previewQuestionLabel.textContent = "Declaration question";
+        }
+        if (!previewHintText.textContent.trim()) {
+            previewHintText.textContent = "Declaration hint text";
+        }
+        if (!previewDeclarationText.textContent.trim()) {
+            previewDeclarationText.textContent = "I declare that the information I have provided is true and accurate to the best of my knowledge.";
+        }
+    });
+</script>
+
+{% endblock %}

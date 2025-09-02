@@ -1,0 +1,275 @@
+{% extends "layouts/main.html" %}
+{% from "components/service-header/macro.njk" import serviceHeader %}
+{% set pageName = "Edit page 1 - Apply for a county parish holding number in England" %}
+{% set headingPlaceholder = "Page heading" %}
+{% set guidancePlaceholder = "" %}
+
+{% block header %}
+{{ serviceHeader({
+organisationName: "Defra",
+productName: "Form Designer",
+serviceName: "",
+containerClasses: containerClasses,
+accountName: "Chris Smith",
+homepageLink: "/",
+signOutLink: "/onboarding/sign-out-confirmation",
+navigationItems: [
+{ href: "/titan-mvp-1/library.html", text: "Forms library", id: "nav-library" },
+{ href: "/cph-overview/draft/complete-clean.html", text: "Overview", id: "nav-overview" },
+{ href: "/titan-mvp-1/form-editor/listing", text: "Editor", id: "nav-editor" } ],
+activeLinkId: "nav-editor"
+}) }}
+
+<div class="x-govuk-masthead x-govuk-masthead--large">
+    <div class="govuk-width-container">
+        {{ govukBackLink({ classes: "govuk-back-link--inverse govuk-!-margin-bottom-0", text:
+        commonTerms.form_editor.information_type.back, href: "/titan-mvp-1/form-editor/listing.html" }) }}
+
+        <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible"
+            style="border-bottom: 1px solid white; margin-bottom: 0" />
+
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-full-from-desktop">
+                <h1 class="x-govuk-masthead__title">
+                    {{ form.name }}
+                </h1>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-full">
+        <div class="govuk-grid-row">
+            <!-- Left Column for Form Controls -->
+            <div class="govuk-grid-column-one-half-from-desktop" id="container" style="flex: 1 1 75%; overflow-y: auto">
+                <div class="govuk-summary-card govuk-!-margin-top-0" style="border-left: 10px solid #008938">
+                    <div class="govuk-summary-card__content govuk-!-padding-top-0" style="background-color: #f3f2f1">
+                        <dl class="govuk-summary-list">
+                            <div class="govuk-summary-list__row">
+                                <dd class="govuk-summary-list__value">
+                                    <!-- Dynamic Summary List -->
+                                    <!-- Question Settings Container -->
+                                    <div class="govuk-grid-row" id="page-settings-container-1">
+                                        <div id="question-1">
+                                            <div class="govuk-summary-card__content" style="margin-bottom: 0">
+                                                <!-- Sub Navigation for Question -->
+                                                <nav class="moj-sub-navigation govuk-!-padding-top-0 govuk-!-margin-bottom-2 "
+                                                    aria-label="Sub navigation">
+                                                    <ul class="moj-sub-navigation__list" id="nav-list2">
+                                                        <li class="moj-sub-navigation__item">
+                                                            <a class="moj-sub-navigation__link" aria-current="page"
+                                                                href="#question-1-information-type">Question {{
+                                                                questionNumber }}</a>
+                                                        </li>
+                                                    </ul>
+                                                </nav>
+
+                                                <div class="govuk-summary-card__title-wrapper govuk-!-padding-top-0">
+                                                </div>
+
+                                                <span class="govuk-caption-l">Page {{ pageNumber }}</span>
+                                                <h2 class="govuk-heading-l">Edit question {{ questionNumber }}</h2>
+
+                                                <form id="s" action="/titan-mvp-1.2/question-configuration-save"
+                                                    method="post">
+
+                                                    <!-- Question Label Input -->
+                                                    <div class="govuk-form-group">
+                                                        <label class="govuk-label govuk-label--m"
+                                                            for="question-label-input-declaration">
+                                                            {{ commonTerms.form_editor.question_settings.question }}
+                                                        </label>
+                                                        <input class="govuk-input" id="question-label-input-declaration"
+                                                            name="questionLabelInputDeclaration" type="text" value="">
+                                                    </div>
+
+                                                    <!-- Hint Text Input -->
+                                                    {{ govukTextarea({
+                                                    label: {
+                                                    text: commonTerms.form_editor.question_settings.hint,
+                                                    classes: "govuk-label--m"
+                                                    },
+                                                    id: "hint-text-input-declaration",
+                                                    name: "hintTextInputDeclaration",
+                                                    value: data['hint-text-input-declaration'],
+                                                    classes: "govuk-textarea",
+                                                    rows: 3,
+                                                    describedBy: "hint-text-input-declaration"
+                                                    }) }}
+
+                                                    <!-- Declaration Text Input -->
+                                                    <div class="govuk-form-group">
+                                                        <label class="govuk-label govuk-label--m"
+                                                            for="declaration-text-input">
+                                                            {{
+                                                            commonTerms.form_editor.question_settings.declaration_text
+                                                            }}
+                                                        </label>
+                                                        <textarea class="govuk-textarea" id="declaration-text-input"
+                                                            name="declarationTextInput" rows="5"
+                                                            aria-describedby="declaration-text-hint">{{ data['declaration-text-input'] or "I declare that the information I have provided is true and accurate to the best of my knowledge." }}</textarea>
+                                                        <div id="declaration-text-hint" class="govuk-hint">
+                                                            {{
+                                                            commonTerms.form_editor.question_settings.declaration_text_hint
+                                                            }}
+                                                        </div>
+                                                    </div>
+
+                                                    <!-- Make Optional Checkbox -->
+                                                    <div class="govuk-form-group">
+                                                        <div class="govuk-checkboxes govuk-checkboxes--small">
+                                                            <div class="govuk-checkboxes__item">
+                                                                <input class="govuk-checkboxes__input"
+                                                                    id="make-optional-declaration"
+                                                                    name="makeOptionalDeclaration" type="checkbox"
+                                                                    value="true">
+                                                                <label class="govuk-label govuk-checkboxes__label"
+                                                                    for="make-optional-declaration">
+                                                                    {{
+                                                                    commonTerms.form_editor.question_settings.make_optional
+                                                                    }}
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <!-- Error Message Input -->
+                                                    <div class="govuk-form-group">
+                                                        <label class="govuk-label govuk-label--m"
+                                                            for="error-message-input-declaration">
+                                                            {{ commonTerms.form_editor.question_settings.error_message
+                                                            }}
+                                                        </label>
+                                                        <input class="govuk-input" id="error-message-input-declaration"
+                                                            name="errorMessageInputDeclaration" type="text"
+                                                            value="{{ data['error-message-input-declaration'] or 'You must confirm this declaration to continue' }}">
+                                                    </div>
+
+                                                    <!-- Save Button -->
+                                                    {{ govukButton({
+                                                    text: commonTerms.form_editor.common.save,
+                                                    type: "submit",
+                                                    id: "save-declaration-button"
+                                                    }) }}
+
+                                                </form>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </dd>
+                            </div>
+                        </dl>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Column for Preview -->
+            <div class="govuk-grid-column-one-half-from-desktop" id="second-container">
+                <div class="govuk-summary-card govuk-!-margin-top-0" style="border-left: 10px solid #008938">
+                    <div class="govuk-summary-card__content govuk-!-padding-top-0" style="background-color: #f3f2f1">
+                        <dl class="govuk-summary-list">
+                            <div class="govuk-summary-list__row">
+                                <dd class="govuk-summary-list__value">
+                                    <div class="govuk-grid-row" id="page-settings-container-2">
+                                        <div id="question-2">
+                                            <div class="govuk-summary-card__content" style="margin-bottom: 0">
+                                                <nav class="moj-sub-navigation govuk-!-padding-top-0 govuk-!-margin-bottom-2 "
+                                                    aria-label="Sub navigation">
+                                                    <ul class="moj-sub-navigation__list" id="nav-list3">
+                                                        <li class="moj-sub-navigation__item">
+                                                            <a class="moj-sub-navigation__link" aria-current="page"
+                                                                href="#question-2-preview">Preview</a>
+                                                        </li>
+                                                    </ul>
+                                                </nav>
+
+                                                <div class="govuk-summary-card__title-wrapper govuk-!-padding-top-0">
+                                                </div>
+
+                                                <span class="govuk-caption-l">Page {{ pageNumber }}</span>
+                                                <h2 class="govuk-heading-l">Preview</h2>
+
+                                                <!-- Declaration Preview -->
+                                                <div class="govuk-form-group">
+                                                    <fieldset class="govuk-fieldset"
+                                                        aria-describedby="declaration-hint">
+                                                        <legend
+                                                            class="govuk-fieldset__legend govuk-fieldset__legend--l">
+                                                            <span id="preview-question-label">Declaration
+                                                                question</span>
+                                                        </legend>
+                                                        <div id="declaration-hint" class="govuk-hint">
+                                                            <span id="preview-hint-text">Declaration hint text</span>
+                                                        </div>
+                                                        <div class="govuk-checkboxes" data-module="govuk-checkboxes">
+                                                            <div class="govuk-checkboxes__item">
+                                                                <input class="govuk-checkboxes__input"
+                                                                    id="declaration-checkbox" name="declaration"
+                                                                    type="checkbox" value="confirmed">
+                                                                <label class="govuk-label govuk-checkboxes__label"
+                                                                    for="declaration-checkbox">
+                                                                    <span id="preview-declaration-text">I declare that
+                                                                        the information I have provided is true and
+                                                                        accurate to the best of my knowledge.</span>
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                    </fieldset>
+                                                </div>
+
+                                                <!-- Continue Button -->
+                                                {{ govukButton({
+                                                text: commonTerms.form_editor.common.continue,
+                                                type: "button",
+                                                id: "preview-continue-button",
+                                                classes: "govuk-button--secondary"
+                                                }) }}
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </dd>
+                            </div>
+                        </dl>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        // Get form elements
+        const questionLabelInput = document.getElementById("question-label-input-declaration");
+        const hintTextInput = document.getElementById("hint-text-input-declaration");
+        const declarationTextInput = document.getElementById("declaration-text-input");
+        const errorMessageInput = document.getElementById("error-message-input-declaration");
+
+        // Get preview elements
+        const previewQuestionLabel = document.getElementById("preview-question-label");
+        const previewHintText = document.getElementById("preview-hint-text");
+        const previewDeclarationText = document.getElementById("preview-declaration-text");
+
+        // Function to update preview
+        function updatePreview() {
+            previewQuestionLabel.textContent = questionLabelInput.value || "Declaration question";
+            previewHintText.textContent = hintTextInput.value || "Declaration hint text";
+            previewDeclarationText.textContent = declarationTextInput.value || "I declare that the information I have provided is true and accurate to the best of my knowledge.";
+        }
+
+        // Add event listeners for real-time preview updates
+        questionLabelInput.addEventListener("input", updatePreview);
+        hintTextInput.addEventListener("input", updatePreview);
+        declarationTextInput.addEventListener("input", updatePreview);
+
+        // Initialize preview with any existing values
+        updatePreview();
+    });
+</script>
+
+{% endblock %}

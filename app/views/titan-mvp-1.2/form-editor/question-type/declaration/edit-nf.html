@@ -1,0 +1,547 @@
+{% extends "layouts/main.html" %}
+{% from "components/service-header/macro.njk" import serviceHeader %}
+{% set pageName = "Edit page 1 - Apply for a county parish holding number in England" %}
+{% set headingPlaceholder = "Page heading" %}
+{% set guidancePlaceholder = "" %}
+
+{% block header %}
+{{ serviceHeader({
+organisationName: "Defra",
+productName: "Form Designer",
+serviceName: "",
+containerClasses: containerClasses,
+accountName: "Chris Smith",
+homepageLink: "/",
+signOutLink: "/onboarding/sign-out-confirmation",
+navigationItems: [
+{ href: "/titan-mvp-1/library.html", text: "Forms library", id: "nav-library" },
+{ href: "/cph-overview/draft/complete-clean.html", text: "Overview", id: "nav-overview" },
+{ href: "/titan-mvp-1/form-editor/listing", text: "Editor", id: "nav-editor" } ],
+activeLinkId: "nav-editor"
+}) }}
+
+<div class="x-govuk-masthead x-govuk-masthead--large">
+    <div class="govuk-width-container">
+        {{ govukBackLink({ classes: "govuk-back-link--inverse govuk-!-margin-bottom-0", text:
+        commonTerms.form_editor.information_type.back, href: "/titan-mvp-1/form-editor/listing.html" }) }}
+
+        <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible"
+            style="border-bottom: 1px solid white; margin-bottom: 0" />
+
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-full-from-desktop">
+                <h1 class="x-govuk-masthead__title">
+                    {{ form.name }}
+                </h1>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-full">
+        <div class="govuk-grid-row">
+            <!-- Left Column for Form Controls -->
+            <div class="govuk-grid-column-one-half-from-desktop" id="container" style="flex: 1 1 75%; overflow-y: auto">
+                <div class="govuk-summary-card govuk-!-margin-top-0" style="border-left: 10px solid #008938">
+                    <div class="govuk-summary-card__content govuk-!-padding-top-0" style="background-color: #f3f2f1">
+                        <dl class="govuk-summary-list">
+                            <div class="govuk-summary-list__row">
+                                <dd class="govuk-summary-list__value">
+                                    <!-- Dynamic Summary List -->
+                                    <!-- Question Settings Container -->
+                                    <div class="govuk-grid-row" id="page-settings-container-1">
+                                        <div id="question-1">
+                                            <div class="govuk-summary-card__content" style="margin-bottom: 0">
+                                                <!-- Sub Navigation for Question -->
+                                                <nav class="moj-sub-navigation govuk-!-padding-top-0 govuk-!-margin-bottom-2 "
+                                                    aria-label="Sub navigation">
+                                                    <ul class="moj-sub-navigation__list" id="nav-list2">
+                                                        <li class="moj-sub-navigation__item">
+                                                            <a class="moj-sub-navigation__link" aria-current="page"
+                                                                href="#question-1-information-type">Question {{
+                                                                pageNumber }}</a>
+                                                        </li>
+                                                        <li class="moj-sub-navigation__item">
+                                                            <a class="moj-sub-navigation__link"
+                                                                href="/titan-mvp-1.2/form-editor/conditions/question-level/{{ currentPage.pageId }}/{{ questionNumber }}">
+                                                                Conditions
+                                                            </a>
+                                                        </li>
+                                                    </ul>
+                                                </nav>
+
+                                                <div class="govuk-summary-card__title-wrapper govuk-!-padding-top-0">
+                                                </div>
+
+                                                <span class="govuk-caption-l">Page {{ pageNumber }}</span>
+                                                <h2 class="govuk-heading-l">Edit question {{ questionNumber }}</h2>
+
+                                                <form id="s" action="/titan-mvp-1.2/question-configuration-save"
+                                                    method="post">
+
+                                                    <!-- Details -->
+
+
+                                                    <!-- Question Label Input -->
+                                                    <div class="govuk-form-group">
+                                                        <label class="govuk-label govuk-label--m"
+                                                            for="question-label-input-declaration">
+                                                            {{ commonTerms.form_editor.question_settings.question }}
+                                                        </label>
+
+                                                        <div class="govuk-hint">
+                                                            This should usually include the word ‘Declaration’
+                                                        </div>
+                                                        <input class="govuk-input" id="question-label-input-declaration"
+                                                            name="questionLabelInputDeclaration" type="text" value="">
+                                                    </div>
+
+
+                                                    {{ govukDetails({
+                                                    summaryText: "Writing declaration text",
+                                                    html: "<p>The declaration should be tailored to the service and
+                                                        include information about what will happen if the user makes a
+                                                        false declaration.</p>
+                                                    <p>Do:</p>
+                                                    <ul class='govuk-list govuk-list--bullet'>
+                                                        <li>make consequences clear using simple language</li>
+                                                        <li>refer to the user as 'you' in the text, but 'I' in the
+                                                            action button</li>
+
+                                                        <li>link out to terms and conditions and privacy policy if
+                                                            needed</li>
+
+                                                    </ul>
+                                                    <p>Do not:</p>
+                                                    <ul class='govuk-list govuk-list--bullet'>
+                                                        <li>duplicate terms and conditions or privacy policies</li>
+                                                        <li>use the word 'prosecute' unless you are sure this is the
+                                                            case</li>
+                                                        <li>use complex legal or policy terms if they can be explained
+                                                            simply</li>
+
+                                                    </ul>
+                                                    "
+                                                    }) }}
+                                                    <!-- Declaration Text Input -->
+                                                    <div class="govuk-form-group">
+                                                        <label class="govuk-label govuk-label--m"
+                                                            for="declaration-text-input">
+                                                            {{
+                                                            commonTerms.form_editor.question_settings.declaration_text
+                                                            }}
+                                                        </label>
+                                                        <div class="govuk-hint">
+                                                            {{
+                                                            commonTerms.form_editor.question_settings.declaration_text_hint
+                                                            }}. You can use Markdown to format the content or add
+                                                            hyperlinks.
+                                                        </div>
+                                                        <textarea class="govuk-textarea" id="declaration-text-input"
+                                                            name="declarationTextInput" rows="5"
+                                                            aria-describedby="declaration-text-hint">{{ data['declaration-text-input'] or "" }}</textarea>
+                                                    </div>
+
+                                                    <details class="govuk-details">
+                                                        <summary class="govuk-details__summary">
+                                                            <span class="govuk-details__summary-text">
+                                                                Help with markdown
+                                                            </span>
+                                                        </summary>
+                                                        <div class="govuk-details__text">
+                                                            <h3 class="govuk-heading-s">Headings and subheadings</h3>
+                                                            <p class="govuk-body">Use one hash symbol followed by a
+                                                                space for a heading, for example:
+                                                            </p>
+                                                            <pre class="formatting-example"
+                                                                style="background-color: white;"><code class="lang-md"># This is a heading</code></pre>
+                                                            <p class="bottom-gutter-1-3">To add a subheading, use 2 hash
+                                                                symbols:</p>
+                                                            <pre class="formatting-example"
+                                                                style="background-color: white;"><code class="lang-md">## This is a subheading</code></pre>
+
+                                                            <h3 class="govuk-heading-s" id="bullets">Bullet points</h3>
+                                                            <p class="govuk-body">Use bullet points to help words or
+                                                                phrases stand out in your emails
+                                                                and letters.</p>
+                                                            <p class="govuk-body">Copy this example to add bullet
+                                                                points:</p>
+                                                            <pre class="formatting-example"
+                                                                style="background-color: white;"><code class="lang-md">Introduce bullet points with a lead-in line ending in a colon:
+
+                                                    * leave one empty line space after the lead-in line
+                                                    * use an asterisk or a dash followed by a space to add an item
+                                                    * start each item with a lowercase letter, do not end with a full stop
+                                                    * leave one empty line space after the last item</code></pre>
+
+                                                            <h3 class="govuk-heading-s" id="bullets">Numbered steps</h3>
+                                                            <p class="govuk-body">Copy this example to add numbered
+                                                                steps:</p>
+                                                            <pre class="formatting-example"
+                                                                style="background-color: white;"><code class="lang-md">1. Leave one empty line space before starting your list.
+                                                    2. Enter a number followed by a full stop and a space to add an item.
+                                                    3. Start each item with a capital letter and end it with a full stop.
+                                                    4. Leave one empty line space after the last item.</code></pre>
+
+                                                            <h3 class="govuk-heading-s">Links and URLs</h3>
+                                                            <p class="govuk-body">To convert text into a link, use
+                                                                square brackets around the link
+                                                                text and round brackets around the full URL. Make sure
+                                                                there are no spaces between the
+                                                                brackets or the link will not work. For example:</p>
+                                                            <pre class="formatting-example"
+                                                                style="background-color: white;"><code class="lang-md">[Apply now](https://www.gov.uk/example)</code></pre>
+
+                                                        </div>
+                                                    </details>
+
+                                                    <!-- Make Optional Checkbox -->
+                                                    <div class="govuk-form-group">
+                                                        <div class="govuk-checkboxes govuk-checkboxes--small">
+                                                            <div class="govuk-checkboxes__item">
+                                                                <input class="govuk-checkboxes__input"
+                                                                    id="make-optional-declaration"
+                                                                    name="makeOptionalDeclaration" type="checkbox"
+                                                                    value="true">
+                                                                <label class="govuk-label govuk-checkboxes__label"
+                                                                    for="make-optional-declaration">
+                                                                    {{
+                                                                    commonTerms.form_editor.question_settings.make_optional
+                                                                    }}
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <!-- Short Description Input -->
+                                                    {{ govukInput({
+                                                    label: {
+                                                    text:
+                                                    commonTerms.form_editor.question_settings.short_description.title,
+                                                    classes: "govuk-label--m",
+                                                    isPageHeading: false
+                                                    },
+                                                    hint: {
+                                                    text:
+                                                    "Enter a short description for this declaration, like 'Terms and
+                                                    conditions'. This description will be shown in error messages
+                                                    and on the check your answers page."
+                                                    },
+                                                    id: "error-message-input-declaration",
+                                                    name: "errorMessageInputDeclaration"
+                                                    }) }}
+
+                                                    <!-- Section Break -->
+                                                    <hr
+                                                        class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
+
+                                                    <!-- Question Settings Summary List -->
+                                                    <h2 class="govuk-heading-m">{{
+                                                        commonTerms.form_editor.question_settings.title }}</h2>
+
+                                                    {{ govukSummaryList({
+                                                    "rows": [
+                                                    {
+                                                    "key": {
+                                                    "text": "Type of information"
+                                                    },
+                                                    "value": {
+                                                    "html": commonTerms.form_editor.information_type.declaration.title
+                                                    },
+                                                    "actions": {
+                                                    "items": [
+                                                    {
+                                                    "href": "/titan-mvp-1.2/information-type-nf",
+                                                    "text": commonTerms.form_editor.common.edit,
+                                                    "visuallyHiddenText": " type"
+                                                    }
+                                                    ]
+                                                    }
+                                                    }
+                                                    ]
+                                                    }) }}
+
+                                                    <hr
+                                                        class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
+
+                                                    <!-- Save Button -->
+                                                    <div class="govuk-button-group">
+                                                        {{ govukButton({
+                                                        text: "Save and continue",
+                                                        type: "submit",
+                                                        id: "save-declaration-button"
+                                                        }) }}
+
+
+                                                    </div>
+
+                                                </form>
+
+                                                <!-- Add Page Conditions Section -->
+
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </dd>
+                            </div>
+                        </dl>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Column for Preview -->
+            <div class="govuk-grid-column-one-half-from-desktop" id="second-container"
+                style="outline: solid 1px #008938; height: 100%; position: sticky; top: 0; padding: 20px; box-shadow: 5px 10px #008938;">
+                <!-- Before content -->
+                <div id="before-content" style=" background-color:  #cce2d8;">
+                    <p class="govuk-body-s" style="margin-bottom: 0; color: #005a30; padding: 2px 8px 3px;
+  text-align: center;"> Previews
+                    </p>
+                </div>
+
+                <div style="margin-top: 60px;">
+                    {% from "govuk/components/tabs/macro.njk" import govukTabs %}
+
+                    <div class="govuk-tabs" data-module="govuk-tabs">
+                        <h2 class="govuk-tabs__title">Contents</h2>
+                        <ul class="govuk-tabs__list">
+                            <li class="govuk-tabs__list-item govuk-tabs__list-item--selected">
+                                <a class="govuk-tabs__tab" href="#tab-one">Page preview</a>
+                            </li>
+                            <li class="govuk-tabs__list-item">
+                                <a class="govuk-tabs__tab" href="#tab-two">Error messages</a>
+                            </li>
+                        </ul>
+
+                        <div class="govuk-tabs__panel" id="tab-one">
+                            <!-- Page Preview Content -->
+                            <p class="govuk-body-s" style="margin-bottom: 30px; border-bottom: #008938 1px;">
+                                <a href="#" class="govuk-link govuk-link--no-visited-state" rel="noreferrer noopener"
+                                    target="_blank">
+                                    Preview this page in a new tab
+                                </a>
+                            </p>
+
+                            <!-- Declaration Preview -->
+                            <div class="border-left-container-declaration">
+                                <div class="govuk-form-group">
+                                    <fieldset class="govuk-fieldset">
+                                        <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
+                                            <span id="preview-question-label">Question</span>
+                                        </legend>
+                                        <div class="govuk-body" style="margin-bottom: 20px;">
+                                            <div id="preview-declaration-text"></div>
+                                        </div>
+                                        <div class="govuk-checkboxes" data-module="govuk-checkboxes">
+                                            <div class="govuk-checkboxes__item">
+                                                <input class="govuk-checkboxes__input" id="declaration-checkbox"
+                                                    name="declaration" type="checkbox" value="confirmed">
+                                                <label class="govuk-label govuk-checkboxes__label"
+                                                    for="declaration-checkbox">
+                                                    I understand and agree</label>
+                                            </div>
+                                        </div>
+                                    </fieldset>
+                                </div>
+                            </div>
+
+                            <a href="#edit-page" class="govuk-skip-link" style="margin-bottom: 30px!important;"
+                                data-module="govuk-skip-link">
+                                Skip to edit page
+                            </a>
+                        </div>
+
+                        <div class="govuk-tabs__panel" id="tab-two">
+                            <!-- Error Messages Content -->
+                            <div class="govuk-error-summary" data-module="govuk-error-summary">
+                                <h2 class="govuk-error-summary__title">There is a problem</h2>
+                                <ul class="govuk-list govuk-error-summary__list">
+                                    <!-- List of errors -->
+                                    <li>
+                                        <a id="empty-input-error-declaration" class="govuk-error-message"
+                                            href="#error-message-input-declaration">
+                                            You must confirm you understand and agree with the <span
+                                                id="error-dynamic-text">[short description]</span> to
+                                            continue </a>
+                                    </li>
+                                </ul>
+                            </div>
+
+                            <a href="#error-message-input-declaration" class="govuk-skip-link"
+                                style="margin-bottom: 30px!important;" data-module="govuk-skip-link">
+                                Skip to edit error message
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- CSS for Highlighting -->
+    <style>
+        .highlight {
+            background-color: #ffe5cc;
+            border-bottom: 2px solid #ffb266;
+            color: #000000;
+        }
+
+        #before-content {
+            position: absolute;
+            top: 0;
+            left: 10 !important;
+            right: 0;
+            width: 100%;
+            padding: 10px !important;
+            box-sizing: border-box;
+            z-index: 1;
+            border-bottom: 1px solid #008938;
+            padding-left: 10px;
+        }
+
+        #second-container {
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        #second-container>* {
+            padding-left: 0px;
+            z-index: 2;
+        }
+
+        .border-left-container-declaration {
+            border-left: 10px solid #ffb266;
+            padding-left: 20px;
+        }
+    </style>
+
+    <!-- Marked.js (for Markdown parsing) -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            // Get form elements
+            const questionLabelInput = document.getElementById("question-label-input-declaration");
+            const declarationTextInput = document.getElementById("declaration-text-input");
+            const errorMessageInput = document.getElementById("error-message-input-declaration");
+            const makeOptionalCheckbox = document.getElementById("make-optional-declaration");
+
+            // Get preview elements
+            const previewQuestionLabel = document.getElementById("preview-question-label");
+            const previewDeclarationText = document.getElementById("preview-declaration-text");
+            const errorMessagePreviewElements = document.querySelectorAll("#error-dynamic-text");
+
+            // Function to update preview
+            function updatePreview() {
+                // Update the question label in preview with optional suffix
+                const suffix = makeOptionalCheckbox && makeOptionalCheckbox.checked ? ' (optional)' : '';
+                previewQuestionLabel.textContent = (questionLabelInput.value || "Question") + suffix;
+
+                // Render markdown in the declaration text preview
+                const markdownText = declarationTextInput.value || "Declaration text";
+                console.log("Markdown text:", markdownText);
+                console.log("Marked function available:", typeof marked);
+                console.log("Marked object:", marked);
+
+                if (marked && (typeof marked === "function" || typeof marked.parse === "function")) {
+                    try {
+                        const renderFunction = typeof marked === "function" ? marked : marked.parse;
+                        const renderedHtml = renderFunction(markdownText);
+                        console.log("Rendered HTML:", renderedHtml);
+                        previewDeclarationText.innerHTML = renderedHtml;
+                    } catch (error) {
+                        console.error("Error rendering Markdown:", error);
+                        previewDeclarationText.textContent = markdownText;
+                    }
+                } else {
+                    console.log("Marked not available, using fallback");
+                    // Fallback to plain text if marked isn't available
+                    previewDeclarationText.textContent = markdownText;
+                }
+            }
+
+            // Function to update error message preview
+            function updateErrorMessages() {
+                const shortDescription = errorMessageInput.value || "[short description]";
+                errorMessagePreviewElements.forEach(element => {
+                    element.textContent = shortDescription;
+                });
+            }
+
+            // Function to apply highlight on focus
+            function applyHighlightOnFocus(inputElement, targetElements) {
+                if (inputElement && targetElements) {
+                    inputElement.addEventListener('focus', function () {
+                        if (targetElements.forEach) {
+                            // Handle array of elements
+                            targetElements.forEach(target => target.classList.add('highlight'));
+                        } else {
+                            // Handle single element
+                            targetElements.classList.add('highlight');
+                        }
+                    });
+                    inputElement.addEventListener('blur', function () {
+                        if (targetElements.forEach) {
+                            // Handle array of elements
+                            targetElements.forEach(target => target.classList.remove('highlight'));
+                        } else {
+                            // Handle single element
+                            targetElements.classList.remove('highlight');
+                        }
+                    });
+
+                    // If the input is already focused
+                    if (document.activeElement === inputElement) {
+                        if (targetElements.forEach) {
+                            // Handle array of elements
+                            targetElements.forEach(target => target.classList.add('highlight'));
+                        } else {
+                            // Handle single element
+                            targetElements.classList.add('highlight');
+                        }
+                    }
+                }
+            }
+
+            // Add event listeners for real-time preview updates
+            questionLabelInput.addEventListener("input", updatePreview);
+            declarationTextInput.addEventListener("input", updatePreview);
+            errorMessageInput.addEventListener("input", updateErrorMessages);
+
+            // Add event listener for make optional checkbox
+            if (makeOptionalCheckbox) {
+                makeOptionalCheckbox.addEventListener("change", updatePreview);
+            }
+
+            // Apply highlight on focus for form inputs that affect preview
+            applyHighlightOnFocus(questionLabelInput, previewQuestionLabel);
+            applyHighlightOnFocus(declarationTextInput, previewDeclarationText);
+            applyHighlightOnFocus(errorMessageInput, errorMessagePreviewElements);
+
+            // Test markdown rendering
+            console.log("Testing markdown rendering...");
+            if (marked && (typeof marked === "function" || typeof marked.parse === "function")) {
+                try {
+                    const testMarkdown = "**Bold text** and *italic text*";
+                    const renderFunction = typeof marked === "function" ? marked : marked.parse;
+                    const testHtml = renderFunction(testMarkdown);
+                    console.log("Test markdown:", testMarkdown);
+                    console.log("Test HTML:", testHtml);
+                } catch (error) {
+                    console.error("Test markdown failed:", error);
+                }
+            } else {
+                console.log("Marked library not loaded");
+            }
+
+            // Initialize preview with any existing values
+            updatePreview();
+            updateErrorMessages();
+        });
+    </script>
+
+    {% endblock %}

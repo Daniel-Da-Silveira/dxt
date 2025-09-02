@@ -165,6 +165,10 @@
         "title": "Email address",
         "hint": "An email address, for example, name@example.com"
       },
+      "declaration": {
+        "title": "Declaration",
+        "hint": "A statement that users must confirm to proceed"
+      },
       "list": {
         "title": "A list of options that users can choose from",
         "types": {
@@ -255,6 +259,10 @@
       "question": "Question",
       "hint": "Hint text (optional)",
       "optional": "Make this question optional",
+      "make_optional": "Make this question optional",
+      "error_message": "Error message",
+      "declaration_text": "Declaration text",
+      "declaration_text_hint": "The text that users will see and must confirm",
       "short_description": {
         "title": "Short description",
         "hint": "Enter a short description for this question like 'fave animal'. Short descriptions are used in error messages and on the check your answers page."

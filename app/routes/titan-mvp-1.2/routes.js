@@ -770,11 +770,16 @@ router.get("/titan-mvp-1.2/form-editor/listing", function (req, res) {
 
   // Ensure each question inside each page has its own options array
   formPages.forEach((page) => {
-    page.questions.forEach((question) => {
-      if (question.subType === "radios" || question.subType === "checkboxes") {
-        question.options = question.options || [];
-      }
-    });
+    if (page.questions && Array.isArray(page.questions)) {
+      page.questions.forEach((question) => {
+        if (
+          question.subType === "radios" ||
+          question.subType === "checkboxes"
+        ) {
+          question.options = question.options || [];
+        }
+      });
+    }
   });
 
   // Get all sections
@@ -800,11 +805,16 @@ router.get("/titan-mvp-1.2/form-editor/listing.html", function (req, res) {
   const formData = req.session.data || {};
   // Ensure each question inside each page has its own options array
   formPages.forEach((page) => {
-    page.questions.forEach((question) => {
-      if (question.subType === "radios" || question.subType === "checkboxes") {
-        question.options = question.options || [];
-      }
-    });
+    if (page.questions && Array.isArray(page.questions)) {
+      page.questions.forEach((question) => {
+        if (
+          question.subType === "radios" ||
+          question.subType === "checkboxes"
+        ) {
+          question.options = question.options || [];
+        }
+      });
+    }
   });
   // Get all sections
   const sections = formData.sections || [];
@@ -827,128 +837,12 @@ router.get("/titan-mvp-1.2/form-editor/listing-v2", function (req, res) {
   let formPages = req.session.data["formPages"] || [];
   const formData = req.session.data || {};
 
-  // If no form pages exist, create some dummy pages
-  if (formPages.length === 0) {
-    formPages = [
-      {
-        pageId: 1,
-        pageType: "question",
-        pageHeading: "Business registration details",
-        questions: [
-          {
-            questionId: 1,
-            label: "Is your business registered with RPA?",
-            hint: "Select yes if you have an RPA registration number",
-            type: "list",
-            subType: "radios",
-            options: [
-              { value: "yes", text: "Yes" },
-              { value: "no", text: "No" },
-            ],
-          },
-        ],
-        order: 1,
-      },
-      {
-        pageId: 2,
-        pageType: "question",
-        pageHeading: "Livestock information",
-        questions: [
-          {
-            questionId: 2,
-            label: "What type of livestock are you registering?",
-            hint: "Select all that apply",
-            type: "list",
-            subType: "checkboxes",
-            options: [
-              { value: "cattle", text: "Cattle" },
-              { value: "sheep", text: "Sheep" },
-              { value: "pigs", text: "Pigs" },
-              { value: "poultry", text: "Poultry" },
-            ],
-          },
-        ],
-        order: 2,
-      },
-      {
-        pageId: 3,
-        pageType: "question",
-        pageHeading: "Contact details",
-        questions: [
-          {
-            questionId: 3,
-            label: "Business name",
-            hint: "Enter your registered business name",
-            type: "text",
-            subType: "short-answer-nf",
-          },
-          {
-            questionId: 4,
-            label: "Contact email address",
-            hint: "We'll use this to send confirmation",
-            type: "email",
-          },
-          {
-            questionId: 5,
-            label: "Main phone number",
-            hint: "Include area code",
-            type: "phone",
-          },
-        ],
-        order: 3,
-      },
-      {
-        pageId: 4,
-        pageType: "guidance",
-        guidanceOnlyHeadingInput: "Important information",
-        guidanceOnlyGuidanceTextInput:
-          "Before proceeding, please ensure you have all necessary documentation ready including your business registration certificate and any relevant permits. This form should take approximately 10-15 minutes to complete.",
-        order: 4,
-      },
-      {
-        pageId: 5,
-        pageType: "question",
-        pageHeading: "Location details",
-        questions: [
-          {
-            questionId: 6,
-            label: "Business address",
-            hint: "Enter your main business address",
-            type: "address",
-          },
-          {
-            questionId: 7,
-            label: "National Grid reference",
-            hint: "If applicable, enter the grid reference for your location",
-            type: "text",
-            subType: "short-answer-nf",
-          },
-        ],
-        order: 5,
-      },
-      {
-        pageId: 6,
-        pageType: "question",
-        pageHeading: "Documentation",
-        questions: [
-          {
-            questionId: 8,
-            label: "Upload methodology statement",
-            hint: "PDF, Word or image files accepted. Maximum 10MB.",
-            type: "file",
-          },
-        ],
-        order: 6,
-      },
-    ];
-
-    // Store the dummy pages in session
-    req.session.data["formPages"] = formPages;
-  }
+  // Start with empty form - no automatic dummy pages
+  // Users can add pages manually or select a template
 
   // Ensure each question inside each page has its own options array
   formPages.forEach((page) => {
-    if (page.questions) {
+    if (page.questions && Array.isArray(page.questions)) {
       page.questions.forEach((question) => {
         if (
           question.subType === "radios" ||
@@ -983,128 +877,12 @@ router.get("/titan-mvp-1.2/form-editor/listing-v2.html", function (req, res) {
   let formPages = req.session.data["formPages"] || [];
   const formData = req.session.data || {};
 
-  // If no form pages exist, create some dummy pages
-  if (formPages.length === 0) {
-    formPages = [
-      {
-        pageId: 1,
-        pageType: "question",
-        pageHeading: "Business registration details",
-        questions: [
-          {
-            questionId: 1,
-            label: "Is your business registered with RPA?",
-            hint: "Select yes if you have an RPA registration number",
-            type: "list",
-            subType: "radios",
-            options: [
-              { value: "yes", text: "Yes" },
-              { value: "no", text: "No" },
-            ],
-          },
-        ],
-        order: 1,
-      },
-      {
-        pageId: 2,
-        pageType: "question",
-        pageHeading: "Livestock information",
-        questions: [
-          {
-            questionId: 2,
-            label: "What type of livestock are you registering?",
-            hint: "Select all that apply",
-            type: "list",
-            subType: "checkboxes",
-            options: [
-              { value: "cattle", text: "Cattle" },
-              { value: "sheep", text: "Sheep" },
-              { value: "pigs", text: "Pigs" },
-              { value: "poultry", text: "Poultry" },
-            ],
-          },
-        ],
-        order: 2,
-      },
-      {
-        pageId: 3,
-        pageType: "question",
-        pageHeading: "Contact details",
-        questions: [
-          {
-            questionId: 3,
-            label: "Business name",
-            hint: "Enter your registered business name",
-            type: "text",
-            subType: "short-answer-nf",
-          },
-          {
-            questionId: 4,
-            label: "Contact email address",
-            hint: "We'll use this to send confirmation",
-            type: "email",
-          },
-          {
-            questionId: 5,
-            label: "Main phone number",
-            hint: "Include area code",
-            type: "phone",
-          },
-        ],
-        order: 3,
-      },
-      {
-        pageId: 4,
-        pageType: "guidance",
-        guidanceOnlyHeadingInput: "Important information",
-        guidanceOnlyGuidanceTextInput:
-          "Before proceeding, please ensure you have all necessary documentation ready including your business registration certificate and any relevant permits. This form should take approximately 10-15 minutes to complete.",
-        order: 4,
-      },
-      {
-        pageId: 5,
-        pageType: "question",
-        pageHeading: "Location details",
-        questions: [
-          {
-            questionId: 6,
-            label: "Business address",
-            hint: "Enter your main business address",
-            type: "address",
-          },
-          {
-            questionId: 7,
-            label: "National Grid reference",
-            hint: "If applicable, enter the grid reference for your location",
-            type: "text",
-            subType: "short-answer-nf",
-          },
-        ],
-        order: 5,
-      },
-      {
-        pageId: 6,
-        pageType: "question",
-        pageHeading: "Documentation",
-        questions: [
-          {
-            questionId: 8,
-            label: "Upload methodology statement",
-            hint: "PDF, Word or image files accepted. Maximum 10MB.",
-            type: "file",
-          },
-        ],
-        order: 6,
-      },
-    ];
-
-    // Store the dummy pages in session
-    req.session.data["formPages"] = formPages;
-  }
+  // Start with empty form - no automatic dummy pages
+  // Users can add pages manually or select a template
 
   // Ensure each question inside each page has its own options array
   formPages.forEach((page) => {
-    if (page.questions) {
+    if (page.questions && Array.isArray(page.questions)) {
       page.questions.forEach((question) => {
         if (
           question.subType === "radios" ||
@@ -1402,6 +1180,9 @@ router.get("/titan-mvp-1.2/question-configuration", function (req, res) {
   } else if (mainType === "email") {
     templateToRender =
       "/titan-mvp-1.2/form-editor/question-type/email/edit-nf.html";
+  } else if (mainType === "declaration") {
+    templateToRender =
+      "/titan-mvp-1.2/form-editor/question-type/declaration/edit-nf.html";
   } else if (
     (mainType === "list" && listSubType === "select") ||
     mainType === "autocomplete" ||
@@ -1422,6 +1203,10 @@ router.get("/titan-mvp-1.2/question-configuration", function (req, res) {
     }
   }
 
+  // Get current page data
+  const formPages = formData.formPages || [];
+  const currentPage = formPages[pageIndex] || {};
+
   res.render(templateToRender, {
     form: {
       name: formData.formName || "Form name",
@@ -1429,6 +1214,7 @@ router.get("/titan-mvp-1.2/question-configuration", function (req, res) {
     pageNumber: pageNumber,
     questionNumber: questionNumber,
     data: req.session.data,
+    currentPage: currentPage,
   });
 });
 
@@ -1497,6 +1283,10 @@ router.post("/titan-mvp-1.2/question-configuration-save", function (req, res) {
     case "file":
       questionLabel = req.body["multiQuestionLabelInputFile"] || "File upload";
       break;
+    case "declaration":
+      questionLabel =
+        req.body["questionLabelInputDeclaration"] || "Declaration";
+      break;
     case "list":
       if (listSubType === "yes-no") {
         questionLabel =
@@ -1553,7 +1343,12 @@ router.post("/titan-mvp-1.2/question-configuration-save", function (req, res) {
     questionOptions = [...(currentPage.radioList || [])];
   } else if (questionType === "list" && listSubType === "checkboxes") {
     const existingQuestionIndex = req.session.data["currentQuestionIndex"];
-    const existingQuestion = currentPage.questions[existingQuestionIndex];
+    const existingQuestion =
+      currentPage.questions &&
+      Array.isArray(currentPage.questions) &&
+      currentPage.questions[existingQuestionIndex]
+        ? currentPage.questions[existingQuestionIndex]
+        : {};
     questionOptions = existingQuestion.options || [];
   } else if (questionType === "list" && listSubType === "select") {
     try {
@@ -1577,7 +1372,12 @@ router.post("/titan-mvp-1.2/question-configuration-save", function (req, res) {
   ) {
     // First try existing question
     const existingQuestionIndex = req.session.data["currentQuestionIndex"];
-    const existingQuestion = currentPage.questions[existingQuestionIndex];
+    const existingQuestion =
+      currentPage.questions &&
+      Array.isArray(currentPage.questions) &&
+      currentPage.questions[existingQuestionIndex]
+        ? currentPage.questions[existingQuestionIndex]
+        : {};
     if (existingQuestion && existingQuestion.options) {
       questionOptions = existingQuestion.options;
     } else {
@@ -1624,7 +1424,12 @@ router.post("/titan-mvp-1.2/question-configuration-save", function (req, res) {
 
     // Find the old options for this question
     const existingQuestionIndex = req.session.data["currentQuestionIndex"];
-    const existingQuestion = currentPage.questions[existingQuestionIndex];
+    const existingQuestion =
+      currentPage.questions &&
+      Array.isArray(currentPage.questions) &&
+      currentPage.questions[existingQuestionIndex]
+        ? currentPage.questions[existingQuestionIndex]
+        : {};
     const oldOptions =
       existingQuestion && existingQuestion.options
         ? existingQuestion.options
@@ -1707,11 +1512,25 @@ router.post("/titan-mvp-1.2/question-configuration-save", function (req, res) {
   let existingQuestionIndex = req.session.data["currentQuestionIndex"];
   if (
     existingQuestionIndex !== undefined &&
+    currentPage.questions &&
+    Array.isArray(currentPage.questions) &&
     currentPage.questions[existingQuestionIndex]
   ) {
     currentPage.questions[existingQuestionIndex].label = questionLabel;
     currentPage.questions[existingQuestionIndex].hint = questionHint;
     currentPage.questions[existingQuestionIndex].options = questionOptions;
+
+    // Update declaration-specific fields for existing questions
+    if (questionType === "declaration") {
+      currentPage.questions[existingQuestionIndex].declarationText =
+        req.body["declarationTextInput"] ||
+        "I declare that the information I have provided is true and accurate to the best of my knowledge.";
+      currentPage.questions[existingQuestionIndex].errorMessage =
+        req.body["errorMessageInputDeclaration"] ||
+        "You must confirm this declaration to continue";
+      currentPage.questions[existingQuestionIndex].isOptional =
+        req.body["makeOptionalDeclaration"] === "true";
+    }
   } else {
     const newQuestion = {
       questionId: Date.now(),
@@ -1721,6 +1540,18 @@ router.post("/titan-mvp-1.2/question-configuration-save", function (req, res) {
       subType: finalSubType,
       options: questionOptions,
     };
+
+    // Add declaration-specific fields
+    if (questionType === "declaration") {
+      newQuestion.declarationText =
+        req.body["declarationTextInput"] ||
+        "I declare that the information I have provided is true and accurate to the best of my knowledge.";
+      newQuestion.errorMessage =
+        req.body["errorMessageInputDeclaration"] ||
+        "You must confirm this declaration to continue";
+      newQuestion.isOptional = req.body["makeOptionalDeclaration"] === "true";
+    }
+
     currentPage.questions.push(newQuestion);
   }
 
@@ -1789,13 +1620,15 @@ router.get("/titan-mvp-1.2/edit-question", function (req, res) {
   let foundQuestionIndex = -1;
 
   for (let i = 0; i < formPages.length; i++) {
-    const qIndex = formPages[i].questions.findIndex(
-      (q) => String(q.questionId) === questionId
-    );
-    if (qIndex !== -1) {
-      foundPageIndex = i;
-      foundQuestionIndex = qIndex;
-      break;
+    if (formPages[i].questions && Array.isArray(formPages[i].questions)) {
+      const qIndex = formPages[i].questions.findIndex(
+        (q) => String(q.questionId) === questionId
+      );
+      if (qIndex !== -1) {
+        foundPageIndex = i;
+        foundQuestionIndex = qIndex;
+        break;
+      }
     }
   }
 
@@ -1805,6 +1638,14 @@ router.get("/titan-mvp-1.2/edit-question", function (req, res) {
 
   req.session.data["currentPageIndex"] = foundPageIndex;
   req.session.data["currentQuestionIndex"] = foundQuestionIndex;
+
+  // Additional safety check
+  if (
+    !formPages[foundPageIndex].questions ||
+    !Array.isArray(formPages[foundPageIndex].questions)
+  ) {
+    return res.redirect("/titan-mvp-1.2/page-overview");
+  }
 
   const question = formPages[foundPageIndex].questions[foundQuestionIndex];
 
@@ -2152,6 +1993,119 @@ router.get("/titan-mvp-1.2/form-overview/simplified/index-tabs", (req, res) => {
         notificationEmail: "notify@defra.gov.uk",
         hasDraft: false,
       },
+      // Create the livestock form pages
+      formPages: [
+        {
+          pageId: 1,
+          pageType: "question",
+          pageHeading: "Business registration details",
+          questions: [
+            {
+              questionId: 1,
+              label: "Is your business registered with RPA?",
+              hint: "Select yes if you have an RPA registration number",
+              type: "list",
+              subType: "radios",
+              options: [
+                { value: "yes", text: "Yes" },
+                { value: "no", text: "No" },
+              ],
+            },
+          ],
+          order: 1,
+        },
+        {
+          pageId: 2,
+          pageType: "question",
+          pageHeading: "Livestock information",
+          questions: [
+            {
+              questionId: 2,
+              label: "What type of livestock are you registering?",
+              hint: "Select all that apply",
+              type: "list",
+              subType: "checkboxes",
+              options: [
+                { value: "cattle", text: "Cattle" },
+                { value: "sheep", text: "Sheep" },
+                { value: "pigs", text: "Pigs" },
+                { value: "poultry", text: "Poultry" },
+              ],
+            },
+          ],
+          order: 2,
+        },
+        {
+          pageId: 3,
+          pageType: "question",
+          pageHeading: "Contact details",
+          questions: [
+            {
+              questionId: 3,
+              label: "Business name",
+              hint: "Enter your registered business name",
+              type: "text",
+              subType: "short-answer-nf",
+            },
+            {
+              questionId: 4,
+              label: "Contact email address",
+              hint: "We'll use this to send confirmation",
+              type: "email",
+            },
+            {
+              questionId: 5,
+              label: "Main phone number",
+              hint: "Include area code",
+              type: "phone",
+            },
+          ],
+          order: 3,
+        },
+        {
+          pageId: 4,
+          pageType: "guidance",
+          guidanceOnlyHeadingInput: "Important information",
+          guidanceOnlyGuidanceTextInput:
+            "Before proceeding, please ensure you have all necessary documentation ready including your business registration certificate and any relevant permits. This form should take approximately 10-15 minutes to complete.",
+          order: 4,
+        },
+        {
+          pageId: 5,
+          pageType: "question",
+          pageHeading: "Location details",
+          questions: [
+            {
+              questionId: 6,
+              label: "Business address",
+              hint: "Enter your main business address",
+              type: "address",
+            },
+            {
+              questionId: 7,
+              label: "National Grid reference",
+              hint: "If applicable, enter the grid reference for your location",
+              type: "text",
+              subType: "short-answer-nf",
+            },
+          ],
+          order: 5,
+        },
+        {
+          pageId: 6,
+          pageType: "question",
+          pageHeading: "Documentation",
+          questions: [
+            {
+              questionId: 8,
+              label: "Upload methodology statement",
+              hint: "PDF, Word or image files accepted. Maximum 10MB.",
+              type: "file",
+            },
+          ],
+          order: 6,
+        },
+      ],
     };
   }
 
@@ -2215,6 +2169,137 @@ router.get("/titan-mvp-1.2/form-overview/simplified/index-tabs", (req, res) => {
 router.get(
   "/titan-mvp-1.2/form-overview/simplified/index-tabs.html",
   (req, res) => {
+    // Check if this is specifically for Livestock registration
+    if (req.query.form === "livestock-registration") {
+      // Set up session data for Livestock registration form
+      req.session.data = {
+        formName: "Livestock registration",
+        formDetails: {
+          organisation: "Defra",
+          teamName: "Livestock team",
+          email: "livestock@defra.gov.uk",
+          wentLiveAt: "11 August 2025, 10:30am by Chris Smith",
+          nextSteps:
+            "We will call you within 5 working days to discuss your application.",
+          notificationEmail: "notify@defra.gov.uk",
+          hasDraft: false,
+        },
+        // Create the livestock form pages
+        formPages: [
+          {
+            pageId: 1,
+            pageType: "question",
+            pageHeading: "Business registration details",
+            questions: [
+              {
+                questionId: 1,
+                label: "Is your business registered with RPA?",
+                hint: "Select yes if you have an RPA registration number",
+                type: "list",
+                subType: "radios",
+                options: [
+                  { value: "yes", text: "Yes" },
+                  { value: "no", text: "No" },
+                ],
+              },
+            ],
+            order: 1,
+          },
+          {
+            pageId: 2,
+            pageType: "question",
+            pageHeading: "Livestock information",
+            questions: [
+              {
+                questionId: 2,
+                label: "What type of livestock are you registering?",
+                hint: "Select all that apply",
+                type: "list",
+                subType: "checkboxes",
+                options: [
+                  { value: "cattle", text: "Cattle" },
+                  { value: "sheep", text: "Sheep" },
+                  { value: "pigs", text: "Pigs" },
+                  { value: "poultry", text: "Poultry" },
+                ],
+              },
+            ],
+            order: 2,
+          },
+          {
+            pageId: 3,
+            pageType: "question",
+            pageHeading: "Contact details",
+            questions: [
+              {
+                questionId: 3,
+                label: "Business name",
+                hint: "Enter your registered business name",
+                type: "text",
+                subType: "short-answer-nf",
+              },
+              {
+                questionId: 4,
+                label: "Contact email address",
+                hint: "We'll use this to send confirmation",
+                type: "email",
+              },
+              {
+                questionId: 5,
+                label: "Main phone number",
+                hint: "Include area code",
+                type: "phone",
+              },
+            ],
+            order: 3,
+          },
+          {
+            pageId: 4,
+            pageType: "guidance",
+            guidanceOnlyHeadingInput: "Important information",
+            guidanceOnlyGuidanceTextInput:
+              "Before proceeding, please ensure you have all necessary documentation ready including your business registration certificate and any relevant permits. This form should take approximately 10-15 minutes to complete.",
+            order: 4,
+          },
+          {
+            pageId: 5,
+            pageType: "question",
+            pageHeading: "Location details",
+            questions: [
+              {
+                questionId: 6,
+                label: "Business address",
+                hint: "Enter your main business address",
+                type: "address",
+              },
+              {
+                questionId: 7,
+                label: "National Grid reference",
+                hint: "If applicable, enter the grid reference for your location",
+                type: "text",
+                subType: "short-answer-nf",
+              },
+            ],
+            order: 5,
+          },
+          {
+            pageId: 6,
+            pageType: "question",
+            pageHeading: "Documentation",
+            questions: [
+              {
+                questionId: 8,
+                label: "Upload methodology statement",
+                hint: "PDF, Word or image files accepted. Maximum 10MB.",
+                type: "file",
+              },
+            ],
+            order: 6,
+          },
+        ],
+      };
+    }
+
     const formData = req.session.data || {};
 
     // Create the preview URL
@@ -3558,13 +3643,15 @@ router.post(
     // Add rules from all conditions, setting logicalOperator for every rule after the first
     let ruleCounter = 0;
     conditionsToJoin.forEach((condition) => {
-      condition.rules.forEach((rule) => {
-        newCondition.rules.push({
-          ...rule,
-          logicalOperator: ruleCounter === 0 ? null : operator,
+      if (condition.rules && Array.isArray(condition.rules)) {
+        condition.rules.forEach((rule) => {
+          newCondition.rules.push({
+            ...rule,
+            logicalOperator: ruleCounter === 0 ? null : operator,
+          });
+          ruleCounter++;
         });
-        ruleCounter++;
-      });
+      }
     });
     // Create the text representation of the joined condition
     newCondition.text = newCondition.rules
@@ -5414,7 +5501,7 @@ function detectPageOrderConflicts(formPages, originalOrder) {
   // Build a map of questionId -> page index for current order
   const questionToPageIndex = {};
   formPages.forEach((page, pageIdx) => {
-    if (page.questions) {
+    if (page.questions && Array.isArray(page.questions)) {
       page.questions.forEach((q) => {
         if (q.questionId) {
           questionToPageIndex[q.questionId] = pageIdx;
@@ -5434,7 +5521,7 @@ function detectPageOrderConflicts(formPages, originalOrder) {
         page.pageHeading ||
         (page.questions && page.questions[0] && page.questions[0].label) ||
         null;
-      if (page.questions) {
+      if (page.questions && Array.isArray(page.questions)) {
         page.questions.forEach((q) => {
           if (q.questionId) {
             originalQuestionToPageIndex[q.questionId] = pageIdx;
@@ -5453,6 +5540,12 @@ function detectPageOrderConflicts(formPages, originalOrder) {
             // Match rule.questionText to question.label
             const questionEntry = Object.entries(questionToPageIndex).find(
               ([qid, idx]) => {
+                if (
+                  !formPages[idx].questions ||
+                  !Array.isArray(formPages[idx].questions)
+                ) {
+                  return false;
+                }
                 const question = formPages[idx].questions.find(
                   (q) => String(q.questionId) === String(qid)
                 );
@@ -6138,13 +6231,15 @@ router.post(
       // Add rules from all conditions, setting logicalOperator for every rule after the first
       let ruleCounter = 0;
       conditionsToJoin.forEach((condition) => {
-        condition.rules.forEach((rule) => {
-          updatedCondition.rules.push({
-            ...rule,
-            logicalOperator: ruleCounter === 0 ? null : logicalOperator,
+        if (condition.rules && Array.isArray(condition.rules)) {
+          condition.rules.forEach((rule) => {
+            updatedCondition.rules.push({
+              ...rule,
+              logicalOperator: ruleCounter === 0 ? null : logicalOperator,
+            });
+            ruleCounter++;
           });
-          ruleCounter++;
-        });
+        }
       });
 
       // Create the text representation of the joined condition
@@ -6220,7 +6315,12 @@ router.get(
     const pageIndex = formData.currentPageIndex || 0;
     const questionIndex = formData.currentQuestionIndex || 0;
     const currentPage = formPages[pageIndex] || { questions: [] };
-    const question = currentPage.questions[questionIndex] || {};
+    const question =
+      currentPage.questions &&
+      Array.isArray(currentPage.questions) &&
+      currentPage.questions[questionIndex]
+        ? currentPage.questions[questionIndex]
+        : {};
 
     // Try to get newItems from stored session data first, then fall back to current question
     let newItems = formData.pendingNewItems || [];

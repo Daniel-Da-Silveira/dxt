@@ -619,6 +619,9 @@ navigationItems: [
                     {% set previewTemplate = previewTemplate ~ "list-preview.html" %}
                     {% endif %}
 
+                    {% elseif question.type == "declaration" %}
+                    {% set previewTemplate = previewTemplate ~ "declaration-preview.html" %}
+
                     {% else %}
                     {% set previewTemplate = previewTemplate ~ 'default-preview.html' %}
                     {% endif %}

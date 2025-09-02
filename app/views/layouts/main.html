@@ -7,7 +7,26 @@ https://prototype-kit.service.gov.uk/docs/how-to-use-layouts
 {% set govukRebrand = true %}
 
 {% block footer %}
+
 {{ govukFooter({
+meta: {
+items: [
+
+{
+href: "#",
+text: "Privacy"
+},
+{
+href: "#",
+text: "Accessibility"
+}
+],
+html: '<strong class="govuk-tag govuk-phase-banner__content__tag">Beta</strong>This is a new service. Help us improve it
+and <a class="govuk-footer__link" href="mailto:defraforms@defra.gov.uk">give your feedback by email</a>.'
+}
+}) }}
+{% endblock %}
+{# {{ govukFooter({
 
 meta: {
 items: [
@@ -35,7 +54,7 @@ text: "Clear data"
 }
 }) }}
 
-{% endblock %}
+{% endblock %} #}
 {#
 {% block footer %}
 {{ govukFooter({

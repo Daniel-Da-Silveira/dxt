@@ -13,6 +13,119 @@ Prototypes – {{ serviceName }} - Product information
 
 {% set features = [
 {
+name: "Save and exit",
+problem: "Users need to save and come back to a form later.",
+status: "In progress",
+statusClass: "orange",
+phase: "Private beta",
+type: "Public journeys",
+category: "Public journeys",
+designHistoryHref: "",
+researchRounds: [
+{ round: 7, date: "Oct 2024" },
+{ round: 8, date: "Nov 2024" },
+{ round: 9, date: "Mar 2025" },
+{ round: 10, date: "Mar 2025" }
+]
+},
+{
+name: "Page sections",
+problem: "Users need to organise how information is presented on check your answers pages.",
+status: "In progress",
+statusClass: "orange",
+phase: "Private beta",
+type: "Form structure",
+category: "Form editor",
+designHistoryHref: "",
+researchRounds: [
+{ round: 7, date: "Oct 2024" },
+{ round: 8, date: "Nov 2024" },
+{ round: 9, date: "Mar 2025" },
+{ round: 10, date: "Mar 2025" }
+]
+},
+{
+name: "Location questions",
+problem: "Users need to ask for location information other than address lines.",
+status: "Next",
+statusClass: "blue",
+phase: "Private beta",
+type: "Question types",
+category: "Form editor",
+designHistoryHref: "",
+researchRounds: [
+{ round: 7, date: "Oct 2024" },
+{ round: 8, date: "Nov 2024" },
+{ round: 9, date: "Mar 2025" },
+{ round: 10, date: "Mar 2025" }
+]
+},
+
+{
+name: "Confirmation emails",
+problem: "Users need reassurance they their form has been submitted.",
+status: "In progress",
+statusClass: "orange",
+phase: "Private beta",
+type: "Public journeys",
+category: "Public journeys",
+designHistoryHref: "",
+researchRounds: [
+{ round: 7, date: "Oct 2024" },
+{ round: 8, date: "Nov 2024" },
+{ round: 9, date: "Mar 2025" },
+{ round: 10, date: "Mar 2025" }
+]
+},
+{
+name: "Form history",
+problem: "Users need to see a history of their form and policy requires this.",
+status: "In progress",
+statusClass: "orange",
+phase: "Private beta",
+type: "Form structure",
+category: "Form overview",
+designHistoryHref: "",
+researchRounds: [
+{ round: 7, date: "Oct 2024" },
+{ round: 8, date: "Nov 2024" },
+{ round: 9, date: "Mar 2025" },
+{ round: 10, date: "Mar 2025" }
+]
+},
+{
+name: "Machine readable submission data",
+problem: "Users need to be able to choose the data they want to send to their systems.",
+status: "In progress",
+statusClass: "orange",
+phase: "Private beta",
+type: "Form management",
+category: "Form management",
+designHistoryHref: "",
+researchRounds: [
+{ round: 7, date: "Oct 2024" },
+{ round: 8, date: "Nov 2024" },
+{ round: 9, date: "Mar 2025" },
+{ round: 10, date: "Mar 2025" }
+]
+},
+{
+name: "Declaration page",
+problem: "Users need to ask for a declaration before submitting a form.",
+status: "Next",
+statusClass: "blue",
+phase: "Private beta",
+type: "Question types",
+category: "Form editor",
+designHistoryHref: "",
+researchRounds: [
+{ round: 7, date: "Oct 2024" },
+{ round: 8, date: "Nov 2024" },
+{ round: 9, date: "Mar 2025" },
+{ round: 10, date: "Mar 2025" }
+]
+},
+{
 name: "List items",
 problem: "Users need to create lists of options",
 status: "Tested",
@@ -47,8 +160,8 @@ researchRounds: [
 {
 name: "Conditions (page conditions)",
 problem: "Users need to show different pages based on responses",
-status: "In progress",
-statusClass: "orange",
+status: "Tested",
+statusClass: "green",
 phase: "Private beta",
 type: "Form logic",
 category: "Form editor",
@@ -198,8 +311,8 @@ researchRounds: [
 {
 name: "Page sections",
 problem: "Users need to organize forms into logical sections",
-status: "In progress",
-statusClass: "orange",
+status: "Tested",
+statusClass: "green",
 phase: "Private beta",
 type: "Form structure",
 category: "Form editor",
@@ -211,8 +324,8 @@ researchRounds: [
 {
 name: "Importing/exporting forms",
 problem: "Users need to share and reuse form designs",
-status: "In progress",
-statusClass: "orange",
+status: "Tested",
+statusClass: "green",
 phase: "Private beta",
 type: "Form management",
 category: "Form editor",
@@ -311,6 +424,7 @@ text: "Start latest prototype (Titan MVP 1.2)"
 
       {% set testedTableData = [] %}
       {% set inProgressTableData = [] %}
+      {% set nextTableData = [] %}
 
       {% for feature in sortedFeatures %}
       {% set researchRoundsText = '' %}
@@ -329,6 +443,7 @@ text: "Start latest prototype (Titan MVP 1.2)"
           class="govuk-visually-hidden"> design history for ' + feature.name + '</span></a>' %}
       {% endif %}
 
+      {% if feature.status == "Tested" %}
       {% set featureRow = [
       { text: feature.name },
       { text: feature.problem },
@@ -338,16 +453,31 @@ text: "Start latest prototype (Titan MVP 1.2)"
       { html: detailsHtml },
       { html: designHistoryLink }
       ] %}
-
-      {% if feature.status == "Tested" %}
       {% set testedTableData = (testedTableData.push(featureRow), testedTableData) %}
+      {% elif feature.status == "Next" %}
+      {% set featureRow = [
+      { text: feature.name },
+      { text: feature.problem },
+      { html: '<strong class="govuk-tag govuk-tag--' + feature.statusClass + '">' + feature.status + '</strong>' },
+      { text: feature.phase },
+      { html: designHistoryLink }
+      ] %}
+      {% set nextTableData = (nextTableData.push(featureRow), nextTableData) %}
       {% else %}
+      {% set featureRow = [
+      { text: feature.name },
+      { text: feature.problem },
+      { html: '<strong class="govuk-tag govuk-tag--' + feature.statusClass + '">' + feature.status + '</strong>' },
+      { text: feature.phase },
+      { html: designHistoryLink }
+      ] %}
       {% set inProgressTableData = (inProgressTableData.push(featureRow), inProgressTableData) %}
       {% endif %}
       {% endfor %}
 
       {% set testedCount = testedTableData | length %}
       {% set inProgressCount = inProgressTableData | length %}
+      {% set nextCount = nextTableData | length %}
 
       {{ govukTabs({
       items: [
@@ -362,11 +492,26 @@ text: "Start latest prototype (Titan MVP 1.2)"
       { text: "Problem statement" },
       { text: "Status" },
       { text: "Phase" },
-      { text: "Number of rounds" },
-      { text: "Rounds tested" },
       { text: "Design history" }
       ],
       rows: inProgressTableData
+      })
+      }
+      },
+      {
+      label: "Next (" + nextCount + ")",
+      id: "next",
+      panel: {
+      html: govukTable({
+      attributes: { "data-module": "moj-sortable-table" },
+      head: [
+      { text: "Feature", attributes: { "aria-sort": "ascending" } },
+      { text: "Problem statement" },
+      { text: "Status" },
+      { text: "Phase" },
+      { text: "Design history" }
+      ],
+      rows: nextTableData
       })
       }
       },
@@ -450,7 +595,7 @@ text: "Start latest prototype (Titan MVP 1.2)"
       return maxDate;
     }
 
-    // Sort table rows by most recent research round date
+    // Sort table rows by most recent research round date (for tested features)
     function sortTableByRecentDate() {
       const tables = document.querySelectorAll('.govuk-table')
       tables.forEach(table => {
@@ -459,11 +604,16 @@ text: "Start latest prototype (Titan MVP 1.2)"
 
         // Sort rows by most recent research round date
         rows.sort((a, b) => {
-          const detailsA = a.querySelector('.govuk-details__text').textContent
-          const detailsB = b.querySelector('.govuk-details__text').textContent
-          const maxDateA = getMostRecentDate(detailsA)
-          const maxDateB = getMostRecentDate(detailsB)
-          return maxDateB - maxDateA
+          const detailsA = a.querySelector('.govuk-details__text')
+          const detailsB = b.querySelector('.govuk-details__text')
+
+          if (detailsA && detailsB) {
+            const maxDateA = getMostRecentDate(detailsA.textContent)
+            const maxDateB = getMostRecentDate(detailsB.textContent)
+            return maxDateB - maxDateA
+          }
+
+          return 0
         })
 
         // Re-append rows in sorted order
@@ -488,16 +638,8 @@ text: "Start latest prototype (Titan MVP 1.2)"
           // Get the column index
           const columnIndex = Array.from(header.parentElement.children).indexOf(header)
 
-          // Sort rows - first by most recent date, then by the clicked column
+          // Sort rows by the clicked column
           rows.sort((a, b) => {
-            const detailsA = a.querySelector('.govuk-details__text').textContent
-            const detailsB = b.querySelector('.govuk-details__text').textContent
-            const maxDateA = getMostRecentDate(detailsA)
-            const maxDateB = getMostRecentDate(detailsB)
-            if (maxDateA - maxDateB !== 0) {
-              return maxDateB - maxDateA
-            }
-            // If dates are equal, sort by the clicked column
             const cellA = a.children[columnIndex]
             const cellB = b.children[columnIndex]
             const valueA = cellA.textContent.trim()
