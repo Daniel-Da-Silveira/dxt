@@ -7224,12 +7224,30 @@ function parseAddressString(addressString) {
   // Split by comma and clean up whitespace
   const parts = addressString.split(",").map((part) => part.trim());
 
-  // Basic parsing - this could be enhanced based on address format
+  // UK postcode regex pattern
+  const postcodeRegex = /^[A-Z]{1,2}[0-9R][0-9A-Z]? [0-9][A-Z]{2}$/i;
+
+  // Find the postcode (usually the last part that matches postcode pattern)
+  let postcode = "";
+  let postcodeIndex = -1;
+
+  for (let i = parts.length - 1; i >= 0; i--) {
+    if (postcodeRegex.test(parts[i])) {
+      postcode = parts[i];
+      postcodeIndex = i;
+      break;
+    }
+  }
+
+  // Remove postcode from parts array
+  const addressParts = parts.filter((_, index) => index !== postcodeIndex);
+
+  // Assign remaining parts
   const result = {
-    addressLine1: parts[0] || "",
-    addressLine2: parts[1] || "",
-    townCity: parts[2] || "",
-    addressPostcode: parts[3] || "",
+    addressLine1: addressParts[0] || "",
+    addressLine2: addressParts[1] || "",
+    townCity: addressParts[2] || "",
+    addressPostcode: postcode,
   };
 
   return result;
@@ -7241,35 +7259,56 @@ router.get(
   (req, res) => {
     // Handle search again - clear address results when clearResults=true
     if (req.query.clearResults === "true") {
+      console.log("Clearing results and redirecting..."); // Debug log
       req.session.data.addressResults = [];
       req.session.data.selectedAddress = null;
       req.session.data.addressMode = "lookup";
       req.session.data.searchPerformed = false;
       req.session.data.noResults = false;
-      // Clear the postcode to force a fresh search
+      // Clear the postcode and building name to force a fresh search
       req.session.data.addressPostcode = "";
+      req.session.data.buildingNameNumber = "";
       // Redirect to clean URL to prevent form resubmission dialog
       return res.redirect(
         "/dwp-find-an-address-plugin-integrated/question-one"
       );
     }
 
-    // Handle switching to manual mode with selected address
-    if (
-      req.query.addressMode === "manual" &&
-      (req.session.data.selectedAddress || req.query.selectedAddress)
-    ) {
-      const addressToParse =
-        req.query.selectedAddress || req.session.data.selectedAddress;
-      const parsedAddress = parseAddressString(addressToParse);
+    // Handle switching to manual mode
+    if (req.query.addressMode === "manual") {
+      if (req.session.data.selectedAddress || req.query.selectedAddress) {
+        // Parse selected address if available
+        const addressToParse =
+          req.query.selectedAddress || req.session.data.selectedAddress;
+        const parsedAddress = parseAddressString(addressToParse);
+        req.session.data = {
+          ...req.session.data,
+          addressMode: "manual",
+          addressLine1: parsedAddress.addressLine1,
+          addressLine2: parsedAddress.addressLine2,
+          townCity: parsedAddress.townCity,
+          addressPostcode:
+            parsedAddress.addressPostcode || req.session.data.addressPostcode,
+        };
+      } else {
+        // Just switch to manual mode without parsing address
+        req.session.data = {
+          ...req.session.data,
+          addressMode: "manual",
+          // Preserve building name/number if it exists
+          buildingNameNumber: req.session.data.buildingNameNumber || "",
+        };
+      }
+    }
+
+    // Handle switching to lookup mode (without clearResults)
+    if (req.query.addressMode === "lookup" && !req.query.clearResults) {
       req.session.data = {
         ...req.session.data,
-        addressMode: "manual",
-        addressLine1: parsedAddress.addressLine1,
-        addressLine2: parsedAddress.addressLine2,
-        townCity: parsedAddress.townCity,
-        addressPostcode:
-          parsedAddress.addressPostcode || req.session.data.addressPostcode,
+        addressMode: "lookup",
+        // Preserve building name/number if it exists
+        buildingNameNumber: req.session.data.buildingNameNumber || "",
+        // Don't clear address results - preserve them so user can see the dropdown
       };
     }
 
@@ -7332,17 +7371,30 @@ router.post(
         getAddressesPostcode(addressPostcode)
           .then((data) => {
             console.log("Address lookup results:", data); // Debug log
+            console.log("Building name/number:", buildingNameNumber); // Debug log
             if (data.length > 0) {
               let filteredData = data;
 
               // Filter by building name/number if provided
               if (buildingNameNumber && buildingNameNumber.trim()) {
+                console.log(
+                  "Filtering by building name/number:",
+                  buildingNameNumber
+                ); // Debug log
                 filteredData = data.filter((item) => {
-                  return (
+                  const match =
                     item
                       .toUpperCase()
-                      .indexOf(buildingNameNumber.toUpperCase()) !== -1
-                  );
+                      .indexOf(buildingNameNumber.toUpperCase()) !== -1;
+                  console.log(
+                    "Checking item:",
+                    item,
+                    "against:",
+                    buildingNameNumber,
+                    "match:",
+                    match
+                  ); // Debug log
+                  return match;
                 });
                 console.log(
                   "Filtered addresses by building name/number:",
@@ -7358,7 +7410,12 @@ router.post(
                 })
               );
               req.session.data.searchPerformed = true;
-              req.session.data.noResults = false;
+              req.session.data.noResults = filteredData.length === 0;
+
+              // Auto-select single address if only one result
+              if (filteredData.length === 1) {
+                req.session.data.selectedAddress = filteredData[0];
+              }
               console.log(
                 "Stored address results:",
                 req.session.data.addressResults
@@ -7452,6 +7509,711 @@ router.post(
 
 router.get("/dwp-find-an-address-plugin-integrated/success", (req, res) => {
   res.render("titan-mvp-1.2/dwp-find-an-address-plugin-integrated/success.njk");
+});
+
+// Standalone address plugin routes (address question on its own page)
+router.get(
+  "/dwp-find-an-address-plugin-standalone/address-question",
+  (req, res) => {
+    // Handle search again - clear address results when clearResults=true
+    if (req.query.clearResults === "true") {
+      console.log("Clearing results and redirecting..."); // Debug log
+      req.session.data.addressResults = [];
+      req.session.data.selectedAddress = null;
+      req.session.data.addressMode = "lookup";
+      req.session.data.searchPerformed = false;
+      req.session.data.noResults = false;
+      req.session.data.buildingNameNumber = null;
+
+      // Redirect to clean URL to prevent form resubmission dialog
+      return res.redirect(
+        "/dwp-find-an-address-plugin-standalone/address-question"
+      );
+    }
+
+    // Handle switching to manual mode
+    if (req.query.addressMode === "manual") {
+      if (req.query.selectedAddress) {
+        // Parse selected address and populate manual fields
+        const selectedAddress = decodeURIComponent(req.query.selectedAddress);
+        const parsedAddress = parseAddressString(selectedAddress);
+
+        req.session.data.addressMode = "manual";
+        req.session.data.selectedAddress = selectedAddress;
+        req.session.data.addressLine1 = parsedAddress.addressLine1;
+        req.session.data.addressLine2 = parsedAddress.addressLine2;
+        req.session.data.townCity = parsedAddress.townCity;
+        req.session.data.addressPostcode = parsedAddress.addressPostcode;
+      } else {
+        // Switch to manual mode without selected address
+        req.session.data.addressMode = "manual";
+        // Preserve building name/number if switching from lookup
+        if (req.session.data.addressMode !== "manual") {
+          // Keep existing building name/number
+        }
+      }
+    }
+
+    // Handle switching to lookup mode
+    if (req.query.addressMode === "lookup") {
+      req.session.data.addressMode = "lookup";
+      // Preserve building name/number if switching from manual
+      if (req.session.data.addressMode !== "lookup") {
+        // Keep existing building name/number
+      }
+    }
+
+    res.render(
+      "titan-mvp-1.2/dwp-find-an-address-plugin-standalone/address-question.njk",
+      {
+        data: req.session.data || {},
+      }
+    );
+  }
+);
+
+router.post(
+  "/dwp-find-an-address-plugin-standalone/address-question",
+  (req, res) => {
+    const {
+      action,
+      addressMode,
+      addressPostcode,
+      buildingNameNumber,
+      addressLine1,
+      addressLine2,
+      townCity,
+      selectAddress,
+    } = req.body;
+
+    // Store form data in session
+    req.session.data = {
+      ...req.session.data,
+      addressMode: addressMode || req.session.data.addressMode || "lookup",
+      addressPostcode,
+      buildingNameNumber,
+      addressLine1,
+      addressLine2,
+      townCity,
+      selectedAddress: selectAddress || req.session.data.selectedAddress,
+    };
+
+    if (action === "lookup") {
+      // Handle address lookup
+      if (!addressPostcode) {
+        res.render(
+          "titan-mvp-1.2/dwp-find-an-address-plugin-standalone/address-question.njk",
+          {
+            data: req.session.data,
+            error: {
+              addressError: "Enter a postcode",
+            },
+          }
+        );
+        return;
+      }
+
+      // Perform address lookup
+      const {
+        getAddressesPostcode,
+        getAddressesSearchString,
+      } = require("find-an-address-plugin/utils/getData");
+
+      if (buildingNameNumber) {
+        // Search with building name/number
+        getAddressesSearchString(addressPostcode, buildingNameNumber)
+          .then((data) => {
+            console.log("Search results:", data); // Debug log
+
+            // Filter results by building name/number
+            const filteredData = data.filter((address) => {
+              const addressText = address.text.toLowerCase();
+              const buildingSearch = buildingNameNumber.toLowerCase();
+              return addressText.indexOf(buildingSearch) !== -1;
+            });
+
+            console.log("Filtered results:", filteredData); // Debug log
+
+            if (filteredData.length > 0) {
+              req.session.data.addressResults = filteredData.map(
+                (address, index) => ({
+                  value: address,
+                  text: address,
+                })
+              );
+              req.session.data.searchPerformed = true;
+              req.session.data.noResults = false;
+
+              // Auto-select single address if only one result
+              if (filteredData.length === 1) {
+                req.session.data.selectedAddress = filteredData[0];
+              }
+
+              console.log("Addresses found:", filteredData.length); // Debug log
+              // PRG redirect back to the same page with anchor
+              res.redirect(
+                "/dwp-find-an-address-plugin-standalone/address-question#address"
+              );
+            } else {
+              // No addresses found
+              req.session.data.addressResults = [];
+              req.session.data.searchPerformed = true;
+              req.session.data.noResults = true;
+
+              console.log("No addresses found for postcode:", addressPostcode); // Debug log
+              res.redirect(
+                "/dwp-find-an-address-plugin-standalone/address-question#address"
+              );
+            }
+          })
+          .catch(() => {
+            // Error in lookup
+            req.session.data.addressResults = [];
+            req.session.data.searchPerformed = true;
+            req.session.data.noResults = true;
+            res.redirect(
+              "/dwp-find-an-address-plugin-standalone/address-question#address"
+            );
+          });
+      } else {
+        // Search without building name/number
+        getAddressesPostcode(addressPostcode)
+          .then((data) => {
+            console.log("Postcode search results:", data); // Debug log
+
+            if (data && data.length > 0) {
+              req.session.data.addressResults = data.map((address, index) => ({
+                value: address,
+                text: address,
+              }));
+              req.session.data.searchPerformed = true;
+              req.session.data.noResults = false;
+
+              // Auto-select single address if only one result
+              if (data.length === 1) {
+                req.session.data.selectedAddress = data[0];
+              }
+
+              console.log("Addresses found:", data.length); // Debug log
+              // PRG redirect back to the same page with anchor
+              res.redirect(
+                "/dwp-find-an-address-plugin-standalone/address-question#address"
+              );
+            } else {
+              // No addresses found
+              req.session.data.addressResults = [];
+              req.session.data.searchPerformed = true;
+              req.session.data.noResults = true;
+
+              console.log("No addresses found for postcode:", addressPostcode); // Debug log
+              res.redirect(
+                "/dwp-find-an-address-plugin-standalone/address-question#address"
+              );
+            }
+          })
+          .catch(() => {
+            // Error in lookup
+            req.session.data.addressResults = [];
+            req.session.data.searchPerformed = true;
+            req.session.data.noResults = true;
+            res.redirect(
+              "/dwp-find-an-address-plugin-standalone/address-question#address"
+            );
+          });
+      }
+    } else if (action === "continue") {
+      // Handle form submission
+      let error = {};
+
+      // Validate address
+      if (req.session.data.addressMode === "manual") {
+        // Manual address validation
+        if (!addressLine1) error.addressError = "Enter address line 1";
+        if (!townCity) error.addressError = "Enter town or city";
+        if (!addressPostcode) error.addressError = "Enter postcode";
+      } else {
+        // Lookup mode validation
+        if (!selectAddress) error.addressError = "Select an address";
+      }
+
+      if (error.addressError) {
+        res.render(
+          "titan-mvp-1.2/dwp-find-an-address-plugin-standalone/address-question.njk",
+          {
+            data: req.session.data,
+            error,
+          }
+        );
+      } else {
+        // Store final address
+        if (req.session.data.addressMode === "manual") {
+          req.session.data.finalAddress = `${addressLine1}${
+            addressLine2 ? ", " + addressLine2 : ""
+          }, ${townCity}, ${addressPostcode}`;
+        } else {
+          req.session.data.finalAddress = selectAddress;
+        }
+
+        // Redirect to confirmation page
+        res.redirect("/dwp-find-an-address-plugin-standalone/confirmation");
+      }
+    }
+  }
+);
+
+router.get(
+  "/dwp-find-an-address-plugin-standalone/confirmation",
+  (req, res) => {
+    res.render(
+      "titan-mvp-1.2/dwp-find-an-address-plugin-standalone/confirmation.njk",
+      {
+        data: req.session.data || {},
+      }
+    );
+  }
+);
+
+router.post(
+  "/dwp-find-an-address-plugin-standalone/confirmation",
+  (req, res) => {
+    // Clear session data and redirect to success page
+    req.session.data = {};
+    res.redirect("/dwp-find-an-address-plugin-standalone/success");
+  }
+);
+
+router.get("/dwp-find-an-address-plugin-standalone/success", (req, res) => {
+  res.render("titan-mvp-1.2/dwp-find-an-address-plugin-standalone/success.njk");
+});
+
+// Mini-journey address plugin routes (separate pages for address journey)
+router.get(
+  "/dwp-find-an-address-plugin-mini-journey/question-one",
+  (req, res) => {
+    res.render(
+      "titan-mvp-1.2/dwp-find-an-address-plugin-mini-journey/question-one.njk",
+      {
+        data: req.session.data || {},
+      }
+    );
+  }
+);
+
+router.post(
+  "/dwp-find-an-address-plugin-mini-journey/question-one",
+  (req, res) => {
+    const { action, name, email } = req.body;
+
+    // Store form data in session
+    req.session.data = {
+      ...req.session.data,
+      name,
+      email,
+    };
+
+    if (action === "continue") {
+      // Handle form submission
+      let error = {};
+
+      // Validate fields
+      if (!name) error.nameError = "Enter your full name";
+      if (!email) error.emailError = "Enter your email address";
+      if (!req.session.data.selectedAddress && !req.session.data.finalAddress) {
+        error.addressError = "Select an address";
+      }
+
+      if (error.nameError || error.emailError || error.addressError) {
+        res.render(
+          "titan-mvp-1.2/dwp-find-an-address-plugin-mini-journey/question-one.njk",
+          {
+            data: req.session.data,
+            error,
+          }
+        );
+      } else {
+        // Redirect to confirmation page
+        res.redirect("/dwp-find-an-address-plugin-mini-journey/confirmation");
+      }
+    }
+  }
+);
+
+// Postcode entry page
+router.get(
+  "/dwp-find-an-address-plugin-mini-journey/postcode-entry",
+  (req, res) => {
+    res.render(
+      "titan-mvp-1.2/dwp-find-an-address-plugin-mini-journey/postcode-entry.njk",
+      {
+        data: req.session.data || {},
+        returnUrl:
+          req.query.returnUrl ||
+          "/dwp-find-an-address-plugin-mini-journey/question-one",
+      }
+    );
+  }
+);
+
+router.post(
+  "/dwp-find-an-address-plugin-mini-journey/postcode-entry",
+  (req, res) => {
+    const { action, addressPostcode, buildingNameNumber, returnUrl } = req.body;
+
+    // Store form data in session
+    req.session.data = {
+      ...req.session.data,
+      addressPostcode,
+      buildingNameNumber,
+      returnUrl,
+    };
+
+    if (action === "lookup") {
+      // Handle address lookup
+      if (!addressPostcode) {
+        res.render(
+          "titan-mvp-1.2/dwp-find-an-address-plugin-mini-journey/postcode-entry.njk",
+          {
+            data: req.session.data,
+            returnUrl,
+            error: {
+              addressError: "Enter a postcode",
+            },
+          }
+        );
+        return;
+      }
+
+      // Perform address lookup
+      const {
+        getAddressesPostcode,
+        getAddressesSearchString,
+      } = require("find-an-address-plugin/utils/getData");
+
+      if (buildingNameNumber) {
+        // Search with building name/number
+        getAddressesSearchString(addressPostcode, buildingNameNumber)
+          .then((data) => {
+            // Filter results by building name/number
+            const filteredData = data.filter((address) => {
+              const addressText = address.toLowerCase();
+              const buildingSearch = buildingNameNumber.toLowerCase();
+              return addressText.indexOf(buildingSearch) !== -1;
+            });
+
+            if (filteredData.length > 0) {
+              req.session.data.addressResults = filteredData.map(
+                (address, index) => ({
+                  value: address,
+                  text: address,
+                })
+              );
+              req.session.data.searchPerformed = true;
+              req.session.data.noResults = false;
+
+              res.redirect(
+                "/dwp-find-an-address-plugin-mini-journey/address-results?returnUrl=" +
+                  encodeURIComponent(returnUrl)
+              );
+            } else {
+              // No addresses found
+              req.session.data.addressResults = [];
+              req.session.data.searchPerformed = true;
+              req.session.data.noResults = true;
+
+              res.redirect(
+                "/dwp-find-an-address-plugin-mini-journey/no-results?returnUrl=" +
+                  encodeURIComponent(returnUrl)
+              );
+            }
+          })
+          .catch(() => {
+            // Error in lookup
+            req.session.data.addressResults = [];
+            req.session.data.searchPerformed = true;
+            req.session.data.noResults = true;
+            res.redirect(
+              "/dwp-find-an-address-plugin-mini-journey/no-results?returnUrl=" +
+                encodeURIComponent(returnUrl)
+            );
+          });
+      } else {
+        // Search without building name/number
+        getAddressesPostcode(addressPostcode)
+          .then((data) => {
+            if (data && data.length > 0) {
+              req.session.data.addressResults = data.map((address, index) => ({
+                value: address,
+                text: address,
+              }));
+              req.session.data.searchPerformed = true;
+              req.session.data.noResults = false;
+
+              res.redirect(
+                "/dwp-find-an-address-plugin-mini-journey/address-results?returnUrl=" +
+                  encodeURIComponent(returnUrl)
+              );
+            } else {
+              // No addresses found
+              req.session.data.addressResults = [];
+              req.session.data.searchPerformed = true;
+              req.session.data.noResults = true;
+
+              res.redirect(
+                "/dwp-find-an-address-plugin-mini-journey/no-results?returnUrl=" +
+                  encodeURIComponent(returnUrl)
+              );
+            }
+          })
+          .catch(() => {
+            // Error in lookup
+            req.session.data.addressResults = [];
+            req.session.data.searchPerformed = true;
+            req.session.data.noResults = true;
+            res.redirect(
+              "/dwp-find-an-address-plugin-mini-journey/no-results?returnUrl=" +
+                encodeURIComponent(returnUrl)
+            );
+          });
+      }
+    } else if (action === "manual") {
+      // Redirect to manual entry
+      res.redirect(
+        "/dwp-find-an-address-plugin-mini-journey/manual-entry?returnUrl=" +
+          encodeURIComponent(returnUrl)
+      );
+    }
+  }
+);
+
+// Address results page
+router.get(
+  "/dwp-find-an-address-plugin-mini-journey/address-results",
+  (req, res) => {
+    res.render(
+      "titan-mvp-1.2/dwp-find-an-address-plugin-mini-journey/address-results.njk",
+      {
+        data: req.session.data || {},
+        returnUrl:
+          req.query.returnUrl ||
+          "/dwp-find-an-address-plugin-mini-journey/question-one",
+      }
+    );
+  }
+);
+
+router.post(
+  "/dwp-find-an-address-plugin-mini-journey/address-results",
+  (req, res) => {
+    const { action, selectAddress, returnUrl } = req.body;
+
+    if (action === "use-address") {
+      if (!selectAddress) {
+        res.render(
+          "titan-mvp-1.2/dwp-find-an-address-plugin-mini-journey/address-results.njk",
+          {
+            data: req.session.data,
+            returnUrl,
+            error: {
+              addressError: "Select an address",
+            },
+          }
+        );
+        return;
+      }
+
+      // Store selected address and return to main page
+      req.session.data.selectedAddress = selectAddress;
+      req.session.data.finalAddress = selectAddress;
+
+      res.redirect(returnUrl);
+    } else if (action === "search-again") {
+      // Clear results and go back to postcode entry
+      req.session.data.addressResults = [];
+      req.session.data.searchPerformed = false;
+      req.session.data.noResults = false;
+
+      res.redirect(
+        "/dwp-find-an-address-plugin-mini-journey/postcode-entry?returnUrl=" +
+          encodeURIComponent(returnUrl)
+      );
+    } else if (action === "manual") {
+      // Go to manual entry
+      res.redirect(
+        "/dwp-find-an-address-plugin-mini-journey/manual-entry?returnUrl=" +
+          encodeURIComponent(returnUrl)
+      );
+    } else if (action === "back") {
+      // Go back to postcode entry
+      res.redirect(
+        "/dwp-find-an-address-plugin-mini-journey/postcode-entry?returnUrl=" +
+          encodeURIComponent(returnUrl)
+      );
+    }
+  }
+);
+
+// Manual entry page
+router.get(
+  "/dwp-find-an-address-plugin-mini-journey/manual-entry",
+  (req, res) => {
+    // Handle selectedAddress parameter - parse it into individual fields
+    if (req.query.selectedAddress) {
+      const selectedAddress = decodeURIComponent(req.query.selectedAddress);
+      const parsedAddress = parseAddressString(selectedAddress);
+
+      // Update session data with parsed address fields
+      req.session.data.addressLine1 = parsedAddress.addressLine1;
+      req.session.data.addressLine2 = parsedAddress.addressLine2;
+      req.session.data.townCity = parsedAddress.townCity;
+      req.session.data.addressPostcode = parsedAddress.addressPostcode;
+      req.session.data.selectedAddress = selectedAddress;
+    }
+
+    res.render(
+      "titan-mvp-1.2/dwp-find-an-address-plugin-mini-journey/manual-entry.njk",
+      {
+        data: req.session.data || {},
+        returnUrl:
+          req.query.returnUrl ||
+          "/dwp-find-an-address-plugin-mini-journey/question-one",
+      }
+    );
+  }
+);
+
+router.post(
+  "/dwp-find-an-address-plugin-mini-journey/manual-entry",
+  (req, res) => {
+    const {
+      action,
+      addressLine1,
+      addressLine2,
+      townCity,
+      addressPostcode,
+      returnUrl,
+    } = req.body;
+
+    if (action === "use-manual-address") {
+      // Validate manual address
+      let error = {};
+
+      if (!addressLine1) error.addressLineError = "Enter address line 1";
+      if (!townCity) error.townOrCityError = "Enter town or city";
+      if (!addressPostcode) error.postcodeError = "Enter postcode";
+
+      if (
+        error.addressLineError ||
+        error.townOrCityError ||
+        error.postcodeError
+      ) {
+        res.render(
+          "titan-mvp-1.2/dwp-find-an-address-plugin-mini-journey/manual-entry.njk",
+          {
+            data: req.session.data,
+            returnUrl,
+            error,
+          }
+        );
+        return;
+      }
+
+      // Store manual address and return to main page
+      const manualAddress = `${addressLine1}${
+        addressLine2 ? ", " + addressLine2 : ""
+      }, ${townCity}, ${addressPostcode}`;
+      req.session.data.finalAddress = manualAddress;
+      req.session.data.selectedAddress = manualAddress;
+
+      res.redirect(returnUrl);
+    } else if (action === "lookup") {
+      // Go to postcode entry
+      res.redirect(
+        "/dwp-find-an-address-plugin-mini-journey/postcode-entry?returnUrl=" +
+          encodeURIComponent(returnUrl)
+      );
+    } else if (action === "back") {
+      // Go back to postcode entry
+      res.redirect(
+        "/dwp-find-an-address-plugin-mini-journey/postcode-entry?returnUrl=" +
+          encodeURIComponent(returnUrl)
+      );
+    }
+  }
+);
+
+// No results page
+router.get(
+  "/dwp-find-an-address-plugin-mini-journey/no-results",
+  (req, res) => {
+    res.render(
+      "titan-mvp-1.2/dwp-find-an-address-plugin-mini-journey/no-results.njk",
+      {
+        data: req.session.data || {},
+        returnUrl:
+          req.query.returnUrl ||
+          "/dwp-find-an-address-plugin-mini-journey/question-one",
+      }
+    );
+  }
+);
+
+router.post(
+  "/dwp-find-an-address-plugin-mini-journey/no-results",
+  (req, res) => {
+    const { action, returnUrl } = req.body;
+
+    if (action === "search-again") {
+      // Clear results and go back to postcode entry
+      req.session.data.addressResults = [];
+      req.session.data.searchPerformed = false;
+      req.session.data.noResults = false;
+
+      res.redirect(
+        "/dwp-find-an-address-plugin-mini-journey/postcode-entry?returnUrl=" +
+          encodeURIComponent(returnUrl)
+      );
+    } else if (action === "manual") {
+      // Go to manual entry
+      res.redirect(
+        "/dwp-find-an-address-plugin-mini-journey/manual-entry?returnUrl=" +
+          encodeURIComponent(returnUrl)
+      );
+    } else if (action === "back") {
+      // Go back to postcode entry
+      res.redirect(
+        "/dwp-find-an-address-plugin-mini-journey/postcode-entry?returnUrl=" +
+          encodeURIComponent(returnUrl)
+      );
+    }
+  }
+);
+
+// Confirmation page
+router.get(
+  "/dwp-find-an-address-plugin-mini-journey/confirmation",
+  (req, res) => {
+    res.render(
+      "titan-mvp-1.2/dwp-find-an-address-plugin-mini-journey/confirmation.njk",
+      {
+        data: req.session.data || {},
+      }
+    );
+  }
+);
+
+router.post(
+  "/dwp-find-an-address-plugin-mini-journey/confirmation",
+  (req, res) => {
+    // Clear session data and redirect to success page
+    req.session.data = {};
+    res.redirect("/dwp-find-an-address-plugin-mini-journey/success");
+  }
+);
+
+router.get("/dwp-find-an-address-plugin-mini-journey/success", (req, res) => {
+  res.render(
+    "titan-mvp-1.2/dwp-find-an-address-plugin-mini-journey/success.njk"
+  );
 });
 
 const findAddressPlugin = require("find-an-address-plugin");
@@ -11272,4 +12034,28 @@ router.get("/titan-mvp-1.2/form-editor/tutorial", function (req, res) {
     },
     data: req.session.data || {},
   });
+});
+
+// DWP Find an Address Plugin Error Demonstration Routes
+router.get("/dwp-error-demonstration", function (req, res) {
+  res.render("dwp-error-demonstration/index.njk");
+});
+
+router.get("/dwp-error-demonstration/missing-input", function (req, res) {
+  res.render("dwp-error-demonstration/missing-input.njk");
+});
+
+router.get(
+  "/dwp-error-demonstration/manual-address-errors",
+  function (req, res) {
+    res.render("dwp-error-demonstration/manual-address-errors.njk");
+  }
+);
+
+router.get("/dwp-error-demonstration/no-address-found", function (req, res) {
+  res.render("dwp-error-demonstration/no-address-found.njk");
+});
+
+router.get("/dwp-error-demonstration/working-example", function (req, res) {
+  res.render("dwp-error-demonstration/working-example.njk");
 });

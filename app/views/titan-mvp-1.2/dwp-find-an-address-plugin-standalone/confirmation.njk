@@ -1,0 +1,44 @@
+{% extends "layouts/main.html" %}
+
+{% block pageTitle %}
+  Confirm your address - GOV.UK Prototype Kit
+{% endblock %}
+
+{% block content %}
+
+  {{ govukBackLink({
+    text: "Back",
+    href: "javascript: window.history.go(-1)"
+  }) }}
+
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+
+      <h1 class="govuk-heading-l">Confirm your address</h1>
+
+      <div class="govuk-inset-text">
+        <p class="govuk-body">
+          {% if data.selectedAddress %}
+            {{ data.selectedAddress }}
+          {% else %}
+            {{ data.addressLine1 }}{% if data.addressLine2 %}, {{ data.addressLine2 }}{% endif %}, {{ data.townCity }}, {{ data.addressPostcode }}
+          {% endif %}
+        </p>
+      </div>
+
+      <form method="post">
+        {{ govukButton({
+          text: "Confirm and continue",
+          name: "action",
+          value: "confirm"
+        }) }}
+      </form>
+
+      <p class="govuk-body">
+        <a href="/dwp-find-an-address-plugin-standalone/address-question" class="govuk-link">Change address</a>
+      </p>
+
+    </div>
+  </div>
+
+{% endblock %}

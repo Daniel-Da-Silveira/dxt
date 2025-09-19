@@ -1,0 +1,30 @@
+{% extends "layouts/main.html" %}
+
+{% block pageTitle %}
+  No address found - GOV.UK Prototype Kit
+{% endblock %}
+
+{% block content %}
+
+  {{ govukBackLink({
+    text: "Back",
+    href: "?action=back"
+  }) }}
+
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+
+      <h1 class="govuk-heading-l">No address found</h1>
+
+        <p class="govuk-body">We could not find an address that matches <strong>{{ data.addressPostcode }}</strong>{% if data.buildingNameNumber %} and <strong>{{ data.buildingNameNumber }}</strong>{% endif %}. You can search again or enter the address manually.</p>
+
+      <div class="govuk-button-group">
+        <a href="/dwp-find-an-address-plugin-mini-journey/postcode-entry?returnUrl={{ data.returnUrl or '/dwp-find-an-address-plugin-mini-journey/question-one' }}" class="govuk-button govuk-button--secondary govuk-!-margin-right-1">Search again</a>
+        <p class="govuk-body">or <a href="/dwp-find-an-address-plugin-mini-journey/manual-entry?returnUrl={{ data.returnUrl or '/dwp-find-an-address-plugin-mini-journey/question-one' }}" class="govuk-link">enter address manually</a></p>
+      </div>
+
+      <input type="hidden" name="returnUrl" value="{{ data.returnUrl }}">
+    </div>
+  </div>
+
+{% endblock %}
