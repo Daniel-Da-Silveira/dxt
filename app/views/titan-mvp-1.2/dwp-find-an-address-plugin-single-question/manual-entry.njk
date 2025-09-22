@@ -8,7 +8,7 @@
 
   {{ govukBackLink({
     text: "Back",
-    href: "/dwp-find-an-address-plugin-mini-journey/postcode-entry?returnUrl=" + (data.returnUrl or '/dwp-find-an-address-plugin-mini-journey/question-one')
+    href: "/dwp-find-an-address-plugin-single-question/postcode-entry?returnUrl=" + (data.returnUrl or '/dwp-find-an-address-plugin-single-question/question-one')
   }) }}
 
   <div class="govuk-grid-row">
@@ -90,7 +90,7 @@
           }) }}
         </div>
            <p class="govuk-body">
-          <a href="/dwp-find-an-address-plugin-mini-journey/postcode-entry?returnUrl={{ data.returnUrl or '/dwp-find-an-address-plugin-mini-journey/question-one' }}" class="govuk-link">Find an address instead</a>
+          <a href="/dwp-find-an-address-plugin-single-question/postcode-entry?returnUrl={{ data.returnUrl or '/dwp-find-an-address-plugin-single-question/question-one' }}" class="govuk-link">Find an address instead</a>
         </p>
 
 

@@ -144,7 +144,8 @@ activeLinkId: "nav-editor"
                           text: commonTerms.form_editor.question_settings.short_description.hint
                           },
                           id: "error-message-input-address",
-                          name: "errorMessageInputAddress"
+                          name: "errorMessageInputAddress",
+                          value: data['error-message-input-address'] or ''
                           }) }}
 
                           <!-- Section Break -->
@@ -246,13 +247,14 @@ text-align: center;"> Previews
               <!-- Error Messages Content -->
               <div class="govuk-error-summary" data-disable-auto-focus="true">
                 <h2 class="govuk-error-summary__title">There is a problem</h2>
-                <ul class="govuk-list govuk-error-summary__list">
-                  <!-- List of errors -->
-                  <li><a id="empty-input" class="govuk-error-message">Enter address line 1, typically the building and
-                      street</a></li>
-                  <li><a id="empty-input" class="govuk-error-message">Enter town or city</span></a></li>
-                  <li><a id="too-long-input" class="govuk-error-message">Enter postcode</a></li>
+                <ul class="govuk-list govuk-error-summary__list" id="error-messages-list">
+                  <!-- Error messages will be populated dynamically based on checkbox state -->
                 </ul>
+              </div>
+
+              <!-- Additional context about the mini-journey -->
+              <div class="govuk-!-margin-top-4" id="error-context">
+                <!-- Context will be populated dynamically based on checkbox state -->
               </div>
             </div>
           </div>
@@ -268,9 +270,9 @@ text-align: center;"> Previews
           const domElements = {
             // Existing elements
             questionLabelInputAddress: document.getElementById('question-label-input-address'),
-            questionLabelLegend: document.getElementById('question-label-legend'),
+            questionLabelLegend: document.querySelector('#tab-one #question-label-legend'),
             hintTextInputAddress: document.getElementById('hint-text-input-address'),
-            hintTextOutput: document.getElementById('hint-text-output'),
+            hintTextOutput: document.querySelector('#tab-one #hint-text-output'),
             makeOptionalCheckbox: document.getElementById('make-optional'),
 
             // New elements for page heading and guidance text
@@ -419,12 +421,21 @@ text-align: center;"> Previews
             maxCharactersPreview: document.querySelectorAll("#max-characters, #max-length, #max-length-range"),
             errorMessagePreviewSummary: document.getElementById('error-message-preview-summary'), // Add the details component
             postcodeLookupCheckbox: document.getElementById('postcode-lookup'),
-            previewFieldset: document.querySelector('#tab-one fieldset'),
+            previewFieldset: document.querySelector('#tab-one .border-left-container-address fieldset'),
             guidanceAddress: document.getElementById('guidance-address')
           };
 
           // Initialize event listeners
           initializeEventListeners();
+
+          // Initialize error messages on page load
+          updateErrorMessages();
+
+          // Initialize error messages preview on page load
+          updateErrorMessagesPreview();
+
+          // Initialize preview with correct interface based on checkbox state
+          initializePreviewInterface();
 
           function initializeEventListeners() {
             // Update short description and apply highlighting
@@ -439,7 +450,7 @@ text-align: center;"> Previews
 
             // Apply focus/blur highlighting to other elements
             // Ensure we highlight using the correct question input element
-            applyHighlightOnFocus(domElements.multiQuestionLabelInputAddress, document.getElementById('question-label-legend'));
+            applyHighlightOnFocus(domElements.multiQuestionLabelInputAddress, document.querySelector('#tab-one #question-label-legend'));
 
             // Update character limits dynamically
             if (domElements.minCharactersInput && domElements.maxCharactersInput) {
@@ -458,6 +469,108 @@ text-align: center;"> Previews
             domElements.errorMessagePreviewElements.forEach(element => {
               element.textContent = shortDescription;
             });
+            // Also update the error messages preview
+            updateErrorMessagesPreview();
+          }
+
+          function updateErrorMessagesPreview() {
+            const errorMessagesList = document.getElementById('error-messages-list');
+            const errorContext = document.getElementById('error-context');
+
+            if (!errorMessagesList || !errorContext) return;
+
+            const isPostcodeLookupEnabled = domElements.postcodeLookupCheckbox && domElements.postcodeLookupCheckbox.checked;
+            const shortDescription = domElements.errorMessageInputAddress ? domElements.errorMessageInputAddress.value || '[Short description]' : '[Short description]';
+
+            if (isPostcodeLookupEnabled) {
+              // Show postcode lookup errors
+              errorMessagesList.innerHTML = `
+                <li><a id="postcode-lookup-error" class="govuk-error-message">Enter postcode to find <span id="error-dynamic-text">${shortDescription}</span> or enter address manually</a></li>
+                <li><a id="address-selection-error" class="govuk-error-message">Select an address</a></li>
+                <li><a id="address-line-error" class="govuk-error-message">Enter address line 1, typically the building and street</a></li>
+                <li><a id="town-city-error" class="govuk-error-message">Enter town or city</a></li>
+                <li><a id="postcode-manual-error" class="govuk-error-message">Enter postcode</a></li>
+              `;
+
+              errorContext.style.display = 'block';
+            } else {
+              // Show manual entry errors only
+              errorMessagesList.innerHTML = `
+                <li><a id="address-line-error" class="govuk-error-message">Enter address line 1, typically the building and street</a></li>
+                <li><a id="town-city-error" class="govuk-error-message">Enter town or city</a></li>
+                <li><a id="postcode-manual-error" class="govuk-error-message">Enter postcode</a></li>
+              `;
+
+              errorContext.style.display = 'none';
+            }
+          }
+
+          function initializePreviewInterface() {
+            // Set initial preview interface based on checkbox state
+            if (domElements.postcodeLookupCheckbox && domElements.previewFieldset) {
+              const isChecked = domElements.postcodeLookupCheckbox.checked;
+              if (isChecked) {
+                // Show postcode lookup interface
+                togglePostcodeLookup();
+              } else {
+                // Show manual address entry interface by default
+                const currentQuestionText = domElements.multiQuestionLabelInputAddress ? domElements.multiQuestionLabelInputAddress.value : '';
+                const currentGuidanceText = domElements.guidanceAddress ? domElements.guidanceAddress.value : '';
+
+                domElements.previewFieldset.innerHTML = `
+                  <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
+                    <h1 class="govuk-fieldset__heading" id="question-label-legend">
+                      ${currentQuestionText || 'Question'}
+                    </h1>
+                    <div class="govuk-hint" id="hint-text-output">${currentGuidanceText}</div>
+                  </legend>
+
+                  <div class="govuk-form-group">
+                    <label class="govuk-label" for="address-line-1">
+                      Address line 1
+                    </label>
+                    <input class="govuk-input" id="address-line-1" name="addressLine1" type="text" autocomplete="address-line1">
+                  </div>
+
+                  <div class="govuk-form-group">
+                    <label class="govuk-label" for="address-line-2">
+                      Address line 2 (optional)
+                    </label>
+                    <input class="govuk-input" id="address-line-2" name="addressLine2" type="text" autocomplete="address-line2">
+                  </div>
+
+                  <div class="govuk-form-group">
+                    <label class="govuk-label" for="address-town">
+                      Town or city
+                    </label>
+                    <input class="govuk-input govuk-!-width-two-thirds" id="address-town" name="addressTown" type="text" autocomplete="address-level2">
+                  </div>
+
+                  <div class="govuk-form-group">
+                    <label class="govuk-label" for="address-postcode">
+                      Postcode
+                    </label>
+                    <input class="govuk-input govuk-input--width-10" id="address-postcode" name="addressPostcode" type="text" autocomplete="postal-code">
+                  </div>
+                `;
+
+                // Re-apply dynamic functionality for manual entry
+                reapplyDynamicFunctionality();
+              }
+            }
+          }
+
+          function openErrorMessagePreview() {
+            // Show the error messages tab when user focuses on short description input
+            const errorTab = document.querySelector('#tab-two');
+            if (errorTab) {
+              errorTab.style.display = 'block';
+            }
+          }
+
+          function closeErrorMessagePreview() {
+            // Keep the error messages tab visible for reference
+            // No need to hide it as it's useful for users to see
           }
 
           function updateCharacterLimits() {
@@ -517,11 +630,24 @@ text-align: center;"> Previews
                   <label class="govuk-label" for="address-postcode">
                     Postcode
                   </label>
-                  <input class="govuk-input govuk-input--width-10" id="address-postcode" name="addressPostcode" type="text" autocomplete="postal-code">
+                  <div class="govuk-hint" id="postcode-hint">
+                    For example, AA3 1AB
+                  </div>
+                  <input class="govuk-input govuk-!-width-one-third" id="address-postcode" name="addressPostcode" type="text" autocomplete="postal-code">
+                </div>
+
+                <div class="govuk-form-group">
+                  <label class="govuk-label" for="building-name-number">
+                    Building number or name (optional)
+                  </label>
+                  <div class="govuk-hint" id="building-hint">
+                    For example, 15 or Prospect Cottage
+                  </div>
+                  <input class="govuk-input govuk-!-width-one-third" id="building-name-number" name="buildingNameNumber" type="text">
                 </div>
 
                 <div class="govuk-button-group">
-                  <button class="govuk-button govuk-button--secondary govuk-!-margin-right-1" type="button">
+                  <button class="govuk-button govuk-!-margin-right-1" type="button">
                     Find address
                   </button>
                   <p class="govuk-body">or <a href="#" class="govuk-link">enter address manually</a></p>
@@ -569,11 +695,14 @@ text-align: center;"> Previews
 
             // Re-apply dynamic functionality after content change
             reapplyDynamicFunctionality();
+
+            // Update error messages preview
+            updateErrorMessagesPreview();
           }
 
           function reapplyDynamicFunctionality() {
             // Re-bind highlight and text updates for the question label
-            const questionLabelLegend = document.getElementById('question-label-legend');
+            const questionLabelLegend = document.querySelector('#tab-one #question-label-legend');
             const questionInput = domElements.multiQuestionLabelInputAddress; // real id set above
             if (questionInput && questionLabelLegend) {
               // Only bind once per lifecycle of the input
@@ -605,7 +734,7 @@ text-align: center;"> Previews
             }
 
             // Re-bind hint text updates
-            const hintTextOutput = document.getElementById('hint-text-output');
+            const hintTextOutput = document.querySelector('#tab-one #hint-text-output');
             const guidanceInput = domElements.guidanceAddress;
             if (guidanceInput && hintTextOutput) {
               if (!guidanceInput.dataset.previewBound) {
@@ -615,6 +744,19 @@ text-align: center;"> Previews
                 guidanceInput.dataset.previewBound = 'true';
               }
               hintTextOutput.textContent = guidanceInput.value || '';
+            }
+
+            // Re-bind short description updates
+            const errorMessageInput = domElements.errorMessageInputAddress;
+            const errorMessageElements = domElements.errorMessagePreviewElements;
+            if (errorMessageInput && errorMessageElements.length) {
+              if (!errorMessageInput.dataset.previewBound) {
+                errorMessageInput.addEventListener('input', updateErrorMessages);
+                applyHighlightOnFocus(errorMessageInput, errorMessageElements);
+                errorMessageInput.dataset.previewBound = 'true';
+              }
+              // Immediately update error messages with current value
+              updateErrorMessages();
             }
           }
 

@@ -19,7 +19,7 @@
           titleText: "There is a problem",
           errorList: [
             {
-              text: "Enter postcode to find (short description) or enter address manually",
+              text: "Enter postcode to find address or enter address manually",
               href: "#address-postcode"
             } if error.addressError else ""
           ]
@@ -39,7 +39,7 @@
           classes: "govuk-!-width-one-third",
           id: "address-postcode",
           name: "addressPostcode",
-          errorMessage: { text: "Enter postcode to find (short description) or enter address manually" } if error.addressError else "",
+          errorMessage: { text: "Enter postcode to find address or enter address manually" } if error.addressError else "",
           value: data['addressPostcode'],
           autocomplete: "postal-code"
         }) }}
@@ -65,7 +65,7 @@
             classes: "govuk-button govuk-!-margin-right-1"
           }) }}
 
-          <p class="govuk-body">or <a href="/dwp-find-an-address-plugin-mini-journey/manual-entry?returnUrl={{ data.returnUrl or '/dwp-find-an-address-plugin-mini-journey/question-one' }}" class="govuk-link">enter address manually</a></p>
+          <p class="govuk-body">or <a href="/dwp-find-an-address-plugin-single-question/manual-entry?returnUrl={{ data.returnUrl or '/dwp-find-an-address-plugin-single-question/question-one' }}" class="govuk-link">enter address manually</a></p>
 
         </div>
 

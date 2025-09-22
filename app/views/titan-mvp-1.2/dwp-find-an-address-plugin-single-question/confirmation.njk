@@ -19,20 +19,6 @@
       <dl class="govuk-summary-list">
         <div class="govuk-summary-list__row">
           <dt class="govuk-summary-list__key">
-            Name
-          </dt>
-          <dd class="govuk-summary-list__value">
-            {{ data.name }}
-          </dd>
-          <dd class="govuk-summary-list__actions">
-            <a class="govuk-link" href="/dwp-find-an-address-plugin-mini-journey/question-one">
-              Change<span class="govuk-visually-hidden"> name</span>
-            </a>
-          </dd>
-        </div>
-
-        <div class="govuk-summary-list__row">
-          <dt class="govuk-summary-list__key">
             Address
           </dt>
           <dd class="govuk-summary-list__value">
@@ -43,22 +29,8 @@
             {% endif %}
           </dd>
           <dd class="govuk-summary-list__actions">
-            <a class="govuk-link" href="/dwp-find-an-address-plugin-mini-journey/postcode-entry?returnUrl={{ data.returnUrl or '/dwp-find-an-address-plugin-mini-journey/question-one' }}">
+            <a class="govuk-link" href="/dwp-find-an-address-plugin-single-question/postcode-entry?returnUrl={{ data.returnUrl or '/dwp-find-an-address-plugin-single-question/question-one' }}">
               Change<span class="govuk-visually-hidden"> address</span>
-            </a>
-          </dd>
-        </div>
-
-        <div class="govuk-summary-list__row">
-          <dt class="govuk-summary-list__key">
-            Email
-          </dt>
-          <dd class="govuk-summary-list__value">
-            {{ data.email }}
-          </dd>
-          <dd class="govuk-summary-list__actions">
-            <a class="govuk-link" href="/dwp-find-an-address-plugin-mini-journey/question-one">
-              Change<span class="govuk-visually-hidden"> email</span>
             </a>
           </dd>
         </div>
@@ -76,4 +48,3 @@
   </div>
 
 {% endblock %}
-

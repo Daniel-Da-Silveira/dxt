@@ -8,7 +8,7 @@
 
   {{ govukBackLink({
     text: "Back",
-    href: "/dwp-find-an-address-plugin-mini-journey/postcode-entry?returnUrl=" + (data.returnUrl or '/dwp-find-an-address-plugin-mini-journey/question-one')
+    href: "/dwp-find-an-address-plugin-single-question/postcode-entry?returnUrl=" + (data.returnUrl or '/dwp-find-an-address-plugin-single-question/question-one')
   }) }}
 
   <div class="govuk-grid-row">
@@ -33,7 +33,7 @@
           {# Show single address result #}
           <p class="govuk-body">{{ data.addressResults.length }} address found for
             <span class="govuk-body govuk-!-font-weight-bold">{{ data.addressPostcode }}</span>{% if data.buildingNameNumber %} and <span class="govuk-body govuk-!-font-weight-bold">{{ data.buildingNameNumber }}<span class="govuk-body govuk-!-font-weight-regular">.</span></span>{% else %}.{% endif %}
-            <a href="/dwp-find-an-address-plugin-mini-journey/postcode-entry?returnUrl={{ data.returnUrl or '/dwp-find-an-address-plugin-mini-journey/question-one' }}" class="govuk-link">Search again</a>
+            <a href="/dwp-find-an-address-plugin-single-question/postcode-entry?returnUrl={{ data.returnUrl or '/dwp-find-an-address-plugin-single-question/question-one' }}" class="govuk-link">Search again</a>
           </p>
 
           <div class="govuk-inset-text">
@@ -45,7 +45,7 @@
           {# Show multiple address results #}
           <p class="govuk-body">{{ data.addressResults.length }} addresses found for
             <strong>{{ data.addressPostcode }}</strong>{% if data.buildingNameNumber %} and <strong>{{ data.buildingNameNumber }}</strong>{% endif %}.
-            <a href="/dwp-find-an-address-plugin-mini-journey/postcode-entry?returnUrl={{ data.returnUrl or '/dwp-find-an-address-plugin-mini-journey/question-one' }}" class="govuk-link">Search again</a>
+            <a href="/dwp-find-an-address-plugin-single-question/postcode-entry?returnUrl={{ data.returnUrl or '/dwp-find-an-address-plugin-single-question/question-one' }}" class="govuk-link">Search again</a>
           </p>
 
           {% set addressItems = [] %}
@@ -98,15 +98,15 @@
       const selectAddress = document.getElementById('select-address');
       const manualEntryLink = document.getElementById('manual-entry-link');
       const manualEntryLinkSingle = document.getElementById('manual-entry-link-single');
-      const returnUrl = '{{ data.returnUrl or "/dwp-find-an-address-plugin-mini-journey/question-one" }}';
+      const returnUrl = '{{ data.returnUrl or "/dwp-find-an-address-plugin-single-question/question-one" }}';
 
       function updateManualEntryLink(linkElement, selectedAddress) {
         if (linkElement) {
           if (selectedAddress) {
             const encodedAddress = encodeURIComponent(selectedAddress);
-            linkElement.href = '/dwp-find-an-address-plugin-mini-journey/manual-entry?returnUrl=' + encodeURIComponent(returnUrl) + '&selectedAddress=' + encodedAddress;
+            linkElement.href = '/dwp-find-an-address-plugin-single-question/manual-entry?returnUrl=' + encodeURIComponent(returnUrl) + '&selectedAddress=' + encodedAddress;
           } else {
-            linkElement.href = '/dwp-find-an-address-plugin-mini-journey/manual-entry?returnUrl=' + encodeURIComponent(returnUrl);
+            linkElement.href = '/dwp-find-an-address-plugin-single-question/manual-entry?returnUrl=' + encodeURIComponent(returnUrl);
           }
         }
       }
