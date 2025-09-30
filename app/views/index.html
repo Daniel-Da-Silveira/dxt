@@ -1223,8 +1223,11 @@ text: "Start latest prototype (Titan MVP 1.2)"
       }
 
       // Table sorting functionality
-      // Initial sort
-      sortTableByRecentDate();
+      // Initial sort (with safety check to prevent multiple calls)
+      if (typeof window.tableSortInitialized === 'undefined') {
+        window.tableSortInitialized = true;
+        sortTableByRecentDate();
+      }
 
       // Override the click handler for sortable columns
       const sortableHeaders = document.querySelectorAll('.govuk-table__header[aria-sort]');
@@ -1260,10 +1263,13 @@ text: "Start latest prototype (Titan MVP 1.2)"
         'Jan': 0, 'Feb': 1, 'Mar': 2, 'Apr': 3, 'May': 4, 'Jun': 5,
         'Jul': 6, 'Aug': 7, 'Sep': 8, 'Oct': 9, 'Nov': 10, 'Dec': 11
       };
+
+      // Use matchAll instead of exec to avoid infinite loops
       const dateRegex = /([A-Za-z]+) (\d{4})/g;
-      let match;
+      const matches = detailsText.matchAll(dateRegex);
       let maxDate = new Date(0);
-      while ((match = dateRegex.exec(detailsText)) !== null) {
+
+      for (const match of matches) {
         const month = match[1];
         const year = parseInt(match[2]);
         if (monthMap[month] !== undefined) {
@@ -1276,28 +1282,46 @@ text: "Start latest prototype (Titan MVP 1.2)"
 
     // Sort table rows by most recent research round date (for tested features)
     function sortTableByRecentDate() {
-      const tables = document.querySelectorAll('.govuk-table')
-      tables.forEach(table => {
-        const tbody = table.querySelector('tbody')
-        const rows = Array.from(tbody.querySelectorAll('tr'))
+      try {
+        const tables = document.querySelectorAll('.govuk-table')
+        tables.forEach(table => {
+          const tbody = table.querySelector('tbody')
+          if (!tbody) return; // Safety check
 
-        // Sort rows by most recent research round date
-        rows.sort((a, b) => {
-          const detailsA = a.querySelector('.govuk-details__text')
-          const detailsB = b.querySelector('.govuk-details__text')
+          const rows = Array.from(tbody.querySelectorAll('tr'))
+          if (rows.length === 0) return; // Safety check
 
-          if (detailsA && detailsB) {
-            const maxDateA = getMostRecentDate(detailsA.textContent)
-            const maxDateB = getMostRecentDate(detailsB.textContent)
-            return maxDateB - maxDateA
-          }
+          // Sort rows by most recent research round date
+          rows.sort((a, b) => {
+            try {
+              const detailsA = a.querySelector('.govuk-details__text')
+              const detailsB = b.querySelector('.govuk-details__text')
 
-          return 0
+              if (detailsA && detailsB) {
+                const maxDateA = getMostRecentDate(detailsA.textContent || '')
+                const maxDateB = getMostRecentDate(detailsB.textContent || '')
+                return maxDateB - maxDateA
+              }
+
+              return 0
+            } catch (error) {
+              console.warn('Error sorting table row:', error)
+              return 0
+            }
+          })
+
+          // Re-append rows in sorted order
+          rows.forEach(row => {
+            try {
+              tbody.appendChild(row)
+            } catch (error) {
+              console.warn('Error appending table row:', error)
+            }
+          })
         })
-
-        // Re-append rows in sorted order
-        rows.forEach(row => tbody.appendChild(row))
-      })
+      } catch (error) {
+        console.warn('Error in sortTableByRecentDate:', error)
+      }
     }
 
   </script>
