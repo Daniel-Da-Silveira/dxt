@@ -1221,6 +1221,36 @@ text: "Start latest prototype (Titan MVP 1.2)"
 
         image.style.transform = `scale(${currentZoom}) translate(${newX}px, ${newY}px)`;
       }
+
+      // Table sorting functionality
+      // Initial sort
+      sortTableByRecentDate();
+
+      // Override the click handler for sortable columns
+      const sortableHeaders = document.querySelectorAll('.govuk-table__header[aria-sort]');
+      sortableHeaders.forEach(header => {
+        header.addEventListener('click', (e) => {
+          e.preventDefault();
+          const table = header.closest('.govuk-table');
+          const tbody = table.querySelector('tbody');
+          const rows = Array.from(tbody.querySelectorAll('tr'));
+
+          // Get the column index
+          const columnIndex = Array.from(header.parentElement.children).indexOf(header);
+
+          // Sort rows by the clicked column
+          rows.sort((a, b) => {
+            const cellA = a.children[columnIndex];
+            const cellB = b.children[columnIndex];
+            const valueA = cellA.textContent.trim();
+            const valueB = cellB.textContent.trim();
+            return valueA.localeCompare(valueB);
+          });
+
+          // Re-append rows in sorted order
+          rows.forEach(row => tbody.appendChild(row));
+        });
+      });
     });
   </script>
   <script>
@@ -1270,37 +1300,6 @@ text: "Start latest prototype (Titan MVP 1.2)"
       })
     }
 
-    // Override the default sorting behavior
-    document.addEventListener('DOMContentLoaded', () => {
-      // Initial sort
-      sortTableByRecentDate()
-
-      // Override the click handler for sortable columns
-      const sortableHeaders = document.querySelectorAll('.govuk-table__header[aria-sort]')
-      sortableHeaders.forEach(header => {
-        header.addEventListener('click', (e) => {
-          e.preventDefault()
-          const table = header.closest('.govuk-table')
-          const tbody = table.querySelector('tbody')
-          const rows = Array.from(tbody.querySelectorAll('tr'))
-
-          // Get the column index
-          const columnIndex = Array.from(header.parentElement.children).indexOf(header)
-
-          // Sort rows by the clicked column
-          rows.sort((a, b) => {
-            const cellA = a.children[columnIndex]
-            const cellB = b.children[columnIndex]
-            const valueA = cellA.textContent.trim()
-            const valueB = cellB.textContent.trim()
-            return valueA.localeCompare(valueB)
-          })
-
-          // Re-append rows in sorted order
-          rows.forEach(row => tbody.appendChild(row))
-        })
-      })
-    })
   </script>
   {% endblock %}
 
