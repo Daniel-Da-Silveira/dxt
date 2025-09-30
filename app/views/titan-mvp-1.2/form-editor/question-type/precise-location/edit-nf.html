@@ -410,7 +410,7 @@ text-align: center;"> Previews
                 <legend class="govuk-fieldset__legend govuk-fieldset__legend--l" id="question-label-legend">
                   Question
                 </legend>
-                <div class="govuk-hint" id="hint-text-output">Enter easting and northing (0 to 99,999)</div>
+                <div class="govuk-hint" id="hint-text-output">Easting must be between 0 and 70000. Northing must be between 0 and 1300000.</div>
                 <div class="govuk-date-input row-prototype-coordinate-input" id="easting-northing-preview">
                   <div class="govuk-date-input__item govuk-!-margin-bottom-2">
                     <div class="govuk-form-group">
@@ -436,7 +436,7 @@ text-align: center;"> Previews
                 <legend class="govuk-fieldset__legend govuk-fieldset__legend--l" id="question-label-legend">
                   Question
                 </legend>
-                <div class="govuk-hint" id="hint-text-output">For example NG123456</div>
+                <div class="govuk-hint" id="hint-text-output">Must be 10 characters like NG12345678</div>
                 <div class="govuk-date-input row-prototype-coordinate-input" id="field-number-preview">
                   <div class="govuk-date-input__item govuk-!-margin-bottom-2">
                     <div class="govuk-form-group">
@@ -454,7 +454,7 @@ text-align: center;"> Previews
               <div class="govuk-form-group govuk-!-margin-bottom-2">
                 <fieldset class="govuk-fieldset" role="group">
                   <legend class="govuk-fieldset__legend govuk-fieldset__legend--l" id="question-label-legend">Question</legend>
-                  <div class="govuk-hint" id="hint-text-output">For example TQ 300 803</div>
+                  <div class="govuk-hint" id="hint-text-output">Must be between 8 and 12 characters like TQ123456</div>
                   <input class="govuk-input govuk-input--width-10" id="preview-os-grid-single" name="osGridSingle" type="text" inputmode="text">
                 </fieldset>
               </div>
@@ -468,7 +468,7 @@ text-align: center;"> Previews
                 <legend class="govuk-fieldset__legend govuk-fieldset__legend--l" id="question-label-legend">
                   Question
                 </legend>
-                <div class="govuk-hint" id="hint-text-output">For example 53.763850, -3.739040000</div>
+                <div class="govuk-hint" id="hint-text-output">Latitude must be between 49 and 60. Longitude must be between -9 and 2.</div>
                 <div class="govuk-date-input row-prototype-coordinate-input" id="longitude-latitude-preview">
                   <div class="govuk-date-input__item govuk-!-margin-bottom-2">
                     <div class="govuk-form-group">
@@ -563,6 +563,21 @@ text-align: center;"> Previews
                 domElements.helpTextInputPreciseLocation.addEventListener('input', updateHelpComponent);
                 applyHighlightOnFocus(domElements.helpTextInputPreciseLocation, domElements.helpContent);
             }
+
+            // Re-bind short description input for error messages
+            const shortDescriptionInput = document.getElementById('error-message-input-precise-location');
+            if (shortDescriptionInput) {
+                shortDescriptionInput.addEventListener('input', updateErrorMessages);
+                // Set up highlighting that will work with dynamically created spans
+                shortDescriptionInput.addEventListener('focus', function() {
+                    const spans = document.querySelectorAll('span[id^="error-dynamic-text"]');
+                    spans.forEach(span => span.classList.add('highlight'));
+                });
+                shortDescriptionInput.addEventListener('blur', function() {
+                    const spans = document.querySelectorAll('span[id^="error-dynamic-text"]');
+                    spans.forEach(span => span.classList.remove('highlight'));
+                });
+            }
         }
 
         // Listen for changes to the location format radio buttons
@@ -648,6 +663,25 @@ text-align: center;"> Previews
                 domElements.helpTextInputPreciseLocation.addEventListener('input', updateHelpComponent);
                 applyHighlightOnFocus(domElements.helpTextInputPreciseLocation, domElements.helpContent);
             }
+
+            // Short description input for error messages
+            const shortDescriptionInput = document.getElementById('error-message-input-precise-location');
+            if (shortDescriptionInput) {
+                shortDescriptionInput.addEventListener('input', updateErrorMessages);
+                // Set up highlighting that will work with dynamically created spans
+                shortDescriptionInput.addEventListener('focus', function() {
+                    const spans = document.querySelectorAll('span[id^="error-dynamic-text"]');
+                    console.log('Found spans:', spans.length);
+                    spans.forEach(span => {
+                        span.classList.add('highlight');
+                        console.log('Added highlight to span:', span);
+                    });
+                });
+                shortDescriptionInput.addEventListener('blur', function() {
+                    const spans = document.querySelectorAll('span[id^="error-dynamic-text"]');
+                    spans.forEach(span => span.classList.remove('highlight'));
+                });
+            }
         }
 
         // Update question label with optional suffix
@@ -691,26 +725,26 @@ text-align: center;"> Previews
 
             const selectedFormat = document.querySelector('input[name="locationFormat"]:checked');
             if (!selectedFormat) {
-                domElements.hintTextOutput.textContent = 'Enter easting and northing (0 to 99,999)';
+                domElements.hintTextOutput.textContent = 'Easting must be between 0 and 70000. Northing must be between 0 and 1300000.';
                 return;
             }
 
             let defaultHint = '';
             switch (selectedFormat.value) {
                 case 'easting_northing':
-                    defaultHint = 'Enter easting and northing (0 to 99,999)';
+                    defaultHint = 'Easting must be between 0 and 70000. Northing must be between 0 and 1300000.';
                     break;
                 case 'field_number':
-                    defaultHint = 'For example NG123456';
+                    defaultHint = 'Must be 10 characters like NG12345678';
                     break;
                 case 'os_grid_number':
-                    defaultHint = 'For example TQ 300 803';
+                    defaultHint = 'Must be between 8 and 12 characters like TQ123456';
                     break;
                 case 'longitude_latitude':
-                    defaultHint = 'For example 53.763850, -3.739040000';
+                    defaultHint = 'Latitude must be between 49 and 60. Longitude must be between -9 and 2.';
                     break;
                 default:
-                    defaultHint = 'Enter easting and northing (0 to 99,999)';
+                    defaultHint = 'Easting must be between 0 and 70000. Northing must be between 0 and 1300000.';
             }
 
             domElements.hintTextOutput.textContent = defaultHint;
@@ -729,7 +763,7 @@ text-align: center;"> Previews
 
             const selectedFormat = document.querySelector('input[name="locationFormat"]:checked');
             if (!selectedFormat) {
-                errorMessagesList.innerHTML = '<li><span class="govuk-body">No location format selected</span></li>';
+                errorMessagesList.innerHTML = '<li><a class="govuk-error-message"><span class="govuk-visually-hidden">Error:</span>Select a location format</a></li>';
                 return;
             }
 
@@ -741,36 +775,43 @@ text-align: center;"> Previews
             switch (selectedFormat.value) {
                 case 'easting_northing':
                     errorMessages = [
-                        `Enter <span id="error-dynamic-text-east" style="text-transform: lowercase;">${shortDescription}</span> easting`,
-                        `Enter <span id="error-dynamic-text-north" style="text-transform: lowercase;">${shortDescription}</span> northing`,
-                        `Enter <span id="error-dynamic-text-east-num" style="text-transform: lowercase;">${shortDescription}</span> easting as a number between 0 and 99,999`,
-                        `Enter <span id="error-dynamic-text-north-num" style="text-transform: lowercase;">${shortDescription}</span> northing as a number between 0 and 99,999`
+                        `Enter easting for <span id="error-dynamic-text-east" style="text-transform: lowercase;">${shortDescription}</span>`,
+                        `Enter northing for <span id="error-dynamic-text-north" style="text-transform: lowercase;">${shortDescription}</span>`,
+                        `Easting for <span id="error-dynamic-text-east-length" style="text-transform: lowercase;">${shortDescription}</span> must be between 1 and 5 digits`,
+                        `Northing for <span id="error-dynamic-text-north-length" style="text-transform: lowercase;">${shortDescription}</span> must be between 1 and 7 digits`,
+                        `Easting for <span id="error-dynamic-text-east-range" style="text-transform: lowercase;">${shortDescription}</span> must be between 0 and 70000`,
+                        `Northing for <span id="error-dynamic-text-north-range" style="text-transform: lowercase;">${shortDescription}</span> must be between 0 and 1300000`
                     ];
                     break;
                 case 'field_number':
                     errorMessages = [
-                        `Enter <span id="error-dynamic-text-field" style="text-transform: lowercase;">${shortDescription}</span> National Grid field number`,
-                        `Enter <span id="error-dynamic-text-field-format" style="text-transform: lowercase;">${shortDescription}</span> in the correct format (for example NG123456)`
+                        `Enter National Grid field number for <span id="error-dynamic-text-field" style="text-transform: lowercase;">${shortDescription}</span>`,
+                        `Enter a valid National Grid field number for <span id="error-dynamic-text-field-format" style="text-transform: lowercase;">${shortDescription}</span> like NG12345678`,
+                        `National Grid field number for <span id="error-dynamic-text-field-length" style="text-transform: lowercase;">${shortDescription}</span> must be 10 characters like NG12345678`
                     ];
                     break;
                 case 'os_grid_number':
                     errorMessages = [
-                        `Enter <span id="error-dynamic-text-os" style="text-transform: lowercase;">${shortDescription}</span> OS grid reference number`,
-                        `Enter <span id="error-dynamic-text-os-valid" style="text-transform: lowercase;">${shortDescription}</span> in a valid OS grid reference number format (for example TQ 300 803)`
+                        `Enter OS grid reference for <span id="error-dynamic-text-os" style="text-transform: lowercase;">${shortDescription}</span>`,
+                        `Enter a valid OS grid reference for <span id="error-dynamic-text-os-valid" style="text-transform: lowercase;">${shortDescription}</span> like TQ123456`,
+                        `OS grid reference for <span id="error-dynamic-text-os-length" style="text-transform: lowercase;">${shortDescription}</span> must be between 8 and 12 characters`,
+                        `Grid square must be 2 letters like TQ or SW`,
+                        `OS grid reference for <span id="error-dynamic-text-os-range" style="text-transform: lowercase;">${shortDescription}</span> must be within Great Britain`
                     ];
                     break;
                 case 'longitude_latitude':
                     errorMessages = [
-                        `Enter <span id="error-dynamic-text-lat" style="text-transform: lowercase;">${shortDescription}</span> latitude with 6 decimal places (for example 53.763850)`,
-                        `Enter <span id="error-dynamic-text-lon" style="text-transform: lowercase;">${shortDescription}</span> longitude with 9 decimal places (for example -3.739040000)`,
-                        `Enter <span id="error-dynamic-text-lat-decimal" style="text-transform: lowercase;">${shortDescription}</span> latitude as a decimal number with 6 decimal places`,
-                        `Enter <span id="error-dynamic-text-lon-decimal" style="text-transform: lowercase;">${shortDescription}</span> longitude as a decimal number with 9 decimal places`
+                        `Enter latitude for <span id="error-dynamic-text-lat" style="text-transform: lowercase;">${shortDescription}</span>`,
+                        `Enter longitude for <span id="error-dynamic-text-lon" style="text-transform: lowercase;">${shortDescription}</span>`,
+                        `Enter a valid latitude for <span id="error-dynamic-text-lat-format" style="text-transform: lowercase;">${shortDescription}</span> like 51.519450`,
+                        `Enter a valid longitude for <span id="error-dynamic-text-lon-format" style="text-transform: lowercase;">${shortDescription}</span> like -0127758`,
+                        `Latitude for <span id="error-dynamic-text-lat-range" style="text-transform: lowercase;">${shortDescription}</span> must be between 49 and 60`,
+                        `Longitude for <span id="error-dynamic-text-lon-range" style="text-transform: lowercase;">${shortDescription}</span> must be between -9 and 2`
                     ];
                     break;
                 default:
                     errorMessages = [
-                        `Enter <span id="error-dynamic-text-coords" style="text-transform: lowercase;">${shortDescription}</span> location coordinates`,
-                        `Enter <span id="error-dynamic-text-coords-format" style="text-transform: lowercase;">${shortDescription}</span> in the correct format`
+                        `Select a location format`
                     ];
             }
 
@@ -780,6 +821,13 @@ text-align: center;"> Previews
             ).join('');
 
             errorMessagesList.innerHTML = errorHTML;
+
+            // Apply highlighting if the short description input is focused
+            const shortDescInput = document.getElementById('error-message-input-precise-location');
+            if (shortDescInput && document.activeElement === shortDescInput) {
+                const spans = document.querySelectorAll('span[id^="error-dynamic-text"]');
+                spans.forEach(span => span.classList.add('highlight'));
+            }
         }
 
         // Update help component based on checkbox and content
@@ -854,40 +902,27 @@ text-align: center;"> Previews
         function applyHighlightOnFocus(inputElement, targetElement) {
             if (inputElement && targetElement) {
                 inputElement.addEventListener('focus', function () {
-                    targetElement.classList.add('highlight');
+                    if (targetElement.length !== undefined) {
+                        // Handle NodeList (multiple elements)
+                        targetElement.forEach(target => target.classList.add('highlight'));
+                    } else {
+                        // Handle single element
+                        targetElement.classList.add('highlight');
+                    }
                 });
                 inputElement.addEventListener('blur', function () {
-                    targetElement.classList.remove('highlight');
+                    if (targetElement.length !== undefined) {
+                        // Handle NodeList (multiple elements)
+                        targetElement.forEach(target => target.classList.remove('highlight'));
+                    } else {
+                        // Handle single element
+                        targetElement.classList.remove('highlight');
+                    }
                 });
             }
         }
     });
 
-    // Short description error message updates
-    document.addEventListener('DOMContentLoaded', function () {
-        // Get the input field where the user types the short description
-        const inputField = document.getElementById('error-message-input-precise-location');
-
-        // Check if input field exists
-        if (!inputField) {
-            console.error('Short description input field not found.');
-            return;
-        }
-
-        // Function to update error messages when short description changes
-        function updateErrorMessagesWithShortDescription() {
-            // Call the existing updateErrorMessages function which now handles short description
-            if (typeof updateErrorMessages === 'function') {
-                updateErrorMessages();
-            }
-        }
-
-        // Add event listener to the input field
-        inputField.addEventListener('input', updateErrorMessagesWithShortDescription);
-
-        // Initialize error messages on page load
-        updateErrorMessagesWithShortDescription();
-    });
 </script>
 
 <style>
@@ -911,6 +946,28 @@ text-align: center;"> Previews
     .highlight {
         background-color: #ffe5cc;
         border-bottom: 2px solid #ffb266;
+    }
+
+    /* Ensure highlighted spans have black text */
+    .highlight span {
+        color: #000000 !important;
+    }
+
+    /* More specific targeting for error message spans */
+    .govuk-error-message .highlight span {
+        color: #000000 !important;
+    }
+
+    /* Even more specific for spans with error-dynamic-text IDs */
+    span[id^="error-dynamic-text"].highlight {
+        color: #000000 !important;
+    }
+
+    /* Force black text on highlighted spans in error messages */
+    .govuk-error-message span.highlight {
+        color: #000000 !important;
+        background-color: #ffe5cc !important;
+        border-bottom: 2px solid #ffb266 !important;
     }
 
     /* Left border container for preview panel - matching other question types */

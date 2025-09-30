@@ -1,0 +1,84 @@
+{% extends "layouts/main.html" %}
+{% from "components/defra-coordinate-input/macro.njk" import defraCoordinateInput %}
+
+{% block pageTitle %}
+  Latitude and Longitude Location Format – {{ serviceName }} – GOV.UK Prototype Kit
+{% endblock %}
+
+{% block beforeContent %}
+  {{ govukBackLink({
+  text: "Back",
+  href: "javascript:window.history.back()"
+}) }}
+{% endblock %}
+
+{% block content %}
+
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+
+      <form class="form" action="/path/of/next/page" method="post">
+
+        {{ defraCoordinateInput({
+        id: "latitude-longitude",
+        namePrefix: "location",
+        fieldset: {
+        legend: {
+        text: "What is the location of your business?",
+        isPageHeading: true,
+        classes: "govuk-fieldset__legend--l"
+        }
+        },
+        hint: {
+        text: "Latitude must be between 49 and 60. Longitude must be between -9 and 2."
+        },
+        classes: "row-prototype-coordinate-input",
+        items: [
+        {
+        id: "latitude",
+        name: "latitude",
+        label: "Latitude",
+        classes: "govuk-input--width-6",
+        type: "text",
+        attributes: {
+        inputmode: "numeric",
+        suffix: "°"
+        }
+        },
+        {
+        id: "longitude",
+        name: "longitude",
+        label: "Longitude",
+        classes: "govuk-input--width-9",
+        type: "text",
+        attributes: {
+        inputmode: "numeric",
+        suffix: "°"
+        }
+        }
+        ]
+        }) }}
+
+        {{ govukButton({
+          text: "Continue"
+        }) }}
+
+      </form>
+
+        <h2 class="govuk-heading-m">Error Messages</h2>
+        <p class="govuk-body">Here are the error messages that would appear for this format:</p>
+        
+        <div class="govuk-error-summary" data-disable-auto-focus="true">
+            <h2 class="govuk-error-summary__title">There is a problem</h2>
+            <ul class="govuk-list govuk-error-summary__list">
+                <li><a class="govuk-error-message"><span class="govuk-visually-hidden">Error:</span>Enter latitude for location of business</a></li>
+                <li><a class="govuk-error-message"><span class="govuk-visually-hidden">Error:</span>Enter longitude for location of business</a></li>
+                <li><a class="govuk-error-message"><span class="govuk-visually-hidden">Error:</span>Enter a valid latitude for location of business like 51.519450</a></li>
+                <li><a class="govuk-error-message"><span class="govuk-visually-hidden">Error:</span>Enter a valid longitude for location of business like -0127758</a></li>
+                <li><a class="govuk-error-message"><span class="govuk-visually-hidden">Error:</span>Latitude for location of business must be between 49 and 60</a></li>
+                <li><a class="govuk-error-message"><span class="govuk-visually-hidden">Error:</span>Longitude for location of business must be between -9 and 2</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,68 @@
+{% extends "layouts/main.html" %}
+{% from "components/defra-coordinate-input/macro.njk" import defraCoordinateInput %}
+
+{% block pageTitle %}
+  National Grid Field Number Location Format – {{ serviceName }} – GOV.UK Prototype Kit
+{% endblock %}
+
+{% block beforeContent %}
+  {{ govukBackLink({
+  text: "Back",
+  href: "javascript:window.history.back()"
+}) }}
+{% endblock %}
+
+{% block content %}
+
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+
+      <form class="form" action="/path/of/next/page" method="post">
+
+        {{ defraCoordinateInput({
+        id: "national-grid-field",
+        namePrefix: "location",
+        fieldset: {
+        legend: {
+        text: "What is the location of your business?",
+        isPageHeading: true,
+        classes: "govuk-fieldset__legend--l"
+        }
+        },
+        hint: {
+        text: "Must be 10 characters like NG12345678"
+        },
+        classes: "row-prototype-coordinate-input",
+        items: [
+        {
+        id: "field-number",
+        name: "fieldNumber",
+        classes: "govuk-input--width-10",
+        type: "text",
+        attributes: {
+        inputmode: "text"
+        }
+        }
+        ]
+        }) }}
+
+        {{ govukButton({
+          text: "Continue"
+        }) }}
+
+      </form>
+
+        <h2 class="govuk-heading-m">Error Messages</h2>
+        <p class="govuk-body">Here are the error messages that would appear for this format:</p>
+
+        <div class="govuk-error-summary" data-disable-auto-focus="true">
+            <h2 class="govuk-error-summary__title">There is a problem</h2>
+            <ul class="govuk-list govuk-error-summary__list">
+                <li><a class="govuk-error-message"><span class="govuk-visually-hidden">Error:</span>Enter National Grid field number for location of business</a></li>
+                <li><a class="govuk-error-message"><span class="govuk-visually-hidden">Error:</span>Enter a valid National Grid field number for location of business like NG12345678</a></li>
+                <li><a class="govuk-error-message"><span class="govuk-visually-hidden">Error:</span>National Grid field number for location of business must be 10 characters like NG12345678</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+{% endblock %}
