@@ -77,6 +77,47 @@ href: "javascript:window.history.back()"
     ]
     }) }}
 
+        <!-- Payment Section - Clear separation -->
+        <div class="payment-summary-wrap">
+          <div class="payment-summary">
+              <h2 class="govuk-heading-m">Payment received</h2>
+
+              {% from "govuk/components/summary-list/macro.njk" import govukSummaryList %}
+
+  {{ govukSummaryList({
+    classes: "govuk-!-margin-bottom-0",
+    rows: [
+      {
+        key: {
+          text: "Total amount"
+        },
+        value: {
+          text: "£300.00"
+        }
+      },
+      {
+        key: {
+          text: "Reference"
+        },
+        value: {
+          text: "V44FX85M58"
+        }
+      },
+      {
+        key: {
+          text: "Date of payment"
+        },
+        value: {
+          html: "3 October 2025 – 13:41:53"
+        }
+      }
+    ]
+  }) }}
+
+
+          </div>
+        </div>
+
 
     {{ govukInput({
     label: {
@@ -100,45 +141,7 @@ href: "javascript:window.history.back()"
       correct.
     </p>
 
-    <!-- Payment Section - Clear separation -->
-      <div class="payment-summary-wrap">
-        <div class="payment-summary">
-            <h2 class="govuk-heading-m">Payment received</h2>
 
-            {% from "govuk/components/summary-list/macro.njk" import govukSummaryList %}
-
-{{ govukSummaryList({
-  rows: [
-    {
-      key: {
-        text: "Payment for"
-      },
-      value: {
-        text: "License to own a unicorn"
-      }
-    },
-    {
-      key: {
-        text: "Reference"
-      },
-      value: {
-        text: "V44FX85M58"
-      }
-    },
-    {
-      key: {
-        text: "Date of payment"
-      },
-      value: {
-        html: "3 October 2025 – 13:41:53"
-      }
-    }
-  ]
-}) }}
-
-
-        </div>
-      </div>
 
 
       <div class="govuk-button-group">
@@ -166,6 +169,7 @@ href: "javascript:window.history.back()"
     padding: 15px;
     background-color: #f3f2f1;
     margin-top: 30px;
+    margin-bottom: 30px;
   }
 
 
