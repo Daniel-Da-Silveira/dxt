@@ -1,0 +1,94 @@
+{% extends "layouts/main.html" %}
+
+{% block pageTitle %}
+Check your answers – {{ serviceName }} – GOV.UK Prototype Kit
+{% endblock %}
+
+{% block beforeContent %}
+  {{ govukBackLink({
+    text: "Back",
+    href: "javascript:window.history.back()"
+  }) }}
+{% endblock %}
+
+{% block content %}
+{% set hasPaid = data['hasPaid'] or false %}
+{% set email = data['email'] or '' %}
+{% set fee = data['fee'] or '£120' %}
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+
+    <h1 class="govuk-heading-xl">Check your answers before you submit</h1>
+
+    <form action="/confirmation" method="post" novalidate data-has-paid="{{ hasPaid | dump }}">
+
+      <h2 class="govuk-heading-l">Get a confirmation email (optional)</h2>
+      {{ govukInput({
+        id: "email",
+        name: "email",
+        label: {
+          text: "Email address",
+          classes: "govuk-label--m"
+        },
+        hint: {
+          text: "We'll email you a receipt and your reference number."
+        },
+        type: "email",
+        autocomplete: "email",
+        spellcheck: false,
+        value: email
+      }) }}
+
+      <h2 class="govuk-heading-l">Declaration</h2>
+      <p class="govuk-body">
+        By submitting, you confirm the information you've given is, to the best of your knowledge, correct.
+      </p>
+
+      {{ govukCheckboxes({
+        idPrefix: "declaration",
+        name: "declaration",
+        fieldset: {
+          legend: {
+            text: "Confirm and accept",
+            classes: "govuk-fieldset__legend--m"
+          }
+        },
+        items: [
+          {
+            value: "accepted",
+            text: "I understand and accept this declaration",
+            id: "declaration"
+          }
+        ]
+      }) }}
+
+      <h2 class="govuk-heading-l">Payment</h2>
+
+      {{ govukInsetText({
+        html: "Application fee: <strong>" + fee + "</strong>"
+      }) }}
+
+      <p class="govuk-body">You must pay before you can submit your form.</p>
+
+      <div class="govuk-button-group">
+        {{ govukButton({
+          text: hasPaid ? "Payment complete" : "Pay now",
+          href: hasPaid ? "#" : "/pay",
+          isStartButton: not hasPaid,
+          classes: hasPaid ? "govuk-button--secondary" : ""
+        }) }}
+
+        {{ govukButton({
+          text: "Submit your form",
+          type: "submit",
+          attributes: { id: "submit-button" },
+          disabled: (not hasPaid)
+        }) }}
+      </div>
+
+    </form>
+
+  </div>
+</div>
+{% endblock %}
