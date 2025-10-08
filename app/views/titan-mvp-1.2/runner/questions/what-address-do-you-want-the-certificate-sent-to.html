@@ -1,0 +1,68 @@
+{% extends "layouts/runner.html" %}
+
+{% block pageTitle %}
+What address do you want the certificate sent to? – {{ serviceName }} – GOV.UK
+{% endblock %}
+
+{% block beforeContent %}
+{{ govukBackLink({
+text: "Back",
+href: "javascript:window.history.back()"
+}) }}
+{% endblock %}
+
+{% block content %}
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+
+    <h1 class="govuk-heading-l">What address do you want the certificate sent to?</h1>
+
+    <div class="govuk-button-group">
+      {{ govukButton({
+      text: "Find address",
+      href: "/address-lookup-postcode?returnUrl=/when-does-your-unicorn-insurance-policy-start"
+      }) }}
+
+      {{ govukButton({
+      text: "Enter address manually",
+      classes: "govuk-button--secondary",
+      href: "/address-lookup-manual?returnUrl=/when-does-your-unicorn-insurance-policy-start"
+      }) }}
+
+      {{ govukButton({
+      text: "Save and exit",
+      classes: "govuk-button--secondary",
+      href: "/save-progress",
+      type: "button"
+      }) }}
+    </div>
+
+    {% if data['AegFro-address-line-1'] %}
+    <div class="govuk-inset-text">
+      <strong>Selected address:</strong><br>
+      {{ data['AegFro-address-line-1'] }}<br>
+      {% if data['AegFro-address-line-2'] %}{{ data['AegFro-address-line-2'] }}<br>{% endif %}
+      {{ data['AegFro-town'] }}<br>
+      {{ data['AegFro-postcode'] }}
+    </div>
+
+    <form class="form" action="/what-address-do-you-want-the-certificate-sent-to" method="post">
+      <div class="govuk-button-group">
+        {{ govukButton({
+        text: "Continue"
+        }) }}
+
+        {{ govukButton({
+        text: "Change address",
+        classes: "govuk-button--secondary",
+        href: "/address-lookup-postcode?returnUrl=/when-does-your-unicorn-insurance-policy-start"
+        }) }}
+      </div>
+    </form>
+    {% endif %}
+
+  </div>
+</div>
+
+{% endblock %}

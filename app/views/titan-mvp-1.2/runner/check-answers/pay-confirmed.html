@@ -1,4 +1,4 @@
-{% extends "layouts/main.html" %}
+{% extends "layouts/runner.html" %}
 
 {% block pageTitle %}
 Check your answers template – {{ serviceName }} – GOV.UK Prototype Kit
@@ -85,7 +85,7 @@ href: "javascript:window.history.back()"
               {% from "govuk/components/summary-list/macro.njk" import govukSummaryList %}
 
   {{ govukSummaryList({
-    classes: "govuk-!-margin-bottom-0",
+    classes: "govuk-!-margin-bottom-t0",
     rows: [
       {
         key: {

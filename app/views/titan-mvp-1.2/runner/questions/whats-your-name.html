@@ -1,0 +1,64 @@
+{% extends "layouts/runner.html" %}
+
+{% block pageTitle %}
+What's your name? – {{ serviceName }} – GOV.UK
+{% endblock %}
+
+{% block beforeContent %}
+{{ govukBackLink({
+text: "Back",
+href: "javascript:window.history.back()"
+}) }}
+{% endblock %}
+
+{% block content %}
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+
+    {% if error %}
+      {{ govukErrorSummary({
+        titleText: "There is a problem",
+        errorList: [
+          {
+            text: error.nameError,
+            href: "#name"
+          } if error.nameError else ""
+        ]
+      }) }}
+    {% endif %}
+
+    <form class="form" action="/whats-your-name" method="post">
+
+      {{ govukInput({
+      label: {
+      text: "What's your name?",
+      classes: "govuk-label--l",
+      isPageHeading: true
+      },
+      id: "name",
+      name: "name",
+      autocomplete: "name",
+      errorMessage: { text: error.nameError } if error.nameError else "",
+      value: data['name']
+      }) }}
+
+      <div class="govuk-button-group">
+        {{ govukButton({
+        text: "Continue"
+        }) }}
+
+        {{ govukButton({
+        text: "Save and exit",
+        classes: "govuk-button--secondary",
+        href: "/save-progress",
+        type: "button"
+        }) }}
+      </div>
+
+    </form>
+
+  </div>
+</div>
+
+{% endblock %}

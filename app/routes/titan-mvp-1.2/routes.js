@@ -12801,3 +12801,591 @@ router.get("/dwp-error-demonstration/no-address-found", function (req, res) {
 router.get("/dwp-error-demonstration/working-example", function (req, res) {
   res.render("dwp-error-demonstration/working-example.njk");
 });
+
+// Unicorn Breeder Form Routes
+router.get("/declaration", function (req, res) {
+  res.render("titan-mvp-1.2/runner/questions/declaration", {
+    error: req.session.data.error
+  });
+});
+
+router.post("/declaration", function (req, res) {
+  const { declaration } = req.body;
+  
+  if (!declaration || !declaration.includes("confirmed")) {
+    req.session.data.error = { declarationError: "You must accept the declaration to continue" };
+    return res.redirect("/declaration");
+  }
+  
+  // Clear any errors
+  delete req.session.data.error;
+  res.redirect("/whats-your-name");
+});
+
+router.get("/whats-your-name", function (req, res) {
+  res.render("titan-mvp-1.2/runner/questions/whats-your-name", {
+    error: req.session.data.error
+  });
+});
+
+router.post("/whats-your-name", function (req, res) {
+  const { name } = req.body;
+  
+  if (!name || name.trim() === "") {
+    req.session.data.error = { nameError: "Enter your full name" };
+    return res.redirect("/whats-your-name");
+  }
+  
+  // Clear any errors
+  delete req.session.data.error;
+  res.redirect("/whats-your-email-address");
+});
+
+router.get("/whats-your-email-address", function (req, res) {
+  res.render("titan-mvp-1.2/runner/questions/whats-your-email-address", {
+    error: req.session.data.error
+  });
+});
+
+router.post("/whats-your-email-address", function (req, res) {
+  const { email } = req.body;
+  
+  if (!email || email.trim() === "") {
+    req.session.data.error = { emailError: "Enter your email address" };
+    return res.redirect("/whats-your-email-address");
+  }
+  
+  // Basic email validation
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!emailRegex.test(email)) {
+    req.session.data.error = { emailError: "Enter a valid email address" };
+    return res.redirect("/whats-your-email-address");
+  }
+  
+  // Clear any errors
+  delete req.session.data.error;
+  res.redirect("/whats-your-phone-number");
+});
+
+router.get("/whats-your-phone-number", function (req, res) {
+  res.render("titan-mvp-1.2/runner/questions/whats-your-phone-number", {
+    error: req.session.data.error
+  });
+});
+
+router.post("/whats-your-phone-number", function (req, res) {
+  const { phoneNumber } = req.body;
+  
+  if (!phoneNumber || phoneNumber.trim() === "") {
+    req.session.data.error = { phoneError: "Enter your phone number" };
+    return res.redirect("/whats-your-phone-number");
+  }
+  
+  // Basic phone number validation (UK format)
+  const phoneRegex = /^(\+44\s?7\d{3}|\(?07\d{3}\)?)\s?\d{3}\s?\d{3}$/;
+  if (!phoneRegex.test(phoneNumber.replace(/\s/g, ""))) {
+    req.session.data.error = { phoneError: "Enter a valid UK phone number" };
+    return res.redirect("/whats-your-phone-number");
+  }
+  
+  // Clear any errors
+  delete req.session.data.error;
+  res.redirect("/whats-your-address");
+});
+
+router.get("/whats-your-address", function (req, res) {
+  res.render("titan-mvp-1.2/runner/questions/whats-your-address", {
+    error: req.session.data.error
+  });
+});
+
+router.post("/whats-your-address", function (req, res) {
+  const { action } = req.body;
+  
+  if (action === "continue") {
+    // Check if address is selected
+    if (!req.session.data.selectedAddress && !req.session.data.finalAddress && !req.session.data['wZLWPy-address-line-1']) {
+      req.session.data.error = { addressError: true };
+      return res.redirect("/whats-your-address");
+    }
+    
+    // Clear any errors
+    delete req.session.data.error;
+    res.redirect("/what-type-of-unicorns-will-you-breed");
+  } else if (action === "exit") {
+    res.redirect("/save-progress");
+  }
+});
+
+
+router.get("/what-address-do-you-want-the-certificate-sent-to", function (req, res) {
+  res.render("titan-mvp-1.2/runner/questions/what-address-do-you-want-the-certificate-sent-to");
+});
+
+router.post("/what-address-do-you-want-the-certificate-sent-to", function (req, res) {
+  res.redirect("/when-does-your-unicorn-insurance-policy-start");
+});
+
+router.get("/when-does-your-unicorn-insurance-policy-start", function (req, res) {
+  res.render("titan-mvp-1.2/runner/questions/when-does-your-unicorn-insurance-policy-start", {
+    error: req.session.data.error
+  });
+});
+
+router.post("/when-does-your-unicorn-insurance-policy-start", function (req, res) {
+  const { 'insuranceStartDate-day': day, 'insuranceStartDate-month': month, 'insuranceStartDate-year': year } = req.body;
+  
+  if (!day || !month || !year) {
+    req.session.data.error = { dateError: "Enter the insurance policy start date" };
+    return res.redirect("/when-does-your-unicorn-insurance-policy-start");
+  }
+  
+  // Basic date validation
+  const date = new Date(year, month - 1, day);
+  if (date.getDate() != day || date.getMonth() != month - 1 || date.getFullYear() != year) {
+    req.session.data.error = { dateError: "Enter a valid date" };
+    return res.redirect("/when-does-your-unicorn-insurance-policy-start");
+  }
+  
+  // Clear any errors
+  delete req.session.data.error;
+  res.redirect("/upload-your-insurance-certificate");
+});
+
+router.get("/upload-your-insurance-certificate", function (req, res) {
+  res.render("titan-mvp-1.2/runner/questions/upload-your-insurance-certificate");
+});
+
+router.post("/upload-your-insurance-certificate", function (req, res) {
+  res.redirect("/how-many-unicorns-do-you-expect-to-breed-each-year");
+});
+
+router.get("/how-many-unicorns-do-you-expect-to-breed-each-year", function (req, res) {
+  res.render("titan-mvp-1.2/runner/questions/how-many-unicorns-do-you-expect-to-breed-each-year");
+});
+
+router.post("/how-many-unicorns-do-you-expect-to-breed-each-year", function (req, res) {
+  res.redirect("/what-type-of-unicorns-will-you-breed");
+});
+
+router.get("/what-type-of-unicorns-will-you-breed", function (req, res) {
+  res.render("titan-mvp-1.2/runner/questions/what-type-of-unicorns-will-you-breed");
+});
+
+router.post("/what-type-of-unicorns-will-you-breed", function (req, res) {
+  res.redirect("/where-will-you-keep-the-unicorns");
+});
+
+router.get("/where-will-you-keep-the-unicorns", function (req, res) {
+  res.render("titan-mvp-1.2/runner/questions/where-will-you-keep-the-unicorns");
+});
+
+router.post("/where-will-you-keep-the-unicorns", function (req, res) {
+  res.redirect("/how-many-members-of-staff-will-look-after-the-unicorns");
+});
+
+router.get("/how-many-members-of-staff-will-look-after-the-unicorns", function (req, res) {
+  res.render("titan-mvp-1.2/runner/questions/how-many-members-of-staff-will-look-after-the-unicorns");
+});
+
+router.post("/how-many-members-of-staff-will-look-after-the-unicorns", function (req, res) {
+  res.redirect("/payment-question");
+});
+
+router.get("/summary", function (req, res) {
+  res.render("titan-mvp-1.2/runner/summary");
+});
+
+router.post("/summary", function (req, res) {
+  res.redirect("/confirmation");
+});
+
+router.get("/confirmation", function (req, res) {
+  res.render("titan-mvp-1.2/runner/confirmation");
+});
+
+// Legacy form question routes (keeping for backward compatibility)
+router.get("/question-1", function (req, res) {
+  res.render("titan-mvp-1.2/runner/questions/question-1");
+});
+
+router.post("/question-1", function (req, res) {
+  res.redirect("/question-2");
+});
+
+router.get("/question-2", function (req, res) {
+  res.render("titan-mvp-1.2/runner/questions/question-2");
+});
+
+router.post("/question-2", function (req, res) {
+  res.redirect("/question-3");
+});
+
+router.get("/question-3", function (req, res) {
+  res.render("titan-mvp-1.2/runner/questions/question-3");
+});
+
+router.post("/question-3", function (req, res) {
+  res.redirect("/question-4");
+});
+
+router.get("/question-4", function (req, res) {
+  res.render("titan-mvp-1.2/runner/questions/question-4");
+});
+
+router.post("/question-4", function (req, res) {
+  res.redirect("/question-5");
+});
+
+router.get("/question-5", function (req, res) {
+  res.render("titan-mvp-1.2/runner/questions/question-5");
+});
+
+router.post("/question-5", function (req, res) {
+  res.redirect("/question-6");
+});
+
+router.get("/question-6", function (req, res) {
+  res.render("titan-mvp-1.2/runner/questions/question-6");
+});
+
+router.post("/question-6", function (req, res) {
+  res.redirect("/question-7");
+});
+
+router.get("/question-7", function (req, res) {
+  res.render("titan-mvp-1.2/runner/questions/question-7");
+});
+
+router.post("/question-7", function (req, res) {
+  res.redirect("/question-8");
+});
+
+router.get("/question-8", function (req, res) {
+  res.render("titan-mvp-1.2/runner/questions/question-8");
+});
+
+router.post("/question-8", function (req, res) {
+  res.redirect("/payment-question");
+});
+
+router.get("/payment-question", function (req, res) {
+  res.render("titan-mvp-1.2/runner/payment-question");
+});
+
+router.post("/payment-question", function (req, res) {
+  res.redirect("/check-answers");
+});
+
+router.get("/check-answers", function (req, res) {
+  res.render("titan-mvp-1.2/runner/check-answers");
+});
+
+router.post("/check-answers", function (req, res) {
+  res.redirect("/confirmation");
+});
+
+// Address lookup functionality routes
+router.get("/address-lookup-postcode", function (req, res) {
+  res.render("titan-mvp-1.2/runner/questions/address-lookup-postcode", {
+    error: req.session.data.error
+  });
+});
+
+router.post("/address-lookup-postcode", function (req, res) {
+  const { addressPostcode, buildingNameNumber, action, returnUrl } = req.body;
+  
+  if (action === "lookup") {
+    if (!addressPostcode) {
+      req.session.data.error = { addressError: true };
+      return res.redirect("/address-lookup-postcode?returnUrl=" + encodeURIComponent(returnUrl));
+    }
+    
+    // Use real address API
+    const {
+      getAddressesPostcode,
+      getAddressesSearchString,
+    } = require("find-an-address-plugin/utils/getData");
+
+    if (buildingNameNumber) {
+      // Search with building name/number
+      getAddressesSearchString(buildingNameNumber + " " + addressPostcode)
+        .then((data) => {
+          if (data.length > 0) {
+            // Format addresses for dropdown
+            const formattedAddresses = data.map(address => ({
+              value: address,
+              text: address
+            }));
+            
+            req.session.data.addressResults = formattedAddresses;
+            req.session.data.addressPostcode = addressPostcode;
+            req.session.data.buildingNameNumber = buildingNameNumber;
+            req.session.data.returnUrl = returnUrl;
+            delete req.session.data.error;
+            
+            res.redirect("/address-lookup-results?returnUrl=" + encodeURIComponent(returnUrl));
+          } else {
+            // No addresses found
+            req.session.data.addressResults = [];
+            req.session.data.addressPostcode = addressPostcode;
+            req.session.data.buildingNameNumber = buildingNameNumber;
+            req.session.data.returnUrl = returnUrl;
+            delete req.session.data.error;
+            
+            res.redirect("/address-lookup-results?returnUrl=" + encodeURIComponent(returnUrl));
+          }
+        })
+        .catch((error) => {
+          console.error("Address lookup error:", error);
+          req.session.data.error = { addressError: true };
+          res.redirect("/address-lookup-postcode?returnUrl=" + encodeURIComponent(returnUrl));
+        });
+    } else {
+      // Search with postcode only
+      getAddressesPostcode(addressPostcode)
+        .then((data) => {
+          if (data.length > 0) {
+            // Format addresses for dropdown
+            const formattedAddresses = data.map(address => ({
+              value: address,
+              text: address
+            }));
+            
+            req.session.data.addressResults = formattedAddresses;
+            req.session.data.addressPostcode = addressPostcode;
+            req.session.data.buildingNameNumber = buildingNameNumber;
+            req.session.data.returnUrl = returnUrl;
+            delete req.session.data.error;
+            
+            res.redirect("/address-lookup-results?returnUrl=" + encodeURIComponent(returnUrl));
+          } else {
+            // No addresses found
+            req.session.data.addressResults = [];
+            req.session.data.addressPostcode = addressPostcode;
+            req.session.data.buildingNameNumber = buildingNameNumber;
+            req.session.data.returnUrl = returnUrl;
+            delete req.session.data.error;
+            
+            res.redirect("/address-lookup-results?returnUrl=" + encodeURIComponent(returnUrl));
+          }
+        })
+        .catch((error) => {
+          console.error("Address lookup error:", error);
+          req.session.data.error = { addressError: true };
+          res.redirect("/address-lookup-postcode?returnUrl=" + encodeURIComponent(returnUrl));
+        });
+    }
+  }
+});
+
+router.get("/address-lookup-results", function (req, res) {
+  res.render("titan-mvp-1.2/runner/questions/address-lookup-results", {
+    error: req.session.data.error
+  });
+});
+
+router.post("/address-lookup-results", function (req, res) {
+  const { selectAddress, action, returnUrl } = req.body;
+  
+  if (action === "use-address") {
+    if (!selectAddress) {
+      req.session.data.error = { addressError: true };
+      return res.redirect("/address-lookup-results?returnUrl=" + encodeURIComponent(returnUrl));
+    }
+    
+    // Store the selected address for display
+    req.session.data.selectedAddress = selectAddress;
+    req.session.data.finalAddress = selectAddress;
+    
+    // Parse the selected address and store in session
+    const addressParts = selectAddress.split(", ");
+    
+    // Determine which address field to use based on return URL
+    if (returnUrl && returnUrl.includes("when-does-your-unicorn-insurance-policy-start")) {
+      // Certificate address
+      req.session.data['AegFro-address-line-1'] = addressParts[0];
+      req.session.data['AegFro-address-line-2'] = addressParts[1] || "";
+      req.session.data['AegFro-town'] = addressParts[2] || "";
+      req.session.data['AegFro-postcode'] = addressParts[3] || "";
+    } else {
+      // Main address
+      req.session.data['wZLWPy-address-line-1'] = addressParts[0];
+      req.session.data['wZLWPy-address-line-2'] = addressParts[1] || "";
+      req.session.data['wZLWPy-town'] = addressParts[2] || "";
+      req.session.data['wZLWPy-postcode'] = addressParts[3] || "";
+    }
+    
+    // Clear lookup data
+    delete req.session.data.addressResults;
+    delete req.session.data.addressPostcode;
+    delete req.session.data.buildingNameNumber;
+    delete req.session.data.error;
+    
+    res.redirect(returnUrl || "/whats-your-address");
+  }
+});
+
+router.get("/address-lookup-manual", function (req, res) {
+  res.render("titan-mvp-1.2/runner/questions/address-lookup-manual", {
+    error: req.session.data.error
+  });
+});
+
+router.post("/address-lookup-manual", function (req, res) {
+  const { addressLine1, addressLine2, townCity, addressPostcode, action, returnUrl } = req.body;
+  
+  if (action === "use-manual-address") {
+    // Validate required fields
+    const errors = {};
+    if (!addressLine1) errors.addressLineError = "Enter address line 1";
+    if (!townCity) errors.townOrCityError = "Enter town or city";
+    if (!addressPostcode) errors.postcodeError = "Enter postcode";
+    
+    if (Object.keys(errors).length > 0) {
+      req.session.data.error = errors;
+      return res.redirect("/address-lookup-manual?returnUrl=" + encodeURIComponent(returnUrl));
+    }
+    
+    // Create formatted address for display
+    const formattedAddress = [addressLine1, addressLine2, townCity, addressPostcode]
+      .filter(part => part && part.trim())
+      .join(", ");
+    
+    // Store the formatted address for display
+    req.session.data.selectedAddress = formattedAddress;
+    req.session.data.finalAddress = formattedAddress;
+    
+    // Determine which address field to use based on return URL
+    if (returnUrl && returnUrl.includes("when-does-your-unicorn-insurance-policy-start")) {
+      // Certificate address
+      req.session.data['AegFro-address-line-1'] = addressLine1;
+      req.session.data['AegFro-address-line-2'] = addressLine2 || "";
+      req.session.data['AegFro-town'] = townCity;
+      req.session.data['AegFro-postcode'] = addressPostcode;
+    } else {
+      // Main address
+      req.session.data['wZLWPy-address-line-1'] = addressLine1;
+      req.session.data['wZLWPy-address-line-2'] = addressLine2 || "";
+      req.session.data['wZLWPy-town'] = townCity;
+      req.session.data['wZLWPy-postcode'] = addressPostcode;
+    }
+    
+    // Clear any errors
+    delete req.session.data.error;
+    
+    res.redirect(returnUrl || "/whats-your-address");
+  }
+});
+
+// Save and exit functionality routes
+router.get("/save-progress", function (req, res) {
+  res.render("titan-mvp-1.2/runner/save-exit/save-progress");
+});
+
+router.post("/save-progress", function (req, res) {
+  const email = req.body.email;
+  const emailConfirm = req.body.emailConfirm;
+  const securityAnswer = req.body.securityAnswer;
+  const securityQuestion = req.body.securityQuestion;
+
+  // Store the security answer for later validation
+  req.session.data.securityAnswer = securityAnswer;
+  req.session.data.securityQuestion = securityQuestion;
+  req.session.data.email = email;
+
+  console.log("Saving progress - security answer:", securityAnswer);
+  console.log("Saving progress - security question:", securityQuestion);
+  console.log("Email:", email);
+  console.log("Email confirm:", emailConfirm);
+
+  // Validate email addresses match
+  if (!email || !emailConfirm) {
+    req.session.data.emailConfirmError = "Enter both email addresses";
+    return res.redirect("/save-progress");
+  }
+
+  if (email !== emailConfirm) {
+    req.session.data.emailConfirmError =
+      "Your email address does not match. Check and try again";
+    return res.redirect("/save-progress");
+  }
+
+  // Clear any previous errors
+  delete req.session.data.emailConfirmError;
+
+  console.log("Session data after save:", req.session.data);
+
+  res.redirect("/progress-saved");
+});
+
+router.get("/progress-saved", function (req, res) {
+  res.render("titan-mvp-1.2/runner/save-exit/progress-saved");
+});
+
+router.get("/resume-form", function (req, res) {
+  res.render("titan-mvp-1.2/runner/save-exit/resume-form");
+});
+
+router.post("/validate-security-answer", function (req, res) {
+  const userInput = req.body.userSecurityAnswer; // User's input from the form
+  const correctAnswer = req.session.data.securityAnswer || "test answer"; // The answer saved during save-progress
+  const attempts = (req.session.data.attempts || 0) + 1;
+
+  console.log("User input:", userInput);
+  console.log("Correct answer:", correctAnswer);
+  console.log("Attempts:", attempts);
+
+  req.session.data.attempts = attempts;
+
+  // Trim whitespace but keep case sensitivity
+  const trimmedUserInput = userInput ? userInput.trim() : "";
+  const trimmedCorrectAnswer = correctAnswer ? correctAnswer.trim() : "";
+
+  console.log("User input (trimmed):", trimmedUserInput);
+  console.log("Correct answer (trimmed):", trimmedCorrectAnswer);
+  console.log(
+    "Do they match?",
+    trimmedUserInput === trimmedCorrectAnswer
+  );
+
+  if (userInput && trimmedUserInput === trimmedCorrectAnswer) {
+    // Correct answer - redirect to welcome back
+    console.log("Answer is correct - redirecting to welcome-back");
+    delete req.session.data.attempts; // Reset attempts
+    res.redirect("/welcome-back");
+  } else if (attempts >= 3) {
+    // Too many attempts - redirect to failed attempts page
+    console.log("Too many attempts - redirecting to failed-attempts");
+    delete req.session.data.attempts; // Reset attempts
+    res.redirect("/failed-attempts");
+  } else {
+    // Incorrect answer but still has attempts - go back to resume form
+    console.log("Incorrect answer - redirecting back to resume-form");
+    res.redirect("/resume-form");
+  }
+});
+
+router.get("/welcome-back", function (req, res) {
+  res.render("titan-mvp-1.2/runner/save-exit/welcome-back");
+});
+
+router.get("/failed-attempts", function (req, res) {
+  res.render("titan-mvp-1.2/runner/save-exit/failed-attempts");
+});
+
+router.get("/link-expired", function (req, res) {
+  res.render("titan-mvp-1.2/runner/save-exit/link-expired");
+});
+
+router.get("/session-expired", function (req, res) {
+  res.render("titan-mvp-1.2/runner/save-exit/session-expired");
+});
+
+router.get("/notify-email", function (req, res) {
+  res.render("titan-mvp-1.2/runner/save-exit/notify-email");
+});
+
+router.get("/user-submitted", function (req, res) {
+  res.render("titan-mvp-1.2/runner/save-exit/user-submitted");
+});

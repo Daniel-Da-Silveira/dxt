@@ -10,7 +10,13 @@ https://prototype-kit.service.gov.uk/docs/how-to-use-layouts
 {{ super() }}
 {% endblock %}
 
-
+{% block header %}
+{{ govukHeader({
+  homepageUrl: "#",
+  serviceName: "Register as a unicorn breeder",
+  serviceUrl: "#"
+}) }}
+{% endblock %}
 
 {% block footer %}
 

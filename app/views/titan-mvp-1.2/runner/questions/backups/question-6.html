@@ -1,0 +1,67 @@
+{% extends "layouts/runner.html" %}
+
+{% block pageTitle %}
+What is your nationality? – {{ serviceName }} – GOV.UK
+{% endblock %}
+
+{% block beforeContent %}
+{{ govukBackLink({
+text: "Back",
+href: "javascript:window.history.back()"
+}) }}
+{% endblock %}
+
+{% block content %}
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+
+    <form class="form" action="/question-7" method="post">
+
+      {{ govukSelect({
+      id: "nationality",
+      name: "nationality",
+      label: {
+      text: "What is your nationality?",
+      classes: "govuk-label--l",
+      isPageHeading: true
+      },
+      items: [
+      {
+      value: "",
+      text: "Select nationality"
+      },
+      {
+      value: "british",
+      text: "British"
+      },
+      {
+      value: "irish",
+      text: "Irish"
+      },
+      {
+      value: "other",
+      text: "Other"
+      }
+      ]
+      }) }}
+
+      <div class="govuk-button-group">
+        {{ govukButton({
+        text: "Continue"
+        }) }}
+
+        {{ govukButton({
+        text: "Save and exit",
+        classes: "govuk-button--secondary",
+        href: "/save-progress",
+        type: "button"
+        }) }}
+      </div>
+
+    </form>
+
+  </div>
+</div>
+
+{% endblock %}

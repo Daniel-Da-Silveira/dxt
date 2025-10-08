@@ -1,0 +1,66 @@
+{% extends "layouts/runner.html" %}
+
+{% block pageTitle %}
+What's your email address? – {{ serviceName }} – GOV.UK
+{% endblock %}
+
+{% block beforeContent %}
+{{ govukBackLink({
+text: "Back",
+href: "javascript:window.history.back()"
+}) }}
+{% endblock %}
+
+{% block content %}
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+
+    {% if error %}
+      {{ govukErrorSummary({
+        titleText: "There is a problem",
+        errorList: [
+          {
+            text: error.emailError,
+            href: "#email"
+          } if error.emailError else ""
+        ]
+      }) }}
+    {% endif %}
+
+    <form class="form" action="/whats-your-email-address" method="post">
+
+      {{ govukInput({
+      label: {
+      text: "What's your email address?",
+      classes: "govuk-label--l",
+      isPageHeading: true
+      },
+      id: "email",
+      name: "email",
+      type: "email",
+      autocomplete: "email",
+      spellcheck: false,
+      errorMessage: { text: error.emailError } if error.emailError else "",
+      value: data['email']
+      }) }}
+
+      <div class="govuk-button-group">
+        {{ govukButton({
+        text: "Continue"
+        }) }}
+
+        {{ govukButton({
+        text: "Save and exit",
+        classes: "govuk-button--secondary",
+        href: "/save-progress",
+        type: "button"
+        }) }}
+      </div>
+
+    </form>
+
+  </div>
+</div>
+
+{% endblock %}

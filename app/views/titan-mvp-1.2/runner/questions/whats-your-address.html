@@ -1,0 +1,86 @@
+{% extends "layouts/runner.html" %}
+
+{% block pageTitle %}
+  Where should we send your certificate? – {{ serviceName }} – GOV.UK
+{% endblock %}
+
+{% block content %}
+
+  {{ govukBackLink({
+    text: "Back",
+    href: "javascript: window.history.go(-1)"
+  }) }}
+
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+
+      {% if error %}
+        {{ govukErrorSummary({
+          titleText: "There is a problem",
+          errorList: [
+            {
+              text: "Find or enter manually your business address",
+              href: "#find-address-button"
+            } if error.addressError else ""
+          ]
+        }) }}
+      {% endif %}
+
+      <form method="post" autocomplete="off">
+        <h1 class="govuk-heading-l govuk-!-margin-bottom-2">Where should we send your certificate?</h1>
+
+        <div class="govuk-form-group{% if error.addressError %} govuk-form-group--error{% endif %}">
+          <fieldset class="govuk-fieldset">
+            <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">
+              <span class="govuk-visually-hidden">Business address</span>
+            </legend>
+
+            {% if error.addressError %}
+              <p id="find-address-error" class="govuk-error-message">
+                <span class="govuk-visually-hidden">Error:</span>Find or enter manually your business address
+              </p>
+            {% endif %}
+
+            {% if data.selectedAddress or data.finalAddress %}
+              {# Show selected address #}
+              {{ govukInsetText({
+                html: '<h3 class="govuk-heading-s">Selected address:</h3>
+                <p class="govuk-body">
+                  ' + (data.finalAddress or data.selectedAddress) + '
+                </p>
+                <p class="govuk-body">
+                  <a href="/address-lookup-results?returnUrl=/whats-your-address" class="govuk-link">Use a different address</a>
+                </p>',
+                classes: "govuk-!-margin-top-0 govuk-!-margin-bottom-0"
+              }) }}
+
+              {# Show Continue and Save and exit buttons only when address is selected #}
+              <div class="govuk-button-group">
+                {{ govukButton({
+                  text: "Continue",
+                  name: "action",
+                  value: "continue"
+                }) }}
+
+                {{ govukButton({
+                  text: "Save and exit",
+                  name: "action",
+                  value: "exit",
+                  classes: "govuk-button--secondary"
+                }) }}
+              </div>
+
+            {% else %}
+              {# Show address selection buttons #}
+              <div class="govuk-button-group govuk-!-margin-bottom-0">
+                <a href="/address-lookup-postcode?returnUrl=/whats-your-address" id="find-address-button" class="govuk-button govuk-button govuk-!-margin-right-1">Find an address</a>
+                <p class="govuk-body govuk-!-margin-bottom-0">or <a href="/address-lookup-manual?returnUrl=/whats-your-address" class="govuk-link">enter address manually</a></p>
+              </div>
+            {% endif %}
+          </fieldset>
+        </div>
+      </form>
+    </div>
+  </div>
+
+{% endblock %}

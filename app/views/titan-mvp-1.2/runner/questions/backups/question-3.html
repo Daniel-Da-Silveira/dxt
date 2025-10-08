@@ -1,0 +1,51 @@
+{% extends "layouts/runner.html" %}
+
+{% block pageTitle %}
+What is your phone number? – {{ serviceName }} – GOV.UK
+{% endblock %}
+
+{% block beforeContent %}
+{{ govukBackLink({
+text: "Back",
+href: "javascript:window.history.back()"
+}) }}
+{% endblock %}
+
+{% block content %}
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+
+    <form class="form" action="/question-4" method="post">
+
+      {{ govukInput({
+      label: {
+      text: "What is your phone number?",
+      classes: "govuk-label--l",
+      isPageHeading: true
+      },
+      id: "phone-number",
+      name: "phoneNumber",
+      type: "tel",
+      autocomplete: "tel"
+      }) }}
+
+      <div class="govuk-button-group">
+        {{ govukButton({
+        text: "Continue"
+        }) }}
+
+        {{ govukButton({
+        text: "Save and exit",
+        classes: "govuk-button--secondary",
+        href: "/save-progress",
+        type: "button"
+        }) }}
+      </div>
+
+    </form>
+
+  </div>
+</div>
+
+{% endblock %}

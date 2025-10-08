@@ -1,4 +1,4 @@
-{% extends "layouts/main.html" %}
+{% extends "layouts/runner.html" %}
 
 {% block pageTitle %}
   Question page template – {{ serviceName }} – GOV.UK Prototype Kit
@@ -18,6 +18,10 @@
       <div class="payment-summary-wrap">
         <div class="payment-summary">
             <h1 class="govuk-heading-l">Payment required</h1>
+
+            <p id="payment-description" class="govuk-body">
+              Registration fee for your unicorn breeder certificate.
+            </p>
 
             {{ govukWarningText({
               text: "You must pay before you can send your form",
@@ -41,7 +45,7 @@
             {{ govukButton({
               text: "Pay now",
               classes: "govuk-button--primary govuk-!-margin-top-4 govuk-!-margin-bottom-0",
-              href: "https://products.payments.service.gov.uk/pay/9586da86b6c345cb921dbec0afbf9d59"
+              href: "https://products.payments.service.gov.uk/pay/8d6b566bab4d41189a6f2ecf1f69c709"
               }) }}
 
 

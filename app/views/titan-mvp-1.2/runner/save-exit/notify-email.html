@@ -1,0 +1,43 @@
+{% extends "layouts/email.html" %}
+
+{% block pageTitle %}
+Email - Form progress saved
+{% endblock %}
+
+{% block content %}
+
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+
+        <h1 class="govuk-heading-l">
+            Form progress saved
+        </h1>
+
+        <p class="govuk-body">
+            Your progress with Environmental Incident Report has been saved.
+        </p>
+
+        <p class="govuk-body">
+            <a href="http://localhost:3000/resume-form" class="govuk-link">Continue with your form</a>
+        </p>
+
+        {% from "govuk/components/inset-text/macro.njk" import govukInsetText %}
+
+        {{ govukInsetText({
+        text: "The link will only work once. If you want to save your progress again after resuming your form, you will
+        need to repeat the save process to generate a new link."
+        }) }}
+
+        <p class="govuk-body">
+            The link is valid for 28 days. After that time, your saved information will be deleted.
+        </p>
+
+        {# <div class="govuk-footer">
+            <p class="govuk-body-s">From the <span class="govuk-!-font-weight-bold">Department for Environment, Food &
+                    Rural Affairs</span></p>
+        </div> #}
+
+    </div>
+</div>
+
+{% endblock %}
