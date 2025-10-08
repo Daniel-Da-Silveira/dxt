@@ -12838,6 +12838,7 @@ router.post("/whats-your-name", function (req, res) {
   
   // Save the data
   req.session.data.name = name;
+  console.log("Name saved to session:", req.session.data.name);
   
   // Clear any errors
   delete req.session.data.error;
@@ -13056,6 +13057,21 @@ router.post("/how-many-members-of-staff-will-look-after-the-unicorns", function 
 });
 
 router.get("/summary", function (req, res) {
+  console.log("Summary route - session data:", req.session.data);
+  console.log("Summary route - session ID:", req.sessionID);
+  console.log("Summary route - session keys:", Object.keys(req.session));
+  
+  // Ensure session data exists
+  if (!req.session.data) {
+    req.session.data = {};
+    console.log("Session data was null, initialized empty object");
+  }
+  
+  // Debug specific fields
+  console.log("Name:", req.session.data.name);
+  console.log("Email:", req.session.data.email);
+  console.log("Phone:", req.session.data.phoneNumber);
+  
   res.render("titan-mvp-1.2/runner/summary", {
     data: req.session.data
   });
