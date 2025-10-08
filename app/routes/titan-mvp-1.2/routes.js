@@ -12836,6 +12836,9 @@ router.post("/whats-your-name", function (req, res) {
     return res.redirect("/whats-your-name");
   }
   
+  // Save the data
+  req.session.data.name = name;
+  
   // Clear any errors
   delete req.session.data.error;
   res.redirect("/whats-your-email-address");
@@ -12862,6 +12865,9 @@ router.post("/whats-your-email-address", function (req, res) {
     return res.redirect("/whats-your-email-address");
   }
   
+  // Save the data
+  req.session.data.email = email;
+  
   // Clear any errors
   delete req.session.data.error;
   res.redirect("/whats-your-phone-number");
@@ -12887,6 +12893,9 @@ router.post("/whats-your-phone-number", function (req, res) {
     req.session.data.error = { phoneError: "Enter a valid UK phone number" };
     return res.redirect("/whats-your-phone-number");
   }
+  
+  // Save the data
+  req.session.data.phoneNumber = phoneNumber;
   
   // Clear any errors
   delete req.session.data.error;
@@ -12947,6 +12956,11 @@ router.post("/when-does-your-unicorn-insurance-policy-start", function (req, res
     return res.redirect("/when-does-your-unicorn-insurance-policy-start");
   }
   
+  // Save the data
+  req.session.data['insuranceStartDate-day'] = day;
+  req.session.data['insuranceStartDate-month'] = month;
+  req.session.data['insuranceStartDate-year'] = year;
+  
   // Clear any errors
   delete req.session.data.error;
   res.redirect("/upload-your-insurance-certificate");
@@ -12965,6 +12979,18 @@ router.get("/how-many-unicorns-do-you-expect-to-breed-each-year", function (req,
 });
 
 router.post("/how-many-unicorns-do-you-expect-to-breed-each-year", function (req, res) {
+  const { aitzzV } = req.body;
+  
+  if (!aitzzV) {
+    req.session.data.error = { numberError: "Select how many unicorns you expect to breed" };
+    return res.redirect("/how-many-unicorns-do-you-expect-to-breed-each-year");
+  }
+  
+  // Save the data
+  req.session.data.aitzzV = aitzzV;
+  
+  // Clear any errors
+  delete req.session.data.error;
   res.redirect("/what-type-of-unicorns-will-you-breed");
 });
 
@@ -12973,7 +12999,19 @@ router.get("/what-type-of-unicorns-will-you-breed", function (req, res) {
 });
 
 router.post("/what-type-of-unicorns-will-you-breed", function (req, res) {
-  res.redirect("/where-will-you-keep-the-unicorns");
+  const { DyfjJC } = req.body;
+  
+  if (!DyfjJC || DyfjJC.length === 0) {
+    req.session.data.error = { typeError: "Select at least one type of unicorn" };
+    return res.redirect("/what-type-of-unicorns-will-you-breed");
+  }
+  
+  // Save the data
+  req.session.data.DyfjJC = DyfjJC;
+  
+  // Clear any errors
+  delete req.session.data.error;
+  res.redirect("/how-many-unicorns-do-you-expect-to-breed-each-year");
 });
 
 router.get("/where-will-you-keep-the-unicorns", function (req, res) {
@@ -12981,6 +13019,19 @@ router.get("/where-will-you-keep-the-unicorns", function (req, res) {
 });
 
 router.post("/where-will-you-keep-the-unicorns", function (req, res) {
+  const { 'location-easting': easting, 'location-northing': northing } = req.body;
+  
+  if (!easting || !northing) {
+    req.session.data.error = { locationError: "Enter both easting and northing coordinates" };
+    return res.redirect("/where-will-you-keep-the-unicorns");
+  }
+  
+  // Save the data
+  req.session.data['location-easting'] = easting;
+  req.session.data['location-northing'] = northing;
+  
+  // Clear any errors
+  delete req.session.data.error;
   res.redirect("/how-many-members-of-staff-will-look-after-the-unicorns");
 });
 
@@ -12989,6 +13040,18 @@ router.get("/how-many-members-of-staff-will-look-after-the-unicorns", function (
 });
 
 router.post("/how-many-members-of-staff-will-look-after-the-unicorns", function (req, res) {
+  const { zhJMaM } = req.body;
+  
+  if (!zhJMaM || zhJMaM.trim() === "") {
+    req.session.data.error = { staffError: "Enter the number of staff members" };
+    return res.redirect("/how-many-members-of-staff-will-look-after-the-unicorns");
+  }
+  
+  // Save the data
+  req.session.data.zhJMaM = zhJMaM;
+  
+  // Clear any errors
+  delete req.session.data.error;
   res.redirect("/payment-question");
 });
 
