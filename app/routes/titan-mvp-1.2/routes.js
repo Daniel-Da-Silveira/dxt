@@ -13056,7 +13056,9 @@ router.post("/how-many-members-of-staff-will-look-after-the-unicorns", function 
 });
 
 router.get("/summary", function (req, res) {
-  res.render("titan-mvp-1.2/runner/summary");
+  res.render("titan-mvp-1.2/runner/summary", {
+    data: req.session.data
+  });
 });
 
 router.post("/summary", function (req, res) {
