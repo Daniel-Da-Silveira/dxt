@@ -6,6 +6,22 @@ const marked = require("marked");
 
 const app = express();
 
+// Server-side temporary store for form data that survives cross-site redirects
+const tempStore = new Map();
+
+// Clean up expired entries every 30 minutes
+setInterval(() => {
+  const now = Date.now();
+  for (const [key, value] of tempStore.entries()) {
+    if (value.expires < now) {
+      tempStore.delete(key);
+    }
+  }
+}, 30 * 60 * 1000);
+
+// Make tempStore available to routes
+app.locals.tempStore = tempStore;
+
 // Configure Nunjucks
 const env = nunjucks.configure(
   [path.join(__dirname, "views"), "node_modules/govuk-frontend/"],

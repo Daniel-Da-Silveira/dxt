@@ -13070,6 +13070,12 @@ router.get("/summary", function (req, res) {
   // Try to restore from server-side store using token from query param
   const resumeToken = req.query.token;
   if (resumeToken) {
+    // Ensure tempStore exists
+    if (!req.app.locals.tempStore) {
+      console.log("Creating tempStore as it doesn't exist (summary route)");
+      req.app.locals.tempStore = new Map();
+    }
+    
     const tempStore = req.app.locals.tempStore;
     const stored = tempStore.get(resumeToken);
     
@@ -13111,6 +13117,12 @@ router.get("/titan-mvp-1.2/runner/summary.html", function (req, res) {
   // Try to restore from server-side store using token from query param
   const resumeToken = req.query.token;
   if (resumeToken) {
+    // Ensure tempStore exists
+    if (!req.app.locals.tempStore) {
+      console.log("Creating tempStore as it doesn't exist (html route)");
+      req.app.locals.tempStore = new Map();
+    }
+    
     const tempStore = req.app.locals.tempStore;
     const stored = tempStore.get(resumeToken);
     
@@ -13137,6 +13149,11 @@ router.get("/titan-mvp-1.2/runner/summary.html", function (req, res) {
 
 router.get("/confirmation", function (req, res) {
   res.render("titan-mvp-1.2/runner/confirmation");
+});
+
+// Handle return from GOV.UK Pay
+router.get("/payment-return", function (req, res) {
+  res.redirect("/payment-question?return_from_pay=true");
 });
 
 // Legacy form question routes (keeping for backward compatibility)
@@ -13207,6 +13224,13 @@ router.post("/question-8", function (req, res) {
 router.get("/payment-question", function (req, res) {
   // Generate unique token and store form data server-side
   const token = require('crypto').randomBytes(32).toString('hex');
+  
+  // Ensure tempStore exists
+  if (!req.app.locals.tempStore) {
+    console.log("Creating tempStore as it doesn't exist");
+    req.app.locals.tempStore = new Map();
+  }
+  
   const tempStore = req.app.locals.tempStore;
   
   // Store current form data with 30-minute expiry
@@ -13216,6 +13240,7 @@ router.get("/payment-question", function (req, res) {
   });
   
   console.log("Stored form data with token:", token);
+  console.log("tempStore size:", tempStore.size);
   
   res.render("titan-mvp-1.2/runner/payment-question", {
     resumeToken: token

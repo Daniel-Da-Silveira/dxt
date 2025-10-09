@@ -45,7 +45,11 @@
             {{ govukButton({
               text: "Pay now",
               classes: "govuk-button--primary govuk-!-margin-top-4 govuk-!-margin-bottom-0",
-              href: "https://products.payments.service.gov.uk/pay/8d6b566bab4d41189a6f2ecf1f69c709?return_url=" + encodeURIComponent("https://dxt-prototype-682ae311ff10.herokuapp.com/summary?token=" + resumeToken)
+              href: "#",
+              attributes: {
+                "id": "pay-button",
+                "data-token": resumeToken
+              }
               }) }}
 
 
@@ -82,5 +86,37 @@
   }
 
         </style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const payButton = document.getElementById('pay-button');
+  if (payButton) {
+    payButton.addEventListener('click', function(e) {
+      e.preventDefault();
+
+      // Store the token in localStorage as backup
+      const token = payButton.getAttribute('data-token');
+      if (token) {
+        localStorage.setItem('resumeToken', token);
+        console.log('Stored token in localStorage:', token);
+      }
+
+      // Redirect to GOV.UK Pay
+      window.location.href = 'https://products.payments.service.gov.uk/pay/8d6b566bab4d41189a6f2ecf1f69c709';
+    });
+  }
+
+  // Check if we're returning from GOV.UK Pay with a token in localStorage
+  const urlParams = new URLSearchParams(window.location.search);
+  const returnFromPay = urlParams.get('return_from_pay');
+  const storedToken = localStorage.getItem('resumeToken');
+
+  if (returnFromPay === 'true' && storedToken) {
+    console.log('Returning from GOV.UK Pay, redirecting to summary with token:', storedToken);
+    localStorage.removeItem('resumeToken');
+    window.location.href = '/summary?token=' + storedToken;
+  }
+});
+</script>
 
 {% endblock %}
