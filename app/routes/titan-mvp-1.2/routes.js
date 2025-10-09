@@ -13081,6 +13081,16 @@ router.post("/summary", function (req, res) {
   res.redirect("/confirmation");
 });
 
+// Allow direct access to summary.html path to use the same session-backed render
+router.get("/titan-mvp-1.2/runner/summary.html", function (req, res) {
+  if (!req.session.data) {
+    req.session.data = {};
+  }
+  res.render("titan-mvp-1.2/runner/summary", {
+    data: req.session.data,
+  });
+});
+
 router.get("/confirmation", function (req, res) {
   res.render("titan-mvp-1.2/runner/confirmation");
 });

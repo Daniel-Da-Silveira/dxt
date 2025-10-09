@@ -5,6 +5,19 @@ https://prototype-kit.service.gov.uk/docs/how-to-use-layouts
 
 {% extends "govuk-prototype-kit/layouts/govuk-branded.njk" %}
 {% set govukRebrand = true %}
+{% set bodyClasses = "govuk-template__body" %}
+{% set bodyAttributes = {"data-module": "edge"} %}
+
+{% block head %}
+{{ super() }}
+<script>(function(){try{if(window.self!==window.top){document.documentElement.classList.add('in-iframe');}}catch(e){}})();</script>
+<style>
+  .govuk-width-container { max-width: 1200px; }
+  .in-iframe .govuk-footer { display: none !important; }
+  .govuk-width-container { max-width: 1200px; }
+  /* above ensures stable width before external CSS loads to avoid reflow */
+</style>
+{% endblock %}
 
 {% block content %}
 {{ super() }}
@@ -140,9 +153,6 @@ visuallyHiddenTitle: "Footer links"
     }
 </script>
 <style>
-    body.in-iframe .govuk-footer {
-        display: none !important;
-    }
 
     .govuk-width-container {
         max-width: 1200px;
