@@ -45,7 +45,7 @@
             {{ govukButton({
               text: "Pay now",
               classes: "govuk-button--primary govuk-!-margin-top-4 govuk-!-margin-bottom-0",
-              href: "https://products.payments.service.gov.uk/pay/8d6b566bab4d41189a6f2ecf1f69c709"
+              href: "https://products.payments.service.gov.uk/pay/8d6b566bab4d41189a6f2ecf1f69c709?return_url=" + encodeURIComponent("https://dxt-prototype-682ae311ff10.herokuapp.com/summary?token=" + resumeToken)
               }) }}
 
 

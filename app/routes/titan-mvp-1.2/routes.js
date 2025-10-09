@@ -13066,29 +13066,20 @@ router.get("/summary", function (req, res) {
     req.session.data = {};
     console.log("Session data was null, initialized empty object");
   }
-  
-  // Attempt restore from backup cookie if session appears empty (post external return)
-  try {
-    const hasNoUserData = Object.keys(req.session.data || {}).length === 0;
-    const cookieHeader = req.headers.cookie || "";
-    const resumeMatch = cookieHeader
-      .split("; ")
-      .find((c) => c.startsWith("resume="));
-    if (hasNoUserData && resumeMatch) {
-      const cookieValue = resumeMatch.split("=")[1];
-      // base64 decode with URL-safe handling
-      const b64 = cookieValue.replace(/-/g, "+").replace(/_/g, "/");
-      const json = Buffer.from(b64, "base64").toString("utf8");
-      const restored = JSON.parse(json);
-      if (restored && typeof restored === "object") {
-        req.session.data = restored;
-        // Clear cookie after restore
-        res.clearCookie("resume", { path: "/" });
-        console.log("Restored session data from resume cookie");
-      }
+
+  // Try to restore from server-side store using token from query param
+  const resumeToken = req.query.token;
+  if (resumeToken) {
+    const tempStore = req.app.locals.tempStore;
+    const stored = tempStore.get(resumeToken);
+    
+    if (stored && stored.expires > Date.now()) {
+      req.session.data = stored.data;
+      tempStore.delete(resumeToken); // Clean up after use
+      console.log("Restored session data from server store with token:", resumeToken);
+    } else {
+      console.log("Token not found or expired:", resumeToken);
     }
-  } catch (e) {
-    console.warn("Resume cookie restore failed:", e);
   }
 
   // Debug specific fields
@@ -13116,27 +13107,22 @@ router.get("/titan-mvp-1.2/runner/summary.html", function (req, res) {
   if (!req.session.data) {
     req.session.data = {};
   }
-  // Attempt restore from backup cookie if session appears empty (post external return)
-  try {
-    const hasNoUserData = Object.keys(req.session.data || {}).length === 0;
-    const cookieHeader = req.headers.cookie || "";
-    const resumeMatch = cookieHeader
-      .split("; ")
-      .find((c) => c.startsWith("resume="));
-    if (hasNoUserData && resumeMatch) {
-      const cookieValue = resumeMatch.split("=")[1];
-      const b64 = cookieValue.replace(/-/g, "+").replace(/_/g, "/");
-      const json = Buffer.from(b64, "base64").toString("utf8");
-      const restored = JSON.parse(json);
-      if (restored && typeof restored === "object") {
-        req.session.data = restored;
-        res.clearCookie("resume", { path: "/" });
-        console.log("Restored session data from resume cookie (html route)");
-      }
+  
+  // Try to restore from server-side store using token from query param
+  const resumeToken = req.query.token;
+  if (resumeToken) {
+    const tempStore = req.app.locals.tempStore;
+    const stored = tempStore.get(resumeToken);
+    
+    if (stored && stored.expires > Date.now()) {
+      req.session.data = stored.data;
+      tempStore.delete(resumeToken); // Clean up after use
+      console.log("Restored session data from server store with token (html route):", resumeToken);
+    } else {
+      console.log("Token not found or expired (html route):", resumeToken);
     }
-  } catch (e) {
-    console.warn("Resume cookie restore failed (html route):", e);
   }
+  
   const debugMode = req.query.debug === "1";
   const sessionInfo = {
     id: req.sessionID,
@@ -13219,25 +13205,21 @@ router.post("/question-8", function (req, res) {
 });
 
 router.get("/payment-question", function (req, res) {
-  // Write a short-lived backup of current answers to help survive external returns
-  try {
-    const snapshot = JSON.stringify(req.session.data || {});
-    const b64 = Buffer.from(snapshot, "utf8")
-      .toString("base64")
-      .replace(/\+/g, "-")
-      .replace(/\//g, "_")
-      .replace(/=+$/, "");
-    res.cookie("resume", b64, {
-      httpOnly: true,
-      secure: true,
-      sameSite: "none",
-      maxAge: 10 * 60 * 1000,
-      path: "/",
-    });
-  } catch (e) {
-    console.warn("Failed to set resume cookie:", e);
-  }
-  res.render("titan-mvp-1.2/runner/payment-question");
+  // Generate unique token and store form data server-side
+  const token = require('crypto').randomBytes(32).toString('hex');
+  const tempStore = req.app.locals.tempStore;
+  
+  // Store current form data with 30-minute expiry
+  tempStore.set(token, {
+    data: req.session.data || {},
+    expires: Date.now() + (30 * 60 * 1000)
+  });
+  
+  console.log("Stored form data with token:", token);
+  
+  res.render("titan-mvp-1.2/runner/payment-question", {
+    resumeToken: token
+  });
 });
 
 router.post("/payment-question", function (req, res) {
