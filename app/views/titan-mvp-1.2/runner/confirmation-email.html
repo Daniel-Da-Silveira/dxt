@@ -1,7 +1,7 @@
 {% extends "layouts/email.html" %}
 
 {% block pageTitle %}
-Email - Form progress saved
+Email - Form submitted
 {% endblock %}
 
 {% block content %}
@@ -14,7 +14,7 @@ Email - Form progress saved
         padding: 20px;
         font-family: Arial, sans-serif;
     }
-    
+
     .inbox-header {
         background: #ffffff;
         border: 1px solid #d0d0d0;
@@ -22,7 +22,7 @@ Email - Form progress saved
         padding: 15px 20px;
         border-bottom: none;
     }
-    
+
     .inbox-toolbar {
         background: #f5f5f5;
         border: 1px solid #d0d0d0;
@@ -34,61 +34,61 @@ Email - Form progress saved
         font-size: 14px;
         color: #666;
     }
-    
+
     .email-list {
         background: #ffffff;
         border: 1px solid #d0d0d0;
         border-top: none;
         border-radius: 0 0 8px 8px;
     }
-    
+
     .email-item {
         border-bottom: 1px solid #e0e0e0;
         padding: 15px 20px;
         cursor: pointer;
         transition: background-color 0.2s;
     }
-    
+
     .email-item:hover {
         background-color: #f9f9f9;
     }
-    
+
     .email-item.selected {
         background-color: #e3f2fd;
         border-left: 4px solid #1976d2;
     }
-    
+
     .email-header {
         display: flex;
         justify-content: space-between;
         align-items: center;
         margin-bottom: 8px;
     }
-    
+
     .email-sender {
         font-weight: bold;
         color: #1976d2;
         font-size: 14px;
     }
-    
+
     .email-time {
         color: #666;
         font-size: 12px;
     }
-    
+
     .email-subject {
         font-weight: bold;
         color: #333;
         font-size: 16px;
         margin-bottom: 5px;
     }
-    
+
     .email-preview {
         color: #666;
         font-size: 14px;
         line-height: 1.4;
     }
-    
+
     .email-content {
         background: #ffffff;
         border: 1px solid #d0d0d0;
@@ -96,25 +96,25 @@ Email - Form progress saved
         margin-top: 20px;
         padding: 20px;
     }
-    
+
     .email-content-header {
         border-bottom: 1px solid #e0e0e0;
         padding-bottom: 15px;
         margin-bottom: 20px;
     }
-    
+
     .email-content-subject {
         font-size: 18px;
         font-weight: bold;
         color: #333;
         margin-bottom: 10px;
     }
-    
+
     .email-content-meta {
         color: #666;
         font-size: 14px;
     }
-    
+
     .inbox-stats {
         color: #666;
         font-size: 12px;
@@ -126,7 +126,7 @@ Email - Form progress saved
     <div class="inbox-header">
         <h1 style="margin: 0; font-size: 24px; color: #333;">Inbox</h1>
     </div>
-    
+
     <!-- Inbox Toolbar -->
     <div class="inbox-toolbar">
         <div>
@@ -136,53 +136,50 @@ Email - Form progress saved
             <span>Search</span>
         </div>
     </div>
-    
+
     <!-- Email List -->
     <div class="email-list">
         <div class="email-item selected">
             <div class="email-header">
                 <div class="email-sender">Submit form to Defra (defra@notifications.gov.uk)</div>
-                <div class="email-time">2:15 PM</div>
+                <div class="email-time">10:30 AM</div>
             </div>
-            <div class="email-subject">Form progress saved - Register as a unicorn breeder</div>
-            <div class="email-preview">Your progress with 'Register as a unicorn breeder' has been saved. Continue with your form using the link provided. The link will only work once and is valid for 28 days...</div>
+            <div class="email-subject">Form submission: Register as a unicorn breeder</div>
+            <div class="email-preview">We received your form submission for 'Register as a unicorn breeder' on Tuesday 1 April 2025 at 10:30am. We will review your form and get back to you within 10 working days...</div>
         </div>
     </div>
-    
+
     <!-- Email Content -->
     <div class="email-content">
         <div class="email-content-header">
-            <div class="email-content-subject">Form progress saved - Register as a unicorn breeder</div>
+            <div class="email-content-subject">Form submission: Register as a unicorn breeder</div>
             <div class="email-content-meta">
                 <strong>From:</strong> Submit form to Defra (defra@notifications.gov.uk)<br>
                 <strong>To:</strong> you@example.com<br>
-                <strong>Date:</strong> Tuesday, 1 April 2025 at 2:15 PM
+                <strong>Date:</strong> Tuesday, 1 April 2025 at 10:30 AM
             </div>
         </div>
-        
+
         <div class="govuk-body">
-            <h1 class="govuk-heading-l">
-                Form progress saved
-            </h1>
+            <h1 class="govuk-heading-l">We have your form</h1>
+
+            <p class="govuk-body">We received your form submission for 'Register as a unicorn breeder' on Tuesday 1 April
+                2025 at 10:30am.</p>
+
+            <h2 class="govuk-heading-m">What happens next</h2>
+            <p class="govuk-body">We will review your form and get back to you within 10 working days.</p>
+
+            <h2 class="govuk-heading-m">Get help</h2>
+            <p class="govuk-body">Telephone 03000 200 301</p>
+            <p class="govuk-body">Monday to Friday between 8:30am to 5pm.</p>
+            <p class="govuk-body"><a href="mailto:">Example@example.com</a>.</p>
+            <p class="govuk-body">We aim to respond within 2 working days.</p>
 
             <p class="govuk-body">
-                Your progress with 'Register as a unicorn breeder' has been saved.
+                Do not reply to this email. We do not monitor replies to this email address.
             </p>
 
-            <p class="govuk-body">
-                <a href="http://localhost:3000/resume-form" class="govuk-link">Continue with your form</a>
-            </p>
-
-            {% from "govuk/components/inset-text/macro.njk" import govukInsetText %}
-
-            {{ govukInsetText({
-            text: "The link will only work once. If you want to save your progress again after resuming your form, you will
-            need to repeat the save process to generate a new link."
-            }) }}
-
-            <p class="govuk-body">
-                The link is valid for 28 days. After that time, your saved information will be deleted.
-            </p>
+            <p class="govuk-body">From Department for Environment, Food & Rural Affairs</p>
 
             <p class="govuk-body">Thanks,</p>
             <p class="govuk-body">Defra</p>

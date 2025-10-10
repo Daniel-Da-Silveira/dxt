@@ -7,6 +7,13 @@ Declaration – {{ serviceName }} – GOV.UK
 {% endblock %}
 
 {% block beforeContent %}
+{{ govukPhaseBanner({
+  tag: {
+    text: "Beta"
+  },
+  html: 'This is a new service. Help us improve it and <a class="govuk-link" href="/titan-mvp-1.2/form-editor/CSAT/form.html" target="_blank">give your feedback (opens in new tab)</a>.'
+}) }}
+
 {{ govukBackLink({
 text: "Back",
 href: "javascript:window.history.back()"

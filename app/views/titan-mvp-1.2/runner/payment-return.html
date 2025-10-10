@@ -4,19 +4,29 @@
 Payment Complete – {{ serviceName }} – GOV.UK
 {% endblock %}
 
+{% block beforeContent %}
+
+{{ govukPhaseBanner({
+  tag: {
+    text: "Beta"
+  },
+  html: 'This is a new service. Help us improve it and <a class="govuk-link" target="_blank" href="/titan-mvp-1.2/form-editor/CSAT/form.html">give your feedback (opens in new tab)</a>.'
+}) }}
+{% endblock %}
+
 {% block content %}
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    
+
     <h1 class="govuk-heading-l">
       Payment Complete
     </h1>
-    
+
     <p class="govuk-body">
       Your payment has been processed successfully. You will now be redirected to continue with your form.
     </p>
-    
+
     <div class="govuk-notification-banner govuk-notification-banner--success" role="alert" aria-labelledby="govuk-notification-banner-title" data-module="govuk-notification-banner">
       <div class="govuk-notification-banner__header">
         <h2 class="govuk-notification-banner__title" id="govuk-notification-banner-title">
@@ -30,12 +40,12 @@ Payment Complete – {{ serviceName }} – GOV.UK
         <p class="govuk-body">You can now continue with your form submission.</p>
       </div>
     </div>
-    
+
     <p class="govuk-body">
-      If you are not redirected automatically, 
+      If you are not redirected automatically,
       <a href="#" id="continue-link" class="govuk-link">click here to continue</a>.
     </p>
-    
+
   </div>
 </div>
 
@@ -43,19 +53,19 @@ Payment Complete – {{ serviceName }} – GOV.UK
 document.addEventListener('DOMContentLoaded', function() {
   // Get the stored token from localStorage
   const storedToken = localStorage.getItem('resumeToken');
-  
+
   if (storedToken) {
     console.log('Found stored token, redirecting to summary:', storedToken);
-    
+
     // Clean up the token
     localStorage.removeItem('resumeToken');
-    
+
     // Redirect to summary with the token
     const summaryUrl = '/summary?token=' + encodeURIComponent(storedToken);
     window.location.href = summaryUrl;
   } else {
     console.log('No stored token found, redirecting to start');
-    
+
     // Fallback - redirect to start if no token
     const continueLink = document.getElementById('continue-link');
     continueLink.href = '/titan-mvp-1.2/runner/questions/start.html';
@@ -65,3 +75,4 @@ document.addEventListener('DOMContentLoaded', function() {
 </script>
 
 {% endblock %}
+
