@@ -442,6 +442,8 @@ activeLinkId: "nav-editor"
                 {% if formPages.length %}
                 {% for page in formPages %}
                 {% if page.questions and page.questions.length > 0 or page.pageType == 'guidance' %}
+                {% set hasPaymentQuestions = page.questions and page.questions.some(q => q.type === "payment") or (page.pageHeading and page.pageHeading.toLowerCase().includes("payment")) %}
+                {% if not hasPaymentQuestions %}
                 <div class="app-page-card"
                     data-conditions="{% for condition in page.conditions %}{{ condition.conditionName }}{% if not loop.last %},{% endif %}{% endfor %}">
                     <div class="govuk-grid-row">
@@ -830,6 +832,7 @@ activeLinkId: "nav-editor"
                     </div>
                 </div>
                 {% endif %}
+                {% endif %}
                 {% endfor %}
                 {% endif %}
 
@@ -858,7 +861,54 @@ activeLinkId: "nav-editor"
                 </div>
 
                 <div class="govuk-grid-row">
-                    <!-- Summary Card Column -->
+                    <!-- Payment pages first -->
+                    {% for page in formPages %}
+                    {% if page.questions and page.questions.length > 0 or page.pageType == 'guidance' %}
+                    {% set hasPaymentQuestions = page.questions and page.questions.some(q => q.type === "payment") or (page.pageHeading and page.pageHeading.toLowerCase().includes("payment")) %}
+                    {% if hasPaymentQuestions %}
+                    <div class="govuk-grid-column-one-half-from-desktop govuk-grid-column-full-from-tablet govuk-grid-column-full-from-mobile">
+                        <div class="govuk-summary-card govuk-!-margin-bottom-4" style="border-left: 10px solid #008938;">
+                            <div class="govuk-summary-card__title-wrapper"
+                                style="display: flex; justify-content: space-between; align-items: center;">
+                                <div style="flex: 1;">
+                                    <h2 class="govuk-summary-card__title" style="margin: 0;">
+                                        Page {{ loop.index }}:
+                                        {% if page.pageHeading %}
+                                        {{ page.pageHeading }}
+                                        {% elif page.questions and page.questions.length == 1 %}
+                                        {{ page.questions[0].label }}
+                                        {% else %}
+                                        {{ page.pageType | capitalize }}
+                                        {% endif %}
+                                    </h2>
+                                </div>
+                                <ul class="govuk-summary-card__actions" style="margin: 0; padding-left: 15px;">
+                                    <li class="govuk-summary-card__action"
+                                        style="display: inline-block; margin-right: 10px;">
+                                        <a class="govuk-link govuk-link--no-visited-state" href="/titan-mvp-1.2/edit-page/{{ page.pageId }}">
+                                            Edit<span class="govuk-visually-hidden"> page {{ page.pageId }}</span>
+                                        </a>
+                                    </li>
+                                    <li class="govuk-summary-card__action" style="display: inline-block;">
+                                        <a class="govuk-link govuk-link--no-visited-state preview-link"
+                                            data-preview="preview-{{ page.pageId }}" href="#">
+                                            Preview<span class="govuk-visually-hidden"> page {{ page.pageId }}</span>
+                                        </a>
+                                        <a class="govuk-link close-link" data-preview="preview-{{ page.pageId }}"
+                                            id="close-before-content-{{ page.pageId }}" style="display: none;"
+                                            href="#">
+                                            Close Preview<span class="govuk-visually-hidden"> page {{ page.pageId }}</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    {% endif %}
+                    {% endif %}
+                    {% endfor %}
+
+                    <!-- Summary Card Column for Check Answers -->
                     <div
                         class="govuk-grid-column-one-half-from-desktop govuk-grid-column-full-from-tablet govuk-grid-column-full-from-mobile">
                         <!-- Section Break and Heading -->

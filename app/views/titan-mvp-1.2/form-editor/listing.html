@@ -245,7 +245,8 @@ activeLinkId: "nav-editor"
             {% if formPages.length %}
             {% for page in formPages %}
             {% if page.questions and page.questions.length > 0 or page.pageType == 'guidance' %}
-
+            {% set hasPaymentQuestions = page.questions and page.questions.some(q => q.type === "payment") %}
+            {% if not hasPaymentQuestions %}
             <div class="govuk-grid-row page-row app-page-card"
                 data-conditions="{% for condition in page.conditions %}{{ condition.conditionName }}{% if not loop.last %},{% endif %}{% endfor %}">
                 <!-- Left Column: Summary Card -->
@@ -539,6 +540,7 @@ activeLinkId: "nav-editor"
                     </div>
                 </div>
             </div> <!-- end .govuk-grid-row.page-row -->
+            {% endif %}
             {% else %}
             {# Optional content if no formPages exist #}
             {% endif %}
@@ -559,7 +561,47 @@ CHECK ANSWERS PAGE
 
 {# {% if data['checkAnswersGuidanceTextInput'] %} #}
 <div class="govuk-grid-row">
-    <!-- Summary Card Column -->
+    <!-- Payment pages first -->
+    {% for page in formPages %}
+    {% if page.questions and page.questions.length > 0 or page.pageType == 'guidance' %}
+    {% set hasPaymentQuestions = page.questions and page.questions.some(q => q.type === "payment") %}
+    {% if hasPaymentQuestions %}
+    <div class="govuk-grid-column-full govuk-grid-column-one-half-from-desktop">
+        <div class="govuk-summary-card" style="border-left: 10px solid #008938;">
+            <div class="govuk-summary-card__title-wrapper">
+                <h2 class="govuk-summary-card__title">
+                    Page {{ loop.index }}:
+                    {% if page.pageHeading %}
+                    {{ page.pageHeading }}
+                    {% elif page.questions and page.questions.length == 1 %}
+                    {{ page.questions[0].label }}
+                    {% else %}
+                    {{ page.pageType | capitalize }}
+                    {% endif %}
+                </h2>
+                <ul class="govuk-summary-card__actions">
+                    <li class="govuk-summary-card__action">
+                        <a class="govuk-link govuk-link--no-visited-state" href="/titan-mvp-1.2/edit-page/{{ page.pageId }}">
+                            Edit<span class="govuk-visually-hidden"> page {{ page.pageId }}</span>
+                        </a>
+                    </li>
+                    <li class="govuk-summary-card__action">
+                        <a class="govuk-link govuk-link--no-visited-state preview-link" data-preview="preview-{{ page.pageId }}" href="#">
+                            Preview<span class="govuk-visually-hidden"> page {{ page.pageId }}</span>
+                        </a>
+                        <a class="govuk-link close-link" data-preview="preview-{{ page.pageId }}" style="display: none;" href="#">
+                            Close Preview<span class="govuk-visually-hidden"> page {{ page.pageId }}</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+    {% endif %}
+    {% endfor %}
+
+    <!-- Summary Card Column for Check Answers -->
     <div class="govuk-grid-column-full govuk-grid-column-one-half-from-desktop">
         <!-- Section Break and Heading -->
         <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">

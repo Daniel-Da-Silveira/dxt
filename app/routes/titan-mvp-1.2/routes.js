@@ -1851,6 +1851,21 @@ router.get("/titan-mvp-1.2/form-editor/listing", function (req, res) {
     }
   });
 
+  // Sort pages so payment pages appear before "Check your answers" page
+  formPages.sort((a, b) => {
+    const aHasPayment = a.questions && a.questions.some(q => q.type === "payment");
+    const bHasPayment = b.questions && b.questions.some(q => q.type === "payment");
+    const aIsCheckAnswers = a.pageHeading && a.pageHeading.toLowerCase().includes("check your answers");
+    const bIsCheckAnswers = b.pageHeading && b.pageHeading.toLowerCase().includes("check your answers");
+    
+    // Payment pages come before check answers
+    if (aHasPayment && bIsCheckAnswers) return -1;
+    if (bHasPayment && aIsCheckAnswers) return 1;
+    
+    // Otherwise maintain original order
+    return 0;
+  });
+
   // Get all sections
   const sections = formData.sections || [];
 
@@ -1884,6 +1899,21 @@ router.get("/titan-mvp-1.2/form-editor/listing.html", function (req, res) {
         }
       });
     }
+  });
+
+  // Sort pages so payment pages appear before "Check your answers" page
+  formPages.sort((a, b) => {
+    const aHasPayment = a.questions && a.questions.some(q => q.type === "payment");
+    const bHasPayment = b.questions && b.questions.some(q => q.type === "payment");
+    const aIsCheckAnswers = a.pageHeading && a.pageHeading.toLowerCase().includes("check your answers");
+    const bIsCheckAnswers = b.pageHeading && b.pageHeading.toLowerCase().includes("check your answers");
+    
+    // Payment pages come before check answers
+    if (aHasPayment && bIsCheckAnswers) return -1;
+    if (bHasPayment && aIsCheckAnswers) return 1;
+    
+    // Otherwise maintain original order
+    return 0;
   });
   // Get all sections
   const sections = formData.sections || [];
@@ -1921,6 +1951,21 @@ router.get("/titan-mvp-1.2/form-editor/listing-v2", function (req, res) {
         }
       });
     }
+  });
+
+  // Sort pages so payment pages appear before "Check your answers" page
+  formPages.sort((a, b) => {
+    const aHasPayment = a.questions && a.questions.some(q => q.type === "payment");
+    const bHasPayment = b.questions && b.questions.some(q => q.type === "payment");
+    const aIsCheckAnswers = a.pageHeading && a.pageHeading.toLowerCase().includes("check your answers");
+    const bIsCheckAnswers = b.pageHeading && b.pageHeading.toLowerCase().includes("check your answers");
+    
+    // Payment pages come before check answers
+    if (aHasPayment && bIsCheckAnswers) return -1;
+    if (bHasPayment && aIsCheckAnswers) return 1;
+    
+    // Otherwise maintain original order
+    return 0;
   });
 
   // Get all sections
@@ -1961,6 +2006,21 @@ router.get("/titan-mvp-1.2/form-editor/listing-v2.html", function (req, res) {
         }
       });
     }
+  });
+
+  // Sort pages so payment pages appear before "Check your answers" page
+  formPages.sort((a, b) => {
+    const aHasPayment = a.questions && a.questions.some(q => q.type === "payment");
+    const bHasPayment = b.questions && b.questions.some(q => q.type === "payment");
+    const aIsCheckAnswers = a.pageHeading && a.pageHeading.toLowerCase().includes("check your answers");
+    const bIsCheckAnswers = b.pageHeading && b.pageHeading.toLowerCase().includes("check your answers");
+    
+    // Payment pages come before check answers
+    if (aHasPayment && bIsCheckAnswers) return -1;
+    if (bHasPayment && aIsCheckAnswers) return 1;
+    
+    // Otherwise maintain original order
+    return 0;
   });
 
   // Get all sections
@@ -2269,6 +2329,9 @@ router.get("/titan-mvp-1.2/question-configuration", function (req, res) {
   } else if (mainType === "declaration") {
     templateToRender =
       "/titan-mvp-1.2/form-editor/question-type/declaration/edit-nf.html";
+  } else if (mainType === "payment") {
+    templateToRender =
+      "/titan-mvp-1.2/form-editor/question-type/payment/edit-nf.html";
   } else if (
     (mainType === "list" && listSubType === "select") ||
     mainType === "autocomplete" ||
@@ -2345,6 +2408,8 @@ router.post("/titan-mvp-1.2/question-configuration-save", function (req, res) {
     finalSubType = "address";
   } else if (questionType === "autocomplete") {
     finalSubType = "autocomplete";
+  } else if (questionType === "payment") {
+    finalSubType = "payment";
   }
 
   let questionLabel = "";
@@ -2379,6 +2444,10 @@ router.post("/titan-mvp-1.2/question-configuration-save", function (req, res) {
     case "declaration":
       questionLabel =
         req.body["questionLabelInputDeclaration"] || "Declaration";
+      break;
+    case "payment":
+      questionLabel =
+        req.body["questionLabelInputPayment"] || "Payment";
       break;
     case "list":
       if (listSubType === "yes-no") {
@@ -2624,6 +2693,20 @@ router.post("/titan-mvp-1.2/question-configuration-save", function (req, res) {
       currentPage.questions[existingQuestionIndex].isOptional =
         req.body["makeOptionalDeclaration"] === "true";
     }
+
+    // Update payment-specific fields for existing questions
+    if (questionType === "payment") {
+      currentPage.questions[existingQuestionIndex].paymentAmount =
+        req.body["paymentAmountInput"] || "0.00";
+      currentPage.questions[existingQuestionIndex].paymentDescription =
+        req.body["paymentDescriptionInput"] || "Payment description";
+      currentPage.questions[existingQuestionIndex].errorMessage =
+        req.body["errorMessageInputPayment"] || "payment";
+      currentPage.questions[existingQuestionIndex].testApiKey =
+        req.body["testApiKey"] || "";
+      currentPage.questions[existingQuestionIndex].liveApiKey =
+        req.body["liveApiKey"] || "";
+    }
   } else {
     const newQuestion = {
       questionId: Date.now(),
@@ -2643,6 +2726,20 @@ router.post("/titan-mvp-1.2/question-configuration-save", function (req, res) {
         req.body["errorMessageInputDeclaration"] ||
         "You must confirm this declaration to continue";
       newQuestion.isOptional = req.body["makeOptionalDeclaration"] === "true";
+    }
+
+    // Add payment-specific fields
+    if (questionType === "payment") {
+      newQuestion.paymentAmount =
+        req.body["paymentAmountInput"] || "0.00";
+      newQuestion.paymentDescription =
+        req.body["paymentDescriptionInput"] || "Payment description";
+      newQuestion.errorMessage =
+        req.body["errorMessageInputPayment"] || "payment";
+      newQuestion.testApiKey =
+        req.body["testApiKey"] || "";
+      newQuestion.liveApiKey =
+        req.body["liveApiKey"] || "";
     }
 
     currentPage.questions.push(newQuestion);
@@ -3184,12 +3281,32 @@ router.get("/titan-mvp-1.2/form-overview/submissions/improved-2-table", (req, re
   // Check if there's a success message to show
   const showSuccessMessage = req.query.success === 'true';
   const showFeedbackSuccessMessage = req.query.feedbackSuccess === 'true';
+  const showErrorMessage = req.query.success === 'fail';
 
   res.render("titan-mvp-1.2/form-overview/submissions/index-improved-2-table", {
     form: form,
     pageName: `Submissions - ${form.name}`,
     showSuccessMessage: showSuccessMessage,
-    showFeedbackSuccessMessage: showFeedbackSuccessMessage
+    showFeedbackSuccessMessage: showFeedbackSuccessMessage,
+    showErrorMessage: showErrorMessage
+  });
+});
+
+// Error version of improved-2 TABLE submissions page route
+router.get("/titan-mvp-1.2/form-overview/submissions/improved-2-table-error", (req, res) => {
+  // Get the form data from the session
+  const formData = req.session.data || {};
+  
+  // Set up default form data
+  const form = {
+    id: formData.formId || "example-form",
+    name: formData.formName || "Example Form"
+  };
+
+  res.render("titan-mvp-1.2/form-overview/submissions/index-improved-2-table-error", {
+    form: form,
+    pageName: `Submissions - ${form.name}`,
+    showErrorMessage: true
   });
 });
 
@@ -6729,6 +6846,27 @@ router.get("/titan-mvp-1.2/email/welcome-preview", function (req, res) {
   };
   res.render("titan-mvp-1.2/email/welcome-email", {
     data: data,
+  });
+});
+
+// Admin panel page (GET)
+router.get("/titan-mvp-1.2/roles/admin-panel", function (req, res) {
+  if (!req.session.data) req.session.data = {};
+  if (!req.session.data.users) req.session.data.users = [];
+  // Add semantic name and lowercase role to each user
+  const usersWithNames = req.session.data.users.map((user) => ({
+    ...user,
+    semanticName: emailToName(user.email),
+    role: user.role ? user.role.toLowerCase() : user.role,
+  }));
+  // Store and clear the success message
+  const successMessage = req.session.data.successMessage;
+  delete req.session.data.successMessage;
+  res.render("titan-mvp-1.2/roles/admin-panel.html", {
+    data: {
+      users: usersWithNames,
+      successMessage: successMessage,
+    },
   });
 });
 

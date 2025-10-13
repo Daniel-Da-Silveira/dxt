@@ -197,6 +197,10 @@
         "title": "Declaration",
         "hint": "A statement that users must confirm to proceed"
       },
+      "payment": {
+        "title": "Payment",
+        "hint": "Collect payment from users for services or applications"
+      },
       "list": {
         "title": "A list of options that users can choose from",
         "types": {

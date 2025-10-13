@@ -354,6 +354,14 @@ navigationItems: [
                               </div>
                             </div> #}
 
+                            {% set hasPaymentQuestions = false %}
+                            {% for question in currentPage.questions %}
+                              {% if question.type == "payment" %}
+                                {% set hasPaymentQuestions = true %}
+                              {% endif %}
+                            {% endfor %}
+
+                            {% if not hasPaymentQuestions %}
                             <div class="govuk-!-margin-top-6">
                               <div class="govuk-form-group">
                                 <fieldset class="govuk-fieldset" aria-describedby="multiple-responses-hint">
@@ -438,6 +446,7 @@ navigationItems: [
                                 </fieldset>
                               </div>
                             </div>
+                            {% endif %}
 
 
                             <div class="govuk-button-group govuk-!-margin-top-6">
@@ -561,7 +570,7 @@ navigationItems: [
               </div>
 
               <!-- Guidance Paragraph -->
-              <p class="govuk-body govuk-!-padding-bottom-4"
+              <p class="govuk-body govuk-!-padding-bottom-0 {% if not currentPage.guidanceTextarea and currentPage.section %}govuk-!-margin-bottom-0{% endif %}"
                 style="word-wrap: break-word; white-space: normal; overflow-wrap: break-word;" id="guidance-paragraph">
                 {{ currentPage.guidanceTextarea }} </p>
 
@@ -621,6 +630,9 @@ navigationItems: [
 
                     {% elseif question.type == "declaration" %}
                     {% set previewTemplate = previewTemplate ~ "declaration-preview.html" %}
+
+                    {% elseif question.type == "payment" %}
+                    {% set previewTemplate = previewTemplate ~ "payment-preview.html" %}
 
                     {% else %}
                     {% set previewTemplate = previewTemplate ~ 'default-preview.html' %}

@@ -75,53 +75,21 @@ activeLinkId: "nav-submissions"
 
         <div class="govuk-grid-row">
             <div class="govuk-grid-column-two-thirds">
-        {% if showSuccessMessage %}
-        {% set html %}
-          <h3 class="govuk-notification-banner__heading">
-            We have emailed a link to your shared mailbox
-          </h3>
-          <p class="govuk-body">This might take a couple of minutes.</p>
 
-          <p class="govuk-body">Shared mailbox: example@example.com</p>
-        {% endset %}
 
-        {{ govukNotificationBanner({
-          html: html,
-          type: "success"
-        }) }}
-        {% endif %}
 
-        {% if showFeedbackSuccessMessage %}
-        {% set feedbackHtml %}
-          <h3 class="govuk-notification-banner__heading">
-            We have emailed a link to your shared mailbox
-          </h3>
-          <p class="govuk-body">This might take a couple of minutes.</p>
-
-          <p class="govuk-body">Shared mailbox: example@example.com</p>
-
-        {% endset %}
-
-        {{ govukNotificationBanner({
-          html: feedbackHtml,
-          type: "success"
-        }) }}
-        {% endif %}
-
-        {% if showErrorMessage %}
-       <div class="govuk-error-summary" data-module="govuk-error-summary">
-  <div role="alert">
-    <h2 class="govuk-error-summary__title">
-      There is a problem
-    </h2>
-    <div class="govuk-error-summary__body">
-      <p>
-        The file couldn&#39;t be loaded. Try again later.
-      </p>
-    </div>
-  </div>
-</div>
-        {% endif %}
+        <div class="govuk-error-summary" data-module="govuk-error-summary">
+            <div role="alert">
+              <h2 class="govuk-error-summary__title">
+                There is a problem
+              </h2>
+              <div class="govuk-error-summary__body">
+                <p>
+                    You need to <a class="govuk-link" href="/titan-mvp-1.2/form-overview/index">set a shared mailbox</a> in the form overview to send data to a shared mailbox.
+                </p>
+              </div>
+            </div>
+          </div>
         </div>
         </div>
 
@@ -142,7 +110,7 @@ activeLinkId: "nav-submissions"
               [
                 { text: "User feedback" },
                 { text: "3 months after submission" },
-                { html: '<a class="govuk-link" href="/titan-mvp-1.2/form-overview/submissions/improved-2-table/download-feedback">Send feedback data</a><span class="govuk-visually-hidden"> to shared mailbox</span>' }
+                { html: '<a class="govuk-link" href="/titan-mvp-1.2/form-overview/submissions/improved-2-table/download-feedback" id="download-feedback">Send feedback data</a><span class="govuk-visually-hidden"> to shared mailbox</span>' }
               ]
             ]
             }) }}
@@ -154,5 +122,7 @@ activeLinkId: "nav-submissions"
 </div>
 
 {% endblock %}
+
+
 
 

@@ -15,12 +15,30 @@ https://prototype-kit.service.gov.uk/docs/how-to-use-layouts
   .govuk-width-container { max-width: 1200px; }
   .in-iframe .govuk-footer { display: none !important; }
   .govuk-width-container { max-width: 1200px; }
+  .govuk-footer { border-top-color: #1d70b8 !important; }
   /* above ensures stable width before external CSS loads to avoid reflow */
 </style>
 {% endblock %}
 
+
+
 {% block content %}
 {{ super() }}
+{% endblock %}
+
+{% block beforeContent %}
+
+{{ govukPhaseBanner({
+  tag: {
+    text: "Prototype - not real"
+  },
+  html: 'This is a new service. Help us improve it and <a class="govuk-link" target="_blank" href="/titan-mvp-1.2/form-editor/CSAT/form.html">give your feedback (opens in new tab)</a>.'
+}) }}
+
+  {{ govukBackLink({
+  text: "Back",
+  href: "javascript:window.history.back()"
+}) }}
 {% endblock %}
 
 {% block header %}

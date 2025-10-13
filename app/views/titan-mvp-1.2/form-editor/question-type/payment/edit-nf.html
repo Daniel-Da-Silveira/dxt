@@ -1,0 +1,479 @@
+{% extends "layouts/main.html" %}
+{% from "components/service-header/macro.njk" import serviceHeader %}
+{% set pageName = "Edit page 1 - Apply for a county parish holding number in England" %}
+{% set headingPlaceholder = "Page heading" %}
+{% set guidancePlaceholder = "" %}
+
+{% block header %}
+{{ serviceHeader({
+organisationName: "Defra",
+productName: "Form Designer",
+serviceName: "",
+containerClasses: containerClasses,
+accountName: "Chris Smith",
+homepageLink: "/",
+signOutLink: "/onboarding/sign-out-confirmation",
+navigationItems: [
+{ href: "/titan-mvp-1.2/library.html", text: "Forms library", id: "nav-library" },
+{ href: "/titan-mvp-1.2/form-overview/index", text: "Overview", id: "nav-overview" },
+{ href: "/titan-mvp-1.2/form-editor/listing", text: "Editor", id: "nav-editor" } ],
+activeLinkId: "nav-editor"
+}) }}
+
+<div class="x-govuk-masthead x-govuk-masthead--large">
+    <div class="govuk-width-container">
+        {{ govukBackLink({ classes: "govuk-back-link--inverse govuk-!-margin-bottom-0", text:
+        commonTerms.form_editor.information_type.back, href: "/titan-mvp-1.2/form-editor/listing.html" }) }}
+
+        <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible"
+            style="border-bottom: 1px solid white; margin-bottom: 0" />
+
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-full-from-desktop">
+                <h1 class="x-govuk-masthead__title">
+                    {{ form.name }}
+                </h1>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-full">
+        <div class="govuk-grid-row">
+            <!-- Left Column for Form Controls -->
+            <div class="govuk-grid-column-one-half-from-desktop" id="container" style="flex: 1 1 75%; overflow-y: auto">
+                <div class="govuk-summary-card govuk-!-margin-top-0" style="border-left: 10px solid #008938">
+                    <div class="govuk-summary-card__content govuk-!-padding-top-0" style="background-color: #f3f2f1">
+                        <dl class="govuk-summary-list">
+                            <div class="govuk-summary-list__row">
+                                <dd class="govuk-summary-list__value">
+                                    <!-- Dynamic Summary List -->
+                                    <!-- Question Settings Container -->
+                                    <div class="govuk-grid-row" id="page-settings-container-1">
+                                        <div id="question-1">
+                                            <div class="govuk-summary-card__content" style="margin-bottom: 0">
+                                                <!-- Sub Navigation for Question -->
+                                                <nav class="moj-sub-navigation govuk-!-padding-top-0 govuk-!-margin-bottom-2 "
+                                                    aria-label="Sub navigation">
+                                                    <ul class="moj-sub-navigation__list" id="nav-list2">
+                                                        <li class="moj-sub-navigation__item">
+                                                            <a class="moj-sub-navigation__link" aria-current="page"
+                                                                href="#question-1-information-type">Question {{
+                                                                pageNumber }}</a>
+                                                        </li>
+                                                        <li class="moj-sub-navigation__item">
+                                                            <a class="moj-sub-navigation__link"
+                                                                href="/titan-mvp-1.2/form-editor/conditions/question-level/{{ currentPage.pageId }}/{{ questionNumber }}">
+                                                                Conditions
+                                                            </a>
+                                                        </li>
+                                                    </ul>
+                                                </nav>
+
+                                                <div class="govuk-summary-card__title-wrapper govuk-!-padding-top-0">
+                                                </div>
+
+                                                <span class="govuk-caption-l">Page {{ pageNumber }}</span>
+                                                <h2 class="govuk-heading-l">Edit question {{ questionNumber }}</h2>
+
+                                                <p class="govuk-body">The payment screen appears after the last question in the form, before the 'Check your answers' page.</p>
+
+                                                <form id="s" action="/titan-mvp-1.2/question-configuration-save"
+                                                    method="post">
+
+                                                    <!-- Payment Amount Input -->
+                                                    <div class="govuk-form-group">
+                                                        <label class="govuk-label govuk-label--m"
+                                                            for="payment-amount-input">
+                                                            Payment amount
+                                                        </label>
+                                                        <div class="govuk-input__wrapper">
+                                                            <div class="govuk-input__prefix" aria-hidden="true">£</div>
+                                                            <input class="govuk-input govuk-input--width-10" id="payment-amount-input"
+                                                                name="paymentAmountInput" type="number" step="0.01" min="0" value="">
+                                                        </div>
+                                                    </div>
+
+                                                    <!-- Payment Description Input -->
+                                                    <div class="govuk-form-group">
+                                                        <label class="govuk-label govuk-label--m"
+                                                            for="payment-description-input">
+                                                            Payment description
+                                                        </label>
+                                                        <div class="govuk-hint">
+                                                            Tell users what the payment is for, for example, 'Processing fees for your application'
+                                                        </div>
+                                                        <input class="govuk-input" id="payment-description-input" type="text"
+                                                            name="paymentDescriptionInput">
+                                                    </div>
+
+                                                    <!-- Short Description Input -->
+                                                    <div class="govuk-form-group">
+                                                        <label class="govuk-label govuk-label--m"
+                                                            for="error-message-input-payment">
+                                                            Short description
+                                                        </label>
+                                                        <div class="govuk-hint">
+                                                            Enter a short description for this question like 'date of birth'. Short descriptions are used in error messages, for example, 'Enter a valid date of birth'
+                                                        </div>
+                                                        <input class="govuk-input" id="error-message-input-payment" type="text"
+                                                            name="errorMessageInputPayment">
+                                                    </div>
+
+                                                    <!-- GOV.UK Pay API keys Section -->
+                                                    <h2 class="govuk-heading-m">GOV.UK Pay API keys</h2>
+                                                    <p class="govuk-body">A GOV.UK Pay API key is like a password that lets your form securely connect to GOV.UK Pay, so you can take payments without directly handling card details. You need one GOV.UK API key for testing (used in your draft form) and another for your live form.</p>
+
+                                                    {% from "govuk/components/warning-text/macro.njk" import govukWarningText %}
+
+                                                    {{ govukWarningText({
+                                                      text: "Do not share the API keys with anyone else.",
+                                                      iconFallbackText: "Warning"
+                                                    }) }}
+                                                    <!-- How to get a test API key -->
+                                                    <details class="govuk-details" data-module="govuk-details">
+                                                        <summary class="govuk-details__summary">
+                                                            <span class="govuk-details__summary-text">
+                                                                How to get a test API key
+                                                            </span>
+                                                        </summary>
+                                                        <div class="govuk-details__text">
+                                                            <ol class="govuk-list govuk-list--number">
+                                                                <li>Go to GOV.UK Pay</li>
+                                                                <li>Create an account</li>
+                                                                <li>Got to 'Settings'</li>
+                                                                <li>Select 'Developers' from the left hand navigation</li>
+                                                                <li>Select 'API keys'</li>
+                                                                <li>Copy API test key</li>
+                                                            </ol>
+                                                        </div>
+                                                    </details>
+
+                                                    <!-- Test API key -->
+                                                    <div class="govuk-form-group">
+                                                        <label class="govuk-label govuk-label--m" for="test-api-key">
+                                                            Test API key for the draft form
+                                                        </label>
+                                                        <div class="govuk-hint">
+                                                            Use a test API key from your GOV.UK Pay test account. This is used while your form is in draft
+                                                        </div>
+                                                        <input class="govuk-input " id="test-api-key" name="testApiKey" type="text">
+                                                        <div class="govuk-!-margin-top-4">
+                                                            <a href="#" class="govuk-link">Clear test API key</a>
+                                                        </div>
+                                                    </div>
+
+                                                    <!-- Request a live GOV.UK Pay account -->
+                                                    <details class="govuk-details" data-module="govuk-details">
+                                                        <summary class="govuk-details__summary">
+                                                            <span class="govuk-details__summary-text">
+                                                                Request a live GOV.UK Pay account
+                                                            </span>
+                                                        </summary>
+                                                        <div class="govuk-details__text">
+                                                            <p class="govuk-body">Before you can request a live account you need to test how GOV.UK Pay works using your test account.</p>
+                                                            <p class="govuk-body">When you are ready to request a live account, go to your dashboard and select 'Setting up your live account'.</p>
+                                                        </div>
+                                                    </details>
+
+                                                    <!-- Live API key -->
+                                                    <div class="govuk-form-group">
+                                                        <label class="govuk-label govuk-label--m" for="live-api-key">
+                                                            Live API key
+                                                        </label>
+                                                        <div class="govuk-hint">
+                                                            Make sure your live API key has been tested and can take real payments
+                                                        </div>
+                                                        <input class="govuk-input" id="live-api-key" name="liveApiKey" type="text">
+                                                        <div class="govuk-!-margin-top-4">
+                                                            <a href="#" class="govuk-link">Clear live API key</a>
+                                                        </div>
+                                                    </div>
+
+
+                                                    <!-- Section Break -->
+                                                    <hr
+                                                        class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
+
+                                                    <!-- Question Settings Summary List -->
+                                                    <h2 class="govuk-heading-m">{{
+                                                        commonTerms.form_editor.question_settings.title }}</h2>
+
+                                                    {{ govukSummaryList({
+                                                    "rows": [
+                                                    {
+                                                    "key": {
+                                                    "text": "Type of information"
+                                                    },
+                                                    "value": {
+                                                    "html": commonTerms.form_editor.information_type.payment.title
+                                                    },
+                                                    "actions": {
+                                                    "items": [
+                                                    {
+                                                    "href": "/titan-mvp-1.2/information-type-nf",
+                                                    "text": commonTerms.form_editor.common.edit,
+                                                    "visuallyHiddenText": " type"
+                                                    }
+                                                    ]
+                                                    }
+                                                    }
+                                                    ]
+                                                    }) }}
+
+                                                    <hr
+                                                        class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
+
+                                                    <!-- Save Button -->
+                                                    <div class="govuk-button-group">
+                                                        {{ govukButton({
+                                                        text: "Save and continue",
+                                                        type: "submit",
+                                                        id: "save-payment-button"
+                                                        }) }}
+                                                        <a class="govuk-link" href="#">Delete question</a>
+                                                    </div>
+
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </dd>
+                            </div>
+                        </dl>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Column for Preview -->
+            <div class="govuk-grid-column-one-half-from-desktop" id="second-container"
+                style="outline: solid 1px #008938; height: 100%; position: sticky; top: 0; padding: 20px; box-shadow: 5px 10px #008938;">
+                <!-- Before content -->
+                <div id="before-content" style=" background-color:  #cce2d8;">
+                    <p class="govuk-body-s" style="margin-bottom: 0; color: #005a30; padding: 2px 8px 3px;
+  text-align: center;"> Previews
+                    </p>
+                </div>
+
+                <div style="margin-top: 60px;">
+                    {% from "govuk/components/tabs/macro.njk" import govukTabs %}
+
+                    <div class="govuk-tabs" data-module="govuk-tabs">
+                        <h2 class="govuk-tabs__title">Contents</h2>
+                        <ul class="govuk-tabs__list">
+                            <li class="govuk-tabs__list-item govuk-tabs__list-item--selected">
+                                <a class="govuk-tabs__tab" href="#tab-one">Page preview</a>
+                            </li>
+                            <li class="govuk-tabs__list-item">
+                                <a class="govuk-tabs__tab" href="#tab-two">Error messages</a>
+                            </li>
+                        </ul>
+
+                        <div class="govuk-tabs__panel" id="tab-one">
+                            <!-- Page Preview Content -->
+                            <p class="govuk-body-s" style="margin-bottom: 30px; border-bottom: #008938 1px;">
+                                <a href="#" class="govuk-link govuk-link--no-visited-state" rel="noreferrer noopener"
+                                    target="_blank">
+                                    Preview this page in a new tab
+                                </a>
+                            </p>
+
+                            <!-- Payment Preview -->
+                            <div class="payment-summary-wrap">
+                                <div class="payment-summary">
+                                    <h1 class="govuk-heading-l" id="preview-question-label">Payment required</h1>
+
+                                    <p id="preview-payment-description" class="govuk-body">
+                                        Payment description
+                                    </p>
+
+                                    {{ govukWarningText({
+                                        text: "You must pay before you can send your form",
+                                        classes: "govuk-!-margin-bottom-4",
+                                        iconFallbackText: "Warning"
+                                    }) }}
+
+                                    <p class="govuk-body">
+                                        When your payment is complete, you'll able to continue with your form.
+                                    </p>
+
+                                    <p class="govuk-body govuk-!-margin-bottom-0">
+                                        Total amount:
+                                        <span id="preview-payment-amount" class="amount govuk-!-font-size-36 govuk-!-font-weight-bold">£0</span>
+                                    </p>
+
+                                    {{ govukButton({
+                                        text: "Pay now",
+                                        classes: "govuk-button--primary govuk-!-margin-top-4 govuk-!-margin-bottom-0"
+                                    }) }}
+                                </div>
+                            </div>
+
+                            <a href="#edit-page" class="govuk-skip-link" style="margin-bottom: 30px!important;"
+                                data-module="govuk-skip-link">
+                                Skip to edit page
+                            </a>
+                        </div>
+
+                        <div class="govuk-tabs__panel" id="tab-two">
+                            <!-- Error Messages Content -->
+                            <div class="govuk-error-summary" data-module="govuk-error-summary" data-disable-auto-focus="true">
+                                <h2 class="govuk-error-summary__title">There is a problem</h2>
+                                <ul class="govuk-list govuk-error-summary__list">
+                                    <!-- List of errors -->
+                                    <li>
+                                        <a id="empty-input-error-payment" class="govuk-error-message"
+                                            href="#error-message-input-payment">
+                                            You must complete the <span
+                                                id="error-dynamic-text">[short description]</span> to
+                                            continue </a>
+                                    </li>
+                                </ul>
+                            </div>
+
+                            <a href="#error-message-input-payment" class="govuk-skip-link"
+                                style="margin-bottom: 30px!important;" data-module="govuk-skip-link">
+                                Skip to edit error message
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- CSS for Highlighting -->
+    <style>
+        .highlight {
+            background-color: #ffe5cc;
+            border-bottom: 2px solid #ffb266;
+            color: #000000;
+        }
+
+        #before-content {
+            position: absolute;
+            top: 0;
+            left: 10 !important;
+            right: 0;
+            width: 100%;
+            padding: 10px !important;
+            box-sizing: border-box;
+            z-index: 1;
+            border-bottom: 1px solid #008938;
+            padding-left: 10px;
+        }
+
+        #second-container {
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        #second-container>* {
+            padding-left: 0px;
+            z-index: 2;
+        }
+
+        .payment-summary {
+            border-top: 2px solid #1d70b8;
+            padding: 15px;
+            background-color: #f3f2f1;
+        }
+
+        @media all{
+            .amount  {
+                display: block;
+            }
+        }
+    </style>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            // Get form elements
+            const paymentAmountInput = document.getElementById("payment-amount-input");
+            const paymentDescriptionInput = document.getElementById("payment-description-input");
+            const errorMessageInput = document.getElementById("error-message-input-payment");
+
+            // Get preview elements
+            const previewPaymentAmount = document.getElementById("preview-payment-amount");
+            const previewPaymentDescription = document.getElementById("preview-payment-description");
+            const errorMessagePreviewElements = document.querySelectorAll("#error-dynamic-text");
+
+            // Function to format currency
+            function formatCurrency(amount) {
+                if (!amount || isNaN(amount)) return "£0";
+                return "£" + parseFloat(amount).toFixed(2);
+            }
+
+            // Function to update preview
+            function updatePreview() {
+                // Update payment amount
+                const amount = paymentAmountInput.value || "0";
+                previewPaymentAmount.textContent = formatCurrency(amount);
+
+                // Update payment description
+                previewPaymentDescription.textContent = paymentDescriptionInput.value || "Payment description";
+            }
+
+            // Function to update error message preview
+            function updateErrorMessages() {
+                const shortDescription = errorMessageInput.value || "[short description]";
+                errorMessagePreviewElements.forEach(element => {
+                    element.textContent = shortDescription;
+                });
+            }
+
+            // Function to apply highlight on focus
+            function applyHighlightOnFocus(inputElement, targetElements) {
+                if (inputElement && targetElements) {
+                    inputElement.addEventListener('focus', function () {
+                        if (targetElements.forEach) {
+                            // Handle array of elements
+                            targetElements.forEach(target => target.classList.add('highlight'));
+                        } else {
+                            // Handle single element
+                            targetElements.classList.add('highlight');
+                        }
+                    });
+                    inputElement.addEventListener('blur', function () {
+                        if (targetElements.forEach) {
+                            // Handle array of elements
+                            targetElements.forEach(target => target.classList.remove('highlight'));
+                        } else {
+                            // Handle single element
+                            targetElements.classList.remove('highlight');
+                        }
+                    });
+
+                    // If the input is already focused
+                    if (document.activeElement === inputElement) {
+                        if (targetElements.forEach) {
+                            // Handle array of elements
+                            targetElements.forEach(target => target.classList.add('highlight'));
+                        } else {
+                            // Handle single element
+                            targetElements.classList.add('highlight');
+                        }
+                    }
+                }
+            }
+
+            // Add event listeners for real-time preview updates
+            paymentAmountInput.addEventListener("input", updatePreview);
+            paymentDescriptionInput.addEventListener("input", updatePreview);
+            errorMessageInput.addEventListener("input", updateErrorMessages);
+
+            // Apply highlight on focus for form inputs that affect preview
+            applyHighlightOnFocus(paymentAmountInput, previewPaymentAmount);
+            applyHighlightOnFocus(paymentDescriptionInput, previewPaymentDescription);
+            applyHighlightOnFocus(errorMessageInput, errorMessagePreviewElements);
+
+            // Initialize preview with any existing values
+            updatePreview();
+            updateErrorMessages();
+        });
+    </script>
+
+    {% endblock %}

@@ -288,6 +288,13 @@ start: "<span class='govuk-heading-s'>Licence to Import an Animal Pathogen/Carri
                           }
                           },
                           {
+                          value: "payment",
+                          text: commonTerms.form_editor.information_type.payment.title,
+                          hint: {
+                          text: commonTerms.form_editor.information_type.payment.hint
+                          }
+                          },
+                          {
                           divider: "or"
                           },
                           {
@@ -410,6 +417,8 @@ start: "<span class='govuk-heading-s'>Licence to Import an Animal Pathogen/Carri
                 updateSetName("Location");
               } else if (selectedOption === "list") {
                 updateSetName("List");
+              } else if (selectedOption === "payment") {
+                updateSetName("Payment");
               } else {
                 updateSetName("");
               }
@@ -493,6 +502,8 @@ start: "<span class='govuk-heading-s'>Licence to Import an Animal Pathogen/Carri
                 setCustomDataAttribute("Location");
               } else if (selectedOption === "list") {
                 setCustomDataAttribute("List");
+              } else if (selectedOption === "payment") {
+                setCustomDataAttribute("Payment");
               } else {
                 setCustomDataAttribute("");
               }

@@ -22,57 +22,10 @@ navigationItems: [
 ],
 activeLinkId: "nav-editor"
 }) }}
-{#
-{{ xGovukMasthead({
-inverse: true,
-phaseBanner: {
-tag: {
-text: "Beta"
-},
-html: "This is a new service – your <a href='#'>feedback (opens in a new tab)</a> will help us to improve it."
-},
-breadcrumbs: {
-items: [{
-href: "#",
-text: "GOV.UK Services"
-}, {
-text: "GOV.UK Pay"
-}]
-},
-title: {
-text: "The best way to take payments for public services"
-},
-description: {
-text: "GOV.UK Pay has contracts with payment providers so you can take payments quickly and easily. It’s used across
-central and local government, police and the NHS."
-},
-startButton: {
-text: "Find out if you can use GOV.UK Pay",
-href: "#"
-},
-image: {
-src: "/assets/example-homepage-illustration.png",
-alt: "Payment screen on mobile and dashboard with refund function."
-}
-}) }} #}
+
 
 <div class="x-govuk-masthead x-govuk-masthead--large  x-govuk-masthead--inverse">
     <div class="govuk-width-container">
-
-        {# <div class="govuk-phase-banner" style="border-bottom: 1px solid white;">
-            <p class="govuk-phase-banner__content">
-                <strong class="govuk-tag govuk-phase-banner__content__tag">
-                    Beta
-                </strong>
-                <span class="govuk-phase-banner__text" style="color: white;">
-                    This is a new service. Help us improve it and <a class="govuk-link--inverse"
-                        href="mailto:defraforms@defra.gov.uk">give your
-                        feedback by
-                        email</a>.
-
-                </span>
-            </p>
-        </div> #}
 
         {{ govukBackLink({
         classes: "govuk-back-link--inverse govuk-!-margin-bottom-0",
@@ -456,6 +409,18 @@ alt: "Payment screen on mobile and dashboard with refund function."
                 {% if formPages.length %}
                 {% for page in formPages %}
                 {% if page.questions and page.questions.length > 0 or page.pageType == 'guidance' %}
+                {% set hasPaymentQuestions = false %}
+                {% if page.questions %}
+                {% for question in page.questions %}
+                {% if question.type === "payment" %}
+                {% set hasPaymentQuestions = true %}
+                {% endif %}
+                {% endfor %}
+                {% endif %}
+                {% if page.pageHeading and page.pageHeading.toLowerCase().includes("payment") %}
+                {% set hasPaymentQuestions = true %}
+                {% endif %}
+                {% if not hasPaymentQuestions %}
                 <div class="app-page-card"
                     data-conditions="{% for condition in page.conditions %}{{ condition.conditionName }}{% if not loop.last %},{% endif %}{% endfor %}">
                     <div class="govuk-grid-row">
@@ -844,6 +809,7 @@ alt: "Payment screen on mobile and dashboard with refund function."
                     </div>
                 </div>
                 {% endif %}
+                {% endif %}
                 {% endfor %}
                 {% endif %}
 
@@ -855,8 +821,55 @@ alt: "Payment screen on mobile and dashboard with refund function."
                     </div>
                 </div>
 
+                <!-- Payment pages first -->
+                {% for page in formPages %}
+                {% if page.questions and page.questions.length > 0 or page.pageType == 'guidance' %}
+                {% set hasPaymentQuestions = false %}
+                {% if page.questions %}
+                {% for question in page.questions %}
+                {% if question.type === "payment" %}
+                {% set hasPaymentQuestions = true %}
+                {% endif %}
+                {% endfor %}
+                {% endif %}
+                {% if page.pageHeading and page.pageHeading.toLowerCase().includes("payment") %}
+                {% set hasPaymentQuestions = true %}
+                {% endif %}
+                {% if hasPaymentQuestions %}
                 <div class="govuk-grid-row">
-                    <!-- Summary Card Column -->
+                    <div class="govuk-grid-column-one-half-from-desktop govuk-grid-column-full-from-tablet govuk-grid-column-full-from-mobile">
+                        <div class="govuk-summary-card govuk-!-margin-bottom-4" style="border-left: 10px solid #b1b4b6; ">
+                            <div class="govuk-summary-card__title-wrapper">
+                                <h2 class="govuk-summary-card__title" id="card-title-payment">
+                                    Payment page
+                                </h2>
+                                <ul class="govuk-summary-card__actions">
+                                    <li class="govuk-summary-card__action">
+                                        <a class="govuk-link govuk-link--no-visited-state" href="/titan-mvp-1.2/edit-page/{{ page.pageId }}">
+                                            Edit<span class="govuk-visually-hidden"> page {{ page.pageId }}</span>
+                                        </a>
+                                    </li>
+                                    <li class="govuk-summary-card__action">
+                                        <a class="govuk-link govuk-link--no-visited-state preview-link"
+                                            data-preview="preview-{{ page.pageId }}" href="#">
+                                            Preview<span class="govuk-visually-hidden"> page {{ page.pageId }}</span>
+                                        </a>
+                                        <a class="govuk-link close-link" data-preview="preview-{{ page.pageId }}"
+                                            style="display: none;" href="#">
+                                            Close Preview<span class="govuk-visually-hidden"> page {{ page.pageId }}</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+                {% endif %}
+                {% endfor %}
+
+                <!-- Check Answers page -->
+                <div class="govuk-grid-row">
                     <div
                         class="govuk-grid-column-one-half-from-desktop govuk-grid-column-full-from-tablet govuk-grid-column-full-from-mobile">
                         <!-- Section Break and Heading -->

@@ -90,8 +90,50 @@ href: "/titan-mvp-1.2/library"
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
 
+        {% from "govuk/components/summary-list/macro.njk" import govukSummaryList %}
 
-        {% include "titan-mvp-1.2/form-overview/includes/_form-status.html" %}
+        {# Static form status for POC - Draft status #}
+        <dl class="govuk-summary-list">
+            <div class="govuk-summary-list__row">
+                <dt class="govuk-summary-list__key">
+                    Status
+                </dt>
+                <dd class="govuk-summary-list__value">
+                    <strong class="govuk-tag govuk-tag--orange">
+                        Draft
+                    </strong>
+                </dd>
+            </div>
+
+            <div class="govuk-summary-list__row">
+                <dt class="govuk-summary-list__key">
+                    Created
+                </dt>
+                <dd class="govuk-summary-list__value">
+                    15 Jan 2024 by Chris Smith
+                </dd>
+            </div>
+
+            <div class="govuk-summary-list__row">
+                <dt class="govuk-summary-list__key">
+                    Updated
+                </dt>
+                <dd class="govuk-summary-list__value">
+                    20 Jan 2024 by Alex Patel
+                </dd>
+            </div>
+
+            <div class="govuk-summary-list__row">
+                <dt class="govuk-summary-list__key">
+                    Preview link
+                </dt>
+                <dd class="govuk-summary-list__value" style="padding-right:0!important;">
+                    <a href="#" class="govuk-link" rel="noreferrer noopener" target="_blank">
+                        https://forms.service.gov.uk/preview/example-form (opens in new tab)
+                    </a>
+                </dd>
+            </div>
+        </dl>
         {% include "titan-mvp-1.2/form-overview/includes/_submission-details.html" %}
         {% include "titan-mvp-1.2/form-overview/includes/_support-details.html" %}
         {% include "titan-mvp-1.2/form-overview/includes/_next-steps.html" %}

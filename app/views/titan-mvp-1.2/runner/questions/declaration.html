@@ -6,19 +6,7 @@
 Declaration – {{ serviceName }} – GOV.UK
 {% endblock %}
 
-{% block beforeContent %}
-{{ govukPhaseBanner({
-  tag: {
-    text: "Beta"
-  },
-  html: 'This is a new service. Help us improve it and <a class="govuk-link" href="/titan-mvp-1.2/form-editor/CSAT/form.html" target="_blank">give your feedback (opens in new tab)</a>.'
-}) }}
 
-{{ govukBackLink({
-text: "Back",
-href: "javascript:window.history.back()"
-}) }}
-{% endblock %}
 
 {% block content %}
 
@@ -94,27 +82,27 @@ href: "javascript:window.history.back()"
 <script>
 document.addEventListener('DOMContentLoaded', function() {
   const saveExitButton = document.querySelector('[data-save-exit="true"]');
-  
+
   if (saveExitButton) {
     saveExitButton.addEventListener('click', function(e) {
       e.preventDefault();
-      
+
       // Validate required fields
       const declarationCheckbox = document.querySelector('input[name="declaration"]');
       const isChecked = declarationCheckbox ? declarationCheckbox.checked : false;
-      
+
       if (!isChecked) {
         // Show error message
         const errorMessage = document.createElement('div');
         errorMessage.className = 'govuk-error-message';
         errorMessage.innerHTML = '<span class="govuk-visually-hidden">Error:</span>You must confirm that you understand and agree';
-        
+
         // Remove any existing error messages
         const existingError = document.querySelector('.govuk-error-message');
         if (existingError) {
           existingError.remove();
         }
-        
+
         // Add error message above the checkbox
         const formGroup = declarationCheckbox.closest('.govuk-form-group');
         if (formGroup) {
@@ -122,15 +110,15 @@ document.addEventListener('DOMContentLoaded', function() {
           declarationCheckbox.classList.add('govuk-checkboxes__input--error');
           formGroup.insertBefore(errorMessage, declarationCheckbox);
         }
-        
+
         // Focus on the checkbox
         declarationCheckbox.focus();
         return;
       }
-      
+
       // Get the current page URL
       const currentUrl = window.location.pathname;
-      
+
       // Redirect to save-progress with the current page as returnUrl
       window.location.href = '/save-progress?returnUrl=' + encodeURIComponent(currentUrl);
     });
