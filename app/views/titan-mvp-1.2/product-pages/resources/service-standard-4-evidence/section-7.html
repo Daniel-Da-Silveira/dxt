@@ -1,0 +1,169 @@
+{% extends "layouts/main.html" %}
+{% from "components/service-header/macro.njk" import serviceHeader %}
+
+{% block pageTitle %}
+7. Performance research – Service Standard Point 4 Evidence – Defra Form Designer – GOV.UK Prototype Kit
+{% endblock %}
+
+{% block header %}
+{{ serviceHeader({
+organisationName: "Defra",
+productName: "Form Designer",
+serviceName: "",
+homepageLink: "/titan-mvp-1.2/product-pages/homepage",
+signInLink: "/titan-mvp-1.2/library",
+showSupportLink: false,
+navigationItems: [
+{ href: "/titan-mvp-1.2/product-pages/about", text: "About", id: "nav-about" },
+{ href: "/titan-mvp-1.2/product-pages/get-started", text: "Get started", id: "nav-get-started" },
+{ href: "/titan-mvp-1.2/product-pages/features", text: "Features", id: "nav-features" },
+{ href: "/titan-mvp-1.2/product-pages/resources", text: "Resources", id: "nav-resources" },
+{ href: "/titan-mvp-1.2/product-pages/support", text: "Support", id: "nav-support" }
+],
+activeLinkId: "nav-resources"
+}) }}
+
+<div class="x-govuk-masthead x-govuk-masthead--large">
+    <div class="govuk-width-container">
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-full-from-desktop">
+                <h1 class="x-govuk-masthead__title">
+                    <span class="govuk-caption-l" style="color: white;">Service Standard Assessment</span>
+                    Service Standard Point 4: Make the service simple to use - Evidence
+                </h1>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-one-quarter app-contents-list--sticky govuk-!-padding-right-0">
+        {{ xGovukSubNavigation({
+        visuallyHiddenTitle: "Section navigation",
+        items: [{
+        text: "Service Standard Point 4 Evidence",
+        href: "/titan-mvp-1.2/product-pages/resources/service-standard-4-evidence",
+        parent: true,
+        children: [{
+        text: "Executive Summary",
+        href: "/titan-mvp-1.2/product-pages/resources/service-standard-4-evidence"
+        }, {
+        text: "1. Making the service simple to use",
+        href: "/titan-mvp-1.2/product-pages/resources/service-standard-4-evidence/section-1"
+        }, {
+        text: "2. Usability testing with users",
+        href: "/titan-mvp-1.2/product-pages/resources/service-standard-4-evidence/section-2"
+        }, {
+        text: "3. Testing all parts of the service",
+        href: "/titan-mvp-1.2/product-pages/resources/service-standard-4-evidence/section-3"
+        }, {
+        text: "4. Designing for a range of devices",
+        href: "/titan-mvp-1.2/product-pages/resources/service-standard-4-evidence/section-4"
+        }, {
+        text: "5. Users with lowest digital skills",
+        href: "/titan-mvp-1.2/product-pages/resources/service-standard-4-evidence/section-5"
+        }, {
+        text: "6. Accessibility requirements",
+        href: "/titan-mvp-1.2/product-pages/resources/service-standard-4-evidence/section-6"
+        }, {
+        text: "7. Performance research",
+        href: "/titan-mvp-1.2/product-pages/resources/service-standard-4-evidence/section-7",
+        current: true
+        }, {
+        text: "8. Continuous improvement",
+        href: "/titan-mvp-1.2/product-pages/resources/service-standard-4-evidence/section-8"
+        }, {
+        text: "9. Data-driven decisions",
+        href: "/titan-mvp-1.2/product-pages/resources/service-standard-4-evidence/section-9"
+        }, {
+        text: "10. Continual monitoring",
+        href: "/titan-mvp-1.2/product-pages/resources/service-standard-4-evidence/section-10"
+        }]
+        }]
+        }) }}
+    </div>
+    <div class="govuk-grid-column-two-thirds">
+        <div class="app-prose-scope">
+
+            <h2 class="govuk-heading-l">7. User research to understand performance issues</h2>
+
+            <h3 class="govuk-heading-m">Example 1: Initial Evaluation and Redesign Decision</h3>
+
+            <p class="govuk-body"><strong>Situation:</strong><br>
+            Initial heuristic and accessibility evaluation (March 2024) revealed significant usability issues: complex interface, overwhelming information presentation, and non-standardised components.</p>
+
+            <p class="govuk-body"><strong>Task:</strong><br>
+            Identify and address performance and usability issues that prevent users from using the service effectively.</p>
+
+            <p class="govuk-body"><strong>Action:</strong></p>
+            <ul class="govuk-list govuk-list--bullet">
+                <li>Conducted initial heuristic and accessibility evaluation (March 2024)</li>
+                <li>Identified specific issues: complex interface, overwhelming information presentation, non-standardised components</li>
+                <li>Reprioritised product backlog to focus on Forms Designer redesign ahead of new features</li>
+                <li>Redesigned interface to reduce cognitive load</li>
+                <li>Simplified navigation and information architecture</li>
+                <li>Standardised components for consistency</li>
+                <li>Improved loading states and feedback</li>
+            </ul>
+
+            <p class="govuk-body"><strong>Result:</strong></p>
+            <ul class="govuk-list govuk-list--bullet">
+                <li>Complete redesign prioritised and implemented</li>
+                <li>Round 11 (March 2025): Users found redesigned interface "clean, well-spaced, and intuitive"</li>
+                <li>Positive feedback on GOV.UK style familiarity</li>
+                <li>Success banners and autosave feedback were especially helpful</li>
+                <li>Reduced cognitive load for users</li>
+            </ul>
+
+            <p class="govuk-body">
+                <strong>Design history:</strong> <a href="https://dxt-prototype-682ae311ff10.herokuapp.com/design-history/forms-designer/index.html" class="govuk-link" target="_blank" rel="noopener noreferrer">Forms Designer redesign overview</a> | <a href="https://dxt-prototype-682ae311ff10.herokuapp.com/design-history/forms-designer/summary-of-changes.html" class="govuk-link" target="_blank" rel="noopener noreferrer">Summary of changes</a>
+            </p>
+
+            <h3 class="govuk-heading-m">Example 2: Identifying Specific Usability Issues</h3>
+
+            <p class="govuk-body"><strong>Situation:</strong><br>
+            Round 8 (November 2024) found users were uncertain about autosave functionality. Participant 4 said: "I'm a bit concerned whether that's going to save or not."</p>
+
+            <p class="govuk-body"><strong>Task:</strong><br>
+            Understand why users don't trust autosave and improve feedback so users know their work is being saved.</p>
+
+            <p class="govuk-body"><strong>Action:</strong></p>
+            <ul class="govuk-list govuk-list--bullet">
+                <li>Identified autosave uncertainty as specific issue in Round 8</li>
+                <li>Documented user concern: "I'm a bit concerned whether that's going to save or not"</li>
+                <li>Generated recommendation: "Consider explicit save feedback (e.g. 'Save and continue')"</li>
+                <li>Implemented clearer autosave feedback messages</li>
+                <li>Added visual indicators when content is saved</li>
+            </ul>
+
+            <p class="govuk-body"><strong>Result:</strong></p>
+            <ul class="govuk-list govuk-list--bullet">
+                <li>Users now have clear feedback when content is saved</li>
+                <li>Reduced anxiety about losing work</li>
+                <li>Improved user confidence in the service</li>
+            </ul>
+
+            <p class="govuk-body">
+                <strong>Design history:</strong> <a href="https://dxt-prototype-682ae311ff10.herokuapp.com/design-history/form-editor/autosave/index.html" class="govuk-link" target="_blank" rel="noopener noreferrer">Form editor - Autosave</a>
+            </p>
+
+            {% from "govuk/components/pagination/macro.njk" import govukPagination %}
+
+            {{ govukPagination({
+            previous: {
+            labelText: "6. Accessibility requirements",
+            href: "/titan-mvp-1.2/product-pages/resources/service-standard-4-evidence/section-6"
+            },
+            next: {
+            labelText: "8. Continuous improvement",
+            href: "/titan-mvp-1.2/product-pages/resources/service-standard-4-evidence/section-8"
+            }
+            }) }}
+
+        </div>
+    </div>
+</div>
+{% endblock %}
+

@@ -1,0 +1,398 @@
+{% extends "layouts/main.html" %}
+
+{% from "govuk/components/input/macro.njk" import govukInput %}
+{% from "govuk/components/radios/macro.njk" import govukRadios %}
+{% from "govuk/components/checkboxes/macro.njk" import govukCheckboxes %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "govuk/components/inset-text/macro.njk" import govukInsetText %}
+{% from "govuk/components/notification-banner/macro.njk" import govukNotificationBanner %}
+{% from "govuk/components/fieldset/macro.njk" import govukFieldset %}
+
+{% block pageTitle %}
+Unified Map Component Example - {{ serviceName }} – GOV.UK
+{% endblock %}
+
+{% block content %}
+
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-full">
+
+        <h1 class="govuk-heading-l">Unified Map Component Approach</h1>
+
+        <div class="govuk-notification-banner" role="region" aria-labelledby="govuk-notification-banner-title" data-module="govuk-notification-banner">
+            <div class="govuk-notification-banner__header">
+                <h2 class="govuk-notification-banner__title" id="govuk-notification-banner-title">
+                    Success
+                </h2>
+            </div>
+            <div class="govuk-notification-banner__content">
+                <p class="govuk-notification-banner__heading">
+                    This example shows how a form would look with a unified map component that provides multiple output formats.
+                </p>
+            </div>
+        </div>
+
+        <p class="govuk-body">This is what the same APHA Contact Form would look like with a unified map component:</p>
+
+        <form class="form" action="#" method="post" autocomplete="off">
+
+            <!-- Form Header -->
+            <div class="govuk-form-group">
+                <h2 class="govuk-heading-m">Tell us where the animals were found</h2>
+                <p class="govuk-body">Please provide details about the location where the animals were found.</p>
+            </div>
+
+            <!-- Animal Details -->
+            <div class="govuk-form-group">
+                <label class="govuk-label" for="animal-type">
+                    <strong>Type of animals</strong>
+                </label>
+                {{ govukInput({
+                    id: "animal-type",
+                    name: "animal-type",
+                    value: "Cattle"
+                }) }}
+            </div>
+
+            <div class="govuk-form-group">
+                <label class="govuk-label" for="animal-count">
+                    <strong>Number of animals</strong>
+                </label>
+                {{ govukInput({
+                    id: "animal-count",
+                    name: "animal-count",
+                    value: "12"
+                }) }}
+            </div>
+
+            <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
+
+            <!-- LOCATION SECTION - Unified Map Component (Based on Flood Map for Planning) -->
+            <h3 class="govuk-heading-m">Tell us where the animals were found</h3>
+            <p class="govuk-hint">Choose an option to search for a location or skip straight to the map</p>
+
+            <!-- Location Input Options (Based on Flood Map for Planning) -->
+            <div class="govuk-form-group" style="border: 2px solid #00703c; padding: 20px; margin: 20px 0; background-color: #f7f9f7;">
+                <h4 class="govuk-heading-s">Find the location</h4>
+
+                <!-- Place or Postcode -->
+                <div class="govuk-form-group">
+                    <label class="govuk-label" for="place-postcode">
+                        <strong>Place or postcode</strong>
+                    </label>
+                    <div class="govuk-hint">For example, Bakewell or WA4 1AB</div>
+                    {{ govukInput({
+                        id: "place-postcode",
+                        name: "place-postcode",
+                        classes: "govuk-input--width-20",
+                        value: "Manchester"
+                    }) }}
+                </div>
+
+                <!-- National Grid Reference -->
+                <div class="govuk-form-group">
+                    <label class="govuk-label" for="ngr">
+                        <strong>National Grid Reference (NGR)</strong>
+                    </label>
+                    <div class="govuk-hint">For example, SJ8632197947 (10 or 12 digits)</div>
+                    {{ govukInput({
+                        id: "ngr",
+                        name: "ngr",
+                        classes: "govuk-input--width-20",
+                        value: "SJ8632197947"
+                    }) }}
+                </div>
+
+                <!-- Easting and Northing -->
+                <div class="govuk-form-group">
+                    <label class="govuk-label">
+                        <strong>Easting and northing</strong>
+                    </label>
+                    <div class="govuk-hint">Eastings and northings should only include numbers. For example: 123456</div>
+                    <div class="govuk-grid-row">
+                        <div class="govuk-grid-column-one-half">
+                            <label class="govuk-label" for="easting">Easting</label>
+                            {{ govukInput({
+                                id: "easting",
+                                name: "easting",
+                                classes: "govuk-input--width-10",
+                                value: "386321"
+                            }) }}
+                        </div>
+                        <div class="govuk-grid-column-one-half">
+                            <label class="govuk-label" for="northing">Northing</label>
+                            {{ govukInput({
+                                id: "northing",
+                                name: "northing",
+                                classes: "govuk-input--width-10",
+                                value: "397947"
+                            }) }}
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="govuk-form-group">
+                    {{ govukButton({
+                        text: "Continue",
+                        classes: "govuk-button--secondary"
+                    }) }}
+                    {{ govukButton({
+                        text: "Skip to map",
+                        classes: "govuk-button--secondary",
+                        href: "#interactive-map"
+                    }) }}
+                </div>
+            </div>
+
+            <!-- Interactive Map Section with Sidebar (Based on Flood Map for Planning) -->
+            <div id="interactive-map" class="govuk-form-group" style="border: 2px solid #00703c; padding: 0; margin: 20px 0; background-color: #f7f9f7; overflow: hidden;">
+                
+                <!-- Map Interface Layout -->
+                <div style="display: flex; height: 500px;">
+                    
+                    <!-- Left Sidebar Control Panel -->
+                    <div style="width: 300px; background: white; border-right: 1px solid #b1b4b6; padding: 20px; overflow-y: auto;">
+                        
+                        <!-- Get a location report -->
+                        <div style="margin-bottom: 20px;">
+                            <h4 class="govuk-heading-s" style="margin-bottom: 10px;">Animal location report</h4>
+                            <a href="#" style="display: inline-flex; align-items: center; text-decoration: none; color: #1d70b8;">
+                                <span style="width: 16px; height: 16px; border: 1px solid #1d70b8; margin-right: 8px; display: inline-block;"></span>
+                                Add location
+                            </a>
+                        </div>
+
+                        <!-- Location Outputs Configuration -->
+                        <div style="margin-bottom: 20px;">
+                            <h4 class="govuk-heading-s" style="margin-bottom: 10px;">Location outputs</h4>
+                            <div class="govuk-radios govuk-radios--small">
+                                <div class="govuk-radios__item">
+                                    <input class="govuk-radios__input" id="output-os-grid" name="location-output" type="radio" value="os-grid" checked>
+                                    <label class="govuk-label govuk-radios__label" for="output-os-grid">OS Grid Reference</label>
+                                </div>
+                                <div class="govuk-radios__item">
+                                    <input class="govuk-radios__input" id="output-what3words" name="location-output" type="radio" value="what3words">
+                                    <label class="govuk-label govuk-radios__label" for="output-what3words">What3Words</label>
+                                </div>
+                                <div class="govuk-radios__item">
+                                    <input class="govuk-radios__input" id="output-lat-lng" name="location-output" type="radio" value="lat-lng">
+                                    <label class="govuk-label govuk-radios__label" for="output-lat-lng">Latitude & Longitude</label>
+                                </div>
+                                <div class="govuk-radios__item">
+                                    <input class="govuk-radios__input" id="output-address" name="location-output" type="radio" value="address">
+                                    <label class="govuk-label govuk-radios__label" for="output-address">Address</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Map features -->
+                        <div style="margin-bottom: 20px;">
+                            <h4 class="govuk-heading-s" style="margin-bottom: 10px;">Map features</h4>
+                            <div class="govuk-checkboxes govuk-checkboxes--small">
+                                <div class="govuk-checkboxes__item">
+                                    <input class="govuk-checkboxes__input" id="feature-boundaries" name="map-features" type="checkbox" value="boundaries">
+                                    <label class="govuk-label govuk-checkboxes__label" for="feature-boundaries">Administrative boundaries</label>
+                                </div>
+                                <div class="govuk-checkboxes__item">
+                                    <input class="govuk-checkboxes__input" id="feature-roads" name="map-features" type="checkbox" value="roads">
+                                    <label class="govuk-label govuk-checkboxes__label" for="feature-roads">Roads</label>
+                                </div>
+                                <div class="govuk-checkboxes__item">
+                                    <input class="govuk-checkboxes__input" id="feature-water" name="map-features" type="checkbox" value="water">
+                                    <label class="govuk-label govuk-checkboxes__label" for="feature-water">Water bodies</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Selected Location Display -->
+                        <div style="background-color: #f3f2f1; padding: 15px; border-radius: 4px;">
+                            <h4 class="govuk-heading-xs" style="margin-bottom: 10px;">Where the animals were found</h4>
+                            <div style="font-size: 14px;">
+                                <div style="margin-bottom: 5px;"><strong>OS Grid:</strong> SJ 86321 97947</div>
+                                <div style="margin-bottom: 5px;"><strong>Lat/Lng:</strong> 53.4808°N, 2.2426°W</div>
+                                <div style="margin-bottom: 5px;"><strong>What3Words:</strong> ///filled.count.soap</div>
+                                <div><strong>Address:</strong> Manchester, UK</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Main Map Area -->
+                    <div style="flex: 1; position: relative; background: #e8f4fd;">
+                        
+                        <!-- Map Top Controls -->
+                        <div style="position: absolute; top: 10px; left: 10px; z-index: 1000;">
+                            <button class="govuk-button govuk-button--secondary" style="margin-right: 10px; padding: 8px 12px;">
+                                Search
+                            </button>
+                            <button class="govuk-button govuk-button--secondary" style="padding: 8px 12px;">
+                                Key
+                            </button>
+                        </div>
+
+                        <!-- Map Zoom Controls -->
+                        <div style="position: absolute; top: 10px; right: 10px; z-index: 1000; display: flex; flex-direction: column;">
+                            <button style="width: 32px; height: 32px; border: 1px solid #b1b4b6; background: white; display: flex; align-items: center; justify-content: center; margin-bottom: 1px;">Map</button>
+                            <button style="width: 32px; height: 32px; border: 1px solid #b1b4b6; background: white; display: flex; align-items: center; justify-content: center; margin-bottom: 1px;">+</button>
+                            <button style="width: 32px; height: 32px; border: 1px solid #b1b4b6; background: white; display: flex; align-items: center; justify-content: center;">-</button>
+                        </div>
+
+                        <!-- Interactive Map Placeholder -->
+                        <div style="width: 100%; height: 100%; background: linear-gradient(45deg, #e8f4fd 25%, transparent 25%), linear-gradient(-45deg, #e8f4fd 25%, transparent 25%), linear-gradient(45deg, transparent 75%, #e8f4fd 75%), linear-gradient(-45deg, transparent 75%, #e8f4fd 75%); background-size: 20px 20px; background-position: 0 0, 0 10px, 10px -10px, -10px 0px; display: flex; align-items: center; justify-content: center; position: relative;">
+                            
+                            <!-- Map Content Simulation -->
+                            <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center; background: rgba(255,255,255,0.9); padding: 20px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+                                <p class="govuk-body" style="font-weight: bold; color: #00703c; font-size: 18px; margin-bottom: 10px;">Interactive Map of Great Britain</p>
+                                <p class="govuk-body" style="font-size: 14px; color: #666; margin-bottom: 0;">Click anywhere on the map to show where the animals were found</p>
+                            </div>
+
+                            <!-- Location Marker -->
+                            <div style="position: absolute; top: 45%; left: 48%; width: 20px; height: 20px; background: #d4351c; border: 2px solid white; border-radius: 50%; box-shadow: 0 2px 4px rgba(0,0,0,0.3);"></div>
+                            
+                            <!-- Map Labels Simulation -->
+                            <div style="position: absolute; top: 20%; left: 60%; font-size: 12px; color: #666; font-weight: bold;">Manchester</div>
+                            <div style="position: absolute; top: 30%; left: 70%; font-size: 12px; color: #666; font-weight: bold;">Liverpool</div>
+                            <div style="position: absolute; top: 40%; left: 75%; font-size: 12px; color: #666; font-weight: bold;">Leeds</div>
+                            <div style="position: absolute; top: 60%; left: 65%; font-size: 12px; color: #666; font-weight: bold;">Birmingham</div>
+                            <div style="position: absolute; top: 70%; left: 70%; font-size: 12px; color: #666; font-weight: bold;">London</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+                <!-- Hidden Form Fields for Data -->
+                <input type="hidden" name="os-grid-square" value="SJ">
+                <input type="hidden" name="os-grid-easting" value="86321">
+                <input type="hidden" name="os-grid-northing" value="97947">
+                <input type="hidden" name="what3words" value="///filled.count.soap">
+                <input type="hidden" name="latitude" value="53.4808">
+                <input type="hidden" name="longitude" value="-2.2426">
+                <input type="hidden" name="address" value="Manchester, Greater Manchester, UK">
+            </div>
+
+            <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
+
+            <!-- Additional Form Fields -->
+            <h3 class="govuk-heading-m">Additional Information</h3>
+
+            <div class="govuk-form-group">
+                <label class="govuk-label" for="additional-info">
+                    <strong>Additional information</strong>
+                </label>
+                <textarea class="govuk-textarea" id="additional-info" name="additional-info" rows="5" placeholder="Any additional details about the location or animals..."></textarea>
+            </div>
+
+            <div class="govuk-form-group">
+                <label class="govuk-label" for="reporter-name">
+                    <strong>Reporter name</strong>
+                </label>
+                {{ govukInput({
+                    id: "reporter-name",
+                    name: "reporter-name"
+                }) }}
+            </div>
+
+            <div class="govuk-form-group">
+                <label class="govuk-label" for="reporter-email">
+                    <strong>Reporter email</strong>
+                </label>
+                {{ govukInput({
+                    id: "reporter-email",
+                    name: "reporter-email",
+                    type: "email"
+                }) }}
+            </div>
+
+            {{ govukButton({
+                text: "Submit Report"
+            }) }}
+
+        </form>
+
+        <!-- Benefits Summary -->
+        <div class="govuk-inset-text" style="margin-top: 30px; border-left-color: #00703c;">
+            <p><strong>Benefits of the unified approach (based on Flood Map for Planning design):</strong></p>
+            <ul class="govuk-list govuk-list--bullet">
+                <li>Professional sidebar interface with integrated controls</li>
+                <li>Users can search by multiple location formats (place, postcode, NGR, easting/northing)</li>
+                <li>Single interactive map with proper zoom and search controls</li>
+                <li>Real-time location data display in sidebar</li>
+                <li>Form designers can configure location outputs via radio buttons</li>
+                <li>Map features can be toggled on/off (boundaries, roads, water bodies)</li>
+                <li>Clean, professional interface matching government service standards</li>
+                <li>Better accessibility with clear control layout</li>
+                <li>Easier to maintain and update</li>
+                <li>Proven design pattern from existing government services</li>
+            </ul>
+        </div>
+
+        <div class="govuk-inset-text" style="border-left-color: #1d70b8;">
+            <p><strong>Design Inspiration:</strong> This unified map component is based on the proven design pattern from the <a href="https://flood-map-for-planning.service.gov.uk/location" target="_blank">Flood Map for Planning service</a>, which successfully combines multiple location input methods with an interactive map in a clean, accessible interface.</p>
+        </div>
+
+        <!-- Form Designer Configuration Examples -->
+        <h3 class="govuk-heading-m">Form Designer Configuration Examples</h3>
+
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-one-third">
+                <div style="border: 1px solid #b1b4b6; padding: 15px; margin: 10px 0; background-color: #f8f8f8;">
+                    <h4 class="govuk-heading-xs">NEWLS Configuration</h4>
+                    <p class="govuk-body-s">Required outputs:</p>
+                    <ul class="govuk-list govuk-list--bullet govuk-list--small">
+                        <li>OS Grid Reference</li>
+                        <li>Lat/Lng (decimal)</li>
+                        <li>What3Words (disabled)</li>
+                        <li>Address (disabled)</li>
+                    </ul>
+                    <p class="govuk-body-s">Result: Clean form with 2 outputs from single map</p>
+                </div>
+            </div>
+            <div class="govuk-grid-column-one-third">
+                <div style="border: 1px solid #b1b4b6; padding: 15px; margin: 10px 0; background-color: #f8f8f8;">
+                    <h4 class="govuk-heading-xs">APHA Configuration</h4>
+                    <p class="govuk-body-s">Required outputs:</p>
+                    <ul class="govuk-list govuk-list--bullet govuk-list--small">
+                        <li>OS Grid Reference</li>
+                        <li>What3Words</li>
+                        <li>Address</li>
+                        <li>Lat/Lng (disabled)</li>
+                    </ul>
+                    <p class="govuk-body-s">Result: Clean form with 3 outputs from single map</p>
+                </div>
+            </div>
+            <div class="govuk-grid-column-one-third">
+                <div style="border: 1px solid #b1b4b6; padding: 15px; margin: 10px 0; background-color: #f8f8f8;">
+                    <h4 class="govuk-heading-xs">Habitat Reporting</h4>
+                    <p class="govuk-body-s">Required outputs:</p>
+                    <ul class="govuk-list govuk-list--bullet govuk-list--small">
+                        <li>OS Grid Reference</li>
+                        <li>Polygon drawing</li>
+                        <li>Lat/Lng (decimal)</li>
+                        <li>What3Words (disabled)</li>
+                    </ul>
+                    <p class="govuk-body-s">Result: Clean form with polygon + 2 outputs from single map</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="govuk-grid-row" style="margin-top: 30px;">
+            <div class="govuk-grid-column-one-half">
+                {{ govukButton({
+                    text: "← See Separate Components Problem",
+                    href: "/titan-mvp-1.2/form-editor/location/separate-components-example",
+                    classes: "govuk-button--secondary"
+                }) }}
+            </div>
+            <div class="govuk-grid-column-one-half">
+                {{ govukButton({
+                    text: "Back to POC Overview →",
+                    href: "/titan-mvp-1.2/form-editor/location/map-component-poc",
+                    classes: "govuk-button--secondary"
+                }) }}
+            </div>
+        </div>
+
+    </div>
+</div>
+
+{% endblock %}

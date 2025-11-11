@@ -1,0 +1,331 @@
+{% extends "layouts/main.html" %}
+
+{% from "govuk/components/input/macro.njk" import govukInput %}
+{% from "govuk/components/radios/macro.njk" import govukRadios %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "govuk/components/inset-text/macro.njk" import govukInsetText %}
+{% from "govuk/components/notification-banner/macro.njk" import govukNotificationBanner %}
+{% from "govuk/components/fieldset/macro.njk" import govukFieldset %}
+
+{% block pageTitle %}
+Separate Map Components Example - {{ serviceName }} – GOV.UK
+{% endblock %}
+
+{% block content %}
+
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-full">
+
+        <h1 class="govuk-heading-l">Separate Map Components Approach</h1>
+
+        <div class="govuk-notification-banner" role="region" aria-labelledby="govuk-notification-banner-title" data-module="govuk-notification-banner">
+            <div class="govuk-notification-banner__header">
+                <h2 class="govuk-notification-banner__title" id="govuk-notification-banner-title">
+                    Warning
+                </h2>
+            </div>
+            <div class="govuk-notification-banner__content">
+                <p class="govuk-notification-banner__heading">
+                    This example shows how a form would look with separate map components for each location output type.
+                </p>
+            </div>
+        </div>
+
+        <p class="govuk-body">This is what an APHA Contact Form would look like if we implemented separate map components for each location output type:</p>
+
+        <form class="form" action="#" method="post" autocomplete="off">
+
+            <!-- Form Header -->
+            <div class="govuk-form-group">
+                <h2 class="govuk-heading-m">Tell us where the animals were found</h2>
+                <p class="govuk-body">Please provide details about the location where the animals were found.</p>
+            </div>
+
+            <!-- Animal Details -->
+            <div class="govuk-form-group">
+                <label class="govuk-label" for="animal-type">
+                    <strong>Type of animals</strong>
+                </label>
+                {{ govukInput({
+                    id: "animal-type",
+                    name: "animal-type",
+                    value: "Cattle"
+                }) }}
+            </div>
+
+            <div class="govuk-form-group">
+                <label class="govuk-label" for="animal-count">
+                    <strong>Number of animals</strong>
+                </label>
+                {{ govukInput({
+                    id: "animal-count",
+                    name: "animal-count",
+                    value: "12"
+                }) }}
+            </div>
+
+            <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
+
+            <!-- LOCATION SECTION - Multiple Map Components -->
+            <h3 class="govuk-heading-m">Tell us where the animals were found</h3>
+            <p class="govuk-hint">Please provide the location using one or more of the methods below:</p>
+
+            <!-- Map Component 1: OS Grid Reference -->
+            <div class="govuk-form-group" style="border: 2px solid #d4351c; padding: 20px; margin: 20px 0; background-color: #fef7f7;">
+                <h4 class="govuk-heading-s">Map Component 1: OS Grid Reference</h4>
+                <p class="govuk-hint">Click on the map to select location and get OS Grid Reference</p>
+
+                <!-- Interactive Map Placeholder -->
+                <div style="height: 250px; background: linear-gradient(45deg, #f3f2f1 25%, transparent 25%), linear-gradient(-45deg, #f3f2f1 25%, transparent 25%), linear-gradient(45deg, transparent 75%, #f3f2f1 75%), linear-gradient(-45deg, transparent 75%, #f3f2f1 75%); background-size: 20px 20px; background-position: 0 0, 0 10px, 10px -10px, -10px 0px; border: 2px solid #d4351c; display: flex; align-items: center; justify-content: center; margin: 15px 0; position: relative;">
+                    <div style="text-align: center;">
+                        <p class="govuk-body" style="font-weight: bold; color: #d4351c;">Interactive Map for OS Grid Reference</p>
+                        <p class="govuk-body" style="font-size: 14px;">Click anywhere on the map to select location</p>
+                    </div>
+                    <div style="position: absolute; top: 10px; right: 10px; background: white; padding: 8px; border: 1px solid #d4351c; font-size: 12px; border-radius: 4px;">
+                        Selected: SJ 12345 67890
+                    </div>
+                </div>
+
+                <!-- OS Grid Reference Inputs -->
+                <div class="govuk-grid-row">
+                    <div class="govuk-grid-column-one-third">
+                        {{ govukInput({
+                            label: { text: "Grid Square" },
+                            classes: "govuk-input--width-4",
+                            id: "os-grid-square-1",
+                            name: "os-grid-square-1",
+                            value: "SJ"
+                        }) }}
+                    </div>
+                    <div class="govuk-grid-column-one-third">
+                        {{ govukInput({
+                            label: { text: "Easting" },
+                            classes: "govuk-input--width-5",
+                            id: "os-grid-easting-1",
+                            name: "os-grid-easting-1",
+                            value: "12345"
+                        }) }}
+                    </div>
+                    <div class="govuk-grid-column-one-third">
+                        {{ govukInput({
+                            label: { text: "Northing" },
+                            classes: "govuk-input--width-5",
+                            id: "os-grid-northing-1",
+                            name: "os-grid-northing-1",
+                            value: "67890"
+                        }) }}
+                    </div>
+                </div>
+
+                <div class="govuk-inset-text" style="border-left-color: #d4351c; background-color: #fef7f7;">
+                    <p><strong>Map Component 1 Output:</strong> OS Grid Reference - SJ 12345 67890 (where animals were found)</p>
+                </div>
+            </div>
+
+            <!-- Map Component 2: What3Words -->
+            <div class="govuk-form-group" style="border: 2px solid #1d70b8; padding: 20px; margin: 20px 0; background-color: #f7f9fc;">
+                <h4 class="govuk-heading-s">Map Component 2: What3Words</h4>
+                <p class="govuk-hint">Click on the map to select location and get What3Words reference</p>
+
+                <!-- Interactive Map Placeholder -->
+                <div style="height: 250px; background: linear-gradient(45deg, #f3f2f1 25%, transparent 25%), linear-gradient(-45deg, #f3f2f1 25%, transparent 25%), linear-gradient(45deg, transparent 75%, #f3f2f1 75%), linear-gradient(-45deg, transparent 75%, #f3f2f1 75%); background-size: 20px 20px; background-position: 0 0, 0 10px, 10px -10px, -10px 0px; border: 2px solid #1d70b8; display: flex; align-items: center; justify-content: center; margin: 15px 0; position: relative;">
+                    <div style="text-align: center;">
+                        <p class="govuk-body" style="font-weight: bold; color: #1d70b8;">Interactive Map for What3Words</p>
+                        <p class="govuk-body" style="font-size: 14px;">Click anywhere on the map to select location</p>
+                    </div>
+                    <div style="position: absolute; top: 10px; right: 10px; background: white; padding: 8px; border: 1px solid #1d70b8; font-size: 12px; border-radius: 4px;">
+                        Selected: ///filled.count.soap
+                    </div>
+                </div>
+
+                {{ govukInput({
+                    label: { text: "What3Words reference" },
+                    hint: { text: "For example: ///filled.count.soap" },
+                    classes: "govuk-input--width-20",
+                    id: "what3words-1",
+                    name: "what3words-1",
+                    value: "///filled.count.soap"
+                }) }}
+
+                <div class="govuk-inset-text" style="border-left-color: #1d70b8; background-color: #f7f9fc;">
+                    <p><strong>Map Component 2 Output:</strong> What3Words - ///filled.count.soap (where animals were found)</p>
+                </div>
+            </div>
+
+            <!-- Map Component 3: Latitude & Longitude -->
+            <div class="govuk-form-group" style="border: 2px solid #00703c; padding: 20px; margin: 20px 0; background-color: #f7f9f7;">
+                <h4 class="govuk-heading-s">Map Component 3: Latitude & Longitude</h4>
+                <p class="govuk-hint">Click on the map to select location and get decimal coordinates</p>
+
+                <!-- Interactive Map Placeholder -->
+                <div style="height: 250px; background: linear-gradient(45deg, #f3f2f1 25%, transparent 25%), linear-gradient(-45deg, #f3f2f1 25%, transparent 25%), linear-gradient(45deg, transparent 75%, #f3f2f1 75%), linear-gradient(-45deg, transparent 75%, #f3f2f1 75%); background-size: 20px 20px; background-position: 0 0, 0 10px, 10px -10px, -10px 0px; border: 2px solid #00703c; display: flex; align-items: center; justify-content: center; margin: 15px 0; position: relative;">
+                    <div style="text-align: center;">
+                        <p class="govuk-body" style="font-weight: bold; color: #00703c;">Interactive Map for Lat/Lng</p>
+                        <p class="govuk-body" style="font-size: 14px;">Click anywhere on the map to select location</p>
+                    </div>
+                    <div style="position: absolute; top: 10px; right: 10px; background: white; padding: 8px; border: 1px solid #00703c; font-size: 12px; border-radius: 4px;">
+                        Selected: 53.4808°N, 2.2426°W
+                    </div>
+                </div>
+
+                <div class="govuk-grid-row">
+                    <div class="govuk-grid-column-one-half">
+                        {{ govukInput({
+                            label: { text: "Latitude" },
+                            classes: "govuk-input--width-6",
+                            id: "latitude-1",
+                            name: "latitude-1",
+                            value: "53.4808"
+                        }) }}
+                    </div>
+                    <div class="govuk-grid-column-one-half">
+                        {{ govukInput({
+                            label: { text: "Longitude" },
+                            classes: "govuk-input--width-6",
+                            id: "longitude-1",
+                            name: "longitude-1",
+                            value: "-2.2426"
+                        }) }}
+                    </div>
+                </div>
+
+                <div class="govuk-inset-text" style="border-left-color: #00703c; background-color: #f7f9f7;">
+                    <p><strong>Map Component 3 Output:</strong> Latitude: 53.4808°N, Longitude: 2.2426°W (where animals were found)</p>
+                </div>
+            </div>
+
+            <!-- Map Component 4: Address -->
+            <div class="govuk-form-group" style="border: 2px solid #f47738; padding: 20px; margin: 20px 0; background-color: #fef9f7;">
+                <h4 class="govuk-heading-s">Map Component 4: Address</h4>
+                <p class="govuk-hint">Click on the map to select location and get address</p>
+
+                <!-- Interactive Map Placeholder -->
+                <div style="height: 250px; background: linear-gradient(45deg, #f3f2f1 25%, transparent 25%), linear-gradient(-45deg, #f3f2f1 25%, transparent 25%), linear-gradient(45deg, transparent 75%, #f3f2f1 75%), linear-gradient(-45deg, transparent 75%, #f3f2f1 75%); background-size: 20px 20px; background-position: 0 0, 0 10px, 10px -10px, -10px 0px; border: 2px solid #f47738; display: flex; align-items: center; justify-content: center; margin: 15px 0; position: relative;">
+                    <div style="text-align: center;">
+                        <p class="govuk-body" style="font-weight: bold; color: #f47738;">Interactive Map for Address</p>
+                        <p class="govuk-body" style="font-size: 14px;">Click anywhere on the map to select location</p>
+                    </div>
+                    <div style="position: absolute; top: 10px; right: 10px; background: white; padding: 8px; border: 1px solid #f47738; font-size: 12px; border-radius: 4px;">
+                        Selected: Manchester, UK
+                    </div>
+                </div>
+
+                {{ govukInput({
+                    label: { text: "Address" },
+                    classes: "govuk-input--width-30",
+                    id: "address-1",
+                    name: "address-1",
+                    value: "Manchester, Greater Manchester, UK"
+                }) }}
+
+                <div class="govuk-inset-text" style="border-left-color: #f47738; background-color: #fef9f7;">
+                    <p><strong>Map Component 4 Output:</strong> Address - Manchester, Greater Manchester, UK (where animals were found)</p>
+                </div>
+            </div>
+
+            <!-- Problems Summary -->
+            <div class="govuk-warning-text" style="margin: 30px 0;">
+                <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
+                <strong class="govuk-warning-text__text">
+                    <span class="govuk-warning-text__assistive">Warning</span>
+                    Problems with this approach:
+                </strong>
+            </div>
+
+            <div class="govuk-grid-row">
+                <div class="govuk-grid-column-one-half">
+                    <h4 class="govuk-heading-s">User Experience Issues</h4>
+                    <ul class="govuk-list govuk-list--bullet">
+                        <li>Form is overwhelming and cluttered</li>
+                        <li>Users must interact with 4 separate maps</li>
+                        <li>Inconsistent map interactions</li>
+                        <li>High cognitive load</li>
+                        <li>Potential for selecting different locations on each map</li>
+                        <li>Mobile experience would be poor</li>
+                    </ul>
+                </div>
+                <div class="govuk-grid-column-one-half">
+                    <h4 class="govuk-heading-s">Technical Issues</h4>
+                    <ul class="govuk-list govuk-list--bullet">
+                        <li>Multiple map instances = performance issues</li>
+                        <li>Inconsistent styling and behavior</li>
+                        <li>Complex validation logic</li>
+                        <li>Difficult to maintain</li>
+                        <li>Accessibility challenges</li>
+                        <li>Form becomes very long</li>
+                    </ul>
+                </div>
+            </div>
+
+            <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+
+            <!-- Additional Form Fields -->
+            <h3 class="govuk-heading-m">Additional Information</h3>
+
+            <div class="govuk-form-group">
+                <label class="govuk-label" for="additional-info">
+                    <strong>Additional information</strong>
+                </label>
+                <textarea class="govuk-textarea" id="additional-info" name="additional-info" rows="5" placeholder="Any additional details about the location or animals..."></textarea>
+            </div>
+
+            <div class="govuk-form-group">
+                <label class="govuk-label" for="reporter-name">
+                    <strong>Reporter name</strong>
+                </label>
+                {{ govukInput({
+                    id: "reporter-name",
+                    name: "reporter-name"
+                }) }}
+            </div>
+
+            <div class="govuk-form-group">
+                <label class="govuk-label" for="reporter-email">
+                    <strong>Reporter email</strong>
+                </label>
+                {{ govukInput({
+                    id: "reporter-email",
+                    name: "reporter-email",
+                    type: "email"
+                }) }}
+            </div>
+
+            {{ govukButton({
+                text: "Submit Report",
+                classes: "govuk-button--warning"
+            }) }}
+
+        </form>
+
+        <div class="govuk-inset-text" style="margin-top: 30px; border-left-color: #d4351c;">
+            <p><strong>This form demonstrates why separate map components would be problematic:</strong></p>
+            <ul class="govuk-list govuk-list--bullet">
+                <li>The form is extremely long and overwhelming</li>
+                <li>Users have to interact with 4 different maps for the same location</li>
+                <li>The visual design is cluttered and confusing</li>
+                <li>Mobile users would have a terrible experience</li>
+                <li>Form teams would find this approach unacceptable</li>
+            </ul>
+        </div>
+
+        <div class="govuk-grid-row" style="margin-top: 30px;">
+            <div class="govuk-grid-column-one-half">
+                {{ govukButton({
+                    text: "← Back to POC Overview",
+                    href: "/titan-mvp-1.2/form-editor/location/map-component-poc",
+                    classes: "govuk-button--secondary"
+                }) }}
+            </div>
+            <div class="govuk-grid-column-one-half">
+                {{ govukButton({
+                    text: "See Unified Solution →",
+                    href: "/titan-mvp-1.2/form-editor/location/unified-component-example",
+                    classes: "govuk-button--secondary"
+                }) }}
+            </div>
+        </div>
+
+    </div>
+</div>
+
+{% endblock %}

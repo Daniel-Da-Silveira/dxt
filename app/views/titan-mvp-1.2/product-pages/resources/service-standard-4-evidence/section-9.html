@@ -1,0 +1,134 @@
+{% extends "layouts/main.html" %}
+{% from "components/service-header/macro.njk" import serviceHeader %}
+
+{% block pageTitle %}
+9. Data-driven decisions – Service Standard Point 4 Evidence – Defra Form Designer – GOV.UK Prototype Kit
+{% endblock %}
+
+{% block header %}
+{{ serviceHeader({
+organisationName: "Defra",
+productName: "Form Designer",
+serviceName: "",
+homepageLink: "/titan-mvp-1.2/product-pages/homepage",
+signInLink: "/titan-mvp-1.2/library",
+showSupportLink: false,
+navigationItems: [
+{ href: "/titan-mvp-1.2/product-pages/about", text: "About", id: "nav-about" },
+{ href: "/titan-mvp-1.2/product-pages/get-started", text: "Get started", id: "nav-get-started" },
+{ href: "/titan-mvp-1.2/product-pages/features", text: "Features", id: "nav-features" },
+{ href: "/titan-mvp-1.2/product-pages/resources", text: "Resources", id: "nav-resources" },
+{ href: "/titan-mvp-1.2/product-pages/support", text: "Support", id: "nav-support" }
+],
+activeLinkId: "nav-resources"
+}) }}
+
+<div class="x-govuk-masthead x-govuk-masthead--large">
+    <div class="govuk-width-container">
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-full-from-desktop">
+                <h1 class="x-govuk-masthead__title">
+                    <span class="govuk-caption-l" style="color: white;">Service Standard Assessment</span>
+                    Service Standard Point 4: Make the service simple to use - Evidence
+                </h1>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-one-quarter app-contents-list--sticky govuk-!-padding-right-0">
+        {{ xGovukSubNavigation({
+        visuallyHiddenTitle: "Section navigation",
+        items: [{
+        text: "Service Standard Point 4 Evidence",
+        href: "/titan-mvp-1.2/product-pages/resources/service-standard-4-evidence",
+        parent: true,
+        children: [{
+        text: "Executive Summary",
+        href: "/titan-mvp-1.2/product-pages/resources/service-standard-4-evidence"
+        }, {
+        text: "1. Making the service simple to use",
+        href: "/titan-mvp-1.2/product-pages/resources/service-standard-4-evidence/section-1"
+        }, {
+        text: "2. Usability testing with users",
+        href: "/titan-mvp-1.2/product-pages/resources/service-standard-4-evidence/section-2"
+        }, {
+        text: "3. Testing all parts of the service",
+        href: "/titan-mvp-1.2/product-pages/resources/service-standard-4-evidence/section-3"
+        }, {
+        text: "4. Designing for a range of devices",
+        href: "/titan-mvp-1.2/product-pages/resources/service-standard-4-evidence/section-4"
+        }, {
+        text: "5. Users with lowest digital skills",
+        href: "/titan-mvp-1.2/product-pages/resources/service-standard-4-evidence/section-5"
+        }, {
+        text: "6. Accessibility requirements",
+        href: "/titan-mvp-1.2/product-pages/resources/service-standard-4-evidence/section-6"
+        }, {
+        text: "7. Performance research",
+        href: "/titan-mvp-1.2/product-pages/resources/service-standard-4-evidence/section-7"
+        }, {
+        text: "8. Continuous improvement",
+        href: "/titan-mvp-1.2/product-pages/resources/service-standard-4-evidence/section-8"
+        }, {
+        text: "9. Data-driven decisions",
+        href: "/titan-mvp-1.2/product-pages/resources/service-standard-4-evidence/section-9",
+        current: true
+        }, {
+        text: "10. Continual monitoring",
+        href: "/titan-mvp-1.2/product-pages/resources/service-standard-4-evidence/section-10"
+        }]
+        }]
+        }) }}
+    </div>
+    <div class="govuk-grid-column-two-thirds">
+        <div class="app-prose-scope">
+
+            <h2 class="govuk-heading-l">9. How data is used to understand service performance</h2>
+
+            <h3 class="govuk-heading-m">Example 1: Research Data Collection and Analysis</h3>
+
+            <p class="govuk-body"><strong>Situation:</strong><br>
+            Need systematic way to collect, analyse, and act on user research data to understand service performance.</p>
+
+            <p class="govuk-body"><strong>Task:</strong><br>
+            Document research findings systematically and use data to inform design decisions.</p>
+
+            <p class="govuk-body"><strong>Action:</strong></p>
+            <ul class="govuk-list govuk-list--bullet">
+                <li>Documented all research rounds with: research objectives, participants, methods, findings, quotes, recommendations</li>
+                <li>Captured user quotes in 17 features (52%)</li>
+                <li>Documented findings in 28 features (85%)</li>
+                <li>Tracked issues and recommendations</li>
+                <li>Used research data to prioritise improvements</li>
+            </ul>
+
+            <p class="govuk-body"><strong>Result:</strong></p>
+            <ul class="govuk-list govuk-list--bullet">
+                <li>Systematic documentation of all research</li>
+                <li>Data available to inform design decisions</li>
+                <li>Clear evidence of why changes were made</li>
+                <li>77 research iterations documented across 33 features</li>
+            </ul>
+
+            {% from "govuk/components/pagination/macro.njk" import govukPagination %}
+
+            {{ govukPagination({
+            previous: {
+            labelText: "8. Continuous improvement",
+            href: "/titan-mvp-1.2/product-pages/resources/service-standard-4-evidence/section-8"
+            },
+            next: {
+            labelText: "10. Continual monitoring",
+            href: "/titan-mvp-1.2/product-pages/resources/service-standard-4-evidence/section-10"
+            }
+            }) }}
+
+        </div>
+    </div>
+</div>
+{% endblock %}
+

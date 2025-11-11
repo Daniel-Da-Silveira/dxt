@@ -1,0 +1,179 @@
+{% extends "layouts/main.html" %}
+{% from "components/service-header/macro.njk" import serviceHeader %}
+
+{% block pageTitle %}
+5. Users with lowest digital skills – Service Standard Point 4 Evidence – Defra Form Designer – GOV.UK Prototype Kit
+{% endblock %}
+
+{% block header %}
+{{ serviceHeader({
+organisationName: "Defra",
+productName: "Form Designer",
+serviceName: "",
+homepageLink: "/titan-mvp-1.2/product-pages/homepage",
+signInLink: "/titan-mvp-1.2/library",
+showSupportLink: false,
+navigationItems: [
+{ href: "/titan-mvp-1.2/product-pages/about", text: "About", id: "nav-about" },
+{ href: "/titan-mvp-1.2/product-pages/get-started", text: "Get started", id: "nav-get-started" },
+{ href: "/titan-mvp-1.2/product-pages/features", text: "Features", id: "nav-features" },
+{ href: "/titan-mvp-1.2/product-pages/resources", text: "Resources", id: "nav-resources" },
+{ href: "/titan-mvp-1.2/product-pages/support", text: "Support", id: "nav-support" }
+],
+activeLinkId: "nav-resources"
+}) }}
+
+<div class="x-govuk-masthead x-govuk-masthead--large">
+    <div class="govuk-width-container">
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-full-from-desktop">
+                <h1 class="x-govuk-masthead__title">
+                    <span class="govuk-caption-l" style="color: white;">Service Standard Assessment</span>
+                    Service Standard Point 4: Make the service simple to use - Evidence
+                </h1>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-one-quarter app-contents-list--sticky govuk-!-padding-right-0">
+        {{ xGovukSubNavigation({
+        visuallyHiddenTitle: "Section navigation",
+        items: [{
+        text: "Service Standard Point 4 Evidence",
+        href: "/titan-mvp-1.2/product-pages/resources/service-standard-4-evidence",
+        parent: true,
+        children: [{
+        text: "Executive Summary",
+        href: "/titan-mvp-1.2/product-pages/resources/service-standard-4-evidence"
+        }, {
+        text: "1. Making the service simple to use",
+        href: "/titan-mvp-1.2/product-pages/resources/service-standard-4-evidence/section-1"
+        }, {
+        text: "2. Usability testing with users",
+        href: "/titan-mvp-1.2/product-pages/resources/service-standard-4-evidence/section-2"
+        }, {
+        text: "3. Testing all parts of the service",
+        href: "/titan-mvp-1.2/product-pages/resources/service-standard-4-evidence/section-3"
+        }, {
+        text: "4. Designing for a range of devices",
+        href: "/titan-mvp-1.2/product-pages/resources/service-standard-4-evidence/section-4"
+        }, {
+        text: "5. Users with lowest digital skills",
+        href: "/titan-mvp-1.2/product-pages/resources/service-standard-4-evidence/section-5",
+        current: true
+        }, {
+        text: "6. Accessibility requirements",
+        href: "/titan-mvp-1.2/product-pages/resources/service-standard-4-evidence/section-6"
+        }, {
+        text: "7. Performance research",
+        href: "/titan-mvp-1.2/product-pages/resources/service-standard-4-evidence/section-7"
+        }, {
+        text: "8. Continuous improvement",
+        href: "/titan-mvp-1.2/product-pages/resources/service-standard-4-evidence/section-8"
+        }, {
+        text: "9. Data-driven decisions",
+        href: "/titan-mvp-1.2/product-pages/resources/service-standard-4-evidence/section-9"
+        }, {
+        text: "10. Continual monitoring",
+        href: "/titan-mvp-1.2/product-pages/resources/service-standard-4-evidence/section-10"
+        }]
+        }]
+        }) }}
+    </div>
+    <div class="govuk-grid-column-two-thirds">
+        <div class="app-prose-scope">
+
+            <h2 class="govuk-heading-l">5. Usability testing with users with the lowest level of digital skills</h2>
+
+            <h3 class="govuk-heading-m">Example 1: Training and Support Provision</h3>
+
+            <p class="govuk-body"><strong>Situation:</strong><br>
+            All content designers within Defra need to use the tool, regardless of their digital skill level. Some users may be new to digital form creation.</p>
+
+            <p class="govuk-body"><strong>Task:</strong><br>
+            Provide training and support so all users can use the tool successfully, regardless of their digital skill level.</p>
+
+            <p class="govuk-body"><strong>Action:</strong></p>
+            <ul class="govuk-list govuk-list--bullet">
+                <li>Provided training support to all content designers within Defra to use the tool</li>
+                <li>Created guidance pages and help text throughout the service</li>
+                <li>Added contextual help and examples where needed</li>
+                <li>Implemented markdown support with reminders and guidance</li>
+                <li>Made help accessible at any point in the service</li>
+            </ul>
+
+            <p class="govuk-body"><strong>Result:</strong></p>
+            <ul class="govuk-list govuk-list--bullet">
+                <li>All users have access to training and support</li>
+                <li>Guidance available throughout the service</li>
+                <li>Users can access help when needed without leaving their current task</li>
+            </ul>
+
+            <h3 class="govuk-heading-m">Example 2: Improving Guidance Visibility</h3>
+
+            <p class="govuk-body"><strong>Situation:</strong><br>
+            Round 6 (August/September 2024) found users needed reminders for markdown but couldn't easily find help. Participant 7 said: "I sometimes need a reminder for markdown. Whitehall does this really well."</p>
+
+            <p class="govuk-body"><strong>Task:</strong><br>
+            Make guidance and help more visible and accessible so users don't need to remember everything.</p>
+
+            <p class="govuk-body"><strong>Action:</strong></p>
+            <ul class="govuk-list govuk-list--bullet">
+                <li>Improved visibility of markdown guidance links</li>
+                <li>Added contextual help where markdown is used</li>
+                <li>Provided inline help rather than requiring external guides</li>
+                <li>Added examples and guidance text throughout</li>
+            </ul>
+
+            <p class="govuk-body"><strong>Result:</strong></p>
+            <ul class="govuk-list govuk-list--bullet">
+                <li>Round 8 recommendation: "Improve visibility of markdown guidance"</li>
+                <li>Users can access help without leaving their current task</li>
+                <li>Guidance is available when and where users need it</li>
+            </ul>
+
+            <h3 class="govuk-heading-m">Example 3: Visual Feedback for All Users</h3>
+
+            <p class="govuk-body"><strong>Situation:</strong><br>
+            Users need clear visual feedback to understand what actions to take, especially users with lower digital skills who may not be confident exploring interfaces.</p>
+
+            <p class="govuk-body"><strong>Task:</strong><br>
+            Provide clear visual feedback that helps all users understand what to do next.</p>
+
+            <p class="govuk-body"><strong>Action:</strong></p>
+            <ul class="govuk-list govuk-list--bullet">
+                <li>Implemented success banners with clear call-to-actions</li>
+                <li>Added autosave feedback messages</li>
+                <li>Used green boxes for important actions and confirmations</li>
+                <li>Provided clear visual indicators for completed actions</li>
+            </ul>
+
+            <p class="govuk-body"><strong>Result:</strong></p>
+            <ul class="govuk-list govuk-list--bullet">
+                <li>Round 13 (April 2025): Participant 1 said "Whatever appears in a green box, I just do it" - showing that clear visual feedback helps users understand what to do</li>
+                <li>Users feel more confident taking actions when they see clear visual feedback</li>
+                <li>Success banners guide users to next steps</li>
+            </ul>
+
+            {% from "govuk/components/pagination/macro.njk" import govukPagination %}
+
+            {{ govukPagination({
+            previous: {
+            labelText: "4. Designing for a range of devices",
+            href: "/titan-mvp-1.2/product-pages/resources/service-standard-4-evidence/section-4"
+            },
+            next: {
+            labelText: "6. Accessibility requirements",
+            href: "/titan-mvp-1.2/product-pages/resources/service-standard-4-evidence/section-6"
+            }
+            }) }}
+
+        </div>
+    </div>
+</div>
+{% endblock %}
+

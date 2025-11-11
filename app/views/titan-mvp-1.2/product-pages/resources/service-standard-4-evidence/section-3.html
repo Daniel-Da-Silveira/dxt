@@ -1,0 +1,166 @@
+{% extends "layouts/main.html" %}
+{% from "components/service-header/macro.njk" import serviceHeader %}
+
+{% block pageTitle %}
+3. Testing all parts of the service – Service Standard Point 4 Evidence – Defra Form Designer – GOV.UK Prototype Kit
+{% endblock %}
+
+{% block header %}
+{{ serviceHeader({
+organisationName: "Defra",
+productName: "Form Designer",
+serviceName: "",
+homepageLink: "/titan-mvp-1.2/product-pages/homepage",
+signInLink: "/titan-mvp-1.2/library",
+showSupportLink: false,
+navigationItems: [
+{ href: "/titan-mvp-1.2/product-pages/about", text: "About", id: "nav-about" },
+{ href: "/titan-mvp-1.2/product-pages/get-started", text: "Get started", id: "nav-get-started" },
+{ href: "/titan-mvp-1.2/product-pages/features", text: "Features", id: "nav-features" },
+{ href: "/titan-mvp-1.2/product-pages/resources", text: "Resources", id: "nav-resources" },
+{ href: "/titan-mvp-1.2/product-pages/support", text: "Support", id: "nav-support" }
+],
+activeLinkId: "nav-resources"
+}) }}
+
+<div class="x-govuk-masthead x-govuk-masthead--large">
+    <div class="govuk-width-container">
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-full-from-desktop">
+                <h1 class="x-govuk-masthead__title">
+                    <span class="govuk-caption-l" style="color: white;">Service Standard Assessment</span>
+                    Service Standard Point 4: Make the service simple to use - Evidence
+                </h1>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-one-quarter app-contents-list--sticky govuk-!-padding-right-0">
+        {{ xGovukSubNavigation({
+        visuallyHiddenTitle: "Section navigation",
+        items: [{
+        text: "Service Standard Point 4 Evidence",
+        href: "/titan-mvp-1.2/product-pages/resources/service-standard-4-evidence",
+        parent: true,
+        children: [{
+        text: "Executive Summary",
+        href: "/titan-mvp-1.2/product-pages/resources/service-standard-4-evidence"
+        }, {
+        text: "1. Making the service simple to use",
+        href: "/titan-mvp-1.2/product-pages/resources/service-standard-4-evidence/section-1"
+        }, {
+        text: "2. Usability testing with users",
+        href: "/titan-mvp-1.2/product-pages/resources/service-standard-4-evidence/section-2"
+        }, {
+        text: "3. Testing all parts of the service",
+        href: "/titan-mvp-1.2/product-pages/resources/service-standard-4-evidence/section-3",
+        current: true
+        }, {
+        text: "4. Designing for a range of devices",
+        href: "/titan-mvp-1.2/product-pages/resources/service-standard-4-evidence/section-4"
+        }, {
+        text: "5. Users with lowest digital skills",
+        href: "/titan-mvp-1.2/product-pages/resources/service-standard-4-evidence/section-5"
+        }, {
+        text: "6. Accessibility requirements",
+        href: "/titan-mvp-1.2/product-pages/resources/service-standard-4-evidence/section-6"
+        }, {
+        text: "7. Performance research",
+        href: "/titan-mvp-1.2/product-pages/resources/service-standard-4-evidence/section-7"
+        }, {
+        text: "8. Continuous improvement",
+        href: "/titan-mvp-1.2/product-pages/resources/service-standard-4-evidence/section-8"
+        }, {
+        text: "9. Data-driven decisions",
+        href: "/titan-mvp-1.2/product-pages/resources/service-standard-4-evidence/section-9"
+        }, {
+        text: "10. Continual monitoring",
+        href: "/titan-mvp-1.2/product-pages/resources/service-standard-4-evidence/section-10"
+        }]
+        }]
+        }) }}
+    </div>
+    <div class="govuk-grid-column-two-thirds">
+        <div class="app-prose-scope">
+
+            <h2 class="govuk-heading-l">3. Testing all parts of the service - online and offline</h2>
+
+            <h3 class="govuk-heading-m">Example 1: Confirmation Email Testing</h3>
+
+            <p class="govuk-body"><strong>Situation:</strong><br>
+            Users need reassurance that their form has been submitted. Confirmation emails are an offline communication that needed testing to ensure they provide clear information.</p>
+
+            <p class="govuk-body"><strong>Task:</strong><br>
+            Test confirmation email content and format to ensure users understand what happened after form submission.</p>
+
+            <p class="govuk-body"><strong>Action:</strong></p>
+            <ul class="govuk-list govuk-list--bullet">
+                <li>Tested confirmation emails in Round 7 (October 2024)</li>
+                <li>Included email testing as part of form creation usability testing</li>
+                <li>Email templates include: form name, date and time of submission, "what happens next" information, support contact details</li>
+                <li>Emails sent automatically using GOV.UK Notify</li>
+                <li>Email content can be previewed and edited before forms go live</li>
+            </ul>
+
+            <p class="govuk-body"><strong>Result:</strong></p>
+            <ul class="govuk-list govuk-list--bullet">
+                <li>Round 7 finding: "File Upload Notification Email - Clear content and interaction"</li>
+                <li>Participant quote: "I don't know what I have to use it for, but that tells me what I need to know"</li>
+                <li>Recommendation: "Maintain current clarity in notification emails"</li>
+                <li>Users can see how emails will look before making forms live, ensuring quality</li>
+            </ul>
+
+            <p class="govuk-body">
+                <strong>Design history:</strong> <a href="https://dxt-prototype-682ae311ff10.herokuapp.com/design-history/form-submission-email/index.html" class="govuk-link" target="_blank" rel="noopener noreferrer">Form submission email</a> | <a href="https://dxt-prototype-682ae311ff10.herokuapp.com/design-history/file-upload/index.html" class="govuk-link" target="_blank" rel="noopener noreferrer">File upload</a>
+            </p>
+
+            <h3 class="govuk-heading-m">Example 2: Online Form Creation and Editing</h3>
+
+            <p class="govuk-body"><strong>Situation:</strong><br>
+            All online features needed comprehensive testing to ensure they work correctly and are easy to use.</p>
+
+            <p class="govuk-body"><strong>Task:</strong><br>
+            Test all form creation and editing features, form preview, form submission, and data handling.</p>
+
+            <p class="govuk-body"><strong>Action:</strong></p>
+            <ul class="govuk-list govuk-list--bullet">
+                <li>Tested form creation flow in rounds 1, 2, 3, 4, and 7</li>
+                <li>Tested form editing in multiple rounds</li>
+                <li>Tested form preview functionality in rounds 7, 8, and 12</li>
+                <li>Tested form submission and data handling</li>
+                <li>Tested user-facing forms created with the tool</li>
+            </ul>
+
+            <p class="govuk-body"><strong>Result:</strong></p>
+            <ul class="govuk-list govuk-list--bullet">
+                <li>All major online features validated through multiple rounds of testing</li>
+                <li>Issues identified and fixed before release</li>
+                <li>User-facing forms work correctly for end users</li>
+            </ul>
+
+            <p class="govuk-body">
+                <strong>Design history:</strong> <a href="https://dxt-prototype-682ae311ff10.herokuapp.com/design-history/form-preview/index.html" class="govuk-link" target="_blank" rel="noopener noreferrer">Form preview</a> | <a href="https://dxt-prototype-682ae311ff10.herokuapp.com/design-history/preview-panel/index.html" class="govuk-link" target="_blank" rel="noopener noreferrer">Preview panel</a>
+            </p>
+
+            {% from "govuk/components/pagination/macro.njk" import govukPagination %}
+
+            {{ govukPagination({
+            previous: {
+            labelText: "2. Usability testing with users",
+            href: "/titan-mvp-1.2/product-pages/resources/service-standard-4-evidence/section-2"
+            },
+            next: {
+            labelText: "4. Designing for a range of devices",
+            href: "/titan-mvp-1.2/product-pages/resources/service-standard-4-evidence/section-4"
+            }
+            }) }}
+
+        </div>
+    </div>
+</div>
+{% endblock %}
+

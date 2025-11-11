@@ -1,0 +1,190 @@
+{% extends "layouts/main.html" %}
+{% from "components/service-header/macro.njk" import serviceHeader %}
+
+{% block pageTitle %}
+1. Making the service simple to use – Service Standard Point 4 Evidence – Defra Form Designer – GOV.UK Prototype Kit
+{% endblock %}
+
+{% block header %}
+{{ serviceHeader({
+organisationName: "Defra",
+productName: "Form Designer",
+serviceName: "",
+homepageLink: "/titan-mvp-1.2/product-pages/homepage",
+signInLink: "/titan-mvp-1.2/library",
+showSupportLink: false,
+navigationItems: [
+{ href: "/titan-mvp-1.2/product-pages/about", text: "About", id: "nav-about" },
+{ href: "/titan-mvp-1.2/product-pages/get-started", text: "Get started", id: "nav-get-started" },
+{ href: "/titan-mvp-1.2/product-pages/features", text: "Features", id: "nav-features" },
+{ href: "/titan-mvp-1.2/product-pages/resources", text: "Resources", id: "nav-resources" },
+{ href: "/titan-mvp-1.2/product-pages/support", text: "Support", id: "nav-support" }
+],
+activeLinkId: "nav-resources"
+}) }}
+
+<div class="x-govuk-masthead x-govuk-masthead--large">
+    <div class="govuk-width-container">
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-full-from-desktop">
+                <h1 class="x-govuk-masthead__title">
+                    <span class="govuk-caption-l" style="color: white;">Service Standard Assessment</span>
+                    Service Standard Point 4: Make the service simple to use - Evidence
+                </h1>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-one-quarter app-contents-list--sticky govuk-!-padding-right-0">
+        {{ xGovukSubNavigation({
+        visuallyHiddenTitle: "Section navigation",
+        items: [{
+        text: "Service Standard Point 4 Evidence",
+        href: "/titan-mvp-1.2/product-pages/resources/service-standard-4-evidence",
+        parent: true,
+        children: [{
+        text: "Executive Summary",
+        href: "/titan-mvp-1.2/product-pages/resources/service-standard-4-evidence"
+        }, {
+        text: "1. Making the service simple to use",
+        href: "/titan-mvp-1.2/product-pages/resources/service-standard-4-evidence/section-1",
+        current: true
+        }, {
+        text: "2. Usability testing with users",
+        href: "/titan-mvp-1.2/product-pages/resources/service-standard-4-evidence/section-2"
+        }, {
+        text: "3. Testing all parts of the service",
+        href: "/titan-mvp-1.2/product-pages/resources/service-standard-4-evidence/section-3"
+        }, {
+        text: "4. Designing for a range of devices",
+        href: "/titan-mvp-1.2/product-pages/resources/service-standard-4-evidence/section-4"
+        }, {
+        text: "5. Users with lowest digital skills",
+        href: "/titan-mvp-1.2/product-pages/resources/service-standard-4-evidence/section-5"
+        }, {
+        text: "6. Accessibility requirements",
+        href: "/titan-mvp-1.2/product-pages/resources/service-standard-4-evidence/section-6"
+        }, {
+        text: "7. Performance research",
+        href: "/titan-mvp-1.2/product-pages/resources/service-standard-4-evidence/section-7"
+        }, {
+        text: "8. Continuous improvement",
+        href: "/titan-mvp-1.2/product-pages/resources/service-standard-4-evidence/section-8"
+        }, {
+        text: "9. Data-driven decisions",
+        href: "/titan-mvp-1.2/product-pages/resources/service-standard-4-evidence/section-9"
+        }, {
+        text: "10. Continual monitoring",
+        href: "/titan-mvp-1.2/product-pages/resources/service-standard-4-evidence/section-10"
+        }]
+        }]
+        }) }}
+    </div>
+    <div class="govuk-grid-column-two-thirds">
+        <div class="app-prose-scope">
+
+            <h2 class="govuk-heading-l">1. Making the service simple to use - helping users succeed first time</h2>
+
+            <h3 class="govuk-heading-m">Example 1: Redesigning the form editor interface</h3>
+
+            <p class="govuk-body"><strong>Situation:</strong><br>
+            Initial heuristic and accessibility evaluation (March 2024) revealed the existing service had significant usability issues: complex interface, overwhelming information presentation, and non-standardised components. Users struggled to understand how to create forms.</p>
+
+            <p class="govuk-body"><strong>Task:</strong><br>
+            Make form creation simple and intuitive so users can succeed first time without extensive training.</p>
+
+            <p class="govuk-body"><strong>Action:</strong></p>
+            <ul class="govuk-list govuk-list--bullet">
+                <li>Reprioritised product backlog to focus on Forms Designer redesign ahead of new features</li>
+                <li>Replaced component-driven, tool-heavy experience with task-driven, guided approach</li>
+                <li>Changed from "build pages by dropping individual components" to "intent-first: declare what you're adding (Question page, Guidance page), then the tool narrows choices and walks you through"</li>
+                <li>Created four nested levels with clear workspace: Form overview → Listing page → Page overview → Edit question</li>
+                <li>Implemented linear, guided editing flow replacing modal-heavy approach</li>
+            </ul>
+
+            <p class="govuk-body"><strong>Result:</strong></p>
+            <ul class="govuk-list govuk-list--bullet">
+                <li>Round 11 (March 2025): Participant 4 said "It feels like it's really intuitive... very like, methodical step by step"</li>
+                <li>Round 12 (March 2025): Participant 4 said "It feels like it's really intuitive and the design feels really clean, really like a lot of space, very like, methodical kind of step by step"</li>
+                <li>Round 2 (May/June 2024): User quote "Even just doing it once made it less confusing the second time"</li>
+                <li>Users found the redesign "clean, well-spaced, and intuitive"</li>
+            </ul>
+
+            <p class="govuk-body">
+                <strong>Design history:</strong> <a href="https://dxt-prototype-682ae311ff10.herokuapp.com/design-history/forms-designer/index.html" class="govuk-link" target="_blank" rel="noopener noreferrer">Forms Designer redesign overview</a> | <a href="https://dxt-prototype-682ae311ff10.herokuapp.com/design-history/forms-designer/summary-of-changes.html" class="govuk-link" target="_blank" rel="noopener noreferrer">Summary of changes</a>
+            </p>
+
+            <h3 class="govuk-heading-m">Example 2: Improving question creation flow</h3>
+
+            <p class="govuk-body"><strong>Situation:</strong><br>
+            Round 11 (March 2025) found users were confused by the order of question setup. Users expected to write the question text before selecting response options, but the system required selecting options first. Participant 3 said: "It would be really nice to... think about what's my question text then think about all of my radios at the same time."</p>
+
+            <p class="govuk-body"><strong>Task:</strong><br>
+            Align the question creation flow with users' mental models so they can create questions in a logical order.</p>
+
+            <p class="govuk-body"><strong>Action:</strong></p>
+            <ul class="govuk-list govuk-list--bullet">
+                <li>Moved question text entry field before option selection in the interface</li>
+                <li>Changed flow from "select options first" to "write question text first, then add options"</li>
+                <li>Implemented single-page option editing so users can see all options together during drafting</li>
+            </ul>
+
+            <p class="govuk-body"><strong>Result:</strong></p>
+            <ul class="govuk-list govuk-list--bullet">
+                <li>Round 12 (March 2025): "Moving question text before options improved logic and usability. No usability issues observed; setup was clear"</li>
+                <li>Participant 1 said: "Because you have to add them one at a time and come back to this point, you never get to like see your list in the drafting stage altogether" - this was addressed by keeping users on the same page</li>
+                <li>Users successfully completed question creation without confusion</li>
+            </ul>
+
+            <p class="govuk-body">
+                <strong>Design history:</strong> <a href="https://dxt-prototype-682ae311ff10.herokuapp.com/design-history/lists/index.html" class="govuk-link" target="_blank" rel="noopener noreferrer">Lists feature</a> | <a href="https://dxt-prototype-682ae311ff10.herokuapp.com/design-history/form-editor/index.html" class="govuk-link" target="_blank" rel="noopener noreferrer">Form editor</a>
+            </p>
+
+            <h3 class="govuk-heading-m">Example 3: Adding bulk option entry for lists</h3>
+
+            <p class="govuk-body"><strong>Situation:</strong><br>
+            Round 8 (November 2024) found users were frustrated entering checkbox options one at a time. Participant said: "Why can't I enter them comma-separated?" This was slowing down form creation.</p>
+
+            <p class="govuk-body"><strong>Task:</strong><br>
+            Enable users to add multiple list options quickly without repetitive single-entry interactions.</p>
+
+            <p class="govuk-body"><strong>Action:</strong></p>
+            <ul class="govuk-list govuk-list--bullet">
+                <li>Implemented bulk option entry feature for checkboxes and radio buttons</li>
+                <li>Added ability to enter multiple options at once, separated by commas or line breaks</li>
+                <li>Maintained single-page editing so users can see all options together</li>
+            </ul>
+
+            <p class="govuk-body"><strong>Result:</strong></p>
+            <ul class="govuk-list govuk-list--bullet">
+                <li>Round 12 (March 2025): Users appreciated entering all options on one page</li>
+                <li>Faster form creation - users no longer need to add options one by one</li>
+                <li>Improved drafting visibility - users can see their complete list while editing</li>
+            </ul>
+
+            <p class="govuk-body">
+                <strong>Design history:</strong> <a href="https://dxt-prototype-682ae311ff10.herokuapp.com/design-history/lists/index.html" class="govuk-link" target="_blank" rel="noopener noreferrer">Lists feature</a>
+            </p>
+
+            {% from "govuk/components/pagination/macro.njk" import govukPagination %}
+
+            {{ govukPagination({
+            previous: {
+            labelText: "Executive Summary",
+            href: "/titan-mvp-1.2/product-pages/resources/service-standard-4-evidence"
+            },
+            next: {
+            labelText: "2. Usability testing with users",
+            href: "/titan-mvp-1.2/product-pages/resources/service-standard-4-evidence/section-2"
+            }
+            }) }}
+
+        </div>
+    </div>
+</div>
+{% endblock %}
+

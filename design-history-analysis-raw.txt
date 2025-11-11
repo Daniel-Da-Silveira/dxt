@@ -1,0 +1,73 @@
+================================================================================
+DESIGN HISTORY STATISTICS FOR DDAT CAPABILITY FRAMEWORK
+================================================================================
+
+1. DESIGN COMMUNICATION
+--------------------------------------------------------------------------------
+Total features documented: 33
+Features with documented user needs: 30 (90.9%)
+Features with research objectives: 0
+Features with documented findings: 28 (84.8%)
+Features with recommendations: 2
+Features with user quotes: 17
+
+2. DESIGNING FOR EVERYONE
+--------------------------------------------------------------------------------
+Features with accessibility considerations: 11 (33.3%)
+
+3. DESIGNING STRATEGICALLY
+--------------------------------------------------------------------------------
+Features with user needs defined: 30 (90.9%)
+
+Phase breakdown:
+  - Private beta: 30
+
+Status breakdown:
+  - In Progress: 1
+  - In progress: 2
+  - Tested: 27
+
+4. EVIDENCE-BASED DESIGN
+--------------------------------------------------------------------------------
+Total research iterations across all features: 77
+Features with multiple iterations: 21 (63.6%)
+Features with documented findings: 28
+Features with user quotes: 17
+
+5. ITERATIVE DESIGN
+--------------------------------------------------------------------------------
+Total iterations across all features: 77
+Average iterations per feature: 2.3
+Features with 2+ iterations: 21 (63.6%)
+Features with 3+ iterations: 15
+Features with 4+ iterations: 6
+
+Iteration distribution:
+  - 1 iteration(s): 12 feature(s)
+  - 2 iteration(s): 6 feature(s)
+  - 3 iteration(s): 9 feature(s)
+  - 4 iteration(s): 4 feature(s)
+  - 5 iteration(s): 2 feature(s)
+
+6. FEATURES BY ITERATION COUNT
+--------------------------------------------------------------------------------
+  Short description for error messages: 5 iteration(s)
+  Page Conditions: 5 iteration(s)
+  Forms Library: 4 iteration(s)
+  Add another: 4 iteration(s)
+  List Items: 4 iteration(s)
+  Repeaters (Add Another): 4 iteration(s)
+  Form Overview: 3 iteration(s)
+  Lists: 3 iteration(s)
+  Adding form details when creating a new form: 3 iteration(s)
+  Defra Forms Editor Redesign: 3 iteration(s)
+  File Upload: 3 iteration(s)
+  Form Preview and Filters: 3 iteration(s)
+  Guidance Pages: 3 iteration(s)
+  Page Conditions: 3 iteration(s)
+  Preview panel: 3 iteration(s)
+  Form Validation: 2 iteration(s)
+  Form Filters: 2 iteration(s)
+  Form Editor: 2 iteration(s)
+  Editor Design Refresh: 2 iteration(s)
+  Markdown Support: 2 iteration(s)

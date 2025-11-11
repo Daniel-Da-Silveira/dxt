@@ -1,0 +1,170 @@
+{% extends "layouts/main.html" %}
+{% from "components/service-header/macro.njk" import serviceHeader %}
+
+{% block pageTitle %}
+6. Accessibility requirements – Service Standard Point 4 Evidence – Defra Form Designer – GOV.UK Prototype Kit
+{% endblock %}
+
+{% block header %}
+{{ serviceHeader({
+organisationName: "Defra",
+productName: "Form Designer",
+serviceName: "",
+homepageLink: "/titan-mvp-1.2/product-pages/homepage",
+signInLink: "/titan-mvp-1.2/library",
+showSupportLink: false,
+navigationItems: [
+{ href: "/titan-mvp-1.2/product-pages/about", text: "About", id: "nav-about" },
+{ href: "/titan-mvp-1.2/product-pages/get-started", text: "Get started", id: "nav-get-started" },
+{ href: "/titan-mvp-1.2/product-pages/features", text: "Features", id: "nav-features" },
+{ href: "/titan-mvp-1.2/product-pages/resources", text: "Resources", id: "nav-resources" },
+{ href: "/titan-mvp-1.2/product-pages/support", text: "Support", id: "nav-support" }
+],
+activeLinkId: "nav-resources"
+}) }}
+
+<div class="x-govuk-masthead x-govuk-masthead--large">
+    <div class="govuk-width-container">
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-full-from-desktop">
+                <h1 class="x-govuk-masthead__title">
+                    <span class="govuk-caption-l" style="color: white;">Service Standard Assessment</span>
+                    Service Standard Point 4: Make the service simple to use - Evidence
+                </h1>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-one-quarter app-contents-list--sticky govuk-!-padding-right-0">
+        {{ xGovukSubNavigation({
+        visuallyHiddenTitle: "Section navigation",
+        items: [{
+        text: "Service Standard Point 4 Evidence",
+        href: "/titan-mvp-1.2/product-pages/resources/service-standard-4-evidence",
+        parent: true,
+        children: [{
+        text: "Executive Summary",
+        href: "/titan-mvp-1.2/product-pages/resources/service-standard-4-evidence"
+        }, {
+        text: "1. Making the service simple to use",
+        href: "/titan-mvp-1.2/product-pages/resources/service-standard-4-evidence/section-1"
+        }, {
+        text: "2. Usability testing with users",
+        href: "/titan-mvp-1.2/product-pages/resources/service-standard-4-evidence/section-2"
+        }, {
+        text: "3. Testing all parts of the service",
+        href: "/titan-mvp-1.2/product-pages/resources/service-standard-4-evidence/section-3"
+        }, {
+        text: "4. Designing for a range of devices",
+        href: "/titan-mvp-1.2/product-pages/resources/service-standard-4-evidence/section-4"
+        }, {
+        text: "5. Users with lowest digital skills",
+        href: "/titan-mvp-1.2/product-pages/resources/service-standard-4-evidence/section-5"
+        }, {
+        text: "6. Accessibility requirements",
+        href: "/titan-mvp-1.2/product-pages/resources/service-standard-4-evidence/section-6",
+        current: true
+        }, {
+        text: "7. Performance research",
+        href: "/titan-mvp-1.2/product-pages/resources/service-standard-4-evidence/section-7"
+        }, {
+        text: "8. Continuous improvement",
+        href: "/titan-mvp-1.2/product-pages/resources/service-standard-4-evidence/section-8"
+        }, {
+        text: "9. Data-driven decisions",
+        href: "/titan-mvp-1.2/product-pages/resources/service-standard-4-evidence/section-9"
+        }, {
+        text: "10. Continual monitoring",
+        href: "/titan-mvp-1.2/product-pages/resources/service-standard-4-evidence/section-10"
+        }]
+        }]
+        }) }}
+    </div>
+    <div class="govuk-grid-column-two-thirds">
+        <div class="app-prose-scope">
+
+            <h2 class="govuk-heading-l">6. How the service meets accessibility requirements</h2>
+
+            <h3 class="govuk-heading-m">Example 1: Screen Reader Support for List Reordering</h3>
+
+            <p class="govuk-body"><strong>Situation:</strong><br>
+            Users need to reorder list items (radio options, checkboxes) but this functionality must work with screen readers for users who are blind or have visual impairments.</p>
+
+            <p class="govuk-body"><strong>Task:</strong><br>
+            Implement accessible list reordering that works with screen readers and provides clear announcements.</p>
+
+            <p class="govuk-body"><strong>Action:</strong></p>
+            <ul class="govuk-list govuk-list--bullet">
+                <li>Implemented ARIA live regions for dynamic content updates</li>
+                <li>Added screen reader announcements when focusing on "Move" buttons: "Button, Move [Option text]: [Up or Down], [Option text] is currently option [Position] of [Total options] options"</li>
+                <li>Added announcements when reordering: "The list has been reordered, [Option text] is now option [new position] of [Total options] options"</li>
+                <li>Implemented focus retention after reordering so users can continue making adjustments</li>
+                <li>Made button labels update dynamically to reflect new positions</li>
+            </ul>
+
+            <p class="govuk-body"><strong>Result:</strong></p>
+            <ul class="govuk-list govuk-list--bullet">
+                <li>Screen reader users can understand current position and new position after reordering</li>
+                <li>All announcements include: what happened, which item was moved, and the new position</li>
+                <li>Focus management allows users to continue working without losing their place</li>
+                <li>Documented in design history with specific code examples</li>
+            </ul>
+
+            <p class="govuk-body">
+                <strong>Design history:</strong> <a href="https://dxt-prototype-682ae311ff10.herokuapp.com/design-history/lists/index.html" class="govuk-link" target="_blank" rel="noopener noreferrer">Lists feature - Accessibility section</a>
+            </p>
+
+            <h3 class="govuk-heading-m">Example 2: Accessibility Evaluation and Independent Review</h3>
+
+            <p class="govuk-body"><strong>Situation:</strong><br>
+            Initial evaluation (March 2024) found accessibility issues in the existing service. Needed to ensure redesign met accessibility standards.</p>
+
+            <p class="govuk-body"><strong>Task:</strong><br>
+            Ensure service meets WCAG 2.2 compliance and inclusive design patterns.</p>
+
+            <p class="govuk-body"><strong>Action:</strong></p>
+            <ul class="govuk-list govuk-list--bullet">
+                <li>Conducted initial heuristic and accessibility evaluation (March 2024)</li>
+                <li>Engaged Defra accessibility team for independent review</li>
+                <li>Focused on WCAG 2.2 compliance throughout redesign</li>
+                <li>Implemented keyboard navigation for all features</li>
+                <li>Added ARIA labels and roles for all interactive elements</li>
+                <li>Ensured color contrast meets standards</li>
+                <li>Implemented clear focus states for keyboard navigation</li>
+            </ul>
+
+            <p class="govuk-body"><strong>Result:</strong></p>
+            <ul class="govuk-list govuk-list--bullet">
+                <li>Independent accessibility review completed</li>
+                <li>361+ references to accessibility across the codebase</li>
+                <li>11 features (33%) have explicit accessibility considerations documented</li>
+                <li>All features follow GOV.UK accessibility patterns</li>
+                <li>Keyboard navigation works for all features</li>
+            </ul>
+
+            <p class="govuk-body">
+                <strong>Design history:</strong> <a href="https://dxt-prototype-682ae311ff10.herokuapp.com/design-history/forms-designer/index.html" class="govuk-link" target="_blank" rel="noopener noreferrer">Forms Designer redesign - Initial assessment</a>
+            </p>
+
+            {% from "govuk/components/pagination/macro.njk" import govukPagination %}
+
+            {{ govukPagination({
+            previous: {
+            labelText: "5. Users with lowest digital skills",
+            href: "/titan-mvp-1.2/product-pages/resources/service-standard-4-evidence/section-5"
+            },
+            next: {
+            labelText: "7. Performance research",
+            href: "/titan-mvp-1.2/product-pages/resources/service-standard-4-evidence/section-7"
+            }
+            }) }}
+
+        </div>
+    </div>
+</div>
+{% endblock %}
+

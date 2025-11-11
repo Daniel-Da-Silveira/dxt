@@ -1,0 +1,221 @@
+{% extends "layouts/main.html" %}
+{% from "components/service-header/macro.njk" import serviceHeader %}
+
+{% block pageTitle %}
+2. Usability testing with users – Service Standard Point 4 Evidence – Defra Form Designer – GOV.UK Prototype Kit
+{% endblock %}
+
+{% block header %}
+{{ serviceHeader({
+organisationName: "Defra",
+productName: "Form Designer",
+serviceName: "",
+homepageLink: "/titan-mvp-1.2/product-pages/homepage",
+signInLink: "/titan-mvp-1.2/library",
+showSupportLink: false,
+navigationItems: [
+{ href: "/titan-mvp-1.2/product-pages/about", text: "About", id: "nav-about" },
+{ href: "/titan-mvp-1.2/product-pages/get-started", text: "Get started", id: "nav-get-started" },
+{ href: "/titan-mvp-1.2/product-pages/features", text: "Features", id: "nav-features" },
+{ href: "/titan-mvp-1.2/product-pages/resources", text: "Resources", id: "nav-resources" },
+{ href: "/titan-mvp-1.2/product-pages/support", text: "Support", id: "nav-support" }
+],
+activeLinkId: "nav-resources"
+}) }}
+
+<div class="x-govuk-masthead x-govuk-masthead--large">
+    <div class="govuk-width-container">
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-full-from-desktop">
+                <h1 class="x-govuk-masthead__title">
+                    <span class="govuk-caption-l" style="color: white;">Service Standard Assessment</span>
+                    Service Standard Point 4: Make the service simple to use - Evidence
+                </h1>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-one-quarter app-contents-list--sticky govuk-!-padding-right-0">
+        {{ xGovukSubNavigation({
+        visuallyHiddenTitle: "Section navigation",
+        items: [{
+        text: "Service Standard Point 4 Evidence",
+        href: "/titan-mvp-1.2/product-pages/resources/service-standard-4-evidence",
+        parent: true,
+        children: [{
+        text: "Executive Summary",
+        href: "/titan-mvp-1.2/product-pages/resources/service-standard-4-evidence"
+        }, {
+        text: "1. Making the service simple to use",
+        href: "/titan-mvp-1.2/product-pages/resources/service-standard-4-evidence/section-1"
+        }, {
+        text: "2. Usability testing with users",
+        href: "/titan-mvp-1.2/product-pages/resources/service-standard-4-evidence/section-2",
+        current: true
+        }, {
+        text: "3. Testing all parts of the service",
+        href: "/titan-mvp-1.2/product-pages/resources/service-standard-4-evidence/section-3"
+        }, {
+        text: "4. Designing for a range of devices",
+        href: "/titan-mvp-1.2/product-pages/resources/service-standard-4-evidence/section-4"
+        }, {
+        text: "5. Users with lowest digital skills",
+        href: "/titan-mvp-1.2/product-pages/resources/service-standard-4-evidence/section-5"
+        }, {
+        text: "6. Accessibility requirements",
+        href: "/titan-mvp-1.2/product-pages/resources/service-standard-4-evidence/section-6"
+        }, {
+        text: "7. Performance research",
+        href: "/titan-mvp-1.2/product-pages/resources/service-standard-4-evidence/section-7"
+        }, {
+        text: "8. Continuous improvement",
+        href: "/titan-mvp-1.2/product-pages/resources/service-standard-4-evidence/section-8"
+        }, {
+        text: "9. Data-driven decisions",
+        href: "/titan-mvp-1.2/product-pages/resources/service-standard-4-evidence/section-9"
+        }, {
+        text: "10. Continual monitoring",
+        href: "/titan-mvp-1.2/product-pages/resources/service-standard-4-evidence/section-10"
+        }]
+        }]
+        }) }}
+    </div>
+    <div class="govuk-grid-column-two-thirds">
+        <div class="app-prose-scope">
+
+            <h2 class="govuk-heading-l">2. Usability testing with actual and potential users</h2>
+
+            <h3 class="govuk-heading-m">Example 1: Round 7 - Form Editor Redesign Testing</h3>
+
+            <p class="govuk-body"><strong>Situation:</strong><br>
+            Form Editor had been redesigned and needed validation with real users to ensure the new design was usable and met user needs.</p>
+
+            <p class="govuk-body"><strong>Task:</strong><br>
+            Test the redesigned Form Editor with actual content designers to validate usability, clarify terminology, and identify missing functionality.</p>
+
+            <p class="govuk-body"><strong>Action:</strong></p>
+            <ul class="govuk-list govuk-list--bullet">
+                <li>Conducted remote usability testing on 1-2 October 2024</li>
+                <li>Recruited 4 senior content designers and 1 proxy user from APHA, RPA, and Countryside Stewardship</li>
+                <li>Used think-aloud protocol during testing</li>
+                <li>Tested: form creation, adding questions, markdown usage, error messages, user flow, repeater feature, naming question sets, adding options for radios, reordering pages</li>
+            </ul>
+
+            <p class="govuk-body"><strong>Result:</strong></p>
+            <ul class="govuk-list govuk-list--bullet">
+                <li>Identified specific issues: confusion with "shared team email" hint text, unclear markdown limitations, error message input ambiguity</li>
+                <li>Captured direct quotes: "Preview is very smart!", "It works very well!", "The error messages don't work clearly"</li>
+                <li>Generated 10 specific recommendations for improvements</li>
+                <li>Validated that file upload notification emails were clear and effective</li>
+            </ul>
+
+            <p class="govuk-body">
+                <strong>Design history:</strong> <a href="https://dxt-prototype-682ae311ff10.herokuapp.com/design-history/form-editor/index.html" class="govuk-link" target="_blank" rel="noopener noreferrer">Form editor</a> | <a href="https://dxt-prototype-682ae311ff10.herokuapp.com/design-history/file-upload/index.html" class="govuk-link" target="_blank" rel="noopener noreferrer">File upload</a>
+            </p>
+
+            <h3 class="govuk-heading-m">Example 2: Round 11 - Page Conditions and Repeater Questions</h3>
+
+            <p class="govuk-body"><strong>Situation:</strong><br>
+            Page conditions and repeater questions were complex features that users struggled with. Needed to understand how users comprehended and used these features.</p>
+
+            <p class="govuk-body"><strong>Task:</strong><br>
+            Evaluate usability of page conditions and repeater logic, validate terminology, and assess placement and discoverability of features.</p>
+
+            <p class="govuk-body"><strong>Action:</strong></p>
+            <ul class="govuk-list govuk-list--bullet">
+                <li>Conducted remote usability testing on 18 March 2025</li>
+                <li>Recruited 6 users (content designers and proxy user from Cefas, Environment Agency, APHA, Farming, Whitehall)</li>
+                <li>Tested: page condition setup, repeater question creation, terminology comprehension, feature discoverability</li>
+            </ul>
+
+            <p class="govuk-body"><strong>Result:</strong></p>
+            <ul class="govuk-list govuk-list--bullet">
+                <li>Found users confused by order of setup and placement of controls</li>
+                <li>Identified terminology issues: "operator" caused confusion, "repeater" was unfamiliar</li>
+                <li>Participant 4 said: "It feels like it's really intuitive... very like, methodical step by step"</li>
+                <li>Generated 8 specific suggestions for improvement including: allow question text entry before radio options, keep users on same page when adding multiple options, simplify edit question page layout, introduce page condition settings earlier</li>
+            </ul>
+
+            <p class="govuk-body">
+                <strong>Design history:</strong> <a href="https://dxt-prototype-682ae311ff10.herokuapp.com/design-history/page-conditions/index.html" class="govuk-link" target="_blank" rel="noopener noreferrer">Page conditions</a> | <a href="https://dxt-prototype-682ae311ff10.herokuapp.com/design-history/lists/index.html" class="govuk-link" target="_blank" rel="noopener noreferrer">Lists feature</a>
+            </p>
+
+            <h3 class="govuk-heading-m">Example 3: Round 12 - Iteration Testing</h3>
+
+            <p class="govuk-body"><strong>Situation:</strong><br>
+            Changes had been made based on Round 11 feedback. Needed to validate if improvements actually solved the problems identified.</p>
+
+            <p class="govuk-body"><strong>Task:</strong><br>
+            Validate improvements made based on previous round, assess if changes improved user comprehension of page conditions, and explore distinctions between hint text and short description fields.</p>
+
+            <p class="govuk-body"><strong>Action:</strong></p>
+            <ul class="govuk-list govuk-list--bullet">
+                <li>Conducted remote usability testing on 31 March 2025</li>
+                <li>Recruited 5 content designers from Defra BAU</li>
+                <li>Tested: updated question order, condition setup flow, hint text vs short description clarity, filter visibility</li>
+            </ul>
+
+            <p class="govuk-body"><strong>Result:</strong></p>
+            <ul class="govuk-list govuk-list--bullet">
+                <li>Confirmed improvements worked: "Moving question text before options improved logic and usability. No usability issues observed"</li>
+                <li>Participant 1 said: "You can filter pages by condition. OK, I can see that would be useful" - showing improved discoverability</li>
+                <li>Identified remaining issues: confusion between hint text and short description (Participant 3: "I don't know what the difference between hint text and short description is")</li>
+                <li>Validated that renaming "operator" to "Condition type" improved comprehension</li>
+            </ul>
+
+            <p class="govuk-body">
+                <strong>Design history:</strong> <a href="https://dxt-prototype-682ae311ff10.herokuapp.com/design-history/page-conditions/index.html" class="govuk-link" target="_blank" rel="noopener noreferrer">Page conditions</a> | <a href="https://dxt-prototype-682ae311ff10.herokuapp.com/design-history/lists/index.html" class="govuk-link" target="_blank" rel="noopener noreferrer">Lists feature</a>
+            </p>
+
+            <h3 class="govuk-heading-m">Overall Testing Programme</h3>
+
+            <p class="govuk-body"><strong>Situation:</strong><br>
+            Service needed continuous validation with users throughout development to ensure it met user needs and was simple to use.</p>
+
+            <p class="govuk-body"><strong>Task:</strong><br>
+            Establish regular usability testing programme covering all major features and improvements.</p>
+
+            <p class="govuk-body"><strong>Action:</strong></p>
+            <ul class="govuk-list govuk-list--bullet">
+                <li>Conducted 13 rounds of user research between May 2024 and April 2025</li>
+                <li>Involved over 50 participants including content designers, proxy users, and internal stakeholders</li>
+                <li>Tested 33 features with 77 research iterations</li>
+                <li>Used consistent methods: remote usability testing with think-aloud protocol</li>
+                <li>Participants from multiple Defra departments: APHA, RPA, Countryside Stewardship, Farming, SFI, Flood Services, Trade, Policy Lab, Cefas, Environment Agency, Nature, Forestry, Climate Change, BAU, Whitehall</li>
+            </ul>
+
+            <p class="govuk-body"><strong>Result:</strong></p>
+            <ul class="govuk-list govuk-list--bullet">
+                <li>Average of 2.3 iterations per feature</li>
+                <li>64% of features tested 2 or more times</li>
+                <li>45% of features tested 3 or more times</li>
+                <li>27 features marked as "Tested" (82%)</li>
+                <li>All major features validated with real users before release</li>
+            </ul>
+
+            <p class="govuk-body">
+                <strong>Design history:</strong> <a href="https://dxt-prototype-682ae311ff10.herokuapp.com/index.html" class="govuk-link" target="_blank" rel="noopener noreferrer">All features and research rounds</a>
+            </p>
+
+            {% from "govuk/components/pagination/macro.njk" import govukPagination %}
+
+            {{ govukPagination({
+            previous: {
+            labelText: "1. Making the service simple to use",
+            href: "/titan-mvp-1.2/product-pages/resources/service-standard-4-evidence/section-1"
+            },
+            next: {
+            labelText: "3. Testing all parts of the service",
+            href: "/titan-mvp-1.2/product-pages/resources/service-standard-4-evidence/section-3"
+            }
+            }) }}
+
+        </div>
+    </div>
+</div>
+{% endblock %}
+

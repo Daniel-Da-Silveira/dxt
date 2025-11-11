@@ -794,6 +794,36 @@ router.get("/titan-mvp-1.2/form-editor/location/wreck", function (req, res) {
   });
 });
 
+// Map Component Proof of Concept
+router.get("/titan-mvp-1.2/form-editor/location/map-component-poc", function (req, res) {
+  res.render("titan-mvp-1.2/form-editor/location/map-component-poc", {
+    serviceName: "Form Editor",
+    errorSummary: [],
+    errors: {},
+    data: req.session.data || {},
+  });
+});
+
+// Separate Components Example
+router.get("/titan-mvp-1.2/form-editor/location/separate-components-example", function (req, res) {
+  res.render("titan-mvp-1.2/form-editor/location/separate-components-example", {
+    serviceName: "Form Editor",
+    errorSummary: [],
+    errors: {},
+    data: req.session.data || {},
+  });
+});
+
+// Unified Component Example
+router.get("/titan-mvp-1.2/form-editor/location/unified-component-example", function (req, res) {
+  res.render("titan-mvp-1.2/form-editor/location/unified-component-example", {
+    serviceName: "Form Editor",
+    errorSummary: [],
+    errors: {},
+    data: req.session.data || {},
+  });
+});
+
 // Wreck OTP demo page
 router.get(
   "/titan-mvp-1.2/form-editor/location/wreck-otp",
@@ -2709,10 +2739,27 @@ router.post("/titan-mvp-1.2/question-configuration-save", function (req, res) {
         req.body["paymentDescriptionInput"] || "Payment description";
       currentPage.questions[existingQuestionIndex].errorMessage =
         req.body["errorMessageInputPayment"] || "payment";
-      currentPage.questions[existingQuestionIndex].testApiKey =
-        req.body["testApiKey"] || "";
-      currentPage.questions[existingQuestionIndex].liveApiKey =
-        req.body["liveApiKey"] || "";
+
+      // Handle API keys - only update if they're not masked values
+      const testApiKeyValue = req.body["testApiKey"];
+      const liveApiKeyValue = req.body["liveApiKey"];
+
+      // If the value is the masked string, keep the existing value; otherwise update it
+      if (testApiKeyValue && testApiKeyValue !== "••••••••••••••••••••••••••••••••") {
+        currentPage.questions[existingQuestionIndex].testApiKey = testApiKeyValue;
+      } else if (testApiKeyValue === "") {
+        // If empty string, clear the API key
+        currentPage.questions[existingQuestionIndex].testApiKey = "";
+      }
+      // If masked value, keep existing value unchanged
+
+      if (liveApiKeyValue && liveApiKeyValue !== "••••••••••••••••••••••••••••••••") {
+        currentPage.questions[existingQuestionIndex].liveApiKey = liveApiKeyValue;
+      } else if (liveApiKeyValue === "") {
+        // If empty string, clear the API key
+        currentPage.questions[existingQuestionIndex].liveApiKey = "";
+      }
+      // If masked value, keep existing value unchanged
     }
 
     // Update address-specific fields for existing questions (covers address and location/address)
@@ -2933,6 +2980,20 @@ router.get("/titan-mvp-1.2/edit-question", function (req, res) {
     req.session.data["dateSubType"] = question.subType;
   } else if (question.type === "list") {
     req.session.data["listSubType"] = question.subType;
+  } else if (question.type === "payment") {
+    // Set payment-specific fields for editing
+    req.session.data["paymentAmountInput"] = question.paymentAmount || "";
+    req.session.data["paymentDescriptionInput"] = question.paymentDescription || "";
+    req.session.data["errorMessageInputPayment"] = question.errorMessage || "";
+
+    // Handle API keys - mask them if they exist
+    const hasTestApiKey = question.testApiKey && question.testApiKey.trim() !== "";
+    const hasLiveApiKey = question.liveApiKey && question.liveApiKey.trim() !== "";
+
+    req.session.data["testApiKey"] = hasTestApiKey ? "••••••••••••••••••••••••••••••••" : "";
+    req.session.data["liveApiKey"] = hasLiveApiKey ? "••••••••••••••••••••••••••••••••" : "";
+    req.session.data["hasTestApiKey"] = hasTestApiKey;
+    req.session.data["hasLiveApiKey"] = hasLiveApiKey;
   }
 
   res.redirect("/titan-mvp-1.2/question-configuration");

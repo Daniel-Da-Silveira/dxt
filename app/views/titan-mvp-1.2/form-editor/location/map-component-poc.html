@@ -1,0 +1,422 @@
+{% extends "layouts/main.html" %}
+
+{% from "govuk/components/input/macro.njk" import govukInput %}
+{% from "govuk/components/radios/macro.njk" import govukRadios %}
+{% from "govuk/components/checkboxes/macro.njk" import govukCheckboxes %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "govuk/components/inset-text/macro.njk" import govukInsetText %}
+{% from "govuk/components/notification-banner/macro.njk" import govukNotificationBanner %}
+
+{% block pageTitle %}
+Map Component Proof of Concept - {{ serviceName }} – GOV.UK
+{% endblock %}
+
+{% block content %}
+
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-full">
+
+        <h1 class="govuk-heading-l">Map Component Proof of Concept</h1>
+
+        <div class="govuk-notification-banner" role="region" aria-labelledby="govuk-notification-banner-title" data-module="govuk-notification-banner">
+            <div class="govuk-notification-banner__header">
+                <h2 class="govuk-notification-banner__title" id="govuk-notification-banner-title">
+                    Important
+                </h2>
+            </div>
+            <div class="govuk-notification-banner__content">
+                <p class="govuk-notification-banner__heading">
+                    This page demonstrates the difference between separate map components vs a unified map component approach for location data collection.
+                </p>
+            </div>
+        </div>
+
+        <!-- Real-world Requirements Section -->
+        <h2 class="govuk-heading-m">Real-world Requirements from Form Teams</h2>
+
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-one-third">
+                <div class="govuk-panel govuk-panel--confirmation" style="background-color: #1d70b8;">
+                    <h3 class="govuk-panel__title">NEWLS</h3>
+                    <div class="govuk-panel__body">
+                        Interactive Map that returns:<br>
+                        • OS grid reference<br>
+                        • Lat/Lng (decimal places only)
+                    </div>
+                </div>
+            </div>
+            <div class="govuk-grid-column-one-third">
+                <div class="govuk-panel govuk-panel--confirmation" style="background-color: #00703c;">
+                    <h3 class="govuk-panel__title">APHA Contact Form</h3>
+                    <div class="govuk-panel__body">
+                        Animals' location including:<br>
+                        • Address or postcode<br>
+                        • OS grid reference<br>
+                        • what3words<br>
+                        • Common landmarks
+                    </div>
+                </div>
+            </div>
+            <div class="govuk-grid-column-one-third">
+                <div class="govuk-panel govuk-panel--confirmation" style="background-color: #d4351c;">
+                    <h3 class="govuk-panel__title">Habitat Reporting</h3>
+                    <div class="govuk-panel__body">
+                        Location details:<br>
+                        • OS grid reference<br>
+                        • Select location on map<br>
+                        • Draw polygon areas
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+
+        <!-- Problem: Separate Components Approach -->
+        <h2 class="govuk-heading-m">Problem: Separate Map Components Approach</h2>
+
+        <div class="govuk-warning-text">
+            <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
+            <strong class="govuk-warning-text__text">
+                <span class="govuk-warning-text__assistive">Warning</span>
+                This approach would create a busy, confusing form with multiple map components
+            </strong>
+        </div>
+
+        <p class="govuk-body">If we created separate map components for each output type, a form requiring multiple location formats would look like this:</p>
+
+        <!-- Example Form with Separate Components -->
+        <div class="govuk-form-group" style="border: 2px dashed #d4351c; padding: 20px; margin: 20px 0;">
+            <h3 class="govuk-heading-s">Example: APHA Contact Form with Separate Map Components</h3>
+
+            <div class="govuk-form-group">
+                <label class="govuk-label" for="animal-location">
+                    <strong>Animal location</strong>
+                </label>
+                <p class="govuk-hint">Please provide the location where the animals were found</p>
+            </div>
+
+            <!-- Map Component 1: OS Grid Reference -->
+            <div class="govuk-form-group" style="border: 1px solid #b1b4b6; padding: 15px; margin: 10px 0;">
+                <h4 class="govuk-heading-xs">Map Component 1: OS Grid Reference</h4>
+                <div style="height: 200px; background-color: #f3f2f1; border: 1px solid #b1b4b6; display: flex; align-items: center; justify-content: center; margin: 10px 0;">
+                    <p class="govuk-body">Interactive Map for OS Grid Reference</p>
+                </div>
+                <div class="govuk-grid-row">
+                    <div class="govuk-grid-column-one-third">
+                        {{ govukInput({
+                            label: { text: "Grid Square" },
+                            classes: "govuk-input--width-4",
+                            id: "os-grid-square-1",
+                            name: "os-grid-square-1"
+                        }) }}
+                    </div>
+                    <div class="govuk-grid-column-one-third">
+                        {{ govukInput({
+                            label: { text: "Easting" },
+                            classes: "govuk-input--width-5",
+                            id: "os-grid-easting-1",
+                            name: "os-grid-easting-1"
+                        }) }}
+                    </div>
+                    <div class="govuk-grid-column-one-third">
+                        {{ govukInput({
+                            label: { text: "Northing" },
+                            classes: "govuk-input--width-5",
+                            id: "os-grid-northing-1",
+                            name: "os-grid-northing-1"
+                        }) }}
+                    </div>
+                </div>
+            </div>
+
+            <!-- Map Component 2: What3Words -->
+            <div class="govuk-form-group" style="border: 1px solid #b1b4b6; padding: 15px; margin: 10px 0;">
+                <h4 class="govuk-heading-xs">Map Component 2: What3Words</h4>
+                <div style="height: 200px; background-color: #f3f2f1; border: 1px solid #b1b4b6; display: flex; align-items: center; justify-content: center; margin: 10px 0;">
+                    <p class="govuk-body">Interactive Map for What3Words</p>
+                </div>
+                {{ govukInput({
+                    label: { text: "What3Words reference" },
+                    hint: { text: "For example: ///filled.count.soap" },
+                    classes: "govuk-input--width-20",
+                    id: "what3words-1",
+                    name: "what3words-1"
+                }) }}
+            </div>
+
+            <!-- Map Component 3: Lat/Lng -->
+            <div class="govuk-form-group" style="border: 1px solid #b1b4b6; padding: 15px; margin: 10px 0;">
+                <h4 class="govuk-heading-xs">🌍 Map Component 3: Latitude & Longitude</h4>
+                <div style="height: 200px; background-color: #f3f2f1; border: 1px solid #b1b4b6; display: flex; align-items: center; justify-content: center; margin: 10px 0;">
+                    <p class="govuk-body">Interactive Map for Lat/Lng</p>
+                </div>
+                <div class="govuk-grid-row">
+                    <div class="govuk-grid-column-one-half">
+                        {{ govukInput({
+                            label: { text: "Latitude" },
+                            classes: "govuk-input--width-6",
+                            id: "latitude-1",
+                            name: "latitude-1"
+                        }) }}
+                    </div>
+                    <div class="govuk-grid-column-one-half">
+                        {{ govukInput({
+                            label: { text: "Longitude" },
+                            classes: "govuk-input--width-6",
+                            id: "longitude-1",
+                            name: "longitude-1"
+                        }) }}
+                    </div>
+                </div>
+            </div>
+
+            <div class="govuk-inset-text" style="border-left-color: #d4351c;">
+                <p><strong>Problems with this approach:</strong></p>
+                <ul class="govuk-list govuk-list--bullet">
+                    <li>Form becomes very busy and overwhelming</li>
+                    <li>Users have to interact with multiple maps for the same location</li>
+                    <li>Inconsistent user experience</li>
+                    <li>Higher cognitive load</li>
+                    <li>Potential for data inconsistency between maps</li>
+                </ul>
+            </div>
+        </div>
+
+        <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+
+        <!-- Solution: Unified Map Component -->
+        <h2 class="govuk-heading-m">Solution: Unified Map Component Approach</h2>
+
+        <div class="govuk-inset-text" style="border-left-color: #00703c;">
+            <p><strong>Benefits of unified approach:</strong></p>
+            <ul class="govuk-list govuk-list--bullet">
+                <li>Single map interaction for all location data</li>
+                <li>Cleaner, less cluttered form design</li>
+                <li>Consistent user experience</li>
+                <li>Form designers can choose which outputs they need</li>
+                <li>Reduced cognitive load for users</li>
+            </ul>
+        </div>
+
+        <!-- Unified Map Component Example -->
+        <div class="govuk-form-group" style="border: 2px solid #00703c; padding: 20px; margin: 20px 0;">
+            <h3 class="govuk-heading-s">Example: APHA Contact Form with Unified Map Component</h3>
+
+            <div class="govuk-form-group">
+                <label class="govuk-label" for="animal-location-unified">
+                    <strong>Animal location</strong>
+                </label>
+                <p class="govuk-hint">Click on the map to select the location where the animals were found</p>
+            </div>
+
+            <!-- Single Interactive Map -->
+            <div class="govuk-form-group" style="border: 1px solid #b1b4b6; padding: 15px; margin: 10px 0;">
+                <h4 class="govuk-heading-xs">Interactive Map</h4>
+                <div style="height: 300px; background-color: #f3f2f1; border: 1px solid #b1b4b6; display: flex; align-items: center; justify-content: center; margin: 10px 0; position: relative;">
+                    <p class="govuk-body">Interactive Map - Click to select location</p>
+                    <div style="position: absolute; top: 10px; right: 10px; background: white; padding: 5px; border: 1px solid #b1b4b6; font-size: 12px;">
+                        Selected: 53.4808°N, 2.2426°W
+                    </div>
+                </div>
+
+                <!-- Output Options Selection -->
+                <div class="govuk-form-group">
+                    <fieldset class="govuk-fieldset">
+                        <legend class="govuk-fieldset__legend govuk-fieldset__legend--s">
+                            Select which location formats to capture:
+                        </legend>
+                        <div class="govuk-hint">
+                            Choose one or more formats based on your requirements
+                        </div>
+                        {{ govukCheckboxes({
+                            name: "location-outputs",
+                            items: [
+                                {
+                                    value: "os-grid",
+                                    text: "OS Grid Reference",
+                                    checked: true,
+                                    hint: {
+                                        text: "For example: SJ 12345 67890"
+                                    }
+                                },
+                                {
+                                    value: "what3words",
+                                    text: "What3Words",
+                                    checked: true,
+                                    hint: {
+                                        text: "For example: ///filled.count.soap"
+                                    }
+                                },
+                                {
+                                    value: "lat-lng",
+                                    text: "Latitude & Longitude",
+                                    checked: true,
+                                    hint: {
+                                        text: "Decimal degrees format"
+                                    }
+                                },
+                                {
+                                    value: "address",
+                                    text: "Address",
+                                    checked: false,
+                                    hint: {
+                                        text: "Reverse geocoded address"
+                                    }
+                                }
+                            ]
+                        }) }}
+                    </fieldset>
+                </div>
+
+                <!-- Generated Outputs -->
+                <div class="govuk-form-group">
+                    <h4 class="govuk-heading-xs">Generated Location Data:</h4>
+                    <div class="govuk-grid-row">
+                        <div class="govuk-grid-column-one-half">
+                            <div style="background-color: #f8f8f8; padding: 10px; margin: 5px 0; border-left: 4px solid #00703c;">
+                                <strong>OS Grid Reference:</strong><br>
+                                <span style="font-family: monospace;">SJ 12345 67890</span>
+                            </div>
+                        </div>
+                        <div class="govuk-grid-column-one-half">
+                            <div style="background-color: #f8f8f8; padding: 10px; margin: 5px 0; border-left: 4px solid #00703c;">
+                                <strong>What3Words:</strong><br>
+                                <span style="font-family: monospace;">///filled.count.soap</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="govuk-grid-row">
+                        <div class="govuk-grid-column-one-half">
+                            <div style="background-color: #f8f8f8; padding: 10px; margin: 5px 0; border-left: 4px solid #00703c;">
+                                <strong>Latitude:</strong><br>
+                                <span style="font-family: monospace;">53.4808°N</span>
+                            </div>
+                        </div>
+                        <div class="govuk-grid-column-one-half">
+                            <div style="background-color: #f8f8f8; padding: 10px; margin: 5px 0; border-left: 4px solid #00703c;">
+                                <strong>Longitude:</strong><br>
+                                <span style="font-family: monospace;">2.2426°W</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+
+        <!-- Form Designer Configuration -->
+        <h2 class="govuk-heading-m">Form Designer Configuration</h2>
+
+        <p class="govuk-body">With the unified approach, form designers can configure which location outputs they want to capture:</p>
+
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-one-third">
+                <div style="border: 1px solid #b1b4b6; padding: 15px; margin: 10px 0;">
+                    <h4 class="govuk-heading-xs">NEWLS Configuration</h4>
+                    <ul class="govuk-list govuk-list--bullet">
+                        <li>OS Grid Reference</li>
+                        <li>Lat/Lng (decimal)</li>
+                        <li>What3Words (disabled)</li>
+                        <li>Address (disabled)</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="govuk-grid-column-one-third">
+                <div style="border: 1px solid #b1b4b6; padding: 15px; margin: 10px 0;">
+                    <h4 class="govuk-heading-xs">APHA Configuration</h4>
+                    <ul class="govuk-list govuk-list--bullet">
+                        <li>OS Grid Reference</li>
+                        <li>What3Words</li>
+                        <li>Address</li>
+                        <li>Lat/Lng (disabled)</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="govuk-grid-column-one-third">
+                <div style="border: 1px solid #b1b4b6; padding: 15px; margin: 10px 0;">
+                    <h4 class="govuk-heading-xs">Habitat Reporting</h4>
+                    <ul class="govuk-list govuk-list--bullet">
+                        <li>OS Grid Reference</li>
+                        <li>Polygon drawing</li>
+                        <li>Lat/Lng (decimal)</li>
+                        <li>What3Words (disabled)</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+
+        <!-- Technical Implementation -->
+        <h2 class="govuk-heading-m">Technical Implementation</h2>
+
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-one-half">
+                <h3 class="govuk-heading-s">Unified Map Component Features</h3>
+                <ul class="govuk-list govuk-list--bullet">
+                    <li>Single map instance with multiple output formats</li>
+                    <li>Configurable output selection</li>
+                    <li>Real-time coordinate conversion</li>
+                    <li>Polygon drawing capabilities</li>
+                    <li>Address reverse geocoding</li>
+                    <li>What3Words integration</li>
+                    <li>OS Grid Reference calculation</li>
+                </ul>
+            </div>
+            <div class="govuk-grid-column-one-half">
+                <h3 class="govuk-heading-s">Form Designer Benefits</h3>
+                <ul class="govuk-list govuk-list--bullet">
+                    <li>Drag-and-drop map component</li>
+                    <li>Checkbox configuration for outputs</li>
+                    <li>Preview of selected formats</li>
+                    <li>Validation rules per output type</li>
+                    <li>Consistent styling and behavior</li>
+                    <li>Accessibility built-in</li>
+                    <li>Mobile responsive design</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="govuk-inset-text">
+            <p><strong>Recommendation:</strong> Implement a unified map component based on the proven design pattern from the <a href="https://flood-map-for-planning.service.gov.uk/location" target="_blank">Flood Map for Planning service</a>. This approach allows form designers to configure which location output formats they need while providing flexibility and maintaining a clean, consistent user experience.</p>
+        </div>
+
+        <!-- Detailed Examples -->
+        <h2 class="govuk-heading-m">Detailed Examples</h2>
+
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-one-half">
+                <div style="border: 2px solid #d4351c; padding: 20px; margin: 10px 0; background-color: #fef7f7;">
+                    <h3 class="govuk-heading-s">Separate Components Problem</h3>
+                    <p class="govuk-body">See a realistic form example showing how separate map components would create a cluttered, confusing user experience.</p>
+                    {{ govukButton({
+                        text: "View Separate Components Example",
+                        href: "/titan-mvp-1.2/form-editor/location/separate-components-example",
+                        classes: "govuk-button--warning"
+                    }) }}
+                </div>
+            </div>
+            <div class="govuk-grid-column-one-half">
+                <div style="border: 2px solid #00703c; padding: 20px; margin: 10px 0; background-color: #f7f9f7;">
+                    <h3 class="govuk-heading-s">Unified Component Solution</h3>
+                    <p class="govuk-body">See the same form with a unified map component that provides a clean, efficient user experience.</p>
+                    {{ govukButton({
+                        text: "View Unified Component Example",
+                        href: "/titan-mvp-1.2/form-editor/location/unified-component-example",
+                        classes: "govuk-button--success"
+                    }) }}
+                </div>
+            </div>
+        </div>
+
+        {{ govukButton({
+            text: "Back to Form Editor",
+            href: "/titan-mvp-1.2/form-editor"
+        }) }}
+
+    </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,207 @@
+{% extends "layouts/main.html" %}
+{% from "components/service-header/macro.njk" import serviceHeader %}
+
+{% block pageTitle %}
+10. Continual monitoring – Service Standard Point 4 Evidence – Defra Form Designer – GOV.UK Prototype Kit
+{% endblock %}
+
+{% block header %}
+{{ serviceHeader({
+organisationName: "Defra",
+productName: "Form Designer",
+serviceName: "",
+homepageLink: "/titan-mvp-1.2/product-pages/homepage",
+signInLink: "/titan-mvp-1.2/library",
+showSupportLink: false,
+navigationItems: [
+{ href: "/titan-mvp-1.2/product-pages/about", text: "About", id: "nav-about" },
+{ href: "/titan-mvp-1.2/product-pages/get-started", text: "Get started", id: "nav-get-started" },
+{ href: "/titan-mvp-1.2/product-pages/features", text: "Features", id: "nav-features" },
+{ href: "/titan-mvp-1.2/product-pages/resources", text: "Resources", id: "nav-resources" },
+{ href: "/titan-mvp-1.2/product-pages/support", text: "Support", id: "nav-support" }
+],
+activeLinkId: "nav-resources"
+}) }}
+
+<div class="x-govuk-masthead x-govuk-masthead--large">
+    <div class="govuk-width-container">
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-full-from-desktop">
+                <h1 class="x-govuk-masthead__title">
+                    <span class="govuk-caption-l" style="color: white;">Service Standard Assessment</span>
+                    Service Standard Point 4: Make the service simple to use - Evidence
+                </h1>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-one-quarter app-contents-list--sticky govuk-!-padding-right-0">
+        {{ xGovukSubNavigation({
+        visuallyHiddenTitle: "Section navigation",
+        items: [{
+        text: "Service Standard Point 4 Evidence",
+        href: "/titan-mvp-1.2/product-pages/resources/service-standard-4-evidence",
+        parent: true,
+        children: [{
+        text: "Executive Summary",
+        href: "/titan-mvp-1.2/product-pages/resources/service-standard-4-evidence"
+        }, {
+        text: "1. Making the service simple to use",
+        href: "/titan-mvp-1.2/product-pages/resources/service-standard-4-evidence/section-1"
+        }, {
+        text: "2. Usability testing with users",
+        href: "/titan-mvp-1.2/product-pages/resources/service-standard-4-evidence/section-2"
+        }, {
+        text: "3. Testing all parts of the service",
+        href: "/titan-mvp-1.2/product-pages/resources/service-standard-4-evidence/section-3"
+        }, {
+        text: "4. Designing for a range of devices",
+        href: "/titan-mvp-1.2/product-pages/resources/service-standard-4-evidence/section-4"
+        }, {
+        text: "5. Users with lowest digital skills",
+        href: "/titan-mvp-1.2/product-pages/resources/service-standard-4-evidence/section-5"
+        }, {
+        text: "6. Accessibility requirements",
+        href: "/titan-mvp-1.2/product-pages/resources/service-standard-4-evidence/section-6"
+        }, {
+        text: "7. Performance research",
+        href: "/titan-mvp-1.2/product-pages/resources/service-standard-4-evidence/section-7"
+        }, {
+        text: "8. Continuous improvement",
+        href: "/titan-mvp-1.2/product-pages/resources/service-standard-4-evidence/section-8"
+        }, {
+        text: "9. Data-driven decisions",
+        href: "/titan-mvp-1.2/product-pages/resources/service-standard-4-evidence/section-9"
+        }, {
+        text: "10. Continual monitoring",
+        href: "/titan-mvp-1.2/product-pages/resources/service-standard-4-evidence/section-10",
+        current: true
+        }]
+        }]
+        }) }}
+    </div>
+    <div class="govuk-grid-column-two-thirds">
+        <div class="app-prose-scope">
+
+            <h2 class="govuk-heading-l">10. Continual monitoring of feedback and testing usability</h2>
+
+            <h3 class="govuk-heading-m">Example 1: Feedback Mechanism Implementation</h3>
+
+            <p class="govuk-body"><strong>Situation:</strong><br>
+            Need way for users to provide feedback throughout the service without interrupting their work.</p>
+
+            <p class="govuk-body"><strong>Task:</strong><br>
+            Implement feedback mechanisms that are easy to access and provide useful information.</p>
+
+            <p class="govuk-body"><strong>Action:</strong></p>
+            <ul class="govuk-list govuk-list--bullet">
+                <li>Added CSAT (Customer Satisfaction) surveys</li>
+                <li>Feedback includes URL context so issues can be located</li>
+                <li>Feedback stored and tracked for review</li>
+            </ul>
+
+            <p class="govuk-body"><strong>Result:</strong></p>
+            <ul class="govuk-list govuk-list--bullet">
+                <li>Feedback stored for analysis</li>
+            </ul>
+
+            <h3 class="govuk-heading-m">Example 2: Ongoing Usability Testing Programme</h3>
+
+            <p class="govuk-body"><strong>Situation:</strong><br>
+            Service needs continuous validation as new features are added and existing features are improved.</p>
+
+            <p class="govuk-body"><strong>Task:</strong><br>
+            Maintain regular usability testing schedule to catch issues early and validate improvements.</p>
+
+            <p class="govuk-body"><strong>Action:</strong></p>
+            <ul class="govuk-list govuk-list--bullet">
+                <li>Conducted 13 rounds of research between May 2024 and April 2025</li>
+                <li>Regular testing schedule maintained</li>
+                <li>Testing continues as new features are added</li>
+                <li>User feedback incorporated into design decisions</li>
+                <li>Each round builds on previous findings</li>
+            </ul>
+
+            <p class="govuk-body"><strong>Result:</strong></p>
+            <ul class="govuk-list govuk-list--bullet">
+                <li>Issues identified and fixed before release</li>
+                <li>Improvements validated with users</li>
+                <li>Service continuously improved based on real user needs</li>
+                <li>77 research iterations showing ongoing refinement</li>
+            </ul>
+
+            <h3 class="govuk-heading-m">Example 3: Feedback Leading to Specific Changes</h3>
+
+            <p class="govuk-body"><strong>Situation:</strong><br>
+            Round 8 (November 2024) found users wanted to enter checkbox options in bulk rather than one at a time. Participant said: "Why can't I enter them comma-separated?"</p>
+
+            <p class="govuk-body"><strong>Task:</strong><br>
+            Address user feedback by implementing requested feature.</p>
+
+            <p class="govuk-body"><strong>Action:</strong></p>
+            <ul class="govuk-list govuk-list--bullet">
+                <li>Round 8 identified: "Checkbox Options Entry - Annoying to enter options one by one"</li>
+                <li>Recommendation: "Explore better bulk entry options"</li>
+                <li>Implemented bulk option entry feature</li>
+                <li>Round 12 validated: "Users appreciated entering all options on one page"</li>
+            </ul>
+
+            <p class="govuk-body"><strong>Result:</strong></p>
+            <ul class="govuk-list govuk-list--bullet">
+                <li>Feature implemented based on user feedback</li>
+                <li>Users can now enter multiple options at once</li>
+                <li>Faster form creation</li>
+                <li>Improved user satisfaction</li>
+            </ul>
+
+            <p class="govuk-body">
+                <strong>Design history:</strong> <a href="https://dxt-prototype-682ae311ff10.herokuapp.com/design-history/lists/index.html" class="govuk-link" target="_blank" rel="noopener noreferrer">Lists feature</a>
+            </p>
+
+            <h3 class="govuk-heading-m">Example 4: Design History Documentation</h3>
+
+            <p class="govuk-body"><strong>Situation:</strong><br>
+            Need systematic way to document all changes, research, and decisions for ongoing monitoring and improvement.</p>
+
+            <p class="govuk-body"><strong>Task:</strong><br>
+            Document all design decisions, research findings, and changes in design history.</p>
+
+            <p class="govuk-body"><strong>Action:</strong></p>
+            <ul class="govuk-list govuk-list--bullet">
+                <li>Created design history documentation for all features</li>
+                <li>Documented all research rounds with findings and recommendations</li>
+                <li>Captured user quotes to show why changes were made</li>
+                <li>Tracked status of all features (Tested, In progress, Next)</li>
+                <li>Made design history accessible to team and stakeholders</li>
+            </ul>
+
+            <p class="govuk-body"><strong>Result:</strong></p>
+            <ul class="govuk-list govuk-list--bullet">
+                <li>All changes documented with research evidence</li>
+                <li>Clear audit trail of why decisions were made</li>
+                <li>Easy to see what has been tested and what needs work</li>
+                <li>33 features documented with research evidence</li>
+            </ul>
+
+            <p class="govuk-body">
+                <strong>Design history:</strong> <a href="https://dxt-prototype-682ae311ff10.herokuapp.com/design-history/index.html" class="govuk-link" target="_blank" rel="noopener noreferrer">Design history index</a> | <a href="https://dxt-prototype-682ae311ff10.herokuapp.com/index.html" class="govuk-link" target="_blank" rel="noopener noreferrer">All features</a>
+            </p>
+
+            {% from "govuk/components/pagination/macro.njk" import govukPagination %}
+
+            {{ govukPagination({
+            previous: {
+            labelText: "9. Data-driven decisions",
+            href: "/titan-mvp-1.2/product-pages/resources/service-standard-4-evidence/section-9"
+            }
+            }) }}
+
+        </div>
+    </div>
+</div>
+{% endblock %}
+

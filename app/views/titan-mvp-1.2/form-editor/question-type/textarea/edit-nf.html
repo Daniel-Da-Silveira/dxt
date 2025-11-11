@@ -652,7 +652,7 @@ activeLinkId: "nav-editor"
               previewFormGroup.appendChild(countMessage);
             }
 
-            countMessage.innerHTML = `You can enter up to <span class="highlight">${maxCharacters}</span> characters`;
+            countMessage.innerHTML = `You have <span class="highlight">${maxCharacters}</span> characters remaining`;
             countMessage.style.color = ''; // Remove placeholder styling
 
             // Only remove highlighting if the input is not currently focused
@@ -720,7 +720,7 @@ activeLinkId: "nav-editor"
               previewFormGroup.appendChild(countMessage);
             }
 
-             countMessage.innerHTML = 'You can enter up to <span class="highlight">[maximum character length]</span> characters';
+             countMessage.innerHTML = 'You have <span class="highlight">[maximum character length]</span> characters remaining';
              countMessage.style.color = ''; // Remove gray color when focused
              countMessage.setAttribute('aria-live', 'polite');
 

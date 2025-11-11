@@ -92,8 +92,8 @@ activeLinkId: "nav-editor"
                                                         </label>
                                                         <div class="govuk-input__wrapper">
                                                             <div class="govuk-input__prefix" aria-hidden="true">£</div>
-                                                            <input class="govuk-input govuk-input--width-10" id="payment-amount-input"
-                                                                name="paymentAmountInput" type="number" step="0.01" min="0" value="">
+                                                        <input class="govuk-input govuk-input--width-10" id="payment-amount-input"
+                                                            name="paymentAmountInput" type="number" step="0.01" min="0" value="{{ data.paymentAmountInput or '' }}">
                                                         </div>
                                                     </div>
 
@@ -107,7 +107,7 @@ activeLinkId: "nav-editor"
                                                             Tell users what the payment is for, for example, 'Processing fees for your application'
                                                         </div>
                                                         <input class="govuk-input" id="payment-description-input" type="text"
-                                                            name="paymentDescriptionInput">
+                                                            name="paymentDescriptionInput" value="{{ data.paymentDescriptionInput or '' }}">
                                                     </div>
 
                                                     <!-- Short Description Input -->
@@ -120,7 +120,7 @@ activeLinkId: "nav-editor"
                                                             Enter a short description for this question like 'date of birth'. Short descriptions are used in error messages, for example, 'Enter a valid date of birth'
                                                         </div>
                                                         <input class="govuk-input" id="error-message-input-payment" type="text"
-                                                            name="errorMessageInputPayment">
+                                                            name="errorMessageInputPayment" value="{{ data.errorMessageInputPayment or '' }}">
                                                     </div>
 
                                                     <!-- GOV.UK Pay API keys Section -->
@@ -160,9 +160,9 @@ activeLinkId: "nav-editor"
                                                         <div class="govuk-hint">
                                                             Use a test API key from your GOV.UK Pay test account. This is used while your form is in draft
                                                         </div>
-                                                        <input class="govuk-input " id="test-api-key" name="testApiKey" type="text">
+                                                        <input class="govuk-input " id="test-api-key" name="testApiKey" type="text" value="{{ data.testApiKey or '' }}" {% if data.hasTestApiKey %}disabled{% endif %}>
                                                         <div class="govuk-!-margin-top-4">
-                                                            <a href="#" class="govuk-link">Clear test API key</a>
+                                                            <a href="#" class="govuk-link" id="clear-test-api-key">Clear test API key</a>
                                                         </div>
                                                     </div>
 
@@ -187,9 +187,9 @@ activeLinkId: "nav-editor"
                                                         <div class="govuk-hint">
                                                             Make sure your live API key has been tested and can take real payments
                                                         </div>
-                                                        <input class="govuk-input" id="live-api-key" name="liveApiKey" type="text">
+                                                        <input class="govuk-input" id="live-api-key" name="liveApiKey" type="text" value="{{ data.liveApiKey or '' }}" {% if data.hasLiveApiKey %}disabled{% endif %}>
                                                         <div class="govuk-!-margin-top-4">
-                                                            <a href="#" class="govuk-link">Clear live API key</a>
+                                                            <a href="#" class="govuk-link" id="clear-live-api-key">Clear live API key</a>
                                                         </div>
                                                     </div>
 
@@ -284,29 +284,29 @@ activeLinkId: "nav-editor"
                             <!-- Payment Preview -->
                             <div class="payment-summary-wrap">
                                 <div class="payment-summary">
-                                    <h1 class="govuk-heading-l" id="preview-question-label">Payment required</h1>
+                                    <h1 class="govuk-heading-l" id="preview-question-label">Payment details required</h1>
 
                                     <p id="preview-payment-description" class="govuk-body">
-                                        Payment description
+                                        {{ data.paymentDescriptionInput or 'Payment description' }}
                                     </p>
 
                                     {{ govukWarningText({
-                                        text: "You must pay before you can send your form",
+                                        text: "You won't be charged yet. We'll only take payment when you finish your form.",
                                         classes: "govuk-!-margin-bottom-4",
                                         iconFallbackText: "Warning"
                                     }) }}
 
                                     <p class="govuk-body">
-                                        When your payment is complete, you'll able to continue with your form.
+                                        Once you've added your payment details, you can continue with your form.
                                     </p>
 
                                     <p class="govuk-body govuk-!-margin-bottom-0">
                                         Total amount:
-                                        <span id="preview-payment-amount" class="amount govuk-!-font-size-36 govuk-!-font-weight-bold">£0</span>
+                                        <span id="preview-payment-amount" class="amount govuk-!-font-size-36 govuk-!-font-weight-bold">£{{ data.paymentAmountInput or '0' }}</span>
                                     </p>
 
                                     {{ govukButton({
-                                        text: "Pay now",
+                                        text: "Continue to payment details",
                                         classes: "govuk-button--primary govuk-!-margin-top-4 govuk-!-margin-bottom-0"
                                     }) }}
                                 </div>
@@ -328,7 +328,7 @@ activeLinkId: "nav-editor"
                                         <a id="empty-input-error-payment" class="govuk-error-message"
                                             href="#error-message-input-payment">
                                             You must pay the <span
-                                                id="error-dynamic-text">[short description]</span> to
+                                                id="error-dynamic-text">{{ data.errorMessageInputPayment or '[short description]' }}</span> to
                                             continue </a>
                                     </li>
                                 </ul>
@@ -473,6 +473,45 @@ activeLinkId: "nav-editor"
             // Initialize preview with any existing values
             updatePreview();
             updateErrorMessages();
+
+            // Initialize preview with saved values from session data
+            if (paymentAmountInput.value) {
+                previewPaymentAmount.textContent = formatCurrency(paymentAmountInput.value);
+            }
+            if (paymentDescriptionInput.value) {
+                previewPaymentDescription.textContent = paymentDescriptionInput.value;
+            }
+            if (errorMessageInput.value) {
+                errorMessagePreviewElements.forEach(element => {
+                    element.textContent = errorMessageInput.value;
+                });
+            }
+
+            // Handle API key clearing functionality
+            const testApiKeyInput = document.getElementById("test-api-key");
+            const liveApiKeyInput = document.getElementById("live-api-key");
+            const clearTestApiKeyLink = document.getElementById("clear-test-api-key");
+            const clearLiveApiKeyLink = document.getElementById("clear-live-api-key");
+
+            // Clear links are always visible - no need to hide/show them
+
+            if (clearTestApiKeyLink) {
+                clearTestApiKeyLink.addEventListener("click", function(e) {
+                    e.preventDefault();
+                    testApiKeyInput.value = "";
+                    testApiKeyInput.disabled = false;
+                    updateClearLinkVisibility();
+                });
+            }
+
+            if (clearLiveApiKeyLink) {
+                clearLiveApiKeyLink.addEventListener("click", function(e) {
+                    e.preventDefault();
+                    liveApiKeyInput.value = "";
+                    liveApiKeyInput.disabled = false;
+                    updateClearLinkVisibility();
+                });
+            }
         });
     </script>
 

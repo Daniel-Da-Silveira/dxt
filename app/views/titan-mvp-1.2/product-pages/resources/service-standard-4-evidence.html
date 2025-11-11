@@ -1,0 +1,180 @@
+{% extends "layouts/main.html" %}
+{% from "components/service-header/macro.njk" import serviceHeader %}
+{% from "govuk/components/breadcrumbs/macro.njk" import govukBreadcrumbs %}
+
+{% block pageTitle %}
+Service Standard Point 4: Executive Summary – Defra Form Designer – GOV.UK Prototype Kit
+{% endblock %}
+
+{% block header %}
+{{ serviceHeader({
+organisationName: "Defra",
+productName: "Form Designer",
+serviceName: "",
+homepageLink: "/titan-mvp-1.2/product-pages/homepage",
+signInLink: "/titan-mvp-1.2/library",
+showSupportLink: false,
+navigationItems: [
+{ href: "/titan-mvp-1.2/product-pages/about", text: "About", id: "nav-about" },
+{ href: "/titan-mvp-1.2/product-pages/get-started", text: "Get started", id: "nav-get-started" },
+{ href: "/titan-mvp-1.2/product-pages/features", text: "Features", id: "nav-features" },
+{ href: "/titan-mvp-1.2/product-pages/resources", text: "Resources", id: "nav-resources" },
+{ href: "/titan-mvp-1.2/product-pages/support", text: "Support", id: "nav-support" }
+],
+activeLinkId: "nav-resources"
+}) }}
+
+<div class="x-govuk-masthead x-govuk-masthead--large">
+    <div class="govuk-width-container">
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-full-from-desktop">
+                <h1 class="x-govuk-masthead__title" id="service-standard-4-evidence">
+                    <span class="govuk-caption-l" style="color: white;">Service Standard Assessment</span>
+                    Service Standard Point 4: Make the service simple to use - Evidence
+                </h1>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-one-quarter app-contents-list--sticky govuk-!-padding-right-0">
+        {{ xGovukSubNavigation({
+        visuallyHiddenTitle: "Section navigation",
+        items: [{
+        text: "Service Standard Point 4 Evidence",
+        href: "/titan-mvp-1.2/product-pages/resources/service-standard-4-evidence",
+        parent: true,
+        current: true,
+        children: [{
+        text: "Executive Summary",
+        href: "/titan-mvp-1.2/product-pages/resources/service-standard-4-evidence",
+        current: true
+        }, {
+        text: "1. Making the service simple to use",
+        href: "/titan-mvp-1.2/product-pages/resources/service-standard-4-evidence/section-1"
+        }, {
+        text: "2. Usability testing with users",
+        href: "/titan-mvp-1.2/product-pages/resources/service-standard-4-evidence/section-2"
+        }, {
+        text: "3. Testing all parts of the service",
+        href: "/titan-mvp-1.2/product-pages/resources/service-standard-4-evidence/section-3"
+        }, {
+        text: "4. Designing for a range of devices",
+        href: "/titan-mvp-1.2/product-pages/resources/service-standard-4-evidence/section-4"
+        }, {
+        text: "5. Users with lowest digital skills",
+        href: "/titan-mvp-1.2/product-pages/resources/service-standard-4-evidence/section-5"
+        }, {
+        text: "6. Accessibility requirements",
+        href: "/titan-mvp-1.2/product-pages/resources/service-standard-4-evidence/section-6"
+        }, {
+        text: "7. Performance research",
+        href: "/titan-mvp-1.2/product-pages/resources/service-standard-4-evidence/section-7"
+        }, {
+        text: "8. Continuous improvement",
+        href: "/titan-mvp-1.2/product-pages/resources/service-standard-4-evidence/section-8"
+        }, {
+        text: "9. Data-driven decisions",
+        href: "/titan-mvp-1.2/product-pages/resources/service-standard-4-evidence/section-9"
+        }, {
+        text: "10. Continual monitoring",
+        href: "/titan-mvp-1.2/product-pages/resources/service-standard-4-evidence/section-10"
+        }]
+        }]
+        }) }}
+    </div>
+    <div class="govuk-grid-column-two-thirds">
+        <div class="app-prose-scope">
+
+            <p class="govuk-body">This document provides specific, detailed evidence showing how the Defra Forms Designer meets Service Standard point 4 requirements, using concrete examples with dates, participant quotes, actions taken, and results.</p>
+
+            <p class="govuk-body">
+                <strong>Prototype site:</strong> <a href="https://dxt-prototype-682ae311ff10.herokuapp.com/" class="govuk-link" target="_blank" rel="noopener noreferrer">https://dxt-prototype-682ae311ff10.herokuapp.com/</a><br>
+                <strong>Design history index:</strong> <a href="https://dxt-prototype-682ae311ff10.herokuapp.com/design-history/index.html" class="govuk-link" target="_blank" rel="noopener noreferrer">https://dxt-prototype-682ae311ff10.herokuapp.com/design-history/index.html</a>
+            </p>
+
+            <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+
+            <h2 class="govuk-heading-l">Executive Summary</h2>
+
+            <p class="govuk-body">The Defra Forms Designer demonstrates comprehensive evidence of meeting Service Standard point 4 (Make the service simple to use) through systematic user research, iterative design improvements, and continuous validation with real users.</p>
+
+            <h3 class="govuk-heading-m">Key Achievements</h3>
+
+            <h4 class="govuk-heading-s">Comprehensive User Research Programme</h4>
+            <ul class="govuk-list govuk-list--bullet">
+                <li>13 rounds of user research conducted between May 2024 and April 2025</li>
+                <li>Over 50 participants including content designers, proxy users, and internal stakeholders across multiple Defra departments</li>
+                <li>77 research iterations across 33 features, with an average of 2.3 iterations per feature</li>
+                <li>27 features (82%) marked as "Tested" and validated with users</li>
+            </ul>
+
+            <h4 class="govuk-heading-s">Complete Service Redesign</h4>
+            <ul class="govuk-list govuk-list--bullet">
+                <li>Reprioritised product backlog to address significant usability issues identified in initial evaluation (March 2024)</li>
+                <li>Transformed from component-driven, tool-heavy experience to task-driven, guided approach</li>
+                <li>Users consistently report the service as "intuitive", "clean", and "methodical step by step"</li>
+            </ul>
+
+            <h4 class="govuk-heading-s">Continuous Improvement Based on User Feedback</h4>
+            <ul class="govuk-list govuk-list--bullet">
+                <li>Every major change documented with research findings and user quotes</li>
+                <li>Specific examples include: terminology improvements ("operator" to "Condition type"), flow improvements (question text before options), and feature enhancements (bulk option entry)</li>
+                <li>Issues identified in one research round are addressed and validated in subsequent rounds</li>
+            </ul>
+
+            <h4 class="govuk-heading-s">Accessibility and Inclusive Design</h4>
+            <ul class="govuk-list govuk-list--bullet">
+                <li>WCAG 2.2 compliance focus with independent accessibility review by Defra accessibility team</li>
+                <li>Detailed screen reader support implemented (e.g., list reordering with clear announcements)</li>
+                <li>361+ references to accessibility across the codebase</li>
+                <li>Training and support provided to all users regardless of digital skill level</li>
+            </ul>
+
+            <h4 class="govuk-heading-s">Comprehensive Testing</h4>
+            <ul class="govuk-list govuk-list--bullet">
+                <li>Both online features and offline communications (confirmation emails) tested</li>
+                <li>Responsive design implemented for mobile, tablet, and desktop devices</li>
+                <li>All parts of the service tested with actual and potential users</li>
+            </ul>
+
+            <h4 class="govuk-heading-s">Data-Driven Decision Making</h4>
+            <ul class="govuk-list govuk-list--bullet">
+                <li>AI compliance checker automatically validates forms against GDS standards</li>
+                <li>Research data systematically collected, documented, and used to inform design decisions</li>
+                <li>Feedback mechanisms in place for ongoing monitoring</li>
+            </ul>
+
+            <h3 class="govuk-heading-m">Evidence Structure</h3>
+
+            <p class="govuk-body">This document provides detailed evidence using the Situation, Task, Action, Result (STAR) format, with:</p>
+            <ul class="govuk-list govuk-list--bullet">
+                <li>Specific dates and research round references</li>
+                <li>Direct participant quotes</li>
+                <li>Concrete actions taken</li>
+                <li>Measurable results and outcomes</li>
+                <li>Links to design history documentation and prototype implementations</li>
+            </ul>
+
+            <p class="govuk-body">All evidence is verifiable through the design history documentation and live prototype, demonstrating a systematic, user-centred approach to making the service simple to use.</p>
+
+            {% from "govuk/components/pagination/macro.njk" import govukPagination %}
+
+            {{ govukPagination({
+            previous: {
+            labelText: "Resources",
+            href: "/titan-mvp-1.2/product-pages/resources"
+            },
+            next: {
+            labelText: "1. Making the service simple to use",
+            href: "/titan-mvp-1.2/product-pages/resources/service-standard-4-evidence/section-1"
+            }
+            }) }}
+
+        </div>
+    </div>
+</div>
+{% endblock %}

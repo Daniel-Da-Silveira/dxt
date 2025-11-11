@@ -25,21 +25,22 @@
     <div class="govuk-grid-column-two-thirds">
       <div class="payment-summary-wrap">
         <div class="payment-summary">
-            <h1 class="govuk-heading-l">Payment required</h1>
+            <h1 class="govuk-heading-l">Payment details required</h1>
 
             <p id="payment-description" class="govuk-body">
               Registration fee for your unicorn breeder certificate.
             </p>
 
             {{ govukWarningText({
-              text: "You must pay before you can send your form",
+              text: "You won’t be charged yet. We’ll only take payment when you finish your form.",
               classes: "govuk-!-margin-bottom-4",
               iconFallbackText: "Warning"
             }) }}
 
             <p id="payment-description" class="govuk-body">
-              When your payment is complete, you’ll able to continue with your form.
+              Once you’ve added your payment details, you can continue with your form.
             </p>
+
             <p class="govuk-body hidden" id="payment-summary-breakdown">
             Amount
             <span class="govuk-!-font-weight-bold" id="payment-summary-breakdown-amount"></span><br>
@@ -51,7 +52,7 @@
             <span id="amount" class="amount govuk-!-font-size-36 govuk-!-font-weight-bold" data-amount="300.00">£300.00</span>
             </p>
             {{ govukButton({
-              text: "Pay now",
+              text: "Continue to payment details",
               classes: "govuk-button--primary govuk-!-margin-top-4 govuk-!-margin-bottom-0",
               href: "https://products.payments.service.gov.uk/pay/794743a669314e36b3e4c78a3ffba307"
               }) }}
