@@ -1,0 +1,348 @@
+{% extends "layouts/runner.html" %}
+
+{% block pageTitle %}
+Summary – {{ serviceName }} – GOV.UK
+{% endblock %}
+
+{% block beforeContent %}
+
+{{ govukPhaseBanner({
+  tag: {
+    text: "Beta"
+  },
+  html: 'This is a new service. Help us improve it and <a class="govuk-link" target="_blank" href="/titan-mvp-1.2/form-editor/CSAT/form.html">give your feedback (opens in new tab)</a>.'
+}) }}
+
+{{ govukBackLink({
+text: "Back",
+href: "javascript:window.history.back()"
+}) }}
+
+{% endblock %}
+
+
+
+{% block content %}
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+
+    {% from "govuk/components/notification-banner/macro.njk" import govukNotificationBanner %}
+
+{% set html %}
+  <h3 class="govuk-notification-banner__heading">
+Payment successful
+  </h3>
+  <p class="govuk-body">You still need to check your answers and submit the form.</p>
+{% endset %}
+
+{{ govukNotificationBanner({
+  html: html,
+  type: "success"
+}) }}
+
+    <h1 class="govuk-heading-l">
+      Check your answers before sending your form
+    </h1>
+
+
+    <h2 class="govuk-heading-m">Declaration</h2>
+
+    <dl class="govuk-summary-list govuk-!-margin-bottom-9">
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">
+          Terms and conditions
+        </dt>
+        <dd class="govuk-summary-list__value">
+          {% if data['declaration'] and data['declaration'].includes('confirmed') %}
+            I confirm that I understand and agree
+          {% else %}
+            Not provided
+          {% endif %}
+        </dd>
+        <dd class="govuk-summary-list__actions">
+          <a class="govuk-link" href="/declaration">
+            Change<span class="govuk-visually-hidden"> declaration</span>
+          </a>
+        </dd>
+      </div>
+    </dl>
+
+    <h2 class="govuk-heading-m">Contact details</h2>
+
+    <dl class="govuk-summary-list govuk-!-margin-bottom-9">
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">
+          Name
+        </dt>
+        <dd class="govuk-summary-list__value">
+          {{ data['name'] or 'Not provided' }}
+        </dd>
+        <dd class="govuk-summary-list__actions">
+          <a class="govuk-link" href="/whats-your-name">
+            Change<span class="govuk-visually-hidden"> name</span>
+          </a>
+        </dd>
+      </div>
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">
+          Email address
+        </dt>
+        <dd class="govuk-summary-list__value">
+          {{ data['email'] or 'Not provided' }}
+        </dd>
+        <dd class="govuk-summary-list__actions">
+          <a class="govuk-link" href="/whats-your-email-address">
+            Change<span class="govuk-visually-hidden"> email address</span>
+          </a>
+        </dd>
+      </div>
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">
+          Phone number
+        </dt>
+        <dd class="govuk-summary-list__value">
+          {{ data['phoneNumber'] or 'Not provided' }}
+        </dd>
+        <dd class="govuk-summary-list__actions">
+          <a class="govuk-link" href="/whats-your-phone-number">
+            Change<span class="govuk-visually-hidden"> phone number</span>
+          </a>
+        </dd>
+      </div>
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">
+          Address
+        </dt>
+        <dd class="govuk-summary-list__value">
+          {{ data['selectedAddress'] or data['finalAddress'] or 'Not provided' }}
+        </dd>
+        <dd class="govuk-summary-list__actions">
+          <a class="govuk-link" href="/whats-your-address">
+            Change<span class="govuk-visually-hidden"> address</span>
+          </a>
+        </dd>
+      </div>
+    </dl>
+
+
+
+    <h2 class="govuk-heading-m">Unicorn details</h2>
+
+    <dl class="govuk-summary-list govuk-!-margin-bottom-9">
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">
+          Number of unicorns expected
+        </dt>
+        <dd class="govuk-summary-list__value">
+          {{ data['aitzzV'] or 'Not provided' }}
+        </dd>
+        <dd class="govuk-summary-list__actions">
+          <a class="govuk-link" href="/how-many-unicorns-do-you-expect-to-breed-each-year">
+            Change<span class="govuk-visually-hidden"> number of unicorns expected</span>
+          </a>
+        </dd>
+      </div>
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">
+          Type of unicorns
+        </dt>
+        <dd class="govuk-summary-list__value">
+          {% if data['DyfjJC'] %}
+            {% for type in data['DyfjJC'] %}
+              {{ type }}{% if not loop.last %}, {% endif %}
+            {% endfor %}
+          {% else %}
+            Not provided
+          {% endif %}
+        </dd>
+        <dd class="govuk-summary-list__actions">
+          <a class="govuk-link" href="/what-type-of-unicorns-will-you-breed">
+            Change<span class="govuk-visually-hidden"> type of unicorns</span>
+          </a>
+        </dd>
+      </div>
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">
+          Where you keep the unicorns
+        </dt>
+        <dd class="govuk-summary-list__value">
+          Easting: {{ data['location-easting'] or 'Not provided' }}, Northing: {{ data['location-northing'] or 'Not provided' }}
+        </dd>
+        <dd class="govuk-summary-list__actions">
+          <a class="govuk-link" href="/where-will-you-keep-the-unicorns">
+            Change<span class="govuk-visually-hidden"> where you keep the unicorns</span>
+          </a>
+        </dd>
+      </div>
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">
+          Number of staff
+        </dt>
+        <dd class="govuk-summary-list__value">
+          {{ data['zhJMaM'] or 'Not provided' }}
+        </dd>
+        <dd class="govuk-summary-list__actions">
+          <a class="govuk-link" href="/how-many-members-of-staff-will-look-after-the-unicorns">
+            Change<span class="govuk-visually-hidden"> number of staff</span>
+          </a>
+        </dd>
+      </div>
+    </dl>
+
+
+    <form class="form" action="/confirmation" method="post">
+
+      {% from "govuk/components/summary-list/macro.njk" import govukSummaryList %}
+
+<h2 class="govuk-heading-m">Unicorn breeder registration fee</h2>
+
+{{ govukSummaryList({
+  rows: [
+    {
+      key: {
+        text: "Payment status"
+      },
+      value: {
+        text: "Paid successfully"
+      }
+    },
+    {
+      key: {
+        text: "Date of payment"
+      },
+      value: {
+        html: "3 October 2025 – 13:41:53"
+      }
+    },
+    {
+      key: {
+        text: "Total amount"
+      },
+      value: {
+        text: "£300.00"
+      }
+    },
+    {
+      key: {
+        text: "Reference"
+      },
+      value: {
+        text: "V44FX85M58"
+      }
+    }
+  ]
+}) }}
+
+             <!-- Payment Section - Clear separation -->
+             {# <div class="payment-summary-wrap">
+              <div class="payment-summary">
+                  <h2 class="govuk-heading-m">Payment received</h2>
+
+                  {% from "govuk/components/summary-list/macro.njk" import govukSummaryList %}
+
+      {{ govukSummaryList({
+        classes: "govuk-!-margin-bottom-t0",
+        rows: [
+          {
+            key: {
+              text: "Total amount"
+            },
+            value: {
+              text: "£300.00"
+            }
+          },
+          {
+            key: {
+              text: "Reference"
+            },
+            value: {
+              text: "V44FX85M58"
+            }
+          },
+          {
+            key: {
+              text: "Date of payment"
+            },
+            value: {
+              html: "3 October 2025 – 13:41:53"
+            }
+          }
+        ]
+      }) }}
+
+
+              </div>
+            </div> #}
+
+
+        {{ govukInput({
+        label: {
+        text: "Confirmation email (optional)",
+        classes: "govuk-label--m govuk-!-padding-top-6"
+        },
+        hint: {
+        text: "Enter your email address to get an email confirming your form has been submitted"
+        },
+        id: "email",
+        name: "email",
+        type: "email",
+        autocomplete: "email",
+        spellcheck: false
+        }) }}
+
+        <!-- Declaration Section -->
+        {# <h2 class="govuk-heading-m">Declaration</h2>
+        <p class="govuk-body">
+          By submitting this form you are confirming that, to the best of your knowledge, the details you are providing are
+          correct.
+        </p> #}
+
+
+
+
+          <div class="govuk-button-group">
+
+
+            {{ govukButton({
+            text: "Send",
+            classes: "govuk-button--primary govuk-!-margin-top-4 govuk-!-margin-bottom-0",
+            href: "/confirmation"
+            }) }}
+
+
+
+        {{ govukButton({
+          text: "Save and exit",
+          classes: "govuk-button--secondary",
+          href: "/save-progress",
+          type: "button"
+          }) }}
+
+          </div>
+
+          <style>
+
+      .payment-summary {
+        border-top: 2px solid #1d70b8;
+        padding: 15px;
+        background-color: #f3f2f1;
+        margin-top: 30px;
+        margin-bottom: 30px;
+      }
+
+
+    @media all{
+      .amount  {
+        display: block;
+      }
+    }
+
+          </style>
+
+    </form>
+
+  </div>
+</div>
+
+{% endblock %}

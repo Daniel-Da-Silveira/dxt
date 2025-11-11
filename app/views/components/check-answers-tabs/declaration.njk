@@ -1,0 +1,257 @@
+{% from "govuk/components/input/macro.njk" import govukInput %}
+{% from "govuk/components/radios/macro.njk" import govukRadios %}
+
+<span class="govuk-caption-l">Check answers</span>
+
+<form class="form" action="/titan-mvp-1.2/form-editor/check-answers/settings-modular" method="post">
+  <input type="hidden" name="currentTab" value="declaration">
+
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+
+  {% set textHtml %}
+  {{ govukTextarea({
+    label: {
+      text: "Declaration text",
+      classes: "govuk-label--m"
+    },
+    hint: {
+      text: "Use a declaration if you need users to declare or agree to something before they submit the form"
+    },
+    id: "check-answers-guidance-text-input",
+    name: "checkAnswersGuidanceTextInput",
+    value: data['checkAnswersGuidanceTextInput'],
+    classes: "govuk-textarea",
+    rows: 8,
+    describedBy: "guidance-textarea-hint",
+    'data-preview-target': '#guidance-paragraph'
+  }) }}
+
+  <details class="govuk-details">
+    <summary class="govuk-details__summary">
+      <span class="govuk-details__summary-text">
+        Help with markdown
+      </span>
+    </summary>
+    <div class="govuk-details__text">
+      <h3 class="govuk-heading-s">Headings and subheadings</h3>
+      <p class="govuk-body">
+        Use one hash symbol followed by a space for a heading, for example:
+      </p>
+      <pre class="formatting-example" style="background-color: white;">
+<code class="lang-md"># This is a heading</code></pre>
+      <p class="bottom-gutter-1-3">
+        To add a subheading, use 2 hash symbols:
+      </p>
+      <pre class="formatting-example" style="background-color: white;">
+<code class="lang-md">## This is a subheading</code></pre>
+
+      <h3 class="govuk-heading-s" id="bullets">Bullet points</h3>
+      <p class="govuk-body">
+        Use bullet points to help words or phrases stand out in your emails and letters.
+      </p>
+      <p class="govuk-body">
+        Copy this example to add bullet points:
+      </p>
+      <pre class="formatting-example" style="background-color: white;">
+<code class="lang-md">Introduce bullet points with a lead-in line ending in a colon:
+
+* leave one empty line space after the lead-in line
+* use an asterisk or a dash followed by a space to add an item
+* start each item with a lowercase letter, do not end with a full stop
+* leave one empty line space after the last item</code></pre>
+
+      <h3 class="govuk-heading-s" id="bullets">Numbered steps</h3>
+      <p class="govuk-body">
+        Copy this example to add numbered steps:
+      </p>
+      <pre class="formatting-example" style="background-color: white;">
+<code class="lang-md">1. Leave one empty line space before starting your list.
+2. Enter a number followed by a full stop and a space to add an item.
+3. Start each item with a capital letter and end it with a full stop.
+4. Leave one empty line space after the last item.</code></pre>
+
+      <h3 class="govuk-heading-s">Links and URLs</h3>
+      <p class="govuk-body">
+        To convert text into a link, use square brackets around the link text and round brackets
+        around the full URL.
+        Make sure there are no spaces between the brackets or the link will not work. For example:
+      </p>
+      <pre class="formatting-example" style="background-color: white;">
+<code class="lang-md">[Apply now](https://www.gov.uk/example)</code></pre>
+    </div>
+  </details>
+  {% endset %}
+
+  {{ govukRadios({
+    name: "declarationOption",
+    fieldset: {
+      legend: {
+        text: "Do users need to make a declaration?",
+        isPageHeading: true,
+        classes: "govuk-fieldset__legend--l"
+      }
+    },
+    hint: {
+      text: "Use a declaration if you need users to declare or agree to something before they submit the form"
+    },
+    items: [
+      {
+        value: "no-declaration",
+        text: "No"
+      },
+      {
+        value: "yes-declaration",
+        text: "Yes",
+        conditional: {
+          html: textHtml
+        }
+      }
+    ]
+  }) }}
+
+  <div class="govuk-button-group">
+    {{ govukButton({
+      text: "Save",
+      type: "submit",
+      id: "continue-button"
+    }) }}
+
+    {# <a href="/titan-mvp-1.2/form-editor/check-answers/settings-modular" class="govuk-link govuk-link--no-visited-state">
+      Cancel
+    </a> #}
+  </div>
+</form>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const textarea = document.getElementById('check-answers-guidance-text-input');
+    const guidanceParagraph = document.getElementById('guidance-paragraph');
+    const continueButton = document.getElementById('continue-button');
+    const noDeclarationRadio = document.querySelector('input[value="no-declaration"]');
+    const yesDeclarationRadio = document.querySelector('input[value="yes-declaration"]');
+
+    // Load existing declaration text from session
+    loadDeclarationText();
+
+    // Event listener for radio buttons to show/hide guidance paragraph
+    if (noDeclarationRadio && yesDeclarationRadio) {
+      noDeclarationRadio.addEventListener('change', toggleGuidanceVisibility);
+      yesDeclarationRadio.addEventListener('change', toggleGuidanceVisibility);
+    }
+
+    // Save declaration text to session when user types
+    if (textarea) {
+      textarea.addEventListener('input', function() {
+        saveDeclarationText(this.value);
+        updateGuidanceParagraph(this.value);
+      });
+
+      textarea.addEventListener('focus', function() {
+        applyHighlight(guidanceParagraph);
+        showPlaceholderGuidance();
+      });
+
+      textarea.addEventListener('blur', function() {
+        removeHighlight(guidanceParagraph);
+        clearPlaceholderGuidance();
+      });
+    }
+
+    function loadDeclarationText() {
+      fetch('/titan-mvp-1.2/form-editor/check-answers/get-session-data')
+        .then(response => response.json())
+        .then(data => {
+          // Load declaration text
+          if (data.declarationText && textarea) {
+            textarea.value = data.declarationText;
+            updateGuidanceParagraph(data.declarationText);
+          }
+          
+          // Load and restore radio button selection
+          if (data.declarationOption) {
+            if (data.declarationOption === 'no-declaration' && noDeclarationRadio) {
+              noDeclarationRadio.checked = true;
+            } else if (data.declarationOption === 'yes-declaration' && yesDeclarationRadio) {
+              yesDeclarationRadio.checked = true;
+            }
+            // Trigger the visibility toggle to show/hide the textarea based on selection
+            toggleGuidanceVisibility();
+          }
+        })
+        .catch(error => {
+          console.error('Error loading declaration text:', error);
+        });
+    }
+
+    function saveDeclarationText(text) {
+      fetch('/titan-mvp-1.2/form-editor/check-answers/save-declaration', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          declarationText: text
+        })
+      }).catch(error => {
+        console.error('Error saving declaration text:', error);
+      });
+    }
+
+    function updateGuidanceParagraph(markdownText) {
+      if (!guidanceParagraph) return;
+
+      if (typeof marked === "function") {
+        try {
+          const renderedHtml = marked(markdownText);
+          guidanceParagraph.innerHTML = renderedHtml;
+        } catch (error) {
+          console.error("Error rendering Markdown:", error);
+          guidanceParagraph.textContent = markdownText;
+        }
+      } else {
+        guidanceParagraph.textContent = markdownText;
+      }
+    }
+
+    // Toggle guidance paragraph visibility based on selected radio button
+    function toggleGuidanceVisibility() {
+      if (yesDeclarationRadio.checked) {
+        if (guidanceParagraph) {
+          guidanceParagraph.style.display = "block"; // Show guidance paragraph if "Yes" is selected
+        }
+      } else if (noDeclarationRadio.checked) {
+        if (guidanceParagraph) {
+          guidanceParagraph.style.display = "none"; // Hide guidance paragraph if "No" is selected
+        }
+      }
+    }
+
+    function showPlaceholderGuidance() {
+      if (!textarea || !guidanceParagraph) return;
+
+      if (!textarea.value) {
+        guidanceParagraph.textContent = "Declaration text";
+      }
+    }
+
+    function clearPlaceholderGuidance() {
+      if (!textarea || !guidanceParagraph) return;
+
+      if (!textarea.value) {
+        guidanceParagraph.textContent = "Declaration text";
+      }
+    }
+
+    function applyHighlight(element) {
+      if (element) {
+        element.classList.add("highlight");
+      }
+    }
+
+    function removeHighlight(element) {
+      if (element) {
+        element.classList.remove("highlight");
+      }
+    }
+  });
+</script>

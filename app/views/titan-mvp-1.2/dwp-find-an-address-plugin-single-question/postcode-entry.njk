@@ -1,0 +1,78 @@
+{% extends "layouts/main.html" %}
+
+{% block pageTitle %}
+  Find an address - GOV.UK Prototype Kit
+{% endblock %}
+
+{% block content %}
+
+  {{ govukBackLink({
+    text: "Back",
+    href: "javascript: window.history.go(-1)"
+  }) }}
+
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+
+      {% if error %}
+        {{ govukErrorSummary({
+          titleText: "There is a problem",
+          errorList: [
+            {
+              text: "Enter postcode to find address or enter address manually",
+              href: "#address-postcode"
+            } if error.addressError else ""
+          ]
+        }) }}
+      {% endif %}
+
+      <form method="post" autocomplete="off">
+        <h1 class="govuk-heading-l">What is your business address?</h1>
+
+        {{ govukInput({
+          label: {
+            text: "Postcode"
+          },
+          hint: {
+            text: "For example, AA3 1AB"
+          },
+          classes: "govuk-!-width-one-third",
+          id: "address-postcode",
+          name: "addressPostcode",
+          errorMessage: { text: "Enter postcode to find address or enter address manually" } if error.addressError else "",
+          value: data['addressPostcode'],
+          autocomplete: "postal-code"
+        }) }}
+
+        {{ govukInput({
+          label: {
+            text: "Building number or name (optional)"
+          },
+          hint: {
+            text: "For example, 15 or Prospect Cottage"
+          },
+          classes: "govuk-!-width-one-third",
+          id: "building-name-number",
+          name: "buildingNameNumber",
+          value: data['buildingNameNumber']
+        }) }}
+
+        <div class="govuk-button-group">
+          {{ govukButton({
+            text: "Find address",
+            name: "action",
+            value: "lookup",
+            classes: "govuk-button govuk-!-margin-right-1"
+          }) }}
+
+          <p class="govuk-body">or <a href="/dwp-find-an-address-plugin-single-question/manual-entry?returnUrl={{ data.returnUrl or '/dwp-find-an-address-plugin-single-question/question-one' }}" class="govuk-link">enter address manually</a></p>
+
+        </div>
+
+
+        <input type="hidden" name="returnUrl" value="{{ data.returnUrl }}">
+      </form>
+    </div>
+  </div>
+
+{% endblock %}

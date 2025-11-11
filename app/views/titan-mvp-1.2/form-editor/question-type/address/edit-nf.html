@@ -1,0 +1,824 @@
+{% extends "layouts/main.html" %}
+{% from "components/service-header/macro.njk" import serviceHeader %}
+{% set pageName %}Edit page {{ pageNumber }}: question {{ questionNumber }} - {{ form.name }}{% endset %}
+{% set headingPlaceholder = "Page heading" %}
+{% set guidancePlaceholder = "" %}
+
+{% block header %}
+{{ serviceHeader({
+organisationName: "Defra",
+productName: "Form Designer",
+serviceName: "",
+containerClasses: containerClasses,
+accountName: "Chris Smith",
+homepageLink: "/",
+signOutLink: "/onboarding/sign-out-confirmation",
+navigationItems: [
+{ href: "/titan-mvp-1/library.html", text: "Forms library", id: "nav-library" },
+{ href: "/cph-overview/draft/complete-clean.html", text: "Overview", id: "nav-overview" },
+{ href: "/titan-mvp-1/form-editor/listing", text: "Editor", id: "nav-editor" } ],
+activeLinkId: "nav-editor"
+}) }}
+
+<div class="x-govuk-masthead x-govuk-masthead--large">
+  <div class="govuk-width-container">
+
+    {{ govukBackLink({ classes: "govuk-back-link--inverse govuk-!-margin-bottom-0", text:
+    commonTerms.form_editor.information_type.back, href: "/titan-mvp-1/form-editor/listing.html" }) }}
+
+    <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible"
+      style="border-bottom: 1px solid white; margin-bottom: 0" />
+
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-full-from-desktop">
+        <h1 class="x-govuk-masthead__title">
+          {{ form.name }}
+        </h1>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-full">
+    <div class="govuk-grid-row">
+      <!-- Left Column for Form Controls -->
+      <div class="govuk-grid-column-one-half-from-desktop" id="container" style="flex: 1 1 75%; overflow-y: auto">
+        <div class="govuk-summary-card govuk-!-margin-top-0" style="border-left: 10px solid #008938">
+          <div class="govuk-summary-card__content govuk-!-padding-top-0" style="background-color: #f3f2f1">
+            <dl class="govuk-summary-list">
+              <div class="govuk-summary-list__row">
+                <dd class="govuk-summary-list__value">
+                  <!-- Dynamic Summary List -->
+                  <!-- Question Settings Container -->
+                  <div class="govuk-grid-row" id="page-settings-container-1">
+                    <div id="question-1">
+                      <div class="govuk-summary-card__content" style="margin-bottom: 0">
+                        <!-- Sub Navigation for Question -->
+                        <nav class="moj-sub-navigation govuk-!-padding-top-0 govuk-!-margin-bottom-2 "
+                          aria-label="Sub navigation">
+                          <ul class="moj-sub-navigation__list" id="nav-list2">
+                            <li class="moj-sub-navigation__item">
+                              <a class="moj-sub-navigation__link" aria-current="page"
+                                href="#question-1-information-type">Question {{ questionNumber }}</a>
+                            </li>
+                          </ul>
+                        </nav>
+
+                        <div class="govuk-summary-card__title-wrapper govuk-!-padding-top-0"></div>
+
+                        <span class="govuk-caption-l">Page {{ pageNumber }}</span>
+                        <h2 class="govuk-heading-l">Edit question {{ questionNumber }}</h2>
+
+                        <form id="s" action="/titan-mvp-1.2/question-configuration-save" method="post">
+                          <input type="hidden" name="questionType" value="address">
+
+                          {% from "govuk/components/input/macro.njk" import govukInput %}
+
+                          <!-- Question Label Input -->
+                          <div class="govuk-form-group">
+                            <label class="govuk-label govuk-label--m" for="question-label-input-address">
+                              {{ commonTerms.form_editor.question_settings.question }}
+                            </label>
+                            <input class="govuk-input" id="question-label-input-address"
+                              name="questionLabelInputAddress" type="text" value="">
+                          </div>
+
+                          <!-- Hint Text Input -->
+                          {{ govukTextarea({
+                          label: {
+                          text: commonTerms.form_editor.question_settings.hint,
+                          classes: "govuk-label--m"
+                          },
+                          id: "hint-text-input-address",
+                          name: "hintTextInputAddress",
+                          value: data['hint-text-input-address'],
+                          classes: "govuk-textarea",
+                          rows: 3,
+                          describedBy: "hint-text-input-address"
+                          }) }}
+
+                          <!-- Make Optional Checkbox -->
+                          <div class="govuk-form-group">
+                            <div class="govuk-checkboxes--small">
+                              <div class="govuk-checkboxes__item">
+                                <input class="govuk-checkboxes__input" id="make-optional" name="makeOptional"
+                                  type="checkbox" value="optional">
+                                <label class="govuk-label govuk-checkboxes__label" for="make-optional">
+                                  {{ commonTerms.form_editor.question_settings.optional }}
+                                </label>
+                              </div>
+                            </div>
+
+                            {{ govukCheckboxes({
+                            idPrefix: "postcode-lookup",
+                            name: "postcodeLookup",
+                            classes: "govuk-checkboxes--small",
+                            fieldset: {
+                            legend: {
+                            text: "Use postcode lookup",
+                            classes: "govuk-!-display-none"
+                            }
+                            },
+                            items: [
+                            {
+                            value: "postcodeLookup",
+                            text: "Use postcode lookup",
+                            hint: {
+                            text: "Allow users to search for an address using a postcode"
+                            },
+                            checked: false
+                            } ]
+                            }) }}
+                          </div>
+
+
+                          {{ govukInput({
+                          label: {
+                          text: commonTerms.form_editor.question_settings.short_description.title,
+                          classes: "govuk-label--m",
+                          isPageHeading: false
+                          },
+                          hint: {
+                          text: commonTerms.form_editor.question_settings.short_description.hint
+                          },
+                          id: "error-message-input-address",
+                          name: "errorMessageInputAddress",
+                          value: data['error-message-input-address'] or ''
+                          }) }}
+
+                          <!-- Section Break -->
+                          <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
+
+                          <!-- Question Settings Summary List -->
+                          <h2 class="govuk-heading-m">{{ commonTerms.form_editor.question_settings.title }}</h2>
+
+                          {{ govukSummaryList({
+                          "rows": [
+                          {
+                          "key": {
+                          "text": "Type of information"
+                          },
+                          "value": {
+                          "html": commonTerms.form_editor.information_type.address.title
+                          },
+                          "actions": {
+                          "items": [
+                          {
+                          "href": "/titan-mvp-1/form-editor/1-question/information-type.html",
+                          "text": commonTerms.form_editor.common.edit,
+                          "visuallyHiddenText": " type"
+                          }
+                          ]
+                          }
+                          }
+                          ]
+                          }) }}
+
+                          <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
+
+                          <!-- Submit Button -->
+                          <div class="moj-button-action">
+                            {{ govukButton({
+                            text: commonTerms.form_editor.common.continue,
+                            type: 'submit'
+                            }) }}
+                          </div>
+                        </form>
+                      </div>
+                    </div>
+                  </div>
+                </dd>
+              </div>
+            </dl>
+          </div>
+        </div>
+      </div>
+
+
+      <!-- Right Column for Preview -->
+      <div class="govuk-grid-column-one-half-from-desktop" id="second-container"
+        style="outline: solid 1px #008938; height: 100%; position: sticky; top: 0; padding: 20px; box-shadow: 5px 10px #008938;">
+        <!-- Before content -->
+        <div id="before-content" style=" background-color:  #cce2d8;">
+          <p class="govuk-body-s" style="margin-bottom: 0; color: #005a30; padding: 2px 8px 3px;
+text-align: center;"> Previews
+          </p>
+        </div>
+
+        <div style="margin-top: 60px;">
+          {% from "govuk/components/tabs/macro.njk" import govukTabs %}
+
+          <div class="govuk-tabs" data-module="govuk-tabs">
+            <h2 class="govuk-tabs__title">
+              Contents
+            </h2>
+            <ul class="govuk-tabs__list">
+              <li class="govuk-tabs__list-item govuk-tabs__list-item--selected">
+                <a class="govuk-tabs__tab" href="#tab-one">Page preview</a>
+              </li>
+              <li class="govuk-tabs__list-item">
+                <a class="govuk-tabs__tab" href="#tab-two">Error messages</a>
+              </li>
+            </ul>
+
+            <div class="govuk-tabs__panel" id="tab-one">
+              <!-- Page Preview Content -->
+
+
+              <p class="govuk-body-s" style="margin-bottom: 30px; border-bottom: #008938 1px;">
+                <a href="#" class="govuk-link govuk-link--no-visited-state" rel="noreferrer noopener" target="_blank">
+                  Preview this page in a new tab
+                </a>
+              </p>
+
+              {# {% include "/titan-mvp-1/form-editor/templates/previews/address/edit.html" %} #}
+              {% include "/titan-mvp-1.2/form-editor/question-type/address/previews/edit.html" %}
+
+              <a href="#edit-page" class="govuk-skip-link" style="margin-bottom: 30px!important;"
+                data-module="govuk-skip-link">
+                Skip to edit page
+              </a>
+            </div>
+
+
+            <div class="govuk-tabs__panel" id="tab-two">
+              <!-- Error Messages Content -->
+              <div class="govuk-error-summary" data-disable-auto-focus="true">
+                <h2 class="govuk-error-summary__title">There is a problem</h2>
+                <ul class="govuk-list govuk-error-summary__list" id="error-messages-list">
+                  <!-- Error messages will be populated dynamically based on checkbox state -->
+                </ul>
+              </div>
+
+              <!-- Additional context about the mini-journey -->
+              <div class="govuk-!-margin-top-4" id="error-context">
+                <!-- Context will be populated dynamically based on checkbox state -->
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- JavaScript code -->
+      <!-- JavaScript code -->
+      <script>
+        document.addEventListener('DOMContentLoaded', function () {
+          // DOM Elements
+          const domElements = {
+            // Existing elements
+            questionLabelInputAddress: document.getElementById('question-label-input-address'),
+            questionLabelLegend: document.querySelector('#tab-one #question-label-legend'),
+            hintTextInputAddress: document.getElementById('hint-text-input-address'),
+            hintTextOutput: document.querySelector('#tab-one #hint-text-output'),
+            makeOptionalCheckbox: document.getElementById('make-optional'),
+
+            // New elements for page heading and guidance text
+            pageHeadingInputAddress: document.getElementById('page-heading-input-address'),
+            dynamicHeading: document.getElementById('dynamic-heading'),
+            guidanceAddress: document.getElementById('guidance-address'),
+            guidanceParagraph: document.getElementById('guidance-paragraph')
+          };
+
+          // Initialize event listeners
+          initializeEventListeners();
+
+          function initializeEventListeners() {
+            // Update question label
+            if (domElements.questionLabelInputAddress && domElements.questionLabelLegend) {
+              domElements.questionLabelInputAddress.addEventListener('input', updateQuestionLabel);
+            }
+
+            // Update hint text and handle placeholder
+            if (domElements.hintTextInputAddress && domElements.hintTextOutput) {
+              domElements.hintTextInputAddress.addEventListener('input', updateHintText);
+              domElements.hintTextInputAddress.addEventListener('focus', showPlaceholderHint);
+              domElements.hintTextInputAddress.addEventListener('blur', clearPlaceholderHint);
+            }
+
+            // Update page heading and handle placeholder
+            if (domElements.pageHeadingInputAddress && domElements.dynamicHeading) {
+              domElements.pageHeadingInputAddress.addEventListener('input', updatePageHeading);
+              domElements.pageHeadingInputAddress.addEventListener('focus', showPlaceholderHeading);
+
+              domElements.pageHeadingInputAddress.addEventListener('blur', clearPlaceholderHeading);
+            }
+
+            // Update optional label
+            if (domElements.makeOptionalCheckbox) {
+              domElements.makeOptionalCheckbox.addEventListener('change', updateQuestionLabel);
+            }
+
+            // Update page heading
+            if (domElements.pageHeadingInputAddress && domElements.dynamicHeading) {
+              domElements.pageHeadingInputAddress.addEventListener('input', updatePageHeading);
+            }
+
+            // Update guidance text and handle placeholder
+            if (domElements.guidanceAddress && domElements.guidanceParagraph) {
+              domElements.guidanceAddress.addEventListener('input', updateGuidanceText);
+              domElements.guidanceAddress.addEventListener('focus', showPlaceholderGuidance);
+              domElements.guidanceAddress.addEventListener('blur', clearPlaceholderGuidance);
+            }
+
+
+
+            // Apply focus/blur highlighting
+            applyHighlightOnFocus(domElements.questionLabelInputAddress, domElements.questionLabelLegend);
+            applyHighlightOnFocus(domElements.hintTextInputAddress, domElements.hintTextOutput);
+            applyHighlightOnFocus(domElements.pageHeadingInputAddress, domElements.dynamicHeading);
+            applyHighlightOnFocus(domElements.guidanceAddress, domElements.guidanceParagraph);
+          }
+          function updateQuestionLabel() {
+            const suffix = domElements.makeOptionalCheckbox.checked ? ' (optional)' : '';
+            domElements.questionLabelLegend.textContent = domElements.questionLabelInputAddress.value || 'Question';
+            domElements.questionLabelLegend.textContent += suffix;
+          }
+
+          function updateHintText() {
+            domElements.hintTextOutput.textContent = domElements.hintTextInputAddress.value;
+          }
+
+          function updatePageHeading() {
+            domElements.dynamicHeading.textContent = domElements.pageHeadingInputAddress.value;
+          }
+
+          function updateGuidanceText() {
+            domElements.guidanceParagraph.textContent = domElements.guidanceAddress.value;
+          }
+
+          function applyHighlightOnFocus(inputElement, targetElement) {
+            if (inputElement && targetElement) {
+              inputElement.addEventListener('focus', function () {
+                targetElement.classList.add('highlight');
+              });
+              inputElement.addEventListener('blur', function () {
+                targetElement.classList.remove('highlight');
+              });
+
+              // If the input is already focused
+              if (document.activeElement === inputElement) {
+                targetElement.classList.add('highlight');
+              }
+            }
+          }
+
+          // Placeholder handling for hint text
+          function showPlaceholderHint() {
+            if (!domElements.hintTextInputAddress.value) {
+              domElements.hintTextOutput.textContent = 'Hint text';
+            }
+          }
+
+          function clearPlaceholderHint() {
+            if (!domElements.hintTextInputAddress.value) {
+              domElements.hintTextOutput.textContent = '';
+            }
+          }
+
+          // Placeholder handling for page heading
+          function showPlaceholderHeading() {
+            if (!domElements.pageHeadingInputAddress.value) {
+              domElements.dynamicHeading.textContent = 'Page heading';
+            }
+          }
+
+          function clearPlaceholderHeading() {
+            if (!domElements.pageHeadingInputAddress.value) {
+              domElements.dynamicHeading.textContent = '';
+            }
+          }
+
+          // Placeholder handling for guidance text
+          function showPlaceholderGuidance() {
+            if (!domElements.guidanceAddress.value) {
+              domElements.guidanceParagraph.textContent = 'Guidance text';
+            }
+          }
+
+          function clearPlaceholderGuidance() {
+            if (!domElements.guidanceAddress.value) {
+              domElements.guidanceParagraph.textContent = '';
+            }
+          }
+        });
+      </script>
+
+      <script>
+        document.addEventListener('DOMContentLoaded', function () {
+          // DOM Elements
+          const domElements = {
+            // Use the real question input id used on the form
+            multiQuestionLabelInputAddress: document.getElementById('question-label-input-address'),
+            errorMessageInputAddress: document.getElementById('error-message-input-address'),
+            errorMessagePreviewElements: document.querySelectorAll("#error-dynamic-text, #error-dynamic-text-long, #error-dynamic-text-short, #error-dynamic-text-range"),
+            makeOptionalCheckbox: document.getElementById('make-optional'),
+            maxPastInput: document.getElementById('max-past'),
+            maxCharactersInput: document.getElementById('max-characters'),
+            minCharactersPreview: document.querySelectorAll("#min-characters, #min-length, #min-length-range"),
+            maxCharactersPreview: document.querySelectorAll("#max-characters, #max-length, #max-length-range"),
+            errorMessagePreviewSummary: document.getElementById('error-message-preview-summary'), // Add the details component
+            postcodeLookupCheckbox: document.querySelector('input[name="postcodeLookup"]'),
+            previewFieldset: document.querySelector('#tab-one .border-left-container-address fieldset'),
+            guidanceAddress: document.getElementById('guidance-address')
+          };
+
+          // Initialize event listeners
+          initializeEventListeners();
+
+          // Initialize error messages on page load
+          updateErrorMessages();
+
+          // Initialize error messages preview on page load
+          updateErrorMessagesPreview();
+
+          // Initialize preview with correct interface based on checkbox state
+          initializePreviewInterface();
+
+          function initializeEventListeners() {
+            // Update short description and apply highlighting
+            if (domElements.errorMessageInputAddress && domElements.errorMessagePreviewElements.length) {
+              domElements.errorMessageInputAddress.addEventListener('input', updateErrorMessages);
+              applyHighlightOnFocus(domElements.errorMessageInputAddress, domElements.errorMessagePreviewElements);
+
+              // Activate the details component on focus and deactivate on blur
+              domElements.errorMessageInputAddress.addEventListener('focus', openErrorMessagePreview);
+              domElements.errorMessageInputAddress.addEventListener('blur', closeErrorMessagePreview);
+            }
+
+            // Apply focus/blur highlighting to other elements
+            // Ensure we highlight using the correct question input element
+            applyHighlightOnFocus(domElements.multiQuestionLabelInputAddress, document.querySelector('#tab-one #question-label-legend'));
+
+            // Update character limits dynamically
+            if (domElements.minCharactersInput && domElements.maxCharactersInput) {
+              domElements.minCharactersInput.addEventListener('input', updateCharacterLimits);
+              domElements.maxCharactersInput.addEventListener('input', updateCharacterLimits);
+            }
+
+            // Handle postcode lookup checkbox
+            if (domElements.postcodeLookupCheckbox) {
+              domElements.postcodeLookupCheckbox.addEventListener('change', togglePostcodeLookup);
+            }
+          }
+
+          function updateErrorMessages() {
+            const shortDescription = domElements.errorMessageInputAddress.value || '[Short description]';
+            domElements.errorMessagePreviewElements.forEach(element => {
+              element.textContent = shortDescription;
+            });
+            // Also update the error messages preview
+            updateErrorMessagesPreview();
+          }
+
+          function updateErrorMessagesPreview() {
+            const errorMessagesList = document.getElementById('error-messages-list');
+            const errorContext = document.getElementById('error-context');
+
+            if (!errorMessagesList || !errorContext) return;
+
+            const isPostcodeLookupEnabled = domElements.postcodeLookupCheckbox && domElements.postcodeLookupCheckbox.checked;
+            const shortDescription = domElements.errorMessageInputAddress ? domElements.errorMessageInputAddress.value || '[Short description]' : '[Short description]';
+
+            if (isPostcodeLookupEnabled) {
+              // Show postcode lookup errors
+              errorMessagesList.innerHTML = `
+                <li><a id="postcode-lookup-error" class="govuk-error-message">Enter postcode to find <span id="error-dynamic-text">${shortDescription}</span> or enter address manually</a></li>
+                <li><a id="address-selection-error" class="govuk-error-message">Select an address</a></li>
+                <li><a id="address-line-error" class="govuk-error-message">Enter address line 1, typically the building and street</a></li>
+                <li><a id="town-city-error" class="govuk-error-message">Enter town or city</a></li>
+                <li><a id="postcode-manual-error" class="govuk-error-message">Enter postcode</a></li>
+              `;
+
+              errorContext.style.display = 'block';
+            } else {
+              // Show manual entry errors only
+              errorMessagesList.innerHTML = `
+                <li><a id="address-line-error" class="govuk-error-message">Enter address line 1, typically the building and street</a></li>
+                <li><a id="town-city-error" class="govuk-error-message">Enter town or city</a></li>
+                <li><a id="postcode-manual-error" class="govuk-error-message">Enter postcode</a></li>
+              `;
+
+              errorContext.style.display = 'none';
+            }
+          }
+
+          function initializePreviewInterface() {
+            // Set initial preview interface based on checkbox state
+            if (domElements.postcodeLookupCheckbox && domElements.previewFieldset) {
+              const isChecked = domElements.postcodeLookupCheckbox.checked;
+              if (isChecked) {
+                // Show postcode lookup interface
+                togglePostcodeLookup();
+              } else {
+                // Show manual address entry interface by default
+                const currentQuestionText = domElements.multiQuestionLabelInputAddress ? domElements.multiQuestionLabelInputAddress.value : '';
+                const currentGuidanceText = domElements.guidanceAddress ? domElements.guidanceAddress.value : '';
+
+                domElements.previewFieldset.innerHTML = `
+                  <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
+                    <h1 class="govuk-fieldset__heading" id="question-label-legend">
+                      ${currentQuestionText || 'Question'}
+                    </h1>
+                    <div class="govuk-hint" id="hint-text-output">${currentGuidanceText}</div>
+                  </legend>
+
+                  <div class="govuk-form-group">
+                    <label class="govuk-label" for="address-line-1">
+                      Address line 1
+                    </label>
+                    <input class="govuk-input" id="address-line-1" name="addressLine1" type="text" autocomplete="address-line1">
+                  </div>
+
+                  <div class="govuk-form-group">
+                    <label class="govuk-label" for="address-line-2">
+                      Address line 2 (optional)
+                    </label>
+                    <input class="govuk-input" id="address-line-2" name="addressLine2" type="text" autocomplete="address-line2">
+                  </div>
+
+                  <div class="govuk-form-group">
+                    <label class="govuk-label" for="address-town">
+                      Town or city
+                    </label>
+                    <input class="govuk-input govuk-!-width-two-thirds" id="address-town" name="addressTown" type="text" autocomplete="address-level2">
+                  </div>
+
+                  <div class="govuk-form-group">
+                    <label class="govuk-label" for="address-postcode">
+                      Postcode
+                    </label>
+                    <input class="govuk-input govuk-input--width-10" id="address-postcode" name="addressPostcode" type="text" autocomplete="postal-code">
+                  </div>
+                `;
+
+                // Re-apply dynamic functionality for manual entry
+                reapplyDynamicFunctionality();
+              }
+            }
+          }
+
+          function openErrorMessagePreview() {
+            // Show the error messages tab when user focuses on short description input
+            const errorTab = document.querySelector('#tab-two');
+            if (errorTab) {
+              errorTab.style.display = 'block';
+            }
+          }
+
+          function closeErrorMessagePreview() {
+            // Keep the error messages tab visible for reference
+            // No need to hide it as it's useful for users to see
+          }
+
+          function updateCharacterLimits() {
+            const minCharacters = domElements.minCharactersInput.value || '[min length]';
+            const maxCharacters = domElements.maxCharactersInput.value || '[max length]';
+
+            domElements.minCharactersPreview.forEach(element => {
+              element.textContent = minCharacters;
+            });
+
+            domElements.maxCharactersPreview.forEach(element => {
+              element.textContent = maxCharacters;
+            });
+          }
+
+          function applyHighlightOnFocus(inputElement, targetElements) {
+            if (!inputElement || !targetElements) return;
+
+            // Normalise to an array so we can accept a single element or a NodeList
+            const targets = (NodeList.prototype.isPrototypeOf(targetElements) || Array.isArray(targetElements))
+              ? targetElements
+              : [targetElements];
+
+            inputElement.addEventListener('focus', function () {
+              targets.forEach(target => target.classList.add('highlight'));
+            });
+            inputElement.addEventListener('blur', function () {
+              targets.forEach(target => target.classList.remove('highlight'));
+            });
+
+            // If the input is already focused, apply the highlight immediately
+            if (document.activeElement === inputElement) {
+              targets.forEach(target => target.classList.add('highlight'));
+            }
+          }
+
+          function togglePostcodeLookup() {
+            if (!domElements.previewFieldset) return;
+
+            const isChecked = domElements.postcodeLookupCheckbox.checked;
+
+            // Save current values before switching
+            const currentQuestionText = domElements.multiQuestionLabelInputAddress ? domElements.multiQuestionLabelInputAddress.value : '';
+            const currentGuidanceText = domElements.guidanceAddress ? domElements.guidanceAddress.value : '';
+
+            if (isChecked) {
+              // Show postcode lookup interface
+              domElements.previewFieldset.innerHTML = `
+                <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
+                  <h1 class="govuk-fieldset__heading" id="question-label-legend">
+                    ${currentQuestionText || 'Question'}
+                  </h1>
+                  <div class="govuk-hint" id="hint-text-output">${currentGuidanceText}</div>
+                </legend>
+
+                <div class="govuk-form-group">
+                  <label class="govuk-label" for="address-postcode">
+                    Postcode
+                  </label>
+                  <div class="govuk-hint" id="postcode-hint">
+                    For example, AA3 1AB
+                  </div>
+                  <input class="govuk-input govuk-!-width-one-third" id="address-postcode" name="addressPostcode" type="text" autocomplete="postal-code">
+                </div>
+
+                <div class="govuk-form-group">
+                  <label class="govuk-label" for="building-name-number">
+                    Building number or name (optional)
+                  </label>
+                  <div class="govuk-hint" id="building-hint">
+                    For example, 15 or Prospect Cottage
+                  </div>
+                  <input class="govuk-input govuk-!-width-one-third" id="building-name-number" name="buildingNameNumber" type="text">
+                </div>
+
+                <div class="govuk-button-group">
+                  <button class="govuk-button govuk-!-margin-right-1" type="button">
+                    Find address
+                  </button>
+                  <p class="govuk-body">or <a href="#" class="govuk-link">enter address manually</a></p>
+                </div>
+              `;
+            } else {
+              // Show manual address entry interface
+              domElements.previewFieldset.innerHTML = `
+                <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
+                  <h1 class="govuk-fieldset__heading" id="question-label-legend">
+                    ${currentQuestionText || 'Question'}
+                  </h1>
+                  <div class="govuk-hint" id="hint-text-output">${currentGuidanceText}</div>
+                </legend>
+
+                <div class="govuk-form-group">
+                  <label class="govuk-label" for="address-line-1">
+                    Address line 1
+                  </label>
+                  <input class="govuk-input" id="address-line-1" name="addressLine1" type="text" autocomplete="address-line1">
+                </div>
+
+                <div class="govuk-form-group">
+                  <label class="govuk-label" for="address-line-2">
+                    Address line 2 (optional)
+                  </label>
+                  <input class="govuk-input" id="address-line-2" name="addressLine2" type="text" autocomplete="address-line2">
+                </div>
+
+                <div class="govuk-form-group">
+                  <label class="govuk-label" for="address-town">
+                    Town or city
+                  </label>
+                  <input class="govuk-input govuk-!-width-two-thirds" id="address-town" name="addressTown" type="text" autocomplete="address-level2">
+                </div>
+
+                <div class="govuk-form-group">
+                  <label class="govuk-label" for="address-postcode">
+                    Postcode
+                  </label>
+                  <input class="govuk-input govuk-input--width-10" id="address-postcode" name="addressPostcode" type="text" autocomplete="postal-code">
+                </div>
+              `;
+            }
+
+            // Re-apply dynamic functionality after content change
+            reapplyDynamicFunctionality();
+
+            // Update error messages preview
+            updateErrorMessagesPreview();
+          }
+
+          function reapplyDynamicFunctionality() {
+            // Re-bind highlight and text updates for the question label
+            const questionLabelLegend = document.querySelector('#tab-one #question-label-legend');
+            const questionInput = domElements.multiQuestionLabelInputAddress; // real id set above
+            if (questionInput && questionLabelLegend) {
+              // Bind once; handler always targets the current legend in the DOM
+              if (!questionInput.dataset.previewBound) {
+                // Focus/blur: highlight the CURRENT legend node when input is focused
+                questionInput.addEventListener('focus', function () {
+                  const currentLegend = document.querySelector('#tab-one #question-label-legend');
+                  if (currentLegend) currentLegend.classList.add('highlight');
+                });
+                questionInput.addEventListener('blur', function () {
+                  const currentLegend = document.querySelector('#tab-one #question-label-legend');
+                  if (currentLegend) currentLegend.classList.remove('highlight');
+                });
+
+                // Input: update the CURRENT legend text each time
+                questionInput.addEventListener('input', function () {
+                  const currentLegend = document.querySelector('#tab-one #question-label-legend');
+                  if (!currentLegend) return;
+                  const suffix = domElements.makeOptionalCheckbox && domElements.makeOptionalCheckbox.checked ? ' (optional)' : '';
+                  currentLegend.textContent = this.value || 'Question';
+                  currentLegend.textContent += suffix;
+                });
+
+                questionInput.dataset.previewBound = 'true';
+              }
+              // Immediately reflect current value on the CURRENT legend
+              const currentLegendNow = document.querySelector('#tab-one #question-label-legend');
+              if (currentLegendNow) {
+                const suffixNow = domElements.makeOptionalCheckbox && domElements.makeOptionalCheckbox.checked ? ' (optional)' : '';
+                currentLegendNow.textContent = questionInput.value || 'Question';
+                currentLegendNow.textContent += suffixNow;
+              }
+            }
+
+            // Ensure the optional checkbox continues to control the suffix after toggling
+            if (domElements.makeOptionalCheckbox && questionLabelLegend && questionInput) {
+              if (!domElements.makeOptionalCheckbox.dataset.previewBound) {
+                domElements.makeOptionalCheckbox.addEventListener('change', function () {
+                  const suffix = domElements.makeOptionalCheckbox.checked ? ' (optional)' : '';
+                  questionLabelLegend.textContent = (questionInput.value || 'Question') + suffix;
+                });
+                domElements.makeOptionalCheckbox.dataset.previewBound = 'true';
+              }
+            }
+
+            // Re-bind hint text updates
+            const hintTextOutput = document.querySelector('#tab-one #hint-text-output');
+            const guidanceInput = domElements.guidanceAddress;
+            if (guidanceInput) {
+              if (!guidanceInput.dataset.previewBound) {
+                guidanceInput.addEventListener('input', function () {
+                  const currentHint = document.querySelector('#tab-one #hint-text-output');
+                  if (currentHint) currentHint.textContent = this.value || '';
+                });
+                guidanceInput.dataset.previewBound = 'true';
+              }
+              const currentHintNow = document.querySelector('#tab-one #hint-text-output');
+              if (currentHintNow) currentHintNow.textContent = guidanceInput.value || '';
+            }
+
+            // Re-bind short description updates
+            const errorMessageInput = domElements.errorMessageInputAddress;
+            const errorMessageElements = domElements.errorMessagePreviewElements;
+            if (errorMessageInput && errorMessageElements.length) {
+              if (!errorMessageInput.dataset.previewBound) {
+                errorMessageInput.addEventListener('input', updateErrorMessages);
+                applyHighlightOnFocus(errorMessageInput, errorMessageElements);
+                errorMessageInput.dataset.previewBound = 'true';
+              }
+              // Immediately update error messages with current value
+              updateErrorMessages();
+            }
+          }
+
+
+        });
+      </script>
+
+
+      <script>
+        document.addEventListener('DOMContentLoaded', function () {
+          window.scrollTo(0, 0);
+        });
+
+      </script>
+      <!-- CSS for Highlighting -->
+      <style>
+        .highlight {
+          background-color: #ffe5cc;
+          border-bottom: 2px solid #ffb266;
+        }
+
+        #before-content {
+          position: absolute;
+          top: 0;
+          left: 10 !important;
+          right: 0;
+          width: 100%;
+          padding: 10px !important;
+          box-sizing: border-box;
+          z-index: 1;
+          border-bottom: 1px solid #008938;
+          padding-left: 10px;
+        }
+
+        #second-container {
+          padding: 0;
+          box-sizing: border-box;
+        }
+
+        #second-container>* {
+          padding-left: 0px;
+          z-index: 2;
+        }
+      </style>
+    </div>
+  </div>
+  {% endblock %}

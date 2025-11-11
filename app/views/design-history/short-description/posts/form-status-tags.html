@@ -1,0 +1,105 @@
+{% extends "design-history/templates/post-template.html" %}
+
+{% set title = "Using the GOV.UK tags component to show the status of forms" %}
+{% set category = "Form library" %}
+{% set postType = "Post" %}
+{% set publishDate = "12 April 2024" %}
+
+{% set breadcrumbItems = [
+{
+text: "Design History",
+href: "/index.html"
+},
+{
+text: "Form Library",
+href: "/design-history/form-library/index.html"
+},
+{
+text: "Form Status Tags"
+}
+] %}
+
+{% set relatedPosts = [
+{
+text: "Making it easier to find forms",
+href: "/design-history/form-library/posts/finding-forms.html",
+date: "3 March 2024"
+},
+{
+text: "Creating an accessible forms library",
+href: "/design-history/form-library/posts/accessible-forms-library.html",
+date: "2 March 2024"
+}
+] %}
+
+{% block postContent %}
+<h2 class="govuk-heading-l">The challenge</h2>
+<p class="govuk-body">Users needed to know what state a form is in. Tags are used across the GOV.UK form builder and
+    Whitehall Publisher to show the current status of guidance and/or forms. We made a conscious decision to try and use
+    similar tags in our form builder in order to limit the need to re-learn things between products.</p>
+
+<h2 class="govuk-heading-l">What we found</h2>
+<ul class="govuk-list govuk-list--bullet">
+    <li>We found that statuses helped users scan pages and keep track of what forms needed action</li>
+    <li>Users expect that when a new form is created that it automatically inherits a 'Draft' tag</li>
+    <li>Changing form status during the process of adding an internal note might fit into the content designers'
+        workflow (to be tested)</li>
+</ul>
+
+<h2 class="govuk-heading-l">What we changed</h2>
+
+<h3 class="govuk-heading-m">Published versus Live</h3>
+<p class="govuk-body">Our first iterations used 'Published' to denote a form that is available to the public. This is
+    what Whitehall publisher uses. However, GOV.UK forms uses 'Live'. To create a level of consistency, we tested using
+    'Live' and found that it matched users' mental model of what it meant.</p>
+
+<h3 class="govuk-heading-m">Starting small</h3>
+<p class="govuk-body">In our discussions with members of the BAU content team, we found that the general lifecycle of a
+    form is as follows:</p>
+<ul class="govuk-list govuk-list--bullet">
+    <li>Draft</li>
+    <li>Testing</li>
+    <li>2i review</li>
+    <li>Publishing</li>
+    <li>Withdrawing</li>
+</ul>
+
+<p class="govuk-body">In an effort to follow principle of progressive enhancement, we conducted a prioritisation
+    exercise and decided that for MVP, we'd focus on the following statuses:</p>
+<ul class="govuk-list govuk-list--bullet">
+    <li>Draft</li>
+    <li>Live</li>
+    <li>Closed</li>
+</ul>
+
+<p class="govuk-body">We decided on using the term 'Closed' because 'Withdrawing' in the content community denotes more
+    than one thing. In our case, 'Closed' can only mean one thing; that a form has been closed from public access.</p>
+
+<h3 class="govuk-heading-m">When forms have more than 1 status</h3>
+<p class="govuk-body">Forms can have more than one status:</p>
+<ul class="govuk-list govuk-list--bullet">
+    <li>1 live form and 1 draft version of that live form</li>
+    <li>1 draft form and 1 closed form</li>
+</ul>
+
+<p class="govuk-body">We were concerned about displaying more than 1 status at a time for each form in the form library.
+    However, in testing, we found that users found it important to be able to see both statuses at the same time. We
+    also found that users generally understood the concept of having more than one status.</p>
+
+<figure class="govuk-image">
+    <img src="/public/images/form-library/tags/01.png"
+        alt="Example of form status tags showing Draft, Live, and Closed states" class="govuk-!-width-full">
+    <figcaption class="govuk-body-s">Form with a draft and live status</figcaption>
+</figure>
+
+<figure class="govuk-image">
+    <img src="/public/images/form-library/tags/02.png"
+        alt="Example of form status tags showing Draft, Live, and Closed states" class="govuk-!-width-full">
+    <figcaption class="govuk-body-s">Screenshot of earlier status iterations</figcaption>
+</figure>
+
+
+<div class="govuk-inset-text">
+    <p class="govuk-body">"The tags make it really clear what state each form is in" - Content designer</p>
+</div>
+{% endblock %}

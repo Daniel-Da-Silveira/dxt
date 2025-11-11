@@ -1,0 +1,80 @@
+/* templates/prototypes.html */
+{% extends 'layouts/main.html' %}
+
+{% block pageTitle %}
+Prototypes – {{ serviceName }} - Product information
+{% endblock %}
+
+{% from 'components/service-header/macro.njk' import serviceHeader %}
+{% from 'side-navigation/macro.njk' import dwpSideNavigation %}
+{% from 'govuk/components/tabs/macro.njk' import govukTabs %}
+{% from 'components/prototype-table.njk' import renderPrototypeTable %}
+
+{% set pageName = 'Forms Designer prototypes' %}
+
+{% set CAT_ORDER = ['Form editor', 'Form overview', 'Create new form'] %}
+{% set sortedFeatures = features | sort(attribute='status', reverse=true) %}
+
+{# Group into an ordered map #}
+{% set grouped = {} %}
+{% for cat in CAT_ORDER %}
+{% set grouped = grouped | merge({ (cat): [] }) %}
+{% endfor %}
+{% for f in sortedFeatures %}
+{% set _ = grouped[f.category].push(f) %}
+{% endfor %}
+
+{% block header %}
+{{ serviceHeader({ /* ... */ }) }}
+{{ xGovukMasthead({ /* ... */ }) }}
+{% endblock %}
+
+{% block content %}
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-full govuk-grid-column-two-thirds-from-desktop">
+        <h2 class="govuk-heading-l">Features by category</h2>
+        <p class="govuk-body">Jump to:</p>
+        <nav class="govuk-skip-link-list govuk-body">
+            <ul class="govuk-list govuk-list--bullet">
+                {% for category in CAT_ORDER %}
+                <li><a href="#{{ category | slugify }}">{{ category }}</a></li>
+                {% endfor %}
+            </ul>
+        </nav>
+
+        {% set tabs = [] %}
+        {% for category in CAT_ORDER %}
+        {% set feats = grouped[category] %}
+        {% if feats %}
+        {% set tabs = tabs.concat([{
+        label: category ~ ' (' ~ feats | length ~ ')',
+        id: category | slugify,
+        panel: { html: '<div id="' ~ (category | slugify) ~ '">' ~ renderPrototypeTable(feats) ~ '</div>' }
+        }]) %}
+        {% endif %}
+        {% endfor %}
+
+        {{ govukTabs({ items: tabs }) }}
+    </div>
+</div>
+{% endblock %}
+
+{% block pageScripts %}
+<script src="/public/javascripts/moj-sortable-table.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        document.querySelectorAll('.govuk-table').forEach(function (table) {
+            const tbody = table.querySelector('tbody');
+            Array.from(tbody.rows)
+                .sort(function (a, b) {
+                    const aText = a.querySelector('.govuk-tag').textContent;
+                    const bText = b.querySelector('.govuk-tag').textContent;
+                    if (aText === 'In progress' && bText !== 'In progress') return -1;
+                    if (aText !== 'In progress' && bText === 'In progress') return 1;
+                    return 0;
+                })
+                .forEach(r => tbody.appendChild(r));
+        });
+    });
+</script>
+{% endblock %}

@@ -1,0 +1,87 @@
+<!-- Preview for Precise Location Question -->
+{% from "./_label_size_macro.html" import get_label_size -%}
+
+{%- set page_heading = data['pageHeadingPreciseLocation'] if data is defined and data['pageHeadingPreciseLocation'] else
+false -%}
+{%- set question_count = currentPage.questions | length if currentPage and currentPage.questions else 1 -%}
+{%- set labelSize = get_label_size(page_heading, question_count, true) -%}
+
+<div class="govuk-form-group">
+    <label class="govuk-label govuk-label--{{ labelSize }}" for="precise-location">{{ question.label }}</label>
+    {%- if question.hint -%}
+    <div id="precise-location-hint" class="govuk-hint">{{ question.hint }}</div>
+    {%- endif -%}
+
+    {%- if question.coordinateType == "decimal_degrees" -%}
+    <div class="govuk-form-group">
+        <label class="govuk-label" for="latitude">Latitude</label>
+        <input class="govuk-input govuk-input--width-5" id="latitude" name="latitude" type="text"
+            placeholder="53.76385">
+        <span class="govuk-body">°</span>
+    </div>
+    <div class="govuk-form-group">
+        <label class="govuk-label" for="longitude">Longitude</label>
+        <input class="govuk-input govuk-input--width-5" id="longitude" name="longitude" type="text"
+            placeholder="-3.73904">
+        <span class="govuk-body">°</span>
+    </div>
+    {%- elif question.coordinateType == "degrees_minutes" -%}
+    <div class="govuk-form-group">
+        <label class="govuk-label" for="lat-deg">Latitude</label>
+        <input class="govuk-input govuk-input--width-3" id="lat-deg" name="latDeg" type="text" placeholder="53">
+        <span class="govuk-body">°</span>
+        <input class="govuk-input govuk-input--width-5" id="lat-min" name="latMin" type="text" placeholder="45.831">
+        <span class="govuk-body">'</span>
+    </div>
+    <div class="govuk-form-group">
+        <label class="govuk-label" for="lon-deg">Longitude</label>
+        <input class="govuk-input govuk-input--width-3" id="lon-deg" name="lonDeg" type="text" placeholder="-3">
+        <span class="govuk-body">°</span>
+        <input class="govuk-input govuk-input--width-5" id="lon-min" name="lonMin" type="text" placeholder="44.342">
+        <span class="govuk-body">'</span>
+    </div>
+    {%- elif question.coordinateType == "degrees_minutes_seconds" -%}
+    <div class="govuk-form-group">
+        <label class="govuk-label" for="lat-deg">Latitude</label>
+        <input class="govuk-input govuk-input--width-2" id="lat-deg" name="latDeg" type="text" placeholder="53">
+        <span class="govuk-body">°</span>
+        <input class="govuk-input govuk-input--width-2" id="lat-min" name="latMin" type="text" placeholder="45">
+        <span class="govuk-body">'</span>
+        <input class="govuk-input govuk-input--width-2" id="lat-sec" name="latSec" type="text" placeholder="49.86">
+        <span class="govuk-body">"</span>
+    </div>
+    <div class="govuk-form-group">
+        <label class="govuk-label" for="lon-deg">Longitude</label>
+        <input class="govuk-input govuk-input--width-2" id="lon-deg" name="lonDeg" type="text" placeholder="-3">
+        <span class="govuk-body">°</span>
+        <input class="govuk-input govuk-input--width-2" id="lon-min" name="lonMin" type="text" placeholder="44">
+        <span class="govuk-body">'</span>
+        <input class="govuk-input govuk-input--width-2" id="lon-sec" name="lonSec" type="text" placeholder="20.54">
+        <span class="govuk-body">"</span>
+    </div>
+    {%- elif question.coordinateType == "os_grid" -%}
+    <div class="govuk-form-group">
+        <label class="govuk-label" for="grid-square">Square</label>
+        <input class="govuk-input govuk-input--width-4" id="grid-square" name="gridSquare" type="text" placeholder="TQ">
+    </div>
+    <div class="govuk-form-group">
+        <label class="govuk-label" for="easting">Easting</label>
+        <input class="govuk-input govuk-input--width-5" id="easting" name="easting" type="text" placeholder="3003">
+    </div>
+    <div class="govuk-form-group">
+        <label class="govuk-label" for="northing">Northing</label>
+        <input class="govuk-input govuk-input--width-5" id="northing" name="northing" type="text" placeholder="8038">
+    </div>
+    {%- elif question.coordinateType == "easting_northing" -%}
+    <div class="govuk-form-group">
+        <label class="govuk-label" for="easting">Easting</label>
+        <input class="govuk-input govuk-input--width-5" id="easting" name="easting" type="text" placeholder="530003">
+    </div>
+    <div class="govuk-form-group">
+        <label class="govuk-label" for="northing">Northing</label>
+        <input class="govuk-input govuk-input--width-5" id="northing" name="northing" type="text" placeholder="180380">
+    </div>
+    {%- else -%}
+    <input class="govuk-input" id="precise-location" name="preciseLocation" type="text" placeholder="Enter coordinates">
+    {%- endif -%}
+</div>

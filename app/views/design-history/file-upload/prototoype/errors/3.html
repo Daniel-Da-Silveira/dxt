@@ -1,0 +1,166 @@
+{% extends "layouts/main.html" %}
+
+{% block pageTitle %}
+  Upload files –
+  {{ serviceName }}
+  – GOV.UK Prototype Kit
+{% endblock %}
+
+{% block beforeContent %}
+  {{ govukBackLink({
+    text: "Back",
+    href: "javascript:window.history.back()"
+  }) }}
+{% endblock %}
+{% block content %}
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+
+      {{ govukErrorSummary({
+  titleText: "There is a problem",
+  errorList: [
+     {
+      text: "The selected file contains a virus",
+      href: "#virus-error"
+    },
+
+    {
+      text: "The selected file must be smaller than 100MB",
+      href: "#size-error"
+    },
+
+    {
+      text: "The selected file has not fully uploaded",
+      href: "#not-uploaded-error"
+    }
+  ]
+}) }}
+      {% from "govuk/components/button/macro.njk" import govukButton %}
+      {% from "govuk/components/file-upload/macro.njk" import govukFileUpload %}
+
+      <div class="govuk-form-group govuk-!-margin-bottom-2">
+        <h1 class="govuk-heading-l" for="file-upload-1">Upload your methodology statement</h1>
+
+        <form action="/file-upload/yes-js/page2" method="get">
+          {{ govukFileUpload({
+            id: "file-upload-1",
+            name: "file-upload-1",
+            classes: 'govuk-file-upload',
+            label: {
+              text: "",
+              classes: ''
+            },
+            hint: {
+              text: "Upload 2 copies of your methodology statement in Word, PDF or JPEG. The maximum file size for each file is 100MB"
+            }
+          }) }}
+
+          {{ govukButton({
+            text: 'Upload file',
+            classes: 'govuk-button--secondary govuk-!-margin-top-4',
+            attributes: {
+              'data-module': 'govuk-button'
+            }
+          }) }}
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+
+      <h2 class="govuk-heading-m">Uploaded files</h2>
+      <p class="govuk-body" aria-live="polite">1 of 4 files uploaded</p>
+
+      <p class="govuk-body govuk-!-display-none" id="refreshPageProgress">
+        <a href="#" class="govuk-link">Refresh page to update file upload progress</a>
+      </p>
+
+      <dl class="govuk-summary-list govuk-summary-list--long-key">
+        <!-- First Row -->
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">
+            <div class="govuk-form-group govuk-form-group--error">
+              <a href="#" class="govuk-link govuk-error-message" id="virus-error">file_name-goes-here.file_name-goes-here-over-as-many-lines-as-needed.jpg</a>
+              <p class="govuk-error-message">
+                <span class="govuk-visually-hidden">Error:</span>
+                The selected file contains a virus
+              </p>
+            </div>
+          </dt>
+          <dd class="govuk-summary-list__value">10MB</dd>
+          <dd class="govuk-summary-list__value">
+            <strong class="govuk-tag govuk-tag--red">Error</strong>
+          </dd>
+          <dd class="govuk-summary-list__actions">
+            <a href="/file-upload/errors/2.html" class="govuk-link govuk-!-width-one-quarter">Remove</a>
+            <span class="govuk-visually-hidden">file_name-goes-here.file_name-goes-here-over-as-many-lines-as-needed.jpg</span>
+          </dd>
+        </div>
+
+        <!-- Second Row -->
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">
+            <div class="govuk-form-group govuk-form-group--error">
+              <a href="#" class="govuk-link govuk-error-message" id="size-error">file_name-goes-here.file_name-goes-here-over-as-many-lines-as-needed.jpg</a>
+              <p class="govuk-error-message">
+                <span class="govuk-visually-hidden">Error:</span>
+                The selected file must be smaller than 100MB
+              </p>
+            </div>
+          </dt>
+          <dd class="govuk-summary-list__value">230MB</dd>
+          <dd class="govuk-summary-list__value">
+            <strong class="govuk-tag govuk-tag--red">Error</strong>
+          </dd>
+          <dd class="govuk-summary-list__actions">
+            <a href="#" class="govuk-link govuk-!-width-one-quarter">Remove</a>
+            <span class="govuk-visually-hidden">file_name-goes-here.file_name-goes-here-over-as-many-lines-as-needed.jpg</span>
+          </dd>
+        </div>
+
+        <!-- Third Row -->
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">
+            <a href="#" class="govuk-link">file_name-goes-here.file_name-goes-here-over-as-many-lines-as-needed.jpg</a>
+          </dt>
+          <dd class="govuk-summary-list__value">10MB</dd>
+          <dd class="govuk-summary-list__value">
+            <strong class="govuk-tag govuk-tag--green">Uploaded</strong>
+          </dd>
+          <dd class="govuk-summary-list__actions">
+            <a href="#" class="govuk-link govuk-!-width-one-quarter">Remove</a>
+            <span class="govuk-visually-hidden">file_name-goes-here.file_name-goes-here-over-as-many-lines-as-needed.jpg</span>
+          </dd>
+        </div>
+
+        <!-- Fourth Row -->
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">
+            <div class="govuk-form-group govuk-form-group--error">
+              <a href="#" class="govuk-link govuk-error-message" id="not-uploaded-error">file_name-goes-here.file_name-goes-here-over-as-many-lines-as-needed.jpg</a>
+              <p class="govuk-error-message">
+                <span class="govuk-visually-hidden">Error:</span>
+                The selected file has not fully uploaded
+              </p>
+            </div>
+          </dt>
+          <dd class="govuk-summary-list__value">10MB</dd>
+          <dd class="govuk-summary-list__value">
+            <strong class="govuk-tag govuk-tag--yellow">Uploading</strong>
+          </dd>
+          <dd class="govuk-summary-list__actions">
+            <a href="#" class="govuk-link govuk-!-width-one-quarter">Remove</a>
+            <span class="govuk-visually-hidden">file_name-goes-here.file_name-goes-here-over-as-many-lines-as-needed.jpg</span>
+          </dd>
+        </div>
+      </dl>
+
+      {{ govukButton({
+        text: "Continue"
+      }) }}
+    </form>
+  </div>
+</div>
+{% endblock %}

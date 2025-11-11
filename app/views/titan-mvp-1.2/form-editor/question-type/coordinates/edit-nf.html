@@ -1,0 +1,236 @@
+{% extends "layouts/form-editor-layout.html" %}
+
+{% block pageTitle %}
+{{ commonTerms.form_editor.question_configuration.page_title }} - {{ serviceName }} – GOV.UK
+{% endblock %}
+
+{% block beforeContent %}
+{{ govukBackLink({
+text: commonTerms.form_editor.common.back,
+href: "/titan-mvp-1.2/page-overview"
+}) }}
+{% endblock %}
+
+{% block content %}
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+        <span class="govuk-caption-l">Page {{ pageNumber }}</span>
+        <h2 class="govuk-heading-l">Edit question {{ questionNumber }}</h2>
+
+        <form id="s" action="/titan-mvp-1.2/question-configuration-save" method="post" novalidate>
+            <input type="hidden" name="questionType" value="coordinates">
+            <input type="hidden" name="pageIndex" value="{{ currentPageIndex }}">
+            <input type="hidden" name="questionIndex" value="{{ currentQuestionIndex }}">
+
+            {{ govukDetails({
+            summaryText: "Writing coordinates text",
+            html: "<p>The coordinates should be clear and easy to understand.</p>"
+            }) }}
+
+            <!-- Coordinates Text Input -->
+            <div class="govuk-form-group">
+                <label class="govuk-label" for="coordinates-text-input">
+                    {{ commonTerms.form_editor.question_settings.coordinates_text }}
+                </label>
+                <div id="coordinates-text-input-hint" class="govuk-hint">
+                    {{ commonTerms.form_editor.question_settings.coordinates_text_hint }}
+                </div>
+                <textarea class="govuk-textarea" id="coordinates-text-input" name="coordinatesText" rows="5"
+                    aria-describedby="coordinates-text-input-hint">{{ sessionData.coordinatesText or '' }}</textarea>
+            </div>
+
+            <!-- Question Label Input -->
+            <div class="govuk-form-group">
+                <label class="govuk-label" for="question-label-input-coordinates">
+                    {{ commonTerms.form_editor.question_settings.question_label }}
+                </label>
+                <input class="govuk-input" id="question-label-input-coordinates" name="questionLabelCoordinates"
+                    type="text" value="{{ sessionData.questionLabel or 'Question' }}">
+            </div>
+
+            <!-- Make Optional Checkbox -->
+            <div class="govuk-form-group">
+                <div class="govuk-checkboxes govuk-checkboxes--small">
+                    <div class="govuk-checkboxes__item">
+                        <input class="govuk-checkboxes__input" id="make-optional-coordinates"
+                            name="makeOptionalCoordinates" type="checkbox" value="true">
+                        <label class="govuk-label govuk-checkboxes__label" for="make-optional-coordinates">
+                            {{ commonTerms.form_editor.question_settings.make_optional }}
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Short Description Input -->
+            <div class="govuk-form-group">
+                <label class="govuk-label" for="error-message-input-coordinates">
+                    {{ commonTerms.form_editor.question_settings.short_description }}
+                </label>
+                <div id="error-message-input-coordinates-hint" class="govuk-hint">
+                    {{ commonTerms.form_editor.question_settings.short_description_hint }}
+                </div>
+                <input class="govuk-input" id="error-message-input-coordinates" name="errorMessageCoordinates"
+                    type="text" value="{{ sessionData.errorMessage or '' }}"
+                    aria-describedby="error-message-input-coordinates-hint">
+            </div>
+
+            <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
+
+            <!-- Question Settings Summary List -->
+            <dl class="govuk-summary-list">
+                <div class="govuk-summary-list__row">
+                    <dt class="govuk-summary-list__key">Type of information</dt>
+                    <dd class="govuk-summary-list__value">Coordinates</dd>
+                </div>
+            </dl>
+
+            <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
+
+            <div class="govuk-button-group">
+                {{ govukButton({
+                text: "Save and continue",
+                type: "submit",
+                id: "save-coordinates-button"
+                }) }}
+            </div>
+        </form>
+    </div>
+
+    <div class="govuk-grid-column-one-third">
+        <div id="second-container" class="border-left-container-coordinates"
+            style="position: sticky; top: 20px; background: white; padding: 20px; border: 1px solid #ccc; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+            <div id="before-content">
+                <h3 class="govuk-heading-s">Page preview</h3>
+            </div>
+
+            {{ govukTabs({
+            items: [
+            {
+            id: "page-preview",
+            label: "Page preview",
+            panel: {
+            html: '
+            <div class="govuk-form-group">
+                <fieldset class="govuk-fieldset">
+                    <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
+                        <span id="preview-question-label">Question</span>
+                    </legend>
+                    <div class="govuk-body">
+                        <div id="preview-coordinates-text">Coordinates text</div>
+                    </div>
+                </fieldset>
+            </div>'
+            }
+            },
+            {
+            id: "error-messages",
+            label: "Error messages",
+            panel: {
+            html: '
+            <div class="govuk-error-summary" aria-labelledby="error-summary-title" role="alert" tabindex="-1"
+                data-module="govuk-error-summary">
+                <h2 class="govuk-error-summary__title" id="error-summary-title">There is a problem</h2>
+                <div class="govuk-error-summary__body">
+                    <ul class="govuk-list govuk-error-summary__list">
+                        <li>
+                            <a href="#coordinates-text-input">You must confirm you understand and agree with the <span
+                                    id="error-dynamic-text">[short description]</span> to continue</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>'
+            }
+            }
+            ]
+            }) }}
+        </div>
+    </div>
+</div>
+
+<style>
+    .border-left-container-coordinates {
+        border-left: 10px solid #ffb266;
+    }
+
+    .highlight {
+        background-color: #ffe5cc;
+        border-bottom: 2px solid #ffb266;
+        color: #000000;
+    }
+</style>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        // Get form elements
+        const questionLabelInput = document.getElementById("question-label-input-coordinates");
+        const coordinatesTextInput = document.getElementById("coordinates-text-input");
+        const errorMessageInput = document.getElementById("error-message-input-coordinates");
+        const makeOptionalCheckbox = document.getElementById("make-optional-coordinates");
+
+        // Get preview elements
+        const previewQuestionLabel = document.getElementById("preview-question-label");
+        const previewCoordinatesText = document.getElementById("preview-coordinates-text");
+        const errorMessagePreviewElements = document.querySelectorAll("#error-dynamic-text");
+
+        // Function to update preview
+        function updatePreview() {
+            // Update the question label in preview with optional suffix
+            const suffix = makeOptionalCheckbox && makeOptionalCheckbox.checked ? ' (optional)' : '';
+            previewQuestionLabel.textContent = (questionLabelInput.value || "Question") + suffix;
+
+            // Update the coordinates text in preview
+            previewCoordinatesText.textContent = coordinatesTextInput.value || "Coordinates text";
+        }
+
+        // Function to update error messages
+        function updateErrorMessages() {
+            const shortDescription = errorMessageInput.value || "[short description]";
+            errorMessagePreviewElements.forEach(function (element) {
+                element.textContent = shortDescription;
+            });
+        }
+
+        // Function to apply highlight on focus
+        function applyHighlightOnFocus(inputElement, targetElements) {
+            if (!inputElement || !targetElements) return;
+
+            const elementsArray = Array.isArray(targetElements) ? targetElements : [targetElements];
+
+            inputElement.addEventListener('focus', function () {
+                elementsArray.forEach(function (element) {
+                    if (element) {
+                        element.classList.add('highlight');
+                    }
+                });
+            });
+
+            inputElement.addEventListener('blur', function () {
+                elementsArray.forEach(function (element) {
+                    if (element) {
+                        element.classList.remove('highlight');
+                    }
+                });
+            });
+        }
+
+        // Add event listeners for real-time preview updates
+        questionLabelInput.addEventListener("input", updatePreview);
+        coordinatesTextInput.addEventListener("input", updatePreview);
+        errorMessageInput.addEventListener("input", updateErrorMessages);
+
+        // Add event listener for make optional checkbox
+        if (makeOptionalCheckbox) {
+            makeOptionalCheckbox.addEventListener("change", updatePreview);
+        }
+
+        // Apply highlight on focus for form inputs that affect preview
+        applyHighlightOnFocus(questionLabelInput, previewQuestionLabel);
+        applyHighlightOnFocus(coordinatesTextInput, previewCoordinatesText);
+        applyHighlightOnFocus(errorMessageInput, errorMessagePreviewElements);
+
+        // Initial preview update
+        updatePreview();
+        updateErrorMessages();
+    });
+</script>
+{% endblock %}

@@ -1,0 +1,331 @@
+{% extends "layouts/main.html" %}
+
+{% from "components/service-header/macro.njk" import serviceHeader %}
+{% from "govuk/components/warning-text/macro.njk" import govukWarningText %}
+{% from "moj/components/timeline/macro.njk" import mojTimeline %}
+
+{% set pageName = "Live form overview - Employee Onboarding" %}
+
+{% block header %}
+{{ serviceHeader({
+organisationName: "Defra",
+productName: "Form Designer",
+serviceName: "",
+accountName: "Chris Smith",
+homepageLink: "/",
+signOutLink: "/titan-mvp-1.2/onboarding/sign-out-confirmation",
+navigationItems: [
+{ href: "/titan-mvp-1.2/library", text: "Forms library", id: "nav-library" },
+{ href: "/titan-mvp-1.2/form-overview/live-only", text: "Live Overview", id: "nav-overview", active: true },
+{ href: "/titan-mvp-1.2/form-editor/listing-v2", text: "Editor", id: "nav-editor" }
+],
+activeLinkId: "nav-overview"
+}) }}
+
+<div class="x-govuk-masthead x-govuk-masthead--large">
+    <div class="govuk-width-container">
+        {{ govukBackLink({
+        classes: "govuk-back-link--inverse govuk-!-margin-bottom-0",
+        text: "Back to forms library",
+        href: "/titan-mvp-1.2/library"
+        }) }}
+
+        <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible"
+            style="border-bottom: 1px solid white; margin-bottom: 0;" />
+
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-full-from-desktop">
+                <h1 class="x-govuk-masthead__title">
+                    <span class="govuk-caption-xl" style="color: #fff;">Live form overview</span>
+                    {{ form.name }}
+                </h1>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+
+        <details class="govuk-details" data-module="govuk-details">
+            <summary class="govuk-details__summary">
+                <span class="govuk-details__summary-text">
+                    Organisation details
+                </span>
+            </summary>
+            <div class="govuk-details__text">
+                <dl class="govuk-summary-list">
+                    <div class="govuk-summary-list__row">
+                        <dt class="govuk-summary-list__key">Form name</dt>
+                        <dd class="govuk-summary-list__value">{{ form.name }}</dd>
+                        <dd class="govuk-summary-list__actions">
+                            <a class="govuk-link" href="#">Change<span class="govuk-visually-hidden"> form
+                                    name</span></a>
+                        </dd>
+                    </div>
+                    <div class="govuk-summary-list__row">
+                        <dt class="govuk-summary-list__key">Lead organisation</dt>
+                        <dd class="govuk-summary-list__value">{{ form.organisation.name }}</dd>
+                        <dd class="govuk-summary-list__actions">
+                            <a class="govuk-link" href="#">Change<span class="govuk-visually-hidden"> lead
+                                    organisation</span></a>
+                        </dd>
+                    </div>
+                    <div class="govuk-summary-list__row">
+                        <dt class="govuk-summary-list__key">Team name</dt>
+                        <dd class="govuk-summary-list__value">{{ form.team.name }}</dd>
+                        <dd class="govuk-summary-list__actions">
+                            <a class="govuk-link" href="#">Change<span class="govuk-visually-hidden"> team
+                                    name</span></a>
+                        </dd>
+                    </div>
+                    <div class="govuk-summary-list__row">
+                        <dt class="govuk-summary-list__key">Shared email address</dt>
+                        <dd class="govuk-summary-list__value">{{ form.team.email }}</dd>
+                        <dd class="govuk-summary-list__actions">
+                            <a class="govuk-link" href="#">Change<span class="govuk-visually-hidden"> shared email
+                                    address</span></a>
+                        </dd>
+                    </div>
+                </dl>
+            </div>
+        </details>
+
+        <!-- Live Form Section -->
+        <h2 class="govuk-heading-l">Live form</h2>
+        <dl class="govuk-summary-list">
+            <div class="govuk-summary-list__row">
+                <dt class="govuk-summary-list__key">Status</dt>
+                <dd class="govuk-summary-list__value">
+                    <strong class="govuk-tag govuk-tag--green">Live</strong>
+                </dd>
+            </div>
+            <div class="govuk-summary-list__row">
+                <dt class="govuk-summary-list__key">Went live</dt>
+                <dd class="govuk-summary-list__value">{{ form.wentLiveAt }}</dd>
+            </div>
+            <div class="govuk-summary-list__row">
+                <dt class="govuk-summary-list__key">Preview link</dt>
+                <dd class="govuk-summary-list__value" style="padding-right:0!important;">
+                    <a href="{{ form.previewUrl }}" class="govuk-link" rel="noreferrer noopener" target="_blank">{{
+                        form.previewUrl }} (opens in new tab)</a>
+                </dd>
+            </div>
+            <div class="govuk-summary-list__row">
+                <dt class="govuk-summary-list__key">Live link</dt>
+                <dd class="govuk-summary-list__value" style="padding-right:0!important;">
+                    <a href="{{ form.liveUrl }}" class="govuk-link" rel="noreferrer noopener" target="_blank">{{
+                        form.liveUrl }} (opens in new tab)</a>
+                </dd>
+            </div>
+        </dl>
+
+        <h2 class="govuk-heading-m govuk-!-padding-top-2">Form submission and support settings</h2>
+        <dl class="govuk-summary-list">
+            <div class="govuk-summary-list__row">
+                <dt class="govuk-summary-list__key">Submitted forms sent to</dt>
+                <dd class="govuk-summary-list__value"><a href="mailto:{{ form.notificationEmail }}"
+                        class="govuk-link">{{ form.notificationEmail }}</a>
+                </dd>
+            </div>
+            <div class="govuk-summary-list__row">
+                <dt class="govuk-summary-list__key">How forms are sent</dt>
+                <dd class="govuk-summary-list__value">Human readable format</dd>
+            </div>
+            <div class="govuk-summary-list__row">
+                <dt class="govuk-summary-list__key">What happens next</dt>
+                <dd class="govuk-summary-list__value">{{ form.nextSteps }}</dd>
+            </div>
+            <div class="govuk-summary-list__row">
+                <dt class="govuk-summary-list__key">Contact details for support</dt>
+                <dd class="govuk-summary-list__value">
+                    {% if form.support.phone %}Phone: {{ form.support.phone }}{% endif %}
+                    {% if form.support.phone and form.support.email %}<br>{% endif %}
+                    {% if form.support.email %}Email: {{ form.support.email }}{% endif %}
+                </dd>
+            </div>
+        </dl>
+
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-two-thirds">
+                {{ govukWarningText({
+                text: "Changes to support and data protection settings go straight to the live form. Only certain roles,
+                like
+                admin or publisher, can make changes.",
+                iconFallbackText: "Warning"
+                }) }}
+            </div>
+        </div>
+
+        <h2 class="govuk-heading-m govuk-!-padding-top-2">Contact details for support</h2>
+
+        <p class="govuk-body">You must provide at least one way for users to get help.</p>
+        <p class="govuk-body">The contact details are shown in the footer of every page of the form.</p>
+
+        {% set phoneHtml %}
+        <a href="/titan-mvp-1.2/form-overview/support/phone" class="govuk-link govuk-link--no-visited-state">
+            Enter phone number for support
+        </a>
+        {% endset %}
+
+        {% set emailHtml %}
+        <a href="/titan-mvp-1.2/form-overview/support/email" class="govuk-link govuk-link--no-visited-state">
+            Enter email address for support
+        </a>
+        {% endset %}
+
+        {% set linkHtml %}
+        <a href="/titan-mvp-1.2/form-overview/support/link" class="govuk-link govuk-link--no-visited-state">
+            Enter online contact link for support
+        </a>
+        {% endset %}
+
+        {% set phoneActions = {
+        items: [
+        {
+        href: "/titan-mvp-1.2/form-overview/support/phone",
+        text: "Change",
+        visuallyHiddenText: "phone number"
+        }
+        ]
+        } if form.support.phone else null %}
+
+        {% set emailActions = {
+        items: [
+        {
+        href: "/titan-mvp-1.2/form-overview/support/email",
+        text: "Change",
+        visuallyHiddenText: "email address"
+        }
+        ]
+        } if form.support.email else null %}
+
+        {% set linkActions = {
+        items: [
+        {
+        href: "/titan-mvp-1.2/form-overview/support/link",
+        text: "Change",
+        visuallyHiddenText: "contact link"
+        }
+        ]
+        } if form.support.link else null %}
+
+        {{ govukSummaryList({
+        rows: [
+        {
+        key: {
+        text: "Phone"
+        },
+        value: {
+        html: form.support.phone or phoneHtml
+        },
+        actions: phoneActions
+        },
+        {
+        key: {
+        text: "Email address"
+        },
+        value: {
+        html: form.support.email or emailHtml
+        },
+        actions: emailActions
+        },
+        {
+        key: {
+        text: "Online contact link"
+        },
+        value: {
+        html: form.support.link or linkHtml
+        },
+        actions: linkActions
+        }
+        ]
+        }) }}
+
+        <h2 class="govuk-heading-m govuk-!-padding-top-2">Data protection</h2>
+
+        {% set privacyHtml %}
+        <a href="/titan-mvp-1.2/form-overview/support/privacy-notice" class="govuk-link govuk-link--no-visited-state">
+            Enter privacy notice
+        </a>
+        {% endset %}
+
+        {% set privacyActions = {
+        items: [
+        {
+        href: "/titan-mvp-1.2/form-overview/support/privacy-notice",
+        text: "Change",
+        visuallyHiddenText: "privacy notice"
+        }
+        ]
+        } if form.privacyNotice else null %}
+
+        {{ govukSummaryList({
+        rows: [
+        {
+        key: {
+        text: "Privacy notice"
+        },
+        value: {
+        html: form.privacyNotice or privacyHtml
+        },
+        actions: privacyActions
+        }
+        ]
+        }) }}
+
+    </div>
+    <div class="govuk-grid-column-one-third-from-desktop">
+        <!-- Live Form Management Section -->
+        <div style="background-color: #f3f2f1; padding: 15px;">
+            <h2 class="govuk-heading-m">Manage live form</h2>
+
+            <a href="/titan-mvp-1.2/form-overview/live-draft">
+                <button type="submit" class="govuk-button" data-module="govuk-button"
+                    style="width: 100%; margin-bottom: 15px;">
+                    Create draft to edit
+                </button>
+            </a>
+
+            <a href="/titan-mvp-1.2/form-overview/manage-form/close" class="govuk-link govuk-link--no-visited-state">
+                Close live form
+            </a>
+        </div>
+
+        <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
+        <h2 class="govuk-heading-m">History</h2>
+        <div id="timeline-container">
+            {{ mojTimeline({
+            items: [
+            {
+            label: { text: "🎉 Form went live" },
+            datetime: { timestamp: "2024-05-08T14:45:00.000Z", type: "datetime" },
+            byline: { text: "Emily Wong" }
+            },
+            {
+            label: { text: "Next steps updated" },
+            text: "Updated the next steps guidance from 'We will call you in 2 working days' to 'We will send you a
+            confirmation email to the email address you provided'.",
+            datetime: { timestamp: "2024-05-08T11:15:00.000Z", type: "datetime" },
+            byline: { text: "Emily Wong" }
+            },
+            {
+            label: { text: "Notification email updated" },
+            text: "Updated where submitted forms are sent from 'notify@old.com' to 'notify@new.com'.",
+            datetime: { timestamp: "2024-05-08T11:00:00.000Z", type: "datetime" },
+            byline: { text: "Chris Smith" }
+            }
+            ]
+            }) }}
+            <a href="/titan-mvp-1.2/form-overview/form-history"
+                class="govuk-link govuk-link--no-visited-state govuk-!-margin-top-2">
+                View full history<span class="govuk-visually-hidden">, opens in a new page</span>
+            </a>
+        </div>
+
+    </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,49 @@
+{% macro formSubmissionEmail(data) %}
+<div class="email-preview-container" style="border: 2px solid #0b0c0c; padding: 20px; margin: 20px 0; background: white; max-width: 600px; font-family: Arial, sans-serif;">
+  
+  <!-- Email Header -->
+  <div class="email-header" style="border-bottom: 1px solid #b1b4b6; padding-bottom: 15px; margin-bottom: 20px;">
+    <div style="margin-bottom: 8px;">
+      <strong>From:</strong> {{ data.from or 'Defra Forms' }}
+    </div>
+    <div style="margin-bottom: 8px;">
+      <strong>To:</strong> <span style="background-color: #ffdd00; padding: 2px 4px;">{{ data.to or 'email address' }}</span>
+    </div>
+    <div>
+      <strong>Subject:</strong> {{ data.subject or 'Form submitted to Defra' }}
+    </div>
+  </div>
+
+  <!-- Email Body -->
+  <div class="email-body">
+    <!-- Section 1: We have your form -->
+    <div style="margin-bottom: 30px;">
+      <h2 style="font-size: 24px; font-weight: bold; margin-bottom: 15px; color: #0b0c0c;">We have your form</h2>
+      <p style="font-size: 16px; line-height: 1.5; color: #0b0c0c; margin: 0;">
+        We received your form submission for '{{ data.formName or 'Declaration of completion of cleansing and disinfection for TB in England' }}' on {{ data.submissionDate or 'Tuesday 1 April 2025' }} at {{ data.submissionTime or '10:30am' }}.
+      </p>
+    </div>
+
+    <!-- Section 2: What happens next -->
+    <div style="margin-bottom: 30px;">
+      <h2 style="font-size: 20px; font-weight: bold; margin-bottom: 15px; color: #0b0c0c;">What happens next</h2>
+      <p style="font-size: 16px; line-height: 1.5; color: #0b0c0c; margin: 0;">
+        {{ data.nextSteps or 'Your declaration has been sent to the Animal and Plant Health Agency (APHA) who will store it on your record. You will need to make another declaration if more TB reactor animals are disclosed.' }}
+      </p>
+    </div>
+
+    <!-- Section 3: Get help -->
+    <div style="margin-bottom: 30px;">
+      <h2 style="font-size: 20px; font-weight: bold; margin-bottom: 15px; color: #0b0c0c;">Get help</h2>
+      <p style="font-size: 16px; line-height: 1.5; color: #0b0c0c; margin: 0;">
+        {{ data.helpText or 'Call 03000 200 301 Monday to Friday between 8:30am to 5pm. Or email TB.Advice@apha.gov.uk. We aim to respond within 2 working days.' }}
+      </p>
+    </div>
+  </div>
+
+  <!-- Email Footer -->
+  <div class="email-footer" style="border-top: 1px solid #b1b4b6; padding-top: 15px; margin-top: 20px; font-size: 14px; color: #6b7276;">
+    From {{ data.footerText or 'Defra Forms' }}
+  </div>
+</div>
+{% endmacro %} 

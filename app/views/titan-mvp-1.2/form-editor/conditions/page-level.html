@@ -1,0 +1,623 @@
+{% extends "layouts/main.html" %}
+{% from "components/service-header/macro.njk" import serviceHeader %}
+{% set pageName %}Page {{ pageNumber }} overview - {{ form.name }}{% endset %}
+{% set headingPlaceholder = "Page heading" %}
+{% set guidancePlaceholder = "" %}
+
+{% block header %}
+{{ serviceHeader({
+organisationName: "Defra",
+productName: "Form Designer",
+serviceName: "",
+containerClasses: containerClasses,
+accountName: "Chris Smith",
+homepageLink: "/",
+signOutLink: "/titan-mvp-1.2/onboarding/sign-out-confirmation",
+navigationItems: [
+{ href: "/titan-mvp-1.2/library", text: "Forms library", id: "nav-library" },
+{ href: "/titan-mvp-1.2/form-overview/index", text: "Overview", id: "nav-overview" },
+{ href: "/titan-mvp-1.2/form-editor/listing", text: "Editor", id: "nav-editor", active: true }
+],
+activeLinkId: "nav-editor"
+}) }}
+
+<div class="x-govuk-masthead x-govuk-masthead--large">
+  <div class="govuk-width-container">
+    {{ govukBackLink({ classes: "govuk-back-link--inverse govuk-!-margin-bottom-0", text:
+    commonTerms.form_editor.navigation.back_to_add_edit_pages, href: "/titan-mvp-1.2/form-editor/listing.html" }) }}
+
+    <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible"
+      style="border-bottom: 1px solid white; margin-bottom: 0" />
+
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-full-from-desktop">
+        <h1 class="x-govuk-masthead__title">
+          {{ form.name }}
+        </h1>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block content %}
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-full">
+    <div class="govuk-grid-row">
+      <!-- Left Column for Form Controls -->
+      <div class="govuk-grid-column-one-half-from-desktop" id="container" style="flex: 1 1 75%; overflow-y: auto">
+        <div class="govuk-summary-card govuk-!-margin-top-0" style="border-left: 10px solid #008938">
+          <div class="govuk-summary-card__content govuk-!-padding-top-0" style="background-color: #f3f2f1">
+            <dl class="govuk-summary-list">
+              <div class="govuk-summary-list__row">
+                <dd class="govuk-summary-list__value">
+                  <!-- Sub Navigation for Question -->
+                  <nav class="moj-sub-navigation govuk-!-padding-top-0 govuk-!-margin-bottom-2"
+                    aria-label="Sub navigation">
+                    <ul class="moj-sub-navigation__list" id="nav-list2">
+                      <li class="moj-sub-navigation__item">
+                        <a class="moj-sub-navigation__link" href="/titan-mvp-1.2/edit-page/{{ currentPage.pageId }}">
+                          Page {{ pageNumber }}
+                        </a>
+                      </li>
+                      <li class="moj-sub-navigation__item">
+                        <a class="moj-sub-navigation__link" aria-current="page"
+                          href="#question-1-information-type">Conditions</a>
+                      </li>
+                    </ul>
+                  </nav>
+
+                  <div class="govuk-summary-card__title-wrapper govuk-!-padding-top-0"></div>
+
+                  <!-- Display added conditions here -->
+
+                  <div id="conditions-list-container"
+                    class="{% if conditions and conditions | length %}govuk-!-margin-top-4{% else %}govuk-visually-hidden{% endif %}"
+                    style="background-color: white; padding: 15px; border-left: #008938 solid 5px; margin-bottom: 30px !important; outline: 1px solid #b1b4b6;">
+                    <h2 class="govuk-heading-m">
+                      <span id="condition-counter">{{ conditions | length }}</span> added conditions
+                    </h2>
+                    <dl id="conditions-list" class="govuk-summary-list">
+                      {% for condition in conditions %}
+                      <div class="govuk-summary-list__row" data-condition-id="{{ condition.id }}">
+                        <dt class="govuk-summary-list__key">
+                          <p class="govuk-body govuk-!-font-weight-bold">{{ condition.conditionName }}</p>
+                          <p class="govuk-body">
+                            {% for rule in condition.rules %}
+                            {% if loop.first %}
+                            '{{ rule.questionText }}' {{ rule.operator | replace("-", " ") }} {% if rule.value | isArray
+                            %}'{{ rule.value | join("' or '") }}'{% else %}'{{ rule.value }}'{% endif %}
+                            {% else %}
+                            <span class="govuk-!-font-weight-bold">{{ rule.logicalOperator | default('AND')
+                              }}</span>
+                            '{{ rule.questionText }}' {{ rule.operator | replace("-", " ") }} {% if rule.value | isArray
+                            %}'{{ rule.value | join("' or '") }}'{% else %}'{{ rule.value }}'{% endif %}
+                            {% endif %}
+                            {% endfor %}
+                          </p>
+                        </dt>
+                        <dd class="govuk-summary-list__actions">
+                          <ul class="govuk-summary-list__actions-list">
+                            <li class="govuk-summary-list__actions-list-item">
+                              <a class="govuk-link remove-condition"
+                                href="/titan-mvp-1.2/form-editor/conditions/page-level/{{ currentPage.pageId }}/delete/{{ condition.id }}">Delete<span
+                                  class="govuk-visually-hidden"> condition</span></a>
+                            </li>
+                          </ul>
+                        </dd>
+                      </div>
+                      {% endfor %}
+                    </dl>
+                  </div>
+
+                  <!-- Add or create condition section (radio group) -->
+
+                  <div class="govuk-form-group">
+                    <fieldset class="govuk-fieldset">
+                      <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
+                        <span class="govuk-caption-l">Page {{pageNumber}}: {{question.label}}</span>
+
+                        Control who can see this page based on previous answers
+                      </legend>
+
+                      {% if existingConditions | length > 0 %}
+                      <div class="govuk-radios" data-module="govuk-radios">
+                        <!-- Existing condition radio -->
+                        <div class="govuk-radios__item">
+                          <input class="govuk-radios__input" id="mode-existing" name="condition-mode" type="radio"
+                            value="existing" checked data-aria-controls="conditional-existing">
+                          <label class="govuk-label govuk-radios__label" for="mode-existing">
+                            Add an existing condition
+                          </label>
+                        </div>
+                        <div class="govuk-radios__conditional" id="conditional-existing">
+                          {{ govukSelect({
+                          label: { text: "Select an existing condition", classes: "govuk-label" },
+                          id: "existing-condition",
+                          items: selectItems
+                          }) }}
+                          <button class="govuk-button govuk-button-group" id="add-existing-condition">Add existing
+                            condition</button>
+                        </div>
+                        <!-- New condition radio -->
+                        <div class="govuk-radios__item">
+                          <input class="govuk-radios__input" id="mode-new" name="condition-mode" type="radio"
+                            value="new" data-aria-controls="conditional-new">
+                          <label class="govuk-label govuk-radios__label" for="mode-new">
+                            Create condition
+                          </label>
+                        </div>
+                        <div class="govuk-radios__conditional govuk-radios__conditional--hidden" id="conditional-new">
+                          {% include "titan-mvp-1.2/form-editor/conditions/create-condition-form.html" %}
+                        </div>
+                      </div>
+                      {% else %}
+                      {% include "titan-mvp-1.2/form-editor/conditions/create-condition-form.html" %}
+                      {% endif %}
+                    </fieldset>
+                  </div>
+                  <!-- Inset text for advanced conditions -->
+                  <div class="govuk-inset-text" style="margin-bottom: 20px;">
+                    <h3 class="govuk-heading-m">Advanced conditions</h3>
+                    <p class="govuk-body">
+                      Create, edit and combine conditions or reuse conditions in the <a
+                        href="/titan-mvp-1.2/form-editor/conditions/manager?fromPageId={{ currentPage.pageId }}&fromPageHeading={{ currentPage.pageHeading | urlencode }}&fromQuestionId={{ question.questionId }}"
+                        class="govuk-link govuk-link--no-visited-state">
+                        conditions manager</a>.</p>
+
+                  </div>
+
+
+
+                  <script>
+                    document.addEventListener('DOMContentLoaded', function () {
+                      // Radio group show/hide logic is now handled by GOV.UK Design System
+                      // Handle question selection and value input
+                      const questionSelect = document.getElementById('questionSelect');
+                      const operatorSelect = document.getElementById('operatorSelect');
+                      const valueContainer = document.getElementById('valueContainer');
+
+                      function updateValueContainer() {
+                        const questionSelected = questionSelect.value !== "";
+                        const operatorSelected = operatorSelect.value !== "";
+
+                        if (questionSelected && operatorSelected) {
+                          valueContainer.style.display = 'block';
+                          const selectedOption = questionSelect.options[questionSelect.selectedIndex];
+                          const questionType = selectedOption.getAttribute('data-type');
+                          const optionsData = selectedOption.getAttribute('data-options');
+
+                          // Clear previous value inputs
+                          valueContainer.innerHTML = '';
+
+                          if (optionsData) {
+                            try {
+                              const options = JSON.parse(optionsData);
+
+                              // Add the label only when we have a question selected
+                              const label = document.createElement('label');
+                              label.className = 'govuk-label';
+                              label.htmlFor = 'condition-value';
+                              label.textContent = 'Select a value';
+                              valueContainer.appendChild(label);
+
+                              if (questionType === 'yes-no') {
+                                // Create radio buttons for Yes/No
+                                const fieldset = document.createElement('div');
+                                fieldset.className = 'govuk-form-group';
+
+                                const radiosDiv = document.createElement('div');
+                                radiosDiv.className = 'govuk-radios govuk-radios--small';
+                                radiosDiv.setAttribute('data-module', 'govuk-radios');
+
+                                ['yes', 'no'].forEach((value, index) => {
+                                  const itemDiv = document.createElement('div');
+                                  itemDiv.className = 'govuk-radios__item';
+
+                                  const input = document.createElement('input');
+                                  input.className = 'govuk-radios__input';
+                                  input.type = 'radio';
+                                  input.id = `main-value-${value}`;
+                                  input.name = 'main-value';
+                                  input.value = value;
+
+                                  const label = document.createElement('label');
+                                  label.className = 'govuk-label govuk-radios__label';
+                                  label.htmlFor = `main-value-${value}`;
+                                  label.textContent = value.charAt(0).toUpperCase() + value.slice(1);
+
+                                  itemDiv.appendChild(input);
+                                  itemDiv.appendChild(label);
+                                  radiosDiv.appendChild(itemDiv);
+                                });
+
+                                fieldset.appendChild(radiosDiv);
+                                valueContainer.appendChild(fieldset);
+
+                              } else if (questionType === 'radios') {
+                                // Create radio buttons for options
+                                const fieldset = document.createElement('div');
+                                fieldset.className = 'govuk-form-group';
+
+                                const radiosDiv = document.createElement('div');
+                                radiosDiv.className = 'govuk-radios govuk-radios--small';
+                                radiosDiv.setAttribute('data-module', 'govuk-radios--small');
+
+                                options.forEach((option, index) => {
+                                  const itemDiv = document.createElement('div');
+                                  itemDiv.className = 'govuk-radios__item';
+
+                                  const input = document.createElement('input');
+                                  input.className = 'govuk-radios__input';
+                                  input.type = 'radio';
+                                  input.id = `value-${index}`;
+                                  input.name = 'value';
+                                  input.value = option.value || option.text;
+
+                                  const label = document.createElement('label');
+                                  label.className = 'govuk-label govuk-radios__label';
+                                  label.htmlFor = `value-${index}`;
+                                  label.textContent = option.text || option.label;
+
+                                  itemDiv.appendChild(input);
+                                  itemDiv.appendChild(label);
+                                  radiosDiv.appendChild(itemDiv);
+                                });
+
+                                fieldset.appendChild(radiosDiv);
+                                valueContainer.appendChild(fieldset);
+
+                              } else if (questionType === 'checkboxes') {
+                                // Create checkboxes for options
+                                const fieldset = document.createElement('div');
+                                fieldset.className = 'govuk-form-group';
+
+                                const checkboxesDiv = document.createElement('div');
+                                checkboxesDiv.className = 'govuk-checkboxes govuk-checkboxes--small';
+                                checkboxesDiv.setAttribute('data-module', 'govuk-checkboxes');
+
+                                options.forEach((option, index) => {
+                                  const itemDiv = document.createElement('div');
+                                  itemDiv.className = 'govuk-checkboxes__item';
+
+                                  const input = document.createElement('input');
+                                  input.className = 'govuk-checkboxes__input';
+                                  input.type = 'checkbox';
+                                  input.id = `value-${index}`;
+                                  input.name = 'value';
+                                  input.value = option.value || option.text;
+
+                                  const label = document.createElement('label');
+                                  label.className = 'govuk-label govuk-checkboxes__label';
+                                  label.htmlFor = `value-${index}`;
+                                  label.textContent = option.text || option.label;
+
+                                  itemDiv.appendChild(input);
+                                  itemDiv.appendChild(label);
+                                  checkboxesDiv.appendChild(itemDiv);
+                                });
+
+                                fieldset.appendChild(checkboxesDiv);
+                                valueContainer.appendChild(fieldset);
+                              }
+                            } catch (e) {
+                              console.error('Error parsing options:', e);
+                            }
+                          }
+                        } else {
+                          valueContainer.style.display = 'none';
+                        }
+                      }
+
+                      if (questionSelect && operatorSelect && valueContainer) {
+                        questionSelect.addEventListener('change', updateValueContainer);
+                        operatorSelect.addEventListener('change', updateValueContainer);
+                      }
+
+                      // Handle form submission
+                      const conditionForm = document.getElementById('condition-form');
+                      if (conditionForm) {
+                        conditionForm.addEventListener('submit', function (e) {
+                          e.preventDefault();
+
+                          // Collect main condition data
+                          const mainQuestion = document.getElementById('questionSelect');
+                          const mainOperator = document.getElementById('operatorSelect');
+                          const mainValueContainer = document.getElementById('valueContainer');
+                          const conditionName = document.getElementById('conditionName');
+
+                          if (!mainQuestion || !mainOperator || !mainValueContainer || !conditionName) {
+                            console.error('Required form elements missing');
+                            return;
+                          }
+
+                          const rules = [];
+
+                          // Get main condition data
+                          const mainQuestionText = mainQuestion.options[mainQuestion.selectedIndex].text;
+                          const questionType = mainQuestion.options[mainQuestion.selectedIndex].getAttribute('data-type');
+
+                          // Handle different input types for main condition
+                          let mainValue;
+                          if (questionType === 'checkboxes') {
+                            const checkedInputs = mainValueContainer.querySelectorAll('input[type="checkbox"]:checked');
+                            mainValue = Array.from(checkedInputs).map(input => input.value);
+                          } else {
+                            const checkedInput = mainValueContainer.querySelector('input:checked');
+                            mainValue = checkedInput ? checkedInput.value : null;
+                          }
+
+                          if (mainValue) {
+                            rules.push({
+                              questionText: mainQuestionText,
+                              operator: mainOperator.value,
+                              value: mainValue
+                            });
+                          }
+
+                          // Get additional conditions
+                          const additionalConditions = document.querySelectorAll('.condition-item');
+                          additionalConditions.forEach((condition, index) => {
+                            const questionSelect = condition.querySelector('.condition-question');
+                            const operatorSelect = condition.querySelector('select[name^="operator-"]');
+                            const valueContainer = condition.querySelector('.condition-value-container');
+
+                            if (questionSelect && operatorSelect && valueContainer) {
+                              const questionText = questionSelect.options[questionSelect.selectedIndex].text;
+                              const questionType = questionSelect.options[questionSelect.selectedIndex].getAttribute('data-type');
+
+                              let value;
+                              if (questionType === 'checkboxes') {
+                                const checkedInputs = valueContainer.querySelectorAll('input[type="checkbox"]:checked');
+                                value = Array.from(checkedInputs).map(input => input.value);
+                              } else {
+                                const checkedInput = valueContainer.querySelector('input:checked');
+                                value = checkedInput ? checkedInput.value : null;
+                              }
+
+                              if (value) {
+                                rules.push({
+                                  questionText: questionText,
+                                  operator: operatorSelect.value,
+                                  value: value
+                                });
+                              }
+                            }
+                          });
+
+                          // Add rules to hidden input
+                          const rulesInput = document.createElement('input');
+                          rulesInput.type = 'hidden';
+                          rulesInput.name = 'rules';
+                          rulesInput.value = JSON.stringify(rules);
+                          conditionForm.appendChild(rulesInput);
+
+                          // Submit the form
+                          conditionForm.submit();
+                        });
+                      }
+
+                      // Handle adding existing condition
+                      const addExistingButton = document.getElementById('add-existing-condition');
+                      const existingConditionSelect = document.getElementById('existing-condition');
+
+                      // Handle adding existing condition
+                      if (addExistingButton) {
+                        addExistingButton.addEventListener('click', function (event) {
+                          event.preventDefault();
+                          console.log('Add existing condition button clicked'); // DEBUG LOG
+
+                          const selectedConditionId = existingConditionSelect.value;
+                          if (!selectedConditionId) {
+                            console.log("No condition selected");
+                            return;
+                          }
+
+                          // Create a form to submit the data
+                          const form = document.createElement('form');
+                          form.method = 'POST';
+                          form.action = '/titan-mvp-1.2/conditions-add';
+
+                          // Create hidden inputs for the form data
+                          const inputs = {
+                            'conditionType': 'existing',
+                            'existingConditionId': selectedConditionId,
+                            'currentPageId': '{{ currentPage.pageId }}'
+                          };
+
+                          // Add all inputs to form
+                          Object.entries(inputs).forEach(([name, value]) => {
+                            const input = document.createElement('input');
+                            input.type = 'hidden';
+                            input.name = name;
+                            input.value = value;
+                            form.appendChild(input);
+                          });
+
+                          // Add the form to the document and submit it
+                          document.body.appendChild(form);
+                          form.submit();
+                        });
+                      }
+                    });
+                  </script>
+                </dd>
+              </div>
+            </dl>
+          </div>
+        </div>
+      </div>
+      {#
+    </div> #}
+
+    <!-- Right Column for Preview -->
+    <div class="govuk-grid-column-one-half-from-desktop" id="second-container"
+      style="outline: solid 1px #008938; height: 100%; position: sticky; top: 0; padding: 20px; box-shadow: 5px 10px #008938;">
+      <!-- Before content -->
+      <div id="before-content" style="background-color:  #cce2d8;">
+        <p class="govuk-body-s" style="margin-bottom: 0; color: #005a30; padding: 2px 8px 3px; text-align: center;">
+          Preview
+        </p>
+      </div>
+
+      <div style="margin-top: 60px!important;">
+        {% from "govuk/components/tabs/macro.njk" import govukTabs %}
+        <div class="govuk-tabs" data-module="govuk-tabs">
+          <h2 class="govuk-tabs__title">Contents</h2>
+          <ul class="govuk-tabs__list">
+            <li class="govuk-tabs__list-item govuk-tabs__list-item--selected">
+              <a class="govuk-tabs__tab" href="#tab-one">Page preview</a>
+            </li>
+          </ul>
+          <div class="govuk-tabs__panel" id="tab-one">
+            <p class="govuk-body-s" style="margin-bottom: 30px; border-bottom: #008938 1px;">
+              <a href="#" class="govuk-link govuk-link--no-visited-state" rel="noreferrer noopener" target="_blank">
+                Preview this page in a new tab
+              </a>
+            </p>
+
+            <div id="preview-container">
+              <div id="preview-items">
+                {% if currentPage.pageType == 'guidance' %}
+                <h1 class="govuk-heading-xl">{{ currentPage.guidanceOnlyHeadingInput or '' }}</h1>
+                <div class="govuk-body guidance-content">
+                  {{ currentPage.guidanceOnlyGuidanceTextInput or '' }}
+                </div>
+                {% else %}
+                {% if currentPage.pageHeading %}
+                <h1 class="govuk-heading-xl">{{ currentPage.pageHeading }}</h1>
+                {% endif %}
+                {% if currentPage.questions.length > 0 %}
+                {% for question in currentPage.questions %}
+                <div class="preview-item" data-id="question-{{ question.questionId }}">
+                  {% set previewTemplate = '/titan-mvp-1.2/form-editor/question-type/questions/previews/' %}
+
+                  {% if question.type == 'phone' %}
+                  {% set previewTemplate = previewTemplate ~ 'phone-preview.html' %}
+
+                  {% elseif question.type == 'address' %}
+                  {% set previewTemplate = previewTemplate ~ 'address-preview.html' %}
+
+                  {% elseif question.type == 'email' %}
+                  {% set previewTemplate = previewTemplate ~ 'email-preview.html' %}
+
+                  {% elseif question.type == 'file' %}
+                  {% set previewTemplate = previewTemplate ~ 'fileupload-preview.html' %}
+
+                  {% elseif question.type == 'text' %}
+                  {% if question.subType == 'short-answer-nf' %}
+                  {% set previewTemplate = previewTemplate ~ 'shorttext-preview.html' %}
+                  {% elseif question.subType == 'long-answer' %}
+                  {% set previewTemplate = previewTemplate ~ 'textarea-preview.html' %}
+                  {% elseif question.subType == 'numbers' %}
+                  {% set previewTemplate = previewTemplate ~ 'numbers-preview.html' %}
+                  {% else %}
+                  {% set previewTemplate = previewTemplate ~ 'text-preview.html' %}
+                  {% endif %}
+
+                  {% elseif question.type == 'date' %}
+                  {% if question.subType == 'day-month-year' %}
+                  {% set previewTemplate = previewTemplate ~ 'date-preview.html' %}
+                  {% elseif question.subType == 'month-year' %}
+                  {% set previewTemplate = previewTemplate ~ 'date-mmyy-preview.html' %}
+                  {% else %}
+                  {% set previewTemplate = previewTemplate ~ 'date-preview.html' %}
+                  {% endif %}
+
+                  {% elseif question.type == "list" %}
+                  {% if question.subType == "yes-no" %}
+                  {% set previewTemplate = previewTemplate ~ "yesno-preview.html" %}
+                  {% elseif question.subType == "checkboxes" %}
+                  {% set previewTemplate = previewTemplate ~ "checkboxes-preview.html" %}
+                  {% elseif question.subType == "radios" %}
+                  {% set previewTemplate = previewTemplate ~ "radios-preview.html" %}
+                  {% elseif question.subType == "select" %}
+                  {% set previewTemplate = previewTemplate ~ "autocomplete-preview.html" %}
+                  {% else %}
+                  {% set previewTemplate = previewTemplate ~ "list-preview.html" %}
+                  {% endif %}
+
+                  {% else %}
+                  {% set previewTemplate = previewTemplate ~ 'default-preview.html' %}
+                  {% endif %}
+
+                  {% include previewTemplate %}
+                </div>
+                {% endfor %}
+                {% else %}
+                <p>No questions available to preview.</p>
+                {% endif %}
+                {% endif %}
+              </div>
+            </div>
+
+            <a href="#edit-page" class="govuk-skip-link" style="margin-bottom: 30px!important;"
+              data-module="govuk-skip-link">Skip to edit page</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CSS for Highlighting -->
+    <style>
+      .highlight {
+        background-color: #ffe5cc;
+        border-bottom: 2px solid #ffb266;
+        color: black;
+      }
+
+      #before-content {
+        position: absolute;
+        top: 0;
+        left: 10 !important;
+        right: 0;
+        width: 100%;
+        padding: 10px !important;
+        box-sizing: border-box;
+        z-index: 1;
+        border-bottom: 1px solid #008938;
+        padding-left: 10px;
+      }
+
+      #second-container {
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      #second-container>* {
+        padding-left: 0px;
+        z-index: 2;
+      }
+    </style>
+  </div>
+</div>
+
+<style>
+  .with-arrow {
+    position: relative;
+    border: none;
+    height: 2px;
+    background-color: #b1b4b6;
+    margin: 1.5em 0;
+  }
+
+  .with-arrow::after {
+    content: "▼";
+    display: block;
+    position: absolute;
+    left: 2%;
+    transform: translateX(-50%);
+    top: -4px;
+    font-size: 18px;
+    color: #b1b4b6;
+    z-index: 10;
+  }
+
+  .govuk-summary-list__key p {
+    display: block !important;
+  }
+</style>
+
+<form class="form" action="/titan-mvp-1.2/form-editor/conditions/page-level/{{ currentPage.pageId }}" method="post">
+  {% endblock %}

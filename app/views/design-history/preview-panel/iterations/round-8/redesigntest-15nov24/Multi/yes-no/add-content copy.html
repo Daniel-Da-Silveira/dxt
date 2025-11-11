@@ -1,0 +1,679 @@
+{% extends "layouts/main.html" %}
+{% from "components/service-header/macro.njk" import serviceHeader %}
+{% set pageName = "Edit page 1 - Apply for a county parish holding number in England" %}
+{% set headingPlaceholder = "Page heading" %}
+{% set guidancePlaceholder = "" %}
+{#  #}
+{% block header %}
+  {{ serviceHeader({
+    organisationName: "Defra",
+    productName: "Forms Designer",
+    serviceName: "",
+    containerClasses: containerClasses,
+    accountName: "Chris Smith",
+    homepageLink: "/",
+    signOutLink: "/onboarding/sign-out-confirmation",
+    navigationItems: [
+      { href: "/library.html", text: "Forms library", id: "nav-library" },
+      { href: "/cph-overview/draft/complete-clean.html", text: "Overview", id: "nav-overview" },
+      { href: "/redesigntest/listing", text: "Editor", id: "nav-editor" }    ],
+    activeLinkId: "nav-editor"
+  }) }}
+
+<div class="x-govuk-masthead x-govuk-masthead--large">
+  <div class="govuk-width-container">
+    {{ govukBackLink({ classes: "govuk-back-link--inverse", text: "Back to add
+    and edit pages", href: "/september/listing/2.html" }) }}
+
+    <hr
+      class="govuk-section-break govuk-section-break--m govuk-section-break--visible"
+      style="border-bottom: 1px solid white; margin-bottom: 0"
+    />
+
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-two-thirds-from-desktop">
+        <h1 class="x-govuk-masthead__title">
+          <span class="govuk-caption-l" style="color: white"
+            >Apply for a county parish holding certificate</span
+          >
+
+          Edit page 2
+        </h1>
+
+        <p class="govuk-body" style="color: white">Last saved at <time>5:24pm</time></p>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %} {% block content %}
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-full">
+    <div class="govuk-grid-row">
+      <!-- Left Column for Form Controls -->
+      <div
+        class="govuk-grid-column-one-half-from-desktop"
+        id="container"
+        style="flex: 1 1 75%; overflow-y: auto"
+      >
+        <div class="govuk-summary-card govuk-!-margin-top-0" style="border-left: 10px solid #008938">
+          <div
+            class="govuk-summary-card__content govuk-!-padding-top-0"
+            style="background-color: #f3f2f1"
+          >
+
+            <dl class="govuk-summary-list">
+              <div class="govuk-summary-list__row">
+                <dd class="govuk-summary-list__value">
+                  <!-- Dynamic Summary List -->
+
+                  <!-- Question Settings Container -->
+                  <div class="govuk-grid-row" id="page-settings-container-1">
+                    <div id="question-1">
+                      <div
+                        class="govuk-summary-card__content"
+                        style="margin-bottom: 0"
+                      >
+                        <!-- Sub Navigation for Question -->
+                        <nav
+                          class="moj-sub-navigation govuk-!-padding-top-0 govuk-!-margin-bottom-2 "
+                          aria-label="Sub navigation"
+                        >
+                          <ul class="moj-sub-navigation__list" id="nav-list2">
+                            <!-- Question Link -->
+                            <li class="moj-sub-navigation__item">
+                              <a
+                                class="moj-sub-navigation__link"
+                                href="#question-1"
+                                >Page settings</a
+                              >
+                            </li>
+
+                            <li class="moj-sub-navigation__item">
+                              <a
+                                class="moj-sub-navigation__link"
+                                href="#overview-noquestions"
+                                >Overview of questions</a
+                              >
+                            </li>
+
+                            <li class="moj-sub-navigation__item">
+                              <a
+                                class="moj-sub-navigation__link"
+                                aria-current="page"
+                                href="#question-1-information-type"
+                                >Question 1</a
+                              >
+                            </li>
+
+                          </ul>
+                        </nav>
+
+                        <div
+                          class="govuk-summary-card__title-wrapper govuk-!-padding-top-0"
+                        ></div>
+
+
+                        <span class="govuk-caption-l">Page 1</span>
+                        <h2 class="govuk-heading-l">Question 1</h2>
+
+
+                        {% from "govuk/components/input/macro.njk" import govukInput %}
+
+{{ govukInput({
+  label: {
+    text: "Question",
+    classes: "govuk-label--m",
+    isPageHeading: false
+  },
+  id: "question-label-input-q1",
+  value: data['question-label-input-q1'],
+  name: "questionLabelInputq1"
+}) }}
+
+
+{{ govukTextarea({
+  label: {
+    text: "Hint text (optional)",
+    classes: "govuk-label--m"
+
+  },
+  id: "hint-text-inputq1",
+  name: "hintTextInputq1",
+  value: data['hint-text-input'],
+  classes: "govuk-textarea",
+  rows: 3,
+  describedBy: "hint-text-input-q1"
+}) }}
+
+<h2 class="govuk-heading-m">Add and edit the list of options</h2>
+
+{% from "govuk/components/button/macro.njk" import govukButton %}
+
+{{ govukButton({
+  text: "Edit options",
+  id: "edit-options",
+  classes: "govuk-button--inverse"
+}) }}
+
+
+
+
+<!-- Make optional -->
+
+{{ govukCheckboxes({
+  name: "makeOptional",
+  classes: "govuk-checkboxes--small",
+  fieldset: {
+    legend: {
+      text: "Manage how the question is displayed",
+      isPageHeading: true,
+      classes: "govuk-fieldset__legend--m"
+    }
+
+  },
+  items: [
+    {
+      value: data["optional-label-q1"],
+      text: "Make this question optional"
+    }
+  ]
+}) }}
+
+{{ govukInput({
+  label: {
+    text: "Short description",
+    classes: "govuk-label--m",
+    isPageHeading: false
+  },
+  hint: {
+    text: "Enter a short description for this question like 'licence period'. Short descriptions are used in error messages and on the check your answers page."
+  },
+  id: "error-message-input",
+  value: data['error-message-input'],
+  name: "errorMessageInput"
+}) }}
+
+
+<div id="summary-container">
+
+  <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
+
+  <!-- The dynamic summary list will be populated here -->
+  <h2 class="govuk-heading-m">Question settings</h2>
+
+  {{ govukSummaryList({
+    classes: "govuk-summary-list govuk-section-break govuk-section-break--visible govuk-!-margin-bottom-6  ",
+    rows: [
+      {
+        key: {
+          text: "Type of information"
+        },
+        value: {
+          html: data['short-answer']
+        },
+        actions: {
+          items: [
+            {
+              href: "#",
+              text: "Change",
+              visuallyHiddenText: "name"
+            }
+          ]
+        }
+      }
+    ]
+  }) }}
+</div>
+
+
+
+      {{ govukButton({
+        text: "Continue",
+        id: "submit-list-button"
+      }) }}
+
+</div></div></div></div></div></div></div>
+
+      <!-- Right Column for Additional Content -->
+      <div
+        class="govuk-grid-column-one-half-from-desktop"
+        id="second-container"
+        style="
+          outline: solid 1px #008938;
+          height: 100%;
+          position: sticky;
+          top: 0;
+          padding: 20px;
+          box-shadow: 5px 10px #008938;
+        "
+      >
+        <!-- New HTML content for before element -->
+        <div id="before-content">
+          <p class="govuk-body-s" style="margin-bottom: 0">
+            <a
+              href="#"
+              class="govuk-link govuk-link--no-visited-state"
+              rel="noreferrer noopener"
+              target="_blank"
+              >Preview this page in a new tab</a
+            >
+          </p>
+        </div>
+
+        <!-- Additional Content Here -->
+        <div class="additional-content">
+
+          <div>
+            <!-- Tag for Preview -->
+            {{ govukTag({ text: "Preview of page 2", classes: "govuk-tag--yellow
+            govuk-!-margin-bottom-2 govuk-!-margin-top-8" }) }}
+            <!-- Form for Preview -->
+            <form>
+                 <!-- Dynamic Heading -->
+
+
+
+                <div id="heading-container">
+                  <span id="dynamic-caption" class="govuk-caption-l"></span>
+                  <h1 class="govuk-heading-l" id="dynamic-heading"></h1>
+                </div>
+
+              <!-- Guidance Paragraph -->
+              <p class="govuk-body" id="guidance-paragraph"></p>
+
+              {% from "govuk/components/radios/macro.njk" import govukRadios %}
+
+
+              <!-- Dynamic Heading -->
+
+
+              <div id="heading-container">
+                <span id="dynamic-caption" class="govuk-caption-l">{{ data['setName'] or '' }}</span>
+
+
+
+
+                <h1 class="govuk-heading-l" id="dynamic-heading">{{ data['pageHeading'] or '' }}</h1>
+
+              </div>
+
+          <!-- Guidance Paragraph -->
+<p class="govuk-body" id="guidance-paragraph">{{ data['guidanceText'] or '' }}</p>
+
+              <div id="radio-list">
+                {{ govukRadios({
+                  name: "listPreview",
+                  fieldset: {
+                    legend: {
+                      value: data['list-preview-legend'],
+                      name: "listPreviewLegend",
+
+                      text: "",
+                      isPageHeading: false,
+                      classes: "govuk-fieldset__legend--m"
+                    }
+                  },
+                  items: []
+                }) }}
+              </div>
+            </form>
+
+
+            {{ govukButton({ text: "Continue", classes: "govuk-button
+            govuk-!-margin-top-3", id: "once-button", disabled: true }) }} {{
+            govukButton({ text: "Add another [question set name]", classes:
+            "govuk-button govuk-!-margin-top-3", id: "add-another-set-button",
+            disabled: true, attributes: { style: "display:none;" } }) }}
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+
+    <script>
+      document.addEventListener('DOMContentLoaded', function () {
+        let optionIndex = 1; // Start at 1 for dynamically added options, 0 is already present
+
+        // Get the input field by its ID
+        const inputField = document.getElementById('question-label-input-q1');
+
+        // Ensure the input field exists before adding event listener
+        if (!inputField) {
+          console.error('Input field not found.');
+          return;
+        }
+
+        // Get the radio legend element
+        const radioLegend = document.querySelector('#radio-list fieldset legend');
+
+        if (!radioLegend) {
+          console.error('Radio legend not found.');
+          return;
+        }
+
+        // Add event listener to the input field to update the legend text
+        inputField.addEventListener('input', function(event) {
+          radioLegend.textContent = event.target.value || 'Default Legend Text'; // Fallback to a default if input is empty
+        });
+
+        // Function to update the legend with the number
+        const updateLegend = (index, element) => {
+          element.innerHTML = `Option ${index + 1}`; // Append just the number
+        };
+
+        // Add a new radio option in the list preview
+        const addRadioOption = (index) => {
+          const radioList = document.getElementById('radio-list');
+          const newRadioHTML = `
+            <div class="govuk-radios__item">
+              <input class="govuk-radios__input" id="listPreview-option${index}" name="listPreview" type="radio" value="option${index}">
+              <label class="govuk-label govuk-radios__label" for="listPreview-option${index}">Option ${index + 1}</label>
+            </div>
+          `;
+          radioList.insertAdjacentHTML('beforeend', newRadioHTML);
+        };
+
+        // Set up MutationObserver to monitor new options being added dynamically
+        const observer = new MutationObserver(function(mutations) {
+          mutations.forEach(function(mutation) {
+            mutation.addedNodes.forEach(function(node) {
+              if (node.nodeType === 1 && node.classList.contains('moj-add-another__item')) {
+                const input = node.querySelector('input');
+                const legend = node.querySelector('legend');
+
+                if (input && legend) {
+                  console.log(`New input detected for index: ${optionIndex}`);
+
+                  // Add corresponding radio button in the preview
+                  addRadioOption(optionIndex);
+
+                  // Update the legend with the number
+                  updateLegend(optionIndex, legend);
+
+                  optionIndex++; // Increment for the next added option
+                }
+              }
+            });
+          });
+        });
+
+        // Start observing the options container for added fields
+        const optionsContainer = document.querySelector('#options-form');
+        if (optionsContainer) {
+          observer.observe(optionsContainer, { childList: true, subtree: true });
+        }
+
+        // Delay to ensure DOM is fully rendered before handling the first input
+        setTimeout(() => {
+          const firstInput = document.getElementById('option[0][option_label]');
+          const firstLegend = document.querySelector('legend');
+
+          if (firstInput && firstLegend) {
+            console.log("Handling first input (option[0]) manually after delay");
+
+            // Add an initial radio option for the first field (option[0])
+            addRadioOption(0);
+          } else {
+            console.log("First input or legend not found!");
+          }
+        }, 100); // Delay by 100ms to ensure DOM readiness
+
+      });
+    </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+{#
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const domElements = {
+      moreThanOnceRadio: document.getElementById("more-than-1"),
+      onceRadio: document.getElementById("once"),
+      addAnotherSetButton: document.getElementById("add-another-set-button"),
+      onceButton: document.getElementById("once-button"),
+      setNameInput: document.getElementById("set-name"),
+      dynamicCaption: document.getElementById("dynamic-caption"),
+
+      // Elements from the second script
+      questionLabelInput: document.getElementById("question-label-input-1"),
+      shortTextLabel: document.getElementById("short-text-label"),
+      hintTextArea: document.getElementById("hint-text-input"),
+      hintDiv: document.getElementById("date-input-hint"),
+      errorLabelInput: document.getElementById("error-label-input"),
+      errorDynamicText: document.getElementById("error-dynamic-text"),
+      pageHeadingInput: document.getElementById("page-heading-input"),
+      guidanceTextarea: document.getElementById("guidance-textarea"),
+      dynamicHeading: document.getElementById("dynamic-heading"),
+      guidanceParagraph: document.getElementById("guidance-paragraph"),
+
+      // New dynamic option input and label elements
+      dynamicOptionInputs: document.querySelectorAll('[id^="option"][name^="option"]'),
+      dynamicOptionLabels: document.querySelectorAll('[for^="option"]')
+    };
+
+    initializeEventListeners();
+
+    function initializeEventListeners() {
+      // First script event listeners
+      domElements.moreThanOnceRadio.addEventListener("change", toggleCaptionAndButtons);
+      domElements.onceRadio.addEventListener("change", toggleCaptionAndButtons);
+      domElements.setNameInput.addEventListener("input", updateDynamicCaptionAndHeading);
+
+      // Second script event listeners
+      const inputListeners = [
+        { element: domElements.questionLabelInput, event: "input", handler: updateQuestionLabel },
+        { element: domElements.hintTextArea, event: "input", handler: updateHintText },
+        { element: domElements.errorLabelInput, event: "input", handler: updateErrorDynamicText },
+        { element: domElements.pageHeadingInput, event: "input", handler: updateHeading },
+        { element: domElements.guidanceTextarea, event: "input", handler: updateGuidanceParagraph },
+      ];
+
+      inputListeners.forEach(bindListener);
+
+      // Add listeners for dynamic option inputs and labels
+      bindDynamicOptionListeners();
+
+      // Initialize state on page load
+      toggleCaptionAndButtons(); // Ensure correct initial state
+      updateAddAnotherSetButton();
+      updateHeading();
+      updateGuidanceParagraph();
+      applyHighlights();
+    }
+
+    // Apply the same logic for dynamic option inputs and their corresponding labels
+    function bindDynamicOptionListeners() {
+      domElements.dynamicOptionInputs.forEach((input, index) => {
+        const label = document.querySelector(`[for="option[${index}][option_label]"]`);
+
+        // Bind input event to dynamically update the corresponding label
+        if (input && label) {
+          input.addEventListener("input", () => {
+            label.textContent = input.value || `Option ${index + 1}`;
+          });
+
+          // Apply highlighting logic as per other elements
+          applyHighlightOnFocus(input.id, label.id);
+        }
+      });
+    }
+
+    // First script functionality
+    function toggleCaptionAndButtons() {
+      if (domElements.moreThanOnceRadio.checked) {
+        showCaptionWithPlaceholder();
+        domElements.addAnotherSetButton.style.display = "inline-block";
+        domElements.onceButton.style.display = "none";
+      } else if (domElements.onceRadio.checked) {
+        hideCaptionAndClearInput();
+        domElements.addAnotherSetButton.style.display = "none";
+        domElements.onceButton.style.display = "inline-block";
+      }
+
+      // Ensure the 'once-button' is always disabled unless conditions change
+      domElements.onceButton.disabled = true;
+    }
+
+    function updateDynamicCaptionAndHeading() {
+      const setName = domElements.setNameInput.value.trim();
+      domElements.dynamicCaption.textContent = setName ? `${setName} 1` : "Question set name";
+      domElements.dynamicCaption.style.display = setName ? "block" : "none";
+      updateAddAnotherSetButton(); // Ensure buttons are updated when setName changes
+    }
+
+    function updateAddAnotherSetButton() {
+      const setName = domElements.setNameInput.value.trim();
+      if (setName && domElements.moreThanOnceRadio.checked) {
+        domElements.addAnotherSetButton.textContent = `Add another ${setName}`;
+        domElements.addAnotherSetButton.disabled = false;
+      } else {
+        domElements.addAnotherSetButton.textContent = "Add another [question set name]";
+        domElements.addAnotherSetButton.disabled = true;
+      }
+
+      if (domElements.onceRadio.checked) {
+        domElements.onceButton.disabled = false;
+      } else {
+        domElements.onceButton.disabled = true;
+      }
+    }
+
+    function showCaptionWithPlaceholder() {
+      domElements.dynamicCaption.textContent = "Question set name";
+      domElements.dynamicCaption.style.display = "block";
+    }
+
+    function hideCaptionAndClearInput() {
+      domElements.dynamicCaption.style.display = "none";
+    }
+
+    // Second script functionality
+    function updateQuestionLabel() {
+      setTextContent(domElements.shortTextLabel, domElements.questionLabelInput.value.trim(), "Question 1");
+    }
+
+    function updateHintText() {
+      setTextContent(domElements.hintDiv, domElements.hintTextArea.value.trim(), "");
+    }
+
+    function updateErrorDynamicText() {
+      setTextContent(domElements.errorDynamicText, domElements.errorLabelInput.value.trim(), "date of birth");
+    }
+
+    function updateHeading() {
+      setTextContent(domElements.dynamicHeading, domElements.pageHeadingInput.value.trim(), "Page heading");
+    }
+
+    function updateGuidanceParagraph() {
+      setTextContent(domElements.guidanceParagraph, domElements.guidanceTextarea.value.trim(), "");
+    }
+
+    // Generic function to update text content
+    function setTextContent(element, value, defaultValue) {
+      if (element) {
+        element.textContent = value || defaultValue;
+      }
+    }
+
+    // Helper to bind event listeners
+    function bindListener({ element, event, handler }) {
+      if (element) {
+        element.addEventListener(event, handler);
+      }
+    }
+
+    // Apply focus/blur highlights
+    function applyHighlights() {
+      const highlightPairs = [
+        { inputId: "question-label-input-1", targetId: "short-text-label" },
+        { inputId: "hint-text-input", targetId: "date-input-hint" },
+        { inputId: "optional", targetId: "date-input-legend" },
+        { inputId: "page-heading-input", targetId: "dynamic-heading" },
+        { inputId: "guidance-textarea", targetId: "guidance-paragraph" },
+        { inputId: "error-label-input", targetId: "error-dynamic-text" },
+
+        // 'set-name' input highlighting
+        { inputId: "set-name", targetId: "dynamic-caption" },
+      ];
+
+      highlightPairs.forEach(({ inputId, targetId }) => {
+        applyHighlightOnFocus(inputId, targetId);
+      });
+    }
+
+    // Helper function for applying focus and blur highlights
+    function applyHighlightOnFocus(inputElementId, targetElementId) {
+      const inputElement = document.getElementById(inputElementId);
+      const targetElement = document.getElementById(targetElementId);
+
+      if (inputElement && targetElement) {
+        inputElement.addEventListener("focus", () => targetElement.classList.add("highlight"));
+        inputElement.addEventListener("blur", () => targetElement.classList.remove("highlight"));
+      }
+    }
+  });
+</script> #}
+
+
+
+
+
+
+
+
+
+    <style>
+
+      .highlight {
+        background-color: #ffe5cc;
+        border-bottom: 2px solid #ffb266;
+      }
+
+      #before-content {
+        position: absolute;
+        top: 0;
+        left: 10 !important;
+        right: 0;
+        /* Ensure the right side is aligned with the container edge */
+        width: 100%;
+        padding: 10px !important;
+
+        /* Remove padding to avoid affecting the width */
+        box-sizing: border-box;
+        /* Ensure content, padding, and borders are within width */
+        z-index: 1;
+        border-bottom: 1px solid #008938;
+        padding-left: 10px;
+        /* Add padding-left specifically for content */
+      }
+
+      #second-container {
+        padding: 0;
+        /* Ensure no padding on the container itself */
+        box-sizing: border-box;
+        /* Ensure container handles padding/border correctly */
+      }
+
+      #second-container > * {
+        padding-left: 0px;
+        z-index: 2;
+        /* Ensure content is above the #before-content */
+      }
+    </style>
+
+    {% endblock %}
+  </div>
+</div>

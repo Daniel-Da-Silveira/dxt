@@ -1,0 +1,105 @@
+
+ <!-- New HTML content for before element -->
+ <div id="before-content">
+  <p class="govuk-body-s" style="margin-bottom: 0">
+    <a
+      href="#"
+      class="govuk-link govuk-link--no-visited-state"
+      rel="noreferrer noopener"
+      target="_blank"
+      >Preview this page in a new tab</a
+    >
+  </p>
+</div>
+
+<!-- Additional Content Here -->
+<div class="additional-content">
+
+  <div>
+    <!-- Tag for Preview -->
+    {{ govukTag({ text: "Preview of page 2", classes: "govuk-tag--yellow
+    govuk-!-margin-bottom-2 govuk-!-margin-top-8" }) }}
+    <!-- Form for Preview -->
+                 <!-- Dynamic Heading -->
+
+
+
+                 <div id="heading-container">
+                  {% set setName = data['setName'] or '' %}
+                  <span id="dynamic-caption" class="govuk-caption-xl" data-setname="{{ setName }}">{{ data['setName'] or '' }} 1</span>
+
+                  <h1 class="govuk-heading-xl" id="dynamic-heading">{{ data['pageHeadingDate'] or '' }}</h1>
+                </div>
+
+         <!-- Guidance Paragraph -->
+        <p class="govuk-body" id="guidance-paragraph">{{ data['guidanceDate'] or '' }}</p>
+
+
+       <!-- Date Input Group -->
+<div class="govuk-form-group govuk-!-margin-top-6">
+  <fieldset class="govuk-fieldset" role="group">
+    <legend class="govuk-fieldset__legend govuk-fieldset__legend--l" id="question-label-legend">            {{ data['questionLabelInputDate'] or '' }}
+    </legend>
+    <div class="govuk-form-group">
+      <!-- Date Input Hint -->
+      <div id="hint-text-output" name="hintTextOutput" class="govuk-hint">{{ data['hintTextInputDate'] or '' }}</div>
+      <!-- Date Input Fields -->
+      <div class="govuk-date-input" id="date-input" data-module="govuk-date-input">
+        <!-- Day Input -->
+        <div class="govuk-date-input__item" id="day-input-wrapper">
+          <div class="govuk-form-group">
+            <label class="govuk-label govuk-date-input__label" for="date-day">Day</label>
+            <input class="govuk-input govuk-date-input__input govuk-input--width-2" id="date-day"
+              name="date-day" type="text">
+          </div>
+        </div>
+        <!-- Month Input -->
+        <div class="govuk-date-input__item" id="month-input-wrapper">
+          <div class="govuk-form-group">
+            <label class="govuk-label govuk-date-input__label" for="date-month">Month</label>
+            <input class="govuk-input govuk-date-input__input govuk-input--width-2" id="date-month"
+              name="date-month" type="text" pattern="[0-9]*">
+          </div>
+        </div>
+        <!-- Year Input -->
+        <div class="govuk-date-input__item" id="year-input-wrapper">
+          <div class="govuk-form-group">
+            <label class="govuk-label govuk-date-input__label" for="date-year">Year</label>
+            <input class="govuk-input govuk-date-input__input govuk-input--width-4" id="date-year"
+              name="date-year" type="text" pattern="[0-9]*">
+          </div>
+        </div>
+      </div>
+    </div>
+  </fieldset>
+</div>
+
+{% if data['setName'] %}
+{{ govukButton({
+    text: "Add another " + (data['setName'] | lower),
+    classes: "govuk-button govuk-!-margin-top-3",
+    id: "add-another-set-button",
+    disabled: true
+}) }}
+{% else %}
+{{ govukButton({
+    text: "Continue",
+    classes: "govuk-button govuk-!-margin-top-3",
+    id: "add-another-set-button",
+    disabled: true
+}) }}
+{% endif %}
+
+
+
+        <script>
+          document.addEventListener("DOMContentLoaded", function () {
+      const dynamicCaption = document.getElementById("dynamic-caption");
+      const setName = dynamicCaption.getAttribute("data-setname");
+
+      if (!setName) {
+        dynamicCaption.style.display = "none";
+      }
+    });
+
+        </script>

@@ -1,0 +1,102 @@
+<!-- New HTML content for before element -->
+<div id="before-content">
+  <p class="govuk-body-s" style="margin-bottom: 0">
+    <a href="#" class="govuk-link govuk-link--no-visited-state" rel="noreferrer noopener" target="_blank">Preview this
+      page in a new tab</a>
+  </p>
+</div>
+
+<!-- Additional Content Here -->
+<div class="additional-content">
+
+  <div>
+    <!-- Tag for Preview -->
+    {{ govukTag({ text: "Preview of page 2", classes: "govuk-tag--yellow
+    govuk-!-margin-bottom-2 govuk-!-margin-top-8" }) }}
+    <!-- Form for Preview -->
+    <!-- Dynamic Heading -->
+
+
+
+    <div id="heading-container">
+      {% set setName = data['setName'] or '' %}
+      <span id="dynamic-caption" class="govuk-caption-xl" data-setname="{{ setName }}">{{ data['setName'] or '' }}
+        1</span>
+
+
+      <h1 class="govuk-heading-xl" id="dynamic-heading">{{ data['pageHeadingCheckboxes'] or '' }}</h1>
+    </div>
+
+    <!-- Guidance Paragraph -->
+    <p class="govuk-body" id="guidance-paragraph">{{ data['guidanceTextCheckboxes'] or '' }}</p>
+
+
+
+
+    <div id="checkbox-list">
+      <fieldset class="govuk-fieldset">
+        <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
+          <h1 class="govuk-fieldset__heading" id="question-label-legend-q1">
+            {{ data['questionLabelInputCheckboxes'] or '' }}
+          </h1>
+        </legend>
+
+        <!-- Custom checkboxes without govuk-form-group -->
+        <fieldset class="govuk-fieldset" aria-describedby="listPreview-hint">
+          <div id="listPreview-hint" class="govuk-hint"></div>
+
+          {% for option in data['option'] %}
+          <div class="govuk-checkboxes__item">
+            <input class="govuk-checkboxes__input" id="listPreview-option{{ loop.index }}" name="listPreview"
+              type="checkbox" value="{{ option['option_label'] }}">
+            <label class="govuk-label govuk-checkboxes__label" for="listPreview-option{{ loop.index }}">
+              {{ option['option_label'] or '' }}
+            </label>
+          </div>
+          {% endfor %}
+
+         <!-- Dynamically generated checkbox items will be inserted here -->
+    </div>
+    </fieldset>
+    </fieldset>
+  </div>
+
+
+  </form>
+
+
+
+  {% set setName = data['setName'] or '' %}
+  {% set overview0 = data['overview0'] or '' %}
+
+  {% if overview0 == "morethan1" %}
+  {{ govukButton({
+  text: "Add another " ~ setName,
+  classes: "govuk-button govuk-!-margin-top-3",
+  id: "add-another-set-button",
+  disabled: true
+  }) }}
+  {% else %}
+  {{ govukButton({
+  text: "Continue",
+  classes: "govuk-button govuk-!-margin-top-6",
+  id: "once-button",
+  disabled: true
+  }) }}
+  {% endif %}
+</div>
+</div>
+</div>
+</div>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const dynamicCaption = document.getElementById("dynamic-caption");
+    const setName = dynamicCaption.getAttribute("data-setname");
+
+    if (!setName) {
+      dynamicCaption.style.display = "none";
+    }
+  });
+
+</script>

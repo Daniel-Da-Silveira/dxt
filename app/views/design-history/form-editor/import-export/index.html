@@ -1,0 +1,67 @@
+{% extends "design-history/template.html" %}
+
+{# --- Feature metadata --- #}
+{% set featureName = "Importing/Exporting Forms" %}
+{% set latestVersionLink = "/titan-mvp-1/form-editor/import-export.html" %}
+{% set status = "In progress" %}
+{% set statusColor = "orange" %}
+{% set userNeed = "Users need to share and reuse form designs so they can collaborate effectively and maintain
+consistency across their organization." %}
+{% set phase = "Private beta" %}
+{% set category = "Form editor" %}
+{% set description = "This feature allows users to import and export form designs, enabling collaboration and reuse of
+form templates across teams and organizations." %}
+
+{# --- Research rounds for the summary table --- #}
+{% set researchRounds = [
+"Round 13 - April 2025"
+] %}
+
+{# --- Key improvements in the latest version --- #}
+{% set improvements = [
+"Enhanced import/export functionality",
+"Improved file format support",
+"Added clear import/export guidance",
+"Enhanced collaboration features"
+] %}
+
+{# --- Research history table --- #}
+{% set researchHistory = [
+{
+roundNumber: "13",
+researchDate: "April 2025",
+researchFinding: "Functionality tested well; users successfully found download option through Tools menu",
+changeMade: "Initial implementation of import/export feature"
+}
+] %}
+
+{# --- Detailed research summaries --- #}
+{% set researchSummaries = [
+{
+title: "Round 13 - April 2025",
+summary: "Initial testing of import/export functionality",
+sections: [
+{
+type: "content",
+content: "**Research conducted:** Remote usability testing (29 April 2025)\n\n**Participants:** Multiple Defra content
+designers and form creators"
+},
+{
+type: "findings",
+content: [
+"Functionality tested well",
+"Users successfully found download option through Tools menu",
+"Maintain easy-to-locate form export/download tools"
+]
+},
+{
+type: "quotes",
+content: [
+"\"The downloads thing is obviously really handy.\" - Participant 1",
+"\"I found the Tools menu straight away - it's exactly where I'd expect it.\" - Participant 2",
+"\"This will be really useful for sharing forms between teams.\" - Participant 3"
+]
+}
+]
+}
+] %}

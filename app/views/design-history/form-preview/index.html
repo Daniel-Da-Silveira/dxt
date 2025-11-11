@@ -1,0 +1,138 @@
+{% extends "design-history/template.html" %}
+
+{# --- Feature metadata --- #}
+{% set featureName = "Form Preview and Filters" %}
+{% set latestVersionLink = "/titan-mvp-1/form-editor/preview.html" %}
+{% set status = "Tested" %}
+{% set statusColor = "green" %}
+{% set userNeed = "Users need to preview and filter forms so they can effectively review and test form structure and
+logic." %}
+{% set phase = "Private beta" %}
+{% set category = "Form admin" %}
+{% set description = "This feature allows users to preview forms, apply filters to test different scenarios, and check
+form length and condition correctness. It includes tools for reviewing form structure and testing conditional logic." %}
+
+{# --- Research rounds for the summary table --- #}
+{% set researchRounds = [
+"Round 12 - March 2025",
+"Round 11 - March 2025",
+"Round 2 - May/June 2024"
+] %}
+
+{# --- Key improvements in the latest version --- #}
+{% set improvements = [
+"Improved visibility of condition filters",
+"Enhanced preview functionality",
+"Added clearer guidance on form length checking",
+"Improved visual clarity of preview interface"
+] %}
+
+{# --- Research history table --- #}
+{% set researchHistory = [
+{
+roundNumber: "12",
+researchDate: "March 2025",
+researchFinding: "Visibility improved by moving filter to left-hand pane",
+changeMade: "Enhanced condition filter visibility"
+},
+{
+roundNumber: "11",
+researchDate: "March 2025",
+researchFinding: "Users skipped the filter by condition and found the preview incomplete",
+changeMade: "Improved visibility and clarity of preview and filters"
+},
+{
+roundNumber: "2",
+researchDate: "May/June 2024",
+researchFinding: "Preview with error messages was understood clearly",
+changeMade: "Maintained clear preview functionality"
+}
+] %}
+
+{# --- Detailed research summaries --- #}
+{% set researchSummaries = [
+{
+title: "Round 12 - March 2025",
+summary: "Testing of condition filters and visibility",
+sections: [
+{
+type: "content",
+content: "**Research conducted:** Remote usability testing (31 March 2025)\n\n**Participants:** 5 content designers from
+Defra BAU\n\n**Method:** Remote usability testing with think-aloud protocol\n\n**Scenario:** Testing page conditions
+(Iteration 2). Participants were asked to test updated question order, add list items (radio options), work with hint
+text vs short description, test page conditions, review existing vs new conditions, and test filter by condition."
+},
+{
+type: "findings",
+content: [
+"Visibility improved by moving filter to left-hand pane",
+"Users appreciated ability to check form length and condition correctness",
+"Recommendation to continue exposing condition filters in overview pane"
+]
+},
+{
+type: "quotes",
+content: [
+"'It feels like it's really intuitive and the design feels really clean, really like a lot of space, very like,
+methodical kind of step by step'"
+]
+}
+]
+},
+{
+title: "Round 11 - March 2025",
+summary: "Testing of preview and filter functionality",
+sections: [
+{
+type: "content",
+content: "**Research conducted:** Remote usability testing (18 March 2025)\n\n**Participants:** 6 users (content
+designers and a proxy user from Cefas, Environment Agency, APHA, Farming, Whitehall)\n\n**Method:** Remote usability
+testing with think-aloud protocol\n\n**Scenario:** Testing page conditions and repeater questions. Participants were
+asked to set up page conditions, work with repeater questions, test preview and filter functionality, review condition
+placement, test existing vs new conditions, work with operators, and test preview and filter."
+},
+{
+type: "findings",
+content: [
+"Users skipped the filter by condition and found the preview incomplete",
+"Recommendation to improve visibility and clarity of preview and filters",
+"Participants found the tool 'really intuitive' after initial exploration"
+]
+},
+{
+type: "quotes",
+content: [
+"'It feels like it's really intuitive... very like, methodical step by step'"
+]
+}
+]
+},
+{
+title: "Round 2 - May/June 2024",
+summary: "Initial testing of preview functionality",
+sections: [
+{
+type: "content",
+content: "**Research conducted:** Remote usability testing (30 May–3 June 2024)\n\n**Participants:** 4 content designers
+from BAU and Environment Agency\n\n**Method:** Remote usability testing with think-aloud protocol\n\n**Scenario:**
+Testing form content and conditions. Participants were asked to add and edit form content, create pages and add
+components, set up reference numbers, test preview functionality, and work with conditions."
+},
+{
+type: "findings",
+content: [
+"Preview with error messages was understood clearly",
+"'Get help with this form' content particularly well understood",
+"Recommendation to maintain clear preview functionality"
+]
+},
+{
+type: "quotes",
+content: [
+"'Preview is very smart!'",
+"'The preview functionality is clear and familiar'"
+]
+}
+]
+}
+] %}

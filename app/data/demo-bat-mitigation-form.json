@@ -1,0 +1,335 @@
+{
+  "name": "Site registration: earned recognition for bat mitigation licensing",
+  "output": {
+    "audience": "machine",
+    "version": "1"
+  },
+  "pages": [
+    {
+      "title": "What's your earned recognition registration number?",
+      "path": "/whats-your-earned-recognition-registration-number",
+      "next": [{ "path": "/whats-your-name" }],
+      "components": [
+        {
+          "name": "cAyRib",
+          "title": "What's your earned recognition registration number?",
+          "type": "NumberField",
+          "hint": "For example, BER0999",
+          "options": {
+            "prefix": "BER",
+            "classes": "govuk-input govuk-!-width-one-quarter"
+          },
+          "schema": {}
+        }
+      ]
+    },
+    {
+      "title": "What's the applicant’s email address?",
+      "path": "/whats-the-applicants-email-address",
+      "next": [{ "path": "/whats-the-applicants-phone-number" }],
+      "components": [
+        {
+          "name": "hPopro",
+          "title": "What's the applicant’s email address?",
+          "type": "EmailAddressField",
+          "hint": "",
+          "options": {},
+          "schema": {}
+        }
+      ]
+    },
+    {
+      "title": "What's the applicant’s phone number?",
+      "path": "/whats-the-applicants-phone-number",
+      "next": [{ "path": "/whats-the-name-of-the-site-youre-registering" }],
+      "components": [
+        {
+          "name": "euLgsV",
+          "title": "What's the applicant’s phone number?",
+          "type": "TelephoneNumberField",
+          "hint": "",
+          "options": {},
+          "schema": {}
+        }
+      ]
+    },
+    {
+      "title": "What's the applicant’s name?",
+      "path": "/whats-the-applicants-name",
+      "next": [{ "path": "/whats-the-applicants-email-address" }],
+      "components": [
+        {
+          "name": "PEqltz",
+          "title": "What's the applicant’s name?",
+          "type": "TextField",
+          "hint": "",
+          "options": {},
+          "schema": {}
+        }
+      ]
+    },
+    {
+      "title": "Joint licensee",
+      "path": "/joint-licensee",
+      "next": [
+        {
+          "path": "/has-the-individual-applicant-authorised-you-to-register-this-site",
+          "condition": "Xsvsrc"
+        },
+        {
+          "path": "/authorisation-to-register-this-site",
+          "condition": "uXmnos"
+        }
+      ],
+      "components": [
+        {
+          "name": "UjsCCC",
+          "title": "Html",
+          "type": "Html",
+          "content": "<p class=\"govuk-body\">The applicant you are registering this site on behalf of will be the 'joint licensee' if the site registration is approved. This joint licensee can be an individual or an organisation.</p>\n\n<p class=\"govuk-body\">If the joint licensee is an organisation, they:</p>\n\n<ul class=\"govuk-list govuk-list--bullet\">\n<li>should be a limited company, partnership, government department, local planning authority (LPA) or charity</li>\n<li>must have a clear governance structure</li>\n<li>must have a named contact authorised to act on their behalf</li>\n</ul>\n",
+          "options": {},
+          "schema": {}
+        }
+      ]
+    },
+    {
+      "title": "What's the name of the organisation?",
+      "path": "/whats-the-name-of-the-organisation",
+      "next": [{ "path": "/whats-the-organisations-address" }],
+      "components": [
+        {
+          "name": "BihCaS",
+          "title": "What's the name of the organisation?",
+          "type": "TextField",
+          "hint": "",
+          "options": {},
+          "schema": {}
+        }
+      ]
+    },
+    {
+      "title": "What's the named contact's position in the organisation?",
+      "path": "/whats-the-named-contacts-position-in-the-organisation",
+      "next": [{ "path": "/whats-the-named-contacts-email-address" }],
+      "components": [
+        {
+          "name": "nWkamR",
+          "title": "Named contact's position",
+          "type": "TextField",
+          "hint": "",
+          "options": {},
+          "schema": {}
+        }
+      ]
+    },
+    {
+      "title": "What's the named contact's email address?",
+      "path": "/whats-the-named-contacts-email-address",
+      "next": [{ "path": "/whats-named-contacts-phone-number" }],
+      "components": [
+        {
+          "name": "bFSzoh",
+          "title": "Named contact's email address",
+          "type": "EmailAddressField",
+          "hint": "Natural England will use this to email the named contact about this site registration",
+          "options": {},
+          "schema": {}
+        }
+      ]
+    },
+    {
+      "title": "What's named contact's phone number?",
+      "path": "/whats-named-contacts-phone-number",
+      "next": [{ "path": "/whats-the-name-of-the-site-youre-registering" }],
+      "components": [
+        {
+          "name": "cagIFu",
+          "title": "What's the named contact's phone number?",
+          "type": "TelephoneNumberField",
+          "hint": "Natural England will use this to phone the named contact about this site registration",
+          "options": {},
+          "schema": {}
+        }
+      ]
+    },
+    {
+      "title": "What's the organisation's legal status?",
+      "path": "/whats-the-organisations-legal-status",
+      "next": [
+        {
+          "path": "/who-is-the-named-contact-for-this-organisation",
+          "condition": "geWgGU"
+        },
+        {
+          "path": "/what-other-legal-status-does-the-organisation-have",
+          "condition": "JbAEDb"
+        },
+        { "path": "/company-number", "condition": "BIbijY" },
+        { "path": "/charity-number", "condition": "KCNWkH" }
+      ],
+      "components": [
+        {
+          "name": "xlajFt",
+          "title": "Organisation's legal status",
+          "type": "RadiosField",
+          "hint": "",
+          "list": "qMbDBT",
+          "options": {},
+          "schema": {}
+        }
+      ]
+    },
+    {
+      "title": "What level of  earned recognition accreditation do you hold?",
+      "path": "/what-level-of-earned-recognition-accreditation-do-you-hold",
+      "next": [
+        {
+          "path": "/which-annexes-of-the-cl47-licence-are-you-registered-to-use"
+        }
+      ],
+      "components": [
+        {
+          "name": "IhxFSR",
+          "title": "Level of  earned recognition accreditation",
+          "type": "RadiosField",
+          "hint": "",
+          "list": "REftUv",
+          "options": {},
+          "schema": {}
+        }
+      ]
+    },
+    {
+      "title": "Which annexes of  the CL47 licence are you registered to use?",
+      "path": "/which-annexes-of-the-cl47-licence-are-you-registered-to-use",
+      "next": [{ "path": "/joint-licensee" }],
+      "components": [
+        {
+          "name": "EEKMcl",
+          "title": "CL47 annexes",
+          "type": "CheckboxesField",
+          "hint": "Check your accreditation certificate to see which annexes you're registered to use",
+          "list": "XiEWOU",
+          "options": {},
+          "schema": {}
+        }
+      ]
+    },
+    {
+      "title": "What's the name of the site you're registering?",
+      "path": "/whats-the-name-of-the-site-youre-registering",
+      "next": [{ "path": "/whats-the-address-of-the-site" }],
+      "components": [
+        {
+          "name": "DkbEgw",
+          "title": "Name of site",
+          "type": "TextField",
+          "hint": "",
+          "options": {},
+          "schema": {}
+        }
+      ]
+    },
+    {
+      "title": "What's the address of the site?",
+      "path": "/whats-the-address-of-the-site",
+      "next": [{ "path": "/which-county-is-the-site-in" }],
+      "components": [
+        {
+          "name": "AtuMCL",
+          "title": "What's the address of the site?",
+          "type": "UkAddressField",
+          "hint": "You must provide the address for the site if it has one",
+          "options": { "required": false, "optionalText": false },
+          "schema": {}
+        }
+      ]
+    },
+    {
+      "title": "What's the grid reference of the site?",
+      "path": "/whats-the-grid-reference-of-the-site",
+      "next": [{ "path": "/what-work-do-you-plan-to-carry-out" }],
+      "components": [
+        {
+          "name": "GTdIqA",
+          "title": "Grid reference",
+          "type": "TextField",
+          "hint": "Provide the 8-figure grid reference number for the centre of the application site, such as SP123123",
+          "options": {},
+          "schema": {}
+        }
+      ]
+    },
+    {
+      "title": "Which county is the site in?",
+      "path": "/which-county-is-the-site-in",
+      "next": [{ "path": "/whats-the-grid-reference-of-the-site" }],
+      "components": [
+        {
+          "name": "Vjrckz",
+          "title": "County",
+          "type": "CheckboxesField",
+          "hint": "",
+          "list": "ogQxVH",
+          "options": {},
+          "schema": {}
+        }
+      ]
+    },
+    {
+      "title": "What work do you plan to carry out?",
+      "path": "/what-work-do-you-plan-to-carry-out",
+      "next": [{ "path": "/which-licensable-activities-will-you-carry-out" }],
+      "components": [
+        {
+          "name": "ZEFjiU",
+          "title": "Description of proposed work",
+          "type": "MultilineTextField",
+          "hint": "Give a brief description of the work you're proposing, such as 'construction of a new road', 'maintenance of a bridge', or 'construction of flats with access and car parking'",
+          "options": {},
+          "schema": {}
+        }
+      ]
+    },
+    {
+      "title": "Which licensable activities will you carry out?",
+      "path": "/which-licensable-activities-will-you-carry-out",
+      "next": [
+        { "path": "/level-of-disturbance", "condition": "YgxvgE" },
+        { "path": "/accreditation-level-for-the-site", "condition": "AAFlsN" }
+      ],
+      "components": [
+        {
+          "name": "LvAEno",
+          "title": "Licensable activities",
+          "type": "CheckboxesField",
+          "hint": "Select all licensable activities you plan to carry out under the CL47 class licence on this site",
+          "list": "JpWzOj",
+          "options": {},
+          "schema": {}
+        }
+      ]
+    },
+    {
+      "title": "Licensable purpose",
+      "path": "/licensable-purpose",
+      "next": [
+        { "path": "/upload-a-reasoned-statement", "condition": "hYXFZb" },
+        { "path": "/streamlined-reasoned-statement", "condition": "TdjFrl" },
+        {
+          "path": "/applications-for-a-home-improvement-or-small-scale-housing-development"
+        }
+      ],
+      "components": [
+        {
+          "name": "cVMMiR",
+          "title": "Html",
+          "type": "Html",
+          "content": "<p class=\"govuk-body\">If you're carrying out work to preserve public health and safety, you must be able to show that there is a genuine public health and safety issue. As evidence, you will need a written report or assessment produced by a person who is qualified to assess public health and safety risk.  This report or assessment must explain why there is a genuine health and safety risk to the public.</p>\n\n<p class=\"govuk-body\">Natural England will issue a further information request if they do not believe you have given enough evidence or if the risk does not affect the public.</p>",
+          "options": {},
+          "schema": {}
+        }
+      ]
+    }
+  ]
+}

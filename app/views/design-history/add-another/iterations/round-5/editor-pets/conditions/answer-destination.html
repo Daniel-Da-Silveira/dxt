@@ -1,0 +1,171 @@
+{% extends "layouts/main.html" %}
+
+{% from "components/service-header/macro.njk" import serviceHeader %}
+
+{% set pageName = "Overview - Apply for a county parish holding number in England" %}
+
+{% block header %}
+  {{ serviceHeader({
+    organisationName: "Defra",
+    productName: "Forms Designer",
+    serviceName: "",
+    accountName: "Chris Smith",
+    homepageLink: "/",
+    signOutLink: "/form-designer-v2/onboarding/sign-out-confirmation",
+    navigationItems: [
+    {
+      href: "/library.html",
+      text: "Forms library",
+      id: "library"
+     },
+    {
+      href: "/cph-overview/draft.html",
+      text: "Overview",
+      id: "overview"
+     },{
+         href: "/editor2.html",
+    text: 'Editor',
+    id: 'editor'
+    }],
+    activeLinkId: "/"
+  }) }}
+{% endblock %}
+
+{% block beforeContent %}
+  {{ govukBackLink({
+  text: "Back",
+  href: "javascript:window.history.back()"
+}) }}
+{% endblock %}
+
+{% block content %}
+
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+<span class="govuk-caption-l">Apply for a county parish holding number in England</span>
+      <h1 class="govuk-heading-l">
+        Add condition: select answer and destination
+      </h1>
+{% from "govuk/components/input/macro.njk" import govukInput %}
+{% from "govuk/components/summary-list/macro.njk" import govukSummaryList %}
+
+{{ govukSummaryList({
+  rows: [
+    {
+      key: {
+        text: "If the question page"
+      },
+      value: {
+        text: "What animal do you have?"
+      },
+      actions: {
+        items: [
+          {
+            href: "/conditions/select-question.html",
+            text: "Change",
+            visuallyHiddenText: "name"
+          }
+        ]
+      }
+    }
+  ]
+}) }}
+
+{% from "govuk/components/checkboxes/macro.njk" import govukCheckboxes %}
+
+{{ govukCheckboxes({
+  name: "waste",
+  fieldset: {
+    legend: {
+      text: "is answered as",
+      isPageHeading: true,
+      classes: "govuk-fieldset__legend"
+    }
+  },
+  hint: {
+    text: "Select all that apply"
+  },
+  items: [
+    {
+      value: "carcasses",
+      text: "Dog"
+    },
+    {
+      value: "mines",
+      text: "Cat"
+    },
+    {
+      value: "farm",
+      text: "Hamster"
+    }
+  ]
+}) }}
+
+{% from "govuk/components/select/macro.njk" import govukSelect %}
+
+{{ govukSelect({
+  id: "location",
+  name: "location",
+  label: {
+    text: "Take the user to"
+  },
+  items: [
+    {
+      value: "choose",
+      text: "Select a question",
+      selected: true
+    },
+    {
+      value: "eastmidlands",
+      text: "What animal do you have?"
+    },
+    {
+      value: "eastofengland",
+      text: "How old is your dog?"
+    },
+    {
+      value: "london",
+      text: "How old is your cat?"
+    },
+    {
+      value: "northeast",
+      text: "How old is your hamster?"
+    },
+    {
+      value: "northwest",
+      text: "Hamsters are not currently eligible for a free haircut"
+    },
+    {
+      value: "southeast",
+      text: "Is your cat vaccinated?"
+    },
+    {
+      value: "southwest",
+      text: "Is your dog vaccinated?"
+    },
+    {
+      value: "westmidlands",
+      text: "Check your answers"
+    }
+  ]
+}) }}
+
+ {{ govukButton({
+          text: "Add another condition",
+           classes: "govuk-button--secondary"
+        }) }}
+
+<hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
+
+      <form class="form" action="/conditions/success" method="post">
+
+        {{ govukButton({
+          text: "Save and continue"
+        }) }}
+
+      </form>
+
+    </div>
+  </div>
+
+{% endblock %}

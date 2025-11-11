@@ -1,0 +1,42 @@
+
+
+<div class="govuk-form-group">
+  <label class="govuk-label govuk-label--l" id="multi-question-label-legend-phone">
+    {{ data['multiQuestionLabelInputPhone'] or '' }}
+
+  </label>
+  <div id="multi-question-hint-text-output-phone" class="govuk-hint">    {{ data['multiQuestionHintTextInputPhone'] or '' }}
+  </div>
+  <input class="govuk-input govuk-input--width-20" id="multi-question-hint-text-output-phone" name="phoneNumber" type="tel" autocomplete="tel">
+</div>
+
+{# {% set setName = data['setName'] or '' %}
+        {% set overview0 = data['overview0'] or '' %}
+
+        {% if overview0 == "morethan1" %}
+        {{ govukButton({
+          text: "Add another " ~ setName,
+          classes: "govuk-button govuk-!-margin-top-3",
+          id: "add-another-set-button",
+          disabled: true
+        }) }}
+        {% else %}
+        {{ govukButton({
+          text: "Continue",
+          classes: "govuk-button govuk-!-margin-top-6",
+          id: "once-button",
+          disabled: true
+        }) }}
+        {% endif %} #}
+
+        <script>
+          document.addEventListener("DOMContentLoaded", function () {
+      const dynamicCaption = document.getElementById("dynamic-caption");
+      const setName = dynamicCaption.getAttribute("data-setname");
+
+      if (!setName) {
+        dynamicCaption.style.display = "none";
+      }
+    });
+
+        </script>

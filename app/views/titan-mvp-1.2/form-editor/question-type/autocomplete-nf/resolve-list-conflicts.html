@@ -1,0 +1,91 @@
+{% extends "layouts/main.html" %}
+{% from "components/service-header/macro.njk" import serviceHeader %}
+{% set pageName %}Resolve issues in your list - {{ form.name }}{% endset %}
+{% set headingPlaceholder = "Page heading" %}
+{% set guidancePlaceholder = "" %}
+{# #}
+
+{% block header %}
+
+{{ serviceHeader({
+organisationName: "Defra",
+productName: "Form Designer",
+serviceName: "",
+containerClasses: containerClasses,
+accountName: "Chris Smith",
+homepageLink: "/",
+signOutLink: "/onboarding/sign-out-confirmation",
+navigationItems: [
+{ href: "/titan-mvp-1.2/library", text: "Forms library", id: "nav-library" },
+{ href: "/titan-mvp-1.2/form-overview/index", text: "Overview", id: "nav-overview" },
+{ href: "/titan-mvp-1.2/form-editor/listing", text: "Editor", id: "nav-editor" } ],
+activeLinkId: "nav-editor"
+}) }}
+
+<div class="x-govuk-masthead x-govuk-masthead--large">
+    <div class="govuk-width-container">
+        {{ govukBackLink({ classes: "govuk-back-link--inverse govuk-!-margin-bottom-0", text:
+        commonTerms.form_editor.information_type.back, href: "/titan-mvp-1.2/form-editor/listing.html" }) }}
+
+        <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible"
+            style="border-bottom: 1px solid white; margin-bottom: 0" />
+
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-full-from-desktop">
+                <h1 class="x-govuk-masthead__title">
+                    <span class="govuk-caption-l" style="color: white;">{{ form.name }}
+                    </span>
+                    Resolve issues in your list
+                </h1>
+                {# <p class="x-govuk-masthead__description">
+                    For each issue, pick a replacement for the original item.
+                </p> #}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds-from-desktop">
+        <p class="govuk-body">You have removed a list item with a condition attached. Replace the list item to prevent
+            your form from breaking.</p>
+        <h2 class="govuk-heading-m">List: {{ question.label or 'name' }}</h2>
+        <form method="post" action="/titan-mvp-1.2/form-editor/question-type/autocomplete-nf/resolve-list-conflicts">
+            <table class="govuk-table">
+                <thead>
+                    <tr>
+                        <th class="govuk-table__header">Original item</th>
+                        <th class="govuk-table__header">Replace with</th>
+                        <th class="govuk-table__header">Conditions using this item</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for conflict in conflicts %}
+                    <tr class="govuk-table__row">
+                        <td class="govuk-table__cell">{{ conflict.originalItem }}</td>
+                        <td class="govuk-table__cell">
+                            <select class="govuk-select" name="mapping[{{ conflict.originalItem }}]">
+                                {% for newItem in newItems %}
+                                <option value="{{ newItem }}" {% if newItem==conflict.suggestedNewItem %}selected{%
+                                    endif %}>{{
+                                    newItem }}</option>
+                                {% endfor %}
+                            </select>
+                        </td>
+                        <td class="govuk-table__cell">
+                            '{{ conflict.conditionName }}'
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <div class="govuk-button-group">
+                <button class="govuk-button" type="submit">Save changes</button>
+                <a href="/titan-mvp-1.2/form-editor/listing" class="govuk-link govuk-link--no-visited-state">Cancel</a>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,83 @@
+{% extends "layouts/main.html" %}
+
+{% block pageTitle %}
+  Component page demo – {{ serviceName }} – GOV.UK Prototype Kit
+{% endblock %}
+
+{% block beforeContent %}
+  {{ govukBackLink({
+  text: "Back",
+  href: "javascript:window.history.back()"
+}) }}
+{% endblock %}
+
+{% block content %}
+
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+<span class="govuk-caption-l">Apply for a county parish holding number in England</span>
+      <h1 class="govuk-heading-l">
+        Add condition: select question route start point
+      </h1>
+{% from "govuk/components/select/macro.njk" import govukSelect %}
+
+{{ govukSelect({
+  id: "location",
+  name: "location",
+  label: {
+    text: "Select which question the route should start from"
+  },
+  items: [
+    {
+      value: "choose",
+      text: "Select a question",
+      selected: true
+    },
+    {
+      value: "eastmidlands",
+      text: "What animal do you have?"
+    },
+    {
+      value: "eastofengland",
+      text: "How old is your dog?"
+    },
+    {
+      value: "london",
+      text: "How old is your cat?"
+    },
+    {
+      value: "northeast",
+      text: "How old is your hamster?"
+    },
+    {
+      value: "northwest",
+      text: "Hamsters are not currently eligible for a free haircut"
+    },
+    {
+      value: "southeast",
+      text: "Is your cat vaccinated?"
+    },
+    {
+      value: "southwest",
+      text: "Is your dog vaccinated?"
+    },
+    {
+      value: "westmidlands",
+      text: "Check your answers"
+    }
+  ]
+}) }}
+
+
+      <form class="form" action="/path/of/next/page" method="post">
+
+        {{ govukButton({
+          text: "Save and continue"
+        }) }}
+
+      </form>
+
+    </div>
+  </div>
+
+{% endblock %}

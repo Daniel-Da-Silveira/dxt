@@ -1,0 +1,202 @@
+{% extends "layouts/main.html" %}
+{% from "components/service-header/macro.njk" import serviceHeader %}
+{% from "govuk/components/select/macro.njk" import govukSelect %}
+{% from "govuk/components/input/macro.njk" import govukInput %}
+{% from "govuk/components/textarea/macro.njk" import govukTextarea %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% set pageName = "Upload a form" + pageNumber + " overview - Apply for a county parish holding number in England" %}
+{% set headingPlaceholder = "Page heading" %}
+{% set guidancePlaceholder = "" %}
+
+{% block header %}
+{{ serviceHeader({
+organisationName: "Defra",
+productName: "Forms Designer",
+serviceName: "",
+containerClasses: containerClasses,
+accountName: "Chris Smith",
+homepageLink: "/",
+signOutLink: "/onboarding/sign-out-confirmation",
+navigationItems: [
+{ href: "/titan-mvp-1/library.html", text: commonTerms.form_editor.navigation.forms_library, id: "nav-library" },
+{ href: "/titan-mvp-1/form-overview/index", text: commonTerms.form_editor.navigation.overview, id:
+"nav-overview" },
+{ href: "/titan-mvp-1/form-editor/listing", text: commonTerms.form_editor.navigation.editor, id: "nav-editor" }
+],
+activeLinkId: "nav-editor"
+}) }}
+
+<div class="x-govuk-masthead x-govuk-masthead--large">
+    <div class="govuk-width-container">
+        {{ govukBackLink({
+        classes: "govuk-back-link--inverse govuk-!-margin-bottom-0",
+        text: commonTerms.form_editor.navigation.back_to_add_edit_pages,
+        href: "/titan-mvp-1/form-editor/listing.html"
+        }) }}
+
+        <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible"
+            style="border-bottom: 1px solid white; margin-bottom: 0" />
+
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-full-from-desktop">
+                <h1 class="x-govuk-masthead__title">
+                    Upload a form
+                </h1>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+
+        <div class="govuk-warning-text">
+            <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
+            <strong class="govuk-warning-text__text">
+                Uploading a new form will replace your current form. This action cannot be undone.
+            </strong>
+        </div>
+
+        <p class="govuk-body">Before you upload a new form, you should <a href="#"
+                onclick="downloadForm(); return false;" class="govuk-link">download a copy</a> in case you need it
+            again.</p>
+
+
+        <form action="/titan-mvp-1/form-editor/upload-success" method="post" enctype="multipart/form-data">
+            <div class="govuk-form-group">
+                <label class="govuk-label" for="form-file">
+                    Choose a form file
+                </label>
+                <input class="govuk-file-upload" id="form-file" name="form-file" type="file" accept=".json">
+            </div>
+
+            <div class="govuk-button-group">
+                {{ govukButton({
+                text: "Upload form",
+                classes: "govuk-button"
+                }) }}
+
+                <a href="/titan-mvp-1/form-editor/listing" class="govuk-link">Cancel</a>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}
+
+{% block pageScripts %}
+<script>
+    function downloadForm() {
+        // Get all page cards from the listing page
+        fetch('/titan-mvp-1/form-editor/listing')
+            .then(response => response.text())
+            .then(html => {
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(html, 'text/html');
+                const pageCards = doc.querySelectorAll('.app-page-card');
+                const formPages = [];
+
+                // Collect data from all pages
+                pageCards.forEach((card, index) => {
+                    // Get the summary card title
+                    const titleElement = card.querySelector('.govuk-summary-card__title');
+                    const title = titleElement ? titleElement.textContent.trim().replace(/^Page \d+:\s*/, '') : '';
+
+                    // Determine if it's a guidance page
+                    const isGuidance = card.querySelector('.govuk-summary-card').style.borderLeft.includes('b1b4b6') ||
+                        card.querySelector('.guidance-card');
+
+                    // Get page ID from the edit link
+                    const editLink = card.querySelector('a[href*="/titan-mvp-1/edit-page/"], a[href*="/edit-guidance"]');
+                    if (!editLink) {
+                        console.warn(`No edit link found for card ${index + 1}`);
+                        return;
+                    }
+
+                    // Extract page ID from the edit link
+                    let pageId;
+                    if (isGuidance) {
+                        pageId = new URLSearchParams(editLink.href.split('?')[1]).get('pageId');
+                    } else {
+                        pageId = editLink.href.split('/titan-mvp-1/edit-page/')[1];
+                    }
+
+                    // Get questions data
+                    const questions = [];
+                    if (!isGuidance) {
+                        const questionRows = card.querySelectorAll('.govuk-summary-list__row');
+                        questionRows.forEach(row => {
+                            const key = row.querySelector('.govuk-summary-list__key')?.textContent.trim();
+                            const value = row.querySelector('.govuk-summary-list__value')?.textContent.trim();
+
+                            // Only add if it's a question (not metadata like conditions)
+                            if (key && !key.includes('Page shown when')) {
+                                questions.push({
+                                    questionId: Date.now() + Math.random(),
+                                    label: key.startsWith('Question') ? value : key,
+                                    hint: '',
+                                    type: 'text',
+                                    subType: 'short-answer-nf',
+                                    options: []
+                                });
+                            }
+                        });
+                    }
+
+                    // Get guidance content
+                    let guidanceContent = '';
+                    if (isGuidance) {
+                        const guidanceRow = card.querySelector('.govuk-summary-list__row');
+                        if (guidanceRow) {
+                            guidanceContent = guidanceRow.querySelector('.govuk-summary-list__value')?.textContent.trim() || '';
+                        }
+                    }
+
+                    // Create the page object
+                    const pageData = {
+                        pageId: pageId || Date.now() + Math.random(),
+                        pageType: isGuidance ? 'guidance' : 'question',
+                        title: title,
+                        pageHeading: title,
+                        guidanceTextarea: guidanceContent,
+                        guidanceOnlyHeadingInput: isGuidance ? title : '',
+                        guidanceOnlyGuidanceTextInput: guidanceContent,
+                        questions: questions,
+                        order: index + 1
+                    };
+
+                    formPages.push(pageData);
+                });
+
+                if (formPages.length === 0) {
+                    alert('No pages found to download. Please add some pages first.');
+                    return;
+                }
+
+                // Create the complete form data object
+                const formData = {
+                    name: "Form Export",
+                    version: "1.0",
+                    lastExported: new Date().toISOString(),
+                    pages: formPages
+                };
+
+                // Convert the data to a string
+                const dataStr = JSON.stringify(formData, null, 2);
+                const dataUri = 'data:application/json;charset=utf-8,' + encodeURIComponent(dataStr);
+
+                // Create a link element
+                const exportFileDefaultName = 'form-export.json';
+                const linkElement = document.createElement('a');
+                linkElement.setAttribute('href', dataUri);
+                linkElement.setAttribute('download', exportFileDefaultName);
+                linkElement.click();
+            })
+            .catch(error => {
+                console.error('Error downloading form:', error);
+                alert('There was an error downloading the form. Please try again.');
+            });
+    }
+</script>
+{% endblock %}

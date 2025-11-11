@@ -1,0 +1,61 @@
+{% extends "layouts/main.html" %}
+
+{% block pageTitle %}
+Character count errors – {{ serviceName }} – GOV.UK Prototype Kit
+{% endblock %}
+
+{% from "govuk/components/character-count/macro.njk" import govukCharacterCount %}
+{% from "components/service-header/macro.njk" import serviceHeader %}
+
+{% set pageName = "Character count errors" %}
+
+{% block header %}
+{{ serviceHeader({
+organisationName: "Defra",
+productName: "Forms Designer",
+serviceName: "Design history",
+containerClasses: containerClasses,
+homepageLink: "/design-system/components.html",
+signOutLink: "/onboarding/sign-out-confirmation",
+navigationItems: [
+{ href: "/index", text: "Histories and prototypes", id: "histories-and-prototypes" },
+{ href: "/design-system/components.html", text: "Components", id: "components" },
+{ href: "/design-system/user-journeys/home.html", text: "User journeys", id: "user-journeys" }
+],
+activeLinkId: "components"
+}) }}
+{% endblock %}
+
+{% block content %}
+
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+        <h1 class="govuk-heading-l">Character count error examples</h1>
+        <p class="govuk-body">This page demonstrates how the <strong>error message above the field</strong> appears when a user exceeds a character limit, in line with the GOV.UK Design System guidance for the Character count component. See guidance at <a class="govuk-link" href="https://design-system.service.gov.uk/components/character-count/" target="_blank" rel="noopener noreferrer">Character count</a>.</p>
+
+        <h2 class="govuk-heading-m">Example: too many characters</h2>
+        <p class="govuk-body">The textarea below is configured with a <strong>maximum of 40 characters</strong> and is pre-populated with content longer than the limit to show the error state.</p>
+
+        {{ govukCharacterCount({
+          id: "summary",
+          name: "summary",
+          maxlength: 1200,
+          value: "This text deliberately exceeds the maximum of forty characters to trigger an error.",
+          label: {
+            text: "Enter a short summary",
+            classes: "govuk-label--m",
+            isPageHeading: false
+          },
+          hint: {
+            text: "Keep this to 40 characters or fewer."
+          },
+          errorMessage: {
+            text: "Summary must be 40 characters or less"
+          }
+        }) }}
+
+        <p class="govuk-body">When the user reduces the length below 40 characters, the error message above the field is removed and the count message updates below the field.</p>
+    </div>
+</div>
+
+{% endblock %}

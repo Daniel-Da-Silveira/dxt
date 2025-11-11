@@ -1,0 +1,141 @@
+{% extends "design-history/template.html" %}
+
+{# --- Feature metadata --- #}
+{% set featureName = "List Items" %}
+{% set latestVersionLink = "/titan-mvp-1/form-editor/list-items.html" %}
+{% set status = "Tested" %}
+{% set statusColor = "green" %}
+{% set userNeed = "Users need to create lists of options for form questions so they can provide structured choices to
+respondents." %}
+{% set phase = "Private beta" %}
+{% set category = "Form editor" %}
+{% set description = "This feature allows users to create and manage lists of options for form questions, including
+radio buttons, checkboxes, and dropdown menus." %}
+
+{# --- Research rounds for the summary table --- #}
+{% set researchRounds = [
+"Round 10 - March 2025",
+"Round 9 - March 2025",
+"Round 8 - November 2024",
+"Round 7 - October 2024"
+] %}
+
+{# --- Key improvements in the latest version --- #}
+{% set improvements = [
+"Enhanced list item management",
+"Improved option ordering",
+"Added clear guidance on list types",
+"Enhanced list item editing"
+] %}
+
+{# --- Research history table --- #}
+{% set researchHistory = [
+{
+roundNumber: "10",
+researchDate: "March 2025",
+researchFinding: "List item management intuitive but needed clearer guidance on list types",
+changeMade: "Added clear guidance on list types and their use cases"
+},
+{
+roundNumber: "9",
+researchDate: "March 2025",
+researchFinding: "Option ordering clear but needed more flexibility",
+changeMade: "Enhanced option ordering capabilities"
+},
+{
+roundNumber: "8",
+researchDate: "November 2024",
+researchFinding: "List item editing interface clear but needed better guidance",
+changeMade: "Improved list item editing interface and guidance"
+},
+{
+roundNumber: "7",
+researchDate: "October 2024",
+researchFinding: "Initial implementation well received but needed refinement",
+changeMade: "Initial implementation of list items feature"
+}
+] %}
+
+{# --- Detailed research summaries --- #}
+{% set researchSummaries = [
+{
+title: "Round 10 - March 2025",
+summary: "Testing of list types and guidance",
+sections: [
+{
+type: "content",
+content: "**Research conducted:** Remote usability testing (March 2025)\n\n**Participants:** Content designers and form
+administrators"
+},
+{
+type: "findings",
+content: [
+"List item management intuitive",
+"Needed clearer guidance on list types",
+"Recommendation to add examples of different list types",
+"Users wanted more context on when to use each type"
+]
+}
+]
+},
+{
+title: "Round 9 - March 2025",
+summary: "Testing of option ordering",
+sections: [
+{
+type: "content",
+content: "**Research conducted:** Remote usability testing (March 2025)\n\n**Participants:** Content designers and form
+administrators"
+},
+{
+type: "findings",
+content: [
+"Option ordering clear but needed more flexibility",
+"Users wanted drag-and-drop functionality",
+"Recommendation to enhance ordering capabilities",
+"Need for better visual feedback during ordering"
+]
+}
+]
+},
+{
+title: "Round 8 - November 2024",
+summary: "Testing of list item editing",
+sections: [
+{
+type: "content",
+content: "**Research conducted:** Remote usability testing (November 2024)\n\n**Participants:** Content designers and
+form administrators"
+},
+{
+type: "findings",
+content: [
+"List item editing interface clear",
+"Needed better guidance on best practices",
+"Recommendation to add inline help",
+"Users wanted more examples of good list items"
+]
+}
+]
+},
+{
+title: "Round 7 - October 2024",
+summary: "Initial testing of list items",
+sections: [
+{
+type: "content",
+content: "**Research conducted:** Remote usability testing (October 2024)\n\n**Participants:** Content designers and
+form administrators"
+},
+{
+type: "findings",
+content: [
+"Initial implementation well received",
+"Basic functionality clear and intuitive",
+"Recommendation to add more advanced features",
+"Users wanted more customization options"
+]
+}
+]
+}
+] %}

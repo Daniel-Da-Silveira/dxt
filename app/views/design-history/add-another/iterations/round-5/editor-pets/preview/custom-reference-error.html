@@ -1,0 +1,111 @@
+{% extends "layouts/main.html" %}
+
+{% block pageTitle %}
+  Your National Insurance Number – Name of service – GOV.UK Prototype Kit
+{% endblock %}
+
+{% from "govuk/components/header/macro.njk" import govukHeader %}
+
+{{ govukHeader({
+  homepageUrl: "#",
+  serviceName: "Service name",
+  serviceUrl: "#"
+}) }}
+
+{% block content %}
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+
+      {% from "govuk/components/notification-banner/macro.njk" import govukNotificationBanner %}
+      {% set html %}
+      <p class="govuk-notification-banner__heading">
+        This is a preview of a draft form. Do not enter personal information.
+      </p>
+      {% endset %}
+      {{ govukNotificationBanner({
+        html: html
+      }) }}
+
+      {% from "govuk/components/back-link/macro.njk" import govukBackLink %}
+      {% from "govuk/components/input/macro.njk" import govukInput %}
+      {% from "govuk/components/button/macro.njk" import govukButton %}
+      {% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
+
+      <form action="/form-handler" method="post" novalidate="novalidate">
+        {{ govukErrorSummary({
+          titleText: "There is a problem",
+          errorList: [
+            {
+              text: "Enter National Insurance Number that is 2 letters, 6 numbers, then A, B, C or D, like QQ 12 34 56 C",
+              href: "#"
+            }
+          ]
+        }) }}
+
+        {{ govukInput({
+          label: {
+            text: "National Insurance Number",
+            isPageHeading: true,
+            classes: "govuk-label--l"
+          },
+          hint: {
+            text: "It’s on your National Insurance card, benefit letter, payslip or P60. For example, ‘QQ 12 34 56 C’."
+          },
+          classes: "govuk-input--width-10 govuk-input--extra-letter-spacing",
+          id: "ni",
+          name: "ni",
+          errorMessage: {
+            text: "Enter National Insurance Number that is 2 letters, 6 numbers, then A, B, C or D, like QQ 12 34 56 C"
+          },
+          spellcheck: false
+        }) }}
+
+        {{ govukButton({
+          text: "Continue"
+        }) }}
+      </form>
+
+      {# <details class="govuk-details">
+        <summary class="govuk-details__summary">
+          <span class="govuk-details__summary-text">
+            Get help with this form
+          </span>
+        </summary>
+        <div class="govuk-details__text">
+          <h3 class="govuk-heading-s">Telephone</h3>
+          <p class="govuk-body">If you have a unique reference number, have it with you when you call.</p>
+          <ul class="govuk-list">
+            <li>Telephone: 020 7946 0101</li>
+            <li>Textphone: 020 7946 0102</li>
+            <li>Monday to Friday, 8am to 6pm</li>
+            <li>Saturday and Sunday, 10am to 4pm</li>
+            <li class="govuk-!-margin-top-5">Welsh language: 020 7946 0103</li>
+            <li>Monday to Friday, 8:30am to 5pm</li>
+          </ul>
+          <p class="govuk-body">
+            <a class="govuk-link" href="#">Find out about call charges</a>
+          </p>
+
+          <h3 class="govuk-heading-s">Email</h3>
+          <ul class="govuk-list">
+            <li><a class="govuk-link" href="#">name@example.com</a></li>
+            <li>We aim to respond within 2 working days</li>
+          </ul>
+
+          <h3 class="govuk-heading-s">Online</h3>
+          <ul class="govuk-list">
+            <li><a class="govuk-link" target="_blank" rel="noopener noreferrer" href="https://gov.uk/contact-form">Online contact form (opens in new tab)</a></li>
+          </ul>
+
+          <h3 class="govuk-heading-s">Address</h3>
+          <p class="govuk-body">
+            49 to 53 Cherry Street<br>
+            London<br>
+            AB1 2DC
+          </p>
+        </div>
+      </details> #}
+
+    </div>
+  </div>
+{% endblock %}

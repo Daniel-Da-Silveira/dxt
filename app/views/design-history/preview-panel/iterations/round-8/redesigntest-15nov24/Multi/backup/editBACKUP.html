@@ -1,0 +1,1123 @@
+{% extends "layouts/main.html" %}
+{% from "components/service-header/macro.njk" import serviceHeader %}
+{% set pageName = "Edit page 1 - Apply for a county parish holding number in England" %}
+{% set headingPlaceholder = "Page heading" %}
+{% set guidancePlaceholder = "" %}
+
+{% block header %}
+{{ serviceHeader({
+  organisationName: "Defra",
+  productName: "Forms Designer",
+  serviceName: "",
+  containerClasses: containerClasses,
+  accountName: "Chris Smith",
+  homepageLink: "/",
+  signOutLink: "/onboarding/sign-out-confirmation",
+  navigationItems: [
+    { href: "/library.html", text: "Forms library", id: "nav-library" },
+    { href: "/cph-overview/draft/complete-clean.html", text: "Overview", id: "nav-overview" },
+    { href: "/redesigntest/listing", text: "Editor", id: "nav-editor" }
+  ],
+  activeLinkId: "nav-editor"
+}) }}
+
+<div class="x-govuk-masthead x-govuk-masthead--large">
+  <div class="govuk-width-container">
+    {{ govukBackLink({ classes: "govuk-back-link--inverse", text: "Back to add
+    and edit pages", href: "/september/listing/2.html" }) }}
+
+    <hr
+      class="govuk-section-break govuk-section-break--m govuk-section-break--visible"
+      style="border-bottom: 1px solid white; margin-bottom: 0"
+    />
+
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-two-thirds-from-desktop">
+        <h1 class="x-govuk-masthead__title">
+          <span class="govuk-caption-l" style="color: white"
+            >Apply for a county parish holding certificate</span
+          >
+
+          Edit page 2
+        </h1>
+
+        <p class="govuk-body" style="color: white">Last saved at <time>5:24pm</time></p>
+
+
+        {# <a
+          href=""
+          role="button"
+          draggable="false"
+          class="govuk-button govuk-button--secondary"
+          data-module="govuk-button"
+        >
+          Re-order questions
+        </a> #}
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %} {% block content %}
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-full">
+    <div class="govuk-grid-row">
+      <!-- Left Column for Form Controls -->
+      <div
+        class="govuk-grid-column-one-half-from-desktop"
+        id="container"
+        style="flex: 1 1 75%; overflow-y: auto"
+      >
+        <div class="govuk-summary-card govuk-!-margin-top-0" style="border-left: 10px solid #008938">
+          <div
+            class="govuk-summary-card__content govuk-!-padding-top-0"
+            style="background-color: #f3f2f1"
+          >
+            <!-- Dynamic Summary List -->
+            <div id="summary-container">
+              <!-- The dynamic summary list will be populated here -->
+            </div>
+            <dl class="govuk-summary-list">
+              <div class="govuk-summary-list__row">
+                <dd class="govuk-summary-list__value">
+                  <!-- Dynamic Summary List -->
+                  <div id="summary-container">
+                    <!-- The dynamic summary list will be populated here -->
+                  </div>
+                  <!-- Question Settings Container -->
+                  <div class="govuk-grid-row" id="page-settings-container-1">
+                    <div id="question-1">
+                      <div
+                        class="govuk-summary-card__content"
+                        style="margin-bottom: 0"
+                      >
+                        <!-- Sub Navigation for Question -->
+                        <nav
+                          class="moj-sub-navigation govuk-!-padding-top-0 govuk-!-margin-bottom-2 "
+                          aria-label="Sub navigation"
+                        >
+                          <ul class="moj-sub-navigation__list" id="nav-list2">
+                            <!-- Question Link -->
+                            <li class="moj-sub-navigation__item">
+                              <a
+                                class="moj-sub-navigation__link"
+                                aria-current="page"
+                                href="#question-1"
+                                >Page settings</a
+                              >
+                            </li>
+
+                          </ul>
+                        </nav>
+
+                        <div
+                          class="govuk-summary-card__title-wrapper govuk-!-padding-top-0"
+                        ></div>
+
+                        <span class="govuk-caption-l" id="page-caption">Page 2</span>
+
+                        <h2 class="govuk-heading-l" id="page-heading">Page settings</h2>
+
+                        <ul class="govuk-summary-card__actions"></ul>
+
+
+                <!-- Default Content for Question 1 -->
+<div id="question-1-content" class="question-content" style="margin-top: 10px">
+
+  <!-- Page Heading Input -->
+  {{ govukInput({
+    label: {
+      text: "Page heading",
+      classes: "govuk-label--m govuk-!-margin-top-0",
+      isPageHeading: false
+    },
+    hint: {
+      html: "This should be a statement, not a question. For example, 'Passport information’"
+    },
+    id: "page-heading-input",
+    name: "pageHeading",
+    classes: "govuk-input",
+    describedBy: "page-heading-input-hint",
+    input: {
+      type: "text",
+      id: "page-heading-input"
+    }
+  }) }}
+
+  <!-- Guidance Text Textarea -->
+  {{ govukTextarea({
+    label: {
+      text: "Guidance text (optional)",
+      classes: "govuk-label--m"
+    },
+    hint: {
+      text: "You can use Markdown if you want to format the content or add links"
+    },
+    id: "guidance-textarea",
+    name: "guidanceText",
+    classes: "govuk-textarea",
+    rows: 3,
+    describedBy: "guidance-textarea-hint"
+  }) }}
+
+  {% from "govuk/components/radios/macro.njk" import govukRadios %}
+  {% from "govuk/components/input/macro.njk" import govukInput %}
+
+
+
+  {% set morethan1Html %}
+  <div class="govuk-form-group">
+    <fieldset class="govuk-fieldset" role="group" aria-describedby="dob-hint">
+      <legend class="govuk-fieldset__legend govuk-fieldset__legend">
+        <h1 class="govuk-fieldset__heading">Set the minimum and maximum times a user can
+          answer
+          questions</h1>
+      </legend>
+      <div id="dob-hint" class="govuk-hint">The range must be between 2 and 25</div>
+      <div class="govuk-date-input" id="dob">
+        <div class="govuk-date-input__item">
+          <div class="govuk-form-group">
+            <label class="govuk-label govuk-date-input__label" for="dob-day">Min</label>
+            <input class="govuk-input govuk-date-input__input govuk-input--width-2" id="dob-day"
+              name="dob-day" type="text" autocomplete="bday-day" inputmode="numeric">
+          </div>
+        </div>
+        <div class="govuk-date-input__item">
+          <div class="govuk-form-group">
+            <label class="govuk-label govuk-date-input__label" for="dob-month">Max</label>
+            <input class="govuk-input govuk-date-input__input govuk-input--width-2"
+              id="dob-month" name="dob-month" type="text" autocomplete="bday-month"
+              inputmode="numeric">
+          </div>
+        </div>
+      </div>
+    </fieldset>
+  </div>
+
+  {{ govukInput({
+  label: {
+  text: "Give this set of questions a name",
+  classes: "govuk-label",
+  isPageHeading: true
+  },
+  hint: {
+  text: "Use the subject of the questions for the question set name. For example, if the
+  questions are about pets, the question set name might be ‘pet’."
+  },
+  id: "set-name",
+  name: "setName"
+  }) }}
+  {% endset -%}
+
+
+
+  {{ govukRadios({
+    name: "responseType",
+    fieldset: {
+      legend: {
+        text: "Do you need users to answer the same question repeatedly?",
+        isPageHeading: true,
+        classes: "govuk-fieldset__legend--m"
+      }
+    },
+    hint: {
+      text: "For example, a microchip number for multiple pets or national grid reference for multiple sites"
+    },
+    items: [
+      {
+        value: "once",
+        text: "No, just once",
+        id: "once",
+        conditional: {
+          html: onceHtml
+        }
+      },
+      {
+        value: "morethan1",
+        text: "Yes, more than once",
+        id: "more-than-1",
+        conditional: {
+          html: morethan1Html
+        }
+      }
+    ]
+  }) }}
+
+
+<div class="govuk-button-group">
+  {{ govukButton({
+    text: "Continue",
+    id: "save-changes-button",
+    type: "button"
+  }) }}
+
+  <p class="govuk-body">
+    <a href="#" class="govuk-link govuk-link--no-visited-state">
+      Delete page
+    </a>
+  </p>
+</div>
+
+
+</div></div></div></div></div></div></div></div>
+
+      <!-- Right Column for Additional Content -->
+      <div
+        class="govuk-grid-column-one-half-from-desktop"
+        id="second-container"
+        style="
+          outline: solid 1px #008938;
+          height: 100%;
+          position: sticky;
+          top: 0;
+          padding: 20px;
+          box-shadow: 5px 10px #008938;
+        "
+      >
+        <!-- New HTML content for before element -->
+        <div id="before-content">
+          <p class="govuk-body-s" style="margin-bottom: 0">
+            <a
+              href="#"
+              class="govuk-link govuk-link--no-visited-state"
+              rel="noreferrer noopener"
+              target="_blank"
+              >Preview this page in a new tab</a
+            >
+          </p>
+        </div>
+
+        <!-- Additional Content Here -->
+        <div class="additional-content">
+
+          <div>
+            <!-- Tag for Preview -->
+            {{ govukTag({ text: "Preview of page 2", classes: "govuk-tag--yellow
+            govuk-!-margin-bottom-2 govuk-!-margin-top-8" }) }}
+            <!-- Form for Preview -->
+            <form>
+                 <!-- Dynamic Heading -->
+                 <div id="heading-container">
+                  <span id="dynamic-caption" class="govuk-caption-l"></span>
+                  <h1 class="govuk-heading-l" id="dynamic-heading"></h1>
+                </div>
+
+              <!-- Guidance Paragraph -->
+              <p class="govuk-body" id="guidance-paragraph"></p>
+
+
+            </form>
+
+
+            {{ govukButton({ text: "Continue", classes: "govuk-button
+            govuk-!-margin-top-3", id: "once-button", disabled: true }) }} {{
+            govukButton({ text: "Add another [question set name]", classes:
+            "govuk-button govuk-!-margin-top-3", id: "add-another-set-button",
+            disabled: true, attributes: { style: "display:none;" } }) }}
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        // ======================
+        // 1. Variable Declarations and Initialization
+        // ======================
+
+        const domElements = {
+          // DOM element references
+          moreThanOnceRadio: document.getElementById("more-than-1"),
+          onceRadio: document.getElementById("once"),
+          onceButton: document.getElementById("once-button"),
+          addAnotherSetButton: document.getElementById("add-another-set-button"),
+          setNameInput: document.getElementById("set-name"),
+          pageHeadingInput: document.getElementById("page-heading-input"),
+          guidanceTextarea: document.getElementById("guidance-textarea"),
+          dynamicHeading: document.getElementById("dynamic-heading"),
+          guidanceParagraph: document.getElementById("guidance-paragraph"),
+          dynamicCaption: document.getElementById("dynamic-caption"),
+          navList: document.getElementById("nav-list2"),
+          secondContainer: document.getElementById("second-container"),
+          saveChangesButton: document.getElementById("save-changes-button"),
+          pageSettingsTabLink: document.querySelector('[href="#question-1"]'),
+          pageSettingsTabLi: document.querySelector('[href="#question-1"]').parentElement,
+          summaryCardActions: document.querySelector(".govuk-summary-card__actions"),
+          pageSettingsContentDiv: document.getElementById("question-1-content"),
+          pageCaption: document.getElementById("page-caption"), // Ensure this ID exists in your HTML
+          pageHeading: document.getElementById("page-heading"), // Ensure this ID exists in your HTML
+        };
+
+        let savedData = {}; // Store saved page settings data
+        let overviewTabExists = false; // Flag to check if overview tab exists
+        let questionTabs = {}; // Object to store question tabs
+
+        // Initialize event listeners
+        initializeEventListeners();
+
+        // ======================
+        // 2. Event Listener Initialization
+        // ======================
+
+        function initializeEventListeners() {
+          // Input listeners for updating dynamic content
+          domElements.pageHeadingInput.addEventListener("input", updateHeading);
+          domElements.guidanceTextarea.addEventListener("input", updateGuidanceParagraph);
+          domElements.setNameInput.addEventListener("input", updateDynamicCaptionAndHeading);
+
+          // Radio button change listeners for toggling elements
+          domElements.moreThanOnceRadio.addEventListener("change", toggleCaptionAndButtons);
+          domElements.onceRadio.addEventListener("change", toggleCaptionAndButtons);
+
+          // Click listeners for buttons and tabs
+          domElements.saveChangesButton.addEventListener("click", handleSaveChanges);
+
+          // Initialize the state of buttons and captions
+          toggleCaptionAndButtons();
+          updateAddAnotherSetButton();
+        }
+
+        // ======================
+        // 3. Event Handlers
+        // ======================
+
+        /** Handles the save changes button click event */
+        function handleSaveChanges(event) {
+          event.preventDefault();
+
+          // Save the data from inputs
+          savedData.pageHeading = domElements.pageHeadingInput.value.trim();
+          savedData.guidanceText = domElements.guidanceTextarea.value.trim();
+          savedData.setName = domElements.setNameInput.value.trim();
+
+          // Add the 'Overview of questions' tab if it doesn't already exist
+          if (!overviewTabExists) {
+            addOverviewTab();
+            overviewTabExists = true;
+          }
+
+          // Update the content of 'Overview of questions'
+          updateOverviewContent();
+
+          // Switch to 'Overview of questions' tab
+          selectTab("overview");
+
+          displaySuccessMessage();
+        }
+
+        // ======================
+        // 4. Tab and Content Management Functions
+        // ======================
+
+        /** Adds a new 'Overview of questions' tab */
+        function addOverviewTab() {
+          // Create new navigation item
+          const overviewTabLi = document.createElement("li");
+          overviewTabLi.classList.add("moj-sub-navigation__item");
+
+          const overviewTabLink = document.createElement("a");
+          overviewTabLink.classList.add("moj-sub-navigation__link");
+          overviewTabLink.href = "#overview-of-questions";
+          overviewTabLink.textContent = "Overview of questions";
+
+          overviewTabLi.appendChild(overviewTabLink);
+          domElements.navList.appendChild(overviewTabLi);
+
+          // Store references
+          domElements.overviewTabLi = overviewTabLi;
+          domElements.overviewTabLink = overviewTabLink;
+
+          // Add event listener to the overview tab
+          domElements.overviewTabLink.addEventListener("click", function (event) {
+            event.preventDefault();
+            selectTab("overview");
+          });
+
+          // Update pageSettingsTab event listener to show 'Page settings' content
+          domElements.pageSettingsTabLink.addEventListener("click", function (event) {
+            event.preventDefault();
+            selectTab("settings");
+          });
+        }
+
+        /** Adds a new 'Question' tab */
+        function addQuestionTab(questionNumber) {
+          if (questionTabs[questionNumber]) {
+            // Tab already exists
+            return;
+          }
+
+          // Create new navigation item
+          const questionTabLi = document.createElement("li");
+          questionTabLi.classList.add("moj-sub-navigation__item");
+
+          const questionTabLink = document.createElement("a");
+          questionTabLink.classList.add("moj-sub-navigation__link");
+          questionTabLink.href = "#question-" + questionNumber;
+          questionTabLink.textContent = "Question " + questionNumber;
+
+          questionTabLi.appendChild(questionTabLink);
+          domElements.navList.appendChild(questionTabLi);
+
+          // Store references
+          questionTabs[questionNumber] = {
+            tabLi: questionTabLi,
+            tabLink: questionTabLink,
+            contentDiv: null,
+          };
+
+          // Add event listener to the question tab
+          questionTabLink.addEventListener("click", function (event) {
+            event.preventDefault();
+            selectTab("question" + questionNumber);
+          });
+        }
+
+        /** Selects the active tab and displays corresponding content */
+        function selectTab(tab) {
+          // Show the existing caption and heading by default
+          domElements.pageCaption.style.display = "block";
+          domElements.pageHeading.style.display = "block";
+
+          if (tab === "overview") {
+            // Set aria-current
+            domElements.overviewTabLink.setAttribute("aria-current", "page");
+            domElements.pageSettingsTabLink.removeAttribute("aria-current");
+            Object.values(questionTabs).forEach((qTab) => {
+              qTab.tabLink.removeAttribute("aria-current");
+              qTab.tabLi.classList.remove("moj-sub-navigation__item--active");
+            });
+
+            // Set active class
+            domElements.overviewTabLi.classList.add("moj-sub-navigation__item--active");
+            domElements.pageSettingsTabLi.classList.remove("moj-sub-navigation__item--active");
+
+            // Update caption and heading for Overview
+            domElements.pageCaption.textContent = "Page 2";
+            domElements.pageHeading.textContent = "Overview of questions";
+
+            // Show Overview content
+            showOverviewContent();
+
+            // Hide other contents
+            domElements.pageSettingsContentDiv.style.display = "none";
+            Object.values(questionTabs).forEach((qTab) => {
+              if (qTab.contentDiv) {
+                qTab.contentDiv.style.display = "none";
+              }
+            });
+          } else if (tab === "settings") {
+            // Set aria-current
+            domElements.pageSettingsTabLink.setAttribute("aria-current", "page");
+            domElements.overviewTabLink.removeAttribute("aria-current");
+            Object.values(questionTabs).forEach((qTab) => {
+              qTab.tabLink.removeAttribute("aria-current");
+              qTab.tabLi.classList.remove("moj-sub-navigation__item--active");
+            });
+
+            // Set active class
+            domElements.pageSettingsTabLi.classList.add("moj-sub-navigation__item--active");
+            domElements.overviewTabLi.classList.remove("moj-sub-navigation__item--active");
+
+            // Update caption and heading for Page Settings
+            domElements.pageCaption.textContent = "Page 2";
+            domElements.pageHeading.textContent = "Page settings";
+
+            // Show Page settings content
+            domElements.pageSettingsContentDiv.style.display = "block";
+
+            // Hide other contents
+            if (domElements.overviewContentDiv) {
+              domElements.overviewContentDiv.style.display = "none";
+            }
+            Object.values(questionTabs).forEach((qTab) => {
+              if (qTab.contentDiv) {
+                qTab.contentDiv.style.display = "none";
+              }
+            });
+
+            // Populate inputs with saved data
+            populatePageSettings();
+          } else if (tab.startsWith("question")) {
+            const questionNumber = tab.replace("question", "");
+
+            const qTab = questionTabs[questionNumber];
+            if (!qTab) {
+              console.error("Question tab not found:", questionNumber);
+              return;
+            }
+
+            // Set aria-current
+            qTab.tabLink.setAttribute("aria-current", "page");
+            domElements.pageSettingsTabLink.removeAttribute("aria-current");
+            domElements.overviewTabLink.removeAttribute("aria-current");
+            Object.values(questionTabs).forEach((otherQTab) => {
+              if (otherQTab !== qTab) {
+                otherQTab.tabLink.removeAttribute("aria-current");
+                otherQTab.tabLi.classList.remove("moj-sub-navigation__item--active");
+              }
+            });
+
+            // Set active class
+            qTab.tabLi.classList.add("moj-sub-navigation__item--active");
+            domElements.pageSettingsTabLi.classList.remove("moj-sub-navigation__item--active");
+            domElements.overviewTabLi.classList.remove("moj-sub-navigation__item--active");
+
+            // Hide existing caption and heading
+            domElements.pageCaption.style.display = "none";
+            domElements.pageHeading.style.display = "none";
+
+            // Show Question content
+            showQuestionContent(questionNumber);
+
+            // Hide other contents
+            domElements.pageSettingsContentDiv.style.display = "none";
+            if (domElements.overviewContentDiv) {
+              domElements.overviewContentDiv.style.display = "none";
+            }
+            Object.values(questionTabs).forEach((otherQTab) => {
+              if (otherQTab !== qTab && otherQTab.contentDiv) {
+                otherQTab.contentDiv.style.display = "none";
+              }
+            });
+          }
+        }
+
+        /** Updates the content of 'Overview of questions' */
+        function updateOverviewContent() {
+          if (domElements.overviewContentDiv) {
+            domElements.overviewContentDiv.innerHTML = generateOverviewHTML();
+          }
+        }
+
+        /** Shows the 'Overview of questions' content */
+        function showOverviewContent() {
+          if (!domElements.overviewContentDiv) {
+            // Create the overview content
+            const overviewDiv = document.createElement("div");
+            overviewDiv.id = "overview-of-questions";
+            overviewDiv.innerHTML = generateOverviewHTML();
+            domElements.summaryCardActions.parentNode.insertBefore(
+              overviewDiv,
+              domElements.summaryCardActions.nextSibling
+            );
+
+            domElements.overviewContentDiv = overviewDiv;
+          } else {
+            domElements.overviewContentDiv.style.display = "block";
+          }
+
+          // Initialize GOV.UK Frontend components
+          if (window.GOVUKFrontend && window.GOVUKFrontend.initAll) {
+            window.GOVUKFrontend.initAll(domElements.overviewContentDiv);
+          }
+
+          // Add event listener to the 'Add first question' button
+          const addFirstQuestionButton = domElements.overviewContentDiv.querySelector("#info-type-reveal");
+          if (addFirstQuestionButton) {
+            addFirstQuestionButton.addEventListener("click", function (event) {
+              event.preventDefault();
+              // Call function to add 'Question 1' tab
+              addQuestionTab(1);
+              // Select the 'Question 1' tab
+              selectTab("question1");
+            });
+          }
+        }
+
+        /** Shows the content for a specific question */
+        function showQuestionContent(questionNumber) {
+          const qTab = questionTabs[questionNumber];
+          if (!qTab) {
+            console.error("Question tab not found:", questionNumber);
+            return;
+          }
+
+          if (!qTab.contentDiv) {
+            // Create the question content div
+            const questionDiv = document.createElement("div");
+            questionDiv.id = "question-" + questionNumber + "-content";
+            questionDiv.innerHTML = generateQuestionContent(questionNumber);
+            domElements.summaryCardActions.parentNode.insertBefore(
+              questionDiv,
+              domElements.summaryCardActions.nextSibling
+            );
+
+            qTab.contentDiv = questionDiv;
+          } else {
+            qTab.contentDiv.style.display = "block";
+          }
+
+          // Initialize GOV.UK Frontend components
+          if (window.GOVUKFrontend && window.GOVUKFrontend.initAll) {
+            window.GOVUKFrontend.initAll(qTab.contentDiv);
+          }
+        }
+
+        /** Generates HTML content for the overview */
+        function generateOverviewHTML() {
+          return `
+            <p class="govuk-body">You have not added any questions to this page.</p>
+            <button class="govuk-button" id="info-type-reveal" data-module="govuk-button">Add first question</button>
+          `;
+        }
+
+        /** Generates HTML content for a specific question */
+        function generateQuestionContent(questionNumber) {
+          return `     
+            <!-- Info type question -->
+                <div id="info-page-radio-group">
+      <form class="form" action="/info-type-2-answer" method="post">
+        {% from "govuk/components/radios/macro.njk" import govukRadios %}
+        {% from "govuk/components/input/macro.njk" import govukInput %}
+
+        {% set dateHtml %}
+        {{ govukRadios({
+            name: "date",
+            fieldset: {
+                legend: {
+                    text: "Type of date",
+                    isPageHeading: true,
+                    classes: "govuk-fieldset__legend"
+                }
+            },
+            items: [
+                {
+                    value: "day-month-year",
+                    text: "Day, month and year"
+                },
+                {
+                    value: "month-year",
+                    text: "Month and year"
+                }
+            ]
+        }) }}
+        {% endset %}
+
+        {% set textHtml %}
+        {{ govukRadios({
+            name: "text",
+            fieldset: {
+                legend: {
+                    text: "Type of written answer",
+                    isPageHeading: true,
+                    classes: "govuk-fieldset__legend"
+                }
+            },
+            items: [
+                {
+                    value: "shortText",
+                    text: "Short text"
+                },
+                {
+                    value: "longText",
+                    text: "Long text"
+                },
+                {
+                    value: "number",
+                    text: "Number"
+                }
+            ]
+        }) }}
+        {% endset %}
+
+        {% set listHtml %}
+        {{ govukRadios({
+            name: "list",
+            fieldset: {
+                legend: {
+                    text: "Type of list",
+                    isPageHeading: true,
+                    classes: "govuk-fieldset__legend"
+                }
+            },
+            items: [
+                {
+                    value: "yesnoList",
+                    text: "Yes or No",
+                    hint: {
+                      text: "Allow users to answer either ‘Yes’ or ‘No’"
+                  }
+                },
+                {
+                    value: "checkboxList",
+                    text: "Checkboxes",
+                    hint: {
+                      text: "A list for users to select multiple answers"
+                  }
+                },
+                {
+                    value: "radioList",
+                    text: "Radios",
+                    hint: {
+                      text: "A list for users to select one answer"
+                  }
+                },
+                {
+                  value: "selectList",
+                  text: "Select",
+                  hint: {
+                    text: "A drop-down list for users to select one answer"
+                }
+              }
+            ]
+        }) }}
+        {% endset %}
+
+         <span class="govuk-caption-l">Question ${questionNumber}</span>
+        {{ govukRadios({
+            name: "infotype2",
+            fieldset: {
+                legend: {
+                    text: "What information do you need from users?",
+                    isPageHeading: true,
+                    classes: "govuk-fieldset__legend--l"
+                }
+            },
+            hint: {
+                text: "You can ask for more information later"
+            },
+            items: [
+                {
+                    value: "text",
+                    text: "Written answer",
+                    hint: {
+                        text: "A short or long answer as text or number"
+                    },
+                    conditional: {
+                        html: textHtml
+                    }
+                },
+                {
+                    value: "date",
+                    text: "Date",
+                    hint: {
+                        text: "A day, month and year or month and year only"
+                    },
+                    conditional: {
+                        html: dateHtml
+                    }
+                },
+                {
+                    value: "address",
+                    text: "UK address",
+                    hint: {
+                        text: "A street address, town or city and postcode"
+                    }
+                },
+                {
+                    value: "phone",
+                    text: "Phone number",
+                    hint: {
+                        text: "A text box that users can enter numbers and some symbols into, such as '+'"
+                    }
+                },
+                {
+                    value: "file",
+                    text: "Supporting evidence",
+                    hint: {
+                        text: "Ask users to upload documents and photos"
+                    }
+                },
+                {
+                    value: "email",
+                    text: "Email address",
+                    hint: {
+                        text: "A text box that users can enter their email address into"
+                    }
+                },
+                {
+                    divider: "or"
+                },
+                {
+                    value: "list",
+                    text: "Ask users to choose from a list of options",
+                    conditional: {
+                        html: listHtml
+                    }
+                }
+            ]
+        }) }}
+
+        {% from "govuk/components/button/macro.njk" import govukButton %}
+
+{{ govukButton({
+  text: "Continue",
+  id: "infoTypeButton"
+}) }}
+          `;
+        }
+
+        /** Populates the page settings inputs with saved data */
+        function populatePageSettings() {
+          domElements.pageHeadingInput.value = savedData.pageHeading || "";
+          domElements.guidanceTextarea.value = savedData.guidanceText || "";
+          domElements.setNameInput.value = savedData.setName || "";
+        }
+
+        // ======================
+        // 5. Other Event Handlers and Helper Functions
+        // ======================
+
+        /** Toggles the display of captions and buttons based on radio selection */
+        function toggleCaptionAndButtons() {
+          if (domElements.moreThanOnceRadio.checked) {
+            showCaptionWithPlaceholder();
+            domElements.addAnotherSetButton.style.display = "inline-block";
+            domElements.onceButton.style.display = "none";
+          } else if (domElements.onceRadio.checked) {
+            hideCaptionAndClearInput();
+            domElements.addAnotherSetButton.style.display = "none";
+            domElements.onceButton.style.display = "inline-block";
+          }
+        }
+
+        /** Updates the dynamic caption and button labels based on the set name input */
+        function updateDynamicCaptionAndHeading() {
+          const setName = domElements.setNameInput.value.trim();
+          domElements.dynamicCaption.textContent = setName ? `${setName} 1` : "Question set name";
+          domElements.dynamicCaption.style.display = setName ? "block" : "none";
+          updateAddAnotherSetButton();
+        }
+
+        /** Updates the "Add another set" button label and state */
+        function updateAddAnotherSetButton() {
+          const setName = domElements.setNameInput.value.trim();
+          if (setName && domElements.moreThanOnceRadio.checked) {
+            domElements.addAnotherSetButton.textContent = `Add another ${setName}`;
+            domElements.addAnotherSetButton.disabled = false;
+          } else {
+            domElements.addAnotherSetButton.textContent = "Add another [question set name]";
+            domElements.addAnotherSetButton.disabled = true;
+          }
+        }
+
+        /** Updates the dynamic heading based on the page heading input */
+        function updateHeading() {
+          domElements.dynamicHeading.textContent =
+            domElements.pageHeadingInput.value.trim() || "Page heading";
+        }
+
+        /** Updates the guidance paragraph based on the guidance textarea input */
+        function updateGuidanceParagraph() {
+          domElements.guidanceParagraph.textContent =
+            domElements.guidanceTextarea.value.trim() || "";
+        }
+
+        // ======================
+        // 6. UI Manipulation Helper Functions
+        // ======================
+
+        /** Shows the dynamic caption with a placeholder text */
+        function showCaptionWithPlaceholder() {
+          domElements.dynamicCaption.textContent = "Question set name";
+          domElements.dynamicCaption.style.display = "block";
+        }
+
+        /** Hides the dynamic caption and clears its content */
+        function hideCaptionAndClearInput() {
+          domElements.dynamicCaption.style.display = "none";
+        }
+
+        /** Displays a success message after saving changes */
+        function displaySuccessMessage() {
+          console.log("Changes saved successfully");
+        }
+      });
+    </script>
+
+
+
+
+
+
+
+
+
+    <script>
+     document.addEventListener("DOMContentLoaded", function () {
+  const domElements = {
+    questionLabelInput: document.getElementById("question-label-input"),
+    questionLegend: document.getElementById("date-input-legend"),
+    hintTextArea: document.getElementById("hint-text-input"),
+    hintDiv: document.getElementById("date-input-hint"),
+    optionalCheckbox: document.getElementById("optional"),
+    monthYearCheckbox: document.getElementById("month-year-checkbox"),
+    dayInputWrapper: document.getElementById("day-input-wrapper"),
+    errorLabelInput: document.getElementById("error-label-input"),
+    errorDynamicText: document.getElementById("error-dynamic-text"),
+    pageHeadingInput: document.getElementById("page-heading-input"),
+    guidanceTextarea: document.getElementById("guidance-textarea"),
+    dynamicHeading: document.getElementById("dynamic-heading"),
+    guidanceParagraph: document.getElementById("guidance-paragraph"),
+    accordionSection: document.getElementById("accordion-with-summary-sections"),
+  };
+
+  // Initialize event listeners
+  initializeEventListeners();
+
+  function initializeEventListeners() {
+    const inputListeners = [
+      { element: domElements.questionLabelInput, event: "input", handler: updateLegendText },
+      { element: domElements.hintTextArea, event: "input", handler: updateHintText },
+      { element: domElements.errorLabelInput, event: "input", handler: updateErrorDynamicText },
+      { element: domElements.pageHeadingInput, event: "input", handler: updateHeading },
+      { element: domElements.guidanceTextarea, event: "input", handler: updateGuidanceParagraph },
+    ];
+
+    const changeListeners = [
+      { element: domElements.optionalCheckbox, event: "change", handler: updateLabels },
+      { element: domElements.monthYearCheckbox, event: "change", handler: toggleDayInputVisibility },
+    ];
+
+    // Bind all input-related event listeners
+    inputListeners.forEach(bindListener);
+
+    // Bind all change-related event listeners
+    changeListeners.forEach(bindListener);
+
+    // Initialize with the current state
+    updateHeading();
+    updateGuidanceParagraph();
+    applyHighlights();
+    expandAccordionSection();
+  }
+
+  function bindListener({ element, event, handler }) {
+    if (element) {
+      element.addEventListener(event, handler);
+    }
+  }
+
+  function applyHighlights() {
+    const highlightPairs = [
+      { inputId: "question-label-input", targetId: "date-input-legend" },
+      { inputId: "hint-text-input", targetId: "date-input-hint" },
+      { inputId: "optional", targetId: "date-input-legend" },
+      { inputId: "page-heading-input", targetId: "dynamic-heading" },
+      { inputId: "guidance-textarea", targetId: "guidance-paragraph" },
+      { inputId: "error-label-input", targetId: "error-dynamic-text" },
+    ];
+
+    highlightPairs.forEach(({ inputId, targetId }) => {
+      applyHighlightOnFocus(inputId, targetId);
+    });
+  }
+
+  function updateLegendText() {
+    setTextContent(domElements.questionLegend, domElements.questionLabelInput.value.trim(), "Question 1");
+  }
+
+  function updateHintText() {
+    setTextContent(domElements.hintDiv, domElements.hintTextArea.value.trim(), "");
+  }
+
+  function updateErrorDynamicText() {
+    setTextContent(domElements.errorDynamicText, domElements.errorLabelInput.value.trim(), "date of birth");
+  }
+
+  function updateHeading() {
+    setTextContent(domElements.dynamicHeading, domElements.pageHeadingInput.value.trim(), "Page heading");
+  }
+
+  function updateGuidanceParagraph() {
+    setTextContent(domElements.guidanceParagraph, domElements.guidanceTextarea.value.trim(), "");
+  }
+
+  function updateLabels() {
+    const optionalSuffix = domElements.optionalCheckbox.checked ? " (optional)" : "";
+    updateInputValue(domElements.questionLabelInput, optionalSuffix);
+    updateInputValue(domElements.questionLegend, optionalSuffix);
+  }
+
+  function updateInputValue(inputElement, suffix) {
+    inputElement.value = inputElement.value.replace(/\s*\(optional\)$/, "") + suffix;
+  }
+
+  function toggleDayInputVisibility() {
+    domElements.dayInputWrapper.style.display = domElements.monthYearCheckbox.checked ? "none" : "inline-block";
+  }
+
+  function setTextContent(element, value, defaultValue) {
+    if (element) {
+      element.textContent = value || defaultValue;
+    }
+  }
+
+  // Helper function for applying focus and blur highlights
+  function applyHighlightOnFocus(inputElementId, targetElementId) {
+    const inputElement = document.getElementById(inputElementId);
+    const targetElement = document.getElementById(targetElementId);
+
+    if (inputElement && targetElement) {
+      inputElement.addEventListener("focus", () => targetElement.classList.add("highlight"));
+      inputElement.addEventListener("blur", () => targetElement.classList.remove("highlight"));
+    }
+  }
+
+
+});
+
+
+    </script>
+
+
+    <style>
+      /* .custom-background-padding {
+                  background-color: #f3f2f1;
+                  border-left: 10px solid #008938;
+                  padding: 15px;
+                }
+
+                .custom-background-padding-end-pages {
+                  background-color: #f3f2f1;
+                  border-left: 10px solid #b1b4b6;
+                  padding: 15px;
+                }
+
+                .govuk-summary-card__content {
+                  background-color: #f3f2f1;
+                  padding: 15px 15px 15px 0;
+                } */
+
+      .highlight {
+        background-color: #ffe5cc;
+        border-bottom: 2px solid #ffb266;
+      }
+
+      #before-content {
+        position: absolute;
+        top: 0;
+        left: 10 !important;
+        right: 0;
+        /* Ensure the right side is aligned with the container edge */
+        width: 100%;
+        padding: 10px !important;
+
+        /* Remove padding to avoid affecting the width */
+        box-sizing: border-box;
+        /* Ensure content, padding, and borders are within width */
+        z-index: 1;
+        border-bottom: 1px solid #008938;
+        padding-left: 10px;
+        /* Add padding-left specifically for content */
+      }
+
+      #second-container {
+        padding: 0;
+        /* Ensure no padding on the container itself */
+        box-sizing: border-box;
+        /* Ensure container handles padding/border correctly */
+      }
+
+      #second-container > * {
+        padding-left: 0px;
+        z-index: 2;
+        /* Ensure content is above the #before-content */
+      }
+    </style>
+
+    {% endblock %}
+  </div>
+</div>

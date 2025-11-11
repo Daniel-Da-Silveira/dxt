@@ -1,0 +1,185 @@
+{% extends "layouts/runner.html" %}
+
+{% block pageTitle %}
+Check your answers – {{ serviceName }} – GOV.UK Prototype Kit
+{% endblock %}
+
+{% block beforeContent %}
+  {{ govukBackLink({
+    text: "Back",
+    href: "javascript:window.history.back()"
+  }) }}
+{% endblock %}
+
+{% block content %}
+{% set hasPaid = data['hasPaid'] or false %}
+{% set email = data['email'] or '' %}
+{% set fee = data['fee'] or '£120' %}
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+
+    {% if error and (error.declaration or error.payment or error.email) %}
+      {{ govukErrorSummary({
+        titleText: "There is a problem",
+        errorList: [
+          { text: error.email, href: "#email" } if error.email,
+          { text: error.declaration, href: "#declaration" } if error.declaration,
+          { text: error.payment, href: "#payment" } if error.payment
+        ] | reject("equalto", false)
+      }) }}
+    {% endif %}
+
+    <h1 class="govuk-heading-xl">Check your answers before you submit</h1>
+
+    {{ govukSummaryList({
+      rows: [
+        {
+          key: { text: "Question 1" },
+          value: { text: "Answer 1" },
+          actions: { items: [ { href: "#", text: "Change", visuallyHiddenText: "Question 1" } ] }
+        },
+        {
+          key: { text: "Question 2" },
+          value: { text: "Answer 2" },
+          actions: { items: [ { href: "#", text: "Change", visuallyHiddenText: "Question 2" } ] }
+        },
+        {
+          key: { text: "Question 3" },
+          value: { text: "Answer 3" },
+          actions: { items: [ { href: "#", text: "Change", visuallyHiddenText: "Question 3" } ] }
+        }
+      ]
+    }) }}
+
+    <form action="/confirmation" method="post" novalidate data-has-paid="{{ hasPaid | dump }}">
+
+      {# ---------------------------
+         Confirmation email (optional)
+         --------------------------- #}
+      <h2 class="govuk-heading-l">Get a confirmation email (optional)</h2>
+      {{ govukInput({
+        id: "email",
+        name: "email",
+        label: {
+          text: "Email address",
+          classes: "govuk-label--m"
+        },
+        hint: {
+          text: "We’ll email you a receipt and your reference number."
+        },
+        type: "email",
+        autocomplete: "email",
+        spellcheck: false,
+        value: email,
+        errorMessage: { text: error.email } if error and error.email
+      }) }}
+
+      {# -------------
+         Declaration
+         ------------- #}
+      <h2 class="govuk-heading-l">Declaration</h2>
+      <p class="govuk-body">
+        By submitting, you confirm the information you’ve given is, to the best of your knowledge, correct.
+      </p>
+
+      {{ govukCheckboxes({
+        idPrefix: "declaration",
+        name: "declaration",
+        fieldset: {
+          legend: {
+            text: "Confirm and accept",
+            classes: "govuk-fieldset__legend--m"
+          }
+        },
+        errorMessage: { text: error.declaration } if error and error.declaration,
+        items: [
+          {
+            value: "accepted",
+            text: "I understand and accept this declaration",
+            id: "declaration"
+          }
+        ]
+      }) }}
+
+      {# --------
+         Payment
+         -------- #}
+      <h2 id="payment" class="govuk-heading-l">Payment</h2>
+
+      {{ govukInsetText({
+        html: "Application fee: <strong>" + fee + "</strong>"
+      }) }}
+
+      <p class="govuk-body">You must pay before you can submit your form.</p>
+      <p class="govuk-body">When you select <strong>Pay now</strong>, we’ll take you to a secure payment page. You’ll come back here when your payment is complete.</p>
+
+      {% if error and error.payment %}
+        <p class="govuk-error-message"><span class="govuk-visually-hidden">Error:</span> {{ error.payment }}</p>
+      {% endif %}
+
+      <div class="govuk-button-group">
+        {{ govukButton({
+          text: hasPaid ? "Payment complete" : "Pay now",
+          href: hasPaid ? "#" : "/pay",
+          isStartButton: not hasPaid,
+          classes: hasPaid ? "govuk-button--secondary" : ""
+        }) }}
+
+        {{ govukButton({
+          text: "Submit your form",
+          type: "submit",
+          attributes: { id: "submit-button" },
+          disabled: (not hasPaid)
+        }) }}
+      </div>
+
+      {% if not hasPaid %}
+        <p class="govuk-hint">You’ll be able to submit once your payment is complete.</p>
+      {% endif %}
+
+      <details class="govuk-details govuk-!-margin-top-6">
+        <summary class="govuk-details__summary">
+          <span class="govuk-details__summary-text">What happens after you submit</span>
+        </summary>
+        <div class="govuk-details__text">
+          <ul class="govuk-list govuk-list--bullet">
+            <li>we’ll show your reference number on the confirmation screen</li>
+            <li>if you gave an email address, we’ll send a confirmation email</li>
+            <li>we’ll start assessing your application</li>
+          </ul>
+        </div>
+      </details>
+
+      {# Optional: save and come back later link
+      <p class="govuk-body"><a class="govuk-link" href="/save-and-return">Save and come back later</a></p>
+      #}
+
+      {# Accessibility helper: disable submit unless declaration is checked #}
+      {# <script>
+        (function () {
+          var dec = document.getElementById('declaration');
+          var submit = document.getElementById('submit-button');
+          var form = document.querySelector('form[action="/confirmation"]');
+          var hasPaid = false;
+          if (form) {
+            var paidAttr = form.getAttribute('data-has-paid');
+            hasPaid = paidAttr === 'true';
+          }
+          function toggleSubmit() {
+            // submit also requires hasPaid — enforced by server and disabled attr above
+            if (!submit) return;
+            submit.disabled = !(dec && dec.checked && hasPaid);
+          }
+          if (dec) {
+            dec.addEventListener('change', toggleSubmit);
+            toggleSubmit();
+          }
+        })();
+      </script> #}
+
+    </form>
+
+  </div>
+</div>
+{% endblock %}

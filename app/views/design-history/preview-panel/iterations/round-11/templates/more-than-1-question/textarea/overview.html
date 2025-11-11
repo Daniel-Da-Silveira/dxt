@@ -1,0 +1,583 @@
+{% extends "layouts/main.html" %}
+{% from "components/service-header/macro.njk" import serviceHeader %}
+{% set pageName = "Overview of short answer question - Apply for a county parish holding number in England" %}
+{% set headingPlaceholder = "Page heading" %}
+{% set guidancePlaceholder = "" %}
+
+{% block header %}
+  {{ serviceHeader({
+    organisationName: "Defra",
+    productName: "Forms Designer",
+    serviceName: "",
+    containerClasses: containerClasses,
+    accountName: "Chris Smith",
+    homepageLink: "/",
+    signOutLink: "/onboarding/sign-out-confirmation",
+    navigationItems: [
+      { href: "/library.html", text: "Forms library", id: "nav-library" },
+      { href: "/cph-overview/draft/complete-clean.html", text: "Overview", id: "nav-overview" },
+      { href: "/redesigntest/listing", text: "Editor", id: "nav-editor" }
+    ],
+    activeLinkId: "nav-editor"
+  }) }}
+
+  <div class="x-govuk-masthead x-govuk-masthead--large">
+    <div class="govuk-width-container">
+      {{ govukBackLink({ classes: "govuk-back-link--inverse govuk-!-margin-bottom-0", text: "Back to add and edit pages", href: "/redesigntest/listing.html" }) }}
+      <hr
+        class="govuk-section-break govuk-section-break--m govuk-section-break--visible"
+        style="border-bottom: 1px solid white; margin-bottom: 0"
+      />
+
+      <div class="govuk-grid-row">
+        <div class="govuk-grid-column-full-from-desktop">
+          <h1 class="x-govuk-masthead__title">
+            Apply for a county parish holding (CPH) number
+          </h1>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}
+
+{% block content %}
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-full">
+    <div class="govuk-grid-row">
+      <!-- Left Column for Form Controls -->
+      <div class="govuk-grid-column-one-half-from-desktop" id="container" style="flex: 1 1 75%; overflow-y: auto">
+        <div class="govuk-summary-card govuk-!-margin-top-0" style="border-left: 10px solid #008938">
+          <div class="govuk-summary-card__content govuk-!-padding-top-0" style="background-color: #f3f2f1">
+            <dl class="govuk-summary-list">
+              <div class="govuk-summary-list__row">
+                <dd class="govuk-summary-list__value">
+                  <div class="govuk-grid-row" id="page-settings-container-1">
+                    <div id="question-1">
+                      <div class="govuk-summary-card__content" style="margin-bottom: 0">
+                        <!-- Sub Navigation for Question -->
+                        <nav class="moj-sub-navigation govuk-!-padding-top-0 govuk-!-margin-bottom-2" aria-label="Sub navigation">
+                          <ul class="moj-sub-navigation__list" id="nav-list2">
+                            <li class="moj-sub-navigation__item">
+                              <a class="moj-sub-navigation__link" href="#question-1">Page settings</a>
+                            </li>
+                            <li class="moj-sub-navigation__item">
+                              <a class="moj-sub-navigation__link" aria-current="page" href="#overview-noquestions">Overview of questions</a>
+                            </li>
+                          </ul>
+                        </nav>
+
+                        <div class="govuk-summary-card__title-wrapper govuk-!-padding-top-0"></div>
+                        <span class="govuk-caption-l" id="page-caption">Page 2</span>
+                        <h2 class="govuk-heading-l" id="page-heading">Overview of questions</h2>
+
+                        <!-- Original Summary List view -->
+                        <div id="summary-container">
+                          {{ govukSummaryList({
+                            classes: "govuk-summary-list govuk-section-break govuk-section-break--visible",
+                            rows: [
+                              {
+                                key: { text: "Question 1" },
+                                value: { html: data['multiQuestionLabelInputShorttext'] or '' },
+                                actions: {
+                                  items: [
+                                    {
+                                      href: "/redesigntest/templates/1-question/shorttext/edit.html",
+                                      text: "Change",
+                                      visuallyHiddenText: "name"
+                                    }
+                                  ]
+                                }
+                              },
+                              {
+                                key: { text: "Question 2" },
+                                value: { html: data['multiQuestionLabelInputTextArea'] or '' },
+                                actions: {
+                                  items: [
+                                    {
+                                      href: "/redesigntest/templates/1-question/shorttext/edit.html",
+                                      text: "Change",
+                                      visuallyHiddenText: "name"
+                                    }
+                                  ]
+                                }
+                              }
+                            ]
+                          }) }}
+                        </div>
+
+                        <!-- Reorder container - initially hidden -->
+                        <div id="reorder-container" style="display:none;">
+                          <ol class="gem-c-reorderable-list" id="questions-list" style="list-style:none; padding-left:0;" data-module="reorderable-list">
+                            <li class="gem-c-reorderable-list__item" draggable="true" data-index="0" data-preview-id="preview-question-0">
+                              <div class="gem-c-reorderable-list__wrapper" style="display:flex; align-items:center;">
+                                <div class="gem-c-reorderable-list__content" style="flex-grow:1;">
+                                  <p class="govuk-body fauxlabel question-label-display">
+                                    Question 1: {{ data['multiQuestionLabelInputShorttext'] or 'Short answer question 1' }}
+                                  </p>
+                                </div>
+                                <div class="gem-c-reorderable-list__actions" style="display:flex; flex-direction: column; margin-left: 15px;">
+                                  <button class="gem-c-button govuk-button govuk-button--secondary js-reorderable-list-up" type="button" aria-label="Move question up">Up</button>
+                                  <button class="gem-c-button govuk-button govuk-button--secondary js-reorderable-list-down" type="button" aria-label="Move question down">Down</button>
+                                  <button class="gem-c-button govuk-button govuk-button--warning js-remove-question" type="button" aria-label="Remove question">Remove</button>
+                                </div>
+                              </div>
+                            </li>
+
+                            <li class="gem-c-reorderable-list__item" draggable="true" data-index="1" data-preview-id="preview-question-1">
+                              <div class="gem-c-reorderable-list__wrapper" style="display:flex; align-items:center;">
+                                <div class="gem-c-reorderable-list__content" style="flex-grow:1;">
+                                  <p class="govuk-body fauxlabel question-label-display">
+                                    Question 2: {{ data['multiQuestionLabelInputTextArea'] or 'Short answer question 2' }}
+                                  </p>
+                                </div>
+                                <div class="gem-c-reorderable-list__actions" style="display:flex; flex-direction: column; margin-left: 15px;">
+                                  <button class="gem-c-button govuk-button govuk-button--secondary js-reorderable-list-up" type="button" aria-label="Move question up">Up</button>
+                                  <button class="gem-c-button govuk-button govuk-button--secondary js-reorderable-list-down" type="button" aria-label="Move question down">Down</button>
+                                  <button
+                                  class="gem-c-button govuk-button govuk-button--warning js-remove-question"
+                                  type="button"
+                                  aria-label="Remove question"
+                                  title="This will delete this item"
+                                  onclick="return confirmRemove(this)"
+                                >
+                                  Remove
+                                </button>
+
+
+                                </div>
+                              </div>
+                            </li>
+                          </ol>
+                        </div>
+
+                        <div class="govuk-button-group govuk-!-margin-top-6" id="button-group">
+                          <a href="/redesigntest/templates/more-than-1-question/textarea/information-type.html" class="govuk-button" id="add-question-button" role="button">
+                            Add next question
+                          </a>
+
+                          <button id="reorder-questions-button" class="govuk-button govuk-button--inverse" type="button">
+                            Re-order questions
+                          </button>
+
+                          <button class="govuk-button govuk-button--inverse preview-button" type="button">
+                            <svg width="24" height="16" viewBox="0 0 24 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                              <path d="M23.42 8.07175L23.4145 8.08481L23.4096 8.09816C23.3429 8.28328 23.238 8.50239 23.0886 8.7573C22.9298 9.02824 22.7228 9.37643 22.4673 9.80229C22.2277 10.2014 21.9331 10.6051 21.5814 11.0128C21.2252 11.4258 20.8204 11.8494 20.3664 12.2835C19.9256 12.705 19.4124 13.1141 18.8247 13.51C18.244 13.9012 17.6245 14.2357 16.9657 14.5134C16.3098 14.79 15.5465 15.0293 14.6726 15.229C13.8178 15.4244 12.9302 15.5145 12.0089 15.4981C11.0758 15.4815 10.1762 15.3904 9.30954 15.2253C8.44417 15.0605 7.70002 14.8321 7.07186 14.545C6.42176 14.2479 5.78632 13.9008 5.1655 13.5035C4.54798 13.1084 4.04112 12.7115 3.63933 12.3147C3.21885 11.8994 2.81352 11.4589 2.42339 10.9929C2.03009 10.523 1.7314 10.1298 1.52201 9.81081C1.30821 9.48506 1.10923 9.14233 0.92516 8.78242C0.730757 8.4023 0.621902 8.17581 0.583944 8.08135C0.571792 8.05111 0.559969 8.02204 0.548485 7.99418L0.556069 7.978C0.680152 7.78917 0.809181 7.50974 0.943944 7.17437C1.06885 6.86354 1.25291 6.5437 1.50227 6.21517C1.77608 5.85442 2.08956 5.43435 2.44256 4.95519C2.77046 4.51009 3.15984 4.09421 3.61254 3.70795C4.08069 3.30851 4.60573 2.89882 5.18832 2.47899C5.74736 2.07613 6.36096 1.73646 7.0305 1.46057C7.70215 1.1838 8.46464 0.953085 9.32031 0.770565C10.1633 0.590755 11.0561 0.5 12 0.5C12.9439 0.5 13.8367 0.590755 14.6797 0.770565C15.5349 0.952991 16.2879 1.18332 16.9417 1.459C17.5985 1.73593 18.2251 2.07814 18.8218 2.4861C19.4309 2.90252 19.9476 3.30621 20.3746 3.69663C20.8036 4.08877 21.2021 4.51376 21.5703 4.97185C21.9486 5.44264 22.2512 5.8486 22.4806 6.1911C22.7091 6.53241 22.9058 6.87151 23.0712 7.20836C23.2466 7.5655 23.3704 7.81228 23.4393 7.94078C23.4466 7.95441 23.4533 7.96723 23.4594 7.97928L23.42 8.07175ZM9.53856 8.48622H12H13.1542L12.3647 7.64422L10.5845 5.74555C11.0023 5.39618 11.459 5.25365 11.9687 5.28563C12.6631 5.32919 13.2545 5.59335 13.762 6.09079C14.2469 6.566 14.5 7.1826 14.5 7.98622C14.5 8.78973 14.2467 9.41814 13.7569 9.91235C13.2531 10.4206 12.6715 10.6717 11.9895 10.6859C11.3247 10.6998 10.7544 10.4573 10.2527 9.92234C9.86397 9.5077 9.62632 9.03328 9.53856 8.48622ZM8.44014 4.26879C7.4897 5.30124 7.01332 6.5475 7.012 7.98028C6.97841 9.45273 7.45622 10.7176 8.44952 11.7392C9.43354 12.7512 10.6222 13.2794 11.9931 13.2984C13.3754 13.3175 14.5714 12.7835 15.5567 11.7326C16.5414 10.6824 17.0295 9.42278 17.012 7.98013C16.9945 6.54689 16.5101 5.30106 15.5599 4.26879C14.6022 3.22848 13.4053 2.69961 12 2.69961C10.5947 2.69961 9.39782 3.22848 8.44014 4.26879Z" fill="currentColor" stroke="black"/>
+                              </svg>
+
+
+                            </span>
+                            Preview page
+                          </button>
+
+
+
+                          <a href="/redesigntest/listing.html" id="back-link-button" class="govuk-link govuk-link--no-visited-state" role="button">
+                            Back to all pages
+                          </a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </dd>
+              </div>
+            </dl>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right Column for Preview -->
+      <div class="govuk-grid-column-one-half-from-desktop" id="second-container" style="outline: solid 1px #008938; height: 100%; position: sticky; top: 0; padding: 20px; box-shadow: 5px 10px #008938;">
+        <div id="before-content" style=" background-color: #cce2d8;">
+          <p class="govuk-body-s" style="margin-bottom:0; color:#005a30; padding:2px 8px 3px; text-align:center;">Previews</p>
+        </div>
+
+        <div style="margin-top:60px;">
+          {% from "govuk/components/tabs/macro.njk" import govukTabs %}
+
+          <div class="govuk-tabs" data-module="govuk-tabs">
+            <h2 class="govuk-tabs__title">Contents</h2>
+            <ul class="govuk-tabs__list">
+              <li class="govuk-tabs__list-item govuk-tabs__list-item--selected">
+                <a class="govuk-tabs__tab" href="#tab-one">Page preview</a>
+              </li>
+            </ul>
+
+            <div class="govuk-tabs__panel" id="tab-one">
+              <p class="govuk-body-s" style="margin-bottom:30px; border-bottom:#008938 1px;">
+                <a href="#" class="govuk-link govuk-link--no-visited-state" rel="noreferrer noopener" target="_blank">
+                  Preview this page in a new tab
+                </a>
+              </p>
+
+              {% include "/redesigntest/templates/previews-more-than-1-question/textarea/overview.html" %}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Include SortableJS -->
+<script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>
+
+<style>
+  /* Enhanced highlight styling */
+  .highlight {
+    background-color: #ffe5cc; /* Light orange background */
+    border-bottom: none;
+    padding: 10px; /* Added padding to make highlight more noticeable */
+    transition: background-color 0.3s, border-bottom 0.3s, padding 0.3s;
+  }
+
+  .fauxlabel {
+    margin: 0;
+    padding: 0.5rem;
+  }
+
+
+
+  .gem-c-reorderable-list__item {
+    margin-bottom: 15px;
+    border-left: 5px solid #008938;
+    outline: 1px solid #b1b4b6;
+    padding: 15px;
+    background-color: #fff;
+    cursor: move;
+    transition: background-color 0.3s, border-left 0.3s, padding 0.3s;
+  }
+
+  .sortable-ghost {
+    opacity: 0.4;
+  }
+
+
+  .gem-c-reorderable-list__actions .govuk-button {
+    margin-bottom: 10px;
+  }
+
+  .sortable-chosen {
+    background-color: #e5f5ff;
+  }
+
+  /* Ensure only one highlight is active */
+  .preview-highlight {
+    background-color: #ffe5cc; /* Light orange background */
+
+    padding: 15px;
+  }
+
+  /* Style for hover state of the list item */
+  .gem-c-reorderable-list__item:hover {
+    background-color: #f0f0f0;
+    cursor: move;
+  }
+
+  /* Style for the chosen item (when selected) */
+  .gem-c-reorderable-list__item.sortable-chosen {
+    background-color: #e5f5ff;
+    outline: 4px solid #ffdd00;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+
+  #second-container {
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  #second-container > * {
+    padding-left: 0px;
+    z-index: 2;
+  }
+
+  .border-left-container {
+    border-left: 10px solid #ffb266;
+    padding-left: 20px;
+  }
+  .preview-button {
+  display: inline-flex;
+  /* align-items: center; */
+  gap: 8px; /* Space between icon and text */
+  /* padding: 10px 20px; Match GOV.UK button padding */
+  /* height: 40px; */
+  box-sizing: border-box;
+}
+
+.preview-icon__svg {
+  fill: currentColor; /* Inherit text color */
+  vertical-align: middle;
+}
+</style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    let reorderMode = false;
+
+    const reorderButton = document.getElementById('reorder-questions-button');
+    const summaryContainer = document.getElementById('summary-container');
+    const reorderContainer = document.getElementById('reorder-container');
+    const addQuestionButton = document.getElementById('add-question-button');
+    const backLinkButton = document.getElementById('back-link-button');
+    const questionsList = document.getElementById('questions-list');
+
+    // Capture the preview panel and form groups
+    const previewPanel = document.querySelector('#tab-one');
+    const formGroups = Array.from(previewPanel.querySelectorAll('.govuk-form-group'));
+    // Ensure that formGroups are in the correct order corresponding to data-index
+
+    // Function to map list items to preview items
+    function getPreviewItem(previewId) {
+      return document.getElementById(previewId);
+    }
+
+    function highlightPreviewFormGroup(previewId) {
+      // Remove highlight from all preview items
+      formGroups.forEach((fg, idx) => {
+        fg.classList.remove('preview-highlight');
+      });
+
+      // Add highlight to the specific preview item
+      const fg = getPreviewItem(previewId);
+      if (fg) {
+        fg.classList.add('preview-highlight');
+      }
+    }
+
+    function unhighlightPreviewFormGroup(previewId) {
+      const fg = getPreviewItem(previewId);
+      if (fg) {
+        fg.classList.remove('preview-highlight');
+      }
+    }
+
+    const sortableInstance = new Sortable(questionsList, {
+      animation: 150,
+      handle: '.gem-c-reorderable-list__wrapper',
+      draggable: '.gem-c-reorderable-list__item',
+      disabled: true,
+      onEnd: function () {
+        manageUpDownButtons();
+        updatePreviewOrder();
+      }
+    });
+
+    reorderButton.addEventListener('click', toggleReorderMode);
+
+    function toggleReorderMode() {
+      reorderMode = !reorderMode;
+
+      if (reorderMode) {
+        summaryContainer.style.display = 'none';
+        reorderContainer.style.display = 'block';
+        addQuestionButton.style.display = 'none';
+        backLinkButton.style.display = 'none';
+        reorderButton.textContent = 'Save changes';
+        reorderButton.className = 'govuk-button govuk-button';
+        sortableInstance.option('disabled', false);
+
+        manageUpDownButtons();
+        attachFocusListeners();
+        focusFirstActionButton();
+      } else {
+        reorderContainer.style.display = 'none';
+        summaryContainer.style.display = 'block';
+        addQuestionButton.style.display = 'inline-block';
+        backLinkButton.style.display = 'inline-block';
+        reorderButton.textContent = 'Re-order questions';
+        reorderButton.className = 'govuk-button govuk-button--inverse';
+        sortableInstance.option('disabled', true);
+
+        // Remove all existing highlights when exiting reorder mode
+        removeAllHighlights();
+      }
+    }
+
+    function manageUpDownButtons() {
+      const items = Array.from(questionsList.children);
+      items.forEach((item, index) => {
+        const upButton = item.querySelector('.js-reorderable-list-up');
+        const downButton = item.querySelector('.js-reorderable-list-down');
+        if (upButton) upButton.style.display = reorderMode && index > 0 ? 'inline-block' : 'none';
+        if (downButton) downButton.style.display = reorderMode && index < items.length - 1 ? 'inline-block' : 'none';
+      });
+    }
+
+    function attachFocusListeners() {
+      const items = Array.from(questionsList.children);
+
+      // Remove existing event listeners to prevent duplicates
+      items.forEach(item => {
+        item.removeEventListener('focusin', handleItemFocusIn);
+        item.removeEventListener('focusout', handleItemFocusOut);
+      });
+
+      items.forEach((item, index) => {
+        item.addEventListener('focusin', handleItemFocusIn.bind(null, item, index));
+                item.addEventListener('focusout', handleItemFocusOut.bind(null, item, index));
+      });
+
+      // Handle focus moving outside the list entirely
+      questionsList.addEventListener('focusout', function(event) {
+        // Delay the check to allow focus to move to the new element
+        setTimeout(() => {
+          if (!questionsList.contains(document.activeElement)) {
+            // Remove highlights from all items and preview form groups
+            items.forEach((item, idx) => {
+              item.classList.remove('highlight');
+              const previewId = item.getAttribute('data-preview-id');
+              unhighlightPreviewFormGroup(previewId);
+            });
+          }
+        }, 0);
+      });
+    }
+
+    function handleItemFocusIn(item, index, event) {
+      // Remove highlight from all items
+      const allItems = Array.from(questionsList.children);
+      allItems.forEach(it => {
+        it.classList.remove('highlight');
+        const previewId = it.getAttribute('data-preview-id');
+        unhighlightPreviewFormGroup(previewId);
+      });
+
+      // Add highlight to the current item
+      item.classList.add('highlight');
+
+      // Highlight the corresponding preview form group
+      const previewId = item.getAttribute('data-preview-id');
+      highlightPreviewFormGroup(previewId);
+    }
+
+    function handleItemFocusOut(item, index, event) {
+      // Check if the newly focused element is still within this item
+      if (!item.contains(document.activeElement)) {
+        item.classList.remove('highlight');
+        const previewId = item.getAttribute('data-preview-id');
+        unhighlightPreviewFormGroup(previewId);
+      }
+    }
+
+    function focusFirstActionButton() {
+      const firstItem = questionsList.querySelector('.gem-c-reorderable-list__item');
+      if (firstItem) {
+        const buttons = firstItem.querySelectorAll('.gem-c-reorderable-list__actions .govuk-button');
+        for (let btn of buttons) {
+          if (btn.style.display !== 'none') {
+            btn.focus();
+            break;
+          }
+        }
+      }
+    }
+
+    questionsList.addEventListener('click', function (event) {
+      if (!reorderMode) return;
+      const target = event.target;
+      const item = target.closest('.gem-c-reorderable-list__item');
+      if (!item) return;
+
+      const oldIndex = Array.from(questionsList.children).indexOf(item);
+
+      if (target.classList.contains('js-reorderable-list-up')) {
+        const prevItem = item.previousElementSibling;
+        if (prevItem) {
+          questionsList.insertBefore(item, prevItem);
+          manageUpDownButtons();
+          updatePreviewOrder();
+          setTimeout(() => {
+            focusOnFirstAvailableButton(item);
+          }, 0);
+        }
+      } else if (target.classList.contains('js-reorderable-list-down')) {
+        const nextItem = item.nextElementSibling;
+        if (nextItem) {
+          questionsList.insertBefore(nextItem, item);
+          manageUpDownButtons();
+          updatePreviewOrder();
+          setTimeout(() => {
+            focusOnFirstAvailableButton(item);
+          }, 0);
+        }
+      } else if (target.classList.contains('js-remove-question')) {
+        const nextFocusableItem = item.nextElementSibling || item.previousElementSibling;
+        const previewId = item.getAttribute('data-preview-id');
+        questionsList.removeChild(item);
+        unhighlightPreviewFormGroup(previewId);
+        manageUpDownButtons();
+        updatePreviewOrder();
+
+        if (nextFocusableItem) {
+          setTimeout(() => {
+            focusOnFirstAvailableButton(nextFocusableItem);
+          }, 0);
+        } else {
+          // If no items left, remove all highlights
+          removeAllHighlights();
+        }
+      }
+    });
+
+    function focusOnFirstAvailableButton(item) {
+      if (!item) return;
+      const buttons = item.querySelectorAll('.gem-c-reorderable-list__actions .govuk-button');
+      for (let btn of buttons) {
+        if (btn.style.display !== 'none') {
+          btn.focus();
+          break;
+        }
+      }
+    }
+
+    function updatePreviewOrder() {
+      const items = Array.from(questionsList.children);
+
+      // Remove existing formGroups from DOM
+      formGroups.forEach(fg => {
+        if (fg.parentNode === previewPanel) {
+          previewPanel.removeChild(fg);
+        }
+      });
+
+      // Re-append formGroups in the new order based on data-index
+      items.forEach((li, newIndex) => {
+        const oldIndex = parseInt(li.getAttribute('data-index'), 10);
+        if (!isNaN(oldIndex) && formGroups[oldIndex]) {
+          previewPanel.appendChild(formGroups[oldIndex]);
+          // Update data-preview-id to maintain mapping
+          li.setAttribute('data-preview-id', `preview-question-${newIndex}`);
+          formGroups[oldIndex].setAttribute('id', `preview-question-${newIndex}`);
+        }
+      });
+
+      // Reattach focus listeners as formGroups have been reordered
+      attachFocusListeners();
+    }
+
+    function removeAllHighlights() {
+      const items = Array.from(questionsList.children);
+      items.forEach((item, index) => {
+        item.classList.remove('highlight');
+        const previewId = item.getAttribute('data-preview-id');
+        unhighlightPreviewFormGroup(previewId);
+      });
+    }
+  });
+</script>
+
+<script>
+function confirmRemove(button) {
+  // Find the closest parent element that contains the question label
+  const listItem = button.closest('.gem-c-reorderable-list__item');
+  const questionLabel = listItem.querySelector('.question-label-display');
+
+  // Get the text content of the question label or use a default text
+  const questionText = questionLabel ? questionLabel.textContent.trim() : 'this item';
+
+  // Show the confirm dialog with the enhanced message
+  const message = `Are you sure you want to delete "${questionText}"?\n\nYou cannot recover deleted questions.`;
+  return confirm(message);
+}
+
+</script>
+{% endblock %}

@@ -1,0 +1,289 @@
+{% extends "layouts/main.html" %}
+
+{% from "components/service-header/macro.njk" import serviceHeader %}
+
+{% set pageName = "Components - Configuration pages" %}
+
+{% block header %}
+  {{ serviceHeader({
+    organisationName: "Defra",
+    productName: "Forms Designer",
+    homepageLink: "/",
+    signOutLink: "/"
+  }) }}
+{% endblock %}
+
+
+
+
+
+{% block content %}
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <!-- <span class="govuk-caption-xl">Configuration pages</span> -->
+    <h1 class="govuk-heading-xl">Kit of parts</h1>
+    <p class="govuk-body-l">View each page that makes up the Defra Forms Designer.</p>
+        <p class="govuk-body">Pages are constantly being iterated. To see previous versions, <a href="https://defra-forms-designer-history-377a8db06fe5.herokuapp.com/" class="govuk-link govuk-link--no-visited-state" rel="noreferrer noopener" target="_blank">see our Design History (opens in new tab)</a>.</p>
+ <p>Last Updated: <span id="last-updated"></span></p>
+
+  </div>
+</div>
+
+
+
+{% from "govuk/components/accordion/macro.njk" import govukAccordion %}
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+{{ govukAccordion({
+  id: "accordion-with-summary-sections",
+  items: [
+   {
+      heading: {
+        text: "Onboarding"
+      },
+      summary: {
+        text: "How users sign-in and sign-out of the Defra Forms Designer"
+      },
+      content: {
+        html:
+        '<ul class="govuk-list">
+            <li>
+              <a class="govuk-link govuk-link--no-visited-state" href="/form-designer-v2/onboarding/sign-in.html" rel="noreferrer noopener" target="_blank">Sign in page</a>
+              <div id="event-name-hint" class="govuk-hint" style="font-size: 16px;">
+    Last updated: March 2024
+  </div>
+            </li>
+            <li>
+              <a class="govuk-link govuk-link--no-visited-state" href="/form-designer-v2/onboarding/sign-out-confirmation.html" rel="noreferrer noopener" target="_blank">Sign out</a>
+              <div id="event-name-hint" class="govuk-hint" style="font-size: 16px;">
+    Last updated: March 2024
+  </div>
+            </li>
+        </ul>'
+      }
+    },
+     {
+      heading: {
+        text: "Forms library"
+      },
+      summary: {
+        text: "Giving users the ability sort and find forms."
+      },
+      content: {
+        html:
+        '<div id="event-name-hint" class="govuk-hint" style="margin-bottom: 30px;">
+  <a class="govuk-link govuk-link--no-visited-state" href="/library.html" rel="noreferrer noopener" target="_blank">View the forms library</a>
+  <div id="event-name-hint" class="govuk-hint" style="font-size: 16px;">
+    Last updated: 5 May 2024
+  </div>
+</div>'
+      }
+    },
+     {
+      heading: {
+        text: "Form overview"
+      },
+      summary: {
+        text: "Each form has an overview page where the majority of actions, like making a form live, are performed."
+      },
+      content: {
+        html:
+        '<h3 class="govuk-heading-s">Draft status
+        <div id="event-name-hint" class="govuk-hint">
+    When a form is created it automatically adopt a status of ‘Draft’. In Draft status, the user can edit and make a form live.
+  </div>
+        </h3>
+
+        <ul class="govuk-list govuk-list--spaced">
+      <li>
+        <a class="govuk-link govuk-link--no-visited-state" href="/cph-overview/draft.html" rel="noreferrer noopener" target="_blank">View a coded overview page in draft status</a>
+        <div id="event-name-hint" class="govuk-hint" style="font-size: 16px;">
+    Last updated: 23 May 2024
+  </div>
+      </li>
+        </ul>
+
+    <h3 class="govuk-heading-s">Live status
+        <div id="event-name-hint" class="govuk-hint">
+    When a user has provided required information, the user will then see on their Overview page, a button labelled ‘Make draft live’.
+  </div>
+        </h3>
+
+        <ul class="govuk-list govuk-list--spaced">
+      <li>
+        <a class="govuk-link govuk-link--no-visited-state" href="/cph-overview/live-success.html" rel="noreferrer noopener" target="_blank">View a coded overview page in live status</a>
+        <div id="event-name-hint" class="govuk-hint" style="font-size: 16px;">
+    Last updated: 23 May 2024
+  </div>
+      </li>
+        </ul>
+
+        <h3 class="govuk-heading-s">Draft and Live (creating a draft to edit)
+        <div id="event-name-hint" class="govuk-hint">
+        <ul class="govuk-list govuk-list--bullet">
+
+         <li>to avoid the complexity of creating multiple versions of the same form, users can only edit a form when it’s in ‘Draft’ status</li>
+         <li>the only way to edit a form that’s ‘Live’ is to create a ‘Draft’ version of it</li>
+         <li>once you’ve made changes to a draft version of a live form, when you make the draft version live, it replaces the existing Live form</li>
+         </ul>
+         </div>
+
+
+        <ul class="govuk-list govuk-list--spaced">
+      <li>
+        <a class="govuk-link govuk-link--no-visited-state" href="/cph-overview/live-draft-created.html" rel="noreferrer noopener" target="_blank">View a coded overview page in draft and live status</a>
+        <div id="event-name-hint" class="govuk-hint" style="font-size: 16px;">
+    Last updated: 10 May 2024
+  </div>
+      </li>
+        </ul>
+
+        <h3 class="govuk-heading-s">Replacing a live form with a draft
+        <div id="event-name-hint" class="govuk-hint">
+        Users are warned that making a draft live while there is already a live form means that the existing live form will be replaced with the draft.
+        </div>
+
+        <ul class="govuk-list govuk-list--spaced">
+      <li>
+        <a class="govuk-link govuk-link--no-visited-state" href="/cph-overview/replace-live-form-confirmation-question" rel="noreferrer noopener" target="_blank">View a coded warning page for replacing a live form</a>
+        <div id="event-name-hint" class="govuk-hint" style="font-size: 16px;">
+    Last updated: 10 May 2024
+  </div>
+      </li>
+        </ul>
+
+        <h3 class="govuk-heading-s">Closing a live form
+        <div id="event-name-hint" class="govuk-hint">
+        To remove a form from live i.e., for them to not be accessible to members of the public anymore.
+        </div>
+
+        <ul class="govuk-list govuk-list--spaced">
+      <li>
+        <a class="govuk-link govuk-link--no-visited-state" href="/cph-overview/close-form-confirmation-question.html" rel="noreferrer noopener" target="_blank">View a coded warning page for closing a live form</a>
+        <div id="event-name-hint" class="govuk-hint" style="font-size: 16px;">
+    Last updated: 10 May 2024
+  </div>
+      </li>
+        </ul>
+        '
+      }
+    },
+    {
+      heading: {
+        text: "Editor"
+      },
+      summary: {
+        text: "The editor allows users to create and customise forms."
+      },
+      content: {
+        html:
+        '<ul class="govuk-list govuk-list--spaced">
+      <li>
+        <a class="govuk-link govuk-link--no-visited-state" href="/editor.html" rel="noreferrer noopener" target="_blank">View a coded editor page (does not have all functionality)</a>
+        <div id="event-name-hint" class="govuk-hint" style="font-size: 16px;">
+    Last updated: 23 May 2024
+  </div>
+      </li>
+        </ul>
+        <h3 class="govuk-heading-s">Add or change conditions (branching)</h3>
+        <div id="event-name-hint" class="govuk-hint">
+    Users can add conditions to forms that can route users to specific journeys depending on question answers.
+  </div>
+          <a class="govuk-link govuk-link--no-visited-state" href="/conditions/existing0.html" rel="noreferrer noopener" target="_blank">View a coded page for conditions (does not have all functionality)</a>
+        <div id="event-name-hint" class="govuk-hint" style="font-size: 16px;">
+    Last updated: 23 May 2024
+  </div>'
+      }
+    },
+     {
+      heading: {
+        text: "Make a form live"
+      },
+      summary: {
+        text: "The process of making a form live."
+      },
+      content: {
+        html:
+        '<ul class="govuk-list govuk-list--spaced">
+      <li>
+        <a class="govuk-link govuk-link--no-visited-state" href="/editor.html" rel="noreferrer noopener" target="_blank">View a coded editor page (does not have all functionality)</a>
+        <div id="event-name-hint" class="govuk-hint" style="font-size: 16px;">
+    Last updated: 23 May 2024
+  </div>
+      </li>
+        </ul>
+        <h3 class="govuk-heading-s">Add or change conditions (branching)</h3>
+        <div id="event-name-hint" class="govuk-hint">
+    Users can add conditions to forms that can route users to specific journeys depending on question answers.
+  </div>
+          <a class="govuk-link govuk-link--no-visited-state" href="/conditions/existing0.html" rel="noreferrer noopener" target="_blank">View a coded page for conditions (does not have all functionality)</a>
+        <div id="event-name-hint" class="govuk-hint" style="font-size: 16px;">
+    Last updated: 23 May 2024
+  </div>'
+      }
+    },
+    {
+      heading: {
+        text: "Component pages"
+      },
+      summary: {
+        text: "The content that appears on form pages are created by adding components to pages."
+      },
+      content: {
+        html:
+        '<div id="event-name-hint" class="govuk-hint" style="margin-bottom: 30px;">
+  <a class="govuk-link govuk-link--no-visited-state" href="/component-pages/add.html" rel="noreferrer noopener" target="_blank">View the complete list of components</a>
+</div>
+<h3 class="govuk-heading-s">Input fields</h3>
+<ul class="govuk-list govuk-list--spaced">
+  <li>
+    <a class="govuk-link govuk-link--no-visited-state" href="/component-pages/autocomplete.html" rel="noreferrer noopener" target="_blank">Autocomplete</a>
+  </li>
+  <li>
+    <a class="govuk-link govuk-link--no-visited-state" href="/component-pages/text.html" rel="noreferrer noopener" target="_blank">Text input</a>
+  </li>
+  <li>
+    <a class="govuk-link govuk-link--no-visited-state" href="/component-pages/date-parts.html" rel="noreferrer noopener" target="_blank">Date parts</a>
+  </li>
+  <li>
+    <a class="govuk-link govuk-link--no-visited-state" href="/component-pages/email.html" rel="noreferrer noopener" target="_blank">Email address</a>
+  </li>
+  <li>
+    <a class="govuk-link govuk-link--no-visited-state" href="/component-pages/address.html" rel="noreferrer noopener" target="_blank">UK address</a>
+  </li>
+  <li>
+    <a class="govuk-link govuk-link--no-visited-state" href="/component-pages/multiline.html" rel="noreferrer noopener" target="_blank">Multi-line text (textarea)</a>
+  </li>
+  <li>
+    <a class="govuk-link govuk-link--no-visited-state" href="/component-pages/telephone.html" rel="noreferrer noopener" target="_blank">Telephone number</a>
+  </li>
+</ul>
+<h3 class="govuk-heading-s">Selection fields</h3>
+<ul class="govuk-list govuk-list--spaced">
+  <li>
+    <a class="govuk-link govuk-link--no-visited-state" href="/component-pages/checkboxes.html" rel="noreferrer noopener" target="_blank">Checkboxes</a>
+  </li>
+  <li>
+    <a class="govuk-link govuk-link--no-visited-state" href="/component-pages/radios.html" rel="noreferrer noopener" target="_blank">Radios</a>
+  </li>
+  <li>
+    <a class="govuk-link govuk-link--no-visited-state" href="/component-pages/select.html" rel="noreferrer noopener" target="_blank">Select</a>
+  </li>
+  <li>
+    <a class="govuk-link govuk-link--no-visited-state" href="/component-pages/yesno.html" rel="noreferrer noopener" target="_blank">Yes/No</a>
+  </li>
+</ul>'
+      }
+
+    }
+  ]
+}) }}
+</div>
+
+
+{% endblock %}
+
+
+</div>
+

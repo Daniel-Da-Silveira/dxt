@@ -1,0 +1,99 @@
+{% extends "layouts/main.html" %}
+
+{% from "components/service-header/admin/macro.njk" import serviceHeader %}
+{% from "govuk/components/summary-list/macro.njk" import govukSummaryList %}
+{% from "govuk/components/notification-banner/macro.njk" import govukNotificationBanner %}
+{%- from "govuk/components/table/macro.njk" import govukTable -%}
+
+{% set pageName = "Admin tools" %}
+
+{% block header %}
+{{ serviceHeader({
+organisationName: "Defra",
+productName: "Form Designer",
+serviceName: "",
+containerClasses: containerClasses,
+accountName: "Chris Smith ",
+homepageLink: "/",
+signOutLink: "/onboarding/sign-out-confirmation",
+navigationItems: [
+{ href: "/titan-mvp-1.2/roles/my-account.html", text: "My account", id: "my-account" },
+{ href: "/titan-mvp-1.2/roles/manage-users.html", text: "Manage users", id: "manage-users" },
+{ href: "/titan-mvp-1.2/roles/manage-users.html", text: "Admin tools", id: "admin-tools" }
+
+],
+activeLinkId: "admin-tools"
+}) }}
+
+<div class="x-govuk-masthead x-govuk-masthead--large">
+    <div class="govuk-width-container">
+        {{ govukBackLink({ classes: "govuk-back-link--inverse govuk-!-margin-bottom-0", text: "Back to xyz",
+        href: "/titan-mvp-1.2/library.html" }) }}
+
+        <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible"
+            style="border-bottom: 1px solid white; margin-bottom: 0" />
+
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-full-from-desktop">
+                <h1 class="x-govuk-masthead__title">
+                    Admin tools
+                </h1>
+                {# <div class="govuk-body" style="color: white;">
+                    <span>Tools for super admins and developers to manage and export form data.</span>
+                </div> #}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+
+        {% if showSuccessMessage %}
+        {% set html %}
+          <h3 class="govuk-notification-banner__heading">
+            We have emailed a link to your email
+          </h3>
+          <p class="govuk-body">This might take a couple of minutes.</p>
+
+          <p class="govuk-body">Email: example@example.com</p>
+        {% endset %}
+
+        {{ govukNotificationBanner({
+          html: html,
+          type: "success"
+        }) }}
+        {% endif %}
+
+        <div class="govuk-!-margin-bottom-8">
+            <h2 class="govuk-heading-m govuk-!-margin-bottom-4">Data management</h2>
+            <p class="govuk-body govuk-!-margin-bottom-6">Manage and export user data according to retention policies.</p>
+
+            {{ govukTable({
+            firstCellIsHeader: true,
+            head: [
+            { text: "Type of data" },
+            { text: "How long we keep it" },
+            { text: "Send to your email" }
+            ],
+            rows: [
+            [
+            { text: "User feedback across all forms" },
+            { text: "9 months after submission" },
+            { html: '<a class="govuk-link" href="/titan-mvp-1.2/roles/admin-panel/download"
+                id="download-submissions">Send feedback data</a><span class="govuk-visually-hidden"> to your email
+                </span>' }
+            ]
+            ]
+            }) }}
+        </div>
+
+        <div class="govuk-!-margin-bottom-8">
+            <h2 class="govuk-heading-m govuk-!-margin-bottom-4">Developer tools</h2>
+            <p class="govuk-body">Access development and debugging tools for system administrators.</p>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,173 @@
+{% extends "layouts/runner.html" %}
+
+{% block pageTitle %}
+Check your answers template – {{ serviceName }} – GOV.UK Prototype Kit
+{% endblock %}
+
+{% block beforeContent %}
+{{ govukBackLink({
+text: "Back",
+href: "javascript:window.history.back()"
+}) }}
+{% endblock %}
+
+{% block content %}
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds-from-desktop">
+
+    <h1 class="govuk-heading-xl">
+      Check your answers before sending your form
+    </h1>
+
+    {{ govukSummaryList({
+    rows: [
+    {
+    key: {
+    text: "Question 1"
+    },
+    value: {
+    text: "Answer 1"
+    },
+    actions: {
+    items: [
+    {
+    href: "#",
+    text: "Change",
+    visuallyHiddenText: "Question 1"
+    }
+    ]
+    }
+    }
+    ,
+    {
+    key: {
+    text: "Question 2"
+    },
+    value: {
+    text: "Answer 2"
+    },
+    actions: {
+    items: [
+    {
+    href: "#",
+    text: "Change",
+    visuallyHiddenText: "Question 2"
+    }
+    ]
+    }
+    }
+    ,
+    {
+    key: {
+    text: "Question 3"
+    },
+    value: {
+    text: "Answer 3"
+    },
+    actions: {
+    items: [
+    {
+    href: "#",
+    text: "Change",
+    visuallyHiddenText: "Question 3"
+    }
+    ]
+    }
+    }
+    ]
+    }) }}
+
+
+    {{ govukInput({
+    label: {
+    text: "Confirmation email (optional)",
+    classes: "govuk-label--m"
+    },
+    hint: {
+    text: "Enter your email address to get an email confirming your form has been submitted"
+    },
+    id: "email",
+    name: "email",
+    type: "email",
+    autocomplete: "email",
+    spellcheck: false
+    }) }}
+
+    <!-- Declaration Section -->
+
+    <!-- Payment Section - Clear separation -->
+      <div class="payment-summary-wrap">
+        <div class="payment-summary">
+            <h2 class="govuk-heading-m">Payment required</h2>
+
+            {{ govukWarningText({
+              text: "You must pay before you can send your form",
+              classes: "govuk-!-margin-bottom-4",
+              iconFallbackText: "Warning"
+            }) }}
+
+            <p id="payment-description" class="govuk-body">
+              When your payment is complete, you’ll return here to send your form.
+            </p>
+            <p class="govuk-body hidden" id="payment-summary-breakdown">
+            Amount
+            <span class="govuk-!-font-weight-bold" id="payment-summary-breakdown-amount"></span><br>
+            Corporate card fee:
+            <span class="govuk-!-font-weight-bold" id="payment-summary-corporate-card-fee"></span>
+            </p>
+            <p class="govuk-body govuk-!-margin-bottom-0">
+            Total amount:
+            <span id="amount" class="amount govuk-!-font-size-36 govuk-!-font-weight-bold" data-amount="300.00">£300.00</span>
+            </p>
+            {{ govukButton({
+              text: "Pay now",
+              classes: "govuk-button--primary govuk-!-margin-top-4 govuk-!-margin-bottom-0",
+              href: "https://products.payments.service.gov.uk/pay/af9dfecbebc845c1b54b5953f9cc7c35"
+              }) }}
+
+        </div>
+      </div>
+
+      <h2 class="govuk-heading-m govuk-!-margin-top-4">Declaration</h2>
+      <p class="govuk-body">
+        By submitting this form you are confirming that, to the best of your knowledge, the details you are providing are
+        correct.
+      </p>
+
+
+      <div class="govuk-button-group">
+
+        {{ govukButton({
+          text: "Accept and send",
+          disabled: true
+        }) }}
+
+        {{ govukButton({
+          text: "Save and exit",
+          classes: "govuk-button--secondary govuk-!-margin-top-4",
+          href: "/save-draft"
+          }) }}
+
+
+      </div>
+
+      <style>
+
+  .payment-summary {
+    border-top: 2px solid #1d70b8;
+    padding: 15px;
+    background-color: #f3f2f1;
+    margin-top: 30px;
+  }
+
+
+@media all{
+  .amount  {
+    display: block;
+  }
+}
+
+      </style>
+
+
+      {% endblock %}

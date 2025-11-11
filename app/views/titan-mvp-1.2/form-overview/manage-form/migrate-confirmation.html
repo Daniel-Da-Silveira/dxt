@@ -1,0 +1,67 @@
+{% extends "layouts/main.html" %}
+{% from "components/service-header/macro.njk" import serviceHeader %}
+{% set pageName %}Edit page {{ pageNumber }}: question {{ questionNumber }} - {{ form.name }}{% endset %}
+{% set headingPlaceholder = "Page heading" %}
+{% set guidancePlaceholder = "" %}
+
+{% block header %}
+{{ serviceHeader({
+organisationName: "Defra",
+productName: "Form Designer",
+serviceName: "",
+containerClasses: containerClasses,
+accountName: "Chris Smith",
+homepageLink: "/",
+signOutLink: "/onboarding/sign-out-confirmation",
+navigationItems: [
+{ href: "/titan-mvp-1.2/library.html", text: "Forms library", id: "nav-library" },
+{ href: "/titan-mvp-1.2/form-overview/index", text: "Overview", id: "nav-overview" },
+{ href: "/titan-mvp-1.2/form-editor/listing", text: "Editor", id: "nav-editor" } ],
+activeLinkId: ""
+}) }}
+
+<div class="x-govuk-masthead x-govuk-masthead--large">
+    <div class="govuk-width-container">
+
+        {{ govukBackLink({ classes: "govuk-back-link--inverse govuk-!-margin-bottom-0", text:
+        "Back to form overview", href: "/titan-mvp-1.2/form-overview/index.html" }) }}
+
+        <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible"
+            style="border-bottom: 1px solid white; margin-bottom: 0" />
+
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-full-from-desktop">
+                <h1 class="x-govuk-masthead__title">
+                    {{ form.name }}
+                </h1>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+
+{% block content %}
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+        <h2 class="govuk-heading-l">Are you sure you want to switch to the new editor?</h2>
+
+        <div class="govuk-warning-text">
+            <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
+            <strong class="govuk-warning-text__text">
+                <span class="govuk-visually-hidden">Warning</span>
+                You won't be able to use the old editor for this form after switching.</strong>
+        </div>
+
+        <div class="govuk-button-group">
+            <a href="/titan-mvp-1.2/form-editor/listing" class="govuk-button" data-module="govuk-button">
+                Switch to new editor
+            </a>
+            <a href="/titan-mvp-1.2/form-overview/index" class="govuk-button govuk-button--secondary"
+                data-module="govuk-button">
+                Cancel
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}

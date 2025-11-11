@@ -1,0 +1,130 @@
+{% extends "layouts/main.html" %}
+
+{% from "components/service-header/macro.njk" import serviceHeader %}
+
+{% set pageName = "Component config template" %}
+
+{% block header %}
+  {{ serviceHeader({
+    organisationName: "Defra",
+    productName: "Forms Designer",
+    serviceName: "",
+    accountName: "Chris Smith",
+    homepageLink: "/",
+    signOutLink: "/form-designer-v2/onboarding/sign-out-confirmation",
+    navigationItems: [{
+      href: "/cph-overview/draft.html",
+      text: "Overview",
+      id: "overview"
+     },{
+         href: "/cph-overview/guidance-policies.html",
+    text: 'Editor',
+    id: 'editor'
+    }],
+    activeLinkId: "editor"
+  }) }}
+{% endblock %}
+
+{% block content %}
+
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+    <pre class="formatting-example"><code class="lang-md">This is an example of a general component page. Some components might have more or less fields than you see below; so please review each component in the as-is Xgov form builder and add or remove fields accordingly. Retain the as-is create component behaviour of opening a side panel to get onto this page and a 'close' link in top right hand corner.
+</code></pre>
+
+      <h1 class="govuk-heading-l">
+        [Component name]
+      </h1>
+{{ govukInput({
+  label: {
+    text: "Short label",
+    classes: "govuk-label",
+    isPageHeading: true
+  },
+  hint: {
+    text: "For example, ‘Passport number’. Labels are used in error messages such as 'Enter a passport number'."
+  },
+  id: "event-name",
+  name: "eventName"
+}) }}
+
+{{ govukInput({
+  label: {
+    text: "Question label (optional)",
+    classes: "govuk-label",
+    isPageHeading: true
+  },
+  hint: {
+    text: "For example, ‘What is your passport number?’. Question labels can be used in place of the page title when the page title is hidden."
+  },
+  id: "event-name",
+  name: "eventName"
+}) }}
+      {% from "govuk/components/textarea/macro.njk" import govukTextarea %}
+
+{{ govukTextarea({
+  name: "moreDetail",
+  id: "more-detail",
+  label: {
+    text: "Hint text (optional)",
+    classes: "govuk-label",
+    isPageHeading: false
+  },
+  hint: {
+    text: "Use hint text for help that’s relevant to the majority of users, like how their information will be used, or where to find it."
+  }
+}) }}
+
+{% from "govuk/components/checkboxes/macro.njk" import govukCheckboxes %}
+
+
+{% from "govuk/components/input/macro.njk" import govukInput %}
+
+{{ govukInput({
+  label: {
+    text: "Component name",
+    classes: "govuk-label",
+    isPageHeading: true
+  },
+  hint: {
+    text: "This is generated automatically and does not show on the page. Only change it if you are using an integration that requires you to, for example GOV.UK Notify. It must not contain spaces."
+  },
+  id: "event-name",
+  name: "eventName"
+}) }}
+
+{{ govukCheckboxes({
+
+  items: [
+    {
+      value: "optionalDate",
+      text: "Make [name of component] component field optional",
+       hint: {
+        text: "Tick this box if you do not need to complete this field to progress through the form"
+      }
+    }
+  ]
+
+}) }}
+
+<h2 class="govuk-heading-m">
+        Additional settings
+      </h2>
+
+<pre class="formatting-example"><code class="lang-md">Each component has a unique set of additional settings. See as-is xgov component pages and add those here outside of a detail component.
+</code></pre>
+
+
+
+      <form class="form" action="/path/of/next/page" method="post">
+
+        {{ govukButton({
+          text: "Save"
+        }) }}
+
+      </form>
+
+    </div>
+  </div>
+
+{% endblock %}

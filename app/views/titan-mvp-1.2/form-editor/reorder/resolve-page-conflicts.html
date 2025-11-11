@@ -1,0 +1,177 @@
+{% extends "layouts/main.html" %}
+
+{% from "components/service-header/macro.njk" import serviceHeader %}
+
+{% set pageName = "Resolve page order conflicts - {{ form.name }}" %}
+
+{% block header %}
+{{ serviceHeader({
+organisationName: "Defra",
+productName: "Form Designer",
+serviceName: "",
+containerClasses: containerClasses,
+accountName: "Chris Smith",
+homepageLink: "/",
+signOutLink: "/onboarding/sign-out-confirmation",
+navigationItems: [
+{ href: "/titan-mvp-1.2/library.html", text: "Forms library", id: "nav-library" },
+{ href: "/cph-overview/draft/complete-clean.html", text: "Overview", id: "nav-overview" },
+{ href: "/titan-mvp-1.2/form-editor/listing.html", text: "Editor", id: "nav-editor" }
+],
+activeLinkId: "nav-editor"
+}) }}
+
+<div class="x-govuk-masthead x-govuk-masthead--large">
+    <div class="govuk-width-container">
+        {{ govukBackLink({
+        classes: "govuk-back-link--inverse govuk-!-margin-bottom-0",
+        text: "Back to reorder pages",
+        href: "/titan-mvp-1.2/form-editor/reorder/main.html"
+        }) }}
+
+        <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible"
+            style="border-bottom:1px solid white; margin-bottom: 0;">
+
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-two-thirds-from-desktop">
+                <h1 class="x-govuk-masthead__title">
+                    <span class="govuk-caption-l" style="color: white;">{{ form.name }}</span>
+                    Resolve page order conflicts
+                </h1>
+                <p class="x-govuk-masthead__description">
+                    Some conditions now point to questions that come later, so they won’t work.
+                </p>
+                <div class="govuk-visually-hidden" aria-live="polite" id="conflict-summary">
+                    Found {{ conflicts.length }} condition{{ 's' if conflicts.length != 1 else '' }} that broke after
+                    reordering pages.
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block content %}
+{# <h1 class="govuk-heading-l">Conditions that broke after re-ordering pages</h1>
+<p class="govuk-body">
+    When you moved pages around, some conditions ended up depending on questions that now come after the page they're
+    used on. These conditions can't work like that, so you need to fix or remove them.
+</p>
+<p class="govuk-body govuk-!-margin-bottom-4">
+    You'll be able to add new conditions or reorder pages again afterwards if needed.
+</p> #}
+<div class="govuk-visually-hidden" aria-live="polite" id="conflict-details">
+    {{ conflicts.length }} condition{{ 's' if conflicts.length != 1 else '' }} need{{ 's' if conflicts.length == 1 else
+    '' }} to be resolved. Each condition references a question that now appears on a later page.
+</div>
+
+{% if conflicts.length %}
+<form method="post" action="/titan-mvp-1.2/form-editor/reorder/resolve-page-conflicts" id="conflict-form">
+    <table class="govuk-table">
+        <thead>
+            <tr>
+                <th class="govuk-table__header" scope="col" id="page-header">Page</th>
+                <th class="govuk-table__header" scope="col" id="before-header">Position before reordering</th>
+                <th class="govuk-table__header" scope="col" id="after-header">Position after reordering</th>
+                <th class="govuk-table__header" scope="col" id="condition-header">Impacted condition</th>
+                {# <th class="govuk-table__header" scope="col" id="remove-header">Remove condition</th> #}
+            </tr>
+        </thead>
+        <tbody>
+            {% for conflict in conflicts %}
+            {% set checkbox_id = "remove-" ~ conflict.conditionId %}
+            {% set row_id = "conflict-row-" ~ conflict.conditionId %}
+            <tr id="{{ row_id }}">
+                <td class="govuk-table__cell" headers="page-header">
+
+                    {% if conflict.pageNumber and conflict.pageWithCondition %}
+                    {{ conflict.pageWithCondition }}
+                    {% elif conflict.pageWithCondition %}
+                    {{ conflict.pageWithCondition }}
+                    {% elif conflict.pageNumber %}
+                    Page {{ conflict.pageNumber }}
+                    {% endif %}
+                </td>
+                <td class="govuk-table__cell" headers="before-header">
+                    {% if conflict.originalConditionPageNumber %}
+                    Page {{ conflict.originalConditionPageNumber }}
+                    {% else %}
+                    Unknown
+                    {% endif %}
+                </td>
+                <td class="govuk-table__cell" headers="after-header">
+                    Page {{ conflict.pageNumber }}
+                </td>
+                <td class="govuk-table__cell" headers="condition-header">
+                    <span class="govuk-body">{{ conflict.conditionText }}</span>
+                    <details class="govuk-details govuk-!-margin-top-2">
+                        <summary class="govuk-details__summary">
+                            <span class="govuk-details__summary-text">Show condition</span>
+                        </summary>
+                        <div class="govuk-details__text">
+                            <div>
+                                <span class="govuk-!-font-weight-bold">{{ conflict.conditionName }}</span>
+                                <div class="govuk-!-margin-left-3 govuk-!-margin-top-1">
+                                    {% for rule in conflict.rules %}
+                                    {% if loop.first %}
+                                    '{{ rule.questionText }}' {{ rule.operator | replace("-", " ") }} {% if rule.value |
+                                    isArray %}'{{
+                                    rule.value | join("' or '") }}'{% else %}'{{ rule.value }}'{% endif %}
+                                    {% else %}
+                                    <span class="govuk-!-font-weight-bold">{{ rule.logicalOperator | default('AND')
+                                        }}</span>
+                                    '{{ rule.questionText }}' {{ rule.operator | replace("-", " ") }} {% if rule.value |
+                                    isArray %}'{{
+                                    rule.value | join("' or '") }}'{% else %}'{{ rule.value }}'{% endif %}
+                                    {% endif %}
+                                    {% endfor %}
+                                </div>
+                            </div>
+                            <p class="govuk-body govuk-!-margin-top-4">This condition cannot work because the question
+                                now appears on page {{
+                                conflict.questionPageNumber }}, which comes after page {{ conflict.pageNumber }}.</p>
+                        </div>
+                    </details>
+                </td>
+                {# <td class="govuk-table__cell" headers="remove-header">
+                    <label for="{{ checkbox_id }}" class="govuk-visually-hidden">
+                        Checkbox, Remove condition: {{ conflict.conditionText }} from page {{ conflict.pageNumber }}: {{
+                        conflict.pageWithCondition }}
+                    </label>
+                    <input type="checkbox" name="remove[{{ conflict.conditionId }}]" class="remove-checkbox"
+                        id="{{ checkbox_id }}" aria-describedby="remove-header">
+                </td> #}
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+
+    {{ govukWarningText({
+    text: "Saving this new page order will automatically remove any conditions that can’t work in the new order",
+    iconFallbackText: "Warning"
+    }) }}
+
+    <div class="govuk-button-group">
+        <button class="govuk-button govuk-button--warning" type="submit" aria-describedby="button-description">
+            Save new order and remove conditions
+        </button>
+        <a href="/titan-mvp-1.2/form-editor/reorder/main.html" class="govuk-link govuk-link--no-visited-state">
+            Go back to re-order
+        </a>
+    </div>
+    {# <p class="govuk-hint govuk-!-margin-top-2" id="button-description">
+        This will save your new page order and automatically remove all conditions that can no longer work.
+    </p>
+    <div class="govuk-visually-hidden" aria-live="polite" id="action-summary">
+        {{ conflicts.length }} condition{{ 's' if conflicts.length != 1 else '' }} will be removed if you force save the
+        new order.
+    </div> #}
+</form>
+<script>
+    // No JavaScript needed - simple form submission will handle all conditions
+</script>
+{% else %}
+<p class="govuk-body">No conflicts found.</p>
+{% endif %}
+{% endblock %}

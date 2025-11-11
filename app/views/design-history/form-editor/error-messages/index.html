@@ -1,0 +1,68 @@
+{% extends "design-history/template.html" %}
+
+{# --- Feature metadata --- #}
+{% set featureName = "Short Description for Error Messages" %}
+{% set latestVersionLink = "/titan-mvp-1/form-editor/error-messages.html" %}
+{% set status = "Tested" %}
+{% set statusColor = "green" %}
+{% set userNeed = "Users need to provide clear error messages so respondents can understand and correct their mistakes."
+%}
+{% set phase = "Private beta" %}
+{% set category = "Form editor" %}
+{% set description = "This feature allows users to create custom error messages for their forms, helping respondents
+understand and correct their mistakes." %}
+
+{# --- Research rounds for the summary table --- #}
+{% set researchRounds = [
+"Round 8 - November 2024"
+] %}
+
+{# --- Key improvements in the latest version --- #}
+{% set improvements = [
+"Enhanced error message creation",
+"Improved error message guidance",
+"Added clear examples of good error messages",
+"Enhanced error message preview"
+] %}
+
+{# --- Research history table --- #}
+{% set researchHistory = [
+{
+roundNumber: "8",
+researchDate: "November 2024",
+researchFinding: "Prefix wording was confusing; users needed guidance on best practices",
+changeMade: "Initial implementation of error messages feature"
+}
+] %}
+
+{# --- Detailed research summaries --- #}
+{% set researchSummaries = [
+{
+title: "Round 8 - November 2024",
+summary: "Initial testing of error messages",
+sections: [
+{
+type: "content",
+content: "**Research conducted:** Remote usability testing (5–7 November 2024)\n\n**Participants:** 5 content designers
++ 1 proxy user (Cefas, Environment Agency, Farming, APHA, Whitehall)"
+},
+{
+type: "findings",
+content: [
+"'Prefix' wording (e.g. \"Enter\", \"Select\") was confusing",
+"Users needed guidance on best practices for error text",
+"Error message interaction felt over-engineered",
+"Users wanted flexibility in error message creation"
+]
+},
+{
+type: "quotes",
+content: [
+"\"That little red thing did throw me a little bit... it felt like it was boxing me in.\" - Participant 1",
+"\"It just feels a bit over-engineered.\" - Participant 2",
+"\"I'd feel like I needed guidance on best practice for error text.\" - Participant 3"
+]
+}
+]
+}
+] %}

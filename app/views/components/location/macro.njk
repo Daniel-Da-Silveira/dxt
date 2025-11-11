@@ -1,0 +1,178 @@
+{% from "../defra-coordinate-input/macro.njk" import defraCoordinateInput %}
+
+{#
+  Location component macros
+  - eastingNorthing()            → two numeric inputs
+  - gridReference()              → UK grid reference (square, easting, northing)
+  - osGridReferenceNumber()      → single free-text input for full OS grid ref string
+  - longitudeLatitude()          → two numeric inputs with suffixes
+  - nationalGridFieldNumber()    → single text input
+
+  Each macro accepts 'params' with optional keys:
+    - id, namePrefix, fieldset, hint, errorMessage, classes
+    - values: object with default values keyed by field ids used below
+    - widthClasses: optional per-field width override classes
+#}
+
+{% macro eastingNorthing(params) %}
+  {%- set values = params.values or {} %}
+  {{ defraCoordinateInput({
+    id: params.id or "easting-northing",
+    namePrefix: params.namePrefix or "location",
+    fieldset: params.fieldset or {
+      legend: { text: "Easting and northing", isPageHeading: false, classes: "govuk-fieldset__legend--m" }
+    },
+    hint: params.hint or { text: "Enter easting and northing (0 to 99,999)" },
+    errorMessage: params.errorMessage,
+    classes: params.classes or "row-prototype-coordinate-input",
+    items: [
+      {
+        id: (params.ids and params.ids.eastingId) or "location-osgrid-easting",
+        name: (params.ids and params.ids.eastingName) or "location-osgrid-easting",
+        label: "Easting",
+        value: values[(params.ids and params.ids.eastingName) or "location-osgrid-easting"],
+        classes: (params.widthClasses and params.widthClasses.easting) or "govuk-input--width-5",
+        type: "text",
+        attributes: { inputmode: "numeric" }
+      },
+      {
+        id: (params.ids and params.ids.northingId) or "location-osgrid-northing",
+        name: (params.ids and params.ids.northingName) or "location-osgrid-northing",
+        label: "Northing",
+        value: values[(params.ids and params.ids.northingName) or "location-osgrid-northing"],
+        classes: (params.widthClasses and params.widthClasses.northing) or "govuk-input--width-5",
+        type: "text",
+        attributes: { inputmode: "numeric" }
+      }
+    ]
+  }) }}
+{% endmacro %}
+
+{% macro gridReference(params) %}
+  {%- set values = params.values or {} %}
+  {{ defraCoordinateInput({
+    id: params.id or "uk-grid-reference",
+    namePrefix: params.namePrefix or "location",
+    fieldset: params.fieldset or {
+      legend: { text: "UK grid reference", isPageHeading: false, classes: "govuk-fieldset__legend--m" }
+    },
+    hint: params.hint or { text: "For example TQ 3003 8038" },
+    errorMessage: params.errorMessage,
+    classes: params.classes or "row-prototype-coordinate-input",
+    items: [
+      {
+        id: (params.ids and params.ids.squareId) or "location-osgrid-square",
+        name: (params.ids and params.ids.squareName) or "location-osgrid-square",
+        label: "Square",
+        value: values[(params.ids and params.ids.squareName) or "location-osgrid-square"],
+        classes: (params.widthClasses and params.widthClasses.square) or "govuk-input--width-4",
+        type: "text",
+        attributes: { inputmode: "text" }
+      },
+      {
+        id: (params.ids and params.ids.eastingId) or "location-osgrid-easting",
+        name: (params.ids and params.ids.eastingName) or "location-osgrid-easting",
+        label: "Easting",
+        value: values[(params.ids and params.ids.eastingName) or "location-osgrid-easting"],
+        classes: (params.widthClasses and params.widthClasses.easting) or "govuk-input--width-5",
+        type: "text",
+        attributes: { inputmode: "numeric" }
+      },
+      {
+        id: (params.ids and params.ids.northingId) or "location-osgrid-northing",
+        name: (params.ids and params.ids.northingName) or "location-osgrid-northing",
+        label: "Northing",
+        value: values[(params.ids and params.ids.northingName) or "location-osgrid-northing"],
+        classes: (params.widthClasses and params.widthClasses.northing) or "govuk-input--width-5",
+        type: "text",
+        attributes: { inputmode: "numeric" }
+      }
+    ]
+  }) }}
+{% endmacro %}
+
+{% macro osGridReferenceNumber(params) %}
+  {%- set values = params.values or {} %}
+  {{ defraCoordinateInput({
+    id: params.id or "os-grid-reference-number",
+    namePrefix: params.namePrefix or "location",
+    fieldset: params.fieldset or {
+      legend: { text: "OS grid reference number", isPageHeading: false, classes: "govuk-fieldset__legend--m" }
+    },
+    hint: params.hint or { text: "Enter the full OS grid reference, for example TQ 3003 8038" },
+    errorMessage: params.errorMessage,
+    classes: params.classes or "row-prototype-coordinate-input",
+    items: [
+      {
+        id: "os-grid-reference-number",
+        name: "os-grid-reference-number",
+        label: "OS grid reference number",
+        value: values["os-grid-reference-number"],
+        classes: (params.widthClasses and params.widthClasses.gridref) or "govuk-input--width-20",
+        type: "text",
+        attributes: { inputmode: "text" }
+      }
+    ]
+  }) }}
+{% endmacro %}
+
+{% macro longitudeLatitude(params) %}
+  {%- set values = params.values or {} %}
+  {{ defraCoordinateInput({
+    id: params.id or "decimal-degrees",
+    namePrefix: params.namePrefix or "location",
+    fieldset: params.fieldset or {
+      legend: { text: "Longitude and latitude", isPageHeading: false, classes: "govuk-fieldset__legend--m" }
+    },
+    hint: params.hint or { text: "For example 53.76385° -3.73904°" },
+    errorMessage: params.errorMessage,
+    classes: params.classes or "row-prototype-coordinate-input",
+    items: [
+      {
+        id: (params.ids and params.ids.latitudeId) or "location-latitude-decimal",
+        name: (params.ids and params.ids.latitudeName) or "location-latitude-decimal",
+        label: "Latitude",
+        value: values[(params.ids and params.ids.latitudeName) or "location-latitude-decimal"],
+        classes: (params.widthClasses and params.widthClasses.latitude) or "govuk-input--width-5",
+        type: "text",
+        attributes: { inputmode: "numeric", suffix: "°" }
+      },
+      {
+        id: (params.ids and params.ids.longitudeId) or "location-longitude-decimal",
+        name: (params.ids and params.ids.longitudeName) or "location-longitude-decimal",
+        label: "Longitude",
+        value: values[(params.ids and params.ids.longitudeName) or "location-longitude-decimal"],
+        classes: (params.widthClasses and params.widthClasses.longitude) or "govuk-input--width-5",
+        type: "text",
+        attributes: { inputmode: "numeric", suffix: "°" }
+      }
+    ]
+  }) }}
+{% endmacro %}
+
+{% macro nationalGridFieldNumber(params) %}
+  {%- set values = params.values or {} %}
+  {{ defraCoordinateInput({
+    id: params.id or "national-grid-field-number",
+    namePrefix: params.namePrefix or "location",
+    fieldset: params.fieldset or {
+      legend: { text: "National Grid field number", isPageHeading: false, classes: "govuk-fieldset__legend--m" }
+    },
+    hint: params.hint or { text: "For example NG123456" },
+    errorMessage: params.errorMessage,
+    classes: params.classes or "row-prototype-coordinate-input",
+    items: [
+      {
+        id: "national-grid-field-number",
+        name: "national-grid-field-number",
+        label: "National Grid field number",
+        value: values["national-grid-field-number"],
+        classes: (params.widthClasses and params.widthClasses.fieldNumber) or "govuk-input--width-10",
+        type: "text",
+        attributes: { inputmode: "text" }
+      }
+    ]
+  }) }}
+{% endmacro %}
+
+

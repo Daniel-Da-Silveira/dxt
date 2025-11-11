@@ -1,0 +1,261 @@
+{% extends "layouts/email.html" %}
+
+{% block content %}
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-full">
+        <!DOCTYPE html>
+        <html lang="en">
+
+        <head>
+            <meta charset="UTF-8">
+            <title>Outlook‑Style Interface</title>
+            <style>
+                /* Reset & base */
+                * {
+                    box-sizing: border-box;
+                    margin: 0;
+                    padding: 0;
+                }
+
+                body {
+                    font-family: "Segoe UI", Tahoma, sans-serif;
+                    font-size: 19px;
+                    color: #333;
+                }
+
+                /* Top header */
+                .app-header {
+                    display: flex;
+                    align-items: center;
+                    justify-content: space-between;
+                    background: #0072C6;
+                    color: #fff;
+                    padding: 0 12px;
+                    height: 40px;
+                }
+
+                .app-header .title {
+                    font-weight: 600;
+                }
+
+                .app-header .icons i {
+                    margin-left: 12px;
+                    cursor: pointer;
+                }
+
+                /* Ribbon */
+                .ribbon {
+                    display: flex;
+                    background: #F3F3F3;
+                    padding: 4px 8px;
+                    border-bottom: 1px solid #CCC;
+                }
+
+                .ribbon .group {
+                    margin-right: 16px;
+                }
+
+                .ribbon button {
+                    display: block;
+                    width: 32px;
+                    height: 32px;
+                    margin: 2px 0;
+                    border: none;
+                    background: none;
+                    cursor: pointer;
+                }
+
+                /* Main layout */
+                .main {
+                    display: flex;
+                    height: 100%;
+                    outline: 1px solid #CCC;
+                    /* total header + ribbon height */
+                }
+
+                /* Sidebar */
+                .sidebar {
+                    width: 200px;
+                    background: #F2F2F2;
+                    border-right: 1px solid #CCC;
+                    padding: 8px;
+                    overflow-y: auto;
+                }
+
+                .sidebar ul {
+                    list-style: none;
+                }
+
+                .sidebar li {
+                    padding: 6px 8px;
+                    cursor: pointer;
+                    border-radius: 3px;
+                }
+
+                .sidebar li:hover,
+                .sidebar .active {
+                    background: #E1EEFC;
+                }
+
+                /* Content area */
+                .content {
+                    flex: 1;
+                    display: flex;
+                    flex-direction: column;
+                }
+
+                /* Email list */
+                .email-list {
+                    /* flex: 0 0 120px; */
+                    border-bottom: 1px solid #CCC;
+                    overflow-y: auto;
+                }
+
+                .email-list table {
+                    width: 100%;
+                    border-collapse: collapse;
+                }
+
+                .email-list th,
+                .email-list td {
+                    padding: 6px 8px;
+                    text-align: left;
+                    border-bottom: 1px solid #EEE;
+                }
+
+                .email-list tr:nth-child(even) {
+                    background: #FAFAFA;
+                }
+
+                .email-list tr:hover {
+                    background: #E1EEFC;
+                }
+
+                /* Email preview */
+                .preview {
+                    flex: 1;
+                    padding: 12px;
+                    overflow-y: auto;
+                }
+
+                .preview .subject {
+                    font-size: 18px;
+                    font-weight: 600;
+                    margin-bottom: 8px;
+                }
+
+                .preview .from-to {
+                    font-size: 13px;
+                    color: #555;
+                    margin-bottom: 16px;
+                }
+
+                .preview .body {
+                    line-height: 1.6;
+                }
+            </style>
+        </head>
+
+        <body>
+
+            <!-- Top Header -->
+            <header class="app-header">
+                <div class="title">Outlook</div>
+                <div class="icons">
+                    <i title="Minimize">─</i>
+                    <i title="Maximize">▢</i>
+                    <i title="Close" style="margin-right:0;">✕</i>
+                </div>
+            </header>
+
+            <!-- Main pane -->
+            <div class="main">
+                <!-- Left nav pane -->
+                <aside class="sidebar">
+                    <ul>
+                        <li class="active">Inbox</li>
+                        <li>Sent Items</li>
+                        <li>Drafts</li>
+                        <li>Deleted Items</li>
+                        <li>Archive</li>
+                        <li>Junk Email</li>
+                        <!-- etc. -->
+                    </ul>
+                </aside>
+
+                <!-- Content pane -->
+                <section class="content">
+                    <!-- Email list -->
+                    <div class="email-list">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>From</th>
+                                    <th>Subject</th>
+                                    <th>Date</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Defra Forms</td>
+                                    <td>You have been removed from Defra Forms</td>
+                                    <td>22/04/2025</td>
+                                </tr>
+                                <tr>
+                                    <td>Bob Smith</td>
+                                    <td>Project Update</td>
+                                    <td>21/04/2025</td>
+                                </tr>
+                                <!-- more rows… -->
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- Email preview -->
+                    <div class="preview">
+                        <div class="email-header" style="display: flex; align-items: center; padding: 8px;">
+                            <div
+                                style="width: 40px; height: 40px; background: #6B4E71; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; margin-right: 12px;">
+                                <span style="font-size: 16px;">DF</span>
+                            </div>
+                            <div style="flex-grow: 1;">
+                                <div style="font-weight: 500; color: #0F6CBD;">Defra Forms
+                                    &lt;forms@defra.gov.uk&gt;</div>
+                                <div style="display: flex; justify-content: space-between; color: #666;">
+                                    <div>To: youremail@defra.gov.uk</div>
+                                    <div style="color: #666;">Tue 22/04/2025 14:29</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="govuk-!-margin-bottom-4"></div>
+
+
+                        {% from "govuk/components/header/macro.njk" import govukHeader %}
+
+                        {{ govukHeader({
+                        homepageUrl: "#"
+                        }) }}
+
+                        <div class="body" style="padding: 20px;">
+                            Chris Smith removed you from Defra Forms.
+                            <br>
+                            <br>
+                            If you did not expect this change, contact the Defra Forms team by email at
+                            <a href="mailto:forms@defra.gov.uk">forms@defra.gov.uk</a> or use the slack channel
+                            #defra-forms-support on the Defra Digital Slack instance.
+                            <br>
+                            <br>
+
+                            From Defra Forms
+
+
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+        </body>
+
+        </html>
+    </div>
+    {% endblock %}

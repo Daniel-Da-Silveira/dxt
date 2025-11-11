@@ -1,0 +1,203 @@
+{% extends "layouts/main.html" %}
+
+{% from "components/service-header/macro.njk" import serviceHeader %}
+
+{% set pageName = "Overview - Apply for a county parish holding number in England" %}
+
+{% block header %}
+  {{ serviceHeader({
+    organisationName: "Defra",
+    productName: "Forms Designer",
+    serviceName: "",
+    accountName: "Chris Smith",
+    homepageLink: "/",
+    signOutLink: "/form-designer-v2/onboarding/sign-out-confirmation",
+    navigationItems: [
+    {
+      href: "/library.html",
+      text: "Forms library",
+      id: "library"
+     },
+    {
+      href: "/cph-overview/draft.html",
+      text: "Overview",
+      id: "overview"
+     },{
+         href: "/editor.html",
+    text: 'Editor',
+    id: 'editor'
+    }],
+    activeLinkId: "/"
+  }) }}
+{% endblock %}
+
+{% block beforeContent %}
+  {{ govukBackLink({
+  text: "Back",
+  href: "javascript:window.history.back()"
+}) }}
+{% endblock %}
+
+{% block content %}
+
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+
+      <h1 class="govuk-heading-l">
+        Checkboxes component
+      </h1>
+{{ govukInput({
+  label: {
+    text: "Short label",
+    classes: "govuk-label",
+    isPageHeading: true
+  },
+  hint: {
+    text: "Give the component a short description, for example ‘training course completion date’. Short labels are used in error messages, such as ‘Enter a training course completion date’."
+  },
+  id: "event-name",
+  name: "eventName"
+}) }}
+
+{{ govukInput({
+  label: {
+    text: "Question label (optional)",
+    classes: "govuk-label",
+    isPageHeading: true
+  },
+  hint: {
+    text: "Use a question label when you want 2 or more related questions on the same page, or if you’ve added guidance above a question. The label must be the question in full, for example, ‘When did you complete your training course?’"
+  },
+  id: "event-name",
+  name: "eventName"
+}) }}
+      {% from "govuk/components/textarea/macro.njk" import govukTextarea %}
+
+{{ govukTextarea({
+  name: "moreDetail",
+  id: "more-detail",
+  label: {
+    text: "Hint text (optional)",
+    classes: "govuk-label",
+    isPageHeading: false
+  },
+  hint: {
+    text: "Use hint text to help users answer the question."
+  }
+}) }}
+
+{% from "govuk/components/checkboxes/macro.njk" import govukCheckboxes %}
+
+
+{% from "govuk/components/input/macro.njk" import govukInput %}
+
+{{ govukInput({
+  label: {
+    text: "Component name",
+    classes: "govuk-label",
+    isPageHeading: true
+  },
+  hint: {
+    text: "Speak to a Defra Forms team developer before changing the component name. It’s automatically generated and must not contain spaces."
+  },
+  id: "event-name",
+  name: "eventName"
+}) }}
+
+{{ govukCheckboxes({
+
+  items: [
+    {
+      value: "optionalComponent",
+      text: "Make Checkboxes component field optional",
+       hint: {
+        text: "Tick this box if you do not need to complete this field to progress through the form"
+      }
+    }
+  ]
+
+}) }}
+
+{{ govukCheckboxes({
+
+  items: [
+    {
+      value: "exposeContext",
+      text: "Expose to context",
+       hint: {
+        text: "If using additional context, tick this option to expose the field to be used by additional contexts."
+      }
+    }
+  ]
+
+}) }}
+
+{{ govukCheckboxes({
+
+  items: [
+    {
+      value: "prePopulation",
+      text: "Allow pre-population",
+       hint: {
+        text: "Tick this box if you want this field to be available to be pre-populated by query parameter."
+      }
+    }
+  ]
+
+}) }}
+
+{{ govukSelect({
+  id: "list",
+  name: "list",
+  label: {
+    text: "Select list"
+},
+ hint: {
+    text: "Select an existing list to show in this field or add a new list."
+  },
+  formGroup: {
+    classes: "govuk-!-margin-bottom-2"
+  },
+  items: [
+    {
+      value: "choose",
+      text: "Select a list",
+      selected: true
+    },
+    {
+      value: "list1",
+      text: "List 1"
+    },
+    {
+      value: "list2",
+      text: "List 2"
+    },
+    {
+      value: "list3",
+      text: "List 3"
+    }
+  ]
+}) }}
+<p class="govuk-body">
+  <a href="#" class="govuk-link govuk-link--no-visited-state">Add a new list</a>
+</p>
+
+
+ <div class="govuk-button-group govuk-!-padding-top-4">
+ <a href="/cph-home/draft-notification-email-added.html">
+    <button type="submit" class="govuk-button govuk-button" data-module="govuk-button" >
+      Save
+    </button>
+  </a>
+  <a href="/cph-overview/closed-success">
+    <button type="submit" class="govuk-button govuk-button--warning" data-module="govuk-button">
+      Delete component
+    </button>
+  </a>
+
+
+</div>
+</div>
+</div>
+
+{% endblock %}

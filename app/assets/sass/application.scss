@@ -3,7 +3,74 @@
 // https://prototype-kit.service.gov.uk/docs/adding-css-javascript-and-images
 //
 
+// Import component styles
+@import "components/service-header";
+@import "components/govuk-otp-input";
+
 // Add extra styles here
+
+// Custom active navigation link underline color
+.govuk-service-navigation__item--active .govuk-service-navigation__link::after {
+  background-color: #008531 !important;
+}
+
+// Override any border styles on active navigation items
+.govuk-service-navigation__item--active .govuk-service-navigation__link {
+  border-color: #008531 !important;
+}
+
+// Override any other active state styling
+.govuk-service-navigation__item--active {
+  border-color: #008531 !important;
+}
+
+// Force the green color for active links
+.govuk-service-navigation__item--active .govuk-service-navigation__link,
+.govuk-service-navigation__item--active {
+  border-color: #008531 !important;
+  border-bottom-color: #008531 !important;
+}
+
+// Focus state styling for navigation links
+.govuk-service-navigation__link:focus {
+  color: #0b0c0c !important;
+}
+
+// Custom footer border color override
+.govuk-footer {
+  border-top-color: #008531 !important;
+}
+
+// Alternative: Target only the rebranded footer specifically
+.govuk-footer.govuk-footer--rebrand {
+  border-top-color: #008531 !important;
+}
+
+// Global styling for xGovukSubNavigation component
+.x-govuk-sub-navigation {
+  .x-govuk-sub-navigation__link {
+    color: #008531 !important; // Using the same green color as your other components
+  }
+
+  .x-govuk-sub-navigation__link:hover {
+    color: #006a28 !important; // Darker green for hover state
+  }
+
+  .x-govuk-sub-navigation__section-item--current .x-govuk-sub-navigation__link {
+    color: #006a28 !important; // Darker green for current/active state
+  }
+
+  // Make all left borders DEFRA green
+  .x-govuk-sub-navigation__section-item {
+    border-left-color: #008531 !important;
+  }
+
+  // Ensure nested children also have green borders
+  .x-govuk-sub-navigation__section--nested
+    .x-govuk-sub-navigation__section-item {
+    border-left-color: #008531 !important;
+  }
+}
 
 // // To make things wide globally
 // @mixin govuk-width-container($width: $govuk-page-width) {
@@ -91,6 +158,52 @@
 }
 
 @import "patterns/flow-builder";
+@import "patterns/product-page";
+// Import GOV.UK step-by-step component styles for spacing, circles and lines
+@import "../../../node_modules/@govuk-prototype-kit/step-by-step/sass/step-by-step-navigation";
+
+// Defra styling for step-by-step navigation
+.app-step-nav {
+  .app-step-nav__circle--number {
+    background-color: #00823b;
+    border-color: #00823b;
+    color: white;
+    font-weight: bold;
+    text-shadow: none;
+  }
+
+  .app-step-nav__circle-background {
+    color: white;
+    font-weight: bold;
+    text-shadow: none;
+  }
+
+  .app-step-nav__step--active {
+    .app-step-nav__circle--number {
+      background-color: #00823b;
+      border-color: #00823b;
+    }
+  }
+
+  // Defra green connecting lines
+  .app-step-nav__step:after {
+    border-left-color: #00823b;
+  }
+
+  .app-step-nav__step:last-child:before {
+    border-bottom-color: #00823b;
+  }
+
+  // Defra green horizontal lines between sections
+  .app-step-nav__header {
+    border-top-color: #00823b;
+  }
+
+  // Active step indicator
+  .app-step-nav__list-item--active:before {
+    background-color: #00823b;
+  }
+}
 
 // .govuk-width-container {
 //   max-width: 1300px;
@@ -137,7 +250,7 @@ $defra-link-colour: govuk-shade($defra-brand-colour-high-contrast, 25%);
 $defra-link-colour-hover: govuk-shade($defra-link-colour, 50%);
 
 .one-login-header {
-  border-bottom-color: $defra-brand-colour;
+  border-bottom: 1px solid white !important;
 }
 
 .one-login-header__logotype-text {
@@ -149,24 +262,7 @@ $defra-link-colour-hover: govuk-shade($defra-link-colour, 50%);
   display: inline-table;
 }
 
-.service-header__nav-list-item-link {
-  &:link,
-  &:visited {
-    color: $defra-link-colour;
-  }
-
-  &:hover {
-    color: $defra-link-colour-hover;
-  }
-
-  &:focus {
-    color: $govuk-focus-text-colour;
-  }
-}
-
-.service-header__nav-list-item.service-header__nav-list-item--active {
-  border-color: $defra-brand-colour;
-}
+// Legacy service header styles removed - now handled by _service-header.scss
 
 @include govuk-media-query($from: desktop) {
   .app-display-until-desktop {
@@ -194,6 +290,413 @@ $defra-link-colour-hover: govuk-shade($defra-link-colour, 50%);
 // Hide duplicate pagination ellipses
 .govuk-pagination__item--ellipses + .govuk-pagination__item--ellipses {
   display: none;
+}
+
+// Ensure pagination links get proper GOV.UK focus styling
+.govuk-pagination__link:focus,
+.govuk-pagination__link:focus .govuk-pagination__link-text,
+.govuk-pagination__link:focus .govuk-pagination__link-label {
+  color: #0b0c0c !important;
+  background-color: #ffdd00 !important;
+  box-shadow: 0 -2px #ffdd00, 0 4px #0b0c0c !important;
+  border-color: #0b0c0c !important;
+  outline: 3px solid transparent !important;
+  outline-offset: 0 !important;
+}
+
+// Override any existing pagination link styles that might be interfering
+.govuk-pagination__link:focus *,
+.govuk-pagination__link:focus .govuk-pagination__link-text,
+.govuk-pagination__link:focus .govuk-pagination__link-label,
+.govuk-pagination__link:focus .govuk-pagination__link-title {
+  color: #0b0c0c !important;
+}
+
+// Target all pagination elements on focus to ensure text color changes
+.govuk-pagination__link:focus .govuk-pagination__link-label,
+.govuk-pagination__link:focus .govuk-pagination__link-title,
+.govuk-pagination__link:focus .govuk-pagination__icon,
+.govuk-pagination__link:focus span,
+.govuk-pagination__link:focus a {
+  color: #0b0c0c !important;
+}
+
+// Force override for any inline styles or inherited colors
+.govuk-pagination__link:focus,
+.govuk-pagination__link:focus * {
+  color: #0b0c0c !important;
+}
+
+// Target the pagination items themselves to ensure focus styling works
+.govuk-pagination__item:focus-within .govuk-pagination__link,
+.govuk-pagination__item:focus-within .govuk-pagination__link *,
+.govuk-pagination__prev:focus-within .govuk-pagination__link,
+.govuk-pagination__prev:focus-within .govuk-pagination__link *,
+.govuk-pagination__next:focus-within .govuk-pagination__link,
+.govuk-pagination__next:focus-within .govuk-pagination__link * {
+  color: #0b0c0c !important;
+}
+
+// Additional specificity for pagination elements
+.govuk-pagination__link:focus .govuk-pagination__link-label,
+.govuk-pagination__link:focus .govuk-pagination__link-title,
+.govuk-pagination__link:focus .govuk-pagination__icon {
+  color: #0b0c0c !important;
+}
+
+// Maximum specificity override for pagination focus states
+html body .govuk-pagination__link:focus,
+html body .govuk-pagination__link:focus *,
+html body .govuk-pagination__item:focus-within .govuk-pagination__link,
+html body .govuk-pagination__item:focus-within .govuk-pagination__link * {
+  color: #0b0c0c !important;
+}
+
+// Target the specific pagination structure with maximum specificity
+html body .govuk-pagination .govuk-link.govuk-pagination__link:focus,
+html body .govuk-pagination .govuk-link.govuk-pagination__link:focus *,
+html
+  body
+  .govuk-pagination
+  .govuk-link.govuk-pagination__link:focus
+  .govuk-pagination__link-title,
+html
+  body
+  .govuk-pagination
+  .govuk-link.govuk-pagination__link:focus
+  .govuk-pagination__icon {
+  color: #0b0c0c !important;
+}
+
+// Override any existing govuk-link focus styles for pagination
+.govuk-pagination .govuk-link:focus,
+.govuk-pagination .govuk-link:focus * {
+  color: #0b0c0c !important;
+}
+
+// Force override for all govuk-link focus states with maximum specificity
+html body .govuk-link:focus,
+html body .govuk-link:focus *,
+html body a.govuk-link:focus,
+html body a.govuk-link:focus * {
+  color: #0b0c0c !important;
+}
+
+// Additional specificity for any nested elements
+html body .govuk-link:focus span,
+html body .govuk-link:focus strong,
+html body .govuk-link:focus em,
+html body .govuk-link:focus b,
+html body .govuk-link:focus i {
+  color: #0b0c0c !important;
+}
+
+// Maximum specificity for pagination - override any GOV.UK Frontend styles
+html body .govuk-pagination .govuk-pagination__link.govuk-link:focus,
+html body .govuk-pagination .govuk-pagination__link.govuk-link:focus *,
+html
+  body
+  .govuk-pagination
+  .govuk-pagination__link.govuk-link:focus
+  .govuk-pagination__link-title,
+html
+  body
+  .govuk-pagination
+  .govuk-pagination__link.govuk-link:focus
+  .govuk-pagination__link-label,
+html
+  body
+  .govuk-pagination
+  .govuk-pagination__link.govuk-link:focus
+  .govuk-pagination__icon {
+  color: #0b0c0c !important;
+}
+
+// Target the specific pagination structure that GOV.UK Frontend generates
+html
+  body
+  .govuk-pagination--block
+  .govuk-pagination__prev
+  .govuk-pagination__link:focus,
+html
+  body
+  .govuk-pagination--block
+  .govuk-pagination__next
+  .govuk-pagination__link:focus,
+html
+  body
+  .govuk-pagination--block
+  .govuk-pagination__prev
+  .govuk-pagination__link:focus
+  *,
+html
+  body
+  .govuk-pagination--block
+  .govuk-pagination__next
+  .govuk-pagination__link:focus
+  * {
+  color: #0b0c0c !important;
+}
+
+// Use attribute selectors for maximum specificity override
+html body a[class*="govuk-pagination__link"][class*="govuk-link"]:focus,
+html body a[class*="govuk-pagination__link"][class*="govuk-link"]:focus *,
+html body a[class*="govuk-link"]:focus,
+html body a[class*="govuk-link"]:focus * {
+  color: #0b0c0c !important;
+}
+
+// Final fallback - target everything with pagination classes
+html body [class*="govuk-pagination"] [class*="govuk-link"]:focus,
+html body [class*="govuk-pagination"] [class*="govuk-link"]:focus * {
+  color: #0b0c0c !important;
+}
+
+// x-govuk sub-navigation focus styling
+html body .x-govuk-sub-navigation__link:focus,
+html body .x-govuk-sub-navigation__link:focus *,
+html
+  body
+  .x-govuk-sub-navigation__section-item
+  .x-govuk-sub-navigation__link:focus,
+html
+  body
+  .x-govuk-sub-navigation__section-item
+  .x-govuk-sub-navigation__link:focus
+  * {
+  color: #0b0c0c !important;
+  background-color: #ffdd00 !important;
+  box-shadow: 0 -2px #ffdd00, 0 4px #0b0c0c !important;
+  border-color: #0b0c0c !important;
+  outline: 3px solid transparent !important;
+  outline-offset: 0 !important;
+}
+
+// Target nested elements within x-govuk sub-navigation
+html body .x-govuk-sub-navigation__link:focus span,
+html body .x-govuk-sub-navigation__link:focus strong,
+html body .x-govuk-sub-navigation__link:focus em,
+html body .x-govuk-sub-navigation__link:focus b,
+html body .x-govuk-sub-navigation__link:focus i {
+  color: #0b0c0c !important;
+}
+
+// Additional specificity for x-govuk components
+html body [class*="x-govuk"] [class*="sub-navigation"] [class*="link"]:focus,
+html body [class*="x-govuk"] [class*="sub-navigation"] [class*="link"]:focus * {
+  color: #0b0c0c !important;
+}
+
+// x-govuk masthead focus styling
+html body .x-govuk-masthead .govuk-link:focus,
+html body .x-govuk-masthead .govuk-link:focus *,
+html body .x-govuk-masthead .govuk-link--inverse:focus,
+html body .x-govuk-masthead .govuk-link--inverse:focus * {
+  color: #0b0c0c !important;
+  background-color: #ffdd00 !important;
+  box-shadow: 0 -2px #ffdd00, 0 4px #0b0c0c !important;
+  border-color: #0b0c0c !important;
+  outline: 3px solid transparent !important;
+  outline-offset: 0 !important;
+}
+
+// Ensure inverse links within masthead are white
+.x-govuk-masthead .govuk-link--inverse {
+  color: white !important;
+}
+
+.x-govuk-masthead .govuk-link--inverse:hover {
+  color: #f3f2f1 !important;
+}
+
+// Target any other x-govuk components that might have links
+html body [class*="x-govuk"] [class*="link"]:focus,
+html body [class*="x-govuk"] [class*="link"]:focus * {
+  color: #0b0c0c !important;
+}
+
+// Comprehensive override for all GOV.UK component links
+html body [class*="govuk"] [class*="link"]:focus,
+html body [class*="govuk"] [class*="link"]:focus *,
+html body [class*="govuk"] a:focus,
+html body [class*="govuk"] a:focus * {
+  color: #0b0c0c !important;
+}
+
+// Ensure all focusable elements within GOV.UK components get proper styling
+html body [class*="govuk"] *:focus,
+html body [class*="govuk"] *:focus * {
+  color: #0b0c0c !important;
+}
+
+// Ensure all GOV.UK links get proper focus styling
+.govuk-link:focus {
+  color: #0b0c0c !important;
+  background-color: #ffdd00 !important;
+  box-shadow: 0 -2px #ffdd00, 0 4px #0b0c0c !important;
+  border-color: #0b0c0c !important;
+  outline: 3px solid transparent !important;
+  outline-offset: 0 !important;
+}
+
+// Special focus styling for inverse links (like the "What's new" link)
+.govuk-link--inverse:focus,
+.govuk-link--inverse:focus * {
+  color: #0b0c0c !important;
+  background-color: #ffdd00 !important;
+  box-shadow: 0 -2px #ffdd00, 0 4px #0b0c0c !important;
+  border-color: #0b0c0c !important;
+  outline: 3px solid transparent !important;
+  outline-offset: 0 !important;
+}
+
+// Target inverse links within specific components
+.govuk-card--feature .govuk-link--inverse:focus,
+.govuk-card--feature .govuk-link--inverse:focus * {
+  color: #0b0c0c !important;
+  background-color: #ffdd00 !important;
+  box-shadow: 0 -2px #ffdd00, 0 4px #0b0c0c !important;
+  border-color: #0b0c0c !important;
+  outline: 3px solid transparent !important;
+  outline-offset: 0 !important;
+}
+
+// Maximum specificity for inverse links
+html body .govuk-link--inverse:focus,
+html body .govuk-link--inverse:focus *,
+html body .govuk-card .govuk-link--inverse:focus,
+html body .govuk-card .govuk-link--inverse:focus * {
+  color: #0b0c0c !important;
+  background-color: #ffdd00 !important;
+  box-shadow: 0 -2px #ffdd00, 0 4px #0b0c0c !important;
+  border-color: #0b0c0c !important;
+  outline: 3px solid transparent !important;
+  outline-offset: 0 !important;
+}
+
+// Ensure inverse links within cards maintain white color
+.govuk-card .govuk-link--inverse,
+.govuk-card--feature .govuk-link--inverse {
+  color: white !important;
+}
+
+.govuk-card .govuk-link--inverse:hover,
+.govuk-card--feature .govuk-link--inverse:hover {
+  color: #f3f2f1 !important;
+}
+
+.govuk-card .govuk-link--inverse:visited,
+.govuk-card--feature .govuk-link--inverse:visited {
+  color: white !important;
+}
+
+// Focus styling for other GOV.UK link variants
+.govuk-link--no-visited-state:focus,
+.govuk-link--no-visited-state:focus *,
+.govuk-link--destructive:focus,
+.govuk-link--destructive:focus *,
+.govuk-link--secondary:focus,
+.govuk-link--secondary:focus * {
+  color: #0b0c0c !important;
+  background-color: #ffdd00 !important;
+  box-shadow: 0 -2px #ffdd00, 0 4px #0b0c0c !important;
+  border-color: #0b0c0c !important;
+  outline: 3px solid transparent !important;
+  outline-offset: 0 !important;
+}
+
+// Maximum specificity for all link variants
+html body .govuk-link--no-visited-state:focus,
+html body .govuk-link--no-visited-state:focus *,
+html body .govuk-link--destructive:focus,
+html body .govuk-link--destructive:focus *,
+html body .govuk-link--secondary:focus,
+html body .govuk-link--secondary:focus * {
+  color: #0b0c0c !important;
+  background-color: #ffdd00 !important;
+  box-shadow: 0 -2px #ffdd00, 0 4px #0b0c0c !important;
+  border-color: #0b0c0c !important;
+  outline: 3px solid transparent !important;
+  outline-offset: 0 !important;
+}
+
+// Override inline styles for the "What's new" link specifically
+html body .govuk-card--feature .govuk-card__heading .govuk-link--inverse:focus,
+html
+  body
+  .govuk-card--feature
+  .govuk-card__heading
+  .govuk-link--inverse:focus
+  *,
+html
+  body
+  .govuk-card--feature
+  .govuk-card__heading
+  .govuk-link--no-visited-state:focus,
+html
+  body
+  .govuk-card--feature
+  .govuk-card__heading
+  .govuk-link--no-visited-state:focus
+  * {
+  color: #0b0c0c !important;
+  background-color: #ffdd00 !important;
+  box-shadow: 0 -2px #ffdd00, 0 4px #0b0c0c !important;
+  border-color: #0b0c0c !important;
+  outline: 3px solid transparent !important;
+  outline-offset: 0 !important;
+}
+
+// Target the specific homepage structure
+html
+  body
+  .govuk-card.govuk-card--feature
+  .govuk-card__content
+  .govuk-card__heading
+  .govuk-link:focus,
+html
+  body
+  .govuk-card.govuk-card--feature
+  .govuk-card__content
+  .govuk-card__heading
+  .govuk-link:focus
+  * {
+  color: #0b0c0c !important;
+  background-color: #ffdd00 !important;
+  box-shadow: 0 -2px #ffdd00, 0 4px #0b0c0c !important;
+  border-color: #0b0c0c !important;
+  outline: 3px solid transparent !important;
+  outline-offset: 0 !important;
+}
+
+// Use attribute selectors to override inline styles
+html body a[href*="release-notes"]:focus,
+html body a[href*="release-notes"]:focus * {
+  color: #0b0c0c !important;
+  background-color: #ffdd00 !important;
+  box-shadow: 0 -2px #ffdd00, 0 4px #0b0c0c !important;
+  border-color: #0b0c0c !important;
+  outline: 3px solid transparent !important;
+  outline-offset: 0 !important;
+}
+
+// Ultimate override for any inline styles on focus
+html body a:focus[style*="color"],
+html body a:focus[style*="color"] *,
+html body a:focus[style*="!important"],
+html body a:focus[style*="!important"] * {
+  color: #0b0c0c !important;
+  background-color: #ffdd00 !important;
+  box-shadow: 0 -2px #ffdd00, 0 4px #0b0c0c !important;
+  border-color: #0b0c0c !important;
+  outline: 3px solid transparent !important;
+  outline-offset: 0 !important;
+}
+
+// Target any element with inline color styles on focus
+html body *:focus[style*="color"],
+html body *:focus[style*="color"] * {
+  color: #0b0c0c !important;
 }
 
 .app-field-group {
@@ -235,18 +738,7 @@ $defra-link-colour-hover: govuk-shade($defra-link-colour, 50%);
   }
 }
 
-// Fix spacing below account menu at small sizes
-.cross-service-header__button {
-  padding-bottom: govuk-spacing(2);
-
-  &::before {
-    transform: translateY(-75%) rotate(135deg);
-  }
-
-  &.cross-service-header__button--open::before {
-    transform: translateY(-25%) rotate(-45deg);
-  }
-}
+// Legacy cross-service-header styles removed - now handled by _service-header.scss
 
 // Allow header elements to stack at small sizes
 .one-login-header__container {
@@ -298,13 +790,9 @@ $defra-link-colour-hover: govuk-shade($defra-link-colour, 50%);
   }
 }
 
-// Hide empty <h2> without service header `params.pageName`
-@include govuk-media-query($until: tablet) {
-  .service-header__heading:empty {
-    display: none;
-    font-size: 19px;
-  }
-}
+// Legacy service-header styles removed - now handled by _service-header.scss
+
+// Legacy service-header styles removed - now handled by _service-header.scss
 
 // Customise tag to fit into header product name
 .app-tag--env {
@@ -1030,8 +1518,8 @@ $defra-link-colour-hover: govuk-shade($defra-link-colour, 50%);
 
 .gem-c-button-publishing--secondary-quiet {
   padding: 8px 10px;
-  border-color: #505a5f;
-  color: #505a5f;
+  border-color: #505a5f !important;
+  color: #505a5f !important;
   background-color: #fff;
   box-shadow: none;
 }
@@ -1245,11 +1733,11 @@ code.lang-md {
 }
 
 .govuk-visually-hidden:before {
-  content: " ";
+  content: " ";
 }
 
 .govuk-visually-hidden:after {
-  content: " ";
+  content: " ";
 }
 
 .visualisation .page__actions > :hover {
@@ -1384,10 +1872,10 @@ code.lang-md {
   }
 
   a:focus {
-    // color: $govuk-focus-text-colour;
-    background-color: $govuk-focus-colour;
-    // box-shadow: 0 -2px $govuk-focus-colour, 0 4px $govuk-focus-text-colour;
-    // border-color: $govuk-focus-text-colour;
+    color: #0b0c0c;
+    background-color: #ffdd00;
+    box-shadow: 0 -2px #ffdd00, 0 4px #0b0c0c;
+    border-color: #0b0c0c;
   }
 }
 
@@ -1799,7 +2287,7 @@ code.lang-md {
     }
 
     .app-prose-scope &:focus {
-      color: $govuk-focus-text-colour;
+      color: #0b0c0c;
     }
 
     // Extend the touch area of the <a> to fill the entire tab
@@ -1889,7 +2377,7 @@ code.lang-md {
     }
 
     .app-prose-scope &:focus {
-      color: $govuk-focus-text-colour;
+      color: #0b0c0c;
     }
   }
 }
@@ -2047,13 +2535,17 @@ code.lang-md {
 }
 
 .app-c-contents-list-with-body__link-container {
-  margin: 0 auto;
+  margin-left: 33.3333%;
+  margin-right: 0;
+  max-width: 66.6666%;
+  width: 100%;
   padding: 0;
 }
 
-@media (min-width: 40.0625em) {
+@media (max-width: 800px) {
   .app-c-contents-list-with-body__link-container {
-    max-width: 1024px;
+    margin-left: 0;
+    max-width: 100%;
   }
 }
 
@@ -2132,9 +2624,41 @@ code.lang-md {
   border-bottom: 10px solid #1f70b8;
 }
 
-.x-govuk-masthead {
-  background-color: #008531 !important;
-  /* Replace this with your desired color */
+// .x-govuk-masthead {
+//   background-color: #008531 !important;
+// }
+
+// Style the masthead description text
+// .x-govuk-masthead__description {
+//   color: #000000 !important; // Black text
+// }
+
+// Style the masthead title text
+// .x-govuk-masthead__title {
+//   color: #000000 !important; // Black text
+// }
+
+// Override the visited link color for govuk-link specifically
+.govuk-link:visited {
+  color: #1d70b8 !important; // GOV.UK default visited link color
+}
+
+// Base styling for inverse links to ensure they appear white
+.govuk-link--inverse {
+  color: white !important;
+}
+
+.govuk-link--inverse:hover {
+  color: #f3f2f1 !important; // Light grey on hover
+}
+
+.govuk-link--inverse:visited {
+  color: white !important; // Keep inverse links white even when visited
+}
+
+// Ensure inverse links in masthead don't get visited link styling
+.x-govuk-masthead .govuk-link--inverse:visited {
+  color: white !important; // Keep inverse links white even when visited
 }
 
 .highlight {
@@ -2434,4 +2958,790 @@ code.lang-md {
 }
 .dwp-side-navigation__link:focus {
   color: #0b0c0c;
+}
+
+.gem-c-big-number {
+  margin-bottom: 15px;
+  color: #0b0c0c;
+}
+
+.gem-c-big-number__value {
+  line-height: 1;
+  font-size: 5rem;
+  font-family: "GDS Transport", arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-weight: 700;
+}
+
+@media all {
+  .govuk-visually-hidden {
+    position: absolute !important;
+    width: 1px !important;
+    height: 1px !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    overflow: hidden !important;
+    clip: rect(0 0 0 0) !important;
+    -webkit-clip-path: inset(50%) !important;
+    clip-path: inset(50%) !important;
+    border: 0 !important;
+    white-space: nowrap !important;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+  }
+
+  .govuk-visually-hidden:before {
+    content: " ";
+  }
+
+  .govuk-visually-hidden:after {
+    content: " ";
+  }
+}
+
+.gem-c-big-number__label {
+  font-family: "GDS Transport", arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-weight: 700;
+  font-size: 1.1875rem;
+  line-height: 1.3157894737;
+}
+
+.gem-c-big-number__label:before {
+  content: "";
+  display: block;
+}
+
+@import "patterns/timeline";
+
+to
+  make
+  our
+  approach
+  easier
+  could
+  we
+  adapt
+  the
+  following
+  into
+  it
+  .app-prose-scope
+  img {
+  height: auto;
+  max-width: 100%;
+  width: auto;
+}
+.app-prose-scope figure {
+  margin-bottom: 20px;
+  margin-left: 0;
+  margin-right: 0;
+  width: 100%;
+}
+@media (min-width: 40.0625em) {
+  .app-prose-scope figure {
+    margin-bottom: 30px;
+  }
+}
+.app-prose-scope figure img {
+  display: block;
+  outline: 1px solid rgba(177, 180, 182, 0.5);
+}
+.app-prose-scope figure > .govuk-link img:hover {
+  outline-color: #003078;
+}
+.app-prose-scope figure > .govuk-link img:active {
+  outline-color: #0b0c0c;
+}
+:focus .app-prose-scope figure {
+  background-color: #ffdd00;
+}
+.app-prose-scope figcaption {
+  font-family: "GDS Transport", arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-weight: 400;
+  font-size: 1rem;
+  line-height: 1.25;
+  color: #505a5f;
+  margin-top: 5px;
+}
+@media print {
+  .app-prose-scope figcaption {
+    font-family: sans-serif;
+  }
+}
+@media (min-width: 40.0625em) {
+  .app-prose-scope figcaption {
+    font-size: 1.1875rem;
+    line-height: 1.3157894737;
+  }
+}
+@media print {
+  .app-prose-scope figcaption {
+    font-size: 14pt;
+    line-height: 1.15;
+  }
+}
+.govuk-frontend-supported .gem-c-contents-list-with-body__sticky-element {
+  position: absolute;
+  bottom: 0;
+}
+
+.govuk-frontend-supported
+  .gem-c-contents-list-with-body__sticky-element--stuck-to-window {
+  bottom: 0;
+  position: fixed;
+}
+
+.govuk-frontend-supported
+  .gem-c-contents-list-with-body__sticky-element--enabled {
+  transition: opacity, 0.3s, ease;
+  opacity: 1;
+}
+
+@media (max-width: 40.0525em) {
+  .govuk-frontend-supported
+    .gem-c-contents-list-with-body__sticky-element--enabled {
+    position: static;
+  }
+}
+
+.govuk-frontend-supported
+  .gem-c-contents-list-with-body__sticky-element--hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.gem-c-contents-list-with-body__link-container {
+  margin: 0 auto;
+  padding: 20px !important;
+}
+
+@media (min-width: 40.0625em) {
+  .gem-c-contents-list-with-body__link-container {
+    max-width: 1024px;
+  }
+}
+
+// .gem-c-contents-list-with-body__link-container .gem-c-back-to-top-link {
+//   margin-left: 33%;
+//   margin-right: 0;
+// }
+
+.gem-c-contents-list-with-body__list-container {
+  margin-bottom: 15px;
+  padding: 20px !important;
+}
+
+@media (min-width: 40.0625em) {
+  .gem-c-contents-list-with-body__list-container {
+    margin-bottom: 50px;
+  }
+}
+
+.gem-c-contents-list-with-body__link-wrapper {
+  padding-bottom: 10px;
+}
+
+.gem-c-contents-list-with-body__link-wrapper .gem-c-back-to-top-link {
+  padding-bottom: 10px;
+}
+
+.gem-c-contents-list-with-body__link-wrapper.gem-c-contents-list-with-body__sticky-element--stuck-to-window {
+  background-color: #f3f2f1;
+  bottom: -1px;
+  left: 0;
+  margin: 0;
+  padding: 0;
+  padding-left: 0;
+  position: fixed;
+  width: 100%;
+  z-index: 10;
+}
+
+@media (min-width: 40.0625em) {
+  .gem-c-contents-list-with-body__link-wrapper.gem-c-contents-list-with-body__sticky-element--stuck-to-window {
+    padding-left: 10px;
+  }
+}
+
+.gem-c-contents-list-with-body__link-wrapper.gem-c-contents-list-with-body__sticky-element--stuck-to-window
+  .gem-c-back-to-top-link {
+  margin-bottom: 0;
+  padding: 15px;
+  width: 66%;
+}
+
+@media (min-width: 40.0625em) {
+  .gem-c-contents-list-with-body__link-wrapper.gem-c-contents-list-with-body__sticky-element--stuck-to-window
+    .gem-c-back-to-top-link {
+    padding: 0px !important;
+  }
+}
+
+.app-contents-list--sticky {
+  position: sticky;
+  top: 0;
+  align-self: flex-start;
+  z-index: 2;
+}
+
+.govuk-grid-column-one-third-sticky {
+  min-height: 100vh;
+}
+
+// Contents list with alternative line style
+.app-contents-list {
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+}
+
+.app-contents-list__item {
+  margin: 0;
+  padding: 0;
+  margin-bottom: 0.5em;
+}
+
+.app-contents-list__link {
+  display: block;
+  padding: 0.5em 0;
+  text-decoration: none;
+  border-left: 4px solid transparent;
+  padding-left: 1em;
+  margin-left: -1em;
+  transition: border-color 0.2s ease;
+  color: #1d70b8;
+
+  &:link {
+    color: #1d70b8;
+  }
+
+  &:visited {
+    color: #1d70b8;
+  }
+
+  &:hover {
+    border-left-color: #1d70b8;
+    color: #003078;
+  }
+
+  &:focus {
+    color: #0b0c0c;
+    background-color: #ffdd00;
+    box-shadow: 0 -2px #ffdd00, 0 4px #0b0c0c;
+    outline: none;
+  }
+
+  &.active {
+    border-left-color: #1d70b8;
+    font-weight: bold;
+    color: #0b0c0c;
+  }
+}
+
+/* --- CONTENTS LIST (GOV.UK STYLE) --- */
+.gem-c-contents-list__list-item--numbered .gem-c-contents-list__link {
+  display: table;
+}
+.gem-c-contents-list__number,
+.gem-c-contents-list__numbered-text {
+  display: table-cell;
+}
+.gem-c-contents-list__number {
+  min-width: 1.5em;
+}
+.gem-c-contents-list__numbered-text {
+  padding-left: 0.3em;
+}
+.direction-rtl .gem-c-contents-list__numbered-text {
+  padding-left: 0;
+  padding-right: 0.3em;
+}
+.gem-c-contents-list {
+  position: relative;
+  z-index: 1;
+  background: #fff;
+  box-shadow: 0 20px 15px -10px #fff;
+}
+.gem-c-contents-list__title {
+  margin: 0;
+  color: #0b0c0c;
+  font-family: "GDS Transport", arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-weight: 400;
+  font-size: 1rem;
+  line-height: 1.5;
+}
+@media print {
+  .gem-c-contents-list__title {
+    color: #000;
+    font-family: sans-serif;
+    font-size: 14pt;
+    line-height: 1.5;
+  }
+}
+.gem-c-contents-list__list,
+.gem-c-contents-list__nested-list {
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+  color: #008531;
+  font-family: "GDS Transport", arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-weight: 400;
+  font-size: 1rem;
+  line-height: 1.25;
+}
+@media print {
+  .gem-c-contents-list__list,
+  .gem-c-contents-list__nested-list {
+    color: #000;
+    font-family: sans-serif;
+    font-size: 14pt;
+    line-height: 1.2;
+  }
+}
+.gem-c-contents-list__link:focus,
+.gem-c-contents-list__link:active:focus,
+.gem-c-contents-list__link:link:focus,
+.gem-c-contents-list__link:visited:focus {
+  outline: 3px solid rgba(0, 0, 0, 0);
+  color: #0b0c0c;
+  background-color: #fd0;
+  box-shadow: 0 -2px #fd0, 0 4px #0b0c0c;
+  text-decoration: none;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+  color: #0b0c0c !important;
+}
+.gem-c-contents-list__list-item--parent > .gem-c-contents-list__link {
+  font-weight: 700;
+  color: #008531;
+}
+.gem-c-contents-list__list-item {
+  padding-top: 10px;
+  line-height: 1.3;
+  list-style-type: none;
+  color: #008531 !important;
+}
+@media (min-width: 40.0625em) {
+  .gem-c-contents-list__list-item {
+    padding-top: 7.5px;
+  }
+}
+.gem-c-contents-list__list-item--dashed {
+  position: relative;
+  padding-left: 25px;
+  padding-right: 25px;
+}
+.gem-c-contents-list__list-item--dashed
+  .gem-c-contents-list__list-item-dash::before {
+  content: "—";
+  position: absolute;
+  color: #008531;
+  left: 0;
+  width: 20px;
+  overflow: hidden;
+}
+.direction-rtl
+  .gem-c-contents-list__list-item--dashed
+  .gem-c-contents-list__list-item-dash::before {
+  left: auto;
+  right: 0;
+}
+.lte-ie8 .gem-c-contents-list__list-item--dashed .gem-c-contents-list__link {
+  display: inline-block;
+  vertical-align: top;
+}
+.gem-c-contents-list--alternative-line-style .gem-c-contents-list__title {
+  margin-bottom: 15px;
+}
+.gem-c-contents-list--alternative-line-style .gem-c-contents-list__list-item {
+  padding: 10px 0;
+  margin: 0;
+}
+.gem-c-contents-list--alternative-line-style
+  .gem-c-contents-list__list-item-dash::before {
+  display: none;
+}
+.gem-c-contents-list--alternative-line-style
+  .gem-c-contents-list__list-item--active {
+  padding: 5px 10px;
+  margin: 5px 0;
+  border-left: 4px solid #008531;
+  color: #008531;
+  font-weight: 700;
+}
+
+.gem-c-contents-list__list-item--active > .gem-c-contents-list__link,
+.gem-c-contents-list__link.active {
+  color: #0b0c0c !important;
+}
+
+// Override GOV.UK link styles for contents list to ensure consistent colors
+.gem-c-contents-list .gem-c-contents-list__link.govuk-link {
+  color: #008531 !important;
+
+  &:hover {
+    color: #00692f !important; // Darker green on hover
+  }
+
+  &:visited {
+    color: #008531 !important;
+  }
+
+  &:focus {
+    color: #0b0c0c !important;
+    background-color: #ffdd00;
+    box-shadow: 0 -2px #ffdd00, 0 4px #0b0c0c;
+  }
+}
+
+.gem-c-contents-list__link.active-subitem {
+  color: #008531 !important; // Dark blue for active sub-items
+  font-weight: 700;
+  border-left-color: #003078;
+  background: #f3f2f1;
+}
+
+.gem-c-contents-list__link.active.active-subitem {
+  color: #008531 !important;
+  font-weight: 700;
+  border-left-color: #008531;
+  background: rgba(0, 133, 49, 0.2);
+}
+
+.gem-c-contents-list__list-item--active.gem-c-contents-list__list-item--dashed {
+  border-left-color: #008531 !important;
+  background-color: rgba(0, 133, 49, 0.2);
+  padding-left: 1em;
+  width: fit-content;
+}
+
+.gem-c-contents-list__nested-list--hidden {
+  display: none;
+}
+
+.gem-c-contents-list__list-item--active .gem-c-contents-list__nested-list {
+  display: block;
+}
+
+.app-form-container,
+.condition-item {
+  background: #f3f2f1;
+  padding: 20px;
+  margin-bottom: 15px;
+  position: relative;
+  border-left: 5px solid #008938;
+  outline: 1px solid #b1b4b6;
+}
+
+// App Vertical Navigation Styles - Based on MoJ Design System
+.app-layout__sidebar {
+  background-color: #fff;
+  padding-bottom: 20px;
+  z-index: 1;
+  position: sticky;
+  top: 0;
+  overflow-y: auto;
+  border-right: 1px solid #b1b4b6;
+  height: 100vh;
+}
+
+@media (min-width: 40.0625em) {
+  .app-layout__sidebar {
+    padding-bottom: 30px;
+  }
+}
+
+.app-vertical-nav {
+  margin-bottom: 20px;
+  padding-bottom: 20px;
+  position: relative;
+}
+
+@media (min-width: 40.0625em) {
+  .app-vertical-nav {
+    margin-bottom: 30px;
+    padding-bottom: 30px;
+  }
+}
+
+.app-vertical-nav:after {
+  background-color: #b1b4b6;
+  bottom: 0;
+  content: "";
+  height: 1px;
+  left: 20px;
+  position: absolute;
+  right: 20px;
+}
+
+.app-vertical-nav__header {
+  color: #505a5f;
+  font-family: GDS Transport, arial, sans-serif;
+  margin-bottom: 15px;
+  padding-left: 19px;
+  padding-right: 19px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-size: 1.125rem;
+  font-weight: 600;
+  line-height: 1.1111111111;
+}
+
+@media (min-width: 40.0625em) {
+  .app-vertical-nav__header {
+    font-size: 1.5rem;
+    line-height: 1.25;
+  }
+}
+
+.app-vertical-nav__list {
+  font-family: GDS Transport, arial, sans-serif;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.25;
+}
+
+@media (min-width: 40.0625em) {
+  .app-vertical-nav__list {
+    font-size: 1.1875rem;
+    line-height: 1.3157894737;
+  }
+}
+
+.app-vertical-nav__item {
+  position: relative;
+  margin-bottom: 2px;
+}
+
+.app-vertical-nav__toggle {
+  background-color: initial;
+  border: none;
+  border-left: 4px solid transparent;
+  color: #1d70b8;
+  display: block;
+  font-family: GDS Transport, arial, sans-serif;
+  padding: 12px 38px 10px 20px;
+  text-align: left;
+  text-decoration: none;
+  width: 100%;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.25;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+@media (min-width: 40.0625em) {
+  .app-vertical-nav__toggle {
+    font-size: 1.1875rem;
+    line-height: 1.3157894737;
+  }
+}
+
+.app-vertical-nav__toggle:hover {
+  background-color: #f3f2f1;
+  color: #1d70b8;
+}
+
+.app-vertical-nav__list .app-vertical-nav__list {
+  font-family: GDS Transport, arial, sans-serif;
+  padding-left: 15px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-size: 0.875rem;
+  font-weight: 400;
+  line-height: 1.1428571429;
+  margin-top: 5px;
+}
+
+@media (min-width: 40.0625em) {
+  .app-vertical-nav__list .app-vertical-nav__list {
+    font-size: 1rem;
+    line-height: 1.25;
+  }
+}
+
+.app-vertical-nav__link {
+  border-left: 4px solid transparent;
+  color: #1d70b8;
+  display: block;
+  padding: 12px 38px 10px 20px;
+  text-decoration: none;
+  transition: background-color 0.2s ease, border-left-color 0.2s ease;
+}
+
+.app-vertical-nav__link:hover {
+  background-color: #f3f2f1;
+  color: #1d70b8;
+  border-left-color: #1d70b8;
+}
+
+.app-vertical-nav__link:visited {
+  color: #1d70b8;
+}
+
+.app-vertical-nav__indicator {
+  align-items: center;
+  display: flex;
+  height: 24px;
+  justify-content: center;
+  position: absolute;
+  right: 15px;
+  top: 10px;
+  width: 24px;
+  transition: transform 0.2s ease;
+}
+
+@media (min-width: 40.0625em) {
+  .app-vertical-nav__indicator {
+    top: 12px;
+  }
+}
+
+.app-vertical-nav__item .app-vertical-nav__indicator {
+  transform: rotate(180deg);
+}
+
+.app-vertical-nav__item--open .app-vertical-nav__indicator {
+  transform: rotate(0deg);
+}
+
+.app-vertical-nav__item--active > .app-vertical-nav__link {
+  background-color: #1d70b8;
+  color: #fff;
+  border-left-color: #1d70b8;
+}
+
+.app-vertical-nav__item--active > .app-vertical-nav__link:hover {
+  background-color: #003078;
+  color: #fff;
+}
+
+.app-vertical-nav__link--active {
+  background-color: #1d70b8;
+  color: #fff;
+  border-left-color: #1d70b8;
+}
+
+.app-vertical-nav__link--active:hover {
+  background-color: #003078;
+  color: #fff;
+}
+
+/* ==========================================================================
+   #TOOLTIP STYLES
+   ========================================================================== */
+
+.tooltip {
+  position: relative;
+  display: inline-block;
+  border-bottom: 2px dotted #1d70b8;
+  cursor: help;
+}
+
+.tooltip .tooltiptext {
+  visibility: hidden;
+  width: 280px;
+  background-color: #fff;
+  color: #000;
+  text-align: left;
+  padding: 12px 16px;
+  border-radius: 0;
+  font-family: "GDS Transport", Arial, sans-serif;
+  font-size: 19px;
+  line-height: 1.5;
+  font-weight: 400;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  border: 2px solid #1d70b8;
+  position: absolute;
+  z-index: 1000;
+  bottom: 140%;
+  left: 50%;
+  margin-left: -140px;
+  opacity: 0;
+  // transition: opacity 0.2s ease-in-out;
+  max-width: 280px;
+  word-wrap: break-word;
+}
+
+.tooltip:hover .tooltiptext {
+  visibility: visible;
+  opacity: 1;
+}
+
+.tooltip .tooltiptext::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  margin-left: -8px; /* Increased from -6px to center the larger arrow */
+  border-width: 8px; /* Increased from 6px to make arrow bigger */
+  border-style: solid;
+  border-color: #1d70b8 transparent transparent transparent;
+}
+
+.tooltip:focus {
+  background-color: #ffdd00;
+  color: #0b0c0c;
+  border-bottom: 3px solid #0b0c0c;
+  outline: none;
+  box-shadow: none;
+}
+
+.tooltip:focus .tooltiptext {
+  visibility: visible;
+  opacity: 1;
+}
+
+.app-whats-new {
+  border-bottom: 1px solid $_govuk-rebrand-border-colour-on-blue-tint-95;
+  background-color: $_govuk-rebrand-template-background-colour;
+}
+
+// Progress tracker component removed in favour of GOV.UK step-by-step styles
+
+/* ==========================================================================
+   #PRODUCT SERVICE HEADER STYLES
+   ========================================================================== */
+
+// Legacy product service header styles removed - now handled by _service-header.scss
+
+.govuk-inset-text--cta {
+  border-left: 4px solid #00703c;
+  background-color: #f3f2f1;
+  padding: 1.5rem;
+  margin: 2rem 0;
+}
+
+.row-prototype-coordinate-input {
+  .govuk-form-group {
+    display: inline-block;
+    margin-bottom: 1rem;
+  }
+}
+
+.autocomplete__option {
+  &:hover,
+  &--focused {
+    span {
+      color: white;
+    }
+  }
 }

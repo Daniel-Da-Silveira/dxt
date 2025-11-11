@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Design History Template Guide</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            color: #0b0c0c;
+        }
+
+        h1 {
+            font-size: 48px;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #b1b4b6;
+        }
+
+        h2 {
+            font-size: 36px;
+            margin-top: 40px;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #b1b4b6;
+        }
+
+        h3 {
+            font-size: 24px;
+            margin-top: 30px;
+            margin-bottom: 15px;
+        }
+
+        h4 {
+            font-size: 19px;
+            margin-top: 25px;
+            margin-bottom: 10px;
+        }
+
+        p {
+            margin-bottom: 20px;
+        }
+
+        pre {
+            background-color: #f8f8f8;
+            padding: 15px;
+            border-radius: 4px;
+            overflow-x: auto;
+            margin: 20px 0;
+        }
+
+        code {
+            font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+            font-size: 14px;
+        }
+
+        .nav {
+            position: sticky;
+            top: 20px;
+            float: right;
+            width: 250px;
+            margin-left: 30px;
+            padding: 20px;
+            background-color: #f8f8f8;
+            border-radius: 4px;
+        }
+
+        .nav ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .nav li {
+            margin-bottom: 10px;
+        }
+
+        .nav a {
+            color: #1d70b8;
+            text-decoration: none;
+        }
+
+        .nav a:hover {
+            text-decoration: underline;
+        }
+
+        .content {
+            max-width: 800px;
+        }
+
+        .copy-button {
+            background-color: #00703c;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        .copy-button:hover {
+            background-color: #005a30;
+        }
+
+        .code-block {
+            position: relative;
+        }
+
+        .code-block pre {
+            margin-top: 0;
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="nav">
+        <h3>Contents</h3>
+        <ul>
+            <li><a href="#basic-structure">Basic Structure</a></li>
+            <li><a href="#research-history">Research History</a></li>
+            <li><a href="#research-summaries">Research Summaries</a></li>
+            <li><a href="#content-types">Content Types</a></li>
+            <li><a href="#example">Complete Example</a></li>
+            <li><a href="#tips">Tips</a></li>
+        </ul>
+    </nav>
+
+    <div class="content">
+        <h1>Design History Template Guide</h1>
+        <p>This guide explains how to use the design history template to document the evolution of your features.</p>
+
+        <h2 id="basic-structure">Basic Structure</h2>
+        <div class="code-block">
+            <pre><code>{% set featureName = "Name of your feature" %}
+{% set latestVersionLink = "/path/to/latest/version" %}
+{% set status = "Tested" %}
+{% set statusColor = "green" %}
+{% set userNeed = "What problem does this feature solve?" %}
+{% set phase = "Private beta" %}
+{% set category = "Form admin" %}</code></pre>
+            <button class="copy-button" onclick="copyCode(this)">Copy code</button>
+        </div>
+
+        <h2 id="research-history">Research History</h2>
+        <div class="code-block">
+            <pre><code>{% set researchHistory = [
+[
+{ text: "1" },
+{ text: "May 2024" },
+{ text: "What you learned from users" },
+{ text: "Changes you made" },
+{ html: "<a href='/path/to/prototype' target='_blank'>MVP 1</a>" }
+]
+] %}</code></pre>
+            <button class="copy-button" onclick="copyCode(this)">Copy code</button>
+        </div>
+
+        <h2 id="research-summaries">Research Summaries</h2>
+        <p>Create detailed summaries of each research round. Each summary can contain different types of content:</p>
+
+        <h3 id="content-types">Content Types</h3>
+
+        <h4>1. Basic Content</h4>
+        <div class="code-block">
+            <pre><code>{
+type: "content",
+content: "Your text here. You can use markdown for formatting."
+}</code></pre>
+            <button class="copy-button" onclick="copyCode(this)">Copy code</button>
+        </div>
+
+        <h4>2. Objectives</h4>
+        <div class="code-block">
+            <pre><code>{
+type: "objectives",
+content: [
+"First objective",
+"Second objective"
+]
+}</code></pre>
+            <button class="copy-button" onclick="copyCode(this)">Copy code</button>
+        </div>
+
+        <h4>3. Findings</h4>
+        <div class="code-block">
+            <pre><code>{
+type: "findings",
+content: [
+"First finding",
+"Second finding"
+]
+}</code></pre>
+            <button class="copy-button" onclick="copyCode(this)">Copy code</button>
+        </div>
+
+        <h4>4. Recommendations</h4>
+        <div class="code-block">
+            <pre><code>{
+type: "recommendations",
+content: [
+"First recommendation",
+"Second recommendation"
+]
+}</code></pre>
+            <button class="copy-button" onclick="copyCode(this)">Copy code</button>
+        </div>
+
+        <h4>5. Images</h4>
+        <div class="code-block">
+            <pre><code>{
+type: "images",
+content: {
+src: "/path/to/image.png",
+alt: "Description of the image",
+caption: "Caption for the image",
+width: "two-thirds",
+classes: "your-custom-classes"
+}
+}</code></pre>
+            <button class="copy-button" onclick="copyCode(this)">Copy code</button>
+        </div>
+
+        <h4>6. Preview</h4>
+        <div class="code-block">
+            <pre><code>{
+type: "preview",
+url: "https://example.com/prototype"
+}</code></pre>
+            <button class="copy-button" onclick="copyCode(this)">Copy code</button>
+        </div>
+
+        <h4>7. Details Section</h4>
+        <div class="code-block">
+            <pre><code>{
+type: "details",
+summary: "Click to expand",
+content: "Introduction text",
+items: [
+{
+type: "content",
+content: "Your text here"
+},
+{
+type: "images",
+content: {
+src: "/path/to/image.png",
+alt: "Image description",
+caption: "Image caption"
+}
+},
+{
+type: "preview",
+url: "https://example.com/prototype"
+}
+]
+}</code></pre>
+            <button class="copy-button" onclick="copyCode(this)">Copy code</button>
+        </div>
+
+        <h4>8. Quotes</h4>
+        <div class="code-block">
+            <pre><code>{
+type: "quotes",
+content: [
+"First participant quote",
+"Second participant quote"
+]
+}</code></pre>
+            <button class="copy-button" onclick="copyCode(this)">Copy code</button>
+        </div>
+
+        <h4>9. Audio</h4>
+        <div class="code-block">
+            <pre><code>{
+type: "audio",
+src: "/path/to/audio.mp4",
+caption: "Optional caption for the audio recording"
+}</code></pre>
+            <button class="copy-button" onclick="copyCode(this)">Copy code</button>
+        </div>
+
+        <h4>10. Screen</h4>
+        <div class="code-block">
+            <pre><code>{
+type: "screen",
+title: "Screen title",
+content: "Description of the screen",
+images: [
+{
+src: "/path/to/image.png",
+alt: "Screen description",
+caption: "Screen caption",
+width: "two-thirds"
+}
+],
+insights: [
+"First insight about the screen",
+"Second insight about the screen"
+],
+quotes: [
+"Participant quote about the screen"
+],
+changes: [
+{
+what: "What changed",
+why: "Why it changed"
+}
+],
+preview: {
+url: "https://example.com/prototype",
+caption: "Optional preview caption",
+showSectionBreak: true
+}
+}</code></pre>
+            <button class="copy-button" onclick="copyCode(this)">Copy code</button>
+        </div>
+
+        <h4>11. Insights</h4>
+        <div class="code-block">
+            <pre><code>{
+type: "insights",
+content: [
+"First insight",
+"Second insight"
+]
+}</code></pre>
+            <button class="copy-button" onclick="copyCode(this)">Copy code</button>
+        </div>
+
+        <h4>12. Changes</h4>
+        <div class="code-block">
+            <pre><code>{
+type: "changes",
+title: "Changes and rationale",
+screen: "Optional screen name",
+showImageColumn: true,
+content: [
+{
+screen: "Screen name",
+what: "What changed",
+why: "Why it changed",
+image: {
+src: "/path/to/image.png",
+alt: "Image description",
+caption: "Image caption"
+}
+}
+]
+}</code></pre>
+            <button class="copy-button" onclick="copyCode(this)">Copy code</button>
+        </div>
+
+        <h2 id="example">Complete Example</h2>
+        <div class="code-block">
+            <pre><code>{% set researchSummaries = [
+{
+title: "Round 1 - May 2024",
+summary: "Initial testing of form creation process",
+sections: [
+{
+type: "content",
+content: "### User research overview\n\nWe tested with 6 content designers from various teams."
+},
+{
+type: "objectives",
+content: [
+"Test basic form creation flow",
+"Evaluate field validation"
+]
+},
+{
+type: "details",
+summary: "View design evolution",
+content: "Here's how the design changed:",
+items: [
+{
+type: "content",
+content: "### Version 1\n\nInitial design with basic fields."
+},
+{
+type: "images",
+content: {
+src: "/images/v1.png",
+alt: "Version 1 design",
+caption: "Basic form fields"
+}
+},
+{
+type: "preview",
+url: "https://example.com/v1"
+}
+]
+},
+{
+type: "findings",
+content: [
+"Users needed clearer validation messages",
+"Form name field caused confusion"
+]
+}
+]
+}
+] %}</code></pre>
+            <button class="copy-button" onclick="copyCode(this)">Copy code</button>
+        </div>
+
+        <h2 id="tips">Tips</h2>
+        <ul>
+            <li>Use clear headings</li>
+            <li>Group related content together</li>
+            <li>Use details sections for long content</li>
+            <li>Include screenshots of each version</li>
+            <li>Add interactive previews when possible</li>
+            <li>Use images to show key changes</li>
+            <li>Write in plain English</li>
+            <li>Explain technical terms</li>
+            <li>Focus on user impact</li>
+            <li>Use the same structure for each research round</li>
+            <li>Follow the same format for similar content</li>
+            <li>Keep image sizes consistent</li>
+        </ul>
+    </div>
+
+    <script>
+        function copyCode(button) {
+            const pre = button.previousElementSibling;
+            const code = pre.textContent;
+            navigator.clipboard.writeText(code).then(() => {
+                const originalText = button.textContent;
+                button.textContent = 'Copied!';
+                setTimeout(() => {
+                    button.textContent = originalText;
+                }, 2000);
+            });
+        }
+    </script>
+</body>
+
+</html>

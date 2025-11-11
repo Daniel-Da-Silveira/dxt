@@ -1,0 +1,182 @@
+{% extends "layouts/main.html" %}
+{% from "components/service-header/macro.njk" import serviceHeader %}
+{% from "moj/components/timeline/macro.njk" import mojTimeline %}
+{% from "govuk/components/summary-list/macro.njk" import govukSummaryList %}
+
+{% block header %}
+{{ serviceHeader({
+organisationName: "Defra",
+productName: "Form Designer",
+serviceName: "Apply for an individual licence to release gamebirds on or near a European Site ",
+accountName: "Chris Smith",
+homepageLink: "/",
+signOutLink: "/titan-mvp-1.2/onboarding/sign-out-confirmation",
+navigationItems: [
+{
+href: "/titan-mvp-1.2/library",
+text: "Forms library",
+id: "nav-library"
+},
+{
+href: "/titan-mvp-1.2/form-overview/{{ form.id }}",
+text: "Overview",
+id: "nav-overview",
+active: true
+},
+{
+    href: "/titan-mvp-1.2/form-overview/poc",
+    text: "Submissions",
+    id: "nav-submissions"
+},
+{
+href: "/titan-mvp-1.2/form-editor/listing",
+text: "Editor",
+id: "nav-editor"
+}
+],
+activeLinkId: "nav-submissions"
+}) }}
+
+{{ xGovukMasthead({
+    title: {
+    text: "Form submissions"
+    },
+    breadcrumbs: {
+    items: [
+    {
+        text: "Forms library",
+        href: "/titan-mvp-1.2/library"
+        },
+    {
+    text: "Forms overview",
+    href: "/titan-mvp-1.2/form-overview/{{ form.id }}"
+    },
+    {
+    text: "Form submissions"
+    }
+    ]
+    }
+    }) }}
+{% endblock %}
+
+{% block pageTitle %}
+{{ pageName }}
+{% endblock %}
+
+{% block content %}
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+        {% if showSuccessMessage %}
+        {% set html %}
+          <h3 class="govuk-notification-banner__heading">
+            We have emailed a link to your shared mailbox
+          </h3>
+          <p class="govuk-body">This might take a couple of minutes.</p>
+        {% endset %}
+
+        {{ govukNotificationBanner({
+          html: html,
+          type: "success"
+        }) }}
+        {% endif %}
+
+        {% if showFeedbackSuccessMessage %}
+        {% set feedbackHtml %}
+          <h3 class="govuk-notification-banner__heading">
+            We have emailed a link to your shared mailbox
+          </h3>
+          <p class="govuk-body">This might take a couple of minutes.</p>
+        {% endset %}
+
+        {{ govukNotificationBanner({
+          html: feedbackHtml,
+          type: "success"
+        }) }}
+        {% endif %}
+
+        <!-- Submissions section -->
+        <div class="govuk-!-margin-bottom-6">
+            {{ govukSummaryList({
+            card: {
+                title: {
+                    text: "Form submissions"
+                },
+                actions: {
+                    items: [
+                      {
+                        href: "/titan-mvp-1.2/form-overview/submissions/improved/download",
+                        text: "Download submissions",
+                        visuallyHiddenText: "form submissions data"
+                    }
+                    ]
+                  }
+                },
+            rows: [
+                {
+                    key: {
+                        text: "Description"
+                    },
+                    value: {
+                        text: "Download all form submissions as a CSV file for data analysis and record keeping."
+                    }
+                },
+                {
+                    key: {
+                        text: "Data retention"
+                    },
+                    value: {
+                        text: "Data expires 9 months after submission"
+                    }
+
+                }
+            ]
+            }) }}
+        </div>
+
+        <!-- Feedback section -->
+        <div class="govuk-!-margin-bottom-6">
+            {{ govukSummaryList({
+            card: {
+                title: {
+                    text: "User feedback"
+                },
+                actions: {
+                    items: [
+                      {
+                        href: "/titan-mvp-1.2/form-overview/submissions/improved/download-feedback",
+                        text: "Download feedback",
+                        visuallyHiddenText: "user feedback data"
+                      }
+                    ]
+                  }
+                },
+            rows: [
+                {
+                    key: {
+                        text: "Description"
+                    },
+                    value: {
+                        text: "Export user feedback and satisfaction data as an Excel spreadsheet for service improvement analysis."
+                    }
+                },
+                {
+                    key: {
+                        text: "Data retention"
+                    },
+                    value: {
+                        text: "Feedback expires 3 months after submission"
+                    }
+
+                }
+            ]
+            }) }}
+        </div>
+
+        <!-- Information panel -->
+
+    </div>
+
+
+</div>
+
+{% endblock %}

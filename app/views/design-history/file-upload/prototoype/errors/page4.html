@@ -1,0 +1,108 @@
+{% extends "layouts/main.html" %}
+
+{% block pageTitle %}
+  Upload files –
+  {{ serviceName }}
+  – GOV.UK Prototype Kit
+{% endblock %}
+
+{% block beforeContent %}
+  {{ govukBackLink({
+    text: "Back",
+    href: "javascript:window.history.back()"
+  }) }}
+{% endblock %}
+
+{% block content %}
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      {% from "govuk/components/button/macro.njk" import govukButton %}
+      {% from "govuk/components/file-upload/macro.njk" import govukFileUpload %}
+      {% from "govuk/components/summary-list/macro.njk" import govukSummaryList %}
+
+      <div class="govuk-form-group govuk-!-margin-bottom-2">
+        <h1 class="govuk-heading-l" for="file-upload-1">Upload your methodology statement</h1>
+
+        <div id="file-upload-1-hint" class="govuk-hint">
+          Upload 5 files in PDF, JPEG or Excel. You can upload original or scanned copies. The maximum file size for each file is 100MB.
+        </div>
+
+        <input type="file" style="display: none;" class="govuk-file-upload" data-module="govuk-file-upload" id="file-upload-1" name="file-upload-1">
+        <label for="file-upload-1" class="govuk-button govuk-button--secondary" tabindex="0">
+          Upload another proof of address
+        </label>
+
+        {# <input class="govuk-file-upload govuk-button govuk-button--secondary" id="file-upload-1" name="file-upload-1" type="file" aria-describedby="file-upload-1-hint"> #}
+      </div>
+
+      <form action="/form-handler" method="post" novalidate="novalidate">
+        <h2 class="govuk-heading-m">Uploaded files</h2>
+        <p class="govuk-body" aria-live="polite">1 of 2 files uploaded</p>
+
+        <p class="govuk-body govuk-!-display-none" id="refreshPageProgress">
+          <a href="#" class="govuk-link">Refresh page to update file upload progress</a>
+        </p>
+
+        <div class="govuk-summary-list">
+          <!-- First Row -->
+          <div class="govuk-summary-list__row">
+            <div class="govuk-summary-list__key govuk-!-width-full govuk-!-font-weight-bold;">
+              <a href="#" class="govuk-link">file_name-goes-here.file_name-goes-here-over-as-many-lines-as-needed.jpg</a>
+            </div>
+            <div class="govuk-summary-list__value govuk-!-width-one-third">
+              10MB
+            </div>
+            <div class="govuk-summary-list__value govuk-!-width-one-third">
+              <strong class="govuk-tag govuk-tag--yellow">
+                Uploading
+              </strong>
+            </div>
+            <div class="govuk-summary-list__actions">
+              <a href="#" class="govuk-link govuk-!-width-one-quarter">Remove</a>
+              <span class="govuk-visually-hidden">file_name-goes-here.file_name-goes-here-over-as-many-lines-as-needed.jpg</span>
+            </div>
+          </div>
+
+          <!-- Second Row (Copied from First Row) -->
+          <div class="govuk-summary-list__row ">
+
+            <div class="govuk-summary-list__key  govuk-!-font-weight-bold ;">
+              <div class="govuk-form-group govuk-form-group--error ">
+
+                <a href="#" class="govuk-link govuk-!-font-weight-bold " for="virus-error">file_name-goes-here.file_name-goes-here-over-as-many-lines-as-needed.jpg</a>
+                <p id="virus-error-error" class="govuk-error-message govuk-!-padding-top-2">
+                  <span class="govuk-visually-hidden  aria-describedby='virus-error-error'">Error:</span>
+                  The selected file contains a virus
+                </p>
+                <input class="govuk-file-upload govuk-file-upload--error" id="empty-error" name="empty-error" type="file" aria-describedby="empty-error-error">
+
+              </div>
+            </div>
+
+            {# <div class="govuk-summary-list__value govuk-!-width-one-third">
+              10MB
+            </div>
+            <div class="govuk-summary-list__value govuk-!-width-one-third">
+              <strong class="govuk-tag govuk-tag--green">
+                Uploaded
+              </strong>
+            </div> #}
+            <div class="govuk-summary-list__actions">
+              <a href="#" class="govuk-link">Remove</a>
+              <span class="govuk-visually-hidden">file_name-goes-here.file_name-goes-here-over-as-many-lines-as-needed.jpg</span>
+            </div>
+          </div>
+        </div>
+
+        {{ govukButton({
+        text: "Continue"
+      }) }}
+      </form>
+
+      <p class="govuk-body">
+        <a href="/file-upload/yes-js/page5.html" class="govuk-link govuk-link--no-visited-state">Demo the page once the file has uploaded</a>
+      </p>
+    </div>
+
+  </div>
+{% endblock %}

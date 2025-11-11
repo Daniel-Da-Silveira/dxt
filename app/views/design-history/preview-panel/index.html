@@ -1,0 +1,154 @@
+{% extends "design-history/template.html" %}
+
+{# --- Feature metadata --- #}
+{% set featureName = "Preview panel" %}
+{% set latestVersionLink = "/titan-mvp-1.2/form-editor/question-type/radios-nf/edit" %}
+{% set status = "Tested" %}
+{% set statusColor = "green" %}
+{% set userNeed = "Users need to see how their form will appear to the public so they can check content and layout in
+real time while editing." %}
+{% set phase = "Private beta" %}
+{% set category = "Form creation" %}
+{% set description = "The preview panel allows users to see what their form will look like to members of the public
+while building it. It updates in real time and supports list-based question types such as radio buttons, checkboxes, and
+repeatable question sets. You can <a href='/design-system/editor/preview-panel'
+    class='govuk-link govuk-link--no-visited-state'>view the design system preview panel</a> to see the current
+implementation." %}
+
+{# --- Journey steps --- #}
+{% set journeySteps = [
+{
+number: "1",
+title: "Onboarding",
+subtitles: [ { text: "Sign in/out", isCurrent: false } ]
+},
+{
+number: "2",
+title: "Create new form",
+subtitles: [ { text: "Add form details", isCurrent: false } ]
+},
+{
+number: "3",
+title: "Form design",
+subtitles: [ { text: "Create and edit questions", isCurrent: true } ]
+},
+{
+number: "4",
+title: "Testing",
+subtitles: [ { text: "Preview form", isCurrent: true } ]
+}
+] %}
+
+{# --- Research rounds for the summary table --- #}
+{% set researchRounds = [
+"Round 13 – April 2025",
+"Round 7 – July 2024",
+"Round 6 – June 2024"
+] %}
+
+{# --- Key improvements in the latest version --- #}
+{% set improvements = [
+"Live preview panel shows question formatting in real time",
+"Supports repeatable questions (repeater)",
+"Improved clarity between edit and preview areas",
+"Updated guidance for using repeaters and list options"
+] %}
+
+{# --- Research history table --- #}
+{% set researchHistory = [
+{
+roundNumber: "13",
+researchDate: "April 2025",
+researchFinding: "Users relied on the preview to validate grouped layouts and field presentation.",
+changeMade: "Confirmed usefulness of preview for checking section layout and flow."
+},
+{
+roundNumber: "7",
+researchDate: "July 2024",
+researchFinding: "Preview helped explain how repeaters would appear, though the concept and labels remained unclear.",
+changeMade: "Improved repeater labels and guidance."
+},
+{
+roundNumber: "6",
+researchDate: "June 2024",
+researchFinding: "Preview was seen as helpful by all participants for visualising the user-facing form.",
+changeMade: "Confirmed core value of preview panel for form validation."
+}
+] %}
+
+{# --- Detailed research summaries --- #}
+{% set researchSummaries = [
+{
+title: "Round 13 – April 2025",
+summary: "Testing grouped layouts and repeatable sections using the preview panel.",
+sections: [
+{
+type: "content",
+content: "**Research conducted:** Usability testing\n\n**Participants:** Content designers from BAU and GOV.UK Forms
+teams\n\n**Tasks included:**\n- Building forms with grouped and conditional fields\n- Using preview to check page
+structure and flow"
+},
+{
+type: "findings",
+content: [
+"Users checked preview to validate how grouped pages appeared.",
+"Preview supported visual confirmation of layout and guidance text."
+]
+}
+]
+},
+{
+title: "Round 7 – July 2024",
+summary: "Testing repeater and preview functionality.",
+sections: [
+{
+type: "content",
+content: "**Participants:** 4 content designers (APHA, Farming, GOV.UK Forms) and 1 admin officer (RPA)\n\n**Tasks
+included:**\n- Creating repeatable question sets\n- Reviewing how preview displays repeated fields"
+},
+{
+type: "findings",
+content: [
+"Preview helped clarify how repeatable question sets would look to users.",
+"Repeater instructions and terminology were confusing to some participants."
+]
+},
+{
+type: "quotes",
+content: [
+"“The preview helped!”",
+"“The word question pops up... 1, 2, 3, 4, 5 times in that whole thing, which I think is just blowing my mind.”"
+]
+}
+]
+},
+{
+title: "Round 6 – June 2024",
+summary: "Initial testing of the preview panel feature.",
+sections: [
+{
+type: "content",
+content: "**Participants:** 7 content designers across policy teams\n\n**Tasks included:**\n- Creating new forms\n-
+Editing labels and help text\n- Viewing updates via the preview panel"
+},
+{
+type: "quotes",
+content: [
+"“The preview thing is quite handy because you can sort of see how it would actually look for the users.”",
+"“Inside it's the edit screen and on the right-hand side it's like the rendered screen. That's really helpful.”"
+]
+}
+]
+},
+{
+title: "Preview Panel Demo",
+summary: "Interactive preview of the current preview panel functionality.",
+sections: [
+{
+type: "preview",
+url: "/design-system/editor/preview-panel",
+previewLabel: "Preview"
+}
+]
+}
+] %}

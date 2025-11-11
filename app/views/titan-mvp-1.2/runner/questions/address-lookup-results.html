@@ -1,0 +1,152 @@
+{% extends "layouts/runner.html" %}
+
+{% block pageTitle %}
+  Select an address - GOV.UK Prototype Kit
+{% endblock %}
+
+{% block beforeContent %}
+{{ govukBackLink({
+  text: "Back",
+  href: "/address-lookup-postcode?returnUrl=" + (data.returnUrl or '/do-you-want-your-unicorn-breeder-certificate-sent-to-this-address')
+}) }}
+{% endblock %}
+
+{% block content %}
+
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+
+      {% if error %}
+        {{ govukErrorSummary({
+          titleText: "There is a problem",
+          errorList: [
+            {
+              text: "Select an address",
+              href: "#select-address"
+            } if error.addressError else ""
+          ]
+        }) }}
+      {% endif %}
+
+      {% if not data.addressResults or data.addressResults.length == 0 %}
+        {# Show no results case #}
+        <h1 class="govuk-heading-l">No address found</h1>
+
+        <p class="govuk-body">We could not find an address that matches <strong>{{ data.addressPostcode }}</strong>{% if data.buildingNameNumber %} and <strong>{{ data.buildingNameNumber }}</strong>{% endif %}. You can search again or enter the address manually.</p>
+
+        <div class="govuk-button-group">
+          <a href="/address-lookup-postcode?returnUrl={{ data.returnUrl or '/do-you-want-your-unicorn-breeder-certificate-sent-to-this-address' }}" class="govuk-button govuk-!-margin-right-1">Search again</a>
+          <p class="govuk-body govuk-!-margin-bottom-0">or <a href="/address-lookup-manual?returnUrl={{ data.returnUrl or '/do-you-want-your-unicorn-breeder-certificate-sent-to-this-address' }}" class="govuk-link">enter address manually</a></p>
+        </div>
+
+        {% else %}
+          <form method="post" autocomplete="off">
+            <h1 class="govuk-heading-l">Where should we send your certificate?</h1>
+
+            {% if data.addressResults.length == 1 %}
+              {# Show single address result #}
+              <p class="govuk-body">{{ data.addressResults.length }} address found for
+                <span class="govuk-body govuk-!-font-weight-bold">{{ data.addressPostcode }}</span>{% if data.buildingNameNumber %} and <span class="govuk-body govuk-!-font-weight-bold">{{ data.buildingNameNumber }}<span class="govuk-body govuk-!-font-weight-regular">.</span></span>{% else %}.{% endif %}
+                <a href="/address-lookup-postcode?returnUrl={{ data.returnUrl or '/do-you-want-your-unicorn-breeder-certificate-sent-to-this-address' }}" class="govuk-link">Search again</a>
+              </p>
+
+              <div class="govuk-inset-text">
+                {{ data.addressResults[0].text }}
+              </div>
+
+            {% else %}
+          {# Show multiple address results #}
+          <p class="govuk-body">{{ data.addressResults.length }} addresses found for
+            <strong>{{ data.addressPostcode }}</strong>{% if data.buildingNameNumber %} and <strong>{{ data.buildingNameNumber }}</strong>{% endif %}.
+            <a href="/address-lookup-postcode?returnUrl={{ data.returnUrl or '/do-you-want-your-unicorn-breeder-certificate-sent-to-this-address' }}" class="govuk-link">Search again</a>
+          </p>
+
+          {% set addressItems = [] %}
+
+          {% set addressItems = (addressItems.push(
+            {
+              value: "",
+              text: "Select an address"
+            }
+          ), addressItems) %}
+
+          {% for result in data.addressResults %}
+            {% set addressItems = (addressItems.push(result), addressItems) %}
+          {% endfor %}
+
+          {{ govukSelect({
+            id: "select-address",
+            name: "selectAddress",
+            label: {
+              text: "Select an address"
+            },
+            items: addressItems,
+            errorMessage: { text: "Select an address" } if error.addressError else ""
+          }) }}
+
+
+        {% endif %}
+
+            <div class="govuk-button-group">
+              {{ govukButton({
+                text: "Use this address",
+                name: "action",
+                value: "use-address",
+                classes: "govuk-!-margin-right-1"
+              }) }}
+              <p class="govuk-body govuk-!-margin-bottom-0">or <a href="#" id="manual-entry-link" class="govuk-link">enter address manually</a></p>
+            </div>
+
+            <input type="hidden" name="returnUrl" value="{{ data.returnUrl }}">
+            <input type="hidden" name="addressPostcode" value="{{ data.addressPostcode }}">
+            <input type="hidden" name="buildingNameNumber" value="{{ data.buildingNameNumber }}">
+          </form>
+        {% endif %}
+    </div>
+  </div>
+
+  {% if data.addressResults and data.addressResults.length > 0 %}
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const selectAddress = document.getElementById('select-address');
+      const manualEntryLink = document.getElementById('manual-entry-link');
+      const manualEntryLinkSingle = document.getElementById('manual-entry-link-single');
+      const returnUrl = '{{ data.returnUrl or "/do-you-want-your-unicorn-breeder-certificate-sent-to-this-address" }}';
+
+      function updateManualEntryLink(linkElement, selectedAddress) {
+        if (linkElement) {
+          if (selectedAddress) {
+            const encodedAddress = encodeURIComponent(selectedAddress);
+            linkElement.href = '/address-lookup-manual?returnUrl=' + encodeURIComponent(returnUrl) + '&selectedAddress=' + encodedAddress;
+          } else {
+            linkElement.href = '/address-lookup-manual?returnUrl=' + encodeURIComponent(returnUrl);
+          }
+        }
+      }
+
+      if (manualEntryLink) {
+        if (selectAddress) {
+          // Update the manual entry link when address is selected from dropdown
+          selectAddress.addEventListener('change', function() {
+            updateManualEntryLink(manualEntryLink, this.value);
+          });
+
+          // Set initial href based on current selection
+          updateManualEntryLink(manualEntryLink, selectAddress.value);
+        } else {
+          // No dropdown (single result case) - check if there's a selected address in the data
+          const selectedAddress = '{{ data.selectedAddress }}';
+          updateManualEntryLink(manualEntryLink, selectedAddress);
+        }
+      }
+
+      if (manualEntryLinkSingle) {
+        // For single address case, use the address text as the selected address
+        const addressText = '{{ data.addressResults[0].text if data.addressResults and data.addressResults.length == 1 else "" }}';
+        updateManualEntryLink(manualEntryLinkSingle, addressText);
+      }
+    });
+  </script>
+  {% endif %}
+
+{% endblock %}

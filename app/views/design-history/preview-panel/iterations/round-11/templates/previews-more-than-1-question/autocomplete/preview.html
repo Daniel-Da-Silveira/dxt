@@ -1,0 +1,67 @@
+
+<div id="radio-list">
+<fieldset class="govuk-fieldset">
+<legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
+<h1 class="govuk-fieldset__heading" id="question-label-legend-q1">
+  {{ data['multiQuestionLabelInputAutocomplete'] or '' }}
+
+</h1>
+</legend>
+
+<fieldset class="govuk-fieldset" aria-describedby="multi-question-listPreview-hint">
+  <div id="multi-question-listPreview-hint" class="govuk-hint">
+    {{ data['multiQuestionHintTextInputAutocomplete'] or '' }}
+
+  </div>  <!-- autocomplete preview -->
+
+<script src="https://unpkg.com/accessible-autocomplete@2.0.4/dist/accessible-autocomplete.min.js"></script>
+
+<!-- autocomplete preview -->
+
+<div class="govuk-form-group">
+  <label id="autocomplete-label" class="govuk-label" for="autocomplete-input">
+    Start typing to select an option
+  </label>
+  <div id="autocomplete-container"></div>
+</div>
+
+<!-- autocomplete preview -->
+
+<script>
+// Initialise or reinitialise the autocomplete
+function initialiseAutocomplete(options) {
+ // Clear the container before reinitializing
+ const container = document.querySelector("#autocomplete-container");
+ container.innerHTML = "";
+
+ // Dummy options list
+ const dummyOptions = [
+ 'France',
+ 'Germany',
+ 'United Kingdom'
+ ];
+
+ // Initialise the accessible autocomplete with the given options
+ accessibleAutocomplete({
+ element: container,
+ id: "autocomplete-input", // To match it to the label
+ source: dummyOptions
+ });
+}
+
+// Ensure that the function runs after the content is loaded
+document.addEventListener("DOMContentLoaded", function() {
+ initialiseAutocomplete();
+});
+</script>
+
+</fieldset>
+</div>
+</fieldset>
+
+<style>
+  .border-left-container-radios {
+    border-left: 10px solid #ffb266;
+    padding-left: 20px;
+  }
+</style>

@@ -1,0 +1,32 @@
+{% extends "layouts/runner.html" %}
+
+{% block pageTitle %}
+You cannot resume your form – {{ serviceName }} – GOV.UK
+{% endblock %}
+
+{% block content %}
+
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+
+        <h1 class="govuk-heading-l">
+            You cannot resume your form
+        </h1>
+
+        <p class="govuk-body">
+            Because you have been inactive for 24 hours you will need to start the form again.
+        </p>
+
+        <p class="govuk-body">
+            Your information has been securely deleted.
+        </p>
+
+        {{ govukButton({
+        text: "Start form again",
+        href: "/question-1"
+        }) }}
+
+    </div>
+</div>
+
+{% endblock %}

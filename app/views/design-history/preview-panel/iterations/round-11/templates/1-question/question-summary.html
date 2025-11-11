@@ -1,0 +1,63 @@
+{% extends "layouts/main.html" %}
+
+{% block content %}
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <h1 class="govuk-heading-l">Question Summary</h1>
+
+    {% for page in data.formPages %}
+    <h2 class="govuk-heading-m">Page {{ loop.index }}</h2>
+
+    {% for question in page.questions %}
+    {% if question.type === "list" and question.subType === "radios" %}
+    <div class="govuk-summary-card">
+      <div class="govuk-summary-card__title-wrapper">
+        <h3 class="govuk-summary-card__title">{{ question.label }}</h3>
+      </div>
+
+      <div class="govuk-summary-card__content">
+        {% if question.options and question.options.length > 0 %}
+        <dl class="govuk-summary-list">
+          {% for option in question.options %}
+          <div class="govuk-summary-list__row">
+            <dt class="govuk-summary-list__key">
+              Option {{ loop.index }}
+            </dt>
+            <dd class="govuk-summary-list__value">
+              {{ option.label }}
+              {% if option.hint %}
+              <br>
+              <span class="govuk-hint">{{ option.hint }}</span>
+              {% endif %}
+            </dd>
+          </div>
+          {% endfor %}
+        </dl>
+        {% else %}
+        <p class="govuk-body">No options added yet.</p>
+        {% endif %}
+
+        <p class="govuk-body">
+          <a href="/redesigntest/templates/1-question/radios-nf/edit?questionId={{ question.questionId }}"
+            class="govuk-link">
+            Edit radio options
+          </a>
+        </p>
+      </div>
+    </div>
+    {% endif %}
+    {% endfor %}
+    {% endfor %}
+
+    {% if not data.formPages or data.formPages.length === 0 %}
+    <p class="govuk-body">No questions have been created yet.</p>
+    {% endif %}
+
+    <p class="govuk-body">
+      <a href="/redesigntest/listing.html" class="govuk-link">
+        Back to form builder
+      </a>
+    </p>
+  </div>
+</div>
+{% endblock %}

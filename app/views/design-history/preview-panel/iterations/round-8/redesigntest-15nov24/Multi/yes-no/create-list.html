@@ -1,0 +1,911 @@
+{% extends "layouts/main.html" %}
+{% from "components/service-header/macro.njk" import serviceHeader %}
+{% set pageName = "Edit page 1 - Apply for a county parish holding number in England" %}
+{% set headingPlaceholder = "Page heading" %}
+{% set guidancePlaceholder = "" %}
+{#  #}
+{% block header %}
+  {{ serviceHeader({
+    organisationName: "Defra",
+    productName: "Forms Designer",
+    serviceName: "",
+    containerClasses: containerClasses,
+    accountName: "Chris Smith",
+    homepageLink: "/",
+    signOutLink: "/onboarding/sign-out-confirmation",
+    navigationItems: [
+      { href: "/library.html", text: "Forms library", id: "nav-library" },
+      { href: "/cph-overview/draft/complete-clean.html", text: "Overview", id: "nav-overview" },
+      { href: "/redesigntest/listing", text: "Editor", id: "nav-editor" }    ],
+    activeLinkId: "nav-editor"
+  }) }}
+
+<div class="x-govuk-masthead x-govuk-masthead--large">
+  <div class="govuk-width-container">
+    {{ govukBackLink({ classes: "govuk-back-link--inverse", text: "Back to add
+    and edit pages", href: "/september/listing/2.html" }) }}
+
+    <hr
+      class="govuk-section-break govuk-section-break--m govuk-section-break--visible"
+      style="border-bottom: 1px solid white; margin-bottom: 0"
+    />
+
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-two-thirds-from-desktop">
+        <h1 class="x-govuk-masthead__title">
+          <span class="govuk-caption-l" style="color: white"
+            >Apply for a county parish holding certificate</span
+          >
+
+          Edit page 2
+        </h1>
+
+
+
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %} {% block content %}
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-full">
+    <div class="govuk-grid-row">
+      <!-- Left Column for Form Controls -->
+      <div
+        class="govuk-grid-column-one-half-from-desktop"
+        id="container"
+        style="flex: 1 1 75%; overflow-y: auto"
+      >
+        <div class="govuk-summary-card govuk-!-margin-top-0" style="border-left: 10px solid #008938">
+          <div
+            class="govuk-summary-card__content govuk-!-padding-top-0"
+            style="background-color: #f3f2f1"
+          >
+
+            <dl class="govuk-summary-list">
+              <div class="govuk-summary-list__row">
+                <dd class="govuk-summary-list__value">
+                  <!-- Dynamic Summary List -->
+
+                   <!-- Question Settings Container -->
+                   <div class="govuk-grid-row" id="page-settings-container-1">
+                    <div id="question-1">
+                      <div
+                        class="govuk-summary-card__content"
+                        style="margin-bottom: 0"
+                      >
+                        <!-- Sub Navigation for Question -->
+                        <nav
+                          class="moj-sub-navigation govuk-!-padding-top-0 govuk-!-margin-bottom-2 "
+                          aria-label="Sub navigation"
+                        >
+                          <ul class="moj-sub-navigation__list" id="nav-list2">
+                            <!-- Question Link -->
+                            <li class="moj-sub-navigation__item">
+                              <a
+                                class="moj-sub-navigation__link"
+                                href="#question-1"
+                                >Page settings</a
+                              >
+                            </li>
+
+                            <li class="moj-sub-navigation__item">
+                              <a
+                                class="moj-sub-navigation__link"
+                                href="#overview-noquestions"
+                                >Overview of questions</a
+                              >
+                            </li>
+
+                            <li class="moj-sub-navigation__item">
+                              <a
+                                class="moj-sub-navigation__link"
+                                aria-current="page"
+                                href="#question-1-information-type"
+                                >Question 1</a
+                              >
+                            </li>
+
+                          </ul>
+                        </nav>
+
+                        <div
+                          class="govuk-summary-card__title-wrapper govuk-!-padding-top-0"
+                        ></div>
+
+
+                        <span class="govuk-caption-l">Page 1</span>
+                        <h2 class="govuk-heading-l">Question 1</h2>
+
+                        <form method="post" id="options-form" action="/redesigntest/Multi/overview/1-question">
+
+                        {% from "govuk/components/input/macro.njk" import govukInput %}
+
+                        {{ govukInput({
+                          label: {
+                            text: "Question",
+                            classes: "govuk-label--m",
+                            isPageHeading: false
+                          },
+                          id: "question-label-input-q1",
+                          value: date["question-label-input-q1"],
+                          name: "questionLabelInputQ1"
+                        }) }}
+
+
+
+                        {{ govukTextarea({
+                          label: {
+                            text: "Hint text (optional)",
+                            classes: "govuk-label--m"
+                          },
+                          id: "hint-text-inputq1",
+                          name: "hintTextInputq1",
+                          value: data['hint-text-input'],
+                          classes: "govuk-textarea",
+                          rows: 3,
+                          describedBy: "hint-text-input-q1"
+                        }) }}
+
+
+<!-- Make optional -->
+
+{{ govukCheckboxes({
+  name: "makeOptional",
+  classes: "govuk-checkboxes--small",
+  fieldset: {
+    legend: {
+      text: "Manage how the question is displayed",
+      isPageHeading: true,
+      classes: "govuk-fieldset__legend--m"
+    }
+
+  },
+  items: [
+    {
+      value: data["optional-label-q1"],
+      id: "makeOptional",
+       name: "makeOptional",
+      text: "Make this question optional"
+    }
+  ]
+}) }}
+
+{{ govukInput({
+  label: {
+    text: "Short description",
+    classes: "govuk-label--m",
+    isPageHeading: false
+  },
+  hint: {
+    text: "Enter a short description for this question like 'licence period'. Short descriptions are used in error messages and on the check your answers page."
+  },
+  id: "error-message-input",
+  value: data['error-message-input'],
+  name: "errorMessageInput"
+}) }}
+
+
+<div id="summary-container">
+
+  <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
+
+  <!-- The dynamic summary list will be populated here -->
+  <h2 class="govuk-heading-m">Question settings</h2>
+
+  {{ govukSummaryList({
+    classes: "govuk-summary-list govuk-section-break govuk-section-break--visible govuk-!-margin-bottom-6  ",
+    rows: [
+      {
+        key: {
+          text: "Type of information"
+        },
+        value: {
+          html: data ['radios']
+        },
+        actions: {
+          items: [
+            {
+              href: "#",
+              text: "Change",
+              visuallyHiddenText: "name"
+            }
+          ]
+        }
+      }
+    ]
+  }) }}
+</div>
+<div class="moj-button-action">
+  {{ govukButton({
+    text: 'Continue',
+    type: 'submit'
+  }) }}
+</div>
+
+
+    </form>
+
+</div></div></div></div></div></div></div>
+
+      <!-- Right Column for Additional Content -->
+      <div class="govuk-grid-column-one-half-from-desktop"
+        id="second-container"
+        style="
+          outline: solid 1px #008938;
+          height: 100%;
+          position: sticky;
+          top: 0;
+          padding: 20px;
+          box-shadow: 5px 10px #008938;
+        "
+      >
+        <!-- New HTML content for before element -->
+        <div id="before-content">
+          <p class="govuk-body-s" style="margin-bottom: 0">
+            <a
+              href="#"
+              class="govuk-link govuk-link--no-visited-state"
+              rel="noreferrer noopener"
+              target="_blank"
+              >Preview this page in a new tab</a
+            >
+          </p>
+        </div>
+
+        <!-- Additional Content Here -->
+        <div class="additional-content">
+
+          <div>
+            <!-- Tag for Preview -->
+            {{ govukTag({ text: "Preview of page 2", classes: "govuk-tag--yellow
+            govuk-!-margin-bottom-2 govuk-!-margin-top-8" }) }}
+            <!-- Form for Preview -->
+                 <!-- Dynamic Heading -->
+
+
+
+                <div id="heading-container">
+                  <span id="dynamic-caption" class="govuk-caption-l"></span>
+                  <h1 class="govuk-heading-l" id="dynamic-heading"></h1>
+                </div>
+
+              <!-- Guidance Paragraph -->
+              <p class="govuk-body" id="guidance-paragraph"></p>
+
+
+<!-- Dynamic Heading -->
+
+<div id="heading-container">
+  <span id="dynamic-caption" class="govuk-caption-l">{{ (data['setName'] or '') + ' 1' }}</span>
+
+
+  <h1 class="govuk-heading-l" id="dynamic-heading">{{ data['pageHeading'] or '' }}</h1>
+
+</div>
+
+<!-- Guidance Paragraph -->
+<p class="govuk-body" id="guidance-paragraph">{{ data['guidanceText'] or '' }}</p>
+<div class="govuk-form-group">
+  <fieldset class="govuk-fieldset" aria-describedby="generic-question-hint">
+    <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
+      <h1 class="govuk-fieldset__heading" id="question-label-legend-q1">
+        Question
+      </h1>
+    </legend>
+    <div id="generic-question-hint" class="govuk-hint" style="display:none;">
+
+    </div>
+    <div class="govuk-radios govuk-radios--inline" data-module="govuk-radios">
+      <div class="govuk-radios__item">
+        <input class="govuk-radios__input" id="yes-option" name="generic-question" type="radio" value="yes">
+        <label class="govuk-label govuk-radios__label" for="yes-option">
+          Yes
+        </label>
+      </div>
+      <div class="govuk-radios__item">
+        <input class="govuk-radios__input" id="no-option" name="generic-question" type="radio" value="no">
+        <label class="govuk-label govuk-radios__label" for="no-option">
+          No
+        </label>
+      </div>
+    </div>
+  </fieldset>
+</div>
+
+
+
+            {{ govukButton({ text: "Continue", classes: "govuk-button
+            govuk-!-margin-top-3", id: "once-button", disabled: true }) }} {{
+            govukButton({ text: "Add another [question set name]", classes:
+            "govuk-button govuk-!-margin-top-3", id: "add-another-set-button",
+            disabled: true, attributes: { style: "display:none;" } }) }}
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <script>
+      document.addEventListener('DOMContentLoaded', function () {
+        let optionIndex = 1; // Start at 1 for dynamically added options, 0 is already present
+
+        // Get the input field by its ID
+        const inputField = document.getElementById('question-label-input-q1');
+
+        // Ensure the input field exists before adding event listener
+        if (!inputField) {
+          console.error('Input field not found.');
+          return;
+        }
+
+        // Get the radio legend element
+        const radioLegend = document.querySelector('#radio-list fieldset legend');
+
+        if (!radioLegend) {
+          console.error('Radio legend not found.');
+          return;
+        }
+
+        // Add event listener to the input field to update the legend text
+        inputField.addEventListener('input', function(event) {
+          radioLegend.textContent = event.target.value || 'Question 1'; // Fallback to a default if input is empty
+        });
+
+        // Function to update the legend with the number
+        const updateLegend = (index, element) => {
+          element.innerHTML = `Option ${index + 1}`; // Append just the number
+        };
+
+
+        // Add event listener to update labels when checkbox is toggled
+        if (domElements.optionalCheckbox) {
+          domElements.optionalCheckbox.addEventListener('change', () => {
+            updateLabels(); // Update label text and highlight state
+          });
+        } else {
+          console.error("Optional checkbox element not found");
+        }
+
+        // Apply focus/blur highlighting for the question input and its corresponding output
+        applyQuestionHighlightOnFocus();
+
+        // Initialize the label with or without optional suffix and highlight on page load
+        updateLabels();
+      });
+
+
+    </script>
+
+
+    <script>
+      document.addEventListener('DOMContentLoaded', function () {
+        // Consolidated DOM elements
+        const domElements = {
+          // Error message elements
+          errorMessageInput: document.getElementById('error-message-input'),
+          errorMessagePreview: document.getElementById('error-message-preview'), // Hidden "Error:" span
+          errorDynamicText: document.getElementById('error-dynamic-text'), // Span to update dynamically
+
+          optionalCheckbox: document.getElementById('makeOptional') // Checkbox for optional toggle
+        };
+
+
+        // --- Error Message Functionality ---
+
+        // Function to update the error message preview based on input
+        function updateErrorMessage() {
+          const errorMessageText = domElements.errorMessageInput.value.trim();
+
+          // Update the dynamic error message text
+          domElements.errorDynamicText.textContent = errorMessageText || "Select an option"; // Default message
+
+          // Highlight or unhighlight the preview based on input presence
+          if (errorMessageText) {
+            domElements.errorMessagePreview.classList.add('highlight');
+          } else {
+            domElements.errorMessagePreview.classList.remove('highlight');
+          }
+        }
+
+        // Function to apply focus/blur highlights for error message input and preview
+        function applyErrorHighlightOnFocus() {
+          const inputElement = domElements.errorMessageInput;
+          const targetElement = domElements.errorMessagePreview;
+
+          if (inputElement && targetElement) {
+            // Apply highlight when the input gains focus
+            inputElement.addEventListener('focus', () => {
+              targetElement.classList.add('highlight');
+            });
+
+            // Remove highlight when the input loses focus
+            inputElement.addEventListener('blur', () => {
+              // Only remove the highlight if the input field is empty
+              if (!inputElement.value.trim()) {
+                targetElement.classList.remove('highlight');
+              }
+            });
+
+            // If the input is already focused (e.g., auto-focused), apply the highlight immediately
+            if (document.activeElement === inputElement) {
+              targetElement.classList.add('highlight');
+            }
+          } else {
+            console.error(`Input or target element not found: error-message-input, error-message-preview`);
+          }
+        }
+
+        // Add event listener to update the error message when user types
+        if (domElements.errorMessageInput) {
+          domElements.errorMessageInput.addEventListener('input', updateErrorMessage);
+        } else {
+          console.error("Error message input element not found");
+        }
+
+        // Apply focus/blur highlighting for the error message input and its corresponding preview
+        applyErrorHighlightOnFocus();
+
+        // --- Question Label Functionality ---
+
+        // Function to update labels and highlight based on checkbox state
+        function updateLabels() {
+          const isChecked = domElements.optionalCheckbox.checked;
+          const suffix = isChecked ? ' (optional)' : '';
+
+          // Remove existing ' (optional)' suffix before adding it again to prevent duplicates
+          const removeSuffix = (text) => text.replace(/\s*\(optional\)$/, '');
+
+          // Update input and legend text with the optional suffix
+          domElements.questionLabelInput.value = removeSuffix(domElements.questionLabelInput.value) + suffix;
+          domElements.questionLegend.textContent = removeSuffix(domElements.questionLegend.textContent) + suffix;
+
+          // Toggle highlight based on checkbox state
+          if (isChecked) {
+            domElements.questionLegend.classList.add('highlight');
+          } else {
+            domElements.questionLegend.classList.remove('highlight'); // Remove highlight when unchecked
+          }
+        }
+
+        // Function to apply focus/blur highlights for question label input and output
+        function applyQuestionHighlightOnFocus() {
+          const inputElement = domElements.questionLabelInput;
+          const targetElement = domElements.questionLegend;
+
+          if (inputElement && targetElement) {
+            inputElement.addEventListener('focus', () => {
+              // Only add the highlight if the checkbox is checked
+              if (domElements.optionalCheckbox.checked) {
+                targetElement.classList.add('highlight');
+              }
+            });
+
+            inputElement.addEventListener('blur', () => {
+              targetElement.classList.remove('highlight'); // Always remove the highlight on blur
+            });
+
+            // If the input is already focused and checkbox is checked, apply the highlight immediately
+            if (document.activeElement === inputElement && domElements.optionalCheckbox.checked) {
+              targetElement.classList.add('highlight');
+            }
+          } else {
+            console.error(`Input or target element not found: question-label-input-q1, question-label-output`);
+          }
+        }
+
+        // Add event listener to update labels when checkbox is toggled
+        if (domElements.optionalCheckbox) {
+          domElements.optionalCheckbox.addEventListener('change', () => {
+            updateLabels(); // Update label text and highlight state
+          });
+        } else {
+          console.error("Optional checkbox element not found");
+        }
+
+        // Apply focus/blur highlighting for the question input and its corresponding output
+        applyQuestionHighlightOnFocus();
+
+        // Initialize the label with or without optional suffix and highlight on page load
+        updateLabels();
+      });
+      </script>
+
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  const domElements = {
+    questionInput: document.getElementById('question-label-input-q1'),
+    dynamicHeading: document.getElementById('question-label-output'),
+    hintTextInput: document.getElementById('hint-text-inputq1'), // Textarea input element
+    listPreviewHint: document.getElementById('listPreview-hint') // Correct target element for the hint
+  };
+
+
+  // Initialize the event listeners
+  initializeEventListeners();
+
+  function initializeEventListeners() {
+    const inputListeners = [
+      { element: domElements.questionInput, event: "input", handler: updateHeading },
+      { element: domElements.hintTextInput, event: "input", handler: updateHint }
+    ];
+
+    inputListeners.forEach(bindListener);
+
+     // Apply focus/blur highlighting for the textarea and its target hint
+
+
+    // Apply focus/blur highlighting for the question input and its output heading
+    applyHighlightOnFocus('question-label-input-q1', 'question-label-legend-q1');
+
+    // Apply focus/blur highlighting for the textarea and its target hint
+    applyHighlightOnFocus('hint-text-inputq1', 'listPreview-hint');
+
+    // Initialize the heading and hint text on page load
+    updateHeading();
+    updateHint();
+  }
+
+  function bindListener({ element, event, handler }) {
+    if (element) {
+      element.addEventListener(event, handler);
+    } else {
+      console.error(`Element not found for event listener: ${event}`);
+    }
+  }
+
+  function updateHeading() {
+    const defaultHeading = "Question 1";
+    setTextContent(domElements.dynamicHeading, domElements.questionInput.value.trim(), defaultHeading);
+  }
+
+  function updateHint() {
+    const defaultHint = ""; // You can set a default hint text if needed
+    setTextContent(domElements.listPreviewHint, domElements.hintTextInput.value.trim(), defaultHint);
+  }
+
+  function setTextContent(element, value, defaultValue) {
+    if (element) {
+      element.textContent = value || defaultValue; // Use default if no value
+    } else {
+      console.error(`Element not found: ${element}`);
+    }
+  }
+
+  // Function to apply focus/blur highlights dynamically to inputs and their corresponding targets
+  function applyHighlightOnFocus(inputElementId, targetElementId) {
+    const inputElement = document.getElementById(inputElementId);
+    const targetElement = document.getElementById(targetElementId);
+
+    if (inputElement && targetElement) {
+      inputElement.addEventListener('focus', () => targetElement.classList.add('highlight'));
+      inputElement.addEventListener('blur', () => targetElement.classList.remove('highlight'));
+
+      // If the input is already focused, apply the highlight immediately
+      if (document.activeElement === inputElement) {
+        targetElement.classList.add('highlight');
+      }
+    } else {
+      console.error(`Input or target element not found: ${inputElementId}, ${targetElementId}`);
+    }
+  }
+});
+
+
+</script>
+
+
+
+    <script>
+
+      document.addEventListener('DOMContentLoaded', function () {
+        let optionIndex = 1; // Start at 1 for dynamically added options, 0 is already present
+
+
+
+
+
+        // Helper to bind event listeners
+        function bindListener(element, event, handler) {
+          if (element) {
+            console.log(`Binding ${event} to element with ID: ${element.id}`);
+            element.addEventListener(event, handler);
+          }
+        }
+
+        // Function to update the legend with the number
+        const updateLegend = (index, element) => {
+          element.innerHTML = `Option ${index + 1}`; // Append just the number
+        };
+
+        // Apply focus/blur highlights dynamically to inputs and radio labels
+        function applyHighlightOnFocus(inputElementId, radioElementId) {
+          const inputElement = document.getElementById(inputElementId);
+          const radioLabel = document.querySelector(`label[for="${radioElementId}"]`);
+
+          if (inputElement && radioLabel) {
+            console.log(`Applying focus/blur to input: ${inputElementId}, radioLabel: ${radioElementId}`);
+
+            // Immediately highlight on focus
+            bindListener(inputElement, 'focus', () => {
+              console.log(`Focus on input: ${inputElementId}`);
+              radioLabel.classList.add('highlight');
+            });
+
+            // Remove highlight on blur
+            bindListener(inputElement, 'blur', () => {
+              console.log(`Blur on input: ${inputElementId}`);
+              radioLabel.classList.remove('highlight');
+            });
+
+            // If the input is already in focus (for safety)
+            if (document.activeElement === inputElement) {
+              radioLabel.classList.add('highlight');
+            }
+          } else {
+            console.log(`Could not find input or radio label for ${inputElementId}, ${radioElementId}`);
+          }
+        }
+
+        // Update the radio label when the input changes
+        const updateRadioLabel = (index, value) => {
+          const radioLabel = document.querySelector(`label[for="listPreview-option${index}"]`);
+          if (radioLabel) {
+            console.log(`Updating radio label for listPreview-option${index}`);
+            radioLabel.textContent = value ? value : `Option ${index + 1}`;
+          }
+        };
+
+        // Add a new radio option in the list preview
+        // const addRadioOption = (index) => {
+        //   const radioList = document.getElementById('radio-list');
+        //   const newRadioHTML = `
+        //     <div class="govuk-radios__item">
+        //       <input class="govuk-radios__input" id="listPreview-option${index}" name="listPreview" type="radio" value="option${index}">
+        //       <label class="govuk-label govuk-radios__label" for="listPreview-option${index}" value="data['Option ${index + 1}']">Option ${index + 1}</label>
+        //     </div>
+
+        //   `;
+        //   radioList.insertAdjacentHTML('beforeend', newRadioHTML);
+        // };
+
+        // Handle dynamic input addition and apply listeners
+        const handleNewInput = (input, index, legend) => {
+          console.log(`Handling new input for index: ${index}`);
+
+          bindListener(input, 'input', function () {
+            updateRadioLabel(index, this.value);
+          });
+
+          // Apply focus and blur highlighting using generated IDs
+          applyHighlightOnFocus(input.id, `listPreview-option${index}`);
+
+          // Update the legend with the number
+          updateLegend(index, legend);
+        };
+
+        // Set up the MutationObserver to monitor new options being added
+        const observer = new MutationObserver(function (mutations) {
+          mutations.forEach(function (mutation) {
+            mutation.addedNodes.forEach(function (node) {
+              if (node.nodeType === 1 && node.classList.contains('moj-add-another__item')) {
+                const input = node.querySelector('input');
+                const label = node.querySelector('label');
+                const legend = node.querySelector('legend');
+
+                if (input && label && legend) {
+                  console.log(`New input detected for index: ${optionIndex}`);
+
+                  // Assign unique IDs to newly added input and label
+                  input.id = `option[${optionIndex}][option_label]`;
+                  input.name = `option[${optionIndex}][option_label]`;
+                  label.setAttribute('for', `option[${optionIndex}][option_label]`);
+
+                  // Add corresponding radio button in the preview
+                  addRadioOption(optionIndex);
+
+                  // Handle new input event, focus/blur highlights, and update legend
+                  handleNewInput(input, optionIndex, legend);
+
+                  optionIndex++; // Increment index for the next added option
+                }
+              }
+            });
+          });
+        });
+
+        // Start observing the options container for added fields
+        const optionsContainer = document.querySelector('#options-form');
+        if (optionsContainer) {
+          observer.observe(optionsContainer, { childList: true, subtree: true });
+        }
+
+        // Delay to ensure DOM is fully rendered before handling the first input
+        setTimeout(() => {
+          const firstInput = document.getElementById('option[0][option_label]');
+          const firstLegend = document.querySelector('legend');
+          if (firstInput && firstLegend) {
+            console.log("Handling first input (option[0]) manually after delay");
+            handleNewInput(firstInput, 0, firstLegend); // Ensure first input behaves the same
+          } else {
+            console.log("First input (option[0][option_label]) or legend not found!");
+          }
+
+          // Add an initial radio option for the first field (option[0])
+          addRadioOption(0);
+        }, 100); // Delay by 100ms to ensure DOM readiness
+
+      });
+
+    </script>
+
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  let optionIndex = 1;
+
+  // Function to apply focus/blur highlights to inputs and their corresponding labels
+  function applyHighlightOnFocus(inputElementId, radioElementId) {
+    const inputElement = document.getElementById(inputElementId);
+    const radioLabel = document.querySelector(`label.govuk-radios__label[for="${radioElementId}"]`);
+
+    if (inputElement && radioLabel) {
+      // Add highlight on focus
+      inputElement.addEventListener('focus', function() {
+        radioLabel.classList.add('highlight');
+      });
+
+      // Remove highlight on blur
+      inputElement.addEventListener('blur', function() {
+        radioLabel.classList.remove('highlight');
+      });
+
+      // Apply highlight immediately if input is already focused
+      if (document.activeElement === inputElement) {
+        radioLabel.classList.add('highlight');
+      }
+    } else {
+      console.error(`Input element or correct radio label not found for IDs: ${inputElementId}, ${radioElementId}`);
+    }
+  }
+
+  // Add initial focus/blur behavior for the first option
+  applyHighlightOnFocus('option[0][option_label]', 'listPreview-option0');
+
+  // Set up the MutationObserver to handle dynamically added options
+  const observer = new MutationObserver(function (mutations) {
+    mutations.forEach(function (mutation) {
+      mutation.addedNodes.forEach(function (node) {
+        if (node.nodeType === 1 && node.classList.contains('moj-add-another__item')) {
+          const input = node.querySelector('input');
+          const label = node.querySelector('label.govuk-radios__label'); // Ensure we only select the correct radio label
+
+          if (input && label) {
+            // Assign unique IDs to the newly added input and label
+            input.id = `option[${optionIndex}][option_label]`;
+            input.name = `option[${optionIndex}][option_label]`;
+            label.setAttribute('for', `listPreview-option${optionIndex}`);
+
+            // Apply focus/blur highlighting for the newly added input
+            applyHighlightOnFocus(input.id, `listPreview-option${optionIndex}`);
+
+            optionIndex++; // Increment option index for the next added option
+          }
+        }
+      });
+    });
+  });
+
+  // Observe the options container for dynamically added options
+  const optionsContainer = document.querySelector('#options-form');
+  if (optionsContainer) {
+    observer.observe(optionsContainer, { childList: true, subtree: true });
+  }
+
+  // Apply highlighting to the first input on page load
+  setTimeout(() => {
+    const firstInput = document.getElementById('option[0][option_label]');
+    const firstLabel = document.querySelector('label.govuk-radios__label[for="listPreview-option0"]');
+
+    if (firstInput && firstLabel) {
+      applyHighlightOnFocus(firstInput.id, 'listPreview-option0');
+    }
+  }, 100);
+});
+
+
+</script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  // Get the input field
+  const inputElement = document.getElementById('question-label-input-q1');
+  console.log('Input Element:', inputElement);  // Check if input element is found
+
+
+
+  // Get the legend field
+  const legendElement = document.getElementById('question-label-legend-q1');
+  console.log('Legend Element:', legendElement);  // Check if legend element is found
+
+  // Ensure both elements exist
+  if (!inputElement || !legendElement) {
+    console.error('Input or legend element not found.');
+    return;
+  }
+
+  // Add focus and blur listeners
+  inputElement.addEventListener('focus', function () {
+    console.log('Input focused');
+    legendElement.classList.add('highlight');  // Add highlight class
+  });
+
+  inputElement.addEventListener('blur', function () {
+    console.log('Input blurred');
+    legendElement.classList.remove('highlight');  // Remove highlight class
+  });
+
+  // If input is already focused (for safety in some cases)
+  if (document.activeElement === inputElement) {
+    legendElement.classList.add('highlight');
+  }
+});
+
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <style>
+
+      .highlight {
+        background-color: #ffe5cc;
+        border-bottom: 2px solid #ffb266;
+      }
+
+      #before-content {
+        position: absolute;
+        top: 0;
+        left: 10 !important;
+        right: 0;
+        /* Ensure the right side is aligned with the container edge */
+        width: 100%;
+        padding: 10px !important;
+
+        /* Remove padding to avoid affecting the width */
+        box-sizing: border-box;
+        /* Ensure content, padding, and borders are within width */
+        z-index: 1;
+        border-bottom: 1px solid #008938;
+        padding-left: 10px;
+        /* Add padding-left specifically for content */
+      }
+
+      #second-container {
+        padding: 0;
+        /* Ensure no padding on the container itself */
+        box-sizing: border-box;
+        /* Ensure container handles padding/border correctly */
+      }
+
+      #second-container > * {
+        padding-left: 0px;
+        z-index: 2;
+        /* Ensure content is above the #before-content */
+      }
+    </style>
+
+    {% endblock %}
+  </div>
+</div>r

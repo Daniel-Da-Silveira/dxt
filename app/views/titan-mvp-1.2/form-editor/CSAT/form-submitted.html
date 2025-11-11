@@ -1,0 +1,27 @@
+{% extends "layouts/main.html" %}
+
+{% block pageTitle %}
+  Feedback submitted – {{ serviceName }} – GOV.UK Prototype Kit
+{% endblock %}
+
+{% block content %}
+
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+
+      {{ govukPanel({
+        titleText: "Feedback submitted"
+      }) }}
+
+      <p>
+        Thank you for you for leaving feedback.
+      </p>
+
+      <p>
+You can close this screen now.      </p>
+
+
+    </div>
+  </div>
+
+{% endblock %}

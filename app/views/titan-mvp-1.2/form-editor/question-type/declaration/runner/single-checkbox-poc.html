@@ -1,0 +1,106 @@
+{% extends "layouts/main.html" %}
+
+{% from "govuk/components/checkboxes/macro.njk" import govukCheckboxes %}
+
+{% set pageTitle = "Single Checkbox Proof of Concept" %}
+{% set examples = [
+{
+id: "simple",
+name: "simple-checkbox",
+label: "I agree to the terms and conditions",
+heading: "",
+hint: "",
+isPageHeading: null,
+description: "Single checkbox WITHOUT fieldset/legend (no heading supplied)"
+},
+{
+id: "declaration",
+name: "declaration",
+label: "I declare that the information I have provided is true and accurate to the best of my knowledge",
+heading: "Declaration",
+hint: "Please confirm that the information you have provided is accurate",
+isPageHeading: true,
+description: "Single checkbox WITH fieldset/legend (isPageHeading: true)"
+},
+{
+id: "consent",
+name: "consent",
+label: "I consent to my data being processed for this application",
+heading: "Data consent",
+hint: "We need your consent to process your data",
+isPageHeading: false,
+description: "Single checkbox WITH fieldset/legend (isPageHeading: false)"
+}
+] %}
+
+{% block pageTitle %}
+{{ pageTitle }} – {{ serviceName }} – GOV.UK Prototype Kit
+{% endblock %}
+
+{% block beforeContent %}
+{{ govukBackLink({
+text: "Back",
+href: "javascript:window.history.back()"
+}) }}
+{% endblock %}
+
+{% block content %}
+
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+
+        <h1 class="govuk-heading-l">{{ pageTitle }}</h1>
+
+        <form class="form" action="/path/of/next/page" method="post">
+
+            {% for example in examples %}
+            <!-- {{ example.description }} -->
+            {% if example.isPageHeading is not null %}
+            {# When isPageHeading is set (true or false), include fieldset with legend #}
+            {{ govukCheckboxes({
+            name: example.name,
+            fieldset: {
+            legend: {
+            text: example.heading,
+            isPageHeading: example.isPageHeading,
+            classes: "govuk-fieldset__legend--l"
+            }
+            },
+            hint: {
+            text: example.hint
+            },
+            items: [
+            {
+            value: "confirmed",
+            text: example.label
+            }
+            ]
+            }) }}
+            {% else %}
+            {# When isPageHeading is null, no fieldset/legend is included #}
+            {{ govukCheckboxes({
+            name: example.name,
+            items: [
+            {
+            value: "confirmed",
+            text: example.label
+            }
+            ]
+            }) }}
+            {% endif %}
+
+            {% if not loop.last %}
+            <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+            {% endif %}
+            {% endfor %}
+
+            {{ govukButton({
+            text: "Continue"
+            }) }}
+
+        </form>
+
+    </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,879 @@
+{% extends "layouts/main.html" %}
+
+{% from "components/service-header/macro.njk" import serviceHeader %}
+
+{% set pageName = "Form library" %}
+
+{% block header %}
+{{ serviceHeader({
+organisationName: "Defra",
+productName: "Forms designer",
+serviceName: "",
+accountName: "Chris Smith",
+homepageLink: "/",
+signOutLink: "/form-designer-v2/onboarding/sign-out-confirmation",
+navigationItems: [{
+href: "/",
+text: "Form library",
+id: "form-library"
+}],
+activeLinkId: "form-library"
+}) }}
+{% endblock %}
+
+{% block beforeContent %}
+<!-- {% from "govuk/components/phase-banner/macro.njk" import govukPhaseBanner %}
+
+{{ govukPhaseBanner({
+  tag: {
+    text: "Beta"
+  },
+  html: 'This is a new service – your <a class="govuk-link" href="#">feedback</a> will help us to improve it.'
+}) }} -->
+<!-- <div class="login-nav login-border">
+  <ul class="login-nav__list">
+    <li class="login-nav__list-item-new">Steven Thomas</li>
+    <li class="login-nav__list-item-new"><a href="/form-designer-V2/admin-2.html"
+        class="govuk-link govuk-link app-c-topic-list__link brand__color--no-visited-state profile">Admin</a></li>
+    <li class="login-nav__list-item-new"><a href="account?returnURL=dashboard-submitted"
+        class="govuk-link login-nav__link-new govuk-link--no-visited-state profile">Manage account</a></li>
+    <li class="login-nav__list-item-new"><a href="#"
+        class="govuk-link login-nav__link-new govuk-link--no-visited-state">Sign out</a></li>
+  </ul>
+</div> -->
+
+{% endblock %}
+
+{% block content %}
+
+{% from "govuk/components/tabs/macro.njk" import govukTabs %}
+{% from "govuk/components/table/macro.njk" import govukTable %}
+
+
+<div class="govuk-grid-row">
+
+
+
+    <div class="govuk-grid-column-full">
+        <h1 class="govuk-heading-xl">Form library</h1>
+        {% from "govuk/components/button/macro.njk" import govukButton %}
+
+        {{ govukButton({
+        text: "Create new form",
+        href: "/form-designer-v2/forms/new-form/form-name"
+        }) }}
+
+        <!-- <a class="govuk-button govuk-button--secondary" href="/form-designer-v2/admin/user-management/steven-thomas/add-user-page-1.html">Add a new
+      user</a> -->
+
+
+    </div>
+
+</div>
+
+<hr class="govuk-section-break govuk-section-break--xl govuk-section-break--visible">
+
+
+{% from "govuk/components/summary-list/macro.njk" import govukSummaryList %}
+
+
+<div class="govuk-grid-row">
+
+    <div id="search-filters" aria-describedby="search-filters-heading"
+        class="app-search__filters govuk-grid-column-one-third-from-desktop">
+        <h2 id="search-filters-heading" class="govuk-heading-l govuk-!-padding-top-2 govuk-!-margin-bottom-4">
+            Search
+        </h2>
+
+        <div class="govuk-form-group">
+            <label class="govuk-label" for="search-field-title-search">
+                Form name
+            </label>
+            <input class="govuk-input" id="search-field-title-search" name="titleSearch" type="text">
+        </div>
+
+
+        <div id="search-buttons--header" class="govuk-button-group govuk-!-margin-bottom-4">
+            <button type="submit" class="govuk-button" data-module="govuk-button">
+                Apply filters
+            </button>
+
+            <a href="/roles#search-filters" role="button" draggable="false" class="govuk-button govuk-button--secondary"
+                data-module="govuk-button">
+                Clear filters
+            </a>
+        </div>
+
+
+        <h3 class="govuk-heading-m govuk-!-margin-top-8 govuk-!-margin-bottom-1">
+            Advanced search
+        </h3>
+        <p class="govuk-body">
+            Apply additional filters
+        </p>
+
+
+        <div class="govuk-accordion" data-module="govuk-accordion" id="search-filters-advanced">
+
+
+            <div class="govuk-accordion__section">
+                <div class="govuk-accordion__section-header">
+                    <h4 class="govuk-accordion__section-heading">
+
+                        <button type="button" aria-controls="search-filters-advanced-content-1"
+                            class="govuk-accordion__section-button" aria-expanded="false"
+                            aria-label="Location , Show this section"><span
+                                class="govuk-accordion__section-heading-text"
+                                id="search-filters-advanced-heading-1"><span
+                                    class="govuk-accordion__section-heading-text-focus">
+                                    Organisation
+                                    <span class="govuk-visually-hidden gem-c-step-nav__section-heading-divider">,
+                                    </span></span><span
+                                    class="gem-c-step-nav__toggle-link js-toggle-link govuk-!-display-none-print"><span
+                                        class="gem-c-step-nav__toggle-link-focus"><span
+                                            class="gem-c-step-nav__chevron js-toggle-link-icon gem-c-step-nav__chevron--down"></span>
+
+                </div>
+                <div id="search-filters-advanced-content-1" class="govuk-accordion__section-content"
+                    hidden="until-found">
+                    <div class="govuk-form-group">
+                        <fieldset class="govuk-fieldset">
+                            <legend class="govuk-fieldset__legend">
+                                Select all organisations that apply
+                            </legend>
+                            <div class="govuk-checkboxes govuk-checkboxes--small" data-module="govuk-checkboxes">
+                                <div class="govuk-checkboxes__item">
+                                    <input class="govuk-checkboxes__input" id="region" name="region" type="checkbox"
+                                        value="1000">
+                                    <label class="govuk-label govuk-checkboxes__label" for="region">
+                                        Animal and Plant Health Agency - APHA
+                                    </label>
+                                </div>
+                                <div class="govuk-checkboxes__item">
+                                    <input class="govuk-checkboxes__input" id="region-2" name="region" type="checkbox"
+                                        value="1001">
+                                    <label class="govuk-label govuk-checkboxes__label" for="region-2">
+                                        Centre for Environment, Fisheries and Aquaculture Science - Cefas
+                                    </label>
+                                </div>
+                                <div class="govuk-checkboxes__item">
+                                    <input class="govuk-checkboxes__input" id="region-3" name="region" type="checkbox"
+                                        value="1002">
+                                    <label class="govuk-label govuk-checkboxes__label" for="region-3">
+                                        Defra
+                                    </label>
+                                </div>
+                                <div class="govuk-checkboxes__item">
+                                    <input class="govuk-checkboxes__input" id="region-4" name="region" type="checkbox"
+                                        value="1003">
+                                    <label class="govuk-label govuk-checkboxes__label" for="region-4">
+                                        Environment agency
+                                    </label>
+                                </div>
+                                <div class="govuk-checkboxes__item">
+                                    <input class="govuk-checkboxes__input" id="region-5" name="region" type="checkbox"
+                                        value="1004">
+                                    <label class="govuk-label govuk-checkboxes__label" for="region-5">
+                                        Forrestry commision
+                                    </label>
+                                </div>
+                                <div class="govuk-checkboxes__item">
+                                    <input class="govuk-checkboxes__input" id="region-6" name="region" type="checkbox"
+                                        value="1005">
+                                    <label class="govuk-label govuk-checkboxes__label" for="region-6">
+                                        Marine Management Organisaiton - MMO
+                                    </label>
+                                </div>
+                                <div class="govuk-checkboxes__item">
+                                    <input class="govuk-checkboxes__input" id="region-7" name="region" type="checkbox"
+                                        value="1006">
+                                    <label class="govuk-label govuk-checkboxes__label" for="region-7">
+                                        Natural England
+                                    </label>
+                                </div>
+                                <div class="govuk-checkboxes__item">
+                                    <input class="govuk-checkboxes__input" id="region-8" name="region" type="checkbox"
+                                        value="1007">
+                                    <label class="govuk-label govuk-checkboxes__label" for="region-8">
+                                        Rural Payments Agency - RPA
+                                    </label>
+                                </div>
+                                <div class="govuk-checkboxes__item">
+                                    <input class="govuk-checkboxes__input" id="region-9" name="region" type="checkbox"
+                                        value="1008">
+                                    <label class="govuk-label govuk-checkboxes__label" for="region-9">
+                                        Veterinary Medicines Directorate - VMD
+                                    </label>
+                                </div>
+                            </div>
+                        </fieldset>
+                    </div>
+                </div>
+            </div>
+
+
+
+            <div class="govuk-accordion__section">
+                <div class="govuk-accordion__section-header">
+                    <h4 class="govuk-accordion__section-heading">
+
+                        <button type="button" aria-controls="search-filters-advanced-content-1"
+                            class="govuk-accordion__section-button" aria-expanded="false"
+                            aria-label="Location , Show this section"><span
+                                class="govuk-accordion__section-heading-text"
+                                id="search-filters-advanced-heading-1"><span
+                                    class="govuk-accordion__section-heading-text-focus">
+                                    State
+                                    <span class="govuk-visually-hidden gem-c-step-nav__section-heading-divider">,
+                                    </span></span><span
+                                    class="gem-c-step-nav__toggle-link js-toggle-link govuk-!-display-none-print"><span
+                                        class="gem-c-step-nav__toggle-link-focus"><span
+                                            class="gem-c-step-nav__chevron js-toggle-link-icon gem-c-step-nav__chevron--down"></span>
+
+                </div>
+                <div id="search-filters-advanced-content-1" class="govuk-accordion__section-content"
+                    hidden="until-found">
+                    <div class="govuk-form-group">
+                        <fieldset class="govuk-fieldset">
+                            <legend class="govuk-fieldset__legend">
+                                Select all states that apply
+                            </legend>
+                            <div class="govuk-checkboxes govuk-checkboxes--small" data-module="govuk-checkboxes">
+                                <div class="govuk-checkboxes__item">
+                                    <input class="govuk-checkboxes__input" id="region" name="region" type="checkbox"
+                                        value="1000">
+                                    <label class="govuk-label govuk-checkboxes__label" for="region">
+                                        Draft
+                                    </label>
+                                </div>
+                                <div class="govuk-checkboxes__item">
+                                    <input class="govuk-checkboxes__input" id="region-2" name="region" type="checkbox"
+                                        value="1001">
+                                    <label class="govuk-label govuk-checkboxes__label" for="region-2">
+                                        Published
+                                    </label>
+                                </div>
+
+                            </div>
+                        </fieldset>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+
+
+
+    </div>
+
+    <div class="govuk-grid-column-two-thirds">
+
+    </div>
+
+    <div id="search-results" aria-describedby="search-results-heading"
+        class="app-search__results govuk-grid-column-two-thirds-from-desktop">
+        <h2 id="search-results-heading" class="govuk-heading-m govuk-!-padding-top-4">
+            <span class="govuk-visually-hidden">Search results</span>
+            49 forms
+        </h2>
+
+
+
+
+        <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
+
+
+        <div class="govuk-form-group">
+            <label class="govuk-label" style="display:inline; margin-right: 10px;" for="sort">
+                Sort by
+            </label>
+            <select class="govuk-select" id="sort" name="sort">
+                <option value="published">Form name (A to Z)</option>
+                <option value="updated">Form name (Z to A)</option>
+            </select>
+            <button type="submit" class="govuk-button govuk-button--secondary"
+                style="margin-left: 10px; margin-bottom: 0px;" data-module="govuk-button">
+                Sort forms
+            </button>
+        </div>
+
+
+        <div class="govuk-summary-card">
+            <div class="govuk-summary-card__title-wrapper">
+                <h3 class="govuk-heading-m govuk-!-margin-bottom-2">
+                    <a class="govuk-link"
+                        href="/roles/8020?titleSearch=&amp;bodySearch=Select+organisation&amp;regulated=&amp;bodyJustice=&amp;remunerated=&amp;status=open&amp;sort=region%3Adesc&amp;body=Select+organisation">
+                        Report a dead wild bird
+                    </a>
+                </h3>
+                <ul class="govuk-summary-card__actions">
+                    <li class="govuk-summary-card__action">
+                        {{ govukTag({
+                        text: "Draft",
+                        classes: "govuk-tag--orange"
+                        }) }}
+                    </li>
+                </ul>
+            </div>
+            <div class="govuk-summary-card__content">
+                <dl class="govuk-summary-list">
+                    <div class="govuk-summary-list__row">
+                        <dt class="govuk-summary-list__key">
+                            Organisation
+                        </dt>
+                        <dd class="govuk-summary-list__value">
+                            Animal plant Health Agency - APHA
+                        </dd>
+                    </div>
+                    <!-- <div class="govuk-summary-list__row">
+            <dt class="govuk-summary-list__key">
+              Created by
+            </dt>
+            <dd class="govuk-summary-list__value">
+              Steven Thomas on 7 February 2024
+            </dd>
+          </div> -->
+                    <div class="govuk-summary-list__row">
+                        <dt class="govuk-summary-list__key">
+                            Last edited by
+                        </dt>
+                        <dd class="govuk-summary-list__value">
+                            Chris Smith on 7 February 2024
+                        </dd>
+                    </div>
+                </dl>
+            </div>
+        </div>
+
+        <!-- card end -->
+
+        <div class="govuk-summary-card">
+            <div class="govuk-summary-card__title-wrapper">
+                <h3 class="govuk-heading-m govuk-!-margin-bottom-2">
+                    <a class="govuk-link"
+                        href="/roles/8020?titleSearch=&amp;bodySearch=Select+organisation&amp;regulated=&amp;bodyJustice=&amp;remunerated=&amp;status=open&amp;sort=region%3Adesc&amp;body=Select+organisation">
+                        Import plants
+                    </a>
+                </h3>
+                <ul class="govuk-summary-card__actions">
+                    <li class="govuk-summary-card__action">
+                        {{ govukTag({
+                        text: "Draft",
+                        classes: "govuk-tag--orange"
+                        }) }}
+                    </li>
+                </ul>
+            </div>
+            <div class="govuk-summary-card__content">
+                <dl class="govuk-summary-list">
+                    <div class="govuk-summary-list__row">
+                        <dt class="govuk-summary-list__key">
+                            Organisation
+                        </dt>
+                        <dd class="govuk-summary-list__value">
+                            Animal plant Health Agency - APHA
+                        </dd>
+                    </div>
+                    <!-- <div class="govuk-summary-list__row">
+            <dt class="govuk-summary-list__key">
+              Created by
+            </dt>
+            <dd class="govuk-summary-list__value">
+              Steven Thomas on 1 Februrary 2024
+            </dd>
+          </div> -->
+                    <div class="govuk-summary-list__row">
+                        <dt class="govuk-summary-list__key">
+                            Last edited by
+                        </dt>
+                        <dd class="govuk-summary-list__value">
+                            Chris Smith on 2 March 2024
+                        </dd>
+                    </div>
+                </dl>
+            </div>
+        </div>
+        <!-- card end -->
+
+        <div class="govuk-summary-card">
+            <div class="govuk-summary-card__title-wrapper">
+                <h3 class="govuk-heading-m govuk-!-margin-bottom-2">
+                    <a class="govuk-link"
+                        href="/roles/8020?titleSearch=&amp;bodySearch=Select+organisation&amp;regulated=&amp;bodyJustice=&amp;remunerated=&amp;status=open&amp;sort=region%3Adesc&amp;body=Select+organisation">
+                        Register an XL Bully
+                    </a>
+                </h3>
+                <ul class="govuk-summary-card__actions">
+                    <li class="govuk-summary-card__action">
+                        {{ govukTag({
+                        text: "Published",
+                        classes: "govuk-tag--green"
+                        }) }}
+                    </li>
+                </ul>
+            </div>
+            <div class="govuk-summary-card__content">
+                <dl class="govuk-summary-list">
+                    <div class="govuk-summary-list__row">
+                        <dt class="govuk-summary-list__key">
+                            Organisation
+                        </dt>
+                        <dd class="govuk-summary-list__value">
+                            Defra
+                        </dd>
+                    </div>
+                    <!-- <div class="govuk-summary-list__row">
+            <dt class="govuk-summary-list__key">
+              Created by
+            </dt>
+            <dd class="govuk-summary-list__value">
+              Steven Thomas on 7 January 2024
+            </dd>
+          </div> -->
+                    <div class="govuk-summary-list__row">
+                        <dt class="govuk-summary-list__key">
+                            Last edited by
+                        </dt>
+                        <dd class="govuk-summary-list__value">
+                            Chris Smith on 12 February 2024
+                        </dd>
+                    </div>
+                </dl>
+            </div>
+        </div>
+        <!-- card end -->
+
+        <div class="govuk-summary-card">
+            <div class="govuk-summary-card__title-wrapper">
+                <h3 class="govuk-heading-m govuk-!-margin-bottom-2">
+                    <a class="govuk-link"
+                        href="/roles/8020?titleSearch=&amp;bodySearch=Select+organisation&amp;regulated=&amp;bodyJustice=&amp;remunerated=&amp;status=open&amp;sort=region%3Adesc&amp;body=Select+organisation">
+                        Register a forrest
+                    </a>
+                </h3>
+                <ul class="govuk-summary-card__actions">
+                    <li class="govuk-summary-card__action">
+                        {{ govukTag({
+                        text: "Draft",
+                        classes: "govuk-tag--orange"
+                        }) }}
+                    </li>
+                </ul>
+            </div>
+            <div class="govuk-summary-card__content">
+                <dl class="govuk-summary-list">
+                    <div class="govuk-summary-list__row">
+                        <dt class="govuk-summary-list__key">
+                            Organisation
+                        </dt>
+                        <dd class="govuk-summary-list__value">
+                            Forrestry commision
+                        </dd>
+                    </div>
+                    <!-- <div class="govuk-summary-list__row">
+            <dt class="govuk-summary-list__key">
+              Created by
+            </dt>
+            <dd class="govuk-summary-list__value">
+              Steven Thomas on 10 November 2023
+            </dd>
+          </div> -->
+                    <div class="govuk-summary-list__row">
+                        <dt class="govuk-summary-list__key">
+                            Last edited by
+                        </dt>
+                        <dd class="govuk-summary-list__value">
+                            Steven Thomas on 10 November 2023
+                        </dd>
+                    </div>
+                </dl>
+            </div>
+        </div>
+        <!-- card end -->
+
+        <div class="govuk-summary-card">
+            <div class="govuk-summary-card__title-wrapper">
+                <h3 class="govuk-heading-m govuk-!-margin-bottom-2">
+                    <a class="govuk-link"
+                        href="/roles/8020?titleSearch=&amp;bodySearch=Select+organisation&amp;regulated=&amp;bodyJustice=&amp;remunerated=&amp;status=open&amp;sort=region%3Adesc&amp;body=Select+organisation">
+                        Report a flood
+                    </a>
+                </h3>
+                <ul class="govuk-summary-card__actions">
+                    <li class="govuk-summary-card__action">
+                        {{ govukTag({
+                        text: "Published",
+                        classes: "govuk-tag--green"
+                        }) }}
+                    </li>
+                </ul>
+            </div>
+            <div class="govuk-summary-card__content">
+                <dl class="govuk-summary-list">
+                    <div class="govuk-summary-list__row">
+                        <dt class="govuk-summary-list__key">
+                            Organisation
+                        </dt>
+                        <dd class="govuk-summary-list__value">
+                            Environment agency
+                        </dd>
+                    </div>
+                    <!-- <div class="govuk-summary-list__row">
+            <dt class="govuk-summary-list__key">
+              Created by
+            </dt>
+            <dd class="govuk-summary-list__value">
+              Steven Thomas on 5 January 2024
+            </dd>
+          </div> -->
+                    <div class="govuk-summary-list__row">
+                        <dt class="govuk-summary-list__key">
+                            Last edited by
+                        </dt>
+                        <dd class="govuk-summary-list__value">
+                            Steven Thomas on 9 March 2024
+                        </dd>
+                    </div>
+                </dl>
+            </div>
+        </div>
+        <!-- card end -->
+
+        <div class="govuk-summary-card">
+            <div class="govuk-summary-card__title-wrapper">
+                <h3 class="govuk-heading-m govuk-!-margin-bottom-2">
+                    <a class="govuk-link"
+                        href="/roles/8020?titleSearch=&amp;bodySearch=Select+organisation&amp;regulated=&amp;bodyJustice=&amp;remunerated=&amp;status=open&amp;sort=region%3Adesc&amp;body=Select+organisation">
+                        Apply to generate energy offshore
+                    </a>
+                </h3>
+                <ul class="govuk-summary-card__actions">
+                    <li class="govuk-summary-card__action">
+                        {{ govukTag({
+                        text: "Draft",
+                        classes: "govuk-tag--orange"
+                        }) }}
+                    </li>
+                </ul>
+            </div>
+            <div class="govuk-summary-card__content">
+                <dl class="govuk-summary-list">
+                    <div class="govuk-summary-list__row">
+                        <dt class="govuk-summary-list__key">
+                            Organisation
+                        </dt>
+                        <dd class="govuk-summary-list__value">
+                            Marine Management Organisaiton - MMO
+                        </dd>
+                    </div>
+                    <!-- <div class="govuk-summary-list__row">
+            <dt class="govuk-summary-list__key">
+              Created by
+            </dt>
+            <dd class="govuk-summary-list__value">
+              Steven Thomas on 12 August 2023
+            </dd>
+          </div> -->
+                    <div class="govuk-summary-list__row">
+                        <dt class="govuk-summary-list__key">
+                            Last edited by
+                        </dt>
+                        <dd class="govuk-summary-list__value">
+                            Chris Smith on 1 February 2024
+                        </dd>
+                    </div>
+                </dl>
+            </div>
+        </div>
+        <!-- card end -->
+
+        <div class="govuk-summary-card">
+            <div class="govuk-summary-card__title-wrapper">
+                <h3 class="govuk-heading-m govuk-!-margin-bottom-2">
+                    <a class="govuk-link"
+                        href="/roles/8020?titleSearch=&amp;bodySearch=Select+organisation&amp;regulated=&amp;bodyJustice=&amp;remunerated=&amp;status=open&amp;sort=region%3Adesc&amp;body=Select+organisation">
+                        Apply to lay cables
+                    </a>
+                </h3>
+                <ul class="govuk-summary-card__actions">
+                    <li class="govuk-summary-card__action">
+                        {{ govukTag({
+                        text: "Draft",
+                        classes: "govuk-tag--orange"
+                        }) }}
+                    </li>
+                </ul>
+            </div>
+            <div class="govuk-summary-card__content">
+                <dl class="govuk-summary-list">
+                    <div class="govuk-summary-list__row">
+                        <dt class="govuk-summary-list__key">
+                            Organisation
+                        </dt>
+                        <dd class="govuk-summary-list__value">
+                            Marine Management Organisaiton - MMO
+                        </dd>
+                    </div>
+                    <!-- <div class="govuk-summary-list__row">
+            <dt class="govuk-summary-list__key">
+              Created by
+            </dt>
+            <dd class="govuk-summary-list__value">
+              Anna Scott on 10 July 2023
+            </dd>
+          </div> -->
+                    <div class="govuk-summary-list__row">
+                        <dt class="govuk-summary-list__key">
+                            Last edited by
+                        </dt>
+                        <dd class="govuk-summary-list__value">
+                            Chris Smith on 10 March 2024
+                        </dd>
+                    </div>
+                </dl>
+            </div>
+        </div>
+        <!-- card end -->
+
+        <div class="govuk-summary-card">
+            <div class="govuk-summary-card__title-wrapper">
+                <h3 class="govuk-heading-m govuk-!-margin-bottom-2">
+                    <a class="govuk-link"
+                        href="/roles/8020?titleSearch=&amp;bodySearch=Select+organisation&amp;regulated=&amp;bodyJustice=&amp;remunerated=&amp;status=open&amp;sort=region%3Adesc&amp;body=Select+organisation">
+                        Apply for a marine license
+                    </a>
+                </h3>
+                <ul class="govuk-summary-card__actions">
+                    <li class="govuk-summary-card__action">
+                        {{ govukTag({
+                        text: "Published",
+                        classes: "govuk-tag--green"
+                        }) }}
+                    </li>
+                </ul>
+            </div>
+            <div class="govuk-summary-card__content">
+                <dl class="govuk-summary-list">
+                    <div class="govuk-summary-list__row">
+                        <dt class="govuk-summary-list__key">
+                            Organisation
+                        </dt>
+                        <dd class="govuk-summary-list__value">
+                            Marine Management Organisaiton - MMO
+                        </dd>
+                    </div>
+                    <!-- <div class="govuk-summary-list__row">
+            <dt class="govuk-summary-list__key">
+              Created by
+            </dt>
+            <dd class="govuk-summary-list__value">
+              Anna Scott on 5 June 2023
+            </dd>
+          </div> -->
+                    <div class="govuk-summary-list__row">
+                        <dt class="govuk-summary-list__key">
+                            Last edited by
+                        </dt>
+                        <dd class="govuk-summary-list__value">
+                            Chris Smith on 10 March 2024
+                        </dd>
+                    </div>
+                </dl>
+            </div>
+        </div>
+        <!-- card end -->
+
+        <div class="govuk-summary-card">
+            <div class="govuk-summary-card__title-wrapper">
+                <h3 class="govuk-heading-m govuk-!-margin-bottom-2">
+                    <a class="govuk-link"
+                        href="/roles/8020?titleSearch=&amp;bodySearch=Select+organisation&amp;regulated=&amp;bodyJustice=&amp;remunerated=&amp;status=open&amp;sort=region%3Adesc&amp;body=Select+organisation">
+                        Buy a rod fishing license
+                    </a>
+                </h3>
+                <ul class="govuk-summary-card__actions">
+                    <li class="govuk-summary-card__action">
+                        {{ govukTag({
+                        text: "Draft",
+                        classes: "govuk-tag--orange"
+                        }) }}
+                    </li>
+                </ul>
+            </div>
+            <div class="govuk-summary-card__content">
+                <dl class="govuk-summary-list">
+                    <div class="govuk-summary-list__row">
+                        <dt class="govuk-summary-list__key">
+                            Organisation
+                        </dt>
+                        <dd class="govuk-summary-list__value">
+                            Marine Management Organisaiton - MMO
+                        </dd>
+                    </div>
+                    <!-- <div class="govuk-summary-list__row">
+            <dt class="govuk-summary-list__key">
+              Created by
+            </dt>
+            <dd class="govuk-summary-list__value">
+              Anna Scott on 25 September 2023
+            </dd>
+          </div> -->
+                    <div class="govuk-summary-list__row">
+                        <dt class="govuk-summary-list__key">
+                            Last edited by
+                        </dt>
+                        <dd class="govuk-summary-list__value">
+                            Steven Thomas on 2 February 2024
+                        </dd>
+                    </div>
+                </dl>
+            </div>
+        </div>
+        <!-- card end -->
+        <div class="govuk-summary-card">
+            <div class="govuk-summary-card__title-wrapper">
+                <h3 class="govuk-heading-m govuk-!-margin-bottom-2">
+                    <a class="govuk-link"
+                        href="/roles/8020?titleSearch=&amp;bodySearch=Select+organisation&amp;regulated=&amp;bodyJustice=&amp;remunerated=&amp;status=open&amp;sort=region%3Adesc&amp;body=Select+organisation">
+                        Apply for a county parish holding (CPH) number
+                    </a>
+                </h3>
+                <ul class="govuk-summary-card__actions">
+                    <li class="govuk-summary-card__action">
+                        {{ govukTag({
+                        text: "Published",
+                        classes: "govuk-tag--green"
+                        }) }}
+                    </li>
+                </ul>
+            </div>
+            <div class="govuk-summary-card__content">
+                <dl class="govuk-summary-list">
+                    <div class="govuk-summary-list__row">
+                        <dt class="govuk-summary-list__key">
+                            Organisation
+                        </dt>
+                        <dd class="govuk-summary-list__value">
+                            Defra
+                        </dd>
+                    </div>
+                    <!-- <div class="govuk-summary-list__row">
+            <dt class="govuk-summary-list__key">
+              Created by
+            </dt>
+            <dd class="govuk-summary-list__value">
+              Anna Scott on 19 September 2023
+            </dd>
+          </div> -->
+                    <div class="govuk-summary-list__row">
+                        <dt class="govuk-summary-list__key">
+                            Last edited by
+                        </dt>
+                        <dd class="govuk-summary-list__value">
+                            Steven Thomas on 2 January 2024
+                        </dd>
+                    </div>
+                </dl>
+            </div>
+        </div>
+        <!-- card end -->
+
+        <div class="govuk-summary-card">
+            <div class="govuk-summary-card__title-wrapper">
+                <h3 class="govuk-heading-m govuk-!-margin-bottom-2">
+                    <a class="govuk-link"
+                        href="/roles/8020?titleSearch=&amp;bodySearch=Select+organisation&amp;regulated=&amp;bodyJustice=&amp;remunerated=&amp;status=open&amp;sort=region%3Adesc&amp;body=Select+organisation">
+                        Sustainable grants for farmers
+                    </a>
+                </h3>
+                <ul class="govuk-summary-card__actions">
+                    <li class="govuk-summary-card__action">
+                        {{ govukTag({
+                        text: "Draft",
+                        classes: "govuk-tag--orange"
+                        }) }}
+                    </li>
+                </ul>
+            </div>
+            <div class="govuk-summary-card__content">
+                <dl class="govuk-summary-list">
+                    <div class="govuk-summary-list__row">
+                        <dt class="govuk-summary-list__key">
+                            Organisation
+                        </dt>
+                        <dd class="govuk-summary-list__value">
+                            Defra
+                        </dd>
+                    </div>
+                    <!-- <div class="govuk-summary-list__row">
+            <dt class="govuk-summary-list__key">
+              Created by
+            </dt>
+            <dd class="govuk-summary-list__value">
+              Chris Smith on 10 August 2023
+            </dd>
+          </div> -->
+                    <div class="govuk-summary-list__row">
+                        <dt class="govuk-summary-list__key">
+                            Last edited by
+                        </dt>
+                        <dd class="govuk-summary-list__value">
+                            Anna Thomas on 5 January 2024
+                        </dd>
+                    </div>
+                </dl>
+            </div>
+        </div>
+        <!-- card end -->
+
+        <nav class="govuk-pagination" role="navigation" aria-label="Pagination">
+            <ul class="govuk-pagination__list">
+                <li class="govuk-pagination__item govuk-pagination__item--current">
+                    <a class="govuk-link govuk-pagination__link"
+                        href="?titleSearch=&amp;bodySearch=Select+organisation&amp;regulated=&amp;bodyJustice=&amp;remunerated=&amp;status=open&amp;sort=region%3Adesc&amp;body=Select+organisation&amp;page=1"
+                        aria-label="Page 1" aria-current="page">
+                        1
+                    </a>
+                </li>
+                <li class="govuk-pagination__item">
+                    <a class="govuk-link govuk-pagination__link"
+                        href="?titleSearch=&amp;bodySearch=Select+organisation&amp;regulated=&amp;bodyJustice=&amp;remunerated=&amp;status=open&amp;sort=region%3Adesc&amp;body=Select+organisation&amp;page=2"
+                        aria-label="Page 2">
+                        2
+                    </a>
+                </li>
+                <li class="govuk-pagination__item govuk-pagination__item--ellipses">
+                    ⋯
+                </li>
+                <li class="govuk-pagination__item">
+                    <a class="govuk-link govuk-pagination__link"
+                        href="?titleSearch=&amp;bodySearch=Select+organisation&amp;regulated=&amp;bodyJustice=&amp;remunerated=&amp;status=open&amp;sort=region%3Adesc&amp;body=Select+organisation&amp;page=5"
+                        aria-label="Page 5">
+                        5
+                    </a>
+                </li>
+            </ul>
+
+
+
+
+            <div class="govuk-pagination__next">
+                <a class="govuk-link govuk-pagination__link"
+                    href="?titleSearch=&amp;bodySearch=Select+organisation&amp;regulated=&amp;bodyJustice=&amp;remunerated=&amp;status=open&amp;sort=region%3Adesc&amp;body=Select+organisation&amp;page=2"
+                    rel="next">
+                    <span class="govuk-pagination__link-title">
+                        Next<span class="govuk-visually-hidden"> page</span>
+                    </span>
+                    <svg class="govuk-pagination__icon govuk-pagination__icon--next" xmlns="http://www.w3.org/2000/svg"
+                        height="13" width="15" aria-hidden="true" focusable="false" viewBox="0 0 15 13">
+                        <path
+                            d="m8.107-0.0078125-1.4136 1.414 4.2926 4.293h-12.986v2h12.896l-4.1855 3.9766 1.377 1.4492 6.7441-6.4062-6.7246-6.7266z">
+                        </path>
+                    </svg>
+                </a>
+            </div>
+
+    </div>
+    </form>
+    {% endblock %}

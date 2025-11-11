@@ -1,0 +1,12 @@
+<div class="govuk-form-group">
+    <h1 class="govuk-label-wrapper">
+        <label class="govuk-label govuk-label--l" for="text-input-field" id="question-label-legend">
+            {{ question.label or data['questionLabelInputTextArea'] or '' }}
+        </label>
+    </h1>
+    <div id="hint-text-output" class="govuk-hint">
+        {{ question.hint or '' }}
+    </div>
+    <textarea class="govuk-textarea" rows="5" id="text-input-field" name="textInputField" type="text"
+        aria-describedby="hint-text-output"></textarea>
+</div>

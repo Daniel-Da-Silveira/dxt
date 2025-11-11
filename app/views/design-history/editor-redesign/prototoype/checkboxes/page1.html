@@ -1,0 +1,74 @@
+{% extends "layouts/main.html" %}
+
+{% block pageTitle %}
+  Upload files –
+  {{ serviceName }}
+  – GOV.UK Prototype Kit
+{% endblock %}
+
+{% block beforeContent %}
+  {{ govukBackLink({
+    text: "Back",
+    href: "javascript:window.history.back()"
+  }) }}
+{% endblock %}
+
+{% block content %}
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      {% from "govuk/components/button/macro.njk" import govukButton %}
+      {% from "govuk/components/file-upload/macro.njk" import govukFileUpload %}
+
+      <div class="govuk-form-group govuk-!-margin-bottom-2">
+        <h1 class="govuk-heading-l" for="file-upload-1">Upload your methodology statement</h1>
+
+        <form action="/file-upload/yes-js/page2" method="get">
+          {{ govukFileUpload({
+            id: "file-upload-1",
+            name: "file-upload-1",
+            classes: 'govuk-file-upload',
+            label: {
+              text: "",
+              classes: ''
+            },
+            hint: {
+              text: "Upload 2 copies of your methodology statement in Word, PDF or JPEG. The maximum file size for each file is 100MB"
+            }
+          }) }}
+
+          {{ govukButton({
+            text: 'Upload file',
+            classes: 'govuk-button--secondary govuk-!-margin-top-4',
+            attributes: {
+              'data-module': 'govuk-button'
+            }
+          }) }}
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <h2 class="govuk-heading-m">Uploaded files</h2>
+      <p class="govuk-body" aria-live="polite">0 files uploaded</p>
+      <p class="govuk-body govuk-!-display-none" id="refreshPageProgress">
+        <a href="." class="govuk-link">Refresh page to update file upload progress</a>
+      </p>
+
+      {{ govukButton({
+        text: "Continue"
+      }) }}
+    </div>
+  </div>
+
+  {# <hr class="govuk-section-break govuk-section-break--m">
+
+  <p class="govuk-body">
+    <a href="/file-upload/yes-js/page2.html" class="govuk-link govuk-link--no-visited-state">Demo (with JS) what happens to a page after adding a file from native file browser</a>
+  </p>
+
+  <p class="govuk-body">
+    <a href="/file-upload/no-js/page2.html" class="govuk-link govuk-link--no-visited-state">Demo (without JS) what happens to a page after adding a file from native file browser</a>
+  </p> #}
+{% endblock %}

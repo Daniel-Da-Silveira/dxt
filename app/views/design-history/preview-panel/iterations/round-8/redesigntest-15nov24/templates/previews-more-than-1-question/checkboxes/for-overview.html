@@ -1,0 +1,67 @@
+<div id="checkbox-list">
+  <fieldset class="govuk-fieldset">
+    <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
+      <h1 class="govuk-fieldset__heading" id="question-label-legend-q1">
+        {{ data['multiQuestionLabelInputCheckboxes'] or '' }}
+      </h1>
+    </legend>
+
+    <!-- Custom checkboxes without govuk-form-group -->
+    <fieldset class="govuk-fieldset" aria-describedby="listPreview-hint">
+      <div id="listPreview-hint" class="govuk-hint">
+        {{ data['multiQuestionHintTextInputCheckboxes'] or '' }}
+      </div>
+
+      {% for option in data['option'] %}
+      <div class="govuk-checkboxes__item">
+        <input class="govuk-checkboxes__input" id="listPreview-option{{ loop.index }}" name="listPreview"
+          type="checkbox" value="{{ option['option_label'] }}">
+        <label class="govuk-label govuk-checkboxes__label" for="listPreview-option{{ loop.index }}">
+          {{ option['option_label'] or '' }}
+        </label>
+      </div>
+      {% endfor %}
+
+     <!-- Dynamically generated checkbox items will be inserted here -->
+</div>
+</fieldset>
+</fieldset>
+</div>
+
+
+     </form>
+
+
+{#
+     {% set setName = data['setName'] or '' %}
+     {% set overview0 = data['overview0'] or '' %}
+
+     {% if overview0 == "morethan1" %}
+     {{ govukButton({
+       text: "Add another " ~ setName,
+       classes: "govuk-button govuk-!-margin-top-3",
+       id: "add-another-set-button",
+       disabled: true
+     }) }}
+     {% else %}
+     {{ govukButton({
+       text: "Continue",
+       classes: "govuk-button govuk-!-margin-top-6",
+       id: "once-button",
+       disabled: true
+     }) }}
+     {% endif %}
+   </div> #}
+
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+const dynamicCaption = document.getElementById("dynamic-caption");
+const setName = dynamicCaption.getAttribute("data-setname");
+
+if (!setName) {
+dynamicCaption.style.display = "none";
+}
+});
+
+</script>

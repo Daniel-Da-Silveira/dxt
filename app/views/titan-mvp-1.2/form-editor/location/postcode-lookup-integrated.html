@@ -1,0 +1,80 @@
+{% extends "layouts/main.html" %}
+{% from "components/service-header/macro.njk" import serviceHeader %}
+{% set govukRebrand = true %}
+
+{% block header %}
+{{ serviceHeader({
+organisationName: "Defra",
+productName: "Form Designer",
+serviceName: "",
+homepageLink: "/titan-mvp-1.2/product-pages/homepage",
+signInLink: "/titan-mvp-1.2/library",
+navigationItems: [
+{ href: "/titan-mvp-1.2/product-pages/about", text: "About", id: "nav-about" },
+{ href: "/titan-mvp-1.2/product-pages/get-started", text: "Get started", id: "nav-get-started" },
+{ href: "/titan-mvp-1.2/product-pages/features", text: "Features", id: "nav-features" },
+{ href: "/titan-mvp-1.2/product-pages/resources", text: "Resources", id: "nav-resources" },
+{ href: "/titan-mvp-1.2/product-pages/support", text: "Support", id: "nav-support" }
+],
+activeLinkId: "nav-features"
+}) }}
+
+{{ xGovukMasthead({
+inverse: true,
+title: {
+text: "Integrated postcode lookup prototype"
+},
+description: {
+html: "This prototype shows how the postcode lookup pattern works when integrated into a page with other questions,
+using PRG pattern and multiple submit buttons."
+}
+}) }}
+{% endblock %}
+
+{% block pageTitle %}
+Integrated postcode lookup prototype – Defra Form Designer
+{% endblock %}
+
+
+
+{% block content %}
+
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+
+        <h2 class="govuk-heading-m">Key features demonstrated</h2>
+
+        <ul class="govuk-list govuk-list--bullet">
+            <li>Multiple submit buttons in the same form (name="action" value="lookup" and value="continue")</li>
+            <li>PRG (Post-Redirect-Get) pattern with redirect back to .../question-one#address</li>
+            <li>Session persistence - all other answers are preserved during address lookups</li>
+            <li>Mode switching between lookup and manual entry via hidden field (addressMode)</li>
+            <li>Proper form validation for both address modes</li>
+            <li>Accessible form structure with proper error handling</li>
+        </ul>
+
+        <h2 class="govuk-heading-m">How it works</h2>
+
+        <ol class="govuk-list govuk-list--number">
+            <li>User fills in name and email fields</li>
+            <li>User enters postcode and clicks "Find address" button</li>
+            <li>Form submits with action="lookup", performs address search</li>
+            <li>PRG redirect back to same page with #address anchor for screen readers</li>
+            <li>Address results appear in dropdown, other form data is preserved</li>
+            <li>User can switch to manual entry or select an address</li>
+            <li>User clicks "Continue" to submit the complete form</li>
+        </ol>
+
+    </div>
+</div>
+
+{# Example of a Continue button #}
+{{
+govukButton({
+text: "Try the integrated postcode lookup prototype",
+classes: "govuk-button--start",
+href: "/dwp-find-an-address-plugin-integrated/question-one",
+isStartButton: true
+})
+}}
+{% endblock %}

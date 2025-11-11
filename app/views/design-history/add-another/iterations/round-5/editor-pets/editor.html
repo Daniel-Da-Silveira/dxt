@@ -1,0 +1,110 @@
+{% extends "layouts/main.html" %}
+
+{% from "components/service-header/macro.njk" import serviceHeader %}
+
+{% set pageName = "Editor - Apply for a county parish holding number in England" %}
+
+{% block header %}
+  {{ serviceHeader({
+    organisationName: "Defra",
+    productName: "Forms Designer",
+    serviceName: "",
+    accountName: "Chris Smith",
+    homepageLink: "/",
+    signOutLink: "/form-designer-v2/onboarding/sign-out-confirmation",
+    navigationItems: [
+    {
+      href: "/library.html",
+      text: "Forms library",
+      id: "library"
+     },
+    {
+      href: "/cph-overview/draft.html",
+      text: "Overview",
+      id: "overview"
+     },{
+         href: "/editor",
+    text: 'Editor',
+    id: 'editor'
+    }],
+    activeLinkId: "editor"
+  }) }}
+{% endblock %}
+
+
+{% block content %}
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-one-third govuk-!-padding-left-0">
+    {%- from "moj/components/side-navigation/macro.njk" import mojSideNavigation -%}
+      {{ mojSideNavigation({
+        label: 'Side navigation',
+        classes: 'govuk-!-padding-top-0',
+        items: [{
+          text: 'Conditions',
+          href: '/conditions/existing0.html',
+          active: false
+        }, {
+          text: 'Sections',
+          href: '#2'
+        }, {
+          text: 'Lists',
+          href: '#3'
+        }, {
+          text: 'Links',
+          href: '#4'
+        }, {
+          text: 'Summary behaviour',
+          href: '#5'
+        }]
+      }) }}
+    </div>
+
+
+    <div class="govuk-grid-column-two-thirds">
+      <h1 class="govuk-heading-l">
+        Apply for a county parish holding number in England
+        <span class="govuk-caption-m govuk-!-padding-top-2">Last updated at 11:32</span>
+      </h1>
+
+      {{ govukButton({
+        text: "Add page",
+        href: "/component-pages/add-page"
+      }) }}
+
+<div id="/page-1" title="/page-1" style="width: 35%; border-style: solid;">
+  <div class="page__heading">
+    <h3>Page 1</h3>
+    <div class="page-linkage__drag-area" draggable="true"></div>
+  </div>
+  <div class="component-list"></div>
+  <div class="page__actions" style="background-color: black;">
+    <button title="Edit page">
+      <a href="https://www.bbc.co.uk/" class="govuk-link govuk-link govuk-link--inverse" title="Edit page">Edit page</a>
+    </button>
+    <button title="Add component">
+      <a href="/component-pages/add.html" class="govuk-link govuk-link govuk-link--inverse" title="Add component">Add component</a>
+    </button>
+    <button title="Preview">
+      <a href="https://www.bbc.co.uk/" class="govuk-link govuk-link govuk-link--inverse" title="Preview">Preview</a>
+    </button>
+  </div>
+</div>
+
+{% endblock %}
+
+
+<form class="form" action="/path/of/next/page" method="post"></form>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <p>govuk-grid-column-two-thirds</p>
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-one-half">
+        <p>govuk-grid-column-one-half</p>
+      </div>
+      <div class="govuk-grid-column-one-half">
+        <p>govuk-grid-column-one-half</p>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,249 @@
+{% extends "layouts/main.html" %}
+
+{% from "govuk/components/checkboxes/macro.njk" import govukCheckboxes %}
+{% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
+{% from "govuk/components/input/macro.njk" import govukInput %}
+{% from "components/declaration-checkboxes/macro.njk" import declarationCheckboxes %}
+
+{% block pageTitle %}
+Question page template – {{ serviceName }} – GOV.UK Prototype Kit
+{% endblock %}
+
+{% block beforeContent %}
+{{ govukBackLink({
+text: "Back",
+href: "javascript:window.history.back()"
+}) }}
+{% endblock %}
+
+{% block content %}
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+
+    <form class="form" action="/path/of/next/page" method="post">
+
+      <!-- Example with HTML content between hint and checkbox -->
+      <h2 class="govuk-heading-m">Normal state:</h2>
+
+      {{ declarationCheckboxes({
+      name: "declaration-html",
+      fieldset: {
+      legend: {
+      text: "Terms and conditions",
+      isPageHeading: true }
+      },
+      hint: {
+      text: "Please read and confirm the following terms"
+      },
+      content: {
+      html: "<p>By submitting this form, you agree to:</p>
+      <ul class='govuk-list govuk-list--bullet'>
+        <li>Provide accurate and complete information</li>
+        <li>Comply with all applicable <a href='#'>regulations</a></li>
+        <li>Accept responsibility for any false statements</li>
+      </ul>"
+      },
+      items: [
+      {
+      value: "confirmed",
+      text: "I confirm that I understand and accept this declaration",
+      id: "declaration-checkbox-html"
+      }
+      ]
+      }) }}
+
+      <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+
+      <!-- Error state -->
+      <h2 class="govuk-heading-m">Error state:</h2>
+      {{ govukErrorSummary({
+      titleText: "There is a problem",
+      errorList: [
+      {
+      text: "You must confirm you understand and agree with the declaration to continue",
+      href: "#declaration-checkbox-error"
+      }
+      ]
+      }) }}
+
+      {{ declarationCheckboxes({
+      name: "declaration-error",
+      fieldset: {
+      legend: {
+      text: "Terms and conditions",
+      isPageHeading: true }
+      },
+      hint: {
+      text: "Please read and confirm the following terms"
+      },
+      content: {
+      html: "<p>By submitting this form, you agree to:</p>
+      <ul class='govuk-list govuk-list--bullet'>
+        <li>Provide accurate and complete information</li>
+        <li>Comply with all applicable <a href='#'>regulations</a></li>
+        <li>Accept responsibility for any false statements</li>
+      </ul>"
+      },
+      errorMessage: {
+      text: "You must confirm you understand and agree with the declaration to continue"
+      },
+      items: [
+      {
+      value: "confirmed",
+      text: "I confirm that I understand and accept this declaration",
+      id: "declaration-checkbox-error"
+      }
+      ]
+      }) }}
+
+      <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+
+      <!-- Example in a form with other questions -->
+      <h2 class="govuk-heading-m">In a form with other questions:</h2>
+
+      <h2 class="govuk-heading-xl">Page heading</h2>
+
+
+      {{ govukInput({
+      label: {
+      text: "What is your full name?",
+      classes: "govuk-label--m"
+      },
+      hint: {
+      text: "Enter your name as it appears on official documents"
+      },
+      id: "full-name",
+      name: "fullName"
+      }) }}
+
+      {{ govukInput({
+      label: {
+      text: "What is your email address?",
+      classes: "govuk-label--m"
+      },
+      hint: {
+      text: "We'll use this to send you a confirmation"
+      },
+      id: "email",
+      name: "email",
+      type: "email"
+      }) }}
+
+      {{ declarationCheckboxes({
+      name: "declaration-form",
+      fieldset: {
+      legend: {
+      text: "Declaration",
+      isPageHeading: false,
+      classes: "govuk-fieldset__legend--m"
+      }
+      },
+      hint: {
+      text: "Please read and confirm the following"
+      },
+      content: {
+      html: "<p>By submitting this form, you agree to:</p>
+      <ul class='govuk-list govuk-list--bullet'>
+        <li>Provide accurate and complete information</li>
+        <li>Comply with all applicable <a href='#'>regulations</a></li>
+        <li>Accept responsibility for any false statements</li>
+      </ul>"
+      },
+      items: [
+      {
+      value: "confirmed",
+      text: "I confirm that I understand and accept this declaration",
+      id: "declaration-checkbox-form"
+      }
+      ]
+      }) }}
+
+      <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+
+      <!-- Error state in a form with other questions -->
+      <h2 class="govuk-heading-m">Error state in a form with other questions:</h2>
+
+      {{ govukErrorSummary({
+      titleText: "There is a problem",
+      errorList: [
+      {
+      text: "You must confirm you understand and agree with the declaration to continue",
+      href: "#declaration-checkbox-form-error"
+      }
+      ]
+      }) }}
+
+      <h2 class="govuk-heading-xl">Page heading</h2>
+
+
+      {{ govukInput({
+      label: {
+      text: "What is your full name?",
+      classes: "govuk-label--m"
+      },
+      hint: {
+      text: "Enter your name as it appears on official documents"
+      },
+      id: "full-name-error",
+      name: "fullNameError"
+      }) }}
+
+      {{ govukInput({
+      label: {
+      text: "What is your email address?",
+      classes: "govuk-label--m"
+      },
+      hint: {
+      text: "We'll use this to send you a confirmation"
+      },
+      id: "email-error",
+      name: "emailError",
+      type: "email"
+      }) }}
+
+      {{ declarationCheckboxes({
+      name: "declaration-form-error",
+      fieldset: {
+      legend: {
+      text: "Declaration",
+      isPageHeading: false,
+      classes: "govuk-fieldset__legend--m"
+      }
+      },
+      hint: {
+      text: "Please read and confirm the following"
+      },
+      content: {
+      html: "<p>By submitting this form, you agree to:</p>
+      <ul class='govuk-list govuk-list--bullet'>
+        <li>Provide accurate and complete information</li>
+        <li>Comply with all applicable <a href='#'>regulations</a></li>
+        <li>Accept responsibility for any false statements</li>
+      </ul>"
+      },
+      errorMessage: {
+      text: "You must confirm you understand and agree with the declaration to continue"
+      },
+      items: [
+      {
+      value: "confirmed",
+      text: "I confirm that I understand and accept this declaration",
+      id: "declaration-checkbox-form-error"
+      }
+      ]
+      }) }}
+
+
+      {{ govukButton({
+      text: "Continue"
+      }) }}
+
+
+
+    </form>
+
+  </div>
+</div>
+
+{% endblock %}

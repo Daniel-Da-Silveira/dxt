@@ -1,0 +1,197 @@
+{# {% extends "layouts/main.html" %} #}
+{% extends "design-history/template.html" %}
+
+
+{% from "components/service-header/macro.njk" import serviceHeader %}
+{% from "govuk/components/summary-list/macro.njk" import govukSummaryList %}
+{% from "govuk/components/breadcrumbs/macro.njk" import govukBreadcrumbs %}
+{% from "govuk/components/tag/macro.njk" import govukTag %}
+
+{% block head %}
+{{ super() }}
+<style>
+    .govuk-image {
+        max-width: 600px;
+        margin: 0 auto;
+    }
+
+    .govuk-image img {
+        width: 100%;
+        height: auto;
+        display: block;
+    }
+
+    /* .app-prose-scope {
+        max-width: 38em;
+    } */
+
+    .app-related-items {
+        border-top: 2px solid #1d70b8;
+        padding-top: 10px;
+    }
+
+    .app-related-items .govuk-list {
+        margin-top: 0;
+    }
+
+    .app-related-items .govuk-list li {
+        margin-bottom: 0;
+    }
+
+    .app-secondary-text {
+        color: #505a5f !important;
+        font-weight: normal !important;
+    }
+</style>
+{% endblock %}
+
+{% block header %}
+{{ serviceHeader({
+organisationName: "Defra",
+productName: "Forms Designer",
+serviceName: "Design History",
+containerClasses: containerClasses,
+accountName: "Chris Smith (Admin)",
+homepageLink: "/",
+signOutLink: "/onboarding/sign-out-confirmation",
+navigationItems: [
+{ href: "/roles/my-account.html", text: "My account", id: "my-account" },
+{ href: "/roles/manage-users.html", text: "Manage users", id: "manage-users" }
+],
+activeLinkId: ""
+}) }}
+
+<div class="x-govuk-masthead x-govuk-masthead--large">
+    <div class="govuk-width-container">
+        {{ govukBreadcrumbs({
+        classes: "govuk-breadcrumbs--inverse",
+        items: [
+        {
+        text: "Design History",
+        href: "/design-history/index.html"
+        },
+        {
+        text: "Form Overview",
+        href: "/design-history/form-overview/index.html"
+        },
+        {
+        text: "Form Actions"
+        }
+        ]
+        }) }}
+
+        <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible"
+            style="border-bottom: 1px solid white; margin-bottom: 0" />
+
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-full-from-desktop">
+                <h1 class="x-govuk-masthead__title">
+                    <span class="govuk-caption-l" style="color: white;">Form overview</span>
+                    Making form actions intuitive
+                </h1>
+                <div class="govuk-body" style="color: white; margin-top: 1em;">
+                    <span class="govuk-tag govuk-tag--grey">Post</span>
+                    <span style="margin-left: 1em;">Originally published on 26 April 2024</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+        <div class="app-prose-scope">
+            <h2 class="govuk-heading-l">Before (Creating a draft of a form)</h2>
+            <p class="govuk-body">The as-is flow was:</p>
+            <ol class="govuk-list govuk-list--number">
+                <li>Users needed to open a form from the 'Form home' in edit mode and find the 'Form settings' link.
+                </li>
+            </ol>
+            <figure class="govuk-image">
+                <img src="/public/images/form-overview/posts/form-actions/01.png"
+                    alt="Form home page, with 'Edit' link highlighted" class="govuk-!-width-full">
+                <figcaption class="govuk-body-s">Form home page, with 'Edit' link highlighted</figcaption>
+            </figure>
+            <ol class="govuk-list govuk-list--number" start="2">
+                <li>Click 'Form settings'</li>
+            </ol>
+            <figure class="govuk-image">
+                <img src="/public/images/form-overview/posts/form-actions/02.png"
+                    alt="Form editor page, with 'Form settings' link highlighted" class="govuk-!-width-full">
+                <figcaption class="govuk-body-s">Form editor page, with 'Form settings' link highlighted</figcaption>
+            </figure>
+            <ol class="govuk-list govuk-list--number" start="3">
+                <li>Enter required information to make a form live</li>
+            </ol>
+            <figure class="govuk-image">
+                <img src="/public/images/form-overview/posts/form-actions/03.png"
+                    alt="Form settings page with 'Publish' button" class="govuk-!-width-full">
+                <figcaption class="govuk-body-s">Form settings page with 'Publish' button</figcaption>
+            </figure>
+            <ol class="govuk-list govuk-list--number" start="4">
+                <li>Go back to the Form home and select 'Create draft'</li>
+            </ol>
+            <figure class="govuk-image">
+                <img src="/public/images/form-overview/posts/form-actions/04.png"
+                    alt="Form settings page with 'Publish' button" class="govuk-!-width-full">
+                <figcaption class="govuk-body-s">Form settings page with 'Publish' button</figcaption>
+            </figure>
+            <h3 class="govuk-heading-m">What we found</h3>
+            <ul class="govuk-list govuk-list--bullet">
+                <li>It didn't fall into users' mental model to have to go open a draft form and then open the 'Form
+                    settings' link</li>
+                <li>Users expect to do more from the 'Form home'</li>
+                <li>We can put more information in the 'Form home' as users prefer when movement between pages were kept
+                    to a minimum</li>
+                <li>The term 'Form home' didn't make sense straight away for users and they didn't intuitively pick up
+                    what its purpose was</li>
+            </ul>
+            <h2 class="govuk-heading-l">What we changed</h2>
+            <ul class="govuk-list govuk-list--bullet">
+                <li>Changed the name of the page from 'Form home' to 'Overview'</li>
+                <li>Followed a similar pattern used in Whitehall publisher, whereby actions are grouped in a <code
+                        class="govuk-code">govuk-grid-one-third</code> column layout next to form details</li>
+                <li>Moved key form actions to form overview such as:
+                    <ul class="govuk-list govuk-list--bullet">
+                        <li>create draft from live</li>
+                        <li>make form live</li>
+                        <li>close live form</li>
+                        <li>edit draft</li>
+                        <li>delete draft</li>
+                    </ul>
+                </li>
+            </ul>
+            <figure class="govuk-image">
+                <img src="/public/images/form-overview/posts/form-actions/05.png"
+                    alt="Form overview page with form actions in a column layout" class="govuk-!-width-full">
+                <figcaption class="govuk-body-s">Form overview page with form actions in a <code
+                        class="govuk-code">govuk-grid-one-third</code> column layout</figcaption>
+            </figure>
+            <p class="govuk-body">As a result, users felt a lot more accustomed with the page layout because the
+                majority of their time is spent in Whitehall Publisher.</p>
+            <div class="govuk-inset-text">
+                <p class="govuk-body">"This feels like home" - BAU content designer</p>
+            </div>
+        </div>
+    </div>
+    <div class="govuk-grid-column-one-third">
+        <div class="app-related-items">
+            <h2 class="govuk-heading-s">Related posts</h2>
+            <nav role="navigation" aria-labelledby="related-posts">
+                <ul class="govuk-list govuk-list--spaced">
+                    <li>
+                        <a href="/design-history/form-overview/posts/form-details.html" class="govuk-link">How we
+                            present information about forms
+                        </a>
+                        <p class="govuk-body-s govuk-!-margin-top-1">
+                            Originally published on 26 April 2024
+                        </p>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+</div>
+{% endblock %}

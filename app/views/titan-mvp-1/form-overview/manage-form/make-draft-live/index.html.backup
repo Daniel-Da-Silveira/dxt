@@ -1,0 +1,55 @@
+{% extends "layouts/main.html" %}
+
+{% from "components/service-header/macro.njk" import serviceHeader %}
+
+{% block header %}
+{{ serviceHeader({
+organisationName: "Defra",
+productName: "Forms Designer",
+serviceName: "",
+accountName: "Chris Smith",
+homepageLink: "/",
+signOutLink: "/onboarding/sign-out-confirmation",
+navigationItems: [
+{
+href: "/titan-mvp-1/library.html",
+text: "Forms library",
+id: "library"
+},
+{
+href: "/titan-mvp-1/form-overview/draft/complete.html",
+text: "Overview",
+id: "overview"
+},{
+href: "/editor",
+text: 'Editor',
+id: 'editor'
+}],
+activeLinkId: "/"
+}) }}
+{% endblock %}
+
+{% block content %}
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+        <span class="govuk-caption-xl">{{ form.name }}</span>
+        <h1 class="govuk-heading-xl">Are you sure you want to make the draft live?</h1>
+        <p class="govuk-body-l">Submitted forms will be sent to <a href="#" class="govuk-link">{{ form.team.email
+                }}</a>.</p>
+
+        {% from "govuk/components/button/macro.njk" import govukButton %}
+        <div class="govuk-button-group">
+            <form method="post" action="/titan-mvp-1/form-overview/make-draft-live" novalidate>
+                <button type="submit" class="govuk-button" data-module="govuk-button">
+                    Make form live
+                </button>
+                <a href="javascript:window.history.back()">
+                    <button type="button" class="govuk-button govuk-button--secondary" data-module="govuk-button">
+                        Cancel
+                    </button>
+                </a>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

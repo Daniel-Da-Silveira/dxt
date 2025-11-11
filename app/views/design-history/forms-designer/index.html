@@ -1,0 +1,325 @@
+{# {% extends "layouts/main.html" %} #}
+{% extends "design-history/template.html" %}
+
+{% set featureName = "Re-design overview" %}
+
+
+{% from "components/service-header/macro.njk" import serviceHeader %}
+{% from "govuk/components/summary-list/macro.njk" import govukSummaryList %}
+{% from "govuk/components/breadcrumbs/macro.njk" import govukBreadcrumbs %}
+{% from "govuk/components/tag/macro.njk" import govukTag %}
+{% from "govuk/components/table/macro.njk" import govukTable %}
+{% from "components/contents-list-with-body.njk" import contentsListWithBody %}
+
+{% block head %}
+{{ super() }}
+<style>
+    .govuk-image {
+        max-width: 600px;
+        margin: 0 auto;
+    }
+
+    .govuk-image img {
+        width: 100%;
+        height: auto;
+        display: block;
+    }
+
+    /* .app-prose-scope {
+        max-width: 38em;
+    } */
+
+    .app-related-items {
+        border-top: 2px solid #1d70b8;
+        padding-top: 10px;
+    }
+
+    .app-related-items .govuk-list {
+        margin-top: 0;
+    }
+
+    .app-related-items .govuk-list li {
+        margin-bottom: 0;
+    }
+
+    .app-secondary-text {
+        color: #505a5f !important;
+        font-weight: normal !important;
+    }
+
+    /* Add iframe container styles */
+    .iframe-container {
+        border: 5px solid black;
+        border-radius: 4px;
+        padding: 0;
+        overflow: hidden;
+        position: relative;
+    }
+
+    .iframe-tabs {
+        display: flex;
+        justify-content: flex-end;
+        border-bottom: 1px solid #ccc;
+        background-color: #f8f8f8;
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 10;
+        padding: 10px;
+    }
+
+    .iframe-tab {
+        text-align: center;
+        padding: 10px;
+        font-size: 16px;
+        text-decoration: none;
+        cursor: pointer;
+    }
+
+    .iframe-tab:hover {
+        background-color: #e8e8e8;
+    }
+
+    .iframe-container.fullscreen {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100vh;
+        z-index: 9999;
+        background-color: white;
+    }
+
+    .iframe-container.fullscreen .iframe-tabs {
+        position: fixed;
+        z-index: 9999;
+        background-color: white;
+    }
+
+    .iframe-container.fullscreen .iframe-content {
+        height: calc(100vh - 50px);
+        width: 100%;
+        border: none;
+    }
+</style>
+{% endblock %}
+
+{% block header %}
+{{ serviceHeader({
+organisationName: "Defra",
+productName: "Forms Designer",
+serviceName: "Design history",
+containerClasses: containerClasses,
+homepageLink: "/design-system/components.html",
+signOutLink: "/onboarding/sign-out-confirmation",
+navigationItems: [
+{ href: "/index", text: "Histories and prototypes", id: "histories-and-prototypes" },
+{ href: "/design-system/components.html", text: "Components", id: "components" },
+{ href: "/design-system/user-journeys/home.html", text: "User journeys", id: "user-journeys" }
+],
+activeLinkId: "histories-and-prototypes"
+}) }}
+
+<div class="x-govuk-masthead x-govuk-masthead--large">
+    <div class="govuk-width-container">
+        {{ govukBreadcrumbs({
+        classes: "govuk-breadcrumbs--inverse",
+        items: [
+        {
+        text: "Design History",
+        href: "/index.html"
+        },
+        {
+        text: "Transforming the Defra Forms Designer: A design history",
+        href: "/design-history/forms-designer/index.html"
+        },
+        {
+        text: "Redesign overview"
+        }
+        ]
+        }) }}
+
+        <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible"
+            style="border-bottom: 1px solid white; margin-bottom: 0" />
+
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-full-from-desktop">
+                <h1 class="x-govuk-masthead__title" id="re-design-overview">
+                    <span class="govuk-caption-l" style="color: white;">Transforming the Defra Forms Designer: A design
+                        history</span>
+                    Re-design overview
+                </h1>
+                <div class="govuk-body" style="color: white; margin-top: 1em;">
+                    <span class="govuk-tag govuk-tag--grey">Post</span>
+                    <span style="margin-left: 1em;">Originally published on 15 May 2024</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-one-quarter app-contents-list--sticky govuk-!-padding-right-0">
+        {# <div data-sticky-element=""
+            class="gem-c-contents-list-with-body__link-wrapper gem-c-contents-list-with-body__sticky-element--enabled gem-c-contents-list-with-body__sticky-element--stuck-to-window govuk-!-padding-top-0 govuk-!-margin-top-0">
+            <div class="gem-c-contents-list-with-body__link-container govuk-!-padding-top-0 govuk-!-margin-top-0"
+                id="contents">
+                <a class="govuk-link govuk-link--no-visited-state gem-c-back-to-top-link govuk-!-display-none-print"
+                    href="#re-design-overview">
+                    <svg class="gem-c-back-to-top-link__icon" xmlns="http://www.w3.org/2000/svg" width="13" height="17"
+                        viewBox="0 0 13 17" aria-hidden="true" focusable="false">
+                        <path fill="currentColor" d="M6.5 0L0 6.5 1.4 8l4-4v12.7h2V4l4.3 4L13 6.4z"></path>
+                    </svg>
+                    Back to top
+                </a>
+            </div>
+        </div> #}
+        {% set contents = [
+        {
+        href: "#re-design-overview",
+        text: "Re-design overview",
+        items: [
+        {
+        href: "#problem-we-set-out-to-solve",
+        text: "Problem we set out to solve"
+        },
+        {
+        href: "#mapping-out-as-is",
+        text: "Mapping out the current state (as-is)"
+        },
+        {
+        href: "#initial-assessment",
+        text: "Initial assessment: Accessibility and heuristic evaluation"
+        }
+        ]
+        },
+        {
+        href: "/design-history/forms-designer/summary-of-changes.html",
+        text: "Summary of changes and improvements"
+        },
+        {
+        href: "/design-history/forms-designer/user-flow-breakdown.html",
+        text: "User flow breakdown for the Titan release of the forms designer"
+        }
+        ] %}
+        {{ contentsListWithBody({ contents: contents, alternative_line_style: true }) }}
+    </div>
+    <div class="govuk-grid-column-two-thirds">
+        <div class="app-prose-scope">
+
+            <h2 class="govuk-heading-l" id="problem-we-set-out-to-solve">Problem we set out to solve</h2>
+
+            <p class="govuk-body">Most of Defra's forms were paper-based, making them inaccessible, costly, and
+                inefficient. The existing digital tools available for building forms were unintuitive, inaccessible, and
+                required significant training, limiting the pace and efficiency of digitisation efforts.</p>
+            <p class="govuk-body">Traditionally, many interactions with Defra could only be completed via offline or
+                manual channels such as call centres, email, or paper/PDF forms. These channels are not only expensive
+                to operate, but also lead to unstructured and error-prone data collection, making it difficult to
+                process information efficiently and accurately.</p>
+            <ul class="govuk-list govuk-list--bullet">
+                <li><strong>Call centres:</strong> High operational costs and resource-intensive</li>
+                <li><strong>Email:</strong> Unstructured submissions, hard to automate or analyse</li>
+                <li><strong>Paper/PDF:</strong> Prone to manual errors, slow to process, and inaccessible for many users
+                </li>
+            </ul>
+
+            <p class="govuk-body">We started with the x-gov form builder, which didn't meet accessibility requirements
+                and wasn't very intuitive. This has prevented the team from opening the product to other content
+                designers to help tackle the backlog of forms and new requests coming in. We need to make DXT more
+                intuitive, user friendly and accessible to aid adoption.</p>
+
+            <p class="govuk-body">However, although starting with x-gov form builder (starting with what already
+                exists), we needed to make the product more intuitive, user friendly and accessible to aid adoption.</p>
+
+            <p class="govuk-body">This is because usage of the x-gov form builder impacted:</p>
+            <ul class="govuk-list govuk-list--bullet">
+                <li>User confidence</li>
+                <li>Form publication speed</li>
+                <li>Widespread adoption by content designers outside the core Defra Forms team</li>
+                <li>Ability to meet WCAG 2.2 compliance requirements</li>
+                <li>Conformance to design standards</li>
+            </ul>
+            <p class="govuk-body">Defra is a large and complex organisation, working with over 35 agencies and public
+                bodies, each with different policies, operations, and technical systems. This diversity means that a
+                one-size-fits-all approach does not work, and any solution must be flexible enough to support a wide
+                range of needs and service teams.</p>
+
+            <p class="govuk-inset-text">The following sections highlight the work we've done to improve the x-gov form
+                builder, and the new forms designer (version: Titan).</p>
+
+            <hr class="govuk-section-break govuk-section-break--xl govuk-section-break--visible">
+
+            <h2 class="govuk-heading-l" id="mapping-out-as-is">Mapping out the current state (as-is)</h2>
+            <p class="govuk-body">We mapped the existing x-gov form builder workflows extensively using detailed
+                diagrams in Figma. This allowed us to pinpoint specific areas for improvement and establish baseline
+                metrics for future iterations.</p>
+            <p class="govuk-body">Key findings included:</p>
+            <ul class="govuk-list govuk-list--bullet">
+                <li>A complex, unintuitive interface</li>
+                <li>Overwhelming information presentation</li>
+                <li>Non-standardised components causing user confusion</li>
+                <li>Accessibility barriers preventing wider adoption</li>
+                <li>Inconsistent design patterns</li>
+            </ul>
+
+            <div class="preview-section">
+                <span class="govuk-caption-m govuk-!-margin-bottom-1">Preview of x-gov form builder state when first
+                    adopted</span>
+                <div class="iframe-container govuk-!-margin-bottom-6" role="region"
+                    aria-labelledby="preview-heading-xgov">
+                    <h2 id="preview-heading-xgov" class="govuk-visually-hidden">x-gov form builder as-is
+                    </h2>
+                    <iframe
+                        src="https://embed.figma.com/design/2xHXxJtz4Y1tcRR9J2GEmc/x-gov-as-is-flows?node-id=6-41685&embed-host=share"
+                        class="iframe-content" style="overflow-y: auto; height: 500px; width: 100%; border: none;"
+                        scrolling="yes" frameborder="0" title="Form preview" marginheight="0" marginwidth="0"
+                        allowfullscreen>
+                    </iframe>
+                    <div class="iframe-tabs" role="navigation" aria-label="Preview controls">
+                        <a class="govuk-link govuk-link--no-visited-state iframe-tab maximise-button"
+                            style="border-right: #007f3b 1px solid;" href="#" role="button"
+                            aria-label="Maximise preview" title="Maximise preview" tabindex="0">
+                            Maximise
+                        </a>
+                        <a class="govuk-link govuk-link--no-visited-state iframe-tab"
+                            href="https://embed.figma.com/design/2xHXxJtz4Y1tcRR9J2GEmc/x-gov-as-is-flows?node-id=6-41685&embed-host=share"
+                            target="_blank" rel="noopener noreferrer" aria-label="Open preview in a new tab"
+                            title="Open preview in a new tab">
+                            Open in a new tab
+                        </a>
+                    </div>
+                </div>
+
+                <hr class="govuk-section-break govuk-section-break--xl govuk-section-break--visible">
+
+                <h2 class="govuk-heading-l" id="initial-assessment">Initial
+                    assessment: Accessibility and heuristic evaluation</h2>
+
+
+                <p class="govuk-body">To identify immediate usability issues, we started with heuristic and
+                    accessibility
+                    testing of the existing x-gov form builder. A senior interaction designer and two senior content
+                    designers evaluated the product against NNGroup heuristics and accessibility guidelines.</p>
+                <p class="govuk-body">Findings highlighted multiple usability and accessibility concerns, documented
+                    clearly
+                    in our <a href="https://defra-forms-design-history-18deac2f53ea.herokuapp.com/heuristic/"
+                        class="govuk-link">Design History</a>.</p>
+                <p class="govuk-body">We also engaged the Defra accessibility team for an independent review.</p>
+
+                {% from "govuk/components/pagination/macro.njk" import govukPagination %}
+
+                {{ govukPagination({
+                next: {
+                labelText: "Summary of changes and improvements",
+                href: "/design-history/forms-designer/summary-of-changes.html"
+                }
+                }) }}
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

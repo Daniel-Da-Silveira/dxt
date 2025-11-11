@@ -1,0 +1,359 @@
+{% extends "design-history/template.html" %}
+
+{% set featureName = "Short description for error messages" %}
+{% set latestVersionLink = "" %}
+{% set status = "Tested" %}
+{% set statusColor = "green" %}
+{% set userNeed = "Users need to provide clear, meaningful error messages so they can help users complete forms
+correctly." %}
+{% set phase = "Private beta" %}
+{% set category = "Form editor" %}
+{% set description = "This feature lets users add a short description to questions, which is used in three key ways:
+automatically generating clear error messages, creating concise labels on the check your answers page, and identifying
+responses in confirmation emails. This saves designers from writing error messages manually while keeping forms
+consistent with GOV.UK standards." %}
+
+{# --- Journey steps --- #}
+{% set journeySteps = [
+{ number: "1", title: "Onboarding", subtitles: [ { text: "Sign in/out", isCurrent: false } ] },
+{ number: "2", title: "Create new form", subtitles: [ { text: "Add form details", isCurrent: false } ] },
+{ number: "3", title: "Form design", subtitles: [ { text: "Create and edit questions", isCurrent: true } ] },
+{ number: "4", title: "Form overview", subtitles: [ { text: "View and edit form details", isCurrent: false } ],
+isCurrent: true },
+{ number: "5", title: "Testing", subtitles: [ { text: "Preview form", isCurrent: false } ] }
+] %}
+
+{% set researchRounds = [
+"Round 2 – May 2024",
+"Round 6 – September 2024",
+"Round 7 – October 2024",
+"Round 8 – November 2024",
+"Round 13 – March 2025"
+] %}
+
+{% set improvements = [
+"Clarified how short description is used in error messages",
+"Added preview of error message using short description",
+"Allowed full custom override of error messages"
+] %}
+
+{% set showHowItWorksInDetails = true %}
+{% set howItWorksTitle = "How short descriptions work" %}
+
+{% set howItWorks = [
+{
+title: "Error messages",
+description: "The short description is automatically inserted into error messages that get shown to the user when they
+make a mistake.",
+example: "If the short description is 'favourite animal' and the question is left blank, the error would read 'Enter
+your favourite animal' (instead of something vague like 'Enter an answer').",
+benefit: "This follows the GOV.UK error message templates so that your forms stay consistent."
+},
+{
+title: "Check your answers page",
+description: "On the summary page, short descriptions are used as the label for the answer.",
+example: "Instead of showing the full long question, the 'Check your answers' row might just say 'Favourite animal' with
+the user's answer alongside.",
+benefit: "This keeps the summary page clean and easy to scan."
+},
+{
+title: "Confirmation emails",
+description: "When someone submits the form, short descriptions are also used in confirmation emails to identify the
+answers.",
+example: "The email will show 'Favourite animal: Dog' rather than the full question text.",
+benefit: "This keeps the email concise and makes it easier for users to scan their responses."
+}
+] %}
+
+{% set researchHistory = [
+{
+roundNumber: "2",
+researchDate: "May 2024",
+researchFinding: "'Short label' not clear to all participants. General page content revision needed.",
+changeMade: "Identified need for clearer terminology and page content improvements."
+},
+{
+roundNumber: "6",
+researchDate: "September 2024",
+researchFinding: "Name 'short label' unclear though hint text helped. Participants questioned why 'Enter' was
+pre-written in preview.",
+changeMade: "Improved hint text and preview functionality based on user feedback."
+},
+{
+roundNumber: "7",
+researchDate: "October 2024",
+researchFinding: "Error messages not clear; most participants started short description with 'Enter…', one with 'Please
+enter…'.",
+changeMade: "Identified need for clearer error message functionality and guidance."
+},
+{
+roundNumber: "8",
+researchDate: "November 2024",
+researchFinding: "Error message behaviour threw users; auto prefix not explained. Experienced writers wanted
+flexibility, less experienced needed guidance.",
+changeMade: "Next steps identified: set expectations, provide flexibility, provide guidance on writing good errors."
+},
+{
+roundNumber: "13",
+researchDate: "March 2025",
+researchFinding: "Users misunderstood the role of short description. Policy users wanted to control the tone of error
+messages. Support for editable error message was strong. Participants uncertain about difference between hint text and
+short description. Page sections noted as potentially useful for error messages and summary pages.",
+changeMade: "Enabled custom error messages alongside short description. Identified need for clearer distinction between
+hint text and short description fields. Explored integration with page sections for error messaging."
+}
+] %}
+
+{% set researchSummaries = [
+{
+title: "Round 13 – March 2025",
+summary: "Comprehensive testing including validation, error messaging, hint text vs short description, and page sections
+functionality.",
+sections: [
+{
+type: "content",
+content: "**Method:** Remote interviews, usability walkthroughs, and prototype evaluation\n\n**Participants:** Policy
+SMEs and content designers from Waste, RPA, and Trade; 5 content designers (BAU + juniors, with mixed prior form
+experience); additional participants for page sections evaluation"
+},
+{
+type: "findings",
+content: [
+"Short description still misunderstood by most users",
+"Participants wanted full control over message wording",
+"Concerns about how automated errors sounded to users",
+"Desire to preview and override system-generated messages",
+"Participants uncertain about what hint text and short description were for",
+"Unclear about the difference between hint text and short description",
+"Unsure whether to fill in the short description field or what to write",
+"Page sections noted as potentially useful for error messages and summary pages"
+]
+},
+{
+type: "quotes",
+content: [
+"'This doesn't sound like how we'd talk to farmers – can I just write the message myself?'",
+"'I don't know what the difference between hint text and short description is.'",
+"'The short description. That's the bit that I was like, what do I need to put in there?'"
+]
+}
+]
+},
+{
+title: "Round 8 – November 2024",
+summary: "Comprehensive testing of error message behaviour and preview across multiple question types.",
+sections: [
+{
+type: "content",
+content: "**Method:** Remote interviews and usability testing\n\n**Participants:** 5 content designers and 1 proxy user
+(EA, Cefas, APHA, BaU, Neurodiversity Network)\n\n**Tasks:** 13 tasks covering Yes/No, Radios, Date, Autocomplete, Full
+name, Telephone, Email, Business address, Checkbox, Number, File upload, Guidance, Declaration, and Reorder"
+},
+{
+type: "images",
+imagesLabel: "Short label field in Round 8 testing",
+content: [
+{
+src: "/public/images/short-description/round8.png",
+alt: "Short label field showing the initial implementation",
+caption: "",
+width: "two-thirds"
+}
+]
+},
+{
+type: "findings",
+content: [
+"Error message behaviour threw users and they felt not fully in control",
+"Auto prefix (Enter/Select) not explained and confused participants",
+"Experienced writers wanted more flexibility in writing error messages",
+"Less experienced users needed more guidance and best practice",
+"Need to set clear expectations, provide flexibility, and guidance on writing good errors"
+]
+},
+{
+type: "quotes",
+content: [
+"'Error message – threw me a little bit… I wasn't fully in control… I need some guidance on what to put / best
+practice.'",
+"'I need some guidance on what to put / best practice.'"
+]
+}
+]
+},
+{
+title: "Round 7 – October 2024",
+summary: "Tested error messages and short description input during question creation tasks.",
+sections: [
+{
+type: "content",
+content: "**Method:** Remote interviews and usability testing\n\n**Participants:** 4 content designers and 1 proxy user
+(APHA, RPA, Farming, Single Front Door)\n\n**Tasks:** Adding questions (single and multiple per page), reordering, error
+messages and short description input"
+},
+{
+type: "images",
+imagesLabel: "Short label field in Round 7 testing",
+content: [
+{
+src: "/public/images/short-description/round7.png",
+alt: "Short label field showing the initial implementation",
+caption: "",
+width: "two-thirds"
+}
+]
+},
+{
+type: "findings",
+content: [
+"Error messages functionality was not clear to participants",
+"Most participants started the short description with 'Enter…'",
+"One participant started with 'Please enter…'",
+"Label and copy were clear but error message functionality was confusing"
+]
+},
+{
+type: "quotes",
+content: [
+"'Error messages… was not clear! The error messages doesn't work.'",
+"'Most participants started the short description with 'Enter…'. A participant started with 'Please enter…'."
+]
+}
+]
+},
+{
+title: "Round 6 – September 2024",
+summary: "Form Editor redesign testing including short label field and preview functionality.",
+sections: [
+{
+type: "content",
+content: "**Method:** Remote interviews and usability testing\n\n**Participants:** 7 content designers (Farming/SFI,
+Flood, Trade, Policy Lab, etc.)\n\n**Tasks:** Creating a form, adding a single question, guidance, reordering, testing
+'short label' field while adding questions"
+},
+{
+type: "images",
+imagesLabel: "Short label field in Round 6 testing",
+content: [
+{
+src: "/public/images/short-description/round6.png",
+alt: "Short label field showing the initial implementation",
+caption: "",
+width: "two-thirds"
+}
+]
+},
+{
+type: "findings",
+content: [
+"Name 'short label' was not immediately clear to participants",
+"Hint text helped participants understand the field better",
+"Participants suggested calling it 'add text for error messages'",
+"Participants questioned why 'Enter' was already written in the preview",
+"Participants liked the idea of error automation but needed clearer guidance"
+]
+},
+{
+type: "quotes",
+content: [
+"'Didn't immediately understand what 'short label' meant, but after reading the hint text, I was able to understand it
+better. I'd call it 'add text for error messages'.'",
+"'So that's my error message… add a 'short error message'?'",
+"'This is nice – but I'd need to understand what it does more clearly.'"
+]
+}
+]
+},
+{
+title: "Round 2 – May 2024",
+summary: "Initial testing of short label field during form creation tasks.",
+sections: [
+{
+type: "content",
+content: "**Method:** Remote interviews and usability testing\n\n**Participants:** 4 content designers (EA, Trade, BAU
+Whitehall)\n\n**Tasks:** Form overview, Add page, Add component, Reference number in a specific format, Preview, Error
+message, and Conditions"
+},
+{
+type: "images",
+imagesLabel: "Short label field in Round 2 testing",
+content: [
+{
+src: "/public/images/short-description/round2.png",
+alt: "Short label field showing the initial implementation",
+caption: "The 'short label' field that participants found unclear",
+width: "two-thirds"
+}
+]
+},
+{
+type: "findings",
+content: [
+"'Short label' was not clear to all participants",
+"General page content revision needed",
+"Overall page needed content improvements"
+]
+},
+{
+type: "quotes",
+content: [
+"'Short label – it was not clear to all participants. In general, the whole page needs some content revision.'"
+]
+}
+]
+}
+] %}
+
+{# {% set relatedPosts = [] %} #}
+
+{% block customContent %}
+{% if showHowItWorksInDetails %}
+<details class="govuk-details" data-module="govuk-details">
+    <summary class="govuk-details__summary">
+        <span class="govuk-details__summary-text">
+            {{ howItWorksTitle }}
+        </span>
+    </summary>
+    <div class="govuk-details__text">
+        <p class="govuk-body">Short descriptions are used in three key ways to improve your forms:</p>
+
+        {% for use in howItWorks %}
+        <h3 class="govuk-heading-s">{{ use.title }}</h3>
+        <p class="govuk-body">{{ use.description }}</p>
+        <div class="govuk-inset-text">
+            <p class="govuk-body"><strong>Example:</strong> {{ use.example }}</p>
+        </div>
+        <p class="govuk-body">{{ use.benefit }}</p>
+        {% endfor %}
+
+        <h3 class="govuk-heading-s">In summary</h3>
+        <p class="govuk-body">Short descriptions:</p>
+        <ul class="govuk-list govuk-list--bullet">
+            <li>save the designer from writing error messages manually</li>
+            <li>keep labels short and clear on summary/confirmation pages</li>
+            <li>make the form more consistent with other GOV.UK services</li>
+        </ul>
+    </div>
+</details>
+{% else %}
+<h2 class="govuk-heading-m">{{ howItWorksTitle }}</h2>
+<p class="govuk-body">Short descriptions are used in three key ways to improve your forms:</p>
+
+{% for use in howItWorks %}
+<h3 class="govuk-heading-s">{{ use.title }}</h3>
+<p class="govuk-body">{{ use.description }}</p>
+<div class="govuk-inset-text">
+    <p class="govuk-body"><strong>Example:</strong> {{ use.example }}</p>
+</div>
+<p class="govuk-body">{{ use.benefit }}</p>
+{% endfor %}
+
+<h3 class="govuk-heading-s">In summary</h3>
+<p class="govuk-body">Short descriptions:</p>
+<ul class="govuk-list govuk-list--bullet">
+    <li>save the designer from writing error messages manually</li>
+    <li>keep labels short and clear on summary/confirmation pages</li>
+    <li>make the form more consistent with other GOV.UK services</li>
+</ul>
+{% endif %}
+{% endblock %}

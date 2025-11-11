@@ -1,0 +1,65 @@
+<div class="border-left-container">
+  <div id="checkbox-list">
+    <fieldset class="govuk-fieldset">
+      <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
+        <h1 class="govuk-fieldset__heading" id="multi-question-label-legend-checkboxes">
+          Question
+        </h1>
+      </legend>
+
+      <!-- Hint Text -->
+      <div id="multi-question-hint-text-output-checkboxes" class="govuk-hint">
+        <!-- Hint text will be dynamically updated here -->
+      </div>
+
+      <!-- Checkbox List -->
+      <div class="govuk-checkboxes" data-module="govuk-checkboxes">
+        <!-- Dynamically generated checkbox items will be inserted here -->
+      </div>
+    </fieldset>
+  </div>
+</div>
+
+{% if data['setName'] %}
+  {{ govukButton({
+      text: "Add another " + (data['setName'] | lower),
+      classes: "govuk-button govuk-!-margin-top-3",
+      id: "add-another-set-button",
+      disabled: true
+  }) }}
+{% else %}
+  {# {{ govukButton({
+      text: "Continue",
+      classes: "govuk-button govuk-!-margin-top-3",
+      id: "add-another-set-button",
+      disabled: true
+  }) }} #}
+{% endif %}
+
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+const dynamicCaption = document.getElementById("dynamic-caption");
+const setName = dynamicCaption.getAttribute("data-setname");
+
+if (!setName) {
+dynamicCaption.style.display = "none";
+}
+});
+
+$(document).on('ready', function() {
+    $('#checkbox-list').on('focus', function() {
+        alert('Focus handler called!');
+    });
+});
+
+
+</script>
+
+
+<style>
+  .border-left-container {
+    border-left: 10px solid #ffb266;
+    padding-left: 20px;
+  }
+</style>

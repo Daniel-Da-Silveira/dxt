@@ -111,6 +111,34 @@
           "partial": "Month and year"
         }
       },
+      "location": {
+        "title": "Location",
+        "hint": "A UK address or precise location",
+        "types": {
+          "title": "Type of location",
+          "address": "UK address",
+          "precise": "Precise location"
+        },
+        "precise": {
+          "title": "Precise location",
+          "hint": "A precise location, for example, a grid reference or coordinates",
+          "location_formats": {
+            "title": "Select location format",
+            "easting_northing": "National Grid - Easting and Northing",
+            "grid_reference": "Grid reference",
+            "field_number": "National Grid field number",
+            "os_grid_number": "Ordnance Survey (OS) grid reference",
+            "longitude_latitude": "Latitude and longitude"
+          },
+          "grid_reference_types": {
+            "title": "Select grid reference type",
+            "4_figure": "4-figure grid reference",
+            "6_figure": "6-figure grid reference",
+            "8_figure": "8-figure grid reference",
+            "10_figure": "10-figure grid reference"
+          }
+        }
+      },
       "address": {
         "title": "UK address",
         "hint": "A street address, town or city and postcode"
@@ -164,6 +192,14 @@
       "email": {
         "title": "Email address",
         "hint": "An email address, for example, name@example.com"
+      },
+      "declaration": {
+        "title": "Declaration",
+        "hint": "A statement that users must confirm to proceed"
+      },
+      "payment": {
+        "title": "Payment",
+        "hint": "Collect payment from users for services or applications"
       },
       "list": {
         "title": "A list of options that users can choose from",
@@ -255,6 +291,10 @@
       "question": "Question",
       "hint": "Hint text (optional)",
       "optional": "Make this question optional",
+      "make_optional": "Make this question optional",
+      "error_message": "Error message",
+      "declaration_text": "Declaration text",
+      "declaration_text_hint": "The text that users will see and must confirm",
       "short_description": {
         "title": "Short description",
         "hint": "Enter a short description for this question like 'fave animal'. Short descriptions are used in error messages and on the check your answers page."

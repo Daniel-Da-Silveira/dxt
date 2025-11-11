@@ -1,0 +1,197 @@
+{% extends "layouts/main.html" %}
+{% from "components/service-header/macro.njk" import serviceHeader %}
+{% from "moj/components/timeline/macro.njk" import mojTimeline %}
+{% from "govuk/components/summary-list/macro.njk" import govukSummaryList %}
+
+{% block header %}
+{{ serviceHeader({
+organisationName: "Defra",
+productName: "Form Designer",
+serviceName: "",
+accountName: "Chris Smith",
+homepageLink: "/",
+signOutLink: "/titan-mvp-1.2/onboarding/sign-out-confirmation",
+navigationItems: [
+{
+href: "/titan-mvp-1.2/library",
+text: "Forms library",
+id: "nav-library"
+},
+{
+href: "/titan-mvp-1.2/form-overview/{{ form.id }}",
+text: "Overview",
+id: "nav-overview",
+active: true
+},
+{
+    href: "/titan-mvp-1.2/form-overview/poc",
+    text: "Submissions",
+    id: "nav-submissions"
+},
+{
+href: "/titan-mvp-1.2/form-editor/listing",
+text: "Editor",
+id: "nav-editor"
+}
+],
+activeLinkId: "nav-submissions"
+}) }}
+
+
+<div class="x-govuk-masthead x-govuk-masthead--large">
+    <div class="govuk-width-container">
+        {{ govukBackLink({
+        classes: "govuk-back-link--inverse govuk-!-margin-bottom-0",
+        text: "Back to form overview",
+        href: "/titan-mvp-1.2/form-overview/{{ form.id }}"
+        }) }}
+
+        <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible"
+            style="border-bottom: 1px solid white; margin-bottom: 0" />
+
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-full-from-desktop">
+                <h1 class="x-govuk-masthead__title">
+                    <span class="govuk-caption-l" style="color: #fff;">
+                        {{ form.name or "Example Form" }}
+                        </span>
+
+                    Form submissions
+                </h1>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block pageTitle %}
+{{ pageName }}
+{% endblock %}
+
+{% block content %}
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-two-thirds">
+        {% if showSuccessMessage %}
+        {% set html %}
+          <h3 class="govuk-notification-banner__heading">
+            We have emailed a link to your shared mailbox
+          </h3>
+          <p class="govuk-body">This might take a couple of minutes.</p>
+
+          <p class="govuk-body">Shared mailbox: example@example.com</p>
+        {% endset %}
+
+        {{ govukNotificationBanner({
+          html: html,
+          type: "success"
+        }) }}
+        {% endif %}
+
+        {% if showFeedbackSuccessMessage %}
+        {% set feedbackHtml %}
+          <h3 class="govuk-notification-banner__heading">
+            We have emailed a link to your shared mailbox
+          </h3>
+          <p class="govuk-body">This might take a couple of minutes.</p>
+
+          <p class="govuk-body">Shared mailbox: example@example.com</p>
+
+        {% endset %}
+
+        {{ govukNotificationBanner({
+          html: feedbackHtml,
+          type: "success"
+        }) }}
+        {% endif %}
+        </div>
+        </div>
+
+        <!-- Submissions section -->
+        <div class="govuk-!-margin-bottom-6">
+            {{ govukSummaryList({
+            card: {
+                title: {
+                    text: "Form submissions"
+                },
+                actions: {
+                    items: [
+                      {
+                        href: "/titan-mvp-1.2/form-overview/submissions/improved-2/download",
+                        text: "Download submissions",
+                        visuallyHiddenText: "users submitted in the last 9 months"
+                    }
+                    ]
+                  }
+                },
+            rows: [
+                {
+                    key: {
+                        text: "Format"
+                    },
+                    value: {
+                        text: "Excel spreadsheet"
+                    }
+                },
+                {
+                    key: {
+                        text: "Data retention"
+                    },
+                    value: {
+                        text: "Data expires 9 months after submission"
+                    }
+
+                }
+            ]
+            }) }}
+        </div>
+
+        <!-- Feedback section -->
+        <div class="govuk-!-margin-bottom-6">
+            {{ govukSummaryList({
+            card: {
+                title: {
+                    text: "User feedback"
+                },
+                actions: {
+                    items: [
+                      {
+                        href: "/titan-mvp-1.2/form-overview/submissions/improved-2/download-feedback",
+                        text: "Download feedback",
+                        visuallyHiddenText: "users submitted the last 3 months"
+                      }
+                    ]
+                  }
+                },
+            rows: [
+                {
+                    key: {
+                        text: "Format"
+                    },
+                    value: {
+                        text: "Excel spreadsheet"
+                    }
+                },
+                {
+                    key: {
+                        text: "Data retention"
+                    },
+                    value: {
+                        text: "3 months after submission"
+                    }
+
+                }
+            ]
+            }) }}
+        </div>
+
+        <!-- Information panel -->
+
+    </div>
+
+
+</div>
+
+{% endblock %}

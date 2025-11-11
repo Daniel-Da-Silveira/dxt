@@ -48,7 +48,7 @@ module.exports = {
       },
     ]);
 
-    res.render("form-editor/list-manager", { tableRows });
+    res.render("titan-mvp-1.2/form-editor/lists/list-manager", { tableRows });
   },
 
   post: (req, res) => {
@@ -86,7 +86,7 @@ module.exports = {
           return res.redirect("/form-editor/list-manager");
         }
 
-        res.render("form-editor/view-list", {
+        res.render("titan-mvp-1.2/form-editor/lists/view-list", {
           name: req.params.name,
           items: list,
         });
@@ -106,7 +106,7 @@ module.exports = {
       return res.redirect("/form-editor/list-manager");
     }
 
-    res.render("form-editor/edit-list", {
+    res.render("titan-mvp-1.2/form-editor/lists/edit-list", {
       name: req.params.name,
       items: list.join("\n"),
     });

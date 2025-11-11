@@ -1,0 +1,53 @@
+{% extends "layouts/main.html" %}
+{% from "components/service-header/macro.njk" import serviceHeader %}
+{% set govukRebrand = true %}
+
+{% block header %}
+{{ serviceHeader({
+organisationName: "Defra",
+productName: "Form Designer",
+serviceName: "",
+homepageLink: "/titan-mvp-1.2/product-pages/homepage",
+signInLink: "/titan-mvp-1.2/library",
+navigationItems: [
+{ href: "/titan-mvp-1.2/product-pages/about", text: "About", id: "nav-about" },
+{ href: "/titan-mvp-1.2/product-pages/get-started", text: "Get started", id: "nav-get-started" },
+{ href: "/titan-mvp-1.2/product-pages/features", text: "Features", id: "nav-features" },
+{ href: "/titan-mvp-1.2/product-pages/resources", text: "Resources", id: "nav-resources" },
+{ href: "/titan-mvp-1.2/product-pages/support", text: "Support", id: "nav-support" }
+],
+activeLinkId: "nav-features"
+}) }}
+
+{{ xGovukMasthead({
+inverse: true,
+title: {
+text: "Simple postcode lookup prototype"
+},
+description: {
+html: "This prototype shows a simplified postcode lookup plugin without building number/name field and without confirm
+address step."
+}
+}) }}
+{% endblock %}
+
+{% block pageTitle %}
+Simple postcode lookup prototype – Defra Form Designer
+{% endblock %}
+
+
+
+{% block content %}
+
+
+{# Example of a Continue button #}
+{{
+govukButton({
+text: "Try the simple postcode lookup prototype",
+classes: "govuk-button--start",
+href:
+"/dwp-find-an-address-plugin-simple/start?find_an_address_exit_url=/titan-mvp-1.2/form-editor/location/postcode-lookup-simple",
+isStartButton: true
+})
+}}
+{% endblock %}

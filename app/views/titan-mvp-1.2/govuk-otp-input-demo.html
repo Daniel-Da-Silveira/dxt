@@ -1,0 +1,555 @@
+{% extends "layouts/main.html" %}
+
+{% from "components/govuk-otp-input/macro.njk" import govukOtpInput %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "govuk/components/fieldset/macro.njk" import govukFieldset %}
+{% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
+{% from "govuk/components/notification-banner/macro.njk" import govukNotificationBanner %}
+
+{% block pageTitle %}
+GOV.UK OTP Input Component Demo - {{ serviceName }} – GOV.UK
+{% endblock %}
+
+{% block beforeContent %}
+{% endblock %}
+
+{% block content %}
+
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+
+        <h1 class="govuk-heading-l">GOV.UK OTP Input Component Demo</h1>
+
+        <p class="govuk-body">This page demonstrates the GOV.UK OTP input component with smart focus management, paste
+            functionality, and accessibility features following GOV.UK Design System patterns.</p>
+
+        <div class="govuk-inset-text">
+            <p>This component provides the same smart functionality as <a href="https://www.shadcn.io/ui/input-otp"
+                    class="govuk-link" target="_blank">shadcn/ui input-otp</a> but follows GOV.UK Design System
+                guidelines and accessibility standards.</p>
+        </div>
+
+        <!-- Success notification -->
+        <div id="success-notification" class="govuk-notification-banner govuk-notification-banner--success" role="alert"
+            aria-labelledby="govuk-notification-banner-title" data-module="govuk-notification-banner"
+            style="display: none;">
+            <div class="govuk-notification-banner__header">
+                <h2 class="govuk-notification-banner__title" id="govuk-notification-banner-title">
+                    Success
+                </h2>
+            </div>
+            <div class="govuk-notification-banner__content">
+                <p class="govuk-notification-banner__heading">
+                    OTP code submitted successfully!
+                </p>
+                <p class="govuk-body">The code <span id="submitted-code"></span> has been processed.</p>
+            </div>
+        </div>
+
+        <form class="form" action="/titan-mvp-1.2/govuk-otp-input-demo" method="post" autocomplete="off">
+
+            <!-- Simple 4-digit PIN -->
+            <div class="govuk-!-margin-bottom-8">
+                <h2 class="govuk-heading-m">Simple 4-digit PIN</h2>
+                <p class="govuk-body">Basic PIN entry for quick authentication:</p>
+
+                {{ govukOtpInput({
+                id: "pin-input",
+                name: "pin",
+                maxLength: 4,
+                pattern: "[0-9]",
+                fieldset: {
+                legend: {
+                text: "Enter your 4-digit PIN",
+                isPageHeading: false,
+                classes: "govuk-fieldset__legend--s"
+                }
+                },
+                hint: {
+                text: "Enter the 4-digit PIN you received"
+                }
+                }) }}
+            </div>
+
+            <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
+
+            <!-- 6-digit verification code -->
+            <div class="govuk-!-margin-bottom-8">
+                <h2 class="govuk-heading-m">6-digit verification code</h2>
+                <p class="govuk-body">Standard SMS verification code with visual grouping:</p>
+
+                {{ govukOtpInput({
+                id: "verification-code",
+                name: "verification_code",
+                maxLength: 6,
+                pattern: "[0-9]",
+                groups: [
+                { slots: 3 },
+                { slots: 3, separator: "-" }
+                ],
+                fieldset: {
+                legend: {
+                text: "Enter verification code",
+                isPageHeading: false,
+                classes: "govuk-fieldset__legend--s"
+                }
+                },
+                hint: {
+                text: "Enter the 6-digit code sent to your phone"
+                }
+                }) }}
+            </div>
+
+            <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
+
+            <!-- 8-digit backup code -->
+            <div class="govuk-!-margin-bottom-8">
+                <h2 class="govuk-heading-m">8-digit backup code</h2>
+                <p class="govuk-body">Backup code with alphanumeric characters:</p>
+
+                {{ govukOtpInput({
+                id: "backup-code",
+                name: "backup_code",
+                maxLength: 8,
+                pattern: "[0-9A-Z]",
+                groups: [
+                { slots: 4 },
+                { slots: 4, separator: "-" }
+                ],
+                fieldset: {
+                legend: {
+                text: "Enter backup code",
+                isPageHeading: false,
+                classes: "govuk-fieldset__legend--s"
+                }
+                },
+                hint: {
+                text: "Enter the 8-character backup code (letters and numbers)"
+                }
+                }) }}
+            </div>
+
+            <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
+
+            <!-- Compact variant -->
+            <div class="govuk-!-margin-bottom-8">
+                <h2 class="govuk-heading-m">Compact variant</h2>
+                <p class="govuk-body">Smaller inputs for space-constrained layouts:</p>
+
+                {{ govukOtpInput({
+                id: "compact-code",
+                name: "compact_code",
+                maxLength: 6,
+                pattern: "[0-9]",
+                classes: "govuk-otp-input--compact",
+                fieldset: {
+                legend: {
+                text: "Enter code (compact)",
+                isPageHeading: false,
+                classes: "govuk-fieldset__legend--s"
+                }
+                },
+                hint: {
+                text: "Compact version for smaller spaces"
+                }
+                }) }}
+            </div>
+
+            <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
+
+            <!-- Large variant -->
+            <div class="govuk-!-margin-bottom-8">
+                <h2 class="govuk-heading-m">Large variant</h2>
+                <p class="govuk-body">Larger inputs for better accessibility:</p>
+
+                {{ govukOtpInput({
+                id: "large-code",
+                name: "large_code",
+                maxLength: 6,
+                pattern: "[0-9]",
+                classes: "govuk-otp-input--large",
+                fieldset: {
+                legend: {
+                text: "Enter code (large)",
+                isPageHeading: false,
+                classes: "govuk-fieldset__legend--s"
+                }
+                },
+                hint: {
+                text: "Large version for better accessibility"
+                }
+                }) }}
+            </div>
+
+            <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
+
+            <!-- Error state example -->
+            <div class="govuk-!-margin-bottom-8">
+                <h2 class="govuk-heading-m">Error state example</h2>
+                <p class="govuk-body">OTP input with validation error:</p>
+
+                {{ govukOtpInput({
+                id: "error-code",
+                name: "error_code",
+                maxLength: 6,
+                pattern: "[0-9]",
+                errorMessage: {
+                text: "Enter a valid 6-digit code"
+                },
+                fieldset: {
+                legend: {
+                text: "Enter code (with error)",
+                isPageHeading: false,
+                classes: "govuk-fieldset__legend--s"
+                }
+                },
+                hint: {
+                text: "This example shows error styling"
+                }
+                }) }}
+            </div>
+
+            <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
+
+            <!-- Features demonstration -->
+            <div class="govuk-!-margin-bottom-8">
+                <h2 class="govuk-heading-m">Features demonstration</h2>
+                <p class="govuk-body">Try these features with the inputs above:</p>
+
+                <ul class="govuk-list govuk-list--bullet">
+                    <li><strong>Smart focus management:</strong> Type a digit and the cursor automatically moves to the
+                        next input</li>
+                    <li><strong>Auto-distribution paste:</strong> Copy a code like "123456" and paste it into any input
+                        - it will automatically distribute across all inputs</li>
+                    <li><strong>Keyboard navigation:</strong> Use arrow keys, Home, End, and Tab to navigate</li>
+                    <li><strong>Backspace handling:</strong> Backspace moves to the previous input and clears it</li>
+                    <li><strong>Pattern validation:</strong> Only valid characters are accepted based on the pattern
+                    </li>
+                    <li><strong>Screen reader support:</strong> Each input is properly labeled and announced</li>
+                </ul>
+
+                <div class="govuk-inset-text">
+                    <p><strong>Try pasting:</strong> Copy "123456" and paste it into any of the 6-digit inputs above.
+                        The code will automatically distribute across all input boxes.</p>
+                </div>
+            </div>
+
+            <div class="govuk-button-group">
+                {{ govukButton({
+                text: "Submit all codes",
+                type: "submit",
+                classes: "govuk-button--primary"
+                }) }}
+
+                {{ govukButton({
+                text: "Clear all",
+                type: "button",
+                classes: "govuk-button--secondary",
+                attributes: {
+                "onclick": "clearAllOtpInputs()"
+                }
+                }) }}
+
+                {{ govukButton({
+                text: "Test paste 1234",
+                type: "button",
+                classes: "govuk-button--secondary",
+                attributes: {
+                "onclick": "testPasteFunctionality()"
+                }
+                }) }}
+
+                {{ govukButton({
+                text: "Test manual paste",
+                type: "button",
+                classes: "govuk-button--secondary",
+                attributes: {
+                "onclick": "testManualPaste()"
+                }
+                }) }}
+
+                {{ govukButton({
+                text: "Focus first input",
+                type: "button",
+                classes: "govuk-button--secondary",
+                attributes: {
+                "onclick": "focusFirstInput()"
+                }
+                }) }}
+
+                {{ govukButton({
+                text: "Test event listeners",
+                type: "button",
+                classes: "govuk-button--secondary",
+                attributes: {
+                "onclick": "testEventListeners()"
+                }
+                }) }}
+            </div>
+
+        </form>
+
+    </div>
+
+    <div class="govuk-grid-column-one-third">
+        <div class="govuk-inset-text">
+            <h3 class="govuk-heading-s">Component features</h3>
+            <ul class="govuk-list govuk-list--bullet">
+                <li>GOV.UK Design System compliant</li>
+                <li>WCAG 2.1 AA accessible</li>
+                <li>Smart focus management</li>
+                <li>Paste functionality</li>
+                <li>Keyboard navigation</li>
+                <li>Pattern validation</li>
+                <li>Screen reader support</li>
+                <li>Mobile optimized</li>
+                <li>High contrast support</li>
+                <li>Reduced motion support</li>
+            </ul>
+        </div>
+
+        <div class="govuk-inset-text">
+            <h3 class="govuk-heading-s">Usage examples</h3>
+            <ul class="govuk-list govuk-list--bullet">
+                <li>Two-factor authentication</li>
+                <li>SMS verification codes</li>
+                <li>PIN entry</li>
+                <li>Backup codes</li>
+                <li>Security tokens</li>
+                <li>Access codes</li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block pageScripts %}
+<script src="/public/javascripts/govuk-otp-input.js"></script>
+<script>
+    // Debug: Check if JavaScript is loading
+    console.log('Demo page script loading...');
+
+    // Check if the JavaScript file loaded
+    setTimeout(() => {
+        console.log('Checking if GovukOtpInput class is available:', typeof GovukOtpInput);
+        console.log('Document ready state:', document.readyState);
+    }, 500);
+
+    // Test if OTP instances are being created
+    setTimeout(() => {
+        console.log('Checking for OTP instances after 1 second...');
+        const containers = document.querySelectorAll('.govuk-otp-input');
+        console.log('Found', containers.length, 'OTP containers');
+
+        containers.forEach((container, index) => {
+            console.log(`Container ${index}:`, {
+                element: container,
+                hasOtpInstance: !!container._otpInstance,
+                otpInstance: container._otpInstance,
+                id: container.id,
+                classList: Array.from(container.classList)
+            });
+        });
+
+        // Try to manually initialize if no instances found
+        if (containers.length > 0 && !containers[0]._otpInstance) {
+            console.log('No OTP instances found, trying manual initialization...');
+            if (typeof GovukOtpInput !== 'undefined') {
+                console.log('GovukOtpInput class found, initializing manually...');
+                const otpInstance = new GovukOtpInput(containers[0]);
+                containers[0]._otpInstance = otpInstance;
+                console.log('Manual initialization complete:', !!containers[0]._otpInstance);
+            } else {
+                console.log('GovukOtpInput class not found');
+            }
+        }
+    }, 1000);
+</script>
+<script>
+    // Fallback: ensure OTP initialisation runs after all scripts load
+    window.addEventListener('load', function () {
+        try {
+            if (typeof initializeOtpInputs === 'function') {
+                console.log('Running initializeOtpInputs() on window load fallback');
+                initializeOtpInputs();
+            } else {
+                console.warn('initializeOtpInputs is not defined on window load');
+            }
+        } catch (e) {
+            console.error('Error running initializeOtpInputs on load', e);
+        }
+    });
+</script>
+<script>
+    // Demo functionality
+    function clearAllOtpInputs() {
+        const containers = document.querySelectorAll('.govuk-otp-input');
+        containers.forEach(container => {
+            const otpInput = container.querySelector('.govuk-otp-input__hidden');
+            if (otpInput && otpInput.value) {
+                // Find the associated GovukOtpInput instance and clear it
+                const inputs = container.querySelectorAll('.govuk-otp-input__input');
+                inputs.forEach(input => {
+                    input.value = '';
+                });
+                otpInput.value = '';
+
+                // Update visual state
+                inputs.forEach(input => {
+                    input.classList.remove('govuk-otp-input__input--filled');
+                });
+
+                // Focus first input
+                if (inputs.length > 0) {
+                    inputs[0].focus();
+                }
+            }
+        });
+    }
+
+    // Test paste functionality
+    function testPasteFunctionality() {
+        console.log('Testing paste functionality...');
+        const containers = document.querySelectorAll('.govuk-otp-input');
+        if (containers.length > 0) {
+            const firstContainer = containers[0];
+            const inputs = firstContainer.querySelectorAll('.govuk-otp-input__input');
+            console.log('Found', inputs.length, 'inputs in first container');
+
+            // Simulate pasting "1234"
+            const testData = "1234";
+            inputs.forEach((input, index) => {
+                if (index < testData.length) {
+                    input.value = testData[index];
+                    console.log(`Set input ${index} to ${testData[index]}`);
+                }
+            });
+
+            // Trigger the hidden input update
+            const hiddenInput = firstContainer.querySelector('.govuk-otp-input__hidden');
+            if (hiddenInput) {
+                hiddenInput.value = testData;
+                hiddenInput.dispatchEvent(new Event('change', { bubbles: true }));
+            }
+        }
+    }
+
+    // Test manual paste by directly calling the paste handler
+    function testManualPaste() {
+        console.log('Testing manual paste event...');
+        const containers = document.querySelectorAll('.govuk-otp-input');
+        if (containers.length > 0) {
+            const firstContainer = containers[0];
+            const firstInput = firstContainer.querySelector('.govuk-otp-input__input');
+
+            if (firstContainer._otpInstance) {
+                // Focus the input first
+                firstInput.focus();
+
+                // Get the index of the focused input
+                const index = Array.from(firstContainer._otpInstance.inputs).indexOf(firstInput);
+
+                // Create a mock event with clipboard data
+                const mockEvent = {
+                    preventDefault: () => { },
+                    clipboardData: {
+                        getData: (type) => type === 'text' ? '1234' : ''
+                    }
+                };
+
+                console.log('Calling handlePaste directly with index:', index);
+                firstContainer._otpInstance.handlePaste(mockEvent, index);
+            } else {
+                console.log('No OTP instance found on container');
+            }
+        }
+    }
+
+    // Focus first input for testing
+    function focusFirstInput() {
+        console.log('Focusing first input...');
+        const containers = document.querySelectorAll('.govuk-otp-input');
+        if (containers.length > 0) {
+            const firstContainer = containers[0];
+            const firstInput = firstContainer.querySelector('.govuk-otp-input__input');
+
+            if (firstInput) {
+                firstInput.focus();
+                console.log('First input focused. Now try pasting "1234" with Ctrl+V or Cmd+V');
+            }
+        }
+    }
+
+    // Test event listeners
+    function testEventListeners() {
+        console.log('Testing event listeners...');
+        const containers = document.querySelectorAll('.govuk-otp-input');
+        if (containers.length > 0) {
+            const firstContainer = containers[0];
+            const inputs = firstContainer.querySelectorAll('.govuk-otp-input__input');
+
+            console.log('Found', inputs.length, 'inputs');
+
+            inputs.forEach((input, index) => {
+                // Test if paste event listener is attached
+                const hasPasteListener = input.onpaste !== null ||
+                    (input.addEventListener && input.removeEventListener);
+
+                console.log(`Input ${index}:`, {
+                    element: input,
+                    hasPasteListener: hasPasteListener,
+                    classList: Array.from(input.classList)
+                });
+
+                // Try to trigger a simple event
+                input.addEventListener('click', () => {
+                    console.log(`Input ${index} clicked`);
+                });
+            });
+
+            // Test the OTP instance
+            if (firstContainer._otpInstance) {
+                console.log('OTP instance found:', firstContainer._otpInstance);
+                console.log('OTP inputs:', firstContainer._otpInstance.inputs.length);
+            } else {
+                console.log('No OTP instance found on container');
+            }
+        }
+    }
+
+    // Handle form submission
+    document.addEventListener('DOMContentLoaded', function () {
+        const form = document.querySelector('form');
+        if (form) {
+            form.addEventListener('submit', function (e) {
+                e.preventDefault();
+
+                // Collect all OTP values
+                const otpValues = {};
+                const containers = document.querySelectorAll('.govuk-otp-input');
+                containers.forEach(container => {
+                    const hiddenInput = container.querySelector('.govuk-otp-input__hidden');
+                    const name = hiddenInput.name;
+                    const value = hiddenInput.value;
+                    if (value) {
+                        otpValues[name] = value;
+                    }
+                });
+
+                // Show success notification
+                const notification = document.getElementById('success-notification');
+                const submittedCode = document.getElementById('submitted-code');
+                if (notification && submittedCode) {
+                    const codes = Object.values(otpValues).join(', ');
+                    submittedCode.textContent = codes || 'No codes entered';
+                    notification.style.display = 'block';
+                    notification.scrollIntoView({ behavior: 'smooth' });
+                }
+
+                console.log('OTP Values submitted:', otpValues);
+            });
+        }
+    });
+</script>
+{% endblock %}

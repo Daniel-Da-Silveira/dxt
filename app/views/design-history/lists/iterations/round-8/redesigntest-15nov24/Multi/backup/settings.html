@@ -1,0 +1,543 @@
+{% extends "layouts/main.html" %}
+{% from "components/service-header/macro.njk" import serviceHeader %}
+{% set pageName = "Edit page 1 - Apply for a county parish holding number in England" %}
+{% set headingPlaceholder = "Page heading" %}
+{% set guidancePlaceholder = "" %}
+{#  #}
+{% block header %}
+  {{ serviceHeader({
+    organisationName: "Defra",
+    productName: "Forms Designer",
+    serviceName: "",
+    containerClasses: containerClasses,
+    accountName: "Chris Smith",
+    homepageLink: "/",
+    signOutLink: "/onboarding/sign-out-confirmation",
+    navigationItems: [
+      { href: "/library.html", text: "Forms library", id: "nav-library" },
+      { href: "/cph-overview/draft/complete-clean.html", text: "Overview", id: "nav-overview" },
+      { href: "/redesigntest/listing", text: "Editor", id: "nav-editor" }    ],
+    activeLinkId: "nav-editor"
+  }) }}
+
+<div class="x-govuk-masthead x-govuk-masthead--large">
+  <div class="govuk-width-container">
+    {{ govukBackLink({ classes: "govuk-back-link--inverse", text: "Back to add
+    and edit pages", href: "/september/listing/2.html" }) }}
+
+    <hr
+      class="govuk-section-break govuk-section-break--m govuk-section-break--visible"
+      style="border-bottom: 1px solid white; margin-bottom: 0"
+    />
+
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-two-thirds-from-desktop">
+        <h1 class="x-govuk-masthead__title">
+          <span class="govuk-caption-l" style="color: white"
+            >Apply for a county parish holding certificate</span
+          >
+
+          Edit page 2
+        </h1>
+
+        <p class="govuk-body" style="color: white">Last saved at <time>5:24pm</time></p>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %} {% block content %}
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-full">
+    <div class="govuk-grid-row">
+      <!-- Left Column for Form Controls -->
+      <div
+        class="govuk-grid-column-one-half-from-desktop"
+        id="container"
+        style="flex: 1 1 75%; overflow-y: auto"
+      >
+        <div class="govuk-summary-card govuk-!-margin-top-0" style="border-left: 10px solid #008938">
+          <div
+            class="govuk-summary-card__content govuk-!-padding-top-0"
+            style="background-color: #f3f2f1"
+          >
+
+            <dl class="govuk-summary-list">
+              <div class="govuk-summary-list__row">
+                <dd class="govuk-summary-list__value">
+                  <!-- Dynamic Summary List -->
+
+                  <!-- Question Settings Container -->
+                  <div class="govuk-grid-row" id="page-settings-container-1">
+                    <div id="question-1">
+                      <div
+                        class="govuk-summary-card__content"
+                        style="margin-bottom: 0"
+                      >
+                        <!-- Sub Navigation for Question -->
+                        <nav
+                          class="moj-sub-navigation govuk-!-padding-top-0 govuk-!-margin-bottom-2 "
+                          aria-label="Sub navigation"
+                        >
+                          <ul class="moj-sub-navigation__list" id="nav-list2">
+                            <!-- Question Link -->
+                            <li class="moj-sub-navigation__item">
+                              <a
+                                class="moj-sub-navigation__link"
+                                aria-current="page"
+                                href="#question-1"
+                                >Page settings</a
+                              >
+                            </li>
+
+                          </ul>
+                        </nav>
+
+                        <div
+                          class="govuk-summary-card__title-wrapper govuk-!-padding-top-0"
+                        ></div>
+
+                        <span class="govuk-caption-l" id="page-caption">Page 2</span>
+
+                        <h2 class="govuk-heading-l" id="page-heading">Page settings</h2>
+
+                           <!-- Dynamic Summary List -->
+            <div id="summary-container">
+              <!-- The dynamic summary list will be populated here -->
+                        </div>
+                        <ul class="govuk-summary-card__actions"></ul>
+
+
+                <!-- Default Content for Question 1 -->
+<div id="question-1-content" class="question-content" style="margin-top: 10px">
+
+  <!-- Page Heading Input -->
+  {{ govukInput({
+    label: {
+      text: "Page heading",
+      classes: "govuk-label--m govuk-!-margin-top-0",
+      isPageHeading: false
+    },
+    hint: {
+      html: "This should be a statement, not a question. For example, 'Passport information’"
+    },
+    id: "page-heading-input",
+    name: "pageHeading",
+    classes: "govuk-input",
+    describedBy: "page-heading-input-hint",
+    input: {
+      type: "text",
+      value: data['page-heading-input'],
+      id: "page-heading-input"
+    }
+  }) }}
+
+  <!-- Guidance Text Textarea -->
+  {{ govukTextarea({
+    label: {
+      text: "Guidance text (optional)",
+      classes: "govuk-label--m"
+    },
+    hint: {
+      text: "You can use Markdown if you want to format the content or add links"
+    },
+    id: "guidance-textarea",
+    name: "guidanceText",
+    value: data['guidance-textarea'],
+    classes: "govuk-textarea",
+    rows: 3,
+    describedBy: "guidance-textarea-hint"
+  }) }}
+
+  {% from "govuk/components/radios/macro.njk" import govukRadios %}
+  {% from "govuk/components/input/macro.njk" import govukInput %}
+
+
+
+  {% set morethan1Html %}
+  <div class="govuk-form-group">
+    <fieldset class="govuk-fieldset" role="group" aria-describedby="dob-hint">
+      <legend class="govuk-fieldset__legend govuk-fieldset__legend">
+        <h1 class="govuk-fieldset__heading">
+          Set the minimum and maximum times a user can answer questions
+        </h1>
+      </legend>
+      <div id="dob-hint" class="govuk-hint">
+        The range must be between 2 and 25
+      </div>
+      <div class="govuk-date-input" id="min-Repeater">
+        <div class="govuk-date-input__item">
+          {{ govukInput({
+            id: "minRepeater",
+            value: data['min-repeater'],
+            name: "min-Repeater",
+            label: {
+              text: "Min"
+            },
+            classes: "govuk-input--width-2",
+            inputmode: "numeric"
+          }) }}
+        </div>
+        <div class="govuk-date-input__item">
+          {{ govukInput({
+            id: "max-repeater",
+            value: data['max-repeater'],
+            name: "max-repeater",
+            label: {
+              text: "Max"
+            },
+            classes: "govuk-input--width-2",
+            inputmode: "numeric"
+          }) }}
+        </div>
+      </div>
+    </fieldset>
+  </div>
+
+
+  {{ govukInput({
+  label: {
+  text: "Give this set of questions a name",
+  classes: "govuk-label",
+  isPageHeading: true
+  },
+  hint: {
+  text: "Use the subject of the questions for the question set name. For example, if the
+  questions are about pets, the question set name might be ‘pet’."
+  },
+  id: "set-name",
+  value: data['set-name'],
+  name: "setName"
+  }) }}
+  {% endset -%}
+
+
+
+  {{ govukRadios({
+    name: "responseType",
+    fieldset: {
+      legend: {
+        text: "Do you need users to answer the same question repeatedly?",
+        isPageHeading: true,
+        classes: "govuk-fieldset__legend--m"
+      }
+    },
+    hint: {
+      text: "For example, a microchip number for multiple pets or national grid reference for multiple sites"
+    },
+    items: [
+      {
+        value: data["once"],
+        text: "No, just once",
+        id: "once",
+        conditional: {
+          html: onceHtml
+        }
+      },
+      {
+        value: data["more-than-1"],
+        text: "Yes, more than once",
+        id: "more-than-1",
+        conditional: {
+          html: morethan1Html
+        }
+      }
+    ]
+  }) }}
+
+
+<div class="govuk-button-group">
+  {{ govukButton({
+    text: "Continue",
+    id: "save-changes-button",
+    type: "button"
+  }) }}
+
+  <p class="govuk-body">
+    <a href="#" class="govuk-link govuk-link--no-visited-state">
+      Delete page
+    </a>
+  </p>
+</div>
+
+
+</div></div></div></div></div></div></div></div>
+
+      <!-- Right Column for Additional Content -->
+      <div
+        class="govuk-grid-column-one-half-from-desktop"
+        id="second-container"
+        style="
+          outline: solid 1px #008938;
+          height: 100%;
+          position: sticky;
+          top: 0;
+          padding: 20px;
+          box-shadow: 5px 10px #008938;
+        "
+      >
+        <!-- New HTML content for before element -->
+        <div id="before-content">
+          <p class="govuk-body-s" style="margin-bottom: 0">
+            <a
+              href="#"
+              class="govuk-link govuk-link--no-visited-state"
+              rel="noreferrer noopener"
+              target="_blank"
+              >Preview this page in a new tab</a
+            >
+          </p>
+        </div>
+
+        <!-- Additional Content Here -->
+        <div class="additional-content">
+
+          <div>
+            <!-- Tag for Preview -->
+            {{ govukTag({ text: "Preview of page 2", classes: "govuk-tag--yellow
+            govuk-!-margin-bottom-2 govuk-!-margin-top-8" }) }}
+            <!-- Form for Preview -->
+            <form>
+                 <!-- Dynamic Heading -->
+
+
+
+                <div id="heading-container">
+                  <span id="dynamic-caption" class="govuk-caption-l"></span>
+                  <h1 class="govuk-heading-l" id="dynamic-heading"></h1>
+                </div>
+
+              <!-- Guidance Paragraph -->
+              <p class="govuk-body" id="guidance-paragraph"></p>
+
+
+            </form>
+
+
+            {{ govukButton({ text: "Continue", classes: "govuk-button
+            govuk-!-margin-top-3", id: "once-button", disabled: true }) }} {{
+            govukButton({ text: "Add another [question set name]", classes:
+            "govuk-button govuk-!-margin-top-3", id: "add-another-set-button",
+            disabled: true, attributes: { style: "display:none;" } }) }}
+          </div>
+        </div>
+      </div>
+    </div>
+
+   <script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const domElements = {
+      moreThanOnceRadio: document.getElementById("more-than-1"),
+      onceRadio: document.getElementById("once"),
+      addAnotherSetButton: document.getElementById("add-another-set-button"),
+      onceButton: document.getElementById("once-button"),
+      setNameInput: document.getElementById("set-name"),
+      dynamicCaption: document.getElementById("dynamic-caption"),
+
+      // Elements from the second script
+      questionLabelInput: document.getElementById("question-label-input-1"),
+      shortTextLabel: document.getElementById("short-text-label"),
+      hintTextArea: document.getElementById("hint-text-input"),
+      hintDiv: document.getElementById("date-input-hint"),
+      errorLabelInput: document.getElementById("error-label-input"),
+      errorDynamicText: document.getElementById("error-dynamic-text"),
+      pageHeadingInput: document.getElementById("page-heading-input"),
+      guidanceTextarea: document.getElementById("guidance-textarea"),
+      dynamicHeading: document.getElementById("dynamic-heading"),
+      guidanceParagraph: document.getElementById("guidance-paragraph"),
+    };
+
+    initializeEventListeners();
+
+    function initializeEventListeners() {
+      // First script event listeners
+      domElements.moreThanOnceRadio.addEventListener("change", toggleCaptionAndButtons);
+      domElements.onceRadio.addEventListener("change", toggleCaptionAndButtons);
+      domElements.setNameInput.addEventListener("input", updateDynamicCaptionAndHeading);
+
+      // Second script event listeners
+      const inputListeners = [
+        { element: domElements.questionLabelInput, event: "input", handler: updateQuestionLabel },
+        { element: domElements.hintTextArea, event: "input", handler: updateHintText },
+        { element: domElements.errorLabelInput, event: "input", handler: updateErrorDynamicText },
+        { element: domElements.pageHeadingInput, event: "input", handler: updateHeading },
+        { element: domElements.guidanceTextarea, event: "input", handler: updateGuidanceParagraph },
+      ];
+
+      inputListeners.forEach(bindListener);
+
+      // Initialize state on page load
+      toggleCaptionAndButtons(); // Ensure correct initial state
+      updateAddAnotherSetButton();
+      updateHeading();
+      updateGuidanceParagraph();
+      applyHighlights();
+    }
+
+    // First script functionality
+    function toggleCaptionAndButtons() {
+      if (domElements.moreThanOnceRadio.checked) {
+        showCaptionWithPlaceholder();
+        domElements.addAnotherSetButton.style.display = "inline-block";
+        domElements.onceButton.style.display = "none";
+      } else if (domElements.onceRadio.checked) {
+        hideCaptionAndClearInput();
+        domElements.addAnotherSetButton.style.display = "none";
+        domElements.onceButton.style.display = "inline-block";
+      }
+
+      // Ensure the 'once-button' is always disabled unless conditions change
+      domElements.onceButton.disabled = true;
+    }
+
+    function updateDynamicCaptionAndHeading() {
+      const setName = domElements.setNameInput.value.trim();
+      domElements.dynamicCaption.textContent = setName ? `${setName} 1` : "Question set name";
+      domElements.dynamicCaption.style.display = setName ? "block" : "none";
+      updateAddAnotherSetButton(); // Ensure buttons are updated when setName changes
+    }
+
+    function updateAddAnotherSetButton() {
+      const setName = domElements.setNameInput.value.trim();
+      if (setName && domElements.moreThanOnceRadio.checked) {
+        domElements.addAnotherSetButton.textContent = `Add another ${setName}`;
+        domElements.addAnotherSetButton.disabled = false;
+      } else {
+        domElements.addAnotherSetButton.textContent = "Add another [question set name]";
+        domElements.addAnotherSetButton.disabled = true;
+      }
+
+      // Ensure that 'once-button' is kept disabled, unless 'once' is selected
+      if (domElements.onceRadio.checked) {
+        domElements.onceButton.disabled = false;
+      } else {
+        domElements.onceButton.disabled = true;
+      }
+    }
+
+    function showCaptionWithPlaceholder() {
+      domElements.dynamicCaption.textContent = "Question set name";
+      domElements.dynamicCaption.style.display = "block";
+    }
+
+    function hideCaptionAndClearInput() {
+      domElements.dynamicCaption.style.display = "none";
+    }
+
+    // Second script functionality
+    function updateQuestionLabel() {
+      setTextContent(domElements.shortTextLabel, domElements.questionLabelInput.value.trim(), "Question 1");
+    }
+
+    function updateHintText() {
+      setTextContent(domElements.hintDiv, domElements.hintTextArea.value.trim(), "");
+    }
+
+    function updateErrorDynamicText() {
+      setTextContent(domElements.errorDynamicText, domElements.errorLabelInput.value.trim(), "date of birth");
+    }
+
+    function updateHeading() {
+      setTextContent(domElements.dynamicHeading, domElements.pageHeadingInput.value.trim(), "Page heading");
+    }
+
+    function updateGuidanceParagraph() {
+      setTextContent(domElements.guidanceParagraph, domElements.guidanceTextarea.value.trim(), "");
+    }
+
+    // Generic function to update text content
+    function setTextContent(element, value, defaultValue) {
+      if (element) {
+        element.textContent = value || defaultValue;
+      }
+    }
+
+    // Helper to bind event listeners
+    function bindListener({ element, event, handler }) {
+      if (element) {
+        element.addEventListener(event, handler);
+      }
+    }
+
+    // Apply focus/blur highlights
+    function applyHighlights() {
+      const highlightPairs = [
+        { inputId: "question-label-input-1", targetId: "short-text-label" },
+        { inputId: "hint-text-input", targetId: "date-input-hint" },
+        { inputId: "optional", targetId: "date-input-legend" },
+        { inputId: "page-heading-input", targetId: "dynamic-heading" },
+        { inputId: "guidance-textarea", targetId: "guidance-paragraph" },
+        { inputId: "error-label-input", targetId: "error-dynamic-text" },
+
+        // 'set-name' input highlighting
+        { inputId: "set-name", targetId: "dynamic-caption" },
+      ];
+
+      highlightPairs.forEach(({ inputId, targetId }) => {
+        applyHighlightOnFocus(inputId, targetId);
+      });
+    }
+
+    // Helper function for applying focus and blur highlights
+    function applyHighlightOnFocus(inputElementId, targetElementId) {
+      const inputElement = document.getElementById(inputElementId);
+      const targetElement = document.getElementById(targetElementId);
+
+      if (inputElement && targetElement) {
+        inputElement.addEventListener("focus", () => targetElement.classList.add("highlight"));
+        inputElement.addEventListener("blur", () => targetElement.classList.remove("highlight"));
+      }
+    }
+  });
+</script>
+
+
+
+
+
+
+
+
+    <style>
+
+      .highlight {
+        background-color: #ffe5cc;
+        border-bottom: 2px solid #ffb266;
+      }
+
+      #before-content {
+        position: absolute;
+        top: 0;
+        left: 10 !important;
+        right: 0;
+        /* Ensure the right side is aligned with the container edge */
+        width: 100%;
+        padding: 10px !important;
+
+        /* Remove padding to avoid affecting the width */
+        box-sizing: border-box;
+        /* Ensure content, padding, and borders are within width */
+        z-index: 1;
+        border-bottom: 1px solid #008938;
+        padding-left: 10px;
+        /* Add padding-left specifically for content */
+      }
+
+      #second-container {
+        padding: 0;
+        /* Ensure no padding on the container itself */
+        box-sizing: border-box;
+        /* Ensure container handles padding/border correctly */
+      }
+
+      #second-container > * {
+        padding-left: 0px;
+        z-index: 2;
+        /* Ensure content is above the #before-content */
+      }
+    </style>
+
+    {% endblock %}
+  </div>
+</div>

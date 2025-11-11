@@ -1,0 +1,695 @@
+{% extends "layouts/main.html" %}
+
+{% from "govuk/components/input/macro.njk" import govukInput %}
+{% from "govuk/components/date-input/macro.njk" import govukDateInput %}
+{% from "govuk/components/fieldset/macro.njk" import govukFieldset %}
+{% from "govuk/components/radios/macro.njk" import govukRadios %}
+{% from "govuk/components/textarea/macro.njk" import govukTextarea %}
+{% from "govuk/components/select/macro.njk" import govukSelect %}
+{% from "components/defra-coordinate-input/macro.njk" import defraCoordinateInput %}
+{% from "components/govuk-otp-input/macro.njk" import govukOtpInput %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
+
+{% block pageTitle %}
+Where was the wreck material located? (OTP Input Demo) - {{ serviceName }} – GOV.UK
+{% endblock %}
+
+{% block content %}
+
+<div class="govuk-grid-row" data-js="conditional-content">
+    <div class="govuk-grid-column-full">
+
+        <form class="form" action="/titan-mvp-1.2/form-editor/location/wreck-otp" method="post" autocomplete="off">
+            {% if errorSummary.length > 0 %}
+            {{ govukErrorSummary({
+            titleText: "There is a problem",
+            errorList: errorSummary
+            }) }}
+            {% endif %}
+
+            <h1 class="govuk-heading-l">Where was the wreck material located?</h1>
+
+            <p class="govuk-body">This page demonstrates how OTP input components can be used for coordinate entry,
+                providing a more user-friendly experience for entering precise location data.</p>
+
+            <div class="govuk-inset-text">
+                <p><strong>Demo:</strong> This page shows how OTP inputs can be used for coordinate entry instead of
+                    traditional text inputs. Try pasting coordinate values like "53.76385" or "123.456789" into the OTP
+                    inputs below.</p>
+            </div>
+
+            <!-- Decimal Degrees Section with OTP Inputs -->
+            <div class="govuk-!-margin-bottom-8">
+                <h2 class="govuk-heading-m">Decimal degrees (OTP Input Demo)</h2>
+                <p class="govuk-body">Enter coordinates using OTP inputs for better precision and user experience:</p>
+
+                <!-- Latitude OTP Input - matches validation: -90 to 90 degrees -->
+                <div class="govuk-!-margin-bottom-6">
+                    {% if errors["latitude-decimal-otp"] %}
+                    {% set latErrorMessage = { text: errors["latitude-decimal-otp"] } %}
+                    {% endif %}
+                    {{ govukOtpInput({
+                    id: "latitude-decimal-otp",
+                    name: "latitude_decimal_otp",
+                    maxLength: 8,
+                    pattern: "[0-9.-]",
+                    groups: [
+                    { slots: 2 },
+                    { slots: 1, separator: "." },
+                    { slots: 5 }
+                    ],
+                    fieldset: {
+                    legend: {
+                    text: "Latitude (decimal degrees)",
+                    isPageHeading: false,
+                    classes: "govuk-fieldset__legend--s"
+                    }
+                    },
+                    hint: {
+                    text: "Enter latitude in decimal degrees (e.g., 53.76385). Must be between -90 and 90 degrees."
+                    },
+                    errorMessage: latErrorMessage
+                    }) }}
+                </div>
+
+                <!-- Longitude OTP Input - matches validation: -180 to 180 degrees -->
+                <div class="govuk-!-margin-bottom-6">
+                    {% if errors["longitude-decimal-otp"] %}
+                    {% set lonErrorMessage = { text: errors["longitude-decimal-otp"] } %}
+                    {% endif %}
+                    {{ govukOtpInput({
+                    id: "longitude-decimal-otp",
+                    name: "longitude_decimal_otp",
+                    maxLength: 9,
+                    pattern: "[0-9.-]",
+                    groups: [
+                    { slots: 3 },
+                    { slots: 1, separator: "." },
+                    { slots: 5 }
+                    ],
+                    fieldset: {
+                    legend: {
+                    text: "Longitude (decimal degrees)",
+                    isPageHeading: false,
+                    classes: "govuk-fieldset__legend--s"
+                    }
+                    },
+                    hint: {
+                    text: "Enter longitude in decimal degrees (e.g., -3.73904). Must be between -180 and 180 degrees."
+                    },
+                    errorMessage: lonErrorMessage
+                    }) }}
+                </div>
+            </div>
+
+            <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
+
+            <!-- Degrees and Decimal Minutes Section with OTP Inputs -->
+            <div class="govuk-!-margin-bottom-8">
+                <h2 class="govuk-heading-m">Degrees and decimal minutes (OTP Input Demo)</h2>
+                <p class="govuk-body">Enter coordinates using OTP inputs for degrees and minutes:</p>
+
+                <!-- Latitude Degrees and Minutes OTP -->
+                <div class="govuk-!-margin-bottom-6">
+                    <div
+                        class="govuk-form-group{% if errors['latitude-decimal-minutes-otp'] %} govuk-form-group--error{% endif %}">
+                        <fieldset class="govuk-fieldset" role="group">
+                            <legend class="govuk-fieldset__legend govuk-fieldset__legend--s">
+                                Latitude (degrees and decimal minutes)
+                            </legend>
+                            <div class="govuk-hint">
+                                Enter degrees and decimal minutes (e.g., 53° 45.831' N). Degrees: 0-90, Minutes:
+                                0-59.999
+                            </div>
+                            {% if errors['latitude-decimal-minutes-otp'] %}
+                            <p id="latitude-decimal-minutes-otp-error" class="govuk-error-message">
+                                <span class="govuk-visually-hidden">Error:</span>
+                                {{ errors['latitude-decimal-minutes-otp'] }}
+                            </p>
+                            {% endif %}
+
+                            <div class="govuk-otp-input" style="margin-top: 10px;">
+                                <!-- Degrees (0-90) -->
+                                <div class="govuk-otp-input__group">
+                                    <div class="govuk-otp-input__slot">
+                                        <label class="govuk-visually-hidden" for="latitude-dm-degree">Degrees</label>
+                                        <input
+                                            class="govuk-input govuk-otp-input__input{% if errors['latitude-decimal-minutes-otp'] %} govuk-input--error{% endif %}"
+                                            id="latitude-dm-degree" name="latitude_dm_degree" type="text" maxlength="2"
+                                            pattern="[0-9]" inputmode="numeric"
+                                            value="{{ data['location']['latitude_dm_degree'] or '' }}"
+                                            aria-label="Degrees">
+                                    </div>
+                                    <span class="govuk-otp-input__separator" aria-hidden="true">°</span>
+                                </div>
+
+                                <!-- Minutes (0-59.999) -->
+                                <div class="govuk-otp-input__group">
+                                    <div class="govuk-otp-input__slot">
+                                        <label class="govuk-visually-hidden" for="latitude-dm-minute">Minutes</label>
+                                        <input
+                                            class="govuk-input govuk-otp-input__input{% if errors['latitude-decimal-minutes-otp'] %} govuk-input--error{% endif %}"
+                                            id="latitude-dm-minute" name="latitude_dm_minute" type="text" maxlength="6"
+                                            pattern="[0-9.]" inputmode="decimal"
+                                            value="{{ data['location']['latitude_dm_minute'] or '' }}"
+                                            aria-label="Minutes">
+                                    </div>
+                                    <span class="govuk-otp-input__separator" aria-hidden="true">′</span>
+                                </div>
+
+                                <!-- Direction -->
+                                <div class="govuk-otp-input__group">
+                                    <select
+                                        class="govuk-select{% if errors['latitude-decimal-minutes-otp'] %} govuk-select--error{% endif %}"
+                                        id="latitude-dm-direction" name="latitude_dm_direction">
+                                        <option value="">Select direction</option>
+                                        <option value="N" {% if data['location']['latitude_dm_direction']=='N' %}
+                                            selected{% endif %}>N</option>
+                                        <option value="S" {% if data['location']['latitude_dm_direction']=='S' %}
+                                            selected{% endif %}>S</option>
+                                    </select>
+                                </div>
+
+                                <!-- Hidden input for complete value -->
+                                <input type="hidden" id="latitude-dm-complete" name="latitude_dm_complete"
+                                    value="{{ data['location']['latitude_dm_complete'] or '' }}"
+                                    class="govuk-otp-input__hidden">
+                            </div>
+                        </fieldset>
+                    </div>
+                </div>
+
+                <!-- Longitude Degrees and Minutes OTP -->
+                <div class="govuk-!-margin-bottom-6">
+                    <div
+                        class="govuk-form-group{% if errors['longitude-decimal-minutes-otp'] %} govuk-form-group--error{% endif %}">
+                        <fieldset class="govuk-fieldset" role="group">
+                            <legend class="govuk-fieldset__legend govuk-fieldset__legend--s">
+                                Longitude (degrees and decimal minutes)
+                            </legend>
+                            <div class="govuk-hint">
+                                Enter degrees and decimal minutes (e.g., 3° 44.342' W). Degrees: 0-180, Minutes:
+                                0-59.999
+                            </div>
+                            {% if errors['longitude-decimal-minutes-otp'] %}
+                            <p id="longitude-decimal-minutes-otp-error" class="govuk-error-message">
+                                <span class="govuk-visually-hidden">Error:</span>
+                                {{ errors['longitude-decimal-minutes-otp'] }}
+                            </p>
+                            {% endif %}
+
+                            <div class="govuk-otp-input" style="margin-top: 10px;">
+                                <!-- Degrees (0-180) -->
+                                <div class="govuk-otp-input__group">
+                                    <div class="govuk-otp-input__slot">
+                                        <label class="govuk-visually-hidden" for="longitude-dm-degree">Degrees</label>
+                                        <input
+                                            class="govuk-input govuk-otp-input__input{% if errors['longitude-decimal-minutes-otp'] %} govuk-input--error{% endif %}"
+                                            id="longitude-dm-degree" name="longitude_dm_degree" type="text"
+                                            maxlength="3" pattern="[0-9]" inputmode="numeric"
+                                            value="{{ data['location']['longitude_dm_degree'] or '' }}"
+                                            aria-label="Degrees">
+                                    </div>
+                                    <span class="govuk-otp-input__separator" aria-hidden="true">°</span>
+                                </div>
+
+                                <!-- Minutes (0-59.999) -->
+                                <div class="govuk-otp-input__group">
+                                    <div class="govuk-otp-input__slot">
+                                        <label class="govuk-visually-hidden" for="longitude-dm-minute">Minutes</label>
+                                        <input
+                                            class="govuk-input govuk-otp-input__input{% if errors['longitude-decimal-minutes-otp'] %} govuk-input--error{% endif %}"
+                                            id="longitude-dm-minute" name="longitude_dm_minute" type="text"
+                                            maxlength="6" pattern="[0-9.]" inputmode="decimal"
+                                            value="{{ data['location']['longitude_dm_minute'] or '' }}"
+                                            aria-label="Minutes">
+                                    </div>
+                                    <span class="govuk-otp-input__separator" aria-hidden="true">′</span>
+                                </div>
+
+                                <!-- Direction -->
+                                <div class="govuk-otp-input__group">
+                                    <select
+                                        class="govuk-select{% if errors['longitude-decimal-minutes-otp'] %} govuk-select--error{% endif %}"
+                                        id="longitude-dm-direction" name="longitude_dm_direction">
+                                        <option value="">Select direction</option>
+                                        <option value="E" {% if data['location']['longitude_dm_direction']=='E' %}
+                                            selected{% endif %}>E</option>
+                                        <option value="W" {% if data['location']['longitude_dm_direction']=='W' %}
+                                            selected{% endif %}>W</option>
+                                    </select>
+                                </div>
+
+                                <!-- Hidden input for complete value -->
+                                <input type="hidden" id="longitude-dm-complete" name="longitude_dm_complete"
+                                    value="{{ data['location']['longitude_dm_complete'] or '' }}"
+                                    class="govuk-otp-input__hidden">
+                            </div>
+                        </fieldset>
+                    </div>
+                </div>
+            </div>
+
+            <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
+
+            <!-- Degrees, Minutes and Seconds Section with OTP Inputs -->
+            <div class="govuk-!-margin-bottom-8">
+                <h2 class="govuk-heading-m">Degrees, minutes and seconds (OTP Input Demo)</h2>
+                <p class="govuk-body">Enter coordinates using OTP inputs for degrees, minutes, and seconds:</p>
+
+                <!-- Latitude DMS OTP -->
+                <div class="govuk-!-margin-bottom-6">
+                    <div class="govuk-form-group{% if errors['latitude-dms-otp'] %} govuk-form-group--error{% endif %}">
+                        <fieldset class="govuk-fieldset" role="group">
+                            <legend class="govuk-fieldset__legend govuk-fieldset__legend--s">
+                                Latitude (degrees, minutes and seconds)
+                            </legend>
+                            <div class="govuk-hint">
+                                Enter degrees, minutes, and seconds (e.g., 53° 45′ 30″ N). Degrees: 0-90, Minutes: 0-59,
+                                Seconds: 0-59.999
+                            </div>
+                            {% if errors['latitude-dms-otp'] %}
+                            <p id="latitude-dms-otp-error" class="govuk-error-message">
+                                <span class="govuk-visually-hidden">Error:</span>
+                                {{ errors['latitude-dms-otp'] }}
+                            </p>
+                            {% endif %}
+
+                            <div class="govuk-otp-input" style="margin-top: 10px;">
+                                <!-- Degrees (0-90) -->
+                                <div class="govuk-otp-input__group">
+                                    <div class="govuk-otp-input__slot">
+                                        <label class="govuk-visually-hidden" for="latitude-dms-degree">Degrees</label>
+                                        <input
+                                            class="govuk-input govuk-otp-input__input{% if errors['latitude-dms-otp'] %} govuk-input--error{% endif %}"
+                                            id="latitude-dms-degree" name="latitude_dms_degree" type="text"
+                                            maxlength="2" pattern="[0-9]" inputmode="numeric"
+                                            value="{{ data['location']['latitude_dms_degree'] or '' }}"
+                                            aria-label="Degrees">
+                                    </div>
+                                    <span class="govuk-otp-input__separator" aria-hidden="true">°</span>
+                                </div>
+
+                                <!-- Minutes (0-59) -->
+                                <div class="govuk-otp-input__group">
+                                    <div class="govuk-otp-input__slot">
+                                        <label class="govuk-visually-hidden" for="latitude-dms-minute">Minutes</label>
+                                        <input
+                                            class="govuk-input govuk-otp-input__input{% if errors['latitude-dms-otp'] %} govuk-input--error{% endif %}"
+                                            id="latitude-dms-minute" name="latitude_dms_minute" type="text"
+                                            maxlength="2" pattern="[0-9]" inputmode="numeric"
+                                            value="{{ data['location']['latitude_dms_minute'] or '' }}"
+                                            aria-label="Minutes">
+                                    </div>
+                                    <span class="govuk-otp-input__separator" aria-hidden="true">′</span>
+                                </div>
+
+                                <!-- Seconds (0-59.999) -->
+                                <div class="govuk-otp-input__group">
+                                    <div class="govuk-otp-input__slot">
+                                        <label class="govuk-visually-hidden" for="latitude-dms-second">Seconds</label>
+                                        <input
+                                            class="govuk-input govuk-otp-input__input{% if errors['latitude-dms-otp'] %} govuk-input--error{% endif %}"
+                                            id="latitude-dms-second" name="latitude_dms_second" type="text"
+                                            maxlength="6" pattern="[0-9.]" inputmode="decimal"
+                                            value="{{ data['location']['latitude_dms_second'] or '' }}"
+                                            aria-label="Seconds">
+                                    </div>
+                                    <span class="govuk-otp-input__separator" aria-hidden="true">″</span>
+                                </div>
+
+                                <!-- Direction -->
+                                <div class="govuk-otp-input__group">
+                                    <select
+                                        class="govuk-select{% if errors['latitude-dms-otp'] %} govuk-select--error{% endif %}"
+                                        id="latitude-dms-direction" name="latitude_dms_direction">
+                                        <option value="">Select direction</option>
+                                        <option value="N" {% if data['location']['latitude_dms_direction']=='N' %}
+                                            selected{% endif %}>N</option>
+                                        <option value="S" {% if data['location']['latitude_dms_direction']=='S' %}
+                                            selected{% endif %}>S</option>
+                                    </select>
+                                </div>
+
+                                <!-- Hidden input for complete value -->
+                                <input type="hidden" id="latitude-dms-complete" name="latitude_dms_complete"
+                                    value="{{ data['location']['latitude_dms_complete'] or '' }}"
+                                    class="govuk-otp-input__hidden">
+                            </div>
+                        </fieldset>
+                    </div>
+                </div>
+
+                <!-- Longitude DMS OTP -->
+                <div class="govuk-!-margin-bottom-6">
+                    <div
+                        class="govuk-form-group{% if errors['longitude-dms-otp'] %} govuk-form-group--error{% endif %}">
+                        <fieldset class="govuk-fieldset" role="group">
+                            <legend class="govuk-fieldset__legend govuk-fieldset__legend--s">
+                                Longitude (degrees, minutes and seconds)
+                            </legend>
+                            <div class="govuk-hint">
+                                Enter degrees, minutes, and seconds (e.g., 3° 44′ 20″ W). Degrees: 0-180, Minutes: 0-59,
+                                Seconds: 0-59.999
+                            </div>
+                            {% if errors['longitude-dms-otp'] %}
+                            <p id="longitude-dms-otp-error" class="govuk-error-message">
+                                <span class="govuk-visually-hidden">Error:</span>
+                                {{ errors['longitude-dms-otp'] }}
+                            </p>
+                            {% endif %}
+
+                            <div class="govuk-otp-input" style="margin-top: 10px;">
+                                <!-- Degrees (0-180) -->
+                                <div class="govuk-otp-input__group">
+                                    <div class="govuk-otp-input__slot">
+                                        <label class="govuk-visually-hidden" for="longitude-dms-degree">Degrees</label>
+                                        <input
+                                            class="govuk-input govuk-otp-input__input{% if errors['longitude-dms-otp'] %} govuk-input--error{% endif %}"
+                                            id="longitude-dms-degree" name="longitude_dms_degree" type="text"
+                                            maxlength="3" pattern="[0-9]" inputmode="numeric"
+                                            value="{{ data['location']['longitude_dms_degree'] or '' }}"
+                                            aria-label="Degrees">
+                                    </div>
+                                    <span class="govuk-otp-input__separator" aria-hidden="true">°</span>
+                                </div>
+
+                                <!-- Minutes (0-59) -->
+                                <div class="govuk-otp-input__group">
+                                    <div class="govuk-otp-input__slot">
+                                        <label class="govuk-visually-hidden" for="longitude-dms-minute">Minutes</label>
+                                        <input
+                                            class="govuk-input govuk-otp-input__input{% if errors['longitude-dms-otp'] %} govuk-input--error{% endif %}"
+                                            id="longitude-dms-minute" name="longitude_dms_minute" type="text"
+                                            maxlength="2" pattern="[0-9]" inputmode="numeric"
+                                            value="{{ data['location']['longitude_dms_minute'] or '' }}"
+                                            aria-label="Minutes">
+                                    </div>
+                                    <span class="govuk-otp-input__separator" aria-hidden="true">′</span>
+                                </div>
+
+                                <!-- Seconds (0-59.999) -->
+                                <div class="govuk-otp-input__group">
+                                    <div class="govuk-otp-input__slot">
+                                        <label class="govuk-visually-hidden" for="longitude-dms-second">Seconds</label>
+                                        <input
+                                            class="govuk-input govuk-otp-input__input{% if errors['longitude-dms-otp'] %} govuk-input--error{% endif %}"
+                                            id="longitude-dms-second" name="longitude_dms_second" type="text"
+                                            maxlength="6" pattern="[0-9.]" inputmode="decimal"
+                                            value="{{ data['location']['longitude_dms_second'] or '' }}"
+                                            aria-label="Seconds">
+                                    </div>
+                                    <span class="govuk-otp-input__separator" aria-hidden="true">″</span>
+                                </div>
+
+                                <!-- Direction -->
+                                <div class="govuk-otp-input__group">
+                                    <select
+                                        class="govuk-select{% if errors['longitude-dms-otp'] %} govuk-select--error{% endif %}"
+                                        id="longitude-dms-direction" name="longitude_dms_direction">
+                                        <option value="">Select direction</option>
+                                        <option value="E" {% if data['location']['longitude_dms_direction']=='E' %}
+                                            selected{% endif %}>E</option>
+                                        <option value="W" {% if data['location']['longitude_dms_direction']=='W' %}
+                                            selected{% endif %}>W</option>
+                                    </select>
+                                </div>
+
+                                <!-- Hidden input for complete value -->
+                                <input type="hidden" id="longitude-dms-complete" name="longitude_dms_complete"
+                                    value="{{ data['location']['longitude_dms_complete'] or '' }}"
+                                    class="govuk-otp-input__hidden">
+                            </div>
+                        </fieldset>
+                    </div>
+                </div>
+            </div>
+
+            <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
+
+            <!-- UK Grid Reference Section with OTP Inputs -->
+            <div class="govuk-!-margin-bottom-8">
+                <h2 class="govuk-heading-m">UK grid reference (OTP Input Demo)</h2>
+                <p class="govuk-body">Enter UK grid reference using OTP inputs:</p>
+
+                <!-- UK Grid Reference OTP -->
+                <div class="govuk-!-margin-bottom-6">
+                    <div class="govuk-form-group{% if errors['uk-grid-otp'] %} govuk-form-group--error{% endif %}">
+                        <fieldset class="govuk-fieldset" role="group">
+                            <legend class="govuk-fieldset__legend govuk-fieldset__legend--s">
+                                UK grid reference
+                            </legend>
+                            <div class="govuk-hint">
+                                Enter grid reference (e.g., TQ 3003 8038). Square: 2 letters, Easting: 0-99999,
+                                Northing: 0-99999
+                            </div>
+                            {% if errors['uk-grid-otp'] %}
+                            <p id="uk-grid-otp-error" class="govuk-error-message">
+                                <span class="govuk-visually-hidden">Error:</span>
+                                {{ errors['uk-grid-otp'] }}
+                            </p>
+                            {% endif %}
+
+                            <div class="govuk-otp-input" style="margin-top: 10px;">
+                                <!-- Grid Square (2 letters) -->
+                                <div class="govuk-otp-input__group">
+                                    <div class="govuk-otp-input__slot">
+                                        <label class="govuk-visually-hidden" for="grid-square">Grid Square</label>
+                                        <input
+                                            class="govuk-input govuk-otp-input__input{% if errors['uk-grid-otp'] %} govuk-input--error{% endif %}"
+                                            id="grid-square" name="grid_square" type="text" maxlength="2"
+                                            pattern="[A-Za-z]" inputmode="text"
+                                            value="{{ data['location']['grid_square'] or '' }}"
+                                            aria-label="Grid Square">
+                                    </div>
+                                    <span class="govuk-otp-input__separator" aria-hidden="true"> </span>
+                                </div>
+
+                                <!-- Easting (0-99999) -->
+                                <div class="govuk-otp-input__group">
+                                    <div class="govuk-otp-input__slot">
+                                        <label class="govuk-visually-hidden" for="grid-easting">Easting</label>
+                                        <input
+                                            class="govuk-input govuk-otp-input__input{% if errors['uk-grid-otp'] %} govuk-input--error{% endif %}"
+                                            id="grid-easting" name="grid_easting" type="text" maxlength="5"
+                                            pattern="[0-9]" inputmode="numeric"
+                                            value="{{ data['location']['grid_easting'] or '' }}" aria-label="Easting">
+                                    </div>
+                                    <span class="govuk-otp-input__separator" aria-hidden="true"> </span>
+                                </div>
+
+                                <!-- Northing (0-99999) -->
+                                <div class="govuk-otp-input__group">
+                                    <div class="govuk-otp-input__slot">
+                                        <label class="govuk-visually-hidden" for="grid-northing">Northing</label>
+                                        <input
+                                            class="govuk-input govuk-otp-input__input{% if errors['uk-grid-otp'] %} govuk-input--error{% endif %}"
+                                            id="grid-northing" name="grid_northing" type="text" maxlength="5"
+                                            pattern="[0-9]" inputmode="numeric"
+                                            value="{{ data['location']['grid_northing'] or '' }}" aria-label="Northing">
+                                    </div>
+                                </div>
+
+                                <!-- Hidden input for complete value -->
+                                <input type="hidden" id="grid-complete" name="grid_complete"
+                                    value="{{ data['location']['grid_complete'] or '' }}"
+                                    class="govuk-otp-input__hidden">
+                            </div>
+                        </fieldset>
+                    </div>
+                </div>
+            </div>
+
+            <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
+
+            <!-- Traditional Inputs for Comparison -->
+            <div class="govuk-!-margin-bottom-8">
+                <h2 class="govuk-heading-m">Traditional coordinate inputs (for comparison)</h2>
+                <p class="govuk-body">Compare with traditional text inputs:</p>
+
+                <!-- Traditional Decimal Degrees -->
+                {{ defraCoordinateInput({
+                id: "latitude-decimal-traditional",
+                namePrefix: "location",
+                fieldset: {
+                legend: {
+                text: "Coordinates (Decimal degrees)",
+                isPageHeading: false,
+                classes: "govuk-fieldset__legend--s"
+                }
+                },
+                hint: {
+                text: "For example 53.76385° -3.73904°"
+                },
+                classes: "row-prototype-coordinate-input",
+                items: [
+                {
+                id: "location-latitude-decimal-traditional",
+                name: "location-latitude-decimal-traditional",
+                label: "Latitude",
+                value: data["location"]["location-latitude-decimal-traditional"],
+                classes: "govuk-input--width-5",
+                type: "text",
+                attributes: {
+                inputmode: "decimal",
+                suffix: "°"
+                }
+                },
+                {
+                id: "location-longitude-decimal-traditional",
+                name: "location-longitude-decimal-traditional",
+                label: "Longitude",
+                value: data["location"]["location-longitude-decimal-traditional"],
+                classes: "govuk-input--width-5",
+                type: "text",
+                attributes: {
+                inputmode: "decimal",
+                suffix: "°"
+                }
+                }
+                ]
+                }) }}
+            </div>
+
+            <!-- Demo Instructions -->
+            <div class="govuk-!-margin-bottom-8">
+                <h2 class="govuk-heading-m">Demo instructions</h2>
+                <div class="govuk-inset-text">
+                    <p><strong>Try these features:</strong></p>
+                    <ul class="govuk-list govuk-list--bullet">
+                        <li><strong>Paste coordinates:</strong> Copy "53.76385" and paste it into the latitude OTP input
+                            - it will automatically distribute across the input boxes</li>
+                        <li><strong>Smart focus:</strong> Type a digit and the cursor automatically moves to the next
+                            input</li>
+                        <li><strong>Keyboard navigation:</strong> Use arrow keys, Home, End, and Tab to navigate between
+                            inputs</li>
+                        <li><strong>Backspace handling:</strong> Backspace moves to the previous input and clears it
+                        </li>
+                        <li><strong>Pattern validation:</strong> Only valid characters (numbers, decimal points, minus
+                            signs) are accepted</li>
+                        <li><strong>Range validation:</strong> Values are validated against coordinate ranges (e.g.,
+                            latitude -90 to 90)</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="govuk-button-group">
+                {{ govukButton({
+                text: "Continue",
+                type: "submit",
+                classes: "govuk-button--primary"
+                }) }}
+
+                {{ govukButton({
+                text: "Clear all OTP inputs",
+                type: "button",
+                classes: "govuk-button--secondary",
+                attributes: {
+                "onclick": "clearAllOtpInputs()"
+                }
+                }) }}
+
+                {{ govukButton({
+                text: "Test paste 53.76385",
+                type: "button",
+                classes: "govuk-button--secondary",
+                attributes: {
+                "onclick": "testPasteFunctionality()"
+                }
+                }) }}
+            </div>
+
+        </form>
+
+    </div>
+</div>
+
+{% endblock %}
+
+{% block pageScripts %}
+<script src="/public/javascripts/govuk-otp-input.js"></script>
+<script>
+    // Demo functionality
+    function clearAllOtpInputs() {
+        const containers = document.querySelectorAll('.govuk-otp-input');
+        containers.forEach(container => {
+            const otpInput = container.querySelector('.govuk-otp-input__hidden');
+            if (otpInput && otpInput.value) {
+                // Find the associated GovukOtpInput instance and clear it
+                const inputs = container.querySelectorAll('.govuk-otp-input__input');
+                inputs.forEach(input => {
+                    input.value = '';
+                });
+                otpInput.value = '';
+
+                // Update visual state
+                inputs.forEach(input => {
+                    input.classList.remove('govuk-otp-input__input--filled');
+                });
+
+                // Focus first input
+                if (inputs.length > 0) {
+                    inputs[0].focus();
+                }
+            }
+        });
+    }
+
+    // Test paste functionality
+    function testPasteFunctionality() {
+        console.log('Testing paste functionality...');
+        const containers = document.querySelectorAll('.govuk-otp-input');
+        if (containers.length > 0) {
+            const firstContainer = containers[0];
+            const inputs = firstContainer.querySelectorAll('.govuk-otp-input__input');
+            console.log('Found', inputs.length, 'inputs in first container');
+
+            // Simulate pasting "53.76385"
+            const testData = "53.76385";
+            inputs.forEach((input, index) => {
+                if (index < testData.length) {
+                    input.value = testData[index];
+                    console.log(`Set input ${index} to ${testData[index]}`);
+                }
+            });
+
+            // Trigger the hidden input update
+            const hiddenInput = firstContainer.querySelector('.govuk-otp-input__hidden');
+            if (hiddenInput) {
+                hiddenInput.value = testData;
+                hiddenInput.dispatchEvent(new Event('change', { bubbles: true }));
+            }
+        }
+    }
+
+    // Handle form submission
+    document.addEventListener('DOMContentLoaded', function () {
+        const form = document.querySelector('form');
+        if (form) {
+            form.addEventListener('submit', function (e) {
+                e.preventDefault();
+
+                // Collect all OTP values
+                const otpValues = {};
+                const containers = document.querySelectorAll('.govuk-otp-input');
+                containers.forEach(container => {
+                    const hiddenInput = container.querySelector('.govuk-otp-input__hidden');
+                    if (hiddenInput) {
+                        const name = hiddenInput.name;
+                        const value = hiddenInput.value;
+                        if (value) {
+                            otpValues[name] = value;
+                        }
+                    }
+                });
+
+                console.log('OTP Values submitted:', otpValues);
+
+                // Show success message
+                alert('Form submitted! Check console for OTP values.');
+            });
+        }
+    });
+</script>
+{% endblock %}

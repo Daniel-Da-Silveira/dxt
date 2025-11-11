@@ -1,0 +1,122 @@
+{% extends "layouts/main.html" %}
+
+{% from "components/service-header/macro.njk" import serviceHeader %}
+
+{% set pageName = "Form submission email notification" %}
+
+{% block header %}
+{{ serviceHeader({
+organisationName: "Defra",
+productName: "Forms Designer",
+serviceName: "",
+accountName: "Chris Smith",
+homepageLink: "/",
+signOutLink: "/onboarding/sign-out-confirmation",
+navigationItems: [
+{
+href: "/library.html",
+text: "Forms library",
+id: "library"
+},
+{
+href: "/cph-overview/draft/complete.html",
+text: "Overview",
+id: "overview"
+},{
+href: "/editor.html",
+text: 'Editor',
+id: 'editor'
+}],
+activeLinkId: "/"
+}) }}
+{% endblock %}
+
+{% block beforeContent %}
+{{ govukBackLink({
+text: "Back",
+href: "javascript:window.history.back()"
+}) }}
+{% endblock %}
+
+{% block content %}
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+        <span class="govuk-caption-xl">Email notification</span>
+        <h1 class="govuk-heading-xl">Form submission confirmation email</h1>
+
+        <p class="govuk-body">This is the email notification that users receive when they submit a form.</p>
+
+        <!-- Email Preview Container -->
+        <div class="email-preview-container"
+            style="border: 2px solid #0b0c0c; padding: 20px; margin: 20px 0; background: white; max-width: 600px;">
+
+            <!-- Email Header -->
+            <div class="email-header"
+                style="border-bottom: 1px solid #b1b4b6; padding-bottom: 15px; margin-bottom: 20px;">
+                <div style="margin-bottom: 8px;">
+                    <strong>From:</strong> Defra Forms
+                </div>
+                <div style="margin-bottom: 8px;">
+                    <strong>To:</strong> <span style="background-color: #ffdd00; padding: 2px 4px;">email address</span>
+                </div>
+                <div>
+                    <strong>Subject:</strong> Form submitted to Defra
+                </div>
+            </div>
+
+            <!-- Email Body -->
+            <div class="email-body">
+                <!-- Section 1: We have your form -->
+                <div style="margin-bottom: 30px;">
+                    <h2 style="font-size: 24px; font-weight: bold; margin-bottom: 15px; color: #0b0c0c;">We have your
+                        form</h2>
+                    <p style="font-size: 16px; line-height: 1.5; color: #0b0c0c; margin: 0;">
+                        We received your form submission for 'Declaration of completion of cleansing and disinfection
+                        for TB in England' on Tuesday 1 April 2025 at 10:30am.
+                    </p>
+                </div>
+
+                <!-- Section 2: What happens next -->
+                <div style="margin-bottom: 30px;">
+                    <h2 style="font-size: 20px; font-weight: bold; margin-bottom: 15px; color: #0b0c0c;">What happens
+                        next</h2>
+                    <p style="font-size: 16px; line-height: 1.5; color: #0b0c0c; margin: 0;">
+                        Your declaration has been sent to the Animal and Plant Health Agency (APHA) who will store it on
+                        your record. You will need to make another declaration if more TB reactor animals are disclosed.
+                    </p>
+                </div>
+
+                <!-- Section 3: Get help -->
+                <div style="margin-bottom: 30px;">
+                    <h2 style="font-size: 20px; font-weight: bold; margin-bottom: 15px; color: #0b0c0c;">Get help</h2>
+                    <p style="font-size: 16px; line-height: 1.5; color: #0b0c0c; margin: 0;">
+                        Call 03000 200 301 Monday to Friday between 8:30am to 5pm. Or email TB.Advice@apha.gov.uk. We
+                        aim to respond within 2 working days.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Email Footer -->
+            <div class="email-footer"
+                style="border-top: 1px solid #b1b4b6; padding-top: 15px; margin-top: 20px; font-size: 14px; color: #6b7276;">
+                From Defra Forms
+            </div>
+        </div>
+
+        <div class="govuk-inset-text">
+            <p class="govuk-body">This email template follows the GOV.UK Design System principles and provides clear,
+                actionable information to users about their form submission.</p>
+        </div>
+
+        <h2 class="govuk-heading-m">Key features of this email:</h2>
+        <ul class="govuk-list govuk-list--bullet">
+            <li>Clear confirmation that the form was received</li>
+            <li>Specific details about the form and submission time</li>
+            <li>Clear next steps and what happens to their submission</li>
+            <li>Contact information for support</li>
+            <li>Professional government branding</li>
+        </ul>
+
+    </div>
+</div>
+{% endblock %}

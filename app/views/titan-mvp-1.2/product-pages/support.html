@@ -1,0 +1,63 @@
+{% extends "layouts/main.html" %}
+{% from "components/service-header/macro.njk" import serviceHeader %}
+
+{% block pageTitle %}
+Support – Defra Form Designer – GOV.UK Prototype Kit
+{% endblock %}
+
+{% block header %}
+{{ serviceHeader({
+organisationName: "Defra",
+productName: "Form Designer",
+serviceName: "",
+homepageLink: "/titan-mvp-1.2/product-pages/homepage",
+signInLink: "/titan-mvp-1.2/library",
+showSupportLink: false,
+navigationItems: [
+{ href: "/titan-mvp-1.2/product-pages/about", text: "About", id: "nav-about" },
+{ href: "/titan-mvp-1.2/product-pages/get-started", text: "Get started", id: "nav-get-started" },
+{ href: "/titan-mvp-1.2/product-pages/features", text: "Features", id: "nav-features" },
+{ href: "/titan-mvp-1.2/product-pages/resources", text: "Resources", id: "nav-resources" },
+{ href: "/titan-mvp-1.2/product-pages/support", text: "Support", id: "nav-support" }
+],
+activeLinkId: "nav-support"
+}) }}
+
+{{ xGovukMasthead({
+inverse: true,
+title: {
+text: "Support"
+},
+description: {
+html: "If you're taking part in private beta, ask for support by sending a message to the <a
+    href='https://teams.microsoft.com/l/channel/19:sLNy297i1n0fiPYsGJb3UoOITYURp7PtMx8iFwEfJWs1%40thread.tacv2/General?groupId=346d8ebd-c7b8-47d3-b178-e6a9b31c8fc2&tenantId=770a2450-0227-4c62-90c7-4e38537f1102'
+    class='govuk-link govuk-link--inverse govuk-link--no-visited-state'>Microsoft Teams channel</a> or <a
+    href='https://defra-digital-team.slack.com/archives/C080WP62PJP'
+    class='govuk-link govuk-link--inverse govuk-link--no-visited-state'>Defra Slack channel</a>."
+}
+}) }}
+{% endblock %}
+
+{% block content %}
+
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+
+
+
+        <h2 class="govuk-heading-l">Support hours</h2>
+        <p class="govuk-body">We are available to support you between 9am and 5pm Monday to Friday.</p>
+
+        <h2 class="govuk-heading-l">General questions</h2>
+        <p class="govuk-body">For general questions about Defra Forms, use the shared mailbox at <a
+                href="mailto:defraforms@defra.gov.uk" class="govuk-link">defraforms@defra.gov.uk</a>.</p>
+
+
+
+
+
+
+    </div>
+</div>
+
+{% endblock %}

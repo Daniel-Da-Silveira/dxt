@@ -1,0 +1,144 @@
+{% extends "layouts/main.html" %}
+{% from "components/service-header/macro.njk" import serviceHeader %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "govuk/components/notification-banner/macro.njk" import govukNotificationBanner %}
+
+{% block header %}
+{{ serviceHeader({
+organisationName: "Defra",
+productName: "Forms designer",
+serviceName: "",
+accountName: "Chris Smith",
+homepageLink: "/",
+signOutLink: "/titan-mvp-1.2/onboarding/sign-out-confirmation",
+navigationItems: [{
+href: "/titan-mvp-1.2/library",
+text: "Library",
+id: "titan-mvp-1.2/library"
+}]
+}) }}
+
+<div class="x-govuk-masthead x-govuk-masthead--large">
+    <div class="govuk-width-container">
+        {{ govukBackLink({
+        classes: "govuk-back-link--inverse govuk-!-margin-bottom-0",
+        text: "Back to task list",
+        href: "/titan-mvp-1.2/ai/tasklist-form-creation"
+        }) }}
+
+        <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible"
+            style="border-bottom: 1px solid white; margin-bottom: 0" />
+
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-full-from-desktop">
+                <h1 class="x-govuk-masthead__title">Summary of your form created using AI
+
+                </h1>
+
+
+                <div class="govuk-button-group">
+                    {{ govukButton({
+                    text: "Open form in editor",
+                    href: "/titan-mvp-1.2/form-editor/listing",
+                    classes: "govuk-button--inverse"
+                    }) }}
+
+                    <a href="/titan-mvp-1.2/ai/tasklist-form-creation" class="govuk-link govuk-link--inverse"
+                        id="edit-prompt-link" style="display: inline-block;">
+                        Edit prompt
+                    </a>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+        {# {% set html %}
+        <h3 class="govuk-notification-banner__heading">
+            Form created using AI
+        </h3>
+        <p class="govuk-body">Check the form carefully before using it.</p>
+
+
+        {% endset %}
+
+        {{ govukNotificationBanner({
+        html: html,
+        type: "success"
+        }) }} #}
+
+
+        <!-- Success Notification -->
+        {# {% set successHtml %}
+        <p class="govuk-notification-banner__heading">
+            Summary of your form created using AI
+        </p>
+        <p class="govuk-body">
+            Your form has been generated with {{ formStats.totalPages }} pages and {{ formStats.totalFields }} form
+            fields.
+        </p>
+        <p class="govuk-body">
+            The form follows GDS design patterns and is ready for you to review and customize in the form editor.
+        </p>
+        {% endset %}
+
+        {{ govukNotificationBanner({
+        html: successHtml,
+        titleText: "Form creation successful",
+        type: "success"
+        }) }} #}
+
+        <!-- Form Summary -->
+        <div class="govuk-!-margin-bottom-6">
+            <div class="govuk-grid-row">
+                <div class="govuk-grid-column-one-third">
+                    <div class="govuk-card govuk-card--contained">
+                        <div class="govuk-card__content">
+                            <h3 class="govuk-heading-s govuk-!-margin-bottom-2">Form Pages</h3>
+                            <p class="govuk-body-l govuk-!-font-weight-bold">{{ formStats.totalPages }}</p>
+                            <p class="govuk-body-s">including start and confirmation pages</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="govuk-grid-column-one-third">
+                    <div class="govuk-card govuk-card--contained">
+                        <div class="govuk-card__content">
+                            <h3 class="govuk-heading-s govuk-!-margin-bottom-2">Form Complexity</h3>
+                            <p class="govuk-body-l govuk-!-font-weight-bold">Low</p>
+                            <p class="govuk-body-s">multi-page form with 2 page conditions</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="govuk-grid-column-one-third">
+                    <div class="govuk-card govuk-card--contained">
+                        <div class="govuk-card__content">
+                            <h3 class="govuk-heading-s govuk-!-margin-bottom-2">Questions created</h3>
+                            <p class="govuk-body-l govuk-!-font-weight-bold">{{ formStats.totalFields }}</p>
+                            <p class="govuk-body-s">
+                                {% if formStats.textFields > 0 %}{{ formStats.textFields }} text{% endif %}
+                                {% if formStats.choiceFields > 0 %}{% if formStats.textFields > 0 %}, {% endif %}{{
+                                formStats.choiceFields }} choice{% endif %}
+                                {% if formStats.dateFields > 0 %}{% if formStats.textFields > 0 or
+                                formStats.choiceFields > 0 %}, {% endif %}{{ formStats.dateFields }} date{% endif %}
+                                {% if formStats.fileFields > 0 %}{% if formStats.textFields > 0 or
+                                formStats.choiceFields > 0 or formStats.dateFields > 0 %}, {% endif %}{{
+                                formStats.fileFields }} file upload{% endif %}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+
+            <div class="govuk-grid-column-one-third">
+
+            </div>
+            {% endblock %}

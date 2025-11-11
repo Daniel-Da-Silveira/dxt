@@ -1,0 +1,1055 @@
+{% extends "layouts/main.html" %}
+
+{% from "govuk/components/input/macro.njk" import govukInput %}
+{% from "govuk/components/date-input/macro.njk" import govukDateInput %}
+{% from "govuk/components/fieldset/macro.njk" import govukFieldset %}
+{% from "govuk/components/radios/macro.njk" import govukRadios %}
+{% from "govuk/components/textarea/macro.njk" import govukTextarea %}
+{% from "govuk/components/select/macro.njk" import govukSelect %}
+{% from "components/defra-coordinate-input/macro.njk" import defraCoordinateInput %}
+
+{% block content %}
+
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-full">
+
+        <h1 class="govuk-heading-l">Coordinate Input Error Scenarios</h1>
+
+        <div class="govuk-inset-text">
+            <p>This page demonstrates all possible validation errors for the coordinate input components.</p>
+        </div>
+
+        <!-- Decimal Degrees Errors -->
+        <h2 class="govuk-heading-m">Decimal Degrees - Error Scenarios</h2>
+
+        <h3 class="govuk-heading-s">Missing Latitude</h3>
+        {{ govukErrorSummary({
+        titleText: "There is a problem",
+        errorList: [
+        {
+        text: "Enter latitude",
+        href: "#location-latitude-decimal"
+        }
+        ],
+        attributes: {
+        "data-disable-auto-focus": "true"
+        }
+        }) }}
+
+        {{ defraCoordinateInput({
+        id: "decimal-degrees-missing-lat",
+        namePrefix: "location",
+        fieldset: {
+        legend: {
+        text: "Coordinates (Decimal degrees)",
+        isPageHeading: false,
+        classes: "govuk-fieldset__legend--m"
+        }
+        },
+        hint: {
+        text: "For example 53.76385° -3.73904°"
+        },
+        errorMessage: {
+        text: "Enter latitude"
+        },
+        classes: "row-prototype-coordinate-input",
+        items: [
+        {
+        id: "location-latitude-decimal",
+        name: "location-latitude-decimal",
+        label: "Latitude",
+        value: "",
+        classes: "govuk-input--width-5 govuk-input--error",
+        type: "text",
+        attributes: {
+        inputmode: "numeric",
+        suffix: "°"
+        }
+        },
+        {
+        id: "location-longitude-decimal",
+        name: "location-longitude-decimal",
+        label: "Longitude",
+        value: "-3.73904",
+        classes: "govuk-input--width-5",
+        type: "text",
+        attributes: {
+        inputmode: "numeric",
+        suffix: "°"
+        }
+        }
+        ]
+        }) }}
+
+        <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+
+        <h3 class="govuk-heading-s">Missing Longitude</h3>
+        {{ govukErrorSummary({
+        titleText: "There is a problem",
+        errorList: [
+        {
+        text: "Enter longitude",
+        href: "#location-longitude-decimal"
+        }
+        ],
+        attributes: {
+        "data-disable-auto-focus": "true"
+        }
+        }) }}
+
+        {{ defraCoordinateInput({
+        id: "decimal-degrees-missing-lon",
+        namePrefix: "location",
+        fieldset: {
+        legend: {
+        text: "Coordinates (Decimal degrees)",
+        isPageHeading: false,
+        classes: "govuk-fieldset__legend--m"
+        }
+        },
+        hint: {
+        text: "For example 53.76385° -3.73904°"
+        },
+        errorMessage: {
+        text: "Enter longitude"
+        },
+        classes: "row-prototype-coordinate-input",
+        items: [
+        {
+        id: "location-latitude-decimal",
+        name: "location-latitude-decimal",
+        label: "Latitude",
+        value: "53.76385",
+        classes: "govuk-input--width-5",
+        type: "text",
+        attributes: {
+        inputmode: "numeric",
+        suffix: "°"
+        }
+        },
+        {
+        id: "location-longitude-decimal",
+        name: "location-longitude-decimal",
+        label: "Longitude",
+        value: "",
+        classes: "govuk-input--width-5 govuk-input--error",
+        type: "text",
+        attributes: {
+        inputmode: "numeric",
+        suffix: "°"
+        }
+        }
+        ]
+        }) }}
+
+        <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+
+        <h3 class="govuk-heading-s">Invalid Latitude (Out of Range)</h3>
+        {{ govukErrorSummary({
+        titleText: "There is a problem",
+        errorList: [
+        {
+        text: "Latitude must be between -90 and 90 degrees",
+        href: "#location-latitude-decimal"
+        }
+        ],
+        attributes: {
+        "data-disable-auto-focus": "true"
+        }
+        }) }}
+
+        {{ defraCoordinateInput({
+        id: "decimal-degrees-invalid-lat",
+        namePrefix: "location",
+        fieldset: {
+        legend: {
+        text: "Coordinates (Decimal degrees)",
+        isPageHeading: false,
+        classes: "govuk-fieldset__legend--m"
+        }
+        },
+        hint: {
+        text: "For example 53.76385° -3.73904°"
+        },
+        errorMessage: {
+        text: "Latitude must be between -90 and 90 degrees"
+        },
+        classes: "row-prototype-coordinate-input",
+        items: [
+        {
+        id: "location-latitude-decimal",
+        name: "location-latitude-decimal",
+        label: "Latitude",
+        value: "95.5",
+        classes: "govuk-input--width-5 govuk-input--error",
+        type: "text",
+        attributes: {
+        inputmode: "numeric",
+        suffix: "°"
+        }
+        },
+        {
+        id: "location-longitude-decimal",
+        name: "location-longitude-decimal",
+        label: "Longitude",
+        value: "-3.73904",
+        classes: "govuk-input--width-5",
+        type: "text",
+        attributes: {
+        inputmode: "numeric",
+        suffix: "°"
+        }
+        }
+        ]
+        }) }}
+
+        <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+
+        <h3 class="govuk-heading-s">Invalid Longitude (Out of Range)</h3>
+        {{ govukErrorSummary({
+        titleText: "There is a problem",
+        errorList: [
+        {
+        text: "Longitude must be between -180 and 180 degrees",
+        href: "#location-longitude-decimal"
+        }
+        ],
+        attributes: {
+        "data-disable-auto-focus": "true"
+        }
+        }) }}
+
+        {{ defraCoordinateInput({
+        id: "decimal-degrees-invalid-lon",
+        namePrefix: "location",
+        fieldset: {
+        legend: {
+        text: "Coordinates (Decimal degrees)",
+        isPageHeading: false,
+        classes: "govuk-fieldset__legend--m"
+        }
+        },
+        hint: {
+        text: "For example 53.76385° -3.73904°"
+        },
+        errorMessage: {
+        text: "Longitude must be between -180 and 180 degrees"
+        },
+        classes: "row-prototype-coordinate-input",
+        items: [
+        {
+        id: "location-latitude-decimal",
+        name: "location-latitude-decimal",
+        label: "Latitude",
+        value: "53.76385",
+        classes: "govuk-input--width-5",
+        type: "text",
+        attributes: {
+        inputmode: "numeric",
+        suffix: "°"
+        }
+        },
+        {
+        id: "location-longitude-decimal",
+        name: "location-longitude-decimal",
+        label: "Longitude",
+        value: "185.2",
+        classes: "govuk-input--width-5 govuk-input--error",
+        type: "text",
+        attributes: {
+        inputmode: "numeric",
+        suffix: "°"
+        }
+        }
+        ]
+        }) }}
+
+        <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+
+        <h3 class="govuk-heading-s">Invalid Format (Non-numeric)</h3>
+        {{ govukErrorSummary({
+        titleText: "There is a problem",
+        errorList: [
+        {
+        text: "Latitude must be a valid number",
+        href: "#location-latitude-decimal"
+        },
+        {
+        text: "Longitude must be a valid number",
+        href: "#location-longitude-decimal"
+        }
+        ],
+        attributes: {
+        "data-disable-auto-focus": "true"
+        }
+        }) }}
+
+        {{ defraCoordinateInput({
+        id: "decimal-degrees-invalid-format",
+        namePrefix: "location",
+        fieldset: {
+        legend: {
+        text: "Coordinates (Decimal degrees)",
+        isPageHeading: false,
+        classes: "govuk-fieldset__legend--m"
+        }
+        },
+        hint: {
+        text: "For example 53.76385° -3.73904°"
+        },
+        errorMessage: {
+        text: "Latitude and longitude must be valid numbers"
+        },
+        classes: "row-prototype-coordinate-input",
+        items: [
+        {
+        id: "location-latitude-decimal",
+        name: "location-latitude-decimal",
+        label: "Latitude",
+        value: "abc",
+        classes: "govuk-input--width-5 govuk-input--error",
+        type: "text",
+        attributes: {
+        inputmode: "numeric",
+        suffix: "°"
+        }
+        },
+        {
+        id: "location-longitude-decimal",
+        name: "location-longitude-decimal",
+        label: "Longitude",
+        value: "xyz",
+        classes: "govuk-input--width-5 govuk-input--error",
+        type: "text",
+        attributes: {
+        inputmode: "numeric",
+        suffix: "°"
+        }
+        }
+        ]
+        }) }}
+
+        <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+
+        <!-- Degrees and Decimal Minutes Errors -->
+        <h2 class="govuk-heading-m">Degrees and Decimal Minutes - Error Scenarios</h2>
+
+        <h3 class="govuk-heading-s">Missing Latitude Degree</h3>
+        {{ govukErrorSummary({
+        titleText: "There is a problem",
+        errorList: [
+        {
+        text: "Enter latitude degree",
+        href: "#location-latitude-decimal-minutes-degree"
+        }
+        ],
+        attributes: {
+        "data-disable-auto-focus": "true"
+        }
+        }) }}
+
+        {{ defraCoordinateInput({
+        id: "latitude-decimal-minutes-missing-degree",
+        namePrefix: "location",
+        fieldset: {
+        legend: {
+        text: "Latitude (degrees and decimal minutes)",
+        isPageHeading: false,
+        classes: "govuk-fieldset__legend--m"
+        }
+        },
+        hint: {
+        text: "For example 53° 45.831' N"
+        },
+        errorMessage: {
+        text: "Enter latitude degree"
+        },
+        classes: "row-prototype-coordinate-input",
+        items: [
+        {
+        id: "location-latitude-decimal-minutes-degree",
+        name: "location-latitude-decimal-minutes-degree",
+        label: "Degree",
+        value: "",
+        classes: "govuk-input--width-5 govuk-input--error",
+        type: "text",
+        attributes: {
+        inputmode: "numeric",
+        suffix: "°"
+        }
+        },
+        {
+        id: "location-latitude-decimal-minutes-minute",
+        name: "location-latitude-decimal-minutes-minute",
+        label: "Minute",
+        value: "45.831",
+        classes: "govuk-input--width-5",
+        type: "text",
+        attributes: {
+        inputmode: "numeric",
+        suffix: "'"
+        }
+        },
+        {
+        id: "location-latitude-decimal-minutes-direction",
+        name: "location-latitude-decimal-minutes-direction",
+        label: "Direction",
+        value: "N",
+        type: "select",
+        options: [
+        { value: "N", text: "N", selected: true },
+        { value: "S", text: "S", selected: false }
+        ]
+        }
+        ]
+        }) }}
+
+        <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+
+        <h3 class="govuk-heading-s">Invalid Latitude Minute (Out of Range)</h3>
+        {{ govukErrorSummary({
+        titleText: "There is a problem",
+        errorList: [
+        {
+        text: "Latitude minutes must be between 0 and 59.999",
+        href: "#location-latitude-decimal-minutes-minute"
+        }
+        ],
+        attributes: {
+        "data-disable-auto-focus": "true"
+        }
+        }) }}
+
+        {{ defraCoordinateInput({
+        id: "latitude-decimal-minutes-invalid-minute",
+        namePrefix: "location",
+        fieldset: {
+        legend: {
+        text: "Latitude (degrees and decimal minutes)",
+        isPageHeading: false,
+        classes: "govuk-fieldset__legend--m"
+        }
+        },
+        hint: {
+        text: "For example 53° 45.831' N"
+        },
+        errorMessage: {
+        text: "Latitude minutes must be between 0 and 59.999"
+        },
+        classes: "row-prototype-coordinate-input",
+        items: [
+        {
+        id: "location-latitude-decimal-minutes-degree",
+        name: "location-latitude-decimal-minutes-degree",
+        label: "Degree",
+        value: "53",
+        classes: "govuk-input--width-5",
+        type: "text",
+        attributes: {
+        inputmode: "numeric",
+        suffix: "°"
+        }
+        },
+        {
+        id: "location-latitude-decimal-minutes-minute",
+        name: "location-latitude-decimal-minutes-minute",
+        label: "Minute",
+        value: "65.5",
+        classes: "govuk-input--width-5 govuk-input--error",
+        type: "text",
+        attributes: {
+        inputmode: "numeric",
+        suffix: "'"
+        }
+        },
+        {
+        id: "location-latitude-decimal-minutes-direction",
+        name: "location-latitude-decimal-minutes-direction",
+        label: "Direction",
+        value: "N",
+        type: "select",
+        options: [
+        { value: "N", text: "N", selected: true },
+        { value: "S", text: "S", selected: false }
+        ]
+        }
+        ]
+        }) }}
+
+        <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+
+        <h3 class="govuk-heading-s">Missing Longitude Direction</h3>
+        {{ govukErrorSummary({
+        titleText: "There is a problem",
+        errorList: [
+        {
+        text: "Select longitude direction",
+        href: "#location-longitude-decimal-minutes-direction"
+        }
+        ],
+        attributes: {
+        "data-disable-auto-focus": "true"
+        }
+        }) }}
+
+        {% set locationLongitudeDecimalMinutesDegreeClass = "govuk-input--width-5" %}
+        {% set locationLongitudeDecimalMinutesMinuteClass = "govuk-input--width-5" %}
+
+        {{ defraCoordinateInput({
+        id: "longitude-decimal-minutes-missing-direction",
+        namePrefix: "location",
+        fieldset: {
+        legend: {
+        text: "Longitude (degrees and decimal minutes)",
+        isPageHeading: false,
+        classes: "govuk-fieldset__legend--m"
+        }
+        },
+        hint: {
+        text: "For example 3° 44.342' W"
+        },
+        errorMessage: {
+        text: "Select longitude direction"
+        },
+        classes: "row-prototype-coordinate-input",
+        items: [
+        {
+        id: "location-longitude-decimal-minutes-degree",
+        name: "location-longitude-decimal-minutes-degree",
+        label: "Degree",
+        value: "3",
+        classes: locationLongitudeDecimalMinutesDegreeClass,
+        type: "text",
+        attributes: {
+        inputmode: "numeric",
+        suffix: "°"
+        }
+        },
+        {
+        id: "location-longitude-decimal-minutes-minute",
+        name: "location-longitude-decimal-minutes-minute",
+        label: "Minute",
+        value: "44.342",
+        classes: locationLongitudeDecimalMinutesMinuteClass,
+        type: "text",
+        attributes: {
+        inputmode: "numeric",
+        suffix: "'"
+        }
+        },
+        {
+        id: "location-longitude-decimal-minutes-direction",
+        name: "location-longitude-decimal-minutes-direction",
+        label: "Direction",
+        value: "",
+        type: "select",
+        options: [
+        { value: "", text: "Select direction", selected: true },
+        { value: "E", text: "E", selected: false },
+        { value: "W", text: "W", selected: false }
+        ]
+        }
+        ]
+        }) }}
+
+        <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+
+        <!-- Degrees, Minutes and Seconds Errors -->
+        <h2 class="govuk-heading-m">Degrees, Minutes and Seconds - Error Scenarios</h2>
+
+        <h3 class="govuk-heading-s">Invalid Latitude Second (Out of Range)</h3>
+        {{ govukErrorSummary({
+        titleText: "There is a problem",
+        errorList: [
+        {
+        text: "Latitude seconds must be between 0 and 59.999",
+        href: "#location-latitude-degrees-second"
+        }
+        ],
+        attributes: {
+        "data-disable-auto-focus": "true"
+        }
+        }) }}
+
+        {% set locationLatitudeDegreesDegreeClass = "govuk-input--width-2" %}
+        {% set locationLatitudeDegreesMinuteClass = "govuk-input--width-2" %}
+        {% set locationLatitudeDegreesSecondClass = "govuk-input--width-2 govuk-input--error" %}
+
+        {{ defraCoordinateInput({
+        id: "latitude-degrees-minutes-seconds-invalid-second",
+        namePrefix: "location",
+        fieldset: {
+        legend: {
+        text: "Latitude (degrees, minutes and seconds)",
+        isPageHeading: false,
+        classes: "govuk-fieldset__legend--m"
+        }
+        },
+        hint: {
+        text: "For example 53° 45′ 49″ N"
+        },
+        errorMessage: {
+        text: "Latitude seconds must be between 0 and 59.999"
+        },
+        classes: "row-prototype-coordinate-input",
+        items: [
+        {
+        id: "location-latitude-degrees-degree",
+        name: "location-latitude-degrees-degree",
+        label: "Degree",
+        value: "53",
+        classes: locationLatitudeDegreesDegreeClass,
+        type: "text",
+        attributes: {
+        inputmode: "numeric",
+        suffix: "°"
+        }
+        },
+        {
+        id: "location-latitude-degrees-minute",
+        name: "location-latitude-degrees-minute",
+        label: "Minute",
+        value: "45",
+        classes: locationLatitudeDegreesMinuteClass,
+        type: "text",
+        attributes: {
+        inputmode: "numeric",
+        suffix: "'"
+        }
+        },
+        {
+        id: "location-latitude-degrees-second",
+        name: "location-latitude-degrees-second",
+        label: "Second",
+        value: "75.5",
+        classes: locationLatitudeDegreesSecondClass,
+        type: "text",
+        attributes: {
+        inputmode: "numeric",
+        suffix: '"'
+        }
+        },
+        {
+        id: "location-latitude-degrees-direction",
+        name: "location-latitude-degrees-direction",
+        label: "Direction",
+        value: "N",
+        type: "select",
+        options: [
+        { value: "N", text: "N", selected: true },
+        { value: "S", text: "S", selected: false }
+        ]
+        }
+        ]
+        }) }}
+
+        <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+
+        <h3 class="govuk-heading-s">Multiple Errors in Longitude</h3>
+        {{ govukErrorSummary({
+        titleText: "There is a problem",
+        errorList: [
+        {
+        text: "Enter longitude degree",
+        href: "#location-longitude-degrees-degree"
+        },
+        {
+        text: "Longitude minutes must be between 0 and 59",
+        href: "#location-longitude-degrees-minute"
+        },
+        {
+        text: "Select longitude direction",
+        href: "#location-longitude-degrees-direction"
+        }
+        ],
+        attributes: {
+        "data-disable-auto-focus": "true"
+        }
+        }) }}
+
+        {% set locationLongitudeDegreesDegreeClass = "govuk-input--width-2 govuk-input--error" %}
+        {% set locationLongitudeDegreesMinuteClass = "govuk-input--width-2 govuk-input--error" %}
+        {% set locationLongitudeDegreesSecondClass = "govuk-input--width-2" %}
+
+        {{ defraCoordinateInput({
+        id: "longitude-degrees-minutes-seconds-multiple-errors",
+        namePrefix: "location",
+        fieldset: {
+        legend: {
+        text: "Longitude (degrees, minutes and seconds)",
+        isPageHeading: false,
+        classes: "govuk-fieldset__legend--m"
+        }
+        },
+        hint: {
+        text: "For example 3° 44′ 20″ W"
+        },
+        errorMessage: {
+        text: "Enter longitude degree, minutes must be between 0 and 59, and select direction"
+        },
+        classes: "row-prototype-coordinate-input",
+        items: [
+        {
+        id: "location-longitude-degrees-degree",
+        name: "location-longitude-degrees-degree",
+        label: "Degree",
+        value: "",
+        classes: locationLongitudeDegreesDegreeClass,
+        type: "text",
+        attributes: {
+        inputmode: "numeric",
+        suffix: "°"
+        }
+        },
+        {
+        id: "location-longitude-degrees-minute",
+        name: "location-longitude-degrees-minute",
+        label: "Minute",
+        value: "65",
+        classes: locationLongitudeDegreesMinuteClass,
+        type: "text",
+        attributes: {
+        inputmode: "numeric",
+        suffix: "'"
+        }
+        },
+        {
+        id: "location-longitude-degrees-second",
+        name: "location-longitude-degrees-second",
+        label: "Second",
+        value: "20",
+        classes: locationLongitudeDegreesSecondClass,
+        type: "text",
+        attributes: {
+        inputmode: "numeric",
+        suffix: '"'
+        }
+        },
+        {
+        id: "location-longitude-degrees-direction",
+        name: "location-longitude-degrees-direction",
+        label: "Direction",
+        value: "",
+        type: "select",
+        options: [
+        { value: "", text: "Select direction", selected: true },
+        { value: "E", text: "E", selected: false },
+        { value: "W", text: "W", selected: false }
+        ]
+        }
+        ]
+        }) }}
+
+        <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+
+        <!-- UK Grid Reference Errors -->
+        <h2 class="govuk-heading-m">UK Grid Reference - Error Scenarios</h2>
+
+        <h3 class="govuk-heading-s">Invalid Grid Square Format</h3>
+        {{ govukErrorSummary({
+        titleText: "There is a problem",
+        errorList: [
+        {
+        text: "Grid square must be two letters (e.g., TQ, SW)",
+        href: "#location-osgrid-square"
+        }
+        ],
+        attributes: {
+        "data-disable-auto-focus": "true"
+        }
+        }) }}
+
+        {% set locationOsGridSquareClass = "govuk-input--width-4 govuk-input--error" %}
+        {% set locationOsGridEastingClass = "govuk-input--width-5" %}
+        {% set locationOsGridNorthingClass = "govuk-input--width-5" %}
+
+        {{ defraCoordinateInput({
+        id: "uk-grid-reference-invalid-square",
+        namePrefix: "location",
+        fieldset: {
+        legend: {
+        text: "UK grid reference",
+        isPageHeading: false,
+        classes: "govuk-fieldset__legend--m"
+        }
+        },
+        hint: {
+        text: "For example TQ 3003 8038"
+        },
+        errorMessage: {
+        text: "Grid square must be two letters (e.g., TQ, SW)"
+        },
+        classes: "row-prototype-coordinate-input",
+        items: [
+        {
+        id: "location-osgrid-square",
+        name: "location-osgrid-square",
+        label: "Square",
+        value: "ABC123",
+        classes: locationOsGridSquareClass,
+        type: "text",
+        attributes: {
+        inputmode: "text"
+        }
+        },
+        {
+        id: "location-osgrid-easting",
+        name: "location-osgrid-easting",
+        label: "Easting",
+        value: "3003",
+        classes: locationOsGridEastingClass,
+        type: "text",
+        attributes: {
+        inputmode: "numeric"
+        }
+        },
+        {
+        id: "location-osgrid-northing",
+        name: "location-osgrid-northing",
+        label: "Northing",
+        value: "8038",
+        classes: locationOsGridNorthingClass,
+        type: "text",
+        attributes: {
+        inputmode: "numeric"
+        }
+        }
+        ]
+        }) }}
+
+        <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+
+        <h3 class="govuk-heading-s">Easting Out of Range</h3>
+        {{ govukErrorSummary({
+        titleText: "There is a problem",
+        errorList: [
+        {
+        text: "Easting must be between 0 and 99999",
+        href: "#location-osgrid-easting"
+        }
+        ],
+        attributes: {
+        "data-disable-auto-focus": "true"
+        }
+        }) }}
+
+        {% set locationOsGridSquareClass = "govuk-input--width-4" %}
+        {% set locationOsGridEastingClass = "govuk-input--width-5 govuk-input--error" %}
+        {% set locationOsGridNorthingClass = "govuk-input--width-5" %}
+
+        {{ defraCoordinateInput({
+        id: "uk-grid-reference-invalid-easting",
+        namePrefix: "location",
+        fieldset: {
+        legend: {
+        text: "UK grid reference",
+        isPageHeading: false,
+        classes: "govuk-fieldset__legend--m"
+        }
+        },
+        hint: {
+        text: "For example TQ 3003 8038"
+        },
+        errorMessage: {
+        text: "Easting must be between 0 and 99999"
+        },
+        classes: "row-prototype-coordinate-input",
+        items: [
+        {
+        id: "location-osgrid-square",
+        name: "location-osgrid-square",
+        label: "Square",
+        value: "TQ",
+        classes: locationOsGridSquareClass,
+        type: "text",
+        attributes: {
+        inputmode: "text"
+        }
+        },
+        {
+        id: "location-osgrid-easting",
+        name: "location-osgrid-easting",
+        label: "Easting",
+        value: "150000",
+        classes: locationOsGridEastingClass,
+        type: "text",
+        attributes: {
+        inputmode: "numeric"
+        }
+        },
+        {
+        id: "location-osgrid-northing",
+        name: "location-osgrid-northing",
+        label: "Northing",
+        value: "8038",
+        classes: locationOsGridNorthingClass,
+        type: "text",
+        attributes: {
+        inputmode: "numeric"
+        }
+        }
+        ]
+        }) }}
+
+        <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+
+        <h3 class="govuk-heading-s">All Grid Reference Fields Missing</h3>
+        {{ govukErrorSummary({
+        titleText: "There is a problem",
+        errorList: [
+        {
+        text: "Enter grid square",
+        href: "#location-osgrid-square"
+        },
+        {
+        text: "Enter easting",
+        href: "#location-osgrid-easting"
+        },
+        {
+        text: "Enter northing",
+        href: "#location-osgrid-northing"
+        }
+        ],
+        attributes: {
+        "data-disable-auto-focus": "true"
+        }
+        }) }}
+
+        {% set locationOsGridSquareClass = "govuk-input--width-4 govuk-input--error" %}
+        {% set locationOsGridEastingClass = "govuk-input--width-5 govuk-input--error" %}
+        {% set locationOsGridNorthingClass = "govuk-input--width-5 govuk-input--error" %}
+
+        {{ defraCoordinateInput({
+        id: "uk-grid-reference-all-missing",
+        namePrefix: "location",
+        fieldset: {
+        legend: {
+        text: "UK grid reference",
+        isPageHeading: false,
+        classes: "govuk-fieldset__legend--m"
+        }
+        },
+        hint: {
+        text: "For example TQ 3003 8038"
+        },
+        errorMessage: {
+        text: "Enter grid square, easting and northing"
+        },
+        classes: "row-prototype-coordinate-input",
+        items: [
+        {
+        id: "location-osgrid-square",
+        name: "location-osgrid-square",
+        label: "Square",
+        value: "",
+        classes: locationOsGridSquareClass,
+        type: "text",
+        attributes: {
+        inputmode: "text"
+        }
+        },
+        {
+        id: "location-osgrid-easting",
+        name: "location-osgrid-easting",
+        label: "Easting",
+        value: "",
+        classes: locationOsGridEastingClass,
+        type: "text",
+        attributes: {
+        inputmode: "numeric"
+        }
+        },
+        {
+        id: "location-osgrid-northing",
+        name: "location-osgrid-northing",
+        label: "Northing",
+        value: "",
+        classes: locationOsGridNorthingClass,
+        type: "text",
+        attributes: {
+        inputmode: "numeric"
+        }
+        }
+        ]
+        }) }}
+
+        <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+
+        <!-- Cross-format Validation Errors -->
+        <h2 class="govuk-heading-m">Cross-format Validation Errors</h2>
+
+        <h3 class="govuk-heading-s">Coordinates Outside Great Britain</h3>
+        {{ govukErrorSummary({
+        titleText: "There is a problem",
+        errorList: [
+        {
+        text: "Coordinates must be within Great Britain",
+        href: "#location-latitude-decimal"
+        }
+        ],
+        attributes: {
+        "data-disable-auto-focus": "true"
+        }
+        }) }}
+
+        {% set locationLatitudeDecimalClass = "govuk-input--width-5 govuk-input--error" %}
+        {% set locationLongitudeDecimalClass = "govuk-input--width-5 govuk-input--error" %}
+
+        {{ defraCoordinateInput({
+        id: "decimal-degrees-outside-gb",
+        namePrefix: "location",
+        fieldset: {
+        legend: {
+        text: "Coordinates (Decimal degrees)",
+        isPageHeading: false,
+        classes: "govuk-fieldset__legend--m"
+        }
+        },
+        hint: {
+        text: "For example 53.76385° -3.73904°"
+        },
+        errorMessage: {
+        text: "Coordinates must be within Great Britain"
+        },
+        classes: "row-prototype-coordinate-input",
+        items: [
+        {
+        id: "location-latitude-decimal",
+        name: "location-latitude-decimal",
+        label: "Latitude",
+        value: "40.7128",
+        classes: locationLatitudeDecimalClass,
+        type: "text",
+        attributes: {
+        inputmode: "numeric",
+        suffix: "°"
+        }
+        },
+        {
+        id: "location-longitude-decimal",
+        name: "location-longitude-decimal",
+        label: "Longitude",
+        value: "-74.0060",
+        classes: locationLongitudeDecimalClass,
+        type: "text",
+        attributes: {
+        inputmode: "numeric",
+        suffix: "°"
+        }
+        }
+        ]
+        }) }}
+
+        <div class="govuk-inset-text">
+            <p><a href="/titan-mvp-1.2/form-editor/location/wreck">Back to main coordinate form</a></p>
+        </div>
+
+    </div>
+</div>
+
+{% endblock %}
+
+{% block pageScripts %}
+<script type="module" src="/assets/javascripts/coordinate-validation.js"></script>
+<script type="module" src="/assets/javascripts/location-form-validation.js"></script>
+{% endblock %}

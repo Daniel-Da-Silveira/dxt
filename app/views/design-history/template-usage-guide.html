@@ -1,0 +1,467 @@
+{% extends "layouts/main.html" %}
+
+{% from "components/service-header/macro.njk" import serviceHeader %}
+{% from "side-navigation/macro.njk" import dwpSideNavigation %}
+{% from "govuk/components/table/macro.njk" import govukTable %}
+{% from "govuk/components/tabs/macro.njk" import govukTabs %}
+{% from "govuk/components/breadcrumbs/macro.njk" import govukBreadcrumbs %}
+
+{% block pageTitle %}
+Design History Template Guide
+{% endblock %}
+
+{% block head %}
+{{ super() }}
+<style>
+    .code-block {
+        position: relative;
+        margin: 20px 0;
+    }
+
+    .code-block pre {
+        background-color: #f8f8f8;
+        padding: 15px;
+        border-radius: 4px;
+        overflow-x: auto;
+        margin: 0;
+    }
+
+    .code-block code {
+        font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+        font-size: 14px;
+    }
+
+    .copy-button {
+        background-color: #00703c;
+        color: white;
+        border: none;
+        padding: 5px 10px;
+        border-radius: 4px;
+        cursor: pointer;
+        margin-top: 10px;
+        font-family: "GDS Transport", arial, sans-serif;
+    }
+
+    .copy-button:hover {
+        background-color: #005a30;
+    }
+</style>
+{% endblock %}
+
+{% block header %}
+{{ serviceHeader({
+organisationName: "Defra",
+productName: "Forms Designer",
+serviceName: "Design History",
+accountName: "Account",
+containerClasses: containerClasses,
+homepageLink: "/index.html",
+navigationItems: [
+{ href: "/index.html", text: "Prototypes", id: "prototype" }
+],
+activeLinkId: ""
+}) }}
+{% endblock %}
+
+{% block content %}
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+        <h1 class="govuk-heading-xl">Design History Template Guide</h1>
+        <p class="govuk-body">This guide explains how to use the design history template to document the evolution of
+            your features.</p>
+
+        <h2 class="govuk-heading-l" id="basic-structure">Basic Structure</h2>
+        <div class="code-block">
+            <pre><code>{% set featureName = "Name of your feature" %}
+{% set latestVersionLink = "/path/to/latest/version" %}
+{% set status = "Tested" %}
+{% set statusColor = "green" %}
+{% set userNeed = "What problem does this feature solve?" %}
+{% set phase = "Private beta" %}
+{% set category = "Form admin" %}</code></pre>
+            <button class="copy-button" onclick="copyCode(this)">Copy code</button>
+        </div>
+
+        <h2 class="govuk-heading-l" id="research-history">Research History</h2>
+        <div class="code-block">
+            <pre><code>{% set researchHistory = [
+    {
+        roundNumber: "1",
+        researchDate: "May 2024",
+        researchFinding: "What you learned from users",
+        changeMade: "Changes you made"
+    },
+    {
+        roundNumber: "2",
+        researchDate: "June 2024",
+        researchFinding: "Additional findings from follow-up research",
+        changeMade: "Further improvements made"
+    }
+] %}</code></pre>
+            <button class="copy-button" onclick="copyCode(this)">Copy code</button>
+        </div>
+
+        <h2 class="govuk-heading-l" id="research-summaries">Research Summaries</h2>
+        <p class="govuk-body">Create detailed summaries of each research round. Each summary can contain different types
+            of content:</p>
+
+        <h3 class="govuk-heading-m" id="content-types">Content Types</h3>
+
+        <h4 class="govuk-heading-s">1. Basic Content</h4>
+        <div class="code-block">
+            <pre><code>{
+    type: "content",
+    content: "Your text here. You can use markdown for formatting.",
+    fullReportLink: "https://example.com/full-report"
+}</code></pre>
+            <button class="copy-button" onclick="copyCode(this)">Copy code</button>
+        </div>
+
+        <h4 class="govuk-heading-s">2. Objectives</h4>
+        <div class="code-block">
+            <pre><code>{
+    type: "objectives",
+    content: [
+        "Test basic form creation flow",
+        "Evaluate field validation",
+        "Assess user understanding of form structure"
+    ]
+}</code></pre>
+            <button class="copy-button" onclick="copyCode(this)">Copy code</button>
+        </div>
+
+        <h4 class="govuk-heading-s">3. Findings</h4>
+        <div class="code-block">
+            <pre><code>{
+    type: "findings",
+    content: [
+        "Users needed clearer validation messages",
+        "Form name field caused confusion",
+        "Participants preferred step-by-step guidance"
+    ]
+}</code></pre>
+            <button class="copy-button" onclick="copyCode(this)">Copy code</button>
+        </div>
+
+        <h4 class="govuk-heading-s">4. Recommendations</h4>
+        <div class="code-block">
+            <pre><code>{
+    type: "recommendations",
+    content: [
+        "Add inline validation messages",
+        "Rename form name field to be more descriptive",
+        "Implement progress indicator"
+    ]
+}</code></pre>
+            <button class="copy-button" onclick="copyCode(this)">Copy code</button>
+        </div>
+
+        <h4 class="govuk-heading-s">5. Images</h4>
+        <div class="code-block">
+            <pre><code>{
+    type: "images",
+    imagesLabel: "Visualiser example",
+    showSectionBreak: true,
+    caption: "This caption will appear below the images in the same style as the label.",
+    content: [
+        {
+            src: "/path/to/image.png",
+            alt: "Description of the image",
+            caption: "Caption for the image",
+            width: "two-thirds",
+            classes: "your-custom-classes",
+            link: "https://example.com/larger-version",
+            scale: 80,
+            widthPx: 800,
+            heightPx: 600
+        }
+    ]
+}</code></pre>
+            <button class="copy-button" onclick="copyCode(this)">Copy code</button>
+        </div>
+        <p class="govuk-body">The <code>caption</code> property for images sections will be shown as a GOV.UK caption
+            below the images grid, in the same style as the label above.</p>
+
+        <h4 class="govuk-heading-s">6. Preview</h4>
+        <div class="code-block">
+            <pre><code>{
+    type: "preview",
+    url: "https://example.com/prototype",
+    caption: "This caption will appear below the preview in the same style as the label.",
+    previewLabel: "Screen 1: File upload (no JavaScript)",
+    showSectionBreak: true
+}</code></pre>
+            <button class="copy-button" onclick="copyCode(this)">Copy code</button>
+        </div>
+        <p class="govuk-body">The <code>caption</code> property for preview sections will be shown as a GOV.UK caption
+            below the preview, in the same style as the label above.</p>
+
+        <h4 class="govuk-heading-s">7. Details Section</h4>
+        <div class="code-block">
+            <pre><code>{
+    type: "details",
+    summary: "View design evolution",
+    content: "Here's how the design changed:",
+    images: [
+        {
+            src: "/path/to/image.png",
+            alt: "Image description",
+            caption: "Image caption"
+        }
+    ],
+    items: [
+        {
+            type: "content",
+            content: "### Version 1\n\nInitial design with basic fields."
+        },
+        {
+            type: "images",
+            content: {
+                src: "/path/to/image.png",
+                alt: "Image description",
+                caption: "Image caption"
+            }
+        },
+        {
+            type: "preview",
+            url: "https://example.com/prototype"
+        }
+    ]
+}</code></pre>
+            <button class="copy-button" onclick="copyCode(this)">Copy code</button>
+        </div>
+
+        <h4 class="govuk-heading-s">8. Quotes</h4>
+        <div class="code-block">
+            <pre><code>{
+    type: "quotes",
+    content: [
+        "I found the form creation process very intuitive",
+        "The validation messages helped me understand what I needed to fix"
+    ]
+}</code></pre>
+            <button class="copy-button" onclick="copyCode(this)">Copy code</button>
+        </div>
+
+        <h4 class="govuk-heading-s">9. Audio</h4>
+        <div class="code-block">
+            <pre><code>{
+    type: "audio",
+    src: "/path/to/audio.mp4",
+    caption: "Interview with participant about form creation experience"
+}</code></pre>
+            <button class="copy-button" onclick="copyCode(this)">Copy code</button>
+        </div>
+
+        <h4 class="govuk-heading-s">10. Screen</h4>
+        <div class="code-block">
+            <pre><code>{
+    type: "screen",
+    title: "Form creation screen",
+    content: "The main screen where users create new forms",
+    images: [
+        {
+            src: "/path/to/screen.png",
+            alt: "Form creation screen",
+            caption: "Initial version of the form creation screen",
+            width: "two-thirds"
+        }
+    ],
+    insights: [
+        "Users found the layout clear and logical",
+        "Some participants missed the save button"
+    ],
+    quotes: [
+        "I like how everything is organized in sections"
+    ],
+    changes: [
+        {
+            what: "Moved save button to top right",
+            why: "To make it more visible and accessible"
+        }
+    ],
+    preview: {
+        url: "https://example.com/prototype",
+        caption: "Try the form creation process",
+        showSectionBreak: true
+    }
+}</code></pre>
+            <button class="copy-button" onclick="copyCode(this)">Copy code</button>
+        </div>
+
+        <h4 class="govuk-heading-s">11. Insights</h4>
+        <div class="code-block">
+            <pre><code>{
+    type: "insights",
+    content: [
+        "Users prefer step-by-step guidance",
+        "Clear validation is essential",
+        "Progress indicators help with orientation"
+    ]
+}</code></pre>
+            <button class="copy-button" onclick="copyCode(this)">Copy code</button>
+        </div>
+
+        <h4 class="govuk-heading-s">12. Changes</h4>
+        <div class="code-block">
+            <pre><code>{
+    type: "changes",
+    title: "Changes and rationale",
+    screen: "Form creation screen",
+    showImageColumn: true,
+    content: [
+        {
+            screen: "Form creation",
+            what: "Added inline validation",
+            why: "To provide immediate feedback",
+            image: {
+                src: "/path/to/validation.png",
+                alt: "Inline validation example",
+                caption: "New validation messages appear as you type"
+            }
+        },
+        {
+            screen: "Form preview",
+            what: "Added preview mode",
+            why: "To help users review their form before publishing",
+            image: {
+                src: "/path/to/preview.png",
+                alt: "Preview mode example",
+                caption: "How the form will look to users"
+            }
+        }
+    ]
+}</code></pre>
+            <button class="copy-button" onclick="copyCode(this)">Copy code</button>
+        </div>
+
+        <h2 class="govuk-heading-l" id="example">Complete Example</h2>
+        <div class="code-block">
+            <pre><code>{% set researchSummaries = [
+    {
+        title: "Round 1 - May 2024",
+        summary: "Initial testing of form creation process with 6 content designers",
+        fullReportLink: "https://example.com/full-report-1",
+        sections: [
+            {
+                type: "content",
+                content: "### User research overview\n\nWe tested with 6 content designers from various teams to understand how they create and manage forms."
+            },
+            {
+                type: "objectives",
+                content: [
+                    "Test basic form creation flow",
+                    "Evaluate field validation",
+                    "Assess user understanding of form structure"
+                ]
+            },
+            {
+                type: "details",
+                summary: "View design evolution",
+                content: "Here's how the design changed based on user feedback:",
+                items: [
+                    {
+                        type: "content",
+                        content: "### Version 1\n\nInitial design with basic fields and minimal guidance."
+                    },
+                    {
+                        type: "images",
+                        content: {
+                            src: "/images/v1.png",
+                            alt: "Version 1 design",
+                            caption: "Basic form fields with minimal guidance"
+                        }
+                    },
+                    {
+                        type: "preview",
+                        url: "https://example.com/v1"
+                    }
+                ]
+            },
+            {
+                type: "findings",
+                content: [
+                    "Users needed clearer validation messages",
+                    "Form name field caused confusion",
+                    "Participants preferred step-by-step guidance"
+                ]
+            },
+            {
+                type: "quotes",
+                content: [
+                    "I found the form creation process very intuitive",
+                    "The validation messages helped me understand what I needed to fix"
+                ]
+            },
+            {
+                type: "changes",
+                title: "Changes made after Round 1",
+                screen: "Form creation",
+                showImageColumn: true,
+                content: [
+                    {
+                        screen: "Form creation",
+                        what: "Added inline validation",
+                        why: "To provide immediate feedback",
+                        image: {
+                            src: "/images/validation.png",
+                            alt: "Inline validation example",
+                            caption: "New validation messages appear as you type"
+                        }
+                    }
+                ]
+            }
+        ]
+    }
+] %}</code></pre>
+            <button class="copy-button" onclick="copyCode(this)">Copy code</button>
+        </div>
+
+        <h2 class="govuk-heading-l" id="tips">Tips</h2>
+        <ul class="govuk-list govuk-list--bullet">
+            <li>Use clear headings</li>
+            <li>Group related content together</li>
+            <li>Use details sections for long content</li>
+            <li>Include screenshots of each version</li>
+            <li>Add interactive previews when possible</li>
+            <li>Use images to show key changes</li>
+            <li>Write in plain English</li>
+            <li>Explain technical terms</li>
+            <li>Focus on user impact</li>
+            <li>Use the same structure for each research round</li>
+            <li>Follow the same format for similar content</li>
+            <li>Keep image sizes consistent</li>
+        </ul>
+    </div>
+
+    <div class="govuk-grid-column-one-third">
+        <div class="app-related-items">
+            <h2 class="govuk-heading-s">Contents</h2>
+            <nav role="navigation" aria-labelledby="contents-navigation">
+                <ul class="govuk-list govuk-list--spaced">
+                    <li><a href="#basic-structure" class="govuk-link">Basic Structure</a></li>
+                    <li><a href="#research-history" class="govuk-link">Research History</a></li>
+                    <li><a href="#research-summaries" class="govuk-link">Research Summaries</a></li>
+                    <li><a href="#content-types" class="govuk-link">Content Types</a></li>
+                    <li><a href="#example" class="govuk-link">Complete Example</a></li>
+                    <li><a href="#tips" class="govuk-link">Tips</a></li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+<script>
+    function copyCode(button) {
+        const pre = button.previousElementSibling;
+        const code = pre.textContent;
+        navigator.clipboard.writeText(code).then(() => {
+            const originalText = button.textContent;
+            button.textContent = 'Copied!';
+            setTimeout(() => {
+                button.textContent = originalText;
+            }, 2000);
+        });
+    }
+</script>
+{% endblock %}

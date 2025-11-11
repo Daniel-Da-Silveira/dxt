@@ -1,0 +1,140 @@
+{% extends "layouts/runner.html" %}
+
+{% block pageTitle %}
+Save your progress for later – {{ serviceName }} – GOV.UK
+{% endblock %}
+
+{% block beforeContent %}
+{{ govukBackLink({
+text: "Back",
+href: "javascript:window.history.back()"
+}) }}
+{% endblock %}
+
+{% block content %}
+
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+        {% if data.emailConfirmError %}
+        {{ govukErrorSummary({
+        titleText: "There is a problem",
+        errorList: [
+        {
+        text: data.emailConfirmError,
+        href: "#email-confirm"
+        }
+        ]
+        }) }}
+        {% endif %}
+        <h1 class="govuk-heading-l">
+            Save your progress for later
+        </h1>
+
+        <p class="govuk-body">
+            Provide your email address and answer a security question to save your progress for 28 days.
+        </p>
+
+        <p class="govuk-body">
+            We will email you with a link you can use to return to the form later. You will be asked for the answer to
+            the security question when you resume your form.
+        </p>
+
+
+        <form class="form" action="/save-progress" method="post">
+
+            {{ govukInput({
+            label: {
+            text: "Your email address",
+            classes: "govuk-label--m"
+            },
+            hint: {
+            text: "Use the email address you want the link to go to"
+            },
+            id: "email",
+            name: "email",
+            type: "email",
+            autocomplete: "email",
+            spellcheck: false,
+            value: data.email
+            }) }}
+
+            {{ govukInput({
+            label: {
+            text: "Confirm your email address",
+            classes: "govuk-label--m"
+
+            },
+            id: "email-confirm",
+            name: "emailConfirm",
+            type: "email",
+            autocomplete: "nope",
+            spellcheck: false,
+            value: data.emailConfirm,
+            errorMessage: data.emailConfirmError and {
+            text: data.emailConfirmError
+            },
+            attributes: {
+            onpaste: "return false;",
+            oncopy: "return false;",
+            oncut: "return false;",
+            oncontextmenu: "return false;",
+            readonly: "readonly",
+            onfocus: "this.removeAttribute('readonly');"
+            }
+            }) }}
+
+            {{ govukRadios({
+            idPrefix: "security-question",
+            name: "securityQuestion",
+            fieldset: {
+            legend: {
+            text: "Choose a security question to answer",
+            classes: "govuk-fieldset__legend--m"
+            }
+            },
+            items: [
+            {
+            value: "memorable-place",
+            text: "What is a memorable place you have visited?"
+            },
+            {
+            value: "favourite-character",
+            text: "What's the name of your favourite character from a story or TV show?"
+            },
+            {
+            value: "album-song",
+            text: "What album or song do you always recommend to others?"
+            }
+            ]
+            }) }}
+
+            {{ govukInput({
+            label: {
+            text: "Your answer to the security question",
+            classes: "govuk-label--m"
+            },
+            hint: {
+            text: "Your answer is case sensitive so make sure you can remember how it’s written"
+            },
+            id: "security-answer",
+            name: "securityAnswer"
+            }) }}
+
+            <div class="govuk-button-group">
+                {{ govukButton({
+                text: "Save progress"
+                }) }}
+
+                {{ govukButton({
+                text: "Cancel",
+                classes: "govuk-button--secondary",
+                href: "javascript:window.history.back()"
+                }) }}
+            </div>
+
+        </form>
+
+    </div>
+</div>
+
+{% endblock %}

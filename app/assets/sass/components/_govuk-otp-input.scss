@@ -1,0 +1,237 @@
+/**
+ * GOV.UK OTP Input Component Styles
+ * Following GOV.UK Design System patterns and accessibility guidelines
+ */
+
+.govuk-otp-input {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+
+  &__group {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  &__slot {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__input {
+    width: 3rem;
+    height: 3rem;
+    text-align: center;
+    font-size: 1.5rem;
+    font-weight: 600;
+    border: 2px solid #0b0c0c;
+    border-radius: 4px;
+    transition: all 0.2s ease;
+
+    // Focus state - matches GOV.UK input exactly
+    &:focus {
+      outline: 3px solid #ffdd00;
+      // Ensure outline appears outside of the element
+      outline-offset: 0;
+      // Double the border by adding its width again. Use `box-shadow` for this
+      // instead of changing `border-width` - this is for consistency with
+      // components such as textarea where we avoid changing `border-width` as
+      // it will change the element size. Also, `outline` cannot be utilised
+      // here as it is already used for the yellow focus state.
+      box-shadow: inset 0 0 0 2px;
+    }
+
+    // Filled state
+    &--filled {
+      background-color: #ffffff;
+      border-color: #0b0c0c;
+    }
+
+    // Active state
+    &--active {
+      border-color: #ffdd00;
+      box-shadow: 0 0 0 2px #ffdd00;
+    }
+
+    // Error state - matches GOV.UK input error styling
+    .govuk-form-group--error & {
+      border-color: #d4351c;
+
+      &:focus {
+        border-color: #0b0c0c;
+        outline: 3px solid #ffdd00;
+        outline-offset: 0;
+        box-shadow: inset 0 0 0 2px;
+      }
+    }
+
+    // Disabled state
+    &:disabled {
+      background-color: #f3f2f1;
+      border-color: #b1b4b6;
+      color: #0b0c0c;
+      cursor: not-allowed;
+    }
+
+    // Mobile optimizations
+    @media (max-width: 40.0525em) {
+      width: 2.5rem;
+      height: 2.5rem;
+      font-size: 1.25rem;
+    }
+  }
+
+  &__separator {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 1rem;
+    height: 2px;
+    background-color: #b1b4b6;
+    margin: 0 0.25rem;
+
+    &::before {
+      content: "";
+      width: 100%;
+      height: 100%;
+      background-color: #b1b4b6;
+    }
+  }
+
+  &__hidden {
+    position: absolute;
+    left: -9999px;
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  &__sr-announcement {
+    position: absolute;
+    left: -9999px;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+  }
+
+  // High contrast mode support
+  @media (prefers-contrast: high) {
+    .govuk-otp-input__input {
+      border-width: 3px;
+
+      &:focus {
+        outline-width: 4px;
+      }
+    }
+  }
+
+  // Reduced motion support
+  @media (prefers-reduced-motion: reduce) {
+    .govuk-otp-input__input {
+      transition: none;
+    }
+  }
+
+  // Dark mode support (if implemented)
+  @media (prefers-color-scheme: dark) {
+    .govuk-otp-input__input {
+      background-color: #ffffff;
+      color: #0b0c0c;
+      border-color: #0b0c0c;
+
+      &:focus {
+        border-color: #0b0c0c;
+        outline: 3px solid #ffdd00;
+        outline-offset: 0;
+        box-shadow: inset 0 0 0 2px;
+      }
+
+      &--filled {
+        background-color: #ffffff;
+      }
+    }
+  }
+}
+
+// Error state styling - matches GOV.UK input error styling exactly
+.govuk-form-group--error .govuk-otp-input {
+  .govuk-otp-input__input {
+    border-color: #d4351c;
+
+    &:focus {
+      border-color: #0b0c0c;
+      outline: 3px solid #ffdd00;
+      outline-offset: 0;
+      box-shadow: inset 0 0 0 2px;
+    }
+  }
+}
+
+// Success state styling (for completed OTP)
+.govuk-otp-input--success {
+  .govuk-otp-input__input {
+    border-color: #00703c;
+    background-color: rgba(0, 112, 60, 0.1);
+
+    &:focus {
+      border-color: #0b0c0c;
+      outline: 3px solid #ffdd00;
+      outline-offset: 0;
+      box-shadow: inset 0 0 0 2px;
+    }
+  }
+}
+
+// Compact variant for smaller spaces
+.govuk-otp-input--compact {
+  .govuk-otp-input__input {
+    width: 2.5rem;
+    height: 2.5rem;
+    font-size: 1.25rem;
+  }
+
+  .govuk-otp-input__group {
+    gap: 0.25rem;
+  }
+}
+
+// Large variant for better accessibility
+.govuk-otp-input--large {
+  .govuk-otp-input__input {
+    width: 4rem;
+    height: 4rem;
+    font-size: 2rem;
+  }
+
+  .govuk-otp-input__group {
+    gap: 0.75rem;
+  }
+}
+
+// Horizontal layout for mobile
+@media (max-width: 40.0525em) {
+  .govuk-otp-input {
+    justify-content: center;
+
+    &__group {
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+  }
+}
+
+// Print styles
+@media print {
+  .govuk-otp-input {
+    .govuk-otp-input__input {
+      border: 1px solid #0b0c0c;
+      background-color: transparent;
+    }
+
+    .govuk-otp-input__separator {
+      background-color: #0b0c0c;
+    }
+  }
+}

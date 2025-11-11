@@ -1,0 +1,115 @@
+{% extends "design-history/templates/post-template.html" %}
+
+{% set title = "Making it easier to find forms" %}
+{% set category = "Form library" %}
+{% set postType = "Post" %}
+{% set publishDate = "3 March 2024" %}
+
+{% set breadcrumbItems = [
+{
+text: "Design History",
+href: "/index.html"
+},
+{
+text: "Form Library",
+href: "/design-history/form-library/index.html"
+},
+{
+text: "Finding Forms"
+}
+] %}
+
+{% set relatedPosts = [
+{
+text: "Using the GOV.UK tags component to show the status of forms",
+href: "/design-history/form-library/posts/form-status-tags.html",
+date: "12 April 2024"
+},
+{
+text: "Creating an accessible forms library",
+href: "/design-history/form-library/posts/accessible-forms-library.html",
+date: "2 March 2024"
+}
+] %}
+
+{% block postContent %}
+<h2 class="govuk-heading-l">What we changed</h2>
+<p class="govuk-body">Stopped using the MoJ sortable table component and instead adopted table sorting functionality.
+</p>
+
+<h2 class="govuk-heading-l">Why we changed this</h2>
+<p class="govuk-body">We stopped using the MoJ sortable table component because it wouldn't work alongside pagination as
+    it would only sort items of the current page and not every page; this confused users.</p>
+
+<h2 class="govuk-heading-l">How it works</h2>
+<p class="govuk-body">Implementation of sorting with the following pre-configured options:</p>
+
+<h3 class="govuk-heading-m">1. Form name (A to Z)</h3>
+<p class="govuk-body">Sorting by this label will organise the forms based on alphabetical order of form names, starting
+    with the letter A.</p>
+
+<h3 class="govuk-heading-m">2. Form name (Z to A)</h3>
+<p class="govuk-body">Sorting by this label will organise the forms based on alphabetical order of form names, starting
+    with the letter Z.</p>
+
+<h3 class="govuk-heading-m">3. Updated (newest)</h3>
+<p class="govuk-body">This refers to the date when the form was last modified or edited. Sorting by this label will
+    organise the forms based on the most recent updates made to them, with the forms that were modified most recently
+    appearing at the top of the list.</p>
+
+<h3 class="govuk-heading-m">4. Updated (oldest)</h3>
+<p class="govuk-body">This refers to the date when the form was last modified or edited. Forms will be arranged in
+    ascending order based on the date and time they were last modified or edited, with the oldest updates appearing at
+    the top of the list. I.e., view the forms starting from the ones that have not been updated for the longest time.
+</p>
+
+<h3 class="govuk-heading-m">5. Status</h3>
+<p class="govuk-body">This indicates the current state or condition of the form. Sorting by this label will arrange the
+    forms based on their status, with drafts organised all at the top of list, draft and live and then live.</p>
+
+<h3 class="govuk-heading-m">6. Live (newest)</h3>
+<p class="govuk-body">This shows the date when the form was published (status changed to 'Live'). If the form has not
+    been published, this field may be empty. Sorting by this label will organise the forms based on the most recent
+    publishing dates, with the most recently published forms appearing first.</p>
+
+<h3 class="govuk-heading-m">7. Live (oldest)</h3>
+<p class="govuk-body">Forms will be arranged in ascending order based on the date and time they were last published,
+    with the oldest published forms appearing at the top of the list. I.e., to view the forms starting from the ones
+    that have been published for the longest time.</p>
+
+<h2 class="govuk-heading-l">Default behavior</h2>
+<ul class="govuk-list govuk-list--bullet">
+    <li>By default, the sorting option: Updated (newest) will be selected upon load</li>
+    <li>Sorting button trigger would then apply the sorting option to the table</li>
+</ul>
+
+<h2 class="govuk-heading-l">Form counts</h2>
+<p class="govuk-body">Form counts is displayed and updated dynamically as follows:</p>
+<ul class="govuk-list govuk-list--bullet">
+    <li>Updated (Oldest + Newest): Full count of all statuses</li>
+    <li>Status: Full count if all statuses</li>
+    <li>Live (newest): Count of only Live or Draft & Live</li>
+    <li>Live (oldest): Count of only Live or Draft & Live</li>
+    <li>A-Z: Full count of all statuses</li>
+    <li>Z-A: Full count of all statuses</li>
+</ul>
+
+<figure class="govuk-image">
+    <img src="/public/images/form-library/finding-forms/01.png"
+        alt="Example of the MoJ sorting functionality in the forms library" class="govuk-!-width-full">
+    <figcaption class="govuk-body-s">Form library table when at full width and using the MoJ sortable table component
+        (before)</figcaption>
+</figure>
+
+<figure class="govuk-image">
+    <img src="/public/images/form-library/finding-forms/02.png" alt="Form library with a button for sorting the table"
+        class="govuk-!-width-full">
+    <figcaption class="govuk-body-s">Form library with a button for sorting the table (after)</figcaption>
+</figure>
+
+<h2 class="govuk-heading-l">Future considerations</h2>
+<p class="govuk-body">In most user research sessions, users communicated that the way they would look for a form is to
+    first look for a search bar but in the absence of that they would select 'CTRL + F' on their keyboard. However, that
+    method only works if the form they are searching for is on the current page. It was decided that future iterations
+    would look at testing an approach that combined sorting with filtering and search functionality.</p>
+{% endblock %}

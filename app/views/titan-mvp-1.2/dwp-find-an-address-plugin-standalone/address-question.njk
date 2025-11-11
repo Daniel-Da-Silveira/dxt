@@ -1,0 +1,241 @@
+{% extends "layouts/main.html" %}
+
+{% block pageTitle %}
+  Find an address - GOV.UK Prototype Kit
+{% endblock %}
+
+{% block content %}
+
+  {{ govukBackLink({
+    text: "Back",
+    href: "javascript: window.history.go(-1)"
+  }) }}
+
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+
+      {% if error %}
+        {{ govukErrorSummary({
+          titleText: "There is a problem",
+          errorList: [
+            {
+              text: "Enter postcode to find (short description) or enter address manually",
+              href: "#address-postcode"
+            } if error.addressError else ""
+          ]
+        }) }}
+      {% endif %}
+
+      <form method="post" autocomplete="off">
+        <h1 class="govuk-heading-l">Find an address</h1>
+
+        {% if data.addressMode === "manual" %}
+          {# Manual address entry mode #}
+          <div id="manual-address">
+            <p class="govuk-body govuk-!-padding-top-4">
+              <a href="?addressMode=lookup&clearResults=true" class="govuk-link">Find an address instead</a>
+            </p>
+
+            {{ govukInput({
+              label: {
+                text: "Address line 1"
+              },
+              id: "address-line-1",
+              name: "addressLine1",
+              value: data['addressLine1'],
+              autocomplete: "address-line1"
+            }) }}
+
+            {{ govukInput({
+              label: {
+                text: "Address line 2 (optional)"
+              },
+              id: "address-line-2",
+              name: "addressLine2",
+              value: data['addressLine2'],
+              autocomplete: "address-line2"
+            }) }}
+
+            {{ govukInput({
+              label: {
+                text: "Town or city"
+              },
+              id: "town-city",
+              name: "townCity",
+              value: data['townCity'],
+              autocomplete: "address-level2"
+            }) }}
+
+            {{ govukInput({
+              label: {
+                text: "Postcode"
+              },
+              classes: "govuk-input--width-10",
+              id: "address-postcode",
+              name: "addressPostcode",
+              value: data['addressPostcode'],
+              autocomplete: "postal-code"
+            }) }}
+          </div>
+        {% else %}
+          {# Address lookup mode #}
+          <div id="address-lookup">
+            {% if data.addressResults and data.addressResults.length > 0 %}
+              {# Show address results #}
+              {% if data.addressResults.length == 1 %}
+                {# Show single address result #}
+                <p class="govuk-body">{{ data.addressResults.length }} address found for
+                  <span class="govuk-body govuk-!-font-weight-bold">{{ data.addressPostcode }}</span>{% if data.buildingNameNumber %} and <span class="govuk-body govuk-!-font-weight-bold">{{ data.buildingNameNumber }}<span class="govuk-body govuk-!-font-weight-regular">.</span></span>{% else %}.{% endif %}
+                  <a href="?addressMode=lookup&clearResults=true" class="govuk-link">Search again</a>
+                </p>
+
+                <div class="govuk-inset-text govuk-!-margin-bottom-2">
+                  {{ data.addressResults[0].text }}
+                </div>
+
+                <p class="govuk-body govuk-!-margin-top-0">
+                  <a href="#" id="manual-entry-link" class="govuk-link">Enter address manually</a>
+                </p>
+              {% else %}
+                {# Show address selection when multiple results are available #}
+                <p class="govuk-body">{{ data.addressResults.length }} addresses found for
+                  <strong>{{ data.addressPostcode }}</strong>{% if data.buildingNameNumber %} and <strong>{{ data.buildingNameNumber }}</strong>{% endif %}.
+                  <a href="?addressMode=lookup&clearResults=true" class="govuk-link">Search again</a>
+                </p>
+
+                {% set addressItems = [] %}
+
+                {% set addressItems = (addressItems.push(
+                  {
+                    value: "",
+                    text: "Select an address"
+                  }
+                ), addressItems) %}
+
+                {% for result in data.addressResults %}
+                  {% set addressItems = (addressItems.push(result), addressItems) %}
+                {% endfor %}
+
+                {{ govukSelect({
+                  id: "select-address",
+                  name: "selectAddress",
+                  label: {
+                    text: "Select an address"
+                  },
+                  items: addressItems
+                }) }}
+
+                <p class="govuk-body govuk-!-margin-top-2">
+                  <a href="#" id="manual-entry-link" class="govuk-link">Enter address manually</a>
+                </p>
+              {% endif %}
+
+              {% if data.selectedAddress %}
+                <div class="govuk-inset-text">
+                  {{ data.selectedAddress }}
+                </div>
+              {% endif %}
+            {% elif data.searchPerformed and data.noResults %}
+              {# Show no results state #}
+              <div class="govuk-inset-text govuk-!-margin-top-2">
+                <h2 class="govuk-heading-s">No address found</h2>
+                <p class="govuk-body">We could not find an address that matches <strong>{{ data.addressPostcode }}</strong>{% if data.buildingNameNumber %} and <strong>{{ data.buildingNameNumber }}</strong>{% endif %}. You can search again or enter the address manually.</p>
+              </div>
+
+              <div class="govuk-button-group">
+                <a href="?addressMode=lookup&clearResults=true" class="govuk-button govuk-button--secondary govuk-!-margin-right-1">Search again</a>
+                <p class="govuk-body">or <a href="?addressMode=manual" class="govuk-link">enter address manually</a></p>
+              </div>
+            {% else %}
+              {# Show postcode lookup when no results or first time #}
+              {{ govukInput({
+                label: {
+                  text: "Postcode"
+                },
+                hint: {
+                  text: "For example, AA3 1AB"
+                },
+                classes: "govuk-!-width-one-third",
+                id: "address-postcode",
+                name: "addressPostcode",
+                errorMessage: { text: "Enter postcode to find (short description) or enter address manually" } if error.addressError else "",
+                value: data['addressPostcode'],
+                autocomplete: "postal-code"
+              }) }}
+
+              {{ govukInput({
+                label: {
+                  text: "Building number or name (optional)"
+                },
+                hint: {
+                  text: "For example, 15 or Prospect Cottage"
+                },
+                classes: "govuk-!-width-one-third",
+                id: "building-name-number",
+                name: "buildingNameNumber",
+                value: data['buildingNameNumber']
+              }) }}
+
+              <div class="govuk-button-group">
+                {{ govukButton({
+                  text: "Find address",
+                  name: "action",
+                  value: "lookup",
+                  classes: "govuk-button--secondary govuk-!-margin-right-1"
+                }) }}
+
+                <p class="govuk-body">or <a href="?addressMode=manual" class="govuk-link">enter address manually</a></p>
+              </div>
+            {% endif %}
+          </div>
+        {% endif %}
+
+        {{ govukButton({
+          text: "Continue",
+          name: "action",
+          value: "continue"
+        }) }}
+      </form>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const selectAddress = document.getElementById('select-address');
+      const manualEntryLink = document.getElementById('manual-entry-link');
+      
+      if (manualEntryLink) {
+        if (selectAddress) {
+          // Update the manual entry link when address is selected from dropdown
+          selectAddress.addEventListener('change', function() {
+            const selectedAddress = this.value;
+            if (selectedAddress) {
+              const encodedAddress = encodeURIComponent(selectedAddress);
+              manualEntryLink.href = '?addressMode=manual&selectedAddress=' + encodedAddress;
+            } else {
+              manualEntryLink.href = '?addressMode=manual';
+            }
+          });
+          
+          // Set initial href based on current selection
+          if (selectAddress.value) {
+            const encodedAddress = encodeURIComponent(selectAddress.value);
+            manualEntryLink.href = '?addressMode=manual&selectedAddress=' + encodedAddress;
+          } else {
+            manualEntryLink.href = '?addressMode=manual';
+          }
+        } else {
+          // No dropdown (single result case) - check if there's a selected address in the data
+          const selectedAddress = '{{ data.selectedAddress }}';
+          if (selectedAddress && selectedAddress !== '') {
+            const encodedAddress = encodeURIComponent(selectedAddress);
+            manualEntryLink.href = '?addressMode=manual&selectedAddress=' + encodedAddress;
+          } else {
+            manualEntryLink.href = '?addressMode=manual';
+          }
+        }
+      }
+    });
+  </script>
+
+{% endblock %}

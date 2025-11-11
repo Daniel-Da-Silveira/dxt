@@ -1,0 +1,78 @@
+{% from "./_label_size_macro.html" import get_label_size -%}
+
+{%- set page_heading = data['pageHeadingAddress'] if data is defined and data['pageHeadingAddress'] else false -%}
+{%- set question_count = currentPage.questions | length if currentPage and currentPage.questions else 1 -%}
+{%- set labelSize = get_label_size(page_heading, question_count, true) -%}
+
+<!-- Debug info -->
+<!-- Page heading: {{ page_heading }} -->
+<!-- Question count: {{ question_count }} -->
+<!-- Label size: {{ labelSize }} -->
+
+<div class="govuk-form-group">
+    <fieldset class="govuk-fieldset">
+        <legend class="govuk-fieldset__legend govuk-fieldset__legend--{{ labelSize }}">{{ question.label }}</legend>
+        {%- if question.hint -%}
+        <div id="address-hint" class="govuk-hint">{{ question.hint }}</div>
+        {%- endif -%}
+
+        {% if question.postcodeLookup %}
+        <!-- Postcode lookup interface -->
+        <div class="govuk-form-group">
+            <label class="govuk-label" for="address-postcode">
+                Postcode
+            </label>
+            <div class="govuk-hint">
+                For example, AA3 1AB
+            </div>
+            <input class="govuk-input govuk-!-width-one-third" id="address-postcode" name="address-postcode" type="text">
+        </div>
+
+        <div class="govuk-form-group">
+            <label class="govuk-label" for="building-name-number">
+                Building number or name (optional)
+            </label>
+            <div class="govuk-hint">
+                For example, 15 or Prospect Cottage
+            </div>
+            <input class="govuk-input govuk-!-width-one-third" id="building-name-number" name="building-name-number" type="text">
+        </div>
+
+        <div class="govuk-button-group">
+            <button class="govuk-button govuk-!-margin-right-1" type="button">
+                Find address
+            </button>
+            <p class="govuk-body">or <a href="#" class="govuk-link">enter address manually</a></p>
+        </div>
+        {% else %}
+        <!-- Manual address entry interface -->
+        <div class="govuk-form-group">
+            <label class="govuk-label" for="address-line-1">
+                Address line 1
+            </label>
+            <input class="govuk-input" id="address-line-1" name="address-line-1" type="text">
+        </div>
+
+        <div class="govuk-form-group">
+            <label class="govuk-label" for="address-line-2">
+                Address line 2 (optional)
+            </label>
+            <input class="govuk-input" id="address-line-2" name="address-line-2" type="text">
+        </div>
+
+        <div class="govuk-form-group">
+            <label class="govuk-label" for="address-town">
+                Town or city
+            </label>
+            <input class="govuk-input govuk-!-width-two-thirds" id="address-town" name="address-town" type="text">
+        </div>
+
+        <div class="govuk-form-group">
+            <label class="govuk-label" for="address-postcode">
+                Postcode
+            </label>
+            <input class="govuk-input govuk-input--width-10" id="address-postcode" name="address-postcode" type="text">
+        </div>
+        {% endif %}
+    </fieldset>
+</div>

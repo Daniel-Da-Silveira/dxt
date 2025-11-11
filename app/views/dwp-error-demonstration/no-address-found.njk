@@ -1,0 +1,61 @@
+{% extends "layouts/main.html" %}
+
+{% block pageTitle %}
+  No Address Found - DWP Find an Address Plugin
+{% endblock %}
+
+{% block content %}
+
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+
+      <h1 class="govuk-heading-l">
+        No address found
+      </h1>
+
+      <p class="govuk-body">
+        This demonstrates the page that appears when no addresses are found for the search criteria.
+      </p>
+
+      <div class="govuk-inset-text">
+        <p class="govuk-body">
+          <strong>Message:</strong> "We could not find an address that matches <strong>SR4 8JN</strong> and <strong>Cottage</strong>. You can search again or enter the address manually."
+        </p>
+      </div>
+
+      <h2 class="govuk-heading-m">Example No Results Page</h2>
+
+      <div class="govuk-inset-text">
+        <p class="govuk-body">
+          We could not find an address that matches <span class="govuk-!-font-weight-bold">SR4 8JN</span> and <span class="govuk-!-font-weight-bold">Cottage</span>. You can search again or enter the address manually.
+        </p>
+      </div>
+
+      <div class="govuk-button-group">
+        <a href="/dwp-error-demonstration" class="govuk-button govuk-button--secondary">Search again</a>
+        <a href="/dwp-error-demonstration/manual-address-errors" class="govuk-link">Enter address manually</a>
+      </div>
+
+      <h2 class="govuk-heading-m">Variations</h2>
+
+      <h3 class="govuk-heading-s">With Postcode Only</h3>
+      <div class="govuk-inset-text">
+        <p class="govuk-body">
+          We could not find an address that matches <span class="govuk-!-font-weight-bold">INVALID123</span>. You can search again or enter the address manually.
+        </p>
+      </div>
+
+      <h3 class="govuk-heading-s">With Building Name/Number Only</h3>
+      <div class="govuk-inset-text">
+        <p class="govuk-body">
+          We could not find an address that matches <span class="govuk-!-font-weight-bold">NonExistentBuilding</span>. You can search again or enter the address manually.
+        </p>
+      </div>
+
+      <p class="govuk-body govuk-!-margin-top-4">
+        <a href="/dwp-error-demonstration" class="govuk-link">← Back to demonstration index</a>
+      </p>
+
+    </div>
+  </div>
+{% endblock %}

@@ -1,0 +1,415 @@
+{% extends "layouts/main.html" %}
+{% from "components/service-header/macro.njk" import serviceHeader %}
+{% set pageName = "Edit long answer question - Apply for a county parish holding number in England" %}
+{% set headingPlaceholder = "Page heading" %}
+{% set guidancePlaceholder = "" %}
+
+{% block header %}
+{{ serviceHeader({
+organisationName: "Defra",
+productName: "Forms Designer",
+serviceName: "",
+containerClasses: containerClasses,
+accountName: "Chris Smith",
+homepageLink: "/",
+signOutLink: "/onboarding/sign-out-confirmation",
+navigationItems: [
+{ href: "/titan-mvp-1/library.html", text: "Forms library", id: "nav-library" },
+{ href: "/cph-overview/draft/complete-clean.html", text: "Overview", id: "nav-overview" },
+{ href: "/titan-mvp-1/form-editor/listing", text: "Editor", id: "nav-editor" }
+],
+activeLinkId: "nav-editor"
+}) }}
+
+<div class="x-govuk-masthead x-govuk-masthead--large">
+  <div class="govuk-width-container">
+    {{ govukBackLink({ classes: "govuk-back-link--inverse govuk-!-margin-bottom-0", text:
+    commonTerms.form_editor.navigation.back_to_add_edit_pages, href: "/titan-mvp-1/form-editor/listing.html" }) }}
+
+    <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible"
+      style="border-bottom: 1px solid white; margin-bottom: 0" />
+
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-full-from-desktop">
+        <h1 class="x-govuk-masthead__title">
+          {{ form.name }}
+        </h1>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block content %}
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-full">
+    <div class="govuk-grid-row">
+      <!-- Left Column for Form Controls -->
+      <div class="govuk-grid-column-one-half-from-desktop" id="container" style="flex: 1 1 75%; overflow-y: auto">
+        <div class="govuk-summary-card govuk-!-margin-top-0" style="border-left: 10px solid #008938">
+          <div class="govuk-summary-card__content govuk-!-padding-top-0" style="background-color: #f3f2f1">
+            <dl class="govuk-summary-list">
+              <div class="govuk-summary-list__row">
+                <dd class="govuk-summary-list__value">
+                  <!-- Sub Navigation for Question -->
+                  <nav class="moj-sub-navigation govuk-!-padding-top-0 govuk-!-margin-bottom-2"
+                    aria-label="Sub navigation">
+                    <ul class="moj-sub-navigation__list" id="nav-list2">
+                      <li class="moj-sub-navigation__item">
+                        <a class="moj-sub-navigation__link" href="/titan-mvp-1/edit-page/{{ currentPage.pageId }}">
+                          Page {{ pageNumber }}
+                        </a>
+                      </li>
+                      <li class="moj-sub-navigation__item">
+                        <a class="moj-sub-navigation__link" aria-current="page"
+                          href="#question-1-information-type">Conditions</a>
+                      </li>
+                    </ul>
+                  </nav>
+
+                  <div class="govuk-summary-card__title-wrapper govuk-!-padding-top-0"></div>
+
+                  <!-- Display added conditions here -->
+                  <div id="conditions-list-container"
+                    class="{% if conditions and conditions | length %}govuk-!-margin-top-4{% else %}govuk-visually-hidden{% endif %}"
+                    style="background-color: white; padding: 15px; border-left: #008938 solid 5px; margin-bottom: 30px !important;">
+                    <h2 class="govuk-heading-m">
+                      <span id="condition-counter">{{ conditions | length }}</span> added conditions
+                    </h2>
+                    <dl id="conditions-list" class="govuk-summary-list">
+                      {% for condition in conditions %}
+                      <div class="govuk-summary-list__row" data-condition-id="{{ condition.id }}">
+                        <dt class="govuk-summary-list__key">
+                          <p class="govuk-body govuk-!-font-weight-bold">{{ condition.conditionName }}</p>
+                          <p class="govuk-body">
+                            {% for rule in condition.rules %}
+                            {% if loop.first %}
+                            '{{ rule.questionText }}' {{ rule.operator | replace("-", " ") }} {% if rule.value | isArray
+                            %}'{{ rule.value | join("' or '") }}'{% else %}'{{ rule.value }}'{% endif %}
+                            {% else %}
+                            <span class="govuk-!-font-weight-bold">{{ rule.logicalOperator | default('AND')
+                              }}</span>
+                            '{{ rule.questionText }}' {{ rule.operator | replace("-", " ") }} {% if rule.value | isArray
+                            %}'{{ rule.value | join("' or '") }}'{% else %}'{{ rule.value }}'{% endif %}
+                            {% endif %}
+                            {% endfor %}
+                          </p>
+                        </dt>
+                        <dd class="govuk-summary-list__actions">
+                          <ul class="govuk-summary-list__actions-list">
+                            <li class="govuk-summary-list__actions-list-item">
+                              <a class="govuk-link remove-condition" href="#">Delete<span class="govuk-visually-hidden">
+                                  condition</span></a>
+                            </li>
+                          </ul>
+                        </dd>
+                      </div>
+                      {% endfor %}
+                    </dl>
+                  </div>
+
+                  <!-- Add condition section -->
+                  <div class="govuk-form-group">
+
+                    <span class="govuk-caption-m">Page {{pageNumber}}: {{question.label}}</span>
+                    <h2 class="govuk-heading-l">Control who can see this page based on previous answers</h2>
+
+                    {% if existingConditions | length > 0 %}
+                    {{ govukSelect({
+                    label: {
+                    text: "Use existing condition",
+                    classes: "govuk-label"
+                    },
+                    id: "existing-condition",
+                    items: [
+                    { value: "", text: "Select existing condition" }
+                    ].concat(existingConditions)
+                    }) }}
+                    {% endif %}
+
+                    <div class="govuk-button-group">
+                      {% if existingConditions | length > 0 %}
+
+                      {{ govukButton({
+                      text: "Use existing condition",
+                      id: "add-existing-condition",
+                      classes: "govuk-button"
+                      }) }}
+                      {% endif %}
+
+                      {% if existingConditions | length == 0 %}
+
+                      {{ govukButton({
+                      text: "Create new condition",
+                      href: "/titan-mvp-1/form-editor/conditions/manager",
+                      id: "create-new-condition",
+                      classes: "govuk-button govuk-button"
+                      }) }}
+                      {% else %}
+                      {{ govukButton({
+                      text: "Create new condition",
+                      href: "/titan-mvp-1/form-editor/conditions/manager",
+                      id: "create-new-condition",
+                      classes: "govuk-button govuk-button--inverse"
+                      }) }}
+                      {% endif %}
+                    </div>
+                  </div>
+
+                  <script>
+                    document.addEventListener('DOMContentLoaded', function () {
+                      const addExistingButton = document.getElementById('add-existing-condition');
+                      const existingConditionSelect = document.getElementById('existing-condition');
+
+                      // Handle adding existing condition
+                      if (addExistingButton) {
+                        addExistingButton.addEventListener('click', function (event) {
+                          event.preventDefault();
+
+                          const selectedConditionId = existingConditionSelect.value;
+                          if (!selectedConditionId) {
+                            console.log("No condition selected");
+                            return;
+                          }
+
+                          // Create a form to submit the data
+                          const form = document.createElement('form');
+                          form.method = 'POST';
+                          form.action = '/conditions-add';
+
+                          // Create hidden inputs for the form data
+                          const inputs = {
+                            'conditionType': 'existing',
+                            'existingConditionId': selectedConditionId,
+                            'currentPageId': '{{ currentPage.pageId }}'
+                          };
+
+                          // Add all inputs to form
+                          Object.entries(inputs).forEach(([name, value]) => {
+                            const input = document.createElement('input');
+                            input.type = 'hidden';
+                            input.name = name;
+                            input.value = value;
+                            form.appendChild(input);
+                          });
+
+                          // Add the form to the document and submit it
+                          document.body.appendChild(form);
+                          form.submit();
+                        });
+                      }
+
+                      // Handle remove condition
+                      document.addEventListener('click', function (event) {
+                        if (event.target.classList.contains('remove-condition')) {
+                          event.preventDefault();
+                          const conditionRow = event.target.closest('.govuk-summary-list__row');
+                          const conditionId = conditionRow.getAttribute('data-condition-id');
+
+                          // Create a form to submit the data
+                          const form = document.createElement('form');
+                          form.method = 'POST';
+                          form.action = '/conditions-remove';
+
+                          // Create hidden inputs for the form data
+                          const inputs = {
+                            'conditionId': conditionId,
+                            'currentPageId': '{{ currentPage.pageId }}'
+                          };
+
+                          // Add all inputs to form
+                          Object.entries(inputs).forEach(([name, value]) => {
+                            const input = document.createElement('input');
+                            input.type = 'hidden';
+                            input.name = name;
+                            input.value = value;
+                            form.appendChild(input);
+                          });
+
+                          // Add the form to the document and submit it
+                          document.body.appendChild(form);
+                          form.submit();
+                        }
+                      });
+                    });
+                  </script>
+                </dd>
+              </div>
+            </dl>
+          </div>
+        </div>
+      </div>
+      {#
+    </div> #}
+
+    <!-- Right Column for Preview -->
+    <div class="govuk-grid-column-one-half-from-desktop" id="second-container"
+      style="outline: solid 1px #008938; height: 100%; position: sticky; top: 0; padding: 20px; box-shadow: 5px 10px #008938;">
+      <!-- Before content -->
+      <div id="before-content" style="background-color:  #cce2d8;">
+        <p class="govuk-body-s" style="margin-bottom: 0; color: #005a30; padding: 2px 8px 3px; text-align: center;">
+          Preview
+        </p>
+      </div>
+
+      <div style="margin-top: 60px!important;">
+        {% from "govuk/components/tabs/macro.njk" import govukTabs %}
+        <div class="govuk-tabs" data-module="govuk-tabs">
+          <h2 class="govuk-tabs__title">Contents</h2>
+          <ul class="govuk-tabs__list">
+            <li class="govuk-tabs__list-item govuk-tabs__list-item--selected">
+              <a class="govuk-tabs__tab" href="#tab-one">Page preview</a>
+            </li>
+          </ul>
+          <div class="govuk-tabs__panel" id="tab-one">
+            <p class="govuk-body-s" style="margin-bottom: 30px; border-bottom: #008938 1px;">
+              <a href="#" class="govuk-link govuk-link--no-visited-state" rel="noreferrer noopener" target="_blank">
+                Preview this page in a new tab
+              </a>
+            </p>
+
+            <div id="preview-container">
+              <div id="preview-items">
+                {% if currentPage.pageType == 'guidance' %}
+                <h1 class="govuk-heading-xl">{{ currentPage.guidanceOnlyHeadingInput or '' }}</h1>
+                <div class="govuk-body guidance-content">
+                  {{ currentPage.guidanceOnlyGuidanceTextInput or '' }}
+                </div>
+                {% else %}
+                {% if currentPage.pageHeading %}
+                <h1 class="govuk-heading-xl">{{ currentPage.pageHeading }}</h1>
+                {% endif %}
+                {% if currentPage.questions.length > 0 %}
+                {% for question in currentPage.questions %}
+                <div class="preview-item" data-id="question-{{ question.questionId }}">
+                  {% set previewTemplate = '/titan-mvp-1/form-editor/question-type/questions/previews/' %}
+
+                  {% if question.type == 'phone' %}
+                  {% set previewTemplate = previewTemplate ~ 'phone-preview.html' %}
+
+                  {% elseif question.type == 'address' %}
+                  {% set previewTemplate = previewTemplate ~ 'address-preview.html' %}
+
+                  {% elseif question.type == 'email' %}
+                  {% set previewTemplate = previewTemplate ~ 'email-preview.html' %}
+
+                  {% elseif question.type == 'file' %}
+                  {% set previewTemplate = previewTemplate ~ 'fileupload-preview.html' %}
+
+                  {% elseif question.type == 'text' %}
+                  {% if question.subType == 'short-answer-nf' %}
+                  {% set previewTemplate = previewTemplate ~ 'shorttext-preview.html' %}
+                  {% elseif question.subType == 'long-answer' %}
+                  {% set previewTemplate = previewTemplate ~ 'textarea-preview.html' %}
+                  {% elseif question.subType == 'numbers' %}
+                  {% set previewTemplate = previewTemplate ~ 'numbers-preview.html' %}
+                  {% else %}
+                  {% set previewTemplate = previewTemplate ~ 'text-preview.html' %}
+                  {% endif %}
+
+                  {% elseif question.type == 'date' %}
+                  {% if question.subType == 'day-month-year' %}
+                  {% set previewTemplate = previewTemplate ~ 'date-preview.html' %}
+                  {% elseif question.subType == 'month-year' %}
+                  {% set previewTemplate = previewTemplate ~ 'date-mmyy-preview.html' %}
+                  {% else %}
+                  {% set previewTemplate = previewTemplate ~ 'date-preview.html' %}
+                  {% endif %}
+
+                  {% elseif question.type == "list" %}
+                  {% if question.subType == "yes-no" %}
+                  {% set previewTemplate = previewTemplate ~ "yesno-preview.html" %}
+                  {% elseif question.subType == "checkboxes" %}
+                  {% set previewTemplate = previewTemplate ~ "checkboxes-preview.html" %}
+                  {% elseif question.subType == "radios" %}
+                  {% set previewTemplate = previewTemplate ~ "radios-preview.html" %}
+                  {% elseif question.subType == "select" %}
+                  {% set previewTemplate = previewTemplate ~ "autocomplete-preview.html" %}
+                  {% else %}
+                  {% set previewTemplate = previewTemplate ~ "list-preview.html" %}
+                  {% endif %}
+
+                  {% else %}
+                  {% set previewTemplate = previewTemplate ~ 'default-preview.html' %}
+                  {% endif %}
+
+                  {% include previewTemplate %}
+                </div>
+                {% endfor %}
+                {% else %}
+                <p>No questions available to preview.</p>
+                {% endif %}
+                {% endif %}
+              </div>
+            </div>
+
+            <a href="#edit-page" class="govuk-skip-link" style="margin-bottom: 30px!important;"
+              data-module="govuk-skip-link">Skip to edit page</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CSS for Highlighting -->
+    <style>
+      .highlight {
+        background-color: #ffe5cc;
+        border-bottom: 2px solid #ffb266;
+        color: black;
+      }
+
+      #before-content {
+        position: absolute;
+        top: 0;
+        left: 10 !important;
+        right: 0;
+        width: 100%;
+        padding: 10px !important;
+        box-sizing: border-box;
+        z-index: 1;
+        border-bottom: 1px solid #008938;
+        padding-left: 10px;
+      }
+
+      #second-container {
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      #second-container>* {
+        padding-left: 0px;
+        z-index: 2;
+      }
+    </style>
+  </div>
+</div>
+
+<style>
+  .with-arrow {
+    position: relative;
+    border: none;
+    height: 2px;
+    background-color: #b1b4b6;
+    margin: 1.5em 0;
+  }
+
+  .with-arrow::after {
+    content: "▼";
+    display: block;
+    position: absolute;
+    left: 2%;
+    transform: translateX(-50%);
+    top: -4px;
+    font-size: 18px;
+    color: #b1b4b6;
+    z-index: 10;
+  }
+
+  .govuk-summary-list__key p {
+    display: block !important;
+  }
+</style>
+
+<form class="form" action="/titan-mvp-1/form-editor/conditions/page-level/{{ currentPage.pageId }}" method="post">
+  {% endblock %}

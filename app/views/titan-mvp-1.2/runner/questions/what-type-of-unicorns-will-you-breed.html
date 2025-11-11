@@ -1,0 +1,121 @@
+{% extends "layouts/runner.html" %}
+
+{% block pageTitle %}
+What type of unicorns will you breed? – {{ serviceName }} – GOV.UK
+{% endblock %}
+
+{% block beforeContent %}
+{{ govukBackLink({
+text: "Back",
+href: "javascript:window.history.back()"
+}) }}
+{% endblock %}
+
+{% block content %}
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+
+    <form class="form" action="/what-type-of-unicorns-will-you-breed" method="post">
+
+      {{ govukCheckboxes({
+      idPrefix: "DyfjJC",
+      name: "DyfjJC",
+      fieldset: {
+      legend: {
+      text: "What type of unicorns will you breed?",
+      classes: "govuk-fieldset__legend--l",
+      isPageHeading: true
+      }
+      },
+      items: [
+      {
+      value: "Flying",
+      text: "Flying"
+      },
+      {
+      value: "Fire breathing",
+      text: "Fire breathing"
+      },
+      {
+      value: "Aquatic",
+      text: "Aquatic"
+      },
+      {
+      value: "Rainbow",
+      text: "Rainbow"
+      }
+      ]
+      }) }}
+
+      <div class="govuk-button-group">
+        {{ govukButton({
+        text: "Continue"
+        }) }}
+
+        {{ govukButton({
+        text: "Save and exit",
+        classes: "govuk-button--secondary",
+        href: "/save-progress",
+        type: "button",
+        attributes: {
+          "data-save-exit": "true"
+        }
+        }) }}
+      </div>
+
+    </form>
+
+  </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const saveExitButton = document.querySelector('[data-save-exit="true"]');
+  
+  if (saveExitButton) {
+    saveExitButton.addEventListener('click', function(e) {
+      e.preventDefault();
+      
+      // Validate required fields
+      const checkboxes = document.querySelectorAll('input[name="DyfjJC"]');
+      const isChecked = Array.from(checkboxes).some(checkbox => checkbox.checked);
+      
+      if (!isChecked) {
+        // Show error message
+        const errorMessage = document.createElement('div');
+        errorMessage.className = 'govuk-error-message';
+        errorMessage.innerHTML = '<span class="govuk-visually-hidden">Error:</span>Select at least one type of unicorn';
+        
+        // Remove any existing error messages
+        const existingError = document.querySelector('.govuk-error-message');
+        if (existingError) {
+          existingError.remove();
+        }
+        
+        // Add error message above the checkboxes
+        const formGroup = checkboxes[0].closest('.govuk-form-group');
+        if (formGroup) {
+          formGroup.classList.add('govuk-form-group--error');
+          checkboxes.forEach(checkbox => {
+            checkbox.classList.add('govuk-checkboxes__input--error');
+          });
+          formGroup.insertBefore(errorMessage, checkboxes[0]);
+        }
+        
+        // Focus on the first checkbox
+        checkboxes[0].focus();
+        return;
+      }
+      
+      // Get the current page URL
+      const currentUrl = window.location.pathname;
+      
+      // Redirect to save-progress with the current page as returnUrl
+      window.location.href = '/save-progress?returnUrl=' + encodeURIComponent(currentUrl);
+    });
+  }
+});
+</script>
+
+{% endblock %}

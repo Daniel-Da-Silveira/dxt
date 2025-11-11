@@ -1,0 +1,34 @@
+<!-- Preview for Text Question -->
+<div class="govuk-form-group govuk-!-margin-top-6">
+    <fieldset class="govuk-fieldset" role="group">
+        <legend class="govuk-fieldset__legend govuk-fieldset__legend--l" id="question-label-legend">
+            {{ question.label or 'Fallback Label' }}
+        </legend>
+        <div class="govuk-form-group">
+            <!-- Date Input Hint -->
+            <div id="hint-text-output" name="hintTextOutput" class="govuk-hint">{{ question.hint or '' }}
+            </div>
+            <!-- Date Input Fields -->
+            <div class="govuk-date-input" id="date-input" data-module="govuk-date-input">
+                <!-- Day Input -->
+                <div class="govuk-date-input__item" id="day-input-wrapper">
+                    <div class="govuk-form-group">
+                        <label class="govuk-label govuk-date-input__label" for="date-day">Day</label>
+                        <input class="govuk-input govuk-date-input__input govuk-input--width-2" id="date-day"
+                            name="date-day" type="text">
+                    </div>
+                </div>
+                <!-- Month Input -->
+                <div class="govuk-date-input__item" id="month-input-wrapper">
+                    <div class="govuk-form-group">
+                        <label class="govuk-label govuk-date-input__label" for="date-month">Month</label>
+                        <input class="govuk-input govuk-date-input__input govuk-input--width-2" id="date-month"
+                            name="date-month" type="text" pattern="[0-9]*">
+                    </div>
+                </div>
+
+            </div>
+        </div>
+</div>
+</fieldset>
+</div>

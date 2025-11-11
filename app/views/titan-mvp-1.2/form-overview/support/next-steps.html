@@ -1,0 +1,294 @@
+{% extends "layouts/main.html" %}
+
+{% from "components/service-header/macro.njk" import serviceHeader %}
+
+{% set pageName = "What happens next - Apply for a county parish holding number in England" %}
+
+{% block header %}
+{{ serviceHeader({
+organisationName: "Defra",
+productName: "Form Designer",
+serviceName: "",
+accountName: "Chris Smith",
+homepageLink: "/",
+signOutLink: "/onboarding/sign-out-confirmation",
+navigationItems: [
+{
+href: "/titan-mvp-1.2/library",
+text: "Forms library",
+id: "nav-library"
+},
+{
+href: "/titan-mvp-1.2/form-overview/index",
+text: "Overview",
+id: "nav-overview"
+},
+{
+href: "/titan-mvp-1.2/form-editor/listing",
+text: 'Editor',
+id: 'nav-editor'
+}],
+activeLinkId: "/"
+}) }}
+{% endblock %}
+
+{% block beforeContent %}
+{{ govukBackLink({
+text: "Back",
+href: "/titan-mvp-1.2/form-overview/draft/overview"
+}) }}
+{% endblock %}
+
+{% block content %}
+<div class="govuk-grid-row">
+  <!-- LEFT COLUMN: Form -->
+  <div class="govuk-grid-column-one-half-from-desktop">
+    {% from "govuk/components/summary-list/macro.njk" import govukSummaryList %}
+    {% from "govuk/components/inset-text/macro.njk" import govukInsetText %}
+    {% from "govuk/components/textarea/macro.njk" import govukTextarea %}
+
+    <span class="govuk-caption-l">Apply for a county parish holding number in England</span>
+    <h1 class="govuk-heading-l">Tell users what happens after they submit their form</h1>
+
+    <p class="govuk-body-l">
+      Add some information to tell people what will happen after they've submitted their form, and when - so they know
+      what to expect.
+    </p>
+
+    <h2 class="govuk-heading-s">Example</h2>
+    {{ govukInsetText({ text: "We'll send you an email to let you know the outcome. You'll usually get a response within
+    10 working days." }) }}
+
+    <p class="govuk-body">
+      The email confirmation will also include the contact details you provide for the form, and the date and time of
+      submission.
+    </p>
+
+    <h2 class="govuk-heading-m">Where this text is shown</h2>
+
+    <p class="govuk-body">
+      The information you include here appears on the form submission page under the heading 'What happens next'.
+    </p>
+
+    <p class="govuk-body">
+      The text also appears in the form submission confirmation email. Users can opt-in to receive a confirmation email
+      at the end of the form. Emails are sent automatically using GOV.UK Notify.
+    </p>
+
+    {% from "govuk/components/warning-text/macro.njk" import govukWarningText %}
+
+    {{ govukWarningText({
+    html: "If you use markdown to format the text, <a class='govuk-link govuk-link--no-visited-state'
+      rel='noreferrer noopener' target='_blank'
+      href='https://www.notifications.service.gov.uk/using-notify/formatting'>check the formatting restrictions for
+      GOV.UK Notify (opens in new tab)</a>.",
+    iconFallbackText: "Warning"
+    }) }}
+
+
+    <form action="/titan-mvp-1.2/form-overview/index/support/next-steps" method="post">
+      {{ govukTextarea({
+      name: "nextSteps",
+      id: "next-steps",
+      label: {
+      text: "What will happen after a user submits a form?" },
+      value: form.nextSteps
+      }) }}
+
+      <div class="govuk-button-group">
+        <button type="submit" class="govuk-button" data-module="govuk-button">
+          Save
+        </button>
+        <a href="/titan-mvp-1.2/form-overview/index" class="govuk-button govuk-button--secondary"
+          data-module="govuk-button">
+          Cancel
+        </a>
+      </div>
+    </form>
+  </div>
+
+  <!-- RIGHT COLUMN: Preview -->
+  <div class="govuk-grid-column-one-half-from-desktop" id="second-container"
+    style="outline: solid 1px #008938; position: sticky; top: 0; padding: 20px; box-shadow: 5px 10px #008938; min-height: 100vh; height: fit-content; align-self: flex-start;">
+    <!-- Before content -->
+    <div id="before-content" style="background-color: #cce2d8;">
+      <p class="govuk-body-s" style="margin-bottom: 0; color: #005a30; padding: 2px 8px 3px; text-align: center;">
+        Preview
+      </p>
+    </div>
+
+    <div style="margin-top: 60px!important;">
+      {% from "govuk/components/tabs/macro.njk" import govukTabs %}
+
+      <div class="govuk-tabs" data-module="govuk-tabs">
+        <h2 class="govuk-tabs__title">Contents</h2>
+        <ul class="govuk-tabs__list">
+          <li class="govuk-tabs__list-item govuk-tabs__list-item--selected">
+            <a class="govuk-tabs__tab" href="#tab-one">Page preview</a>
+          </li>
+        </ul>
+
+        <div class="govuk-tabs__panel" id="tab-one">
+          <!-- Page Preview Content -->
+          <p class="govuk-body-s" style="margin-bottom: 30px; border-bottom: #008938 1px;">
+            <a href="#" class="govuk-link govuk-link--no-visited-state" rel="noreferrer noopener" target="_blank">
+              Preview this page in a new tab
+            </a>
+          </p>
+
+          <!-- Dynamic Preview Content -->
+          <div id="dynamic-preview">
+            {% if data['nextSteps'] %}
+
+            <h2 class="govuk-heading-l">What happens next</h2>
+            <div class="next-steps-content">
+              <p class="govuk-body">{{ data['nextSteps'] }}</p>
+            </div>
+            {% else %}
+
+            <h2 class="govuk-heading-l">What happens next</h2>
+            {% endif %}
+          </div>
+
+          <a href="#tab-one-next-steps" class="govuk-skip-link" style="margin-bottom: 30px!important;"
+            data-module="govuk-skip-link">
+            Skip to next steps form
+          </a>
+        </div> <!-- End of Tab One -->
+      </div> <!-- End of govuk-tabs -->
+    </div> <!-- End of margin-top: 60px container -->
+  </div> <!-- End of second-container -->
+
+  <!-- END RIGHT COLUMN -->
+</div> <!-- End .govuk-grid-row (which wraps both columns) -->
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    // Update preview when form inputs change
+    const nextStepsInput = document.getElementById('next-steps');
+    const dynamicPreview = document.getElementById('dynamic-preview');
+
+    function updatePreview() {
+      const nextSteps = nextStepsInput.value.trim();
+
+      if (nextSteps) {
+        dynamicPreview.innerHTML = `
+          <h2 class="govuk-heading-l">What happens next</h2>
+          <div class="next-steps-content highlight">
+            <p class="govuk-body">${nextSteps}</p>
+          </div>
+        `;
+      } else {
+        dynamicPreview.innerHTML = `
+          <h2 class="govuk-heading-l">What happens next</h2>
+          <div class="next-steps-content highlight">
+            <p class="govuk-body" style="color: #000;">Next steps</p>
+          </div>
+        `;
+      }
+    }
+
+    // Initialize preview on page load
+    updatePreview();
+
+    // Highlight preview when form field is focused
+    nextStepsInput.addEventListener('focus', function () {
+      const nextSteps = nextStepsInput.value.trim();
+
+      if (nextSteps) {
+        dynamicPreview.innerHTML = `
+          <h2 class="govuk-heading-l">What happens next</h2>
+          <div class="next-steps-content highlight">
+            <p class="govuk-body">${nextSteps}</p>
+          </div>
+        `;
+      } else {
+        dynamicPreview.innerHTML = `
+          <h2 class="govuk-heading-l">What happens next</h2>
+          <div class="next-steps-content highlight">
+            <p class="govuk-body" style="color: #000;">Next steps</p>
+          </div>
+        `;
+      }
+    });
+
+    // Remove highlight and show content when form field loses focus
+    nextStepsInput.addEventListener('blur', function () {
+      const nextSteps = nextStepsInput.value.trim();
+
+      if (nextSteps) {
+        dynamicPreview.innerHTML = `
+          <h2 class="govuk-heading-l">What happens next</h2>
+          <div class="next-steps-content">
+            <p class="govuk-body">${nextSteps}</p>
+          </div>
+        `;
+      } else {
+        dynamicPreview.innerHTML = '<h2 class="govuk-heading-l">What happens next</h2>';
+      }
+    });
+
+    // Update preview when form inputs change (maintain highlight when focused)
+    nextStepsInput.addEventListener('input', function () {
+      if (document.activeElement === nextStepsInput) {
+        updatePreview();
+      } else {
+        updatePreview();
+      }
+    });
+  });
+</script>
+
+<style>
+  .preview-container {
+    outline: solid 1px #b1b4b6;
+    position: sticky;
+    overflow-y: auto;
+    height: 100vh;
+    top: 0;
+    padding: 20px;
+    box-shadow: 5px 10px #b1b4b6;
+    margin-bottom: 30px;
+  }
+
+  .highlight {
+    background-color: #ffe5cc;
+    border-bottom: 2px solid #ffb266;
+    margin-bottom: 10px;
+  }
+</style>
+
+<details class="govuk-details">
+  <summary class="govuk-details__summary">
+    <span class="govuk-details__summary-text">
+      View error messages
+    </span>
+  </summary>
+  <div class="govuk-details__text">
+    {% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
+
+    {{ govukErrorSummary({
+    titleText: "There is a problem",
+    errorList: [
+    {
+    text: "Enter what will happen after a user submits a form",
+    href: "#next-steps"
+    }
+    ]
+    }) }}
+
+    {{ govukTextarea({
+    name: "nextSteps",
+    id: "next-steps",
+    label: {
+    text: "What will happen after a user submits a form?",
+    classes: "govuk-label--m",
+    isPageHeading: true
+    },
+    errorMessage: {
+    text: "Enter what will happen after a user submits a form"
+    }
+    }) }}
+  </div>
+</details>
+{% endblock %}

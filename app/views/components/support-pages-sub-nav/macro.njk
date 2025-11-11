@@ -1,0 +1,53 @@
+{% macro supportPagesSubNav(currentTab, baseUrl) %}
+<nav class="moj-sub-navigation" aria-label="Sub navigation">
+  <ul class="moj-sub-navigation__list" id="nav-list-{{ currentTab }}">
+    <li class="moj-sub-navigation__item">
+      <a class="moj-sub-navigation__link"
+         {% if currentTab == 'contact-details' %}aria-current="page"{% endif %}
+         href="{{ baseUrl }}?tab=contact-details">
+        Page overview
+      </a>
+    </li>
+
+    <li class="moj-sub-navigation__item">
+      <a class="moj-sub-navigation__link"
+         {% if currentTab == 'phone-number' %}aria-current="page"{% endif %}
+         href="/titan-mvp-1.2/form-overview/support/add-telephone">
+        Phone number
+      </a>
+    </li>
+
+    <li class="moj-sub-navigation__item">
+      <a class="moj-sub-navigation__link"
+         {% if currentTab == 'email-address' %}aria-current="page"{% endif %}
+         href="/titan-mvp-1.2/form-overview/support/add-email">
+        Email address
+      </a>
+    </li>
+
+    <li class="moj-sub-navigation__item">
+      <a class="moj-sub-navigation__link"
+         {% if currentTab == 'online-contact' %}aria-current="page"{% endif %}
+         href="/titan-mvp-1.2/form-overview/support/add-contact-link">
+        Online contact link
+      </a>
+    </li>
+
+    <li class="moj-sub-navigation__item">
+      <a class="moj-sub-navigation__link"
+         {% if currentTab == 'privacy-notice' %}aria-current="page"{% endif %}
+         href="/titan-mvp-1.2/form-overview/support/add-privacy-notice">
+        Privacy notice
+      </a>
+    </li>
+
+    {# <li class="moj-sub-navigation__item">
+      <a class="moj-sub-navigation__link"
+         {% if currentTab == 'notifications' %}aria-current="page"{% endif %}
+         href="{{ baseUrl }}?tab=notifications">
+        Notifications and next steps
+      </a>
+    </li> #}
+  </ul>
+</nav>
+{% endmacro %}

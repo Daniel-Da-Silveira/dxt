@@ -1,0 +1,571 @@
+{% extends "design-history/template.html" %}
+
+{# --- Feature metadata --- #}
+{% set featureName = "Page Conditions" %}
+{% set latestVersionLink =
+"https://www.figma.com/design/hnNpbZGk8k3LghzVcugZqw/Feature-development?node-id=1-323&t=0ZA5MmSaynLrETQS-4" %}
+{% set status = "Tested" %}
+{% set statusColor = "green" %}
+{% set userNeed = "Users need to set up conditional logic for form pages so they can create dynamic forms that show
+relevant pages based on previous answers." %}
+{% set phase = "Private beta" %}
+{% set category = "Form admin" %}
+{% set description = "This feature allows users to create conditional logic for form pages, so they can make forms that
+show different questions based on what people answer. The latest version has better tools for creating conditions,
+including ways to combine multiple conditions and see all conditions in one place." %}
+
+{# --- Research rounds for the summary table --- #}
+{% set researchRounds = [
+"Latest iteration - Current",
+"Round 13 - April 2025",
+"Round 12 - March 2025",
+"Round 11 - March 2025",
+"Round 2 - May/June 2024"
+] %}
+
+{# --- Journey steps --- #}
+{% set journeySteps = [
+{ number: "1", title: "Onboarding", subtitles: [ { text: "Sign in/out", isCurrent: false } ] },
+{ number: "2", title: "Create new form", subtitles: [ { text: "Add form details", isCurrent: false } ] },
+{ number: "3", title: "Form design", subtitles: [ { text: "Create and edit questions", isCurrent: true } ] },
+{ number: "4", title: "Form overview", subtitles: [ { text: "View and edit form details", isCurrent: false } ],
+isCurrent: true },
+{ number: "5", title: "Testing", subtitles: [ { text: "Preview form", isCurrent: false } ] }
+] %}
+
+
+{# --- Key improvements in the latest version --- #}
+{% set improvements = [
+"Better condition creation with more options for combining conditions",
+"Different tools for different question types like radio buttons and checkboxes",
+"Clear preview text that shows how conditions will work",
+"Overview page showing all conditions and where they are used",
+"Ways to reuse existing conditions instead of creating new ones",
+"Clearer visual design with tick marks and status indicators"
+] %}
+
+{# --- Research history table --- #}
+{% set researchHistory = [
+{
+roundNumber: "Latest",
+researchDate: "Current",
+researchFinding: "Improved condition management with better tools for creating and combining conditions. Added clearer
+previews and overview page. Builds on positive feedback from Round 13 while addressing remaining user needs.",
+changeMade: "Enhanced condition creation tools, added condition reuse features, improved previews, and created overview
+page for managing all conditions"
+},
+{
+roundNumber: "13",
+researchDate: "April 2025",
+researchFinding: "Overall setup described as 'very intuitive' and 'super duper clear'. Positive feedback on modularity
+and combining conditions. Some confusion about repetition in flow and linking conditions to pages.",
+changeMade: "Enhanced success messages with clear CTAs, improved messaging about which pages conditions apply to, and
+developed latest iteration with improved condition management tools"
+},
+{
+roundNumber: "12",
+researchDate: "March 2025",
+researchFinding: "Participants navigated adding conditions successfully through exploration. Revealing operator and
+renaming to 'Condition type' improved understanding. Discoverability improved after moving filter to left-hand pane.",
+changeMade: "Moved 'Filter pages by condition' to left-hand pane, revealed operator and renamed to 'Condition type'"
+},
+{
+roundNumber: "11",
+researchDate: "March 2025",
+researchFinding: "Intuitive overall but not obvious that questions needed separate pages for conditions. Terminology
+issues with 'operator'. Discoverability issues with hidden page conditions and repeater questions.",
+changeMade: "Improved UI flow, terminology, and discoverability of condition controls"
+},
+{
+roundNumber: "2",
+researchDate: "May/June 2024",
+researchFinding: "Conditions label unclear without prompting. 'Add or change conditions' page not clear. 'Add condition:
+Enter...' needed revision. Overall logic clear once understood.",
+changeMade: "Revised content for clarity and intuitive understanding"
+}
+] %}
+
+{# --- Detailed research summaries --- #}
+{% set researchSummaries = [
+{
+title: "Latest iteration",
+summary: "Latest version of the page conditions feature with improved tools for creating and managing conditions,
+building on positive feedback from previous research",
+sections: [
+{
+type: "content",
+content: "**Current implementation:** The latest version builds on the positive feedback from Round 13 research. It
+includes better tools for creating conditions, ways to combine multiple conditions, clearer previews, and an overview
+page to see all conditions. The design keeps the intuitive experience users liked while adding the features they
+needed."
+},
+{
+type: "preview",
+url: "https://embed.figma.com/design/hnNpbZGk8k3LghzVcugZqw/Feature-development?node-id=1-323&embed-host=share",
+caption: "",
+previewLabel: "Overall page conditions setup in the latest iteration",
+showSectionBreak: true
+},
+{
+type: "preview",
+url: "https://embed.figma.com/design/hnNpbZGk8k3LghzVcugZqw/Feature-development?node-id=3-976&embed-host=share",
+caption: "",
+previewLabel: "High level flow diagram for page conditions setup in the latest iteration",
+showSectionBreak: true
+},
+{
+type: "table",
+caption: "Detailed comparison: Page conditions flow",
+head: [
+{ text: "Stage" },
+{ text: "Round 13" },
+{ text: "Latest iteration" },
+{ text: "What this means for users" }
+],
+rows: [
+[
+{ html: "<strong>Page overview</strong>" },
+{ text: "Shows a page with or without conditions, link to conditions tab." },
+{ text: "Same starting point; page shows tick icon when conditions exist, inset text if none." },
+{ text: "Entry point feels more polished in Latest iteration but functionally the same." }
+],
+[
+{ html: "<strong>Conditions tab (no saved conditions)</strong>" },
+{ text: "Minimal: ‘No conditions yet’ and an Add condition button." },
+{ text: "More explicit: ‘Form has no conditions yet.’ Clearer screen state with structured messaging." },
+{ text: "Latest iteration gives a stronger sense of state and next action, avoiding the blank page problem in Round 13."
+}
+],
+[
+{ html: "<strong>Conditions tab (with saved conditions)</strong>" },
+{ text: "Plain list of conditions with edit/delete actions." },
+{ text: "Structured list with tick icons and bold names. Option to reuse an existing condition." },
+{ text: "Latest iteration makes conditions more visible and allows re-use, reducing repetition." }
+],
+[
+{ html: "<strong>Creating a condition</strong>" },
+{ text: "Simple one-line rule: pick question → operator → value." },
+{ text: "Multi-step creation: supports additional conditions, AND/OR operators, nested groups; numbered ordering." },
+{ text: "Round 13 suits single, simple rules. Latest iteration scales to complex logic." }
+],
+[
+{ html: "<strong>Condition types</strong>" },
+{ text: "Generic flow for all question types." },
+{ text: "Type-specific: radios pre-load options, checkboxes allow multiple, numbers/dates support greater/less/between,
+text supports contains." },
+{ text: "Latest iteration matches behaviour to question type for accuracy and control." }
+],
+[
+{ html: "<strong>Previewing conditions</strong>" },
+{ text: "Quick plain text preview before saving." },
+{ text: "Rich preview sentences in natural language with AND/OR in bold. Checkbox values joined by OR." },
+{ text: "Latest iteration reads as full sentences, reducing misunderstanding." }
+],
+[
+{ html: "<strong>Multi-conditions</strong>" },
+{ text: "Possible but tacked on as a separate branch." },
+{ text: "Fully integrated: add another inline, choose AND/OR between them, and see one joined sentence." },
+{ text: "Round 13 feels clunky; Latest iteration makes combining a core flow." }
+],
+[
+{ html: "<strong>Editing saved conditions</strong>" },
+{ text: "Basic tweaks only; no restructuring." },
+{ text: "Mirrors full creation: add/remove conditions, switch AND/OR, change operators, reuse/join. Warns on multiple
+uses/invalid logic." },
+{ text: "Latest iteration editing is as powerful as creating; saves time and avoids re-work." }
+],
+[
+{ html: "<strong>Combining existing conditions</strong>" },
+{ text: "Not really supported; each condition is isolated." },
+{ text: "Dedicated step to select and join conditions (MoJ multi-select table). Clear UI for choosing which to combine."
+},
+{ text: "Designers build on previous work in Latest iteration instead of recreating logic." }
+],
+[
+{ html: "<strong>Deleting conditions</strong>" },
+{ text: "Simple ‘Are you sure?’ confirmation." },
+{ text: "Same, but warns if the condition is used in multiple places." },
+{ text: "Latest iteration helps prevent breaking other pages." }
+],
+[
+{ html: "<strong>Listing page (all conditions)</strong>" },
+{ text: "Plain list of saved conditions; not deeply integrated." },
+{ text: "Summary cards with usage info and actions. Tick icon with green/grey status tags." },
+{ text: "Latest iteration provides a dashboard-like view showing which conditions exist and where they apply." }
+]
+]
+}
+]
+},
+{
+title: "Round 13 – April 2025",
+summary: "Testing of overall page conditions setup, conditional guidance, and combining multiple conditions",
+sections: [
+{
+type: "content",
+content: "**What was tested:** Overall page conditions setup, conditional guidance, and combining multiple
+conditions\n\n**Participants:** Content designers"
+},
+{
+type: "details",
+summary: "Screens that were tested in Round 13",
+content: "",
+images: [
+{
+src: "/public/images/conditions/r13/manager.png",
+alt: "Conditions manager main interface showing list of existing conditions and management options",
+caption: "Conditions manager main interface showing list of existing conditions and management options"
+}
+],
+items: [
+{
+type: "images",
+content: {
+src: "/public/images/conditions/r13/create.png",
+alt: "Individual condition creation form with condition name field and setup options",
+caption: "Individual condition creation form with condition name field and setup options"
+}
+},
+{
+type: "images",
+content: {
+src: "/public/images/conditions/r13/combine.png",
+alt: "Interface for combining multiple conditions with logical operators",
+caption: "Interface for combining multiple conditions with logical operators"
+}
+},
+{
+type: "images",
+content: {
+src: "/public/images/conditions/r13/multi-condition.png",
+alt: "Multi-condition setup interface showing how to combine multiple conditions with AND/OR operators",
+caption: "Multi-condition setup interface showing how to combine multiple conditions with AND/OR operators"
+}
+},
+{
+type: "images",
+content: {
+src: "/public/images/conditions/r13/listing.png",
+alt: "Listing page overview showing all conditions and their current status",
+caption: "Listing page overview showing all conditions and their current status"
+}
+},
+{
+type: "images",
+content: {
+src: "/public/images/conditions/r13/delete.png",
+alt: "Condition deletion interface with confirmation options",
+caption: "Condition deletion interface with confirmation options"
+}
+}
+]
+},
+{
+type: "content",
+content: "**Flows tested:** The testing included comprehensive UI/UX flows for the Conditions manager and Listing page,
+covering:\n\n- **Conditions Manager:** Definition, editing, combining, and applying conditions with various states and
+interactions\n- **Listing Page:** Management and overview of existing conditions\n- **Multi-condition Flow:** Combining
+multiple individual conditions to create complex logical rules using boolean operators (AND/OR)\n- **Condition Setup
+Process:** Step-by-step flow for creating new conditions\n- **Condition Application:** Process of linking conditions to
+specific form pages\n- **Condition Management:** Editing, updating, and maintaining existing conditions"
+},
+{
+type: "content",
+content: "**Detailed flow components tested:**"
+},
+{
+type: "content",
+content: "**1. Multi-condition Interface:**\n- Condition list display showing individual conditions (Condition 1,
+Condition 2, etc.)\n- Dropdown/selector for logical operators (AND, OR) positioned between conditions\n- Visual
+representation of how conditions combine to form complex rules\n- Interface for adding additional conditions to existing
+combinations"
+},
+{
+type: "content",
+content: "**2. Condition Definition Screens:**\n- Individual condition creation forms\n- Question selection interfaces
+for condition criteria\n- Answer/option selection for condition triggers\n- Condition naming and description fields"
+},
+{
+type: "content",
+content: "**3. Condition Application Workflow:**\n- Page selection interface for applying conditions\n- Visual
+indicators showing which pages have conditions applied\n- Success messaging with clear call-to-action buttons and
+Integration with form page management"
+
+},
+{
+type: "content",
+content: "**4. Condition Management Tools:**\n- Filtering and search capabilities for existing conditions\n- Edit/update
+interfaces for modifying condition logic\n- Delete/remove functionality for unused conditions\n- Preview and testing
+tools for condition validation"
+},
+{
+type: "content",
+content: "**5. User Guidance and Feedback:**\n- Step-by-step guidance through complex condition setup\n- Success
+messages with next-step recommendations\n- Error handling and validation feedback\n- Help text and tooltips for complex
+operations"
+},
+
+{
+type: "findings",
+content: [
+"Overall setup described as 'very intuitive', 'super duper clear', 'good', and 'really nice'",
+"Positive feedback on modularity: conditions could be treated as reusable building blocks",
+"Joining multiple conditions was straightforward; participants managed with no guidance",
+"Success messages with clear call-to-action ('Add to pages') helped users adapt",
+"Some confusion about repetition when asked to 'Create a new condition' twice in the flow",
+"Linking: some expected conditions to be tied directly to the question page they were created from",
+"Messaging about which pages a condition was applied to was subtle – participants wanted it spelled out more clearly"
+]
+},
+{
+type: "quotes",
+content: [
+"\"The ability to combine conditions – that's pretty wicked. I can see that being a big time-saver.\" (P1)",
+"\"It's a bit clunky compared to other experiences like MS Forms.\" (P4)",
+"\"You might think when you first create the page with the choice, that you're putting conditions on that… but then you
+almost have to go back and do it because the conditions are separate.\" (P1)",
+"\"That's how I'm following this. Whatever appears in a green box, I'll just do.\" (P1)"
+]
+},
+{
+type: "changes",
+changesTitle: "Changes since Round 13",
+changesContent: [
+{
+changedScreen: "Condition creation flow",
+changeDescription: "Streamlined the condition setup process with clearer step-by-step guidance and improved visual
+hierarchy",
+changeReason: "Address user confusion about repetition in the flow and make the process more intuitive"
+},
+{
+changedScreen: "Success messaging",
+changeDescription: "Enhanced success messages with clearer call-to-action buttons and more prominent messaging about
+which pages conditions apply to",
+changeReason: "Users wanted it spelled out more clearly which pages their conditions were applied to"
+},
+{
+changedScreen: "Condition linking",
+changeDescription: "Improved the connection between condition creation and page application to reduce the 'working
+backwards' feeling",
+changeReason: "Users expected conditions to be more directly tied to the question pages they were created from"
+},
+{
+changedScreen: "Multi-condition interface",
+changeDescription: "Refined the interface for combining multiple conditions with better visual representation of logical
+operators",
+changeReason: "Build on positive feedback about modularity while improving usability"
+}
+]
+}
+]
+},
+{
+title: "Round 12 – March 2025",
+summary: "Testing of condition setup flow and discoverability improvements",
+sections: [
+{
+type: "content",
+content: "**What was tested:** Condition setup flow and discoverability improvements\n\n**Participants:** 5 content
+designers (BAU, juniors, mix of prior form experience)"
+},
+{
+type: "images",
+imagesLabel: "Page conditions tab in Round 12 testing",
+showSectionBreak: true,
+caption: "",
+content: [
+{
+src: "/public/images/conditions/r12/01.png",
+alt: "Page conditions tab in Round 12 testing",
+caption: "",
+width: "two-thirds",
+classes: "your-custom-classes",
+link: "https://example.com/larger-version",
+scale: 80,
+widthPx: 800,
+heightPx: 600
+}
+]
+},
+{
+type: "findings",
+content: [
+"Participants generally navigated adding conditions successfully through exploration",
+"Some initial confusion between thinking in terms of questions vs. pages, but they were able to set up routing
+effectively",
+"Revealing the operator ('is') and renaming it to 'Condition type' improved understanding",
+"Discoverability improved for 'Filter pages by condition' after moving it to the left-hand pane (previously hidden under
+a dropdown)"
+]
+},
+{
+type: "quotes",
+content: [
+"\"Pretty straightforward.\" (P1)",
+"\"Easy peasy.\" (P2)",
+"\"You can filter pages by condition. OK, I can see that would be useful.\" (P1)",
+"\"…check that all the conditions have been set correctly. That would be useful.\" (P2)"
+]
+}
+]
+},
+{
+title: "Round 11 - March 2025",
+summary: "Testing of page condition setup and discoverability",
+sections: [
+{
+type: "content",
+content: "**What was tested:** Page condition setup and discoverability\n\n"
+},
+{
+type: "content",
+content: "**Participants:** 4 content designers"
+},
+{
+type: "details",
+summary: "Screens that were tested",
+content: "",
+images: [
+{
+src: "/public/images/conditions/r11/page-overview.png",
+alt: "Form pages overview showing the conditions column and 'Add condition' button for each page",
+caption: "Form pages overview showing the conditions column and 'Add condition' button for each page"
+}
+],
+items: [
+{
+type: "images",
+content: {
+src: "/public/images/conditions/r11/create.png",
+alt: "Create new condition form with condition name field and 'Add condition' button",
+caption: "Create new condition form with condition name field and 'Add condition' button"
+}
+},
+{
+type: "images",
+content: {
+src: "/public/images/conditions/r11/added.png",
+alt: "Success screen showing condition has been created with 'Add to pages' call-to-action button",
+caption: "Success screen showing condition has been created with 'Add to pages' call-to-action button"
+}
+},
+{
+type: "images",
+content: {
+src: "/public/images/conditions/r11/create-joint.png",
+alt: "Create joint condition interface showing how to combine multiple conditions with AND/OR operators",
+caption: "Create joint condition interface showing how to combine multiple conditions with AND/OR operators"
+}
+},
+{
+type: "images",
+content: {
+src: "/public/images/conditions/r11/joint-added.png",
+alt: "Success screen showing joint condition has been created with 'Add to pages' call-to-action button",
+caption: "Success screen showing joint condition has been created with 'Add to pages' call-to-action button"
+}
+},
+{
+type: "images",
+content: {
+src: "/public/images/conditions/r11/condition-filter.png",
+alt: "Left-hand pane showing 'Filter pages by condition' dropdown to view pages with specific conditions applied",
+caption: "Left-hand pane showing 'Filter pages by condition' dropdown to view pages with specific conditions applied"
+}
+}
+]
+},
+{
+type: "findings",
+content: [
+"Placement / discoverability: Page conditions and repeater questions only appeared on a separate page after saving a
+question, causing uncertainty. Participants expected page heading, guidance, and conditions to appear earlier in the
+flow. Some felt conditions were 'hidden' and wanted them more prominent.",
+"Existing vs new condition: Participants often clicked 'Add an existing condition' first (because it appeared
+first), before realising they should create a new one.",
+"Setup experience: Mixed - some found it simple and intuitive; others struggled. Not obvious that conditions only
+work if questions are on separate pages. Some put two questions on one page and hit issues.",
+"Terminology: The word 'operator' confused people; they preferred familiar terms like 'condition' or 'options'. One
+participant said setting a condition felt like 'working backwards' (starting from the answer instead of the question).",
+"Preview & checking conditions: Some had trouble finding or using preview to check conditions. Participants missed
+the 'filter by conditions' dropdown - it didn't mean much to them. They wanted a flow chart view of the routing, but
+instead clicked through the prototype to test conditions."
+]
+},
+{
+type: "quotes",
+content: [
+"I'm slightly confused as to why these are sort of offered to me at this point and not offered to me when I was
+creating the question page. (P5)",
+"So I'm not clear what it means by existing because I haven't created this yet. (P4)",
+"Filter pages by condition didn't mean a lot… I just skipped over it. (P1)",
+"I know the word filter is accurate, but for me it's just like seeing the conditional journeys or something. (P3)"
+]
+}
+]
+},
+{
+title: "Round 2 - May/June 2024",
+summary: "Initial testing of conditions feature and content clarity",
+sections: [
+{
+type: "content",
+content: "**What was tested:** Initial conditions feature and content clarity\n\n**Participants:** 1 x BAU working with
+mainly Environment Agency (Whitehall),
+1 x Environment Agency (Fishing rod licenses),
+1 x BAU working with Trade - (Whitehall),
+1 x BAU updating gov.uk/intranet - (Whitehall)
+"
+},
+{
+type: "details",
+summary: "Screens that were tested",
+content: "",
+images: [
+{
+src: "/public/images/conditions/r2/add.png",
+alt: "Add or change conditions page with 'Add condition: Enter...' form field and guidance text",
+caption: "Add or change conditions page with 'Add condition: Enter...' form field and guidance text"
+}
+],
+items: [
+{
+type: "images",
+content: {
+src: "/public/images/conditions/r2/name.png",
+alt: "Condition name entry form with text input field for entering a unique condition name",
+caption: "Condition name entry form with text input field for entering a unique condition name"
+}
+},
+{
+type: "images",
+content: {
+src: "/public/images/conditions/r2/select.png",
+alt: "Question selection interface showing available questions to base the condition on",
+caption: "Question selection interface showing available questions to base the condition on"
+}
+},
+{
+type: "images",
+content: {
+src: "/public/images/conditions/r2/select-answer.png",
+alt: "Answer selection screen showing radio button options for pet type: dog, cat, or hamster",
+caption: "Answer selection screen showing radio button options for pet type: dog, cat, or hamster"
+}
+}
+]
+},
+{
+type: "findings",
+content: [
+"Tested scenario for creating a form with conditional branching (e.g. pets → dogs → dog's age)",
+"The label 'Conditions' was not clear to all participants, some needed prompting",
+"'Add or change conditions' page: not clear what it does",
+"'Add condition: Enter …' needed content revision",
+"'Add condition: select …' was clear",
+"Overall, both the copy and the logic behind conditional questions were clear once understood"
+]
+}
+]
+}
+] %}

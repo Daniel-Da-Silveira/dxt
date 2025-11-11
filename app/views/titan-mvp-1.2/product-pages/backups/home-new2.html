@@ -1,0 +1,745 @@
+{% extends "layouts/main.html" %}
+{% from "components/product-service-header/macro.njk" import productServiceHeader %}
+
+{% block pageTitle %}
+Home – {{ serviceName }} – GOV.UK Prototype Kit
+{% endblock %}
+
+{# {% block beforeContent %}
+{{ govukBackLink({
+text: "Back",
+href: "javascript:window.history.back()"
+}) }}
+{% endblock %} #}
+
+{% block header %}
+{{ productServiceHeader({
+organisationName: "Defra",
+productName: "Form Designer",
+serviceName: "",
+homepageLink: "/titan-mvp-1.2/product-pages/homepage",
+signInLink: "/titan-mvp-1.2/library",
+navigationItems: [
+{ href: "/titan-mvp-1.2/product-pages/about", text: "About", id: "nav-about" },
+
+{ href: "/titan-mvp-1.2/product-pages/get-started", text: "Get started", id: "nav-get-started" },
+{ href: "/titan-mvp-1.2/product-pages/features", text: "Features", id: "nav-features" },
+{ href: "/titan-mvp-1.2/product-pages/resources", text: "Resources", id: "nav-resources" },
+{ href: "/titan-mvp-1.2/product-pages/support", text: "Support", id: "nav-support" }
+],
+activeLinkId: "nav-home"
+}) }}
+
+
+
+
+{# Custom masthead implementation that allows positioning "What's new" content in the right column #}
+<div class="x-govuk-masthead x-govuk-masthead--inverse" style="background-color: #00703c; color: white;">
+    <div class="govuk-width-container">
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-two-thirds-from-desktop">
+                <h1 class="x-govuk-masthead__title">
+                    Create and publish Defra forms on GOV.UK
+                </h1>
+                <p class="x-govuk-masthead__description">
+                    Make it easier for the public to submit information to Defra.
+                </p>
+                <a href="/titan-mvp-1.2/onboarding/sign-in" role="button" draggable="false"
+                    class="govuk-button govuk-button--inverse govuk-button--start" data-module="govuk-button">
+                    Sign in
+                    <svg class="govuk-button__start-icon" xmlns="http://www.w3.org/2000/svg" width="17.5" height="19"
+                        viewBox="0 0 33 40" aria-hidden="true" focusable="false">
+                        <path fill="currentColor" d="M0 0h13l20 20-20 20H0l20-20z" />
+                    </svg>
+                </a>
+            </div>
+            <div class="govuk-grid-column-one-third-from-desktop">
+                {# "What's new" content positioned where the image would be, following NHS pattern #}
+                <div class="govuk-card govuk-card--feature govuk-!-margin-top-6"
+                    style="background-color:transparent; border: 1px solid #EFF6F3; margin: 0; padding: 0; min-height: fit-content; max-height: fit-content">
+                    <div class="govuk-card__content" style="padding: 20px;">
+                        <h2 class="govuk-card__heading govuk-heading-m" style="margin-top: 0; color: white;">
+                            <a href="#" class="govuk-link govuk-link--inverse">What's new</a>
+                        </h2>
+                        <p class="govuk-body" style="color: white; margin-bottom: 12px;">
+                            New conditions and
+                            accessibility improvements and updates to preview panel functionality.
+                        </p>
+                        {# <p class="govuk-body"
+                            style="color: white; margin-bottom: 0!important; padding-bottom: 0!important;">
+                            <a href="#" class="govuk-link govuk-link--inverse">Read the full
+                                release notes</a>.
+                        </p> #}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+</div>
+
+{% endblock %}
+
+{% block content %}
+
+{# Simplified feature layout with each feature on its own row #}
+<section class="">
+
+    {# Feature 1: Build accessible forms #}
+    <div class="govuk-grid-row govuk-!-margin-bottom-6">
+        <div class="govuk-grid-column-one-half">
+            <h2 class="govuk-heading-l">Build accessible forms</h2>
+            <p class="govuk-body">Create pages with GOV.UK components, validation and guidance built in. Build forms
+                that meet accessibility standards and provide a great user experience.</p>
+            {# <p class="govuk-body">Use our intuitive editor to add questions, set validation rules, and create
+                conditional logic that shows or hides content based on user responses.</p> #}
+            <p class="govuk-body">
+                <a class="govuk-link" href="/titan-mvp-1.2/product-pages/features">Read more about form features</a>
+            </p>
+        </div>
+        <div class="govuk-grid-column-one-half">
+            <img src="/public/images/accessibility-figure.svg" class="images__width_100"
+                alt="Preview panel showing form editing interface">
+        </div>
+    </div>
+
+    <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+
+    {# Feature 2: Page conditions #}
+    <div class="govuk-grid-row govuk-!-margin-bottom-6">
+        <div class="govuk-grid-column-one-half">
+            <h2 class="govuk-heading-l">Page conditions</h2>
+            <p class="govuk-body">Show pages based on answers, and manage all conditions in one place.</p>
+            <p class="govuk-body">
+                <a class="govuk-link" href="/titan-mvp-1.2/product-pages/features">Learn about conditional logic</a>
+            </p>
+        </div>
+        <div class="govuk-grid-column-one-half">
+            <img src="/public/images/conditions-figure.svg" class="images__width_100"
+                alt="Diagram showing conditional form flow">
+        </div>
+    </div>
+
+    <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+
+    {# Feature 3: Preview and collaborate #}
+    <div class="govuk-grid-row govuk-!-margin-bottom-6">
+        <div class="govuk-grid-column-one-half">
+            <h2 class="govuk-heading-l">Preview and collaborate</h2>
+            <p class="govuk-body">Share draft previews, review changes and keep an audit trail of edits. Test your forms
+                before publishing to ensure they work as expected.</p>
+            <p class="govuk-body">Use the interactive preview panel to see exactly how your form will appear to users,
+                and collaborate with team members to refine the user experience.</p>
+            <p class="govuk-body">
+                <a class="govuk-link" href="/titan-mvp-1.2/product-pages/features">Explore preview features</a>
+            </p>
+        </div>
+        <div class="govuk-grid-column-one-half">
+            <img src="/public/images/previewflow.gif" class="images__width_100"
+                alt="Preview panel showing form editing interface">
+            {#
+            <script src="https://unpkg.com/@lottiefiles/dotlottie-wc@0.6.2/dist/dotlottie-wc.js" type="module"></script>
+            <dotlottie-wc src="https://lottie.host/3e086f7e-830d-4b9a-8dcd-eec6841be36d/bNuAroXo6x.lottie" speed="1"
+                class="images__width_100" style="min-height: 300px;" mode="forward" loop autoplay></dotlottie-wc> #}
+        </div>
+    </div>
+
+    <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+
+    {# Feature 4: Consistent labels and error messages #}
+    <div class="govuk-grid-row govuk-!-margin-bottom-6">
+        <div class="govuk-grid-column-one-half">
+            <h2 class="govuk-heading-l">Consistent labels and error messages</h2>
+            {# <p class="govuk-body">
+                Each question's short description automatically generates both error messages (using GOV.UK Design
+                System templates)
+                and the labels shown on check answers pages and in confirmation emails. This makes your forms clearer
+                and more
+                consistent with other GOV.UK forms.
+            </p> #}
+
+            <p class="govuk-body">
+                Each question's short description automatically generates error messages (using GOV.UK Design System
+                templates) as well
+                as the labels shown on check answers pages and in confirmation emails. This keeps your forms consistent
+                with other GOV.UK forms, and saving
+                you from writing them yourself so you can focus on designing the rest of your form.
+            </p>
+
+            <p class="govuk-body">
+                <a class="govuk-link" href="/titan-mvp-1.2/product-pages/features">Explore error message features</a>
+            </p>
+        </div>
+        <div class="govuk-grid-column-one-half">
+            <img src="/public/images/errors.gif" class="images__width_100"
+                alt="Preview panel showing form editing interface">
+            {#
+            <script src="https://unpkg.com/@lottiefiles/dotlottie-wc@0.6.2/dist/dotlottie-wc.js" type="module"></script>
+            <dotlottie-wc src="https://lottie.host/3e086f7e-830d-4b9a-8dcd-eec6841be36d/bNuAroXo6x.lottie" speed="1"
+                class="images__width_100" style="min-height: 300px;" mode="forward" loop autoplay></dotlottie-wc> #}
+        </div>
+    </div>
+
+    <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+
+    {# Feature 5: Save progress #}
+    <div class="govuk-grid-row govuk-!-margin-bottom-6">
+        <div class="govuk-grid-column-one-half">
+            <h2 class="govuk-heading-l">Let users save their progress and come back to it later</h2>
+            <p class="govuk-body">
+                People can save their progress at any point and finish later. We email a
+                magic link. When they return, they confirm a security answer and carry on
+                from where they left off. No account needed.
+            </p>
+
+            <p class="govuk-body">
+                <a class="govuk-link" href="/titan-mvp-1.2/product-pages/features">Learn about save and return</a>
+            </p>
+        </div>
+        <div class="govuk-grid-column-one-half">
+            <img src="/public/images/save-exit.svg" class="images__width_100"
+                alt="Save and return functionality illustration">
+        </div>
+    </div>
+
+    <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+
+    {# Feature 6: Data retrieval options #}
+    <div class="govuk-grid-row govuk-!-margin-bottom-6">
+        <div class="govuk-grid-column-one-half">
+            <h2 class="govuk-heading-l">Choose how to retrieve submission data</h2>
+            <p class="govuk-body">
+                Flexible options for accessing and managing form submission data. Choose the method that best fits your
+                workflow and requirements.
+            </p>
+
+            <p class="govuk-body">
+                <a class="govuk-link" href="/titan-mvp-1.2/product-pages/features">Learn about data retrieval</a>
+            </p>
+        </div>
+        <div class="govuk-grid-column-one-half">
+            <img src="/public/images/outputs.svg" class="images__width_100" alt="Data retrieval options illustration">
+        </div>
+    </div>
+
+    <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+
+    {# Feature 7: Add another pattern #}
+    <div class="govuk-grid-row govuk-!-margin-bottom-6">
+        <div class="govuk-grid-column-one-half">
+            <h2 class="govuk-heading-l">Collect the same information for several items</h2>
+            <p class="govuk-body">
+                Based on the <a href="https://design-system.dwp.gov.uk/patterns/add-another-thing"
+                    class="govuk-link govuk-link--no-visited-state">DWP Design System 'Add another thing' pattern</a>,
+                this pattern is used when people need to give the same details about more than one thing. For example,
+                dependants, vehicles or conditions. The questions repeat one item at a time, and users can review,
+                change or remove items before moving on. This keeps the journey simple and clear.
+            </p>
+
+            <p class="govuk-body">
+                <a class="govuk-link" href="/titan-mvp-1.2/product-pages/features">Learn about the add another
+                    pattern</a>
+            </p>
+        </div>
+        <div class="govuk-grid-column-one-half">
+            <img src="/public/images/add-another.svg" class="images__width_100" alt="Add another pattern illustration">
+        </div>
+    </div>
+
+    <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+
+    {# Feature 8: File upload #}
+    <div class="govuk-grid-row govuk-!-margin-bottom-6">
+        <div class="govuk-grid-column-one-half">
+            <h2 class="govuk-heading-l">Let users upload more than one file at a time</h2>
+
+            <p class="govuk-body">
+                Follows principles from the HMRC <a
+                    href="https://design.tax.service.gov.uk/hmrc-design-patterns/file-upload/"
+                    class="govuk-link govuk-link--no-visited-state">file upload pattern</a>. Users can upload multiple
+                files, and see their progress and status as they are uploaded to their form.
+            </p>
+
+            <ul class="govuk-list govuk-list--bullet">
+                <li>shows and announces progress while uploading and keeps the button visible to add more</li>
+                <li>lets users remove or replace individual files before continuing</li>
+                <li>validates type and size per file and explains any errors in plain English</li>
+            </ul>
+
+            <p class="govuk-body">
+                <a class="govuk-link" href="/titan-mvp-1.2/product-pages/features">See file upload details</a>
+            </p>
+        </div>
+        <div class="govuk-grid-column-one-half">
+            <img src="/public/images/files.gif" class="images__width_100" alt="File upload interface demonstration">
+
+            {#
+        </div>
+    </div> #}
+
+    <style>
+        @keyframes blink {
+
+            0%,
+            50% {
+                opacity: 1;
+            }
+
+            51%,
+            100% {
+                opacity: 0;
+            }
+        }
+    </style>
+    </div>
+    </div>
+
+    <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+
+    {# Feature 9: Developer plugin #}
+    <div class="govuk-grid-row govuk-!-margin-bottom-6">
+        <div class="govuk-grid-column-one-half">
+            <h2 class="govuk-heading-l">Developer plugin</h2>
+            <p class="govuk-body">Use the plugin to add form pages within your service codebase. Integrate form
+                functionality directly into your existing applications.</p>
+            <p class="govuk-body">
+                <a class="govuk-link" href="#">Read the documentation</a>
+            </p>
+        </div>
+        <div class="govuk-grid-column-one-half">
+            <svg viewBox="0 0 360 120" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false"
+                class="images__width_100">
+                <rect x="0" y="0" width="360" height="120" fill="#ffffff" />
+                <rect x="20" y="24" width="224" height="16" rx="3" fill="#e5e6e7" />
+                <rect x="20" y="52" width="180" height="16" rx="3" fill="#e5e6e7" />
+                <rect x="20" y="80" width="140" height="16" rx="3" fill="#d0d3d6" />
+                <rect x="260" y="24" width="80" height="72" rx="6" fill="#f3f2f1" />
+            </svg>
+        </div>
+    </div>
+</section>
+
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+        <p class="govuk-body">
+            <a href="/titan-mvp-1.2/product-pages/about" class="govuk-link govuk-link--no-visited-state">Learn more
+                about
+                the Defra Forms team and our work to improve online forms</a>.
+        </p>
+    </div>
+</div>
+</div>
+</div>
+
+<style>
+    /* --- Feature grid (Cognito-style cards, adapted to GOV.UK) --- */
+    .feature-grid-container {}
+
+    .feature-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+
+    @media (min-width: 40.0625em) {
+
+        /* tablet */
+        .feature-grid {
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+    }
+
+    @media (min-width: 63.9375em) {
+
+        /* desktop */
+        .feature-grid {
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+        }
+    }
+
+    .feature-card {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        min-height: 260px;
+        padding: 24px;
+        border: 1px solid #b1b4b6;
+        /* GOV.UK mid-grey border */
+        border-radius: 10px;
+        background: #ffffff;
+        box-shadow: 0 1px 0 rgba(11, 12, 12, 0.05);
+        transition: transform .12s ease-out, box-shadow .12s ease-out, border-color .12s ease-out;
+    }
+
+    .feature-card:hover,
+    .feature-card:focus-within {
+        transform: translateY(-2px);
+        border-color: #b1b4b6;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    }
+
+    .feature-card .govuk-heading-m {
+        margin: 0 0 8px 0;
+    }
+
+    .feature-card .govuk-body {
+        margin: 0;
+    }
+
+    .feature-card__cta {
+        margin-top: 12px;
+    }
+
+    .feature-card__thumb {
+        margin-top: auto;
+        /* anchors the thumbnail at the bottom of the card */
+        background: #ffffff;
+        border: 1px solid #b1b4b6;
+        border-radius: 8px;
+        overflow: hidden;
+    }
+
+    /* Force a 16:9 display area and crop video to fill so no black side bars */
+    .feature-card__thumb--16x9 {
+        aspect-ratio: 16 / 9;
+    }
+
+    .feature-card__thumb--16x9 video {
+        height: 100%;
+        object-fit: cover;
+        object-position: center;
+        background: #ffffff;
+    }
+
+    .feature-card__thumb img,
+    .feature-card__thumb svg,
+    .feature-card__thumb video {
+        display: block;
+        width: 100%;
+        height: auto;
+    }
+
+    .feature-card__icon {
+        width: 48px;
+        height: 48px;
+        border-radius: 50%;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 12px;
+        background: rgba(255, 255, 255, 0.6);
+        border: 1px solid rgba(0, 0, 0, 0.05);
+    }
+
+    .feature-card__icon svg {
+        width: 28px;
+        height: 28px;
+    }
+
+    /* subtle status badge (for "Coming soon") */
+    .feature-card__badge {
+        position: absolute;
+        top: 8px;
+        right: 8px;
+    }
+
+    /* Variant backgrounds using GOV.UK palette tints (approx of govuk-tint) */
+    .feature-card--mint {
+        background: #e6f1ec;
+        border-color: #80b89e;
+    }
+
+    /* green 90% bg, 50% border */
+    .feature-card--sand {
+        background: #fffce6;
+        border-color: #ffee80;
+    }
+
+    /* yellow 90% bg, 50% border */
+    .feature-card--peach {
+        background: #fef1eb;
+        border-color: #fabb9c;
+    }
+
+    /* orange 90% bg, 50% border */
+    .feature-card--ice {
+        background: #e8f1f8;
+        border-color: #8eb8dc;
+    }
+
+    /* blue 90% bg, 50% border */
+    .feature-card--lemon {
+        background: #fffce6;
+        border-color: #ffee80;
+    }
+
+    /* yellow 90% bg, 50% border */
+    .feature-card--lilac {
+        background: #edeaf4;
+        border-color: #a696c8;
+    }
+
+
+    .images {
+        &__width_100 {
+            width: 100%;
+            height: auto;
+            max-height: 120px;
+        }
+
+        &__width_42 {
+            width: 42%;
+            height: auto;
+        }
+
+        &__vertical_align_top {
+            vertical-align: top;
+        }
+    }
+
+
+    /* purple 90% bg, 50% border */
+
+    /* If moving this styling into application.scss, use the Sass API to stay in sync with GOV.UK Frontend:
+    .feature-card--mint { background: govuk-tint($govuk-success-colour, 90%); border-color: govuk-tint($govuk-success-colour, 50%); }
+    .feature-card--sand { background: govuk-tint(govuk-colour("yellow"), 90%); border-color: govuk-tint(govuk-colour("yellow"), 50%); }
+    .feature-card--peach { background: govuk-tint(govuk-colour("orange"), 90%); border-color: govuk-tint(govuk-colour("orange"), 50%); }
+    .feature-card--ice  { background: govuk-tint($govuk-brand-colour, 90%); border-color: govuk-tint($govuk-brand-colour, 50%); }
+    .feature-card--lemon{ background: govuk-tint(govuk-colour("yellow"), 90%); border-color: govuk-tint(govuk-colour("yellow"), 50%); }
+    .feature-card--lilac{ background: govuk-tint(govuk-colour("purple"), 90%); border-color: govuk-tint(govuk-colour("purple"), 50%); }
+    */
+
+    /* Optional: darker text on tinted backgrounds for contrast */
+    .feature-card--mint .govuk-body,
+    .feature-card--sand .govuk-body,
+    .feature-card--peach .govuk-body,
+    .feature-card--ice .govuk-body,
+    .feature-card--lemon .govuk-body,
+    .feature-card--lilac .govuk-body {
+        color: #0b0c0c;
+    }
+
+    /* Enhanced styling inspired by Notion's visual concepts while maintaining GOV.UK Design System */
+    .govuk-grid-row {
+        display: flex;
+        flex-wrap: wrap;
+    }
+
+    .govuk-grid-column-full,
+    .govuk-grid-column-one-third-from-desktop {
+        display: flex;
+    }
+
+    .govuk-card--feature {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        transition: all 0.2s ease-in-out;
+        border: 2px solid #b1b4b6;
+        background-color: #ffffff;
+    }
+
+    /* .govuk-card--feature:hover {
+        border-color: #0b0c0c;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    } */
+
+    .govuk-card__content {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        /* padding: 1.5rem; */
+    }
+
+    .govuk-card__header {
+        margin-bottom: 1rem;
+        padding-bottom: 0.5rem;
+        border-bottom: 1px solid #d8dde0;
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+    }
+
+    .govuk-card__header h3 {
+        margin: 0;
+        color: #0b0c0c;
+    }
+
+    .feature-icon {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 32px;
+        height: 32px;
+        flex-shrink: 0;
+    }
+
+    .govuk-card__content p,
+    .govuk-card__content ul {
+        flex: 1;
+        margin-bottom: 0;
+    }
+
+    .govuk-card--coming-soon {
+        /* opacity: 0.8; */
+        background-color: #f8f9fa;
+    }
+
+    /* .govuk-card--coming-soon:hover {
+        opacity: 1;
+        background-color: #ffffff;
+    } */
+
+    .govuk-inset-text {
+        border-left: 4px solid #00703c;
+        background-color: #f8f9fa;
+        padding: 1.5rem;
+        margin: 2rem 0;
+    }
+
+    .govuk-body-l {
+        font-size: 1.25rem;
+        line-height: 1.5;
+    }
+
+    /* Enhanced spacing for better visual hierarchy */
+    .govuk-heading-l {
+        margin-bottom: 1.5rem;
+    }
+
+    .govuk-heading-m {
+        margin-bottom: 1rem;
+    }
+
+    /* Improved card spacing */
+    .govuk-card {
+        margin-bottom: 1rem;
+    }
+
+    /* GOV.UK Related Navigation Component Styles */
+    .gem-c-related-navigation {
+        border-top: 2px solid #00703c;
+        margin-bottom: 60px;
+        color: #0b0c0c;
+    }
+
+    .gem-c-related-navigation__main-heading {
+        margin-top: 15px;
+        margin-bottom: 10px;
+        font-family: "GDS Transport", arial, sans-serif;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        font-weight: 700;
+        font-size: 1.1875rem;
+        line-height: 1.3157894737;
+    }
+
+    .gem-c-related-navigation__nav-section {
+        margin-bottom: 30px;
+    }
+
+    .gem-c-related-navigation__link-list {
+        padding: 0;
+        margin: 0;
+        list-style: none;
+        margin-bottom: 1.25em;
+    }
+
+    .gem-c-related-navigation__link {
+        list-style-type: none;
+        margin-top: 15px;
+        font-family: "GDS Transport", arial, sans-serif;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        font-weight: 400;
+        font-size: 1rem;
+        line-height: 1.45;
+    }
+
+    @media (min-width: 40.0625em) {
+        .gem-c-related-navigation__link {
+            line-height: 1.28;
+        }
+    }
+
+    @media all {
+        .govuk-link {
+            font-family: "GDS Transport", arial, sans-serif;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            text-decoration: underline;
+            text-decoration-thickness: max(1px, .0625rem);
+            text-underline-offset: .1578em;
+        }
+    }
+
+    .gem-c-related-navigation__section-link {
+        font-weight: bold;
+    }
+
+    .gem-c-related-navigation__section-link--other {
+        font-weight: normal;
+    }
+</style>
+
+<script>
+    document.querySelectorAll('.feature-card__thumb img').forEach(img => {
+        const still = img.getAttribute('src');
+        const anim = img.dataset.gif;
+        const card = img.closest('.feature-card');
+
+        const play = () => img.src = anim;
+        const stop = () => img.src = still;
+
+        card.addEventListener('mouseenter', play);
+        card.addEventListener('mouseleave', stop);
+        card.addEventListener('focusin', play);
+        card.addEventListener('focusout', stop);
+
+        // Respect reduced motion
+        if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+            card.removeEventListener('mouseenter', play);
+            card.removeEventListener('focusin', play);
+        }
+    });
+</script>
+<script>
+    (function () {
+        var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        var cards = document.querySelectorAll('.feature-card');
+        cards.forEach(function (card) {
+            var video = card.querySelector('.feature-card__thumb video');
+            if (!video) return;
+
+            function play() {
+                if (reduceMotion) return;
+                try {
+                    video.currentTime = 0;
+                    var p = video.play();
+                    if (p && p.catch) { p.catch(function () { /* ignore autoplay block */ }); }
+                } catch (e) { }
+            }
+            function stop() {
+                try { video.pause(); } catch (e) { }
+                try { video.currentTime = 0; } catch (e) { }
+            }
+
+            card.addEventListener('mouseenter', play);
+            card.addEventListener('mouseleave', stop);
+            card.addEventListener('focusin', play);
+            card.addEventListener('focusout', stop);
+
+            if ('IntersectionObserver' in window) {
+                var io = new IntersectionObserver(function (entries) {
+                    entries.forEach(function (entry) { if (!entry.isIntersecting) stop(); });
+                }, { threshold: 0.1 });
+                io.observe(video);
+            }
+        });
+    })();
+</script>
+{% endblock %}

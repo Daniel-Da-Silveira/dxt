@@ -1,0 +1,125 @@
+{% extends "layouts/main.html" %}
+
+{% from "components/service-header/macro.njk" import serviceHeader %}
+{% from "govuk/components/summary-list/macro.njk" import govukSummaryList %}
+{% from "govuk/components/notification-banner/macro.njk" import govukNotificationBanner %}
+{%- from "govuk/components/table/macro.njk" import govukTable -%}
+
+{% set pageName = "Manage users" %}
+
+{% block header %}
+{{ serviceHeader({
+organisationName: "Defra",
+productName: "Form Designer",
+serviceName: "",
+containerClasses: containerClasses,
+accountName: "Chris Smith ",
+homepageLink: "/",
+signOutLink: "/onboarding/sign-out-confirmation",
+navigationItems: [
+{ href: "/titan-mvp-1.2/roles/my-account.html", text: "My account", id: "my-account" },
+{ href: "/titan-mvp-1.2/roles/manage-users.html", text: "Manage users", id: "manage-users" }
+],
+activeLinkId: "manage-users"
+}) }}
+
+<div class="x-govuk-masthead x-govuk-masthead--large">
+    <div class="govuk-width-container">
+        {{ govukBackLink({ classes: "govuk-back-link--inverse govuk-!-margin-bottom-0", text: "Back to form library",
+        href: "/titan-mvp-1.2/library.html" }) }}
+
+        <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible"
+            style="border-bottom: 1px solid white; margin-bottom: 0" />
+
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-full-from-desktop">
+                <h1 class="x-govuk-masthead__title">
+                    Manage users
+                </h1>
+                <form action="/titan-mvp-1.2/roles/add-new-user.html" method="GET" novalidate>
+                    <div class="govuk-button-group">
+                        <button type="submit" class="govuk-button govuk-button--inverse" data-module="govuk-button">
+                            Add new user
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+        {% if data.successMessage %}
+        {{ govukNotificationBanner({
+        type: "success",
+        html: data.successMessage
+        }) }}
+        {% endif %}
+    </div>
+</div>
+
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+
+        {% if data.users and data.users.length > 0 %}
+        {% set rows = [] %}
+        {% for user in data.users %}
+        {% set row = [
+        {
+        html: '<span class="govuk-visually-hidden">User: </span>' + user.semanticName + '<br><span class="govuk-hint"
+            aria-hidden="true">' + user.email + '</span><span class="govuk-visually-hidden">Email: ' + user.email +
+            '</span>',
+        attributes: { "data-sort-value": user.semanticName },
+        classes: ""
+        },
+        {
+        text: user.role | capitalize,
+        attributes: { "data-sort-value": user.role },
+        classes: ""
+        },
+        {
+        html: '<a href="/titan-mvp-1.2/roles/edit-user.html?email=' + user.email + '"
+            class="govuk-link govuk-link--no-visited-state">Manage<span class="govuk-visually-hidden"> user ' +
+                user.semanticName + '</span></a>',
+        classes: ""
+        }
+        ] %}
+        {% set rows = rows.concat([row]) %}
+        {% endfor %}
+
+        {{ govukTable({
+        attributes: {
+        "data-module": "moj-sortable-table"
+        },
+        caption: "Users",
+        captionClasses: "govuk-table__caption--m",
+        firstCellIsHeader: false,
+        head: [
+        {
+        text: "Name",
+        attributes: {
+        "aria-sort": "ascending",
+        "scope": "col"
+        }
+        },
+        {
+        text: "Role",
+        attributes: {
+        "aria-sort": "none",
+        "scope": "col"
+        }
+        },
+        {
+        text: "Actions",
+        scope: "col"
+        }
+        ],
+        rows: rows
+        }) }}
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

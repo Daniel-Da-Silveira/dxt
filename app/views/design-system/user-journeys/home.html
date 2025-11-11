@@ -6,19 +6,56 @@ User journeys – {{ serviceName }} – GOV.UK Prototype Kit
 
 {% from "components/service-header/macro.njk" import serviceHeader %}
 
+{% macro imagePreview(imageData) %}
+<div class="preview-section">
+  <span class="govuk-caption-m govuk-!-margin-bottom-1">{{ imageData.previewLabel | default("Preview") }}</span>
+  <div class="image-container govuk-!-margin-bottom-6" role="region"
+    aria-labelledby="image-heading-{{ loop.index | default(1) }}">
+    <h2 id="image-heading-{{ loop.index | default(1) }}" class="govuk-visually-hidden">Preview of the image</h2>
+    <div class="image-wrapper">
+      <img src="{{ imageData.src }}" alt="{{ imageData.alt }}" class="preview-image"
+        style="max-width: 100%; height: auto; display: block;" tabindex="0">
+    </div>
+    <div class="image-controls" role="navigation" aria-label="Image controls">
+      <button class="image-tab zoom-out-button" type="button" aria-label="Zoom out" title="Zoom out" tabindex="0">
+        −
+      </button>
+      <button class="image-tab zoom-in-button" type="button" aria-label="Zoom in" title="Zoom in" tabindex="0">
+        +
+      </button>
+      <button class="image-tab reset-zoom-button" type="button" aria-label="Reset zoom" title="Reset zoom" tabindex="0">
+        ⌂
+      </button>
+      <button class="image-tab maximise-button" type="button" aria-label="Maximise image" title="Maximise image"
+        tabindex="0">
+        ⛶
+      </button>
+    </div>
+    <div class="zoom-info" aria-live="polite" aria-atomic="true">
+      <span class="govuk-body-s" style="color: white;">Zoom: <span class="zoom-level">100%</span></span>
+    </div>
+  </div>
+  {% if imageData.caption %}
+  <div class="markdown-content govuk-caption-m govuk-!-margin-bottom-1 govuk-!-margin-top-1"
+    data-markdown="{{ imageData.caption | replace('"', ' &quot;') | replace('\n', '\\n' ) }}"></div>
+  {% endif %}
+</div>
+{% endmacro %}
+
 {% set pageName = "Kit of parts - Defra Forms Designer" %}
 
 {% block header %}
 {{ serviceHeader({
 organisationName: "Defra",
 productName: "Forms Designer",
-serviceName: "Kit of parts",
+serviceName: "Design history",
 containerClasses: containerClasses,
 homepageLink: "/design-system/components.html",
+signOutLink: "/onboarding/sign-out-confirmation",
 navigationItems: [
-{ href: "/form-library", text: "Prototype", id: "prototype" },
-{ href: "/design-system/components.html", text: "Components", id: "components" },
-{ href: "/design-system/user-journeys/home.html", text: "User journeys", id: "user-journeys" } ],
+{ href: "/index", text: "Histories and prototypes", id: "histories-and-prototypes" },
+{ href: "/design-system/user-journeys/home.html", text: "User journeys", id: "user-journeys" }
+],
 activeLinkId: "user-journeys"
 }) }}
 
@@ -36,112 +73,140 @@ activeLinkId: "user-journeys"
 {% endblock %}
 
 {% block content %}
-<div class="govuk-width-container">
 
-    <div class="govuk-grid-row">
-        <!-- Masthead (two-thirds) -->
-        <div class="govuk-grid-column-two-thirds">
-            <h2 class="govuk-heading-l">Summary</h2>
-            <p class="govuk-body">The user journeys for creating pages follow <a class="govuk-link"
-                    href="https://www.gov.uk/service-manual/technology/using-progressive-enhancement"> progressive
-                    enhancement principles</a>, ensuring a quality service for all
-                users, regardless of whether JavaScript is enabled. While the experience may vary slightly for users
-                without JavaScript,
-                the outcomes remain consistent and accessible.</p>
 
-            <iframe style="border: 1px solid rgba(0, 0, 0, 0.1);" width="800" height="450"
-                src="https://embed.figma.com/design/1A9Tthy0CJeqp2rGNSKRjH/Defra-Form-Builder-flows?node-id=18388-32046&embed-host=share"
+<div class="govuk-grid-row">
+    <!-- Masthead (two-thirds) -->
+    <div class="govuk-grid-column-two-thirds">
+        <h2 class="govuk-heading-l">Summary</h2>
+        <p class="govuk-body">The user journeys for creating pages follow <a class="govuk-link"
+                href="https://www.gov.uk/service-manual/technology/using-progressive-enhancement"> progressive
+                enhancement principles</a>, ensuring a quality service for all
+            users, regardless of whether JavaScript is enabled. While the experience may vary slightly for users
+            without JavaScript,
+            the outcomes remain consistent and accessible.</p>
+
+        <iframe style="border: 1px solid rgba(0, 0, 0, 0.1);" width="100%" height="450"
+            src="https://embed.figma.com/design/hnNpbZGk8k3LghzVcugZqw/Feature-development?node-id=3-972&embed-host=share"
+            allowfullscreen></iframe>
+
+        {# <iframe style="border: 1px solid rgba(0, 0, 0, 0.1);" width="800" height="450"
+            src="https://embed.figma.com/design/1A9Tthy0CJeqp2rGNSKRjH/Defra-Form-Builder-flows?node-id=18388-32046&embed-host=share"
+            allowfullscreen></iframe> #}
+
+
+        <h2 class="govuk-heading-l govuk-!-margin-top-6">How it works (the basic flow without JavaScript)</h2>
+        <p class="govuk-body">This process repeats each time a user adds a new question to the page.</p>
+        <ul class="govuk-list govuk-list--number">
+            <li>
+                Select the type of page:
+                <ul class="govuk-list govuk-list--bullet">
+                    <li>question: Allows users to create a question on the page.</li>
+                    <li>guidance: Provides users with informational content only.</li>
+                </ul>
+            </li>
+            <li>
+                Configure the first question on the page:
+                <ul class="govuk-list govuk-list--bullet">
+                    <li>set a question label, for example, "What is your name?"</li>
+                    <li>optionally, add hint text to guide the user</li>
+                    <li><a class="govuk-link" href="/design-system/information-type/configuration-types">set
+                            specific question configurations</a>, such as whether the question is optional and <a
+                            class="govuk-link" href="/design-system/information-type/answer-limits">answer
+                            limits</a></li>
+                </ul>
+            </li>
+            <li>
+                Save the question and proceed to the page overview. From here, users can:
+                <ul class="govuk-list govuk-list--bullet">
+                    <li>edit the saved question if adjustments are needed.</li>
+                    <li><a class="govuk-link" href="/design-system/editor/previews-in-new-tab">preview</a> the
+                        current state of the page.</li>
+                    <li>add another question to the page.</li>
+                    <li><a class="govuk-link" href="/design-system/deletion/pages">delete the page</a> entirely if
+                        no longer needed.</li>
+                    <li>add a page heading and optional guidance text to provide context for users.</li>
+                    <li>enable the page to allow multiple responses (e.g., selecting multiple options).</li>
+                    <li><a class="govuk-link" href="/design-system/reordering/questions">re-order questions</a> (if
+                        more than one question has been added).</li>
+                </ul>
+            </li>
+            <li>
+                repeat the process to add more questions or configure additional pages.
+            </li>
+        </ul>
+
+
+
+        <h2 class="govuk-heading-l">View of user journey without Javascript</h2>
+        <div class="govuk-grid-column-full-from-desktop govuk-!-margin-bottom-6">
+
+            <iframe style="border: 1px solid rgba(0, 0, 0, 0.1);" width="100%" height="450"
+                src="https://embed.figma.com/design/1A9Tthy0CJeqp2rGNSKRjH/Defra-Form-Builder-flows?node-id=13385-245749&embed-host=share"
                 allowfullscreen></iframe>
 
 
-            <h2 class="govuk-heading-l govuk-!-margin-top-6">How it works (the basic flow without JavaScript)</h2>
-            <p class="govuk-body">This process repeats each time a user adds a new question to the page.</p>
-            <ul class="govuk-list govuk-list--number">
-                <li>
-                    Select the type of page:
-                    <ul class="govuk-list govuk-list--bullet">
-                        <li>question: Allows users to create a question on the page.</li>
-                        <li>guidance: Provides users with informational content only.</li>
-                    </ul>
-                </li>
-                <li>
-                    Configure the first question on the page:
-                    <ul class="govuk-list govuk-list--bullet">
-                        <li>set a question label, for example, "What is your name?"</li>
-                        <li>optionally, add hint text to guide the user</li>
-                        <li><a class="govuk-link" href="/design-system/information-type/configuration-types">set
-                                specific question configurations</a>, such as whether the question is optional and <a
-                                class="govuk-link" href="/design-system/information-type/answer-limits">answer
-                                limits</a></li>
-                    </ul>
-                </li>
-                <li>
-                    Save the question and proceed to the page overview. From here, users can:
-                    <ul class="govuk-list govuk-list--bullet">
-                        <li>edit the saved question if adjustments are needed.</li>
-                        <li><a class="govuk-link" href="/design-system/editor/previews-in-new-tab">preview</a> the
-                            current state of the page.</li>
-                        <li>add another question to the page.</li>
-                        <li><a class="govuk-link" href="/design-system/deletion/pages">delete the page</a> entirely if
-                            no longer needed.</li>
-                        <li>add a page heading and optional guidance text to provide context for users.</li>
-                        <li>enable the page to allow multiple responses (e.g., selecting multiple options).</li>
-                        <li><a class="govuk-link" href="/design-system/reordering/questions">re-order questions</a> (if
-                            more than one question has been added).</li>
-                    </ul>
-                </li>
-                <li>
-                    repeat the process to add more questions or configure additional pages.
-                </li>
-            </ul>
-
-
-
-            <h2 class="govuk-heading-l">View of user journey without Javascript</h2>
-            <div class="govuk-grid-column-full-from-desktop govuk-!-margin-bottom-6">
-
-                <iframe style="border: 1px solid rgba(0, 0, 0, 0.1);" width="100%" height="450"
-                    src="https://embed.figma.com/design/1A9Tthy0CJeqp2rGNSKRjH/Defra-Form-Builder-flows?node-id=13385-245749&embed-host=share"
-                    allowfullscreen></iframe>
-
-
-            </div>
-
-
-            <h2 class="govuk-heading-l govuk-!-margin-top-6">With JavaScript</h2>
-            <p class="govuk-body">When JavaScript is enabled the main differences are:</p>
-            <ul class="govuk-list govuk-list--bullet">
-                <li>the addition of a
-                    <a class="govuk-link" href="/design-system/editor/preview-panel">
-                        preview panel </a> that supports <a class="govuk-link"
-                        href="/design-system/editor/guided-input">
-                        guided input</a>
-                </li>
-                <li>the use of
-                    <a class="govuk-link" href="/design-system/editor/preview-panel">
-                        skip links </a> rather than buttons to view previews and navigate between the <a
-                        class="govuk-link" href="/design-system/editor/configuration-panel">
-                        configuration panel</a> and <a class="govuk-link" href="/design-system/editor/preview-panel">
-                        preview panel</a>
-                </li>
-            </ul>
-            <h2 class="govuk-heading-l govuk-!-m">View of user journey with Javascript</h2>
-            <div class="govuk-grid-column-full-from-desktop">
-
-                <iframe style="border: 1px solid rgba(0, 0, 0, 0.1);" width="100%" height="450"
-                    src="https://embed.figma.com/design/1A9Tthy0CJeqp2rGNSKRjH/Defra-Form-Builder-flows?node-id=13384-89841&embed-host=share"
-                    allowfullscreen></iframe>
-
-
-            </div>
         </div>
 
 
+        <h2 class="govuk-heading-l govuk-!-margin-top-6">With JavaScript</h2>
+        <p class="govuk-body">When JavaScript is enabled the main differences are:</p>
+        <ul class="govuk-list govuk-list--bullet">
+            <li>the addition of a
+                <a class="govuk-link" href="/design-system/editor/preview-panel">
+                    preview panel </a> that supports <a class="govuk-link" href="/design-system/editor/guided-input">
+                    guided input</a>
+            </li>
+            <li>the use of
+                <a class="govuk-link" href="/design-system/editor/preview-panel">
+                    skip links </a> rather than buttons to view previews and navigate between the <a class="govuk-link"
+                    href="/design-system/editor/configuration-panel">
+                    configuration panel</a> and <a class="govuk-link" href="/design-system/editor/preview-panel">
+                    preview panel</a>
+            </li>
+        </ul>
+        <h2 class="govuk-heading-l govuk-!-m">View of user journey with Javascript</h2>
+        <div class="govuk-grid-column-full-from-desktop">
+
+            <iframe style="border: 1px solid rgba(0, 0, 0, 0.1);" width="100%" height="450"
+                src="https://embed.figma.com/design/1A9Tthy0CJeqp2rGNSKRjH/Defra-Form-Builder-flows?node-id=13384-89841&embed-host=share"
+                allowfullscreen></iframe>
 
 
+        </div>
     </div>
 </div>
+
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-full govuk-grid-column-full-from-desktop">
+
+        <hr class="govuk-section-break govuk-section-break--xl govuk-section-break--visible">
+
+        <h2 class="govuk-heading-l govuk-!-margin-top-6">Simplified user journeys</h2>
+        {{ imagePreview({
+        src: "/public/images/onboarding.svg",
+        alt: "Screenshot of the Forms Designer onboarding interface showing user introduction, getting started guide, and initial setup process",
+        previewLabel: "Forms Designer Overview",
+        caption: ""
+        }) }}
+
+        {{ imagePreview({
+        src: "/public/images/form-creation.svg",
+        alt: "Screenshot of the Forms Designer interface showing the form creation workflow with drag-and-drop components, form fields, and preview panel",
+        previewLabel: "Forms Designer Overview",
+        caption: ""
+        }) }}
+
+        {{ imagePreview({
+        src: "/public/images/runner.svg",
+        alt: "Screenshot of the Forms Designer runner interface showing form execution, user journey flow, and interactive form elements",
+        previewLabel: "Forms Designer Overview",
+        caption: ""
+        }) }}
+    </div>
 </div>
+
+
 </div>
 
 
@@ -161,7 +226,562 @@ activeLinkId: "user-journeys"
     .moj-side-navigation__toggle:hover {
         text-decoration: underline;
     }
+
+    .image-container {
+        border: 1px solid #b1b4b6;
+        border-radius: 4px;
+        padding: 0;
+        overflow: hidden;
+        position: relative;
+        background-color: #f8f8f8;
+    }
+
+    .image-wrapper {
+        position: relative;
+        text-align: center;
+        min-height: 300px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .preview-image {
+        max-width: 100%;
+        height: auto;
+        display: block;
+        margin: 0 auto;
+    }
+
+    .image-controls {
+        position: absolute;
+        bottom: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 20;
+        display: flex;
+        gap: 8px;
+        opacity: 1;
+        background-color: rgba(0, 0, 0, 0.8);
+        border-radius: 12px;
+        padding: 6px 8px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    }
+
+    .image-tab {
+        background-color: transparent;
+        border: 2px solid transparent;
+        border-radius: 8px;
+        padding: 8px;
+        font-size: 18px;
+        line-height: 1;
+        text-decoration: none;
+        cursor: pointer;
+        color: white;
+        font-weight: 400;
+        box-shadow: none;
+        transition: all 0.2s ease;
+        font-family: "GDS Transport", arial, sans-serif;
+        min-width: 40px;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        vertical-align: middle;
+    }
+
+    .image-tab:hover {
+        background-color: rgba(255, 255, 255, 0.3);
+        border-color: rgba(255, 255, 255, 0.6);
+        color: white;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+    }
+
+    .image-tab:active {
+        background-color: rgba(255, 255, 255, 0.4);
+        border-color: rgba(255, 255, 255, 0.8);
+        color: white;
+        transform: translateY(1px);
+        box-shadow: 0 1px 4px rgba(0, 0, 0, 0.4);
+    }
+
+    .image-container.fullscreen {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100vh;
+        z-index: 9999;
+        background-color: white;
+    }
+
+    .image-container.fullscreen .image-tabs {
+        position: fixed;
+        z-index: 9999;
+        background-color: white;
+    }
+
+    .image-container.fullscreen .image-wrapper {
+        height: calc(100vh - 50px);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+    }
+
+    .image-container.fullscreen .preview-image {
+        max-width: 100%;
+        max-height: 100%;
+        width: auto;
+        height: auto;
+    }
+
+    .zoom-info {
+        position: absolute;
+        bottom: 20px;
+        right: 10px;
+        background-color: rgba(0, 0, 0, 0.95);
+        color: white;
+        padding: 8px 12px;
+        border-radius: 6px;
+        font-size: 14px;
+        font-weight: 500;
+        z-index: 20;
+        opacity: 1;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .preview-image {
+        transition: transform 0.1s ease;
+        cursor: grab;
+        user-select: none;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+    }
+
+    .preview-image:active {
+        cursor: grabbing;
+    }
+
+    .preview-image.zoomed {
+        transform-origin: center;
+        cursor: grab;
+    }
+
+    .preview-image.zoomed:active {
+        cursor: grabbing;
+    }
+
+    .image-wrapper {
+        overflow: hidden;
+        position: relative;
+        cursor: default;
+    }
+
+    .image-wrapper.panning {
+        cursor: grabbing;
+    }
+
+    .image-wrapper.panning .preview-image {
+        cursor: grabbing !important;
+    }
+
+    .image-tab:focus {
+        outline: 3px solid #fd0;
+        outline-offset: 0;
+        box-shadow: 0 0 0 3px #fd0;
+    }
+
+    .image-tab:focus:not(:active):not(:hover) {
+        background-color: #fd0;
+        border-color: #fd0;
+        color: #0b0c0c;
+    }
+
+    .preview-image:focus {
+        outline: 3px solid #fd0;
+        outline-offset: 0;
+        box-shadow: 0 0 0 3px #fd0;
+    }
+
+    .image-wrapper::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: radial-gradient(circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
+            transparent 0%,
+            transparent 15%,
+            rgba(0, 0, 0, 0.02) 25%,
+            rgba(0, 0, 0, 0.08) 45%,
+            rgba(0, 0, 0, 0.15) 100%);
+        pointer-events: none;
+        opacity: 0;
+        transition: opacity 0.2s ease-in-out;
+        z-index: 5;
+        border-radius: 8px;
+    }
+
+    .image-wrapper:hover::before {
+        opacity: 1;
+    }
+
+    /* Reduce motion for users who prefer it */
+    @media (prefers-reduced-motion: reduce) {
+        .image-wrapper::before {
+            transition: none;
+        }
+    }
+
+    .image-wrapper::after {
+        content: '';
+        position: absolute;
+        width: 32px;
+        height: 32px;
+        border: 2px solid #fd0;
+        border-radius: 50%;
+        background: rgba(253, 0, 0, 0.1);
+        box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.9), 0 0 0 3px rgba(253, 0, 0, 0.3);
+        transform: translate(-50%, -50%);
+        pointer-events: none;
+        opacity: 0;
+        transition: opacity 0.2s ease-in-out, transform 0.2s ease-in-out;
+        z-index: 6;
+        left: var(--mouse-x, 50%);
+        top: var(--mouse-y, 50%);
+    }
+
+    .image-wrapper:hover::after {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1.1);
+    }
+
+    .preview-image:focus+.image-wrapper::before,
+    .preview-image:focus+.image-wrapper::after {
+        opacity: 1;
+    }
+
+    .preview-image:focus+.image-wrapper::after {
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%) scale(1.2);
+    }
+
+    /* Reduce motion for users who prefer it */
+    @media (prefers-reduced-motion: reduce) {
+        .image-wrapper::after {
+            transition: none;
+        }
+
+        .image-wrapper:hover::after,
+        .preview-image:focus+.image-wrapper::after {
+            transform: translate(-50%, -50%);
+        }
+    }
 </style>
 
+<script>
+    // Image preview functionality
+    document.addEventListener('DOMContentLoaded', function () {
+      const maximiseButtons = document.querySelectorAll('.maximise-button');
+      const zoomInButtons = document.querySelectorAll('.zoom-in-button');
+      const zoomOutButtons = document.querySelectorAll('.zoom-out-button');
+      const resetZoomButtons = document.querySelectorAll('.reset-zoom-button');
+
+      // Maximize/minimize functionality
+      maximiseButtons.forEach(function (button) {
+        button.addEventListener('click', function (event) {
+          event.preventDefault();
+
+          const imageContainer = button.closest('.image-container');
+          const image = imageContainer.querySelector('.preview-image');
+
+          // Toggle fullscreen mode
+          if (imageContainer.classList.contains('fullscreen')) {
+            imageContainer.classList.remove('fullscreen');
+            button.textContent = '⛶';
+            button.setAttribute('aria-label', 'Maximise image');
+            button.setAttribute('title', 'Maximise image');
+            // Reset zoom when exiting fullscreen
+            resetImageZoom(image);
+          } else {
+            imageContainer.classList.add('fullscreen');
+            button.textContent = '✕';
+            button.setAttribute('aria-label', 'Exit fullscreen');
+            button.setAttribute('title', 'Exit fullscreen');
+          }
+        });
+      });
+
+      // Zoom in functionality
+      zoomInButtons.forEach(function (button) {
+        button.addEventListener('click', function (event) {
+          event.preventDefault();
+          const imageContainer = button.closest('.image-container');
+          const image = imageContainer.querySelector('.preview-image');
+          zoomImage(image, 1.2);
+        });
+      });
+
+      // Zoom out functionality
+      zoomOutButtons.forEach(function (button) {
+        button.addEventListener('click', function (event) {
+          event.preventDefault();
+          const imageContainer = button.closest('.image-container');
+          const image = imageContainer.querySelector('.preview-image');
+          zoomImage(image, 0.8);
+        });
+      });
+
+      // Reset zoom functionality
+      resetZoomButtons.forEach(function (button) {
+        button.addEventListener('click', function (event) {
+          event.preventDefault();
+          const imageContainer = button.closest('.image-container');
+          const image = imageContainer.querySelector('.preview-image');
+          resetImageZoom(image);
+        });
+      });
+
+      // Keyboard navigation
+      document.addEventListener('keydown', function (event) {
+        const focusedImage = document.querySelector('.preview-image:focus');
+        if (!focusedImage) return;
+
+        const imageContainer = focusedImage.closest('.image-container');
+        const zoomLevel = focusedImage.dataset.zoomLevel || 1;
+
+        // Only handle zoom keys when image is focused and no modifier keys
+        if (!event.ctrlKey && !event.metaKey) {
+          switch (event.key) {
+            case '+':
+            case '=':
+              event.preventDefault();
+              event.stopPropagation();
+              zoomImage(focusedImage, 1.2);
+              break;
+            case '-':
+              event.preventDefault();
+              event.stopPropagation();
+              zoomImage(focusedImage, 0.8);
+              break;
+            case '0':
+              event.preventDefault();
+              event.stopPropagation();
+              resetImageZoom(focusedImage);
+              break;
+            case 'ArrowUp':
+              event.preventDefault();
+              event.stopPropagation();
+              panImage(focusedImage, 0, -20);
+              break;
+            case 'ArrowDown':
+              event.preventDefault();
+              event.stopPropagation();
+              panImage(focusedImage, 0, 20);
+              break;
+            case 'ArrowLeft':
+              event.preventDefault();
+              event.stopPropagation();
+              panImage(focusedImage, -20, 0);
+              break;
+            case 'ArrowRight':
+              event.preventDefault();
+              event.stopPropagation();
+              panImage(focusedImage, 20, 0);
+              break;
+          }
+        }
+      });
+
+      // Mouse wheel zoom
+      document.addEventListener('wheel', function (event) {
+        const focusedImage = document.querySelector('.preview-image:focus');
+        if (!focusedImage) return;
+
+        if (event.ctrlKey || event.metaKey) {
+          event.preventDefault();
+          const zoomFactor = event.deltaY > 0 ? 0.9 : 1.1;
+          zoomImage(focusedImage, zoomFactor);
+        }
+      });
+
+      // Double-click to zoom in
+      document.addEventListener('dblclick', function (event) {
+        const focusedImage = document.querySelector('.preview-image:focus');
+        if (!focusedImage) return;
+
+        event.preventDefault();
+        const zoomFactor = 1.5;
+        zoomImage(focusedImage, zoomFactor);
+      });
+
+      // Mouse drag to pan
+      let isDragging = false;
+      let draggedImage = null;
+      let startX, startY, startTransformX, startTransformY;
+
+      document.addEventListener('mousedown', function (event) {
+        if (event.target.classList.contains('preview-image')) {
+          const image = event.target;
+          const zoomLevel = parseFloat(image.dataset.zoomLevel || 1);
+
+          if (zoomLevel > 1) {
+            isDragging = true;
+            draggedImage = image;
+            startX = event.clientX;
+            startY = event.clientY;
+
+            const transform = image.style.transform;
+            const match = transform.match(/translate\(([^,]+),\s*([^)]+)\)/);
+            startTransformX = match ? parseFloat(match[1]) : 0;
+            startTransformY = match ? parseFloat(match[2]) : 0;
+
+            image.closest('.image-wrapper').classList.add('panning');
+            image.style.cursor = 'grabbing';
+            event.preventDefault();
+          }
+        }
+      });
+
+      // Consolidated mousemove handler for both position tracking and dragging
+      document.addEventListener('mousemove', function (event) {
+        // Handle dragging functionality
+        if (isDragging && draggedImage) {
+          const deltaX = event.clientX - startX;
+          const deltaY = event.clientY - startY;
+
+          // Reduce sensitivity by dividing by 2
+          const newX = startTransformX + (deltaX / 2);
+          const newY = startTransformY + (deltaY / 2);
+
+          const currentZoom = parseFloat(draggedImage.dataset.zoomLevel || 1);
+          draggedImage.style.transform = `scale(${currentZoom}) translate(${newX}px, ${newY}px)`;
+        }
+
+        // Handle mouse position tracking for focus indicator
+        const imageWrappers = document.querySelectorAll('.image-wrapper');
+        imageWrappers.forEach(function (wrapper) {
+          const rect = wrapper.getBoundingClientRect();
+          const x = ((event.clientX - rect.left) / rect.width) * 100;
+          const y = ((event.clientY - rect.top) / rect.height) * 100;
+          wrapper.style.setProperty('--mouse-x', x + '%');
+          wrapper.style.setProperty('--mouse-y', y + '%');
+        });
+      });
+
+      document.addEventListener('mouseup', function () {
+        if (isDragging) {
+          isDragging = false;
+          if (draggedImage) {
+            draggedImage.style.cursor = 'grab';
+            draggedImage.closest('.image-wrapper').classList.remove('panning');
+            draggedImage = null;
+          }
+        }
+      });
+
+      // Touch support for mobile devices
+      let touchStartX, touchStartY, touchStartTransformX, touchStartTransformY;
+
+      document.addEventListener('touchstart', function (event) {
+        if (event.target.classList.contains('preview-image')) {
+          const image = event.target;
+          const zoomLevel = parseFloat(image.dataset.zoomLevel || 1);
+
+          if (zoomLevel > 1 && event.touches.length === 1) {
+            isDragging = true;
+            draggedImage = image;
+            touchStartX = event.touches[0].clientX;
+            touchStartY = event.touches[0].clientY;
+
+            const transform = image.style.transform;
+            const match = transform.match(/translate\(([^,]+),\s*([^)]+)\)/);
+            touchStartTransformX = match ? parseFloat(match[1]) : 0;
+            touchStartTransformY = match ? parseFloat(match[2]) : 0;
+
+            image.closest('.image-wrapper').classList.add('panning');
+            event.preventDefault();
+          }
+        }
+      });
+
+      document.addEventListener('touchmove', function (event) {
+        if (isDragging && draggedImage && event.touches.length === 1) {
+          const deltaX = event.touches[0].clientX - touchStartX;
+          const deltaY = event.touches[0].clientY - touchStartY;
+
+          // Reduce sensitivity by dividing by 2
+          const newX = touchStartTransformX + (deltaX / 2);
+          const newY = touchStartTransformY + (deltaY / 2);
+
+          const currentZoom = parseFloat(draggedImage.dataset.zoomLevel || 1);
+          draggedImage.style.transform = `scale(${currentZoom}) translate(${newX}px, ${newY}px)`;
+          event.preventDefault();
+        }
+      });
+
+      document.addEventListener('touchend', function () {
+        if (isDragging) {
+          isDragging = false;
+          if (draggedImage) {
+            draggedImage.closest('.image-wrapper').classList.remove('panning');
+            draggedImage = null;
+          }
+        }
+      });
+
+      // Helper functions
+      function zoomImage(image, factor) {
+        const currentZoom = parseFloat(image.dataset.zoomLevel || 1);
+        const newZoom = Math.max(0.1, Math.min(5, currentZoom * factor));
+
+        image.dataset.zoomLevel = newZoom;
+        image.classList.add('zoomed');
+
+        const currentTransform = image.style.transform;
+        const translateMatch = currentTransform.match(/translate\(([^,]+),\s*([^)]+)\)/);
+        const translateX = translateMatch ? translateMatch[1] : '0px';
+        const translateY = translateMatch ? translateMatch[2] : '0px';
+
+        image.style.transform = `scale(${newZoom}) translate(${translateX}, ${translateY})`;
+
+        // Update zoom level display
+        const zoomLevelElement = image.closest('.image-container').querySelector('.zoom-level');
+        if (zoomLevelElement) {
+          zoomLevelElement.textContent = Math.round(newZoom * 100) + '%';
+        }
+      }
+
+      function resetImageZoom(image) {
+        image.dataset.zoomLevel = 1;
+        image.classList.remove('zoomed');
+        image.style.transform = 'scale(1) translate(0px, 0px)';
+
+        // Update zoom level display
+        const zoomLevelElement = image.closest('.image-container').querySelector('.zoom-level');
+        if (zoomLevelElement) {
+          zoomLevelElement.textContent = '100%';
+        }
+      }
+
+      function panImage(image, deltaX, deltaY) {
+        const currentTransform = image.style.transform;
+        const zoomMatch = currentTransform.match(/scale\(([^)]+)\)/);
+        const translateMatch = currentTransform.match(/translate\(([^,]+),\s*([^)]+)\)/);
+
+        const currentZoom = zoomMatch ? parseFloat(zoomMatch[1]) : 1;
+        const currentX = translateMatch ? parseFloat(translateMatch[1]) : 0;
+        const currentY = translateMatch ? parseFloat(translateMatch[2]) : 0;
+
+        const newX = currentX + deltaX;
+        const newY = currentY + deltaY;
+
+        image.style.transform = `scale(${currentZoom}) translate(${newX}px, ${newY}px)`;
+      }
+    });
+</script>
 
 {% endblock %}

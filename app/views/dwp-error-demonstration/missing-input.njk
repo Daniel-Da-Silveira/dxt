@@ -1,0 +1,142 @@
+{% extends "layouts/main.html" %}
+
+{% block pageTitle %}
+  Missing Input Error - DWP Find an Address Plugin
+{% endblock %}
+
+{% block content %}
+
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+
+      <h1 class="govuk-heading-l">
+        Missing Input Error
+      </h1>
+
+      <p class="govuk-body">
+        This demonstrates the error message that appears when neither postcode nor building name/number is provided.
+      </p>
+
+      <div class="govuk-inset-text">
+        <p class="govuk-body"><strong>Error Message:</strong> "Enter a postcode for (short description)"</p>
+      </div>
+
+      <h2 class="govuk-heading-m">Example Form with Error</h2>
+
+      {{ govukErrorSummary({
+        titleText: "There is a problem",
+        errorList: [
+          {
+            text: "Enter a postcode to find your business address or enter address manually",
+            href: "#postcode"
+          }
+        ]
+      }) }}
+
+      <form method="post" autocomplete="off">
+        <fieldset class="govuk-fieldset" role="group" aria-describedby="lookup-error">
+          <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
+            <h1 class="govuk-fieldset__heading">
+              Find an address
+            </h1>
+          </legend>
+
+          {{ govukInput({
+            label: {
+              text: "Postcode"
+            },
+            classes: "govuk-input--width-10",
+            hint: {
+              text: "For example, AA3 1AB."
+            },
+            id: "postcode",
+            name: "postcode",
+            errorMessage: {
+              text: "Enter a postcode to find your business address or enter address manually"
+            },
+            value: ""
+          }) }}
+
+          {{ govukInput({
+            label: {
+              text: "Building number or name"
+            },
+            hint: {
+              text: "For example, 15 or Prospect Cottage."
+            },
+            id: "searchString",
+            name: "searchString",
+            value: ""
+          }) }}
+        </fieldset>
+
+        {{ govukButton({
+          text: "Find address"
+        }) }}
+      </form>
+
+      <h2 class="govuk-heading-m">More Examples for DEFRA Forms</h2>
+
+      <p class="govuk-body">Here are examples of how this error message would appear in different DEFRA form contexts:</p>
+
+      <h3 class="govuk-heading-s">Business/Organisation Addresses</h3>
+      <ul class="govuk-list govuk-list--bullet">
+        <li>"Enter a postcode for your business address to find an address"</li>
+        <li>"Enter a postcode for your registered office address to find an address"</li>
+        <li>"Enter a postcode for your trading address to find an address"</li>
+        <li>"Enter a postcode for your head office address to find an address"</li>
+      </ul>
+
+      <h3 class="govuk-heading-s">Site/Location Addresses</h3>
+      <ul class="govuk-list govuk-list--bullet">
+        <li>"Enter a postcode for the site address to find an address"</li>
+        <li>"Enter a postcode for the premises address to find an address"</li>
+        <li>"Enter a postcode for the facility address to find an address"</li>
+        <li>"Enter a postcode for the storage location to find an address"</li>
+      </ul>
+
+      <h3 class="govuk-heading-s">Agricultural/Land Addresses</h3>
+      <ul class="govuk-list govuk-list--bullet">
+        <li>"Enter a postcode for the farm address to find an address"</li>
+        <li>"Enter a postcode for the holding address to find an address"</li>
+        <li>"Enter a postcode for the land address to find an address"</li>
+        <li>"Enter a postcode for the field location to find an address"</li>
+      </ul>
+
+      <h3 class="govuk-heading-s">Contact Addresses</h3>
+      <ul class="govuk-list govuk-list--bullet">
+        <li>"Enter a postcode for the contact address to find an address"</li>
+        <li>"Enter a postcode for the correspondence address to find an address"</li>
+        <li>"Enter a postcode for the billing address to find an address"</li>
+        <li>"Enter a postcode for the delivery address to find an address"</li>
+      </ul>
+
+      <h3 class="govuk-heading-s">Emergency/Incident Addresses</h3>
+      <ul class="govuk-list govuk-list--bullet">
+        <li>"Enter a postcode for the incident location to find an address"</li>
+        <li>"Enter a postcode for the emergency contact address to find an address"</li>
+        <li>"Enter a postcode for the affected area to find an address"</li>
+      </ul>
+
+      <h3 class="govuk-heading-s">Error when user enters postcode but doesn't click "Find address"</h3>
+      <p class="govuk-body">If a user enters a postcode but tries to submit the form without clicking "Find address", they should see:</p>
+
+      <div class="govuk-inset-text">
+        <p class="govuk-body"><strong>Error message:</strong> "Enter a postcode to find (short description) or enter address manually"</p>
+      </div>
+
+      <p class="govuk-body">This error message is comprehensive because it:
+        <ul class="govuk-list govuk-list--bullet">
+          <li>Tells them what to do: "Enter a postcode to find"</li>
+          <li>Provides context: "(short description)"</li>
+          <li>Gives them an alternative: "or enter address manually"</li>
+        </ul>
+      </p>
+
+      <p class="govuk-body govuk-!-margin-top-4">
+        <a href="/dwp-error-demonstration" class="govuk-link">← Back to demonstration index</a>
+      </p>
+
+    </div>
+  </div>
+{% endblock %}

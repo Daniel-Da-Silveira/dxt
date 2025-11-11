@@ -1,0 +1,154 @@
+{% extends "layouts/main.html" %}
+
+{% from "components/service-header/macro.njk" import serviceHeader %}
+
+{% set pageName = "Editor - Apply for a county parish holding number in England" %}
+
+{% block header %}
+  {{ serviceHeader({
+    organisationName: "Defra",
+    productName: "Forms Designer",
+    serviceName: "",
+    accountName: "Chris Smith",
+    homepageLink: "/",
+    signOutLink: "/onboarding/sign-out-confirmation",
+    navigationItems: [
+    {
+      href: "/library.html",
+      text: "Forms library",
+      id: "library"
+     },
+    {
+      href: "/cph-overview/draft/complete-clean.html",
+      text: "Overview",
+      id: "overview"
+     },{
+         href: "/editor-pets/2.html",
+    text: 'Editor',
+    id: 'editor'
+    }],
+    activeLinkId: "/"
+  }) }}
+{% endblock %}
+
+{% block beforeContent %}
+  {{ govukBackLink({
+  text: "Back to editor",
+  href: "/editor.html"
+}) }}
+{% endblock %}
+
+{% block content %}
+
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <span class="govuk-caption-l">Page title</span>
+      <h1 class="govuk-heading-l">
+        Add a component to this page
+      </h1>
+      <ol class="govuk-list">
+        <li class="component-create__list__item">
+          <h2 class="govuk-heading-s">Content</h2>
+          <div class="govuk-hint">Content components allow you to add information to your page</div>
+          <ol class="govuk-list">
+            <li>
+              <a class="govuk-link govuk-link--no-visited-state" href="#0">Details</a>
+              <div class="govuk-hint">An expandable title that users can select to reveal more detailed information only if they need it</div>
+            </li>
+            <li>
+              <a class="govuk-link govuk-link--no-visited-state" href="#0">Guidance</a>
+              <div class="govuk-hint">Use HTML to add guidance and hyperlinks above a question</div>
+            </li>
+            <li>
+              <a class="govuk-link govuk-link--no-visited-state" href="#0">Example text</a>
+              <div class="govuk-hint">Add an example to a question</div>
+            </li>
+            <li>
+              <a class="govuk-link govuk-link--no-visited-state" href="#0">List</a>
+              <div class="govuk-hint">Create a new list or add an existing list. Use a list to provide a list of options to users.</div>
+            </li>
+          </ol>
+          <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
+        </li>
+
+        <li class="component-create__list__item">
+          <h2 class="govuk-heading-s">Input fields</h2>
+          <div class="govuk-hint">Input fields allow you to ask users to enter information</div>
+          <ol class="govuk-list">
+            <li>
+              <a href="/editor-pets/component-pages/text2.html" class="govuk-link govuk-link--no-visited-state">Single line text box</a>
+              <div class="govuk-hint">Request a short answer using a single line of text</div>
+            </li>
+            <li>
+              <a href="/editor-pets/component-pages/multiline.html" class="govuk-link govuk-link--no-visited-state">Multi-line text box</a>
+              <div class="govuk-hint">Request more than one line of text where users need to provide detailed information</div>
+            </li>
+            <li>
+              <a href="/editor-pets/component-pages/date-parts.html" class="govuk-link govuk-link--no-visited-state">Date: day, month and year</a>
+              <div class="govuk-hint">Request a day, month and year</div>
+            </li>
+            <li>
+              <a href="/editor-pets/component-pages/month-year.html" class="govuk-link govuk-link--no-visited-state">Date: month and year</a>
+              <div class="govuk-hint">Request a month and year</div>
+            </li>
+            <li>
+              <a href="/editor-pets/component-pages/address.html" class="govuk-link govuk-link--no-visited-state">UK address</a>
+              <div class="govuk-hint">Request a street address, town or city and postcode for an address in the UK</div>
+            </li>
+            <li>
+              <a href="/editor-pets/component-pages/email.html" class="govuk-link govuk-link--no-visited-state">Email address</a>
+              <div class="govuk-hint">A text box that users can enter an email address into</div>
+            </li>
+            <li>
+              <a href="/editor-pets/component-pages/telephone.html" class="govuk-link govuk-link--no-visited-state">Telephone number</a>
+              <div class="govuk-hint">A text box that users can enter numbers and some symbols into, such as '+'</div>
+            </li>
+            <li>
+              <a href="/editor-pets/component-pages/number.html" class="govuk-link govuk-link--no-visited-state">Number</a>
+              <div class="govuk-hint">Request a number and use custom validation to restrict what users can enter</div>
+            </li>
+            <li>
+              <a href="/editor-pets/component-pages/autocomplete.html" class="govuk-link govuk-link--no-visited-state">Autocomplete</a>
+              <div class="govuk-hint">Sets a list of values to suggest to users as they complete this field</div>
+            </li>
+            <li>
+              <a href="/editor-pets/component-pages/custom-field-validation/page1.html" class="govuk-link govuk-link--no-visited-state">Reference number</a>
+              <div class="govuk-hint">A text box where users can enter information in a specific format</div>
+            </li>
+            <li>
+              <a href="/editor-pets/component-pages/file-upload.html" class="govuk-link govuk-link--no-visited-state">File upload</a>
+              <div class="govuk-hint">Help users select and upload a file</div>
+            </li>
+            <li>
+              <a href="/editor-pets/component-pages/patterns/add-another.html" class="govuk-link govuk-link--no-visited-state">Question set</a>
+              <div class="govuk-hint">Create a set of questions, so users can answer the same question more than once</div>
+            </li>
+          </ol>
+          <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
+        </li>
+
+        <li class="component-create__list__item">
+          <h2 class="govuk-heading-s">Selection fields</h2>
+          <div class="govuk-hint">Selection fields allow you to provide lists of answers for users to choose from</div>
+          <ol class="govuk-list">
+            <li>
+              <a href="/editor-pets/component-pages/checkboxes.html" class="govuk-link govuk-link--no-visited-state">Checkboxes</a>
+              <div class="govuk-hint">A list for users to select multiple answers</div>
+            </li>
+            <li>
+              <a href="/editor-pets/component-pages/radios.html" class="govuk-link govuk-link--no-visited-state">Radios</a>
+              <div class="govuk-hint">A list for users to select one answer</div>
+            </li>
+            <li>
+              <a href="/editor-pets/component-pages/select.html" class="govuk-link govuk-link--no-visited-state">Select</a>
+              <div class="govuk-hint">A drop-down list for users to select one answer</div>
+            </li>
+            <li>
+              <a href="/editor-pets/component-pages/yesno.html" class="govuk-link govuk-link--no-visited-state">YesNo</a>
+              <div class="govuk-hint">Allows users to answer either 'Yes' or 'No'</div>
+            </li>
+          </ol>
+        </li>
+      </ol>
+
+    {% endblock %}

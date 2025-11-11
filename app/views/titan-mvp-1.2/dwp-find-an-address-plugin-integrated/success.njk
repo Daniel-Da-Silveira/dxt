@@ -1,0 +1,35 @@
+{% extends "layouts/main.html" %}
+
+{% block pageTitle %}
+  Application complete - GOV.UK Prototype Kit
+{% endblock %}
+
+{% block content %}
+
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+
+      {{ govukPanel({
+        titleText: "Application complete",
+        html: "Your reference number<br><strong>HDJ2123F</strong>"
+      }) }}
+
+      <p class="govuk-body">We have sent you a confirmation email.</p>
+
+      <h2 class="govuk-heading-m">What happens next</h2>
+
+      <p class="govuk-body">
+        We've sent your application to the relevant department.
+      </p>
+
+      <p class="govuk-body">
+        They will contact you either to confirm your registration, or to ask for more information.
+      </p>
+
+      <p class="govuk-body">
+        <a href="/dwp-find-an-address-plugin-integrated/question-one" class="govuk-link">Start another application</a>
+      </p>
+
+    </div>
+  </div>
+{% endblock %}

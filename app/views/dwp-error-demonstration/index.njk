@@ -1,0 +1,52 @@
+{% extends "layouts/main.html" %}
+
+{% block pageTitle %}
+  DWP Find an Address Plugin - Error Messages Demonstration
+{% endblock %}
+
+{% block content %}
+
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+
+      <h1 class="govuk-heading-l">
+        DWP Find an Address Plugin - Error Messages
+      </h1>
+
+      <p class="govuk-body">
+        This page demonstrates the standard error messages that come with the DWP find an address plugin out of the box.
+      </p>
+
+      <h2 class="govuk-heading-m">Error Message Examples</h2>
+
+      <ul class="govuk-list govuk-list--bullet">
+        <li><a href="/dwp-error-demonstration/missing-input" class="govuk-link">Missing Input Error</a></li>
+        <li><a href="/dwp-error-demonstration/manual-address-errors" class="govuk-link">Manual Address Entry Errors</a></li>
+        <li><a href="/dwp-error-demonstration/no-address-found" class="govuk-link">No Address Found</a></li>
+        <li><a href="/dwp-error-demonstration/working-example" class="govuk-link">Working Example (No Errors)</a></li>
+      </ul>
+
+      <h2 class="govuk-heading-m">Error Message Details</h2>
+
+      <h3 class="govuk-heading-s">1. Missing Input Error</h3>
+      <p class="govuk-body">
+        <strong>Message:</strong> "Enter a postcode, the first line of an address, or both."<br>
+        <strong>Triggered when:</strong> Neither postcode nor building name/number is provided
+      </p>
+
+      <h3 class="govuk-heading-s">2. Manual Address Entry Errors</h3>
+      <ul class="govuk-list govuk-list--bullet">
+        <li><strong>Address Line 1:</strong> "Enter the first line of the address"</li>
+        <li><strong>Town or City:</strong> "Enter the town or city"</li>
+        <li><strong>Postcode:</strong> "Enter the postcode"</li>
+      </ul>
+
+      <h3 class="govuk-heading-s">3. No Address Found</h3>
+      <p class="govuk-body">
+        <strong>Message:</strong> "We could not find an address that matches [postcode] and [building name/number]. You can search again or enter the address manually."<br>
+        <strong>Triggered when:</strong> No addresses are found for the search criteria
+      </p>
+
+    </div>
+  </div>
+{% endblock %}

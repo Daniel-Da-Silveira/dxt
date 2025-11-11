@@ -1,0 +1,120 @@
+{% extends "layouts/main.html" %}
+
+{% from "components/service-header/macro.njk" import serviceHeader %}
+
+{% set pageName = "Phone number for support - Employee Onboarding" %}
+
+{% block header %}
+{{ serviceHeader({
+organisationName: "Defra",
+productName: "Form Designer",
+serviceName: "",
+accountName: "Chris Smith",
+homepageLink: "/",
+signOutLink: "/titan-mvp-1.2/onboarding/sign-out-confirmation",
+navigationItems: [
+{
+href: "/titan-mvp-1.2/library",
+text: "Forms library",
+id: "library"
+},
+{
+href: "/titan-mvp-1.2/form-overview/simplified/index-tabs",
+text: "Overview",
+id: "overview"
+},{
+href: "/titan-mvp-1.2/form-editor/listing-v2",
+text: 'Editor',
+id: 'editor'
+}],
+activeLinkId: "overview"
+}) }}
+{% endblock %}
+
+{% block beforeContent %}
+{{ govukBackLink({
+text: "Back",
+href: "/titan-mvp-1.2/form-overview/simplified/index-tabs"
+}) }}
+{% endblock %}
+
+{% block content %}
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds-from-desktop">
+        <span class="govuk-caption-l">Employee Onboarding</span>
+        <h1 class="govuk-heading-l">
+            Phone number and opening times
+        </h1>
+
+        <p class="govuk-body">
+            You can provide an optional phone number for support. You must include the opening times.
+        </p>
+
+        {% from "govuk/components/inset-text/macro.njk" import govukInsetText %}
+        <h2 class="govuk-heading-s">Example</h2>
+
+        {{ govukInsetText({
+        html: '
+        <ul class="govuk-list">
+            <li>Telephone: 020 7946 0101</li>
+            <li>Monday to Friday, 8am to 6pm</li>
+        </ul>'
+        }) }}
+
+        <form action="/titan-mvp-1.2/form-overview/support/phone" method="post">
+            {% from "govuk/components/textarea/macro.njk" import govukTextarea %}
+            {{ govukTextarea({
+            name: "phoneNumber",
+            id: "phone-number",
+            label: {
+            text: "What's the phone number and opening times for users to get help?",
+            classes: "govuk-label--m",
+            isPageHeading: false
+            }
+            }) }}
+
+            <div class="govuk-button-group">
+                <button type="submit" class="govuk-button" data-module="govuk-button">
+                    Save and continue
+                </button>
+                <a class="govuk-link" href="/titan-mvp-1.2/form-overview/simplified/index-tabs">Cancel</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+<details class="govuk-details">
+    <summary class="govuk-details__summary">
+        <span class="govuk-details__summary-text">
+            View error messages
+        </span>
+    </summary>
+    <div class="govuk-details__text">
+        {% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
+
+        {{ govukErrorSummary({
+        titleText: "There is a problem",
+        errorList: [
+        {
+        text: "Enter phone number and opening times for users to get help",
+        href: "#phone-number"
+        }
+        ]
+        }) }}
+
+        {{ govukTextarea({
+        name: "phoneNumber",
+        id: "phone-number",
+        label: {
+        text: "What's the phone number and opening times for users to get help?",
+        classes: "govuk-label--m",
+        isPageHeading: false
+        },
+        errorMessage: {
+        text: "Enter phone number and opening times for users to get help"
+        }
+        }) }}
+    </div>
+</details>
+
+{% endblock %}

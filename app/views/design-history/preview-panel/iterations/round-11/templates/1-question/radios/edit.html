@@ -1,0 +1,1282 @@
+{% extends "layouts/main.html" %}
+{% from "components/service-header/macro.njk" import serviceHeader %}
+{% set pageName = "Edit radio question - Apply for a county parish holding number in England" %}
+{% set headingPlaceholder = "Page heading" %}
+{% set guidancePlaceholder = "" %}
+{% block header %}
+{{ serviceHeader({
+organisationName: "Defra",
+productName: "Forms Designer",
+serviceName: "",
+containerClasses: containerClasses,
+accountName: "Chris Smith",
+homepageLink: "/",
+signOutLink: "/onboarding/sign-out-confirmation",
+navigationItems: [
+{ href: "/library.html", text: "Forms library", id: "nav-library" },
+{ href: "/cph-overview/draft/complete-clean.html", text: "Overview", id: "nav-overview" },
+{ href: "/redesigntest/listing", text: "Editor", id: "nav-editor" }
+],
+activeLinkId: "nav-editor"
+}) }}
+
+<div class="x-govuk-masthead x-govuk-masthead--large">
+	<div class="govuk-width-container">
+		{{ govukBackLink({ classes: "govuk-back-link--inverse govuk-!-margin-bottom-0", text: "Back to add and edit
+		pages", href: "/redesigntest/listing.html" }) }}
+
+		<hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible"
+			style="border-bottom: 1px solid white; margin-bottom: 0" />
+
+		<div class="govuk-grid-row">
+			<div class="govuk-grid-column-full-from-desktop">
+				<h1 class="x-govuk-masthead__title">
+					Apply for a county parish holding (CPH) number
+				</h1>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="govuk-grid-row">
+	<div class="govuk-grid-column-full">
+		<div class="govuk-grid-row">
+			<!-- Left Column for Form Controls -->
+			<div class="govuk-grid-column-one-half-from-desktop" id="container" style="flex: 1 1 75%; overflow-y: auto">
+				<div class="govuk-summary-card govuk-!-margin-top-0" style="border-left: 10px solid #008938">
+					<div class="govuk-summary-card__content govuk-!-padding-top-0" style="background-color: #f3f2f1">
+
+						<dl class="govuk-summary-list">
+							<div class="govuk-summary-list__row">
+								<dd class="govuk-summary-list__value">
+									<!-- Dynamic Summary List -->
+
+									<!-- Question Settings Container -->
+									<div class="govuk-grid-row" id="page-settings-container-1">
+										<div id="question-1">
+											<div class="govuk-summary-card__content" style="margin-bottom: 0">
+												<!-- Sub Navigation for Question -->
+												<nav class="moj-sub-navigation govuk-!-padding-top-0 govuk-!-margin-bottom-2"
+													aria-label="Sub navigation">
+													<ul class="moj-sub-navigation__list" id="nav-list2">
+														<li class="moj-sub-navigation__item">
+															<a class="moj-sub-navigation__link" aria-current="page"
+																href="#question-1-information-type">Question 10</a>
+														</li>
+													</ul>
+												</nav>
+
+												<div class="govuk-summary-card__title-wrapper govuk-!-padding-top-0">
+												</div>
+
+												{# <span class="govuk-caption-l">Page 2</span> #}
+												<h2 class="govuk-heading-l">Edit page 9</h2>
+
+												<form method="post" id="options-form"
+													action="/redesigntest/templates/1-question/radios/overview">
+
+													{% from "govuk/components/input/macro.njk" import govukInput %}
+													{% from "govuk/components/textarea/macro.njk" import govukTextarea
+													%}
+													{% from "govuk/components/fieldset/macro.njk" import govukFieldset
+													%}
+													{% from "govuk/components/button/macro.njk" import govukButton %}
+													{% from "govuk/components/summary-list/macro.njk" import
+													govukSummaryList %}
+
+													{{ govukInput({
+													label: {
+													text: "Question",
+													classes: "govuk-label--m",
+													isPageHeading: false
+													},
+													id: "multi-question-label-input-radios",
+													value: data['multi-question-label-input-radios'],
+													name: "multiQuestionLabelInputRadios"
+													}) }}
+
+													<!-- Hint Text Area -->
+													{{ govukTextarea({
+													label: {
+													text: "Hint text (optional)",
+													classes: "govuk-label--m"
+													},
+													id: "multi-question-hint-text-input-radios",
+													name: "multiQuestionHintTextInputRadios",
+													value: data['multi-question-hint-text-input-radios'],
+													classes: "govuk-textarea",
+													rows: 3,
+													describedBy: "multi-question-hint-text-input-radios"
+													}) }}
+
+
+													<!-- List config -->
+													<div class="govuk-form-group">
+														<h2 class="govuk-heading-m moj-add-another__heading"
+															tabindex="-1">Create and edit your list of options</h2>
+
+														<!-- Options Container -->
+														<ol class="gem-c-reorderable-list js-enabled"
+															id="options-container" data-module="reorderable-list">
+
+															{#
+															<li class="gem-c-reorderable-list__item" draggable="true"
+																data-index="1">
+																<div class="gem-c-reorderable-list__wrapper">
+																	<div class="gem-c-reorderable-list__content">
+																		<!-- Display Paragraph with 'fauxlabel' -->
+																		<p class="govuk-body fauxlabel option-label-display"
+																			id="option-0-label-display">Option label</p>
+
+																		<!-- Hidden Input with Distinct Class -->
+																		<input type="hidden" id="option-0-label"
+																			name="option[0][option_label]"
+																			value="Option label"
+																			class="option-label-input-hidden">
+
+																		<!-- Hidden Hint Input -->
+																		<input class="option-hint-input" type="hidden"
+																			id="option-1-hint"
+																			name="option[1][option_hint]" value="">
+																	</div>
+
+																	<div class="gem-c-reorderable-list__actions">
+																		<button
+																			class="gem-c-button govuk-button govuk-button--secondary js-reorderable-list-up"
+																			type="button" aria-label="Move option up"
+																			style="display: none;">Up</button>
+																		<button
+																			class="gem-c-button govuk-button govuk-button--secondary js-reorderable-list-down"
+																			type="button" aria-label="Move option down"
+																			style="display: inline-block;">Down</button>
+																		<button
+																			class="gem-c-button govuk-button govuk-button--warning js-remove-option"
+																			type="button"
+																			aria-label="Remove option">Remove</button>
+
+																	</div>
+																	<div class="edit-item">
+																		<a class="govuk-link govuk-link--no-visited-state"
+																			href="/redesigntest/templates/1-question/radios/add?index=0">
+																			Edit
+																			<span class="govuk-visually-hidden">
+																				option number 1
+																				- Option label
+																			</span>
+																		</a>
+
+
+															</li> #}
+
+
+
+															{% for radio in data.radioList %}
+															<li class="gem-c-reorderable-list__item" draggable="true"
+																data-index="{{ loop.index }}">
+																<div class="gem-c-reorderable-list__wrapper">
+																	<div class="gem-c-reorderable-list__content">
+																		<!-- Display Paragraph with 'fauxlabel' -->
+																		<p class="govuk-body fauxlabel option-label-display"
+																			id="option-{{ loop.index }}-label-display">
+																			{{ radio.label }}</p>
+
+																		<!-- Hidden Input with Distinct Class -->
+																		<input type="hidden"
+																			id="option-{{ loop.index }}-label"
+																			name="option[{{ loop.index }}][option_label]"
+																			value="{{ radio.label }}"
+																			class="option-label-input-hidden">
+
+																		<!-- Hidden Hint Input -->
+																		<input class="option-hint-input" type="hidden"
+																			id="option-{{ loop.index }}-hint"
+																			name="option[{{ loop.index }}][option_hint]"
+																			value="{{ radio.hint }}">
+																	</div>
+
+																	<div class="gem-c-reorderable-list__actions">
+																		<button
+																			class="gem-c-button govuk-button govuk-button--secondary js-reorderable-list-up"
+																			type="button" aria-label="Move option up"
+																			style="display: none;">Up</button>
+																		<button
+																			class="gem-c-button govuk-button govuk-button--secondary js-reorderable-list-down"
+																			type="button" aria-label="Move option down"
+																			style="display: inline-block;">Down</button>
+																		<a href="#"
+																			class="govuk-link govuk-link--destructive js-remove-option"
+																			role="button"
+																			aria-label="Remove option">Remove</a>
+
+																	</div>
+																	<div class="edit-item">
+																		<a class="govuk-link govuk-link--no-visited-state"
+																			href="editoption.html?index={{ loop.index }}">
+																			Edit
+																			<span class="govuk-visually-hidden">
+																				option number {{ loop.index }}
+																				{% if radio.label %} - {{ radio.label
+																				}}{% endif %}
+																			</span>
+																		</a>
+																	</div>
+																</div>
+															</li>
+															{% endfor %}
+														</ol>
+
+														<div class="govuk-button-group">
+															<!-- Add Another Option Button -->
+															<button id="add-option-button" type="button"
+																class="govuk-button moj-add-another__add-button govuk-!-margin-bottom-4 govuk-!-margin-bottom-6">
+																{% if data.radioList and data.radioList.length > 0 %}
+																Add another option
+																{% else %}
+																Add option
+																{% endif %}
+															</button>
+
+															<!-- Edit List Button -->
+															<button id="edit-options-button" type="button"
+																class="govuk-button govuk-button--inverse">
+																Edit list
+															</button>
+														</div>
+
+
+														<!-- Make Optional Checkbox -->
+														<div class="govuk-form-group">
+															<div class="govuk-checkboxes--small">
+																<div class="govuk-checkboxes__item">
+																	<input class="govuk-checkboxes__input"
+																		type="checkbox" id="makeOptional"
+																		name="makeOptional"
+																		value="{{ data['optional-label-q1'] }}">
+																	<label class="govuk-label govuk-checkboxes__label"
+																		for="makeOptional">
+																		Make this question optional
+																	</label>
+																</div>
+															</div>
+														</div>
+
+														<!-- Add guidance above this question -->
+														<details class="govuk-details" data-module="govuk-details">
+															<summary class="govuk-details__summary">
+																<span class="govuk-details__summary-text">
+																	Add guidance above this question (optional)
+																</span>
+															</summary>
+															<div class="govuk-details__text">
+																<!-- Default Content for Question 1 -->
+																<div id="question-1-content" class="question-content"
+																	style="margin-top: 10px;">
+
+																	<!-- Page Heading Input -->
+																	{{ govukInput({
+																	label: {
+																	text: "Page heading",
+																	classes: "govuk-label govuk-label--m
+																	govuk-!-margin-top-0"
+																	},
+																	hint: {
+																	text: "Page headings should be a statement and not a
+																	question. For example, ‘Passport information’",
+																	id: "page-heading-input-hint"
+																	},
+																	id: "page-heading-input-checkboxes",
+																	name: "pageHeadingInputCheckboxes",
+																	type: "text",
+																	attributes: {
+																	'aria-describedby': "page-heading-input-hint",
+																	'data-preview-target': '#dynamic-heading'
+																	}
+																	}) }}
+
+																	<!-- Guidance Text Textarea -->
+																	{{ govukTextarea({
+																	label: {
+																	text: "Guidance text (optional)",
+																	classes: "govuk-label govuk-label--m"
+																	},
+																	hint: {
+																	text: "Use Markdown to format the content or add
+																	hyperlinks",
+																	id: "guidance-textarea-hint"
+																	},
+																	id: "guidance-textarea-radios",
+																	name: "guidanceTextareaRadios",
+																	rows: 5,
+																	attributes: {
+																	'aria-describedby': "guidance-textarea-hint",
+																	'data-preview-target': '#guidance-paragraph'
+																	}
+																	}) }}
+
+																</div>
+
+																<details class="govuk-details">
+																	<summary class="govuk-details__summary">
+																		<span class="govuk-details__summary-text">
+																			Help with markdown
+																		</span>
+																	</summary>
+																	<div class="govuk-details__text">
+																		<h3 class="govuk-heading-s">Headings and
+																			subheadings</h3>
+																		<p class="govuk-body">Use one hash symbol
+																			followed by a space for a heading, for
+																			example:</p>
+																		<pre class="formatting-example"
+																			style="background-color: white;"><code class="lang-md"># This is a heading</code></pre>
+																		<p class="bottom-gutter-1-3">To add a
+																			subheading, use 2 hash symbols:</p>
+																		<pre class="formatting-example"
+																			style="background-color: white;"><code class="lang-md">## This is a subheading</code></pre>
+
+																		<h3 class="govuk-heading-s" id="bullets">Bullet
+																			points</h3>
+																		<p class="govuk-body">Use bullet points to help
+																			words or phrases stand out in your emails
+																			and letters.</p>
+																		<p class="govuk-body">Copy this example to add
+																			bullet points:</p>
+																		<pre class="formatting-example"
+																			style="background-color: white;"><code class="lang-md">Introduce bullet points with a lead-in line ending in a colon:
+
+  * leave one empty line space after the lead-in line
+  * use an asterisk or a dash followed by a space to add an item
+  * start each item with a lowercase letter, do not end with a full stop
+  * leave one empty line space after the last item</code></pre>
+
+																		<h3 class="govuk-heading-s" id="bullets">
+																			Numbered steps</h3>
+																		<p class="govuk-body">Copy this example to add
+																			numbered steps:</p>
+																		<pre class="formatting-example"
+																			style="background-color: white;"><code class="lang-md">1. Leave one empty line space before starting your list.
+  2. Enter a number followed by a full stop and a space to add an item.
+  3. Start each item with a capital letter and end it with a full stop.
+  4. Leave one empty line space after the last item.</code></pre>
+
+																		<h3 class="govuk-heading-s">Links and URLs</h3>
+																		<p class="govuk-body">To convert text into a
+																			link, use square brackets around the link
+																			text and round brackets around the full URL.
+																			Make sure there are no spaces between the
+																			brackets or the link will not work. For
+																			example:</p>
+																		<pre class="formatting-example"
+																			style="background-color: white;"><code class="lang-md">[Apply now](https://www.gov.uk/example)</code></pre>
+
+																	</div>
+																</details>
+															</div>
+														</details>
+
+														<!-- Error Message Input -->
+														{{ govukInput({
+														label: {
+														text: "Short description",
+														classes: "govuk-label--m",
+														isPageHeading: false
+														},
+														hint: {
+														text: "Enter a short description for this question like 'licence
+														period'. Short descriptions are used in error messages and on
+														the check your answers page."
+														},
+														id: "error-message-input",
+														name: "errorMessageInput"
+														}) }}
+
+														<div id="summary-container">
+															<hr
+																class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
+
+															<!-- The dynamic summary list will be populated here -->
+															<h2 class="govuk-heading-m">Question settings</h2>
+
+															{{ govukSummaryList({
+															classes: "govuk-summary-list govuk-section-break
+															govuk-section-break--visible govuk-!-margin-bottom-6",
+															rows: [
+															{
+															key: {
+															text: "Type of information"
+															},
+															value: {
+															html: "List: radios"
+															},
+															actions: {
+															items: [
+															{
+															href:
+															"/redesigntest/templates/1-question/information-type.html",
+															text: "Change",
+															visuallyHiddenText: "name"
+															}
+															]
+															}
+															}
+															]
+															}) }}
+														</div>
+														<div class="moj-button-action">
+															{{ govukButton({
+															text: 'Save and continue',
+															type: 'submit'
+															}) }}
+														</div>
+													</div>
+												</form>
+											</div>
+										</div>
+									</div>
+								</dd>
+							</div>
+						</dl>
+					</div>
+				</div>
+			</div>
+
+			<!-- Right Column for Preview -->
+			<div class="govuk-grid-column-one-half-from-desktop" id="second-container"
+				style="outline: solid 1px #008938; height: 100%; position: sticky; top: 0; padding: 20px; box-shadow: 5px 10px #008938;">
+				<!-- Before content -->
+				<div id="before-content" style="background-color: #cce2d8;">
+					<p class="govuk-body-s"
+						style="margin-bottom: 0; color: #005a30; padding: 2px 8px 3px; text-align: center;">Previews</p>
+				</div>
+
+				<div style="margin-top: 60px;">
+					{% from "govuk/components/tabs/macro.njk" import govukTabs %}
+
+					<div class="govuk-tabs" data-module="govuk-tabs">
+						<h2 class="govuk-tabs__title">Contents</h2>
+						<ul class="govuk-tabs__list">
+							<li class="govuk-tabs__list-item govuk-tabs__list-item--selected">
+								<a class="govuk-tabs__tab" href="#tab-one">Page preview</a>
+							</li>
+							<li class="govuk-tabs__list-item">
+								<a class="govuk-tabs__tab" href="#tab-two">Error messages</a>
+							</li>
+						</ul>
+
+						<div class="govuk-tabs__panel" id="tab-one">
+							<!-- Page Preview Content -->
+							<p class="govuk-body-s" style="margin-bottom: 30px; border-bottom: #008938 1px;">
+								<a href="#" class="govuk-link govuk-link--no-visited-state" rel="noreferrer noopener"
+									target="_blank">Preview this page in a new tab</a>
+							</p>
+
+
+							<!-- Ensure this included template contains the #radio-list .govuk-radios element -->
+							{% include "/redesigntest/templates/previews-more-than-1-question/radios/edit-v2.html" %}
+
+							<a href="#edit-page" class="govuk-skip-link" style="margin-bottom: 30px!important;"
+								data-module="govuk-skip-link">Skip to edit page</a>
+						</div>
+
+						<div class="govuk-tabs__panel" id="tab-two">
+							<p class="govuk-body-s" style="margin-bottom: 30px; border-bottom: #008938 1px;">
+								<a href="#" class="govuk-link govuk-link--no-visited-state" rel="noreferrer noopener"
+									target="_blank">Preview error messages in a new tab</a>
+							</p>
+							<!-- Error Messages Content -->
+							<!-- Error Messages Section -->
+							<div class="govuk-error-summary" data-disable-auto-focus="true">
+								<h2 class="govuk-error-summary__title">There is a problem</h2>
+								<ul class="govuk-list govuk-error-summary__list">
+									<!-- List of errors -->
+									<li><a id="empty-input-error-shorttext" class="govuk-error-message">Select <span
+												id="error-dynamic-text">[short description]</span></a></li>
+								</ul>
+							</div>
+							<a href="#error-message-input-shorttext" class="govuk-skip-link"
+								style="margin-bottom: 30px!important;" data-module="govuk-skip-link">Skip to edit short
+								description</a>
+						</div>
+					</div>
+				</div> <!-- Closing the govuk-tabs div -->
+
+			</div>
+		</div>
+
+	</div>
+</div>
+</div>
+
+<!-- Include SortableJS Library -->
+<script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>
+
+<style>
+	/* Styling for fauxlabel */
+	.fauxlabel {
+		border: 0;
+		/* font-size: 1rem; */
+		margin: 0;
+		padding: 0.5rem;
+	}
+
+	.govuk-radios__item label {
+		text-transform: capitalize;
+	}
+
+	.fauxlabel:focus,
+	.fauxlabel:active {
+		background-color: transparent !important;
+	}
+
+	.gem-c-reorderable-list .gem-c-reorderable-list__item:hover,
+	.gem-c-reorderable-list__item:hover .fauxlabel {
+		background-color: #fff;
+		cursor: initial;
+	}
+
+	.gem-c-reorderable-list__item:hover .fauxlabel:focus {
+		cursor: initial;
+	}
+
+	/* Highlighting styles */
+	.highlight {
+		background-color: #ffe5cc;
+		border-bottom: 2px solid #ffb266;
+	}
+
+	.highlight-dragging {
+		border: 2px dotted #ffb266;
+		/* Example highlight style */
+		background-color: #f0f0f0;
+	}
+
+	.highlight-moving {
+		border: 2px dashed #ff0;
+		/* During drag over */
+	}
+
+	/* Styles for the reorderable list */
+	.gem-c-reorderable-list {
+		list-style-type: none;
+		margin: 0;
+		padding: 0;
+	}
+
+	.gem-c-reorderable-list__item {
+		margin-bottom: 15px;
+		border-left: 5px solid #008938;
+		outline: 1px solid #b1b4b6;
+		padding: 15px;
+		background-color: #fff;
+	}
+
+	.gem-c-reorderable-list__wrapper {
+		display: flex;
+		align-items: center;
+	}
+
+	.gem-c-reorderable-list__content {
+		flex-grow: 1;
+	}
+
+	.gem-c-reorderable-list__actions {
+		display: none;
+		/* Hide by default */
+		flex-direction: column;
+		margin-left: 15px;
+	}
+
+	.gem-c-reorderable-list__actions .govuk-button {
+		margin-bottom: 10px;
+	}
+
+	.govuk-body.fauxlabel.option-label-display {
+		white-space: normal;
+		/* Allow text to wrap */
+		word-wrap: break-word;
+		/* Break long words if necessary */
+		overflow-wrap: break-word;
+		/* Ensure wrapping for long words */
+	}
+
+
+	.sortable-ghost {
+		opacity: 0.4;
+	}
+
+	.sortable-chosen {
+		background-color: #e5f5ff;
+	}
+
+	/* Style for hover state of the list item */
+	.gem-c-reorderable-list__item:hover {
+		background-color: #f0f0f0;
+		cursor: move;
+	}
+
+	/* Style for the chosen item (when selected) */
+	.gem-c-reorderable-list__item.sortable-chosen {
+		background-color: #e5f5ff;
+		outline: 4px solid #ffdd00;
+		box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+	}
+
+	#second-container {
+		padding: 0;
+		box-sizing: border-box;
+	}
+
+	#second-container>* {
+		padding-left: 0px;
+		z-index: 2;
+	}
+
+	.border-left-container {
+		border-left: 10px solid #ffb266;
+		padding-left: 20px;
+	}
+</style>
+
+<script>
+	document.addEventListener('DOMContentLoaded', function () {
+		const urlParams = new URLSearchParams(window.location.search);
+		const deleteIndex = urlParams.get('deleteIndex');
+
+		console.log("Parsed deleteIndex:", deleteIndex);
+
+		if (deleteIndex !== null) {
+			const itemToDelete = document.querySelector(`.gem-c-reorderable-list__item[data-index="${deleteIndex}"]`);
+			if (itemToDelete) {
+				console.log("Found item to delete:", itemToDelete);
+				itemToDelete.remove();
+				updatePreview(); // Update the list preview
+			} else {
+				console.error("Item to delete not found for index:", deleteIndex);
+			}
+
+			// Clean up the URL
+			const newUrl = window.location.href.split('?')[0];
+			window.history.replaceState({}, document.title, newUrl);
+			console.log("Updated URL after cleanup:", newUrl);
+		}
+	});
+
+	function updatePreview() {
+		const items = document.querySelectorAll('.gem-c-reorderable-list__item');
+		const previewContainer = document.querySelector('#radio-list .govuk-radios');
+
+		if (!previewContainer) {
+			console.warn("Preview container ('#radio-list .govuk-radios') not found.");
+			return;
+		}
+
+		// Clear existing preview
+		previewContainer.innerHTML = '';
+
+		// Rebuild the preview
+		items.forEach((item, index) => {
+			const labelValue = item.querySelector('.option-label-display').textContent || `Option ${index + 1}`;
+			const newRadioHTML = `
+      <div class="govuk-radios__item">
+        <input class="govuk-radios__input" id="option-${index}" name="radioOption" type="radio" value="${labelValue}">
+        <label class="govuk-label govuk-radios__label" for="option-${index}">${labelValue}</label>
+      </div>
+    `;
+			previewContainer.insertAdjacentHTML('beforeend', newRadioHTML);
+
+			// Update the data-index attribute for all items
+			item.setAttribute('data-index', index);
+		});
+	}
+</script>
+
+<script>
+	document.addEventListener('DOMContentLoaded', function () {
+		// DOM Elements
+		const domElements = {
+			multiQuestionLabelInputRadios: document.getElementById('multi-question-label-input-radios'),
+			multiQuestionOutputRadios: document.getElementById('multi-question-output-radios'),
+			hintTextInput: document.getElementById('multi-question-hint-text-input-radios'),
+			multiQuestionHintTextOutputRadios: document.getElementById('multi-question-hint-text-output-radios'),
+			makeOptionalCheckbox: document.getElementById('makeOptional'),
+			pageHeadingInputRadios: document.getElementById('page-heading-input-radios'),
+			dynamicHeading: document.getElementById('dynamic-heading'),
+			guidanceTextareaRadios: document.getElementById('guidance-textarea-radios'),
+			guidanceParagraph: document.getElementById('guidance-paragraph'),
+			errorMessageInput: document.getElementById('error-message-input'),
+			errorDynamicText: document.getElementById('error-dynamic-text'),
+			optionsContainer: document.getElementById('options-container'),
+			addOptionButton: document.getElementById('add-option-button'),
+			addOptionContainer: document.querySelector('.moj-button-action'), // Parent container
+			editOptionsButton: document.getElementById('edit-options-button'),
+			pageHeadingInputRadios: document.getElementById('page-heading-input-checkboxes'), // Update this ID based on your template
+			dynamicHeading: document.getElementById('dynamic-heading'),
+			radioList: document.querySelector('#radio-list .govuk-radios') // Ensure #radio-list exists in included template
+		};
+
+		let sortableInstance;
+		let editMode = false; // Track whether edit mode is active
+		let draggedOptionIndex = null; // To track the index of the dragged option
+
+		// Initialize all functionality
+		initializeEventListeners();
+		initializeOptionsFunctionality();
+
+		function initializeEventListeners() {
+			// Update question label
+			if (domElements.multiQuestionLabelInputRadios && domElements.multiQuestionOutputRadios) {
+				domElements.multiQuestionLabelInputRadios.addEventListener('input', updateQuestionLabel);
+				applyHighlightOnFocus(domElements.multiQuestionLabelInputRadios, domElements.multiQuestionOutputRadios);
+			}
+
+
+
+			// Update hint text
+			if (domElements.hintTextInput && domElements.multiQuestionHintTextOutputRadios) {
+				domElements.hintTextInput.addEventListener('input', updateHintText);
+				applyHighlightOnFocus(domElements.hintTextInput, domElements.multiQuestionHintTextOutputRadios);
+				domElements.hintTextInput.addEventListener('focus', showPlaceholderHint);
+				domElements.hintTextInput.addEventListener('blur', clearPlaceholderHint);
+			}
+
+			// Update error message
+			if (domElements.errorMessageInput && domElements.errorDynamicText) {
+				domElements.errorMessageInput.addEventListener('input', updateErrorMessage);
+				applyHighlightOnFocus(domElements.errorMessageInput, domElements.errorDynamicText);
+			}
+
+			// Update dynamic heading
+			if (domElements.pageHeadingInputRadios) {
+				domElements.pageHeadingInputRadios.addEventListener('input', updateDynamicHeading);
+				applyHighlightOnFocus(domElements.pageHeadingInputRadios, domElements.dynamicHeading);
+			}
+
+			// Redirect to add.html on clicking Add Another Option
+			domElements.addOptionButton.addEventListener('click', () => {
+				window.location.href = '/redesigntest/templates/1-question/radios/add';
+			});
+
+			// Handle edit mode toggle
+			domElements.editOptionsButton.addEventListener('click', toggleEditMode);
+		}
+
+		function updateDynamicHeading() {
+			const pageHeadingValue = domElements.pageHeadingInputRadios.value.trim();
+			const defaultHeading = "Page heading"; // Default fallback if input is empty
+			domElements.dynamicHeading.textContent = pageHeadingValue || defaultHeading;
+		}
+
+		function updateQuestionLabel() {
+			const suffix = domElements.makeOptionalCheckbox && domElements.makeOptionalCheckbox.checked ? ' (optional)' : '';
+			domElements.multiQuestionOutputRadios.textContent = (domElements.multiQuestionLabelInputRadios.value || 'Question') + suffix;
+		}
+
+		function updateHintText() {
+			domElements.multiQuestionHintTextOutputRadios.textContent = domElements.hintTextInput.value || '';
+		}
+
+		function updateErrorMessage() {
+			domElements.errorDynamicText.textContent = domElements.errorMessageInput.value.trim() || '[short description]';
+		}
+
+		function showPlaceholderHint() {
+			if (!domElements.hintTextInput.value) {
+				domElements.multiQuestionHintTextOutputRadios.textContent = 'Hint text';
+			}
+		}
+
+		function clearPlaceholderHint() {
+			if (!domElements.hintTextInput.value) {
+				domElements.multiQuestionHintTextOutputRadios.textContent = '';
+			}
+		}
+
+		function applyHighlightOnFocus(inputElement, targetElement) {
+			if (inputElement && targetElement) {
+				inputElement.addEventListener('focus', () => targetElement.classList.add('highlight'));
+				inputElement.addEventListener('blur', () => targetElement.classList.remove('highlight'));
+
+				if (document.activeElement === inputElement) {
+					targetElement.classList.add('highlight');
+				}
+			}
+		}
+
+		function initializeOptionsFunctionality() {
+			// Build preview for pre-rendered options
+			const preRenderedItems = document.querySelectorAll('#options-container .gem-c-reorderable-list__item');
+			preRenderedItems.forEach((item, index) => {
+				const labelValue = item.querySelector('.option-label-display').textContent || `Option ${index + 1}`;
+				const hintValue = item.querySelector('.option-hint-input') ? item.querySelector('.option-hint-input').value : '';
+				addOptionToPreview(index, labelValue, hintValue);
+				addOptionEventListeners(item, index);
+			});
+
+			// Initialize sortable functionality
+			initializeSortable();
+		}
+
+
+		function addOptionEventListeners(item, index) {
+			const upButton = item.querySelector('.js-reorderable-list-up');
+			const downButton = item.querySelector('.js-reorderable-list-down');
+			const removeButton = item.querySelector('.js-remove-option');
+			const editButton = item.querySelector('.js-edit-option'); // New Edit Button
+
+			// Click event listener for Move Up button
+			upButton.addEventListener('click', function (event) {
+				if (!editMode) return; // Only allow in edit mode
+				const prevItem = item.previousElementSibling;
+				if (prevItem) {
+					item.parentNode.insertBefore(item, prevItem);
+					// The new index is the index of the item after moving up
+					const newIndex = Array.from(item.parentNode.children).indexOf(item);
+					updatePreview(newIndex);
+					// Use setTimeout to ensure DOM updates before setting focus and highlighting
+					setTimeout(() => {
+						const upBtn = item.querySelector('.js-reorderable-list-up');
+						const downBtn = item.querySelector('.js-reorderable-list-down');
+						if (upBtn && upBtn.style.display !== 'none') {
+							upBtn.focus();
+						} else if (downBtn && downBtn.style.display !== 'none') {
+							downBtn.focus();
+						}
+					}, 0);
+				}
+			});
+
+			// Click event listener for Move Down button
+			downButton.addEventListener('click', function (event) {
+				if (!editMode) return; // Only allow in edit mode
+				const nextItem = item.nextElementSibling;
+				if (nextItem) {
+					item.parentNode.insertBefore(nextItem, item);
+					// The new index is the index of the item after moving down
+					const newIndex = Array.from(item.parentNode.children).indexOf(item);
+					updatePreview(newIndex);
+					// Use setTimeout to ensure DOM updates before setting focus and highlighting
+					setTimeout(() => {
+						const upBtn = item.querySelector('.js-reorderable-list-up');
+						const downBtn = item.querySelector('.js-reorderable-list-down');
+						if (upBtn && upBtn.style.display !== 'none') {
+							upBtn.focus();
+						} else if (downBtn && downBtn.style.display !== 'none') {
+							downBtn.focus();
+						}
+					}, 0);
+				}
+			});
+
+
+			removeButton.addEventListener('click', function (event) {
+				event.preventDefault(); // Prevent default behavior
+
+				// Retrieve the option ID or index from the closest parent element with the data attribute
+				const optionId = removeButton.closest('.gem-c-reorderable-list__item').dataset.index;
+
+				// Construct the confirmation URL with the index
+				const confirmationUrl = `/redesigntest/templates/1-question/radios/delete-option.html?index=${optionId}`;
+
+				// Redirect the user to the confirmation URL
+				window.location.href = confirmationUrl;
+				console.log("Redirecting to delete-option.html with index:", optionId);
+			});
+
+
+
+			// 		removeButton.addEventListener('click', function(event) {
+			//   event.preventDefault(); // Prevent default behavior
+
+			//   // Retrieve the option ID or index from the closest parent element with the data attribute
+			//   const optionItem = removeButton.closest('.gem-c-reorderable-list__item');
+			//   const optionId = optionItem.dataset.index;
+
+			//   // Construct the confirmation URL with the index
+			//   const confirmationUrl = `/redesigntest/templates/1-question/radios/delete-option.html?index=${optionId}`;
+
+			//   // Confirm with the user before removing the item
+			//   const userConfirmed = confirm("Are you sure you want to delete this option?");
+
+			//   if (userConfirmed) {
+			//     // Remove the item from the DOM
+			//     optionItem.remove();
+
+			//     // Optionally log or send data to the server for processing
+			//     console.log(`Option with index ${optionId} removed.`);
+
+			//     // Redirect to the confirmation page if needed
+			//     // window.location.href = confirmationUrl;
+
+			//     // Update the list to reflect the changes (e.g., reindexing)
+			//     updatePreview();
+			//   }
+			// });
+
+			// // Click event listener for Remove button
+			// removeButton.addEventListener('click', function(event) {
+			//   event.preventDefault(); // Prevent default behavior
+
+			//   // Retrieve the option ID or index from the closest parent element with the data attribute
+			//   const optionId = removeButton.closest('.gem-c-reorderable-list__item').dataset.index;
+
+			//   // Construct the confirmation URL with the index
+			//   const confirmationUrl = `/redesigntest/templates/1-question/radios/delete-option.html?index=${optionId}`;
+
+			//   // Redirect the user to the confirmation URL
+			//   window.location.href = confirmationUrl;
+			// });
+
+			// Click event listener for Edit button
+			if (editButton) {
+				editButton.addEventListener('click', function () {
+					const newLabel = prompt('Edit option label:', item.querySelector('.option-label-display').textContent);
+					if (newLabel !== null && newLabel.trim() !== "") {
+						item.querySelector('.option-label-display').textContent = newLabel;
+						item.querySelector('.option-label-input-hidden').value = newLabel;
+						updateOptionPreview(index, newLabel);
+					} else {
+						alert('Option label cannot be empty.');
+					}
+				});
+			}
+
+			// **New Code Start: Add focus and blur event listeners to action buttons **
+			// Function to handle highlighting the corresponding preview item
+			function handleActionFocus() {
+				// Find the current index of the item
+				const currentIndex = Array.from(domElements.optionsContainer.children).indexOf(item);
+				if (currentIndex === -1) return; // Item might have been removed
+
+				// Find the corresponding preview item
+				const previewItem = document.getElementById(`preview-option-${currentIndex}`);
+				if (previewItem) {
+					previewItem.classList.add('highlight');
+				}
+			}
+
+			function handleActionBlur() {
+				// Find the current index of the item
+				const currentIndex = Array.from(domElements.optionsContainer.children).indexOf(item);
+				if (currentIndex === -1) return; // Item might have been removed
+
+				// Find the corresponding preview item
+				const previewItem = document.getElementById(`preview-option-${currentIndex}`);
+				if (previewItem) {
+					previewItem.classList.remove('highlight');
+				}
+			}
+
+			// Attach focus and blur event listeners to all action buttons within this item
+			const actionButtons = [upButton, downButton, removeButton];
+			actionButtons.forEach(button => {
+				button.addEventListener('focus', handleActionFocus);
+				button.addEventListener('blur', handleActionBlur);
+			});
+
+			// If there's an Edit button, attach the same listeners
+			if (editButton) {
+				editButton.addEventListener('focus', handleActionFocus);
+				editButton.addEventListener('blur', handleActionBlur);
+			}
+			// **New Code End **
+		}
+
+		function toggleEditMode() {
+			editMode = !editMode; // Toggle edit mode
+
+			// Update the text of the Edit button
+			domElements.editOptionsButton.textContent = editMode ? 'Save changes' : 'Edit list';
+
+			// Update the class of the Edit button
+			domElements.editOptionsButton.className = editMode
+				? 'govuk-button govuk-button'
+				: 'govuk-button govuk-button--inverse';
+
+			// Show or hide actions (up/down/remove buttons) for reordering and deleting
+			document.querySelectorAll('.gem-c-reorderable-list__actions').forEach(actions => {
+				actions.style.display = editMode ? 'flex' : 'none';
+			});
+
+			// Show or hide edit-item links
+			document.querySelectorAll('.edit-item').forEach(editItem => {
+				editItem.style.display = editMode ? 'none' : '';
+			});
+
+			// Enable or disable sortable based on edit mode
+			if (sortableInstance) {
+				sortableInstance.option('disabled', !editMode);
+			}
+
+			// Manage up and down buttons based on the state
+			manageUpDownButtons();
+
+			// Hide or show the "Add another option" button
+			if (domElements.addOptionButton) {
+				domElements.addOptionButton.style.display = editMode ? 'none' : 'inline-block';
+			}
+
+			// Set focus to the first "Move Down" button in edit mode
+			if (editMode) {
+				const firstMoveDownButton = document.querySelector('.js-reorderable-list-down');
+				if (firstMoveDownButton) {
+					firstMoveDownButton.focus();
+				}
+			}
+		}
+
+		function updatePreview() {
+			const items = document.querySelectorAll('.gem-c-reorderable-list__item');
+			const previewContainer = document.querySelector('#radio-list .govuk-radios');
+
+			if (!previewContainer) return;
+
+			// Clear the existing preview
+			previewContainer.innerHTML = '';
+
+			// Rebuild the preview based on the remaining items
+			items.forEach((item, index) => {
+				const labelValue = item.querySelector('.option-label-display').textContent;
+				const newRadioHTML = `
+      <div class="govuk-radios__item">
+        <input class="govuk-radios__input" id="option-${index}" name="radioOption" type="radio" value="${labelValue}">
+        <label class="govuk-label govuk-radios__label" for="option-${index}">${labelValue}</label>
+      </div>
+    `;
+				previewContainer.insertAdjacentHTML('beforeend', newRadioHTML);
+
+				// Update the data-index attribute for all items
+				item.setAttribute('data-index', index);
+			});
+		}
+
+		function updatePreview(highlightIndex = null) {
+			const items = document.querySelectorAll('#options-container .gem-c-reorderable-list__item');
+			const previewContainer = domElements.radioList;
+
+			if (!previewContainer) {
+				console.warn("Preview container ('#radio-list .govuk-radios') not found. Ensure the included template contains this element.");
+				return;
+			}
+
+			// Clear existing preview
+			previewContainer.innerHTML = '';
+
+			// Rebuild preview and collect preview items
+			const previewItems = [];
+			items.forEach((item, index) => {
+				// Update data-index attributes to keep them consistent
+				item.setAttribute('data-index', index);
+
+				const labelValue = item.querySelector('.option-label-display').textContent || `Option ${index + 1}`;
+				const hintValue = item.querySelector('.option-hint-input') ? item.querySelector('.option-hint-input').value : '';
+				addOptionToPreview(index, labelValue, hintValue);
+
+				// Collect preview items for later highlighting
+				previewItems.push(document.getElementById(`preview-option-${index}`));
+			});
+
+			// Remove 'highlight' from all preview items
+			previewItems.forEach(item => {
+				if (item) {
+					item.classList.remove('highlight');
+				}
+			});
+
+			// Add 'highlight' to the specified preview item
+			if (highlightIndex !== null && previewItems[highlightIndex]) {
+				previewItems[highlightIndex].classList.add('highlight');
+			}
+
+			manageUpDownButtons();
+		}
+
+		function removeOptionFromPreview(index) {
+			const previewOption = document.getElementById(`preview-option-${index}`);
+			if (previewOption) {
+				previewOption.parentNode.removeChild(previewOption);
+			}
+			// After removal, update all preview items to ensure accurate indexing
+			updatePreview();
+		}
+
+		function manageUpDownButtons() {
+			const items = document.querySelectorAll('#options-container .gem-c-reorderable-list__item');
+			items.forEach((item, index) => {
+				const upButton = item.querySelector('.js-reorderable-list-up');
+				const downButton = item.querySelector('.js-reorderable-list-down');
+				upButton.style.display = editMode && index > 0 ? 'inline-block' : 'none';
+				downButton.style.display = editMode && index < items.length - 1 ? 'inline-block' : 'none';
+			});
+		}
+
+		function initializeSortable() {
+			sortableInstance = new Sortable(domElements.optionsContainer, {
+				animation: 150,
+				handle: '.gem-c-reorderable-list__wrapper',
+				draggable: '.gem-c-reorderable-list__item',
+				ghostClass: 'sortable-ghost',
+				disabled: true, // Disabled by default until edit mode is active
+				onStart: function (evt) {
+					const index = Array.from(evt.from.children).indexOf(evt.item);
+					draggedOptionIndex = index;
+					highlightDraggedOption(index);
+				},
+				onMove: function (evt) {
+					// Optionally, you can highlight potential drop targets here
+				},
+				onEnd: function (evt) {
+					unhighlightDraggedOption(draggedOptionIndex);
+					draggedOptionIndex = null;
+					// After reordering, determine the new index of the moved item
+					const newIndex = Array.from(evt.from.children).indexOf(evt.item);
+					updatePreview(newIndex);
+				}
+			});
+		}
+
+		function highlightDraggedOption(index) {
+			const previewItem = document.getElementById(`preview-option-${index}`);
+			if (previewItem) {
+				previewItem.classList.add('highlight-dragging');
+			}
+		}
+
+		function unhighlightDraggedOption(index) {
+			const previewItem = document.getElementById(`preview-option-${index}`);
+			if (previewItem) {
+				previewItem.classList.remove('highlight-dragging');
+			}
+		}
+
+		function addOptionToPreview(index, labelValue, hintValue) {
+			const radioList = domElements.radioList;
+			const hintHTML = hintValue ? `<div class="govuk-hint govuk-radios__hint">${hintValue}</div>` : '';
+			const newRadioHTML = `
+		  <div class="govuk-radios__item" id="preview-option-${index}">
+			<input class="govuk-radios__input" id="listPreview-option${index}" name="listPreview" type="radio" value="option${index}">
+			<label class="govuk-label govuk-radios__label" for="listPreview-option${index}">${labelValue || `Option ${parseInt(index) + 1}`}</label>
+			${hintHTML}
+		  </div>
+		`;
+			radioList.insertAdjacentHTML('beforeend', newRadioHTML);
+		}
+
+		function updateOptionPreview(index, value) {
+			const radioLabel = domElements.radioList.querySelector(`label[for="listPreview-option${index}"]`);
+			const hiddenInput = document.querySelector(`#options-container .gem-c-reorderable-list__item[data-index="${index}"] .option-label-input-hidden`);
+			const hintInput = document.querySelector(`#options-container .gem-c-reorderable-list__item[data-index="${index}"] .option-hint-input`);
+			const hintValue = hintInput ? hintInput.value : '';
+			const hintElement = domElements.radioList.querySelector(`#preview-option-${index} .govuk-hint`);
+
+			if (radioLabel) {
+				radioLabel.textContent = value || `Option ${parseInt(index) + 1}`;
+			}
+
+			if (hiddenInput) {
+				hiddenInput.value = value;
+			}
+
+			if (hintElement) {
+				hintElement.textContent = hintValue || '';
+			} else if (hintValue) {
+				// If hintElement doesn't exist but there is hintValue, create the hint element
+				const parentDiv = domElements.radioList.querySelector(`#preview-option-${index}`);
+				if (parentDiv) {
+					const hintHTML = `<div class="govuk-hint govuk-radios__hint">${hintValue}</div>`;
+					parentDiv.insertAdjacentHTML('beforeend', hintHTML);
+				}
+			}
+		}
+	});
+</script>
+<script>
+	document.addEventListener('DOMContentLoaded', function () {
+		// DOM Elements
+		const domElements = {
+			pageHeadingInputRadios: document.getElementById('page-heading-input-checkboxes'), // Input field for page heading
+			dynamicHeading: document.getElementById('dynamic-heading-radios'), // Heading in the preview panel
+			guidanceTextareaRadios: document.getElementById('guidance-textarea-radios'), // Textarea for guidance
+			guidanceParagraph: document.getElementById('guidance-paragraph') // Guidance paragraph in the preview panel
+		};
+
+		// Initialize event listeners
+		initializeEventListeners();
+
+		function initializeEventListeners() {
+			// Page heading input
+			if (domElements.pageHeadingInputRadios && domElements.dynamicHeading) {
+				domElements.pageHeadingInputRadios.addEventListener('input', updateDynamicHeading);
+				domElements.pageHeadingInputRadios.addEventListener('focus', () => showPlaceholder(domElements.dynamicHeading, 'Page heading'));
+				domElements.pageHeadingInputRadios.addEventListener('blur', () => clearPlaceholder(domElements.dynamicHeading));
+			}
+
+			// Guidance textarea
+			if (domElements.guidanceTextareaRadios && domElements.guidanceParagraph) {
+				domElements.guidanceTextareaRadios.addEventListener('input', updateGuidanceParagraph);
+				domElements.guidanceTextareaRadios.addEventListener('focus', () => showPlaceholder(domElements.guidanceParagraph, 'Guidance text'));
+				domElements.guidanceTextareaRadios.addEventListener('blur', () => clearPlaceholder(domElements.guidanceParagraph));
+			}
+		}
+
+		// Update the dynamic heading in the preview panel
+		function updateDynamicHeading() {
+			const inputValue = domElements.pageHeadingInputRadios.value.trim();
+			domElements.dynamicHeading.textContent = inputValue || 'Page heading';
+			toggleHighlight(domElements.dynamicHeading, !inputValue); // Highlight placeholder if empty
+		}
+
+		// Update the guidance paragraph in the preview panel
+		function updateGuidanceParagraph() {
+			const textareaValue = domElements.guidanceTextareaRadios.value.trim();
+			domElements.guidanceParagraph.textContent = textareaValue || 'Guidance text';
+			toggleHighlight(domElements.guidanceParagraph, !textareaValue); // Highlight placeholder if empty
+		}
+
+		// Show placeholder text with highlight
+		function showPlaceholder(element, placeholderText) {
+			if (!element.textContent.trim()) {
+				element.textContent = placeholderText;
+				element.classList.add('highlight'); // Add highlight class
+			}
+		}
+
+		// Clear placeholder text and remove highlight
+		function clearPlaceholder(element) {
+			if (element.textContent === 'Page heading' || element.textContent === 'Guidance text') {
+				element.textContent = ''; // Clear the placeholder
+				element.classList.remove('highlight'); // Remove highlight class
+			}
+		}
+
+		// Toggle the highlight class on an element
+		function toggleHighlight(element, shouldHighlight) {
+			if (shouldHighlight) {
+				element.classList.add('highlight');
+			} else {
+				element.classList.remove('highlight');
+			}
+		}
+	});
+</script>
+
+<script>
+	document.addEventListener("DOMContentLoaded", function () {
+		var secondContainer = document.getElementById("second-container");
+		var borderLeftContainerRadios = document.getElementById("border-left-container-radios");
+
+		if (secondContainer && borderLeftContainerRadios) {
+			// Scroll the `borderLeftContainerRadios` element into view within `second-container`
+			borderLeftContainerRadios.scrollIntoView({
+				behavior: "smooth",
+				block: "nearest"
+			});
+			console.log("Scrolled to border-left-container-textarea within second-container");
+		} else {
+			console.log("second-container or border-left-container-textarea not found");
+		}
+	});
+</script>
+
+{% endblock %}

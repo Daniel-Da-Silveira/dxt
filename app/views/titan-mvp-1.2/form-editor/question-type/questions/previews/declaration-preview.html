@@ -1,0 +1,62 @@
+{% from "./_label_size_macro.html" import get_label_size -%}
+
+{%- set page_heading = data['pageHeadingDeclaration'] if data is defined and data['pageHeadingDeclaration'] else false
+-%}
+{%- set question_count = currentPage.questions | length if currentPage and currentPage.questions else 1 -%}
+{%- set labelSize = get_label_size(page_heading, question_count, true) -%}
+
+<div class="govuk-form-group">
+    <fieldset class="govuk-fieldset">
+        <legend class="govuk-fieldset__legend govuk-fieldset__legend--{{ labelSize }}">
+            {{ question.label }}{% if question.isOptional %} (optional){% endif %}
+        </legend>
+
+        {%- if question.declarationText -%}
+        <div class="govuk-body markdown-content" data-markdown="{{ question.declarationText | replace('"', ' &quot;')
+            }}"></div>
+        {%- endif -%}
+
+        <div class="govuk-checkboxes" data-module="govuk-checkboxes">
+            <div class="govuk-checkboxes__item">
+                <input class="govuk-checkboxes__input" id="declaration-checkbox" name="declaration" type="checkbox"
+                    value="true">
+                <label class="govuk-label govuk-checkboxes__label" for="declaration-checkbox">
+                    I understand and agree
+                </label>
+            </div>
+        </div>
+    </fieldset>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // Configure marked to use standard markdown behavior
+        marked.setOptions({
+            breaks: false,  // Disable forced line breaks
+            gfm: true,     // Enable GitHub Flavored Markdown
+            pedantic: false // Use standard markdown behavior
+        });
+
+        // Find all elements with data-markdown attribute
+        document.querySelectorAll('.markdown-content').forEach(function (element) {
+            const markdownText = element.getAttribute('data-markdown');
+            console.log('Processing markdown:', markdownText);
+            if (markdownText && marked) {
+                try {
+                    // Unescape the content for processing
+                    const unescapedText = markdownText.replace(/&quot;/g, '"');
+                    console.log('Unescaped text:', unescapedText);
+                    const html = marked.parse(unescapedText);
+                    console.log('Rendered HTML:', html);
+                    element.innerHTML = html;
+                } catch (error) {
+                    console.error('Error rendering markdown:', error);
+                    element.textContent = markdownText;
+                }
+            } else {
+                console.log('Marked not available or no markdown text');
+            }
+        });
+    });
+</script>

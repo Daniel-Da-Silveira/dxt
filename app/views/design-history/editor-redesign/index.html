@@ -1,0 +1,199 @@
+{% extends "design-history/template.html" %}
+
+{# --- Feature metadata --- #}
+{% set featureName = "Defra Forms Editor Redesign" %}
+{% set latestVersionLink = "https://www.figma.com/design/1A9Tthy0CJeqp2rGNSKRjH/Defra-Form-Builder-flows" %}
+{% set status = "In Progress" %}
+{% set statusColor = "blue" %}
+{% set userNeed = "Content designers need an intuitive, accessible, and efficient way to create and manage digital forms
+to replace paper-based processes." %}
+{% set phase = "Private beta" %}
+{% set category = ["Form creation", "Content designers"] %}
+{% set description %}
+The Defra Forms Editor redesign aims to transform how content designers create and manage digital forms, addressing key
+usability and accessibility challenges in the existing service.
+
+<details class='govuk-details govuk-!-margin-top-2' data-module='govuk-details'>
+    <summary class='govuk-details__summary'>
+        <span class='govuk-details__summary-text'>
+            Problem Statement
+        </span>
+    </summary>
+    <div class='govuk-details__text'>
+        <p class='govuk-body'>Most of Defra's forms were paper-based, making them inaccessible, costly, and inefficient.
+            The existing digital tools available for building forms were unintuitive, inaccessible, and required
+            significant training, limiting the pace and efficiency of digitisation efforts.</p>
+        <p class='govuk-body'>This directly impacted:</p>
+        <ul class='govuk-list govuk-list--bullet'>
+            <li>User confidence</li>
+            <li>Form publication speed</li>
+            <li>Widespread adoption by content designers outside the core Defra Forms team</li>
+        </ul>
+    </div>
+</details>
+
+<details class='govuk-details govuk-!-margin-top-2' data-module='govuk-details'>
+    <summary class='govuk-details__summary'>
+        <span class='govuk-details__summary-text'>
+            Scope and Aims
+        </span>
+    </summary>
+    <div class='govuk-details__text'>
+        <p class='govuk-body'>Our goal was clear: deliver a timely, cost-effective, accessible, and user-centred digital
+            experience for content designers building online forms. This would streamline digitisation and enable rapid,
+            accurate processing of data submitted by end users.</p>
+    </div>
+</details>
+
+<details class='govuk-details govuk-!-margin-top-2' data-module='govuk-details'>
+    <summary class='govuk-details__summary'>
+        <span class='govuk-details__summary-text'>
+            Initial Assessment
+        </span>
+    </summary>
+    <div class='govuk-details__text'>
+        <p class='govuk-body'>To identify immediate usability issues, we started with heuristic and accessibility
+            testing of the existing service. A senior interaction designer and two senior content designers evaluated
+            the product against NNGroup heuristics and accessibility guidelines.</p>
+        <p class='govuk-body'>We also engaged the Defra accessibility team for an independent review, with results
+            pending.</p>
+    </div>
+</details>
+
+<details class='govuk-details govuk-!-margin-top-2' data-module='govuk-details'>
+    <summary class='govuk-details__summary'>
+        <span class='govuk-details__summary-text'>
+            Current State Analysis
+        </span>
+    </summary>
+    <div class='govuk-details__text'>
+        <p class='govuk-body'>We mapped the existing Defra Forms Designer workflows extensively using detailed diagrams
+            in Figma. This allowed us to pinpoint specific areas for improvement and establish baseline metrics for
+            future iterations.</p>
+        <p class='govuk-body'>Key findings included:</p>
+        <ul class='govuk-list govuk-list--bullet'>
+            <li>A complex, unintuitive interface</li>
+            <li>Overwhelming information presentation</li>
+            <li>Non-standardised components causing user confusion</li>
+        </ul>
+    </div>
+</details>
+
+<details class='govuk-details govuk-!-margin-top-2' data-module='govuk-details'>
+    <summary class='govuk-details__summary'>
+        <span class='govuk-details__summary-text'>
+            Roadmap Reprioritisation
+        </span>
+    </summary>
+    <div class='govuk-details__text'>
+        <p class='govuk-body'>Given significant usability barriers, we decided to reprioritise our product backlog. This
+            allowed our team to focus on re-designing the Forms Designer ahead of developing new features.</p>
+        <p class='govuk-body'>Key decisions included:</p>
+        <ul class='govuk-list govuk-list--bullet'>
+            <li>Conducting internal research only on features already in progress (like File Upload and Repeater
+                Additions)</li>
+            <li>Delaying certain feature releases to prioritise usability improvements</li>
+            <li>Targeting delivery of one new feature per month, alongside UX enhancements</li>
+        </ul>
+    </div>
+</details>
+
+<details class='govuk-details govuk-!-margin-top-2' data-module='govuk-details'>
+    <summary class='govuk-details__summary'>
+        <span class='govuk-details__summary-text'>
+            Design Process and Improvements
+        </span>
+    </summary>
+    <div class='govuk-details__text'>
+        <h3 class='govuk-heading-s'>Component Improvements</h3>
+        <ul class='govuk-list govuk-list--bullet'>
+            <li><strong>Guided Input Component:</strong> Live, dynamic highlighting within a real-time preview panel
+            </li>
+            <li><strong>Preview Panel:</strong> Real-time rendering of form edits with improved visual hierarchy</li>
+            <li><strong>Configuration Panel:</strong> Structured, accessible layout with progressive enhancement</li>
+        </ul>
+
+        <h3 class='govuk-heading-s'>User Journey Enhancements</h3>
+        <p class='govuk-body'>We improved the user journey using progressive enhancement principles:</p>
+        <ul class='govuk-list govuk-list--bullet'>
+            <li>Established clear navigation hierarchy</li>
+            <li>Created dedicated primary actions</li>
+            <li>Standardised headings, labels, and action buttons</li>
+            <li>Removed unnecessary UI clutter</li>
+        </ul>
+    </div>
+</details>
+
+<details class='govuk-details govuk-!-margin-top-2' data-module='govuk-details'>
+    <summary class='govuk-details__summary'>
+        <span class='govuk-details__summary-text'>
+            Outcomes and Next Steps
+        </span>
+    </summary>
+    <div class='govuk-details__text'>
+        <p class='govuk-body'>Our iterative redesign led to tangible improvements:</p>
+        <ul class='govuk-list govuk-list--bullet'>
+            <li>Users quickly recognised navigation elements and could intuitively interact with the interface</li>
+            <li>Clearer UI reduced cognitive load, improved confidence, and increased task success rates</li>
+            <li>Improved component accessibility and usability, accelerating form creation and publication</li>
+        </ul>
+        <p class='govuk-body'>Going forward, we plan further research to address remaining user confusion around
+            advanced interactions. Continued iterative development and rigorous user testing will ensure the Forms
+            Designer meets evolving user needs and accessibility standards.</p>
+    </div>
+</details>
+{% endset %}
+
+{# --- Research rounds for the summary table --- #}
+{% set researchRounds = [
+"Initial Assessment - March 2024",
+"Component Testing - April 2024",
+"User Journey Testing - May 2024"
+] %}
+
+{# --- Key improvements in the latest version --- #}
+{% set improvements = [
+"Improved navigation hierarchy and clarity",
+"Enhanced component accessibility",
+"Streamlined user workflows",
+"Better progressive enhancement support",
+"Clearer visual feedback",
+"Standardised UI patterns",
+"Reduced cognitive load",
+"Improved task success rates"
+] %}
+
+{# --- Journey steps --- #}
+{% set journeySteps = [
+{ number: "1", title: "Assessment", subtitles: [ { text: "Initial evaluation", isCurrent: false } ] },
+{ number: "2", title: "Design", subtitles: [ { text: "Component improvements", isCurrent: false } ] },
+{ number: "3", title: "Testing", subtitles: [ { text: "User research", isCurrent: true } ] },
+{ number: "4", title: "Implementation", subtitles: [ { text: "Progressive enhancement", isCurrent: false } ] },
+{ number: "5", title: "Evaluation", subtitles: [ { text: "Outcomes and next steps", isCurrent: false } ] }
+] %}
+
+{# --- Research history table --- #}
+{% set researchHistory = [
+{
+roundNumber: "1",
+researchDate: "March 2024",
+researchFinding: "Initial heuristic and accessibility evaluation revealed significant usability issues in the existing
+service. Key findings included complex interface, overwhelming information presentation, and non-standardised
+components.",
+changeMade: "Reprioritised product backlog to focus on Forms Designer redesign ahead of new features."
+},
+{
+roundNumber: "2",
+researchDate: "April 2024",
+researchFinding: "Component testing showed improved usability with new guided input, preview panel, and configuration
+panel designs. Users responded positively to clearer visual feedback and reduced cognitive load.",
+changeMade: "Implemented enhanced component designs with progressive enhancement support."
+},
+{
+roundNumber: "3",
+researchDate: "May 2024",
+researchFinding: "User journey testing confirmed improved navigation and task success rates. Some advanced interactions
+still caused confusion, particularly around complex form configurations.",
+changeMade: "Further refinement of navigation hierarchy and continued focus on simplifying complex interactions."
+}
+] %}

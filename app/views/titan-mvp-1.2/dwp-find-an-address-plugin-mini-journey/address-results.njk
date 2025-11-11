@@ -1,0 +1,138 @@
+{% extends "layouts/main.html" %}
+
+{% block pageTitle %}
+  Select an address - GOV.UK Prototype Kit
+{% endblock %}
+
+{% block content %}
+
+  {{ govukBackLink({
+    text: "Back",
+    href: "/dwp-find-an-address-plugin-mini-journey/postcode-entry?returnUrl=" + (data.returnUrl or '/dwp-find-an-address-plugin-mini-journey/question-one')
+  }) }}
+
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+
+      {% if error %}
+        {{ govukErrorSummary({
+          titleText: "There is a problem",
+          errorList: [
+            {
+              text: "Select an address",
+              href: "#select-address"
+            } if error.addressError else ""
+          ]
+        }) }}
+      {% endif %}
+
+      <form method="post" autocomplete="off">
+        <h1 class="govuk-heading-l">Select your business address</h1>
+
+        {% if data.addressResults.length == 1 %}
+          {# Show single address result #}
+          <p class="govuk-body">{{ data.addressResults.length }} address found for
+            <span class="govuk-body govuk-!-font-weight-bold">{{ data.addressPostcode }}</span>{% if data.buildingNameNumber %} and <span class="govuk-body govuk-!-font-weight-bold">{{ data.buildingNameNumber }}<span class="govuk-body govuk-!-font-weight-regular">.</span></span>{% else %}.{% endif %}
+            <a href="/dwp-find-an-address-plugin-mini-journey/postcode-entry?returnUrl={{ data.returnUrl or '/dwp-find-an-address-plugin-mini-journey/question-one' }}" class="govuk-link">Search again</a>
+          </p>
+
+          <div class="govuk-inset-text">
+            {{ data.addressResults[0].text }}
+          </div>
+
+
+        {% else %}
+          {# Show multiple address results #}
+          <p class="govuk-body">{{ data.addressResults.length }} addresses found for
+            <strong>{{ data.addressPostcode }}</strong>{% if data.buildingNameNumber %} and <strong>{{ data.buildingNameNumber }}</strong>{% endif %}.
+            <a href="/dwp-find-an-address-plugin-mini-journey/postcode-entry?returnUrl={{ data.returnUrl or '/dwp-find-an-address-plugin-mini-journey/question-one' }}" class="govuk-link">Search again</a>
+          </p>
+
+          {% set addressItems = [] %}
+
+          {% set addressItems = (addressItems.push(
+            {
+              value: "",
+              text: "Select an address"
+            }
+          ), addressItems) %}
+
+          {% for result in data.addressResults %}
+            {% set addressItems = (addressItems.push(result), addressItems) %}
+          {% endfor %}
+
+          {{ govukSelect({
+            id: "select-address",
+            name: "selectAddress",
+            label: {
+              text: "Select an address"
+            },
+            items: addressItems,
+            errorMessage: { text: "Select an address" } if error.addressError else ""
+          }) }}
+
+
+        {% endif %}
+
+        <div class="govuk-button-group">
+          {{ govukButton({
+            text: "Use this address",
+            name: "action",
+            value: "use-address"
+          }) }}
+        </div>
+
+         <p class="govuk-body ">
+            <a href="#" id="manual-entry-link" class="govuk-link">Enter address manually</a>
+          </p>
+
+        <input type="hidden" name="returnUrl" value="{{ data.returnUrl }}">
+        <input type="hidden" name="addressPostcode" value="{{ data.addressPostcode }}">
+        <input type="hidden" name="buildingNameNumber" value="{{ data.buildingNameNumber }}">
+      </form>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const selectAddress = document.getElementById('select-address');
+      const manualEntryLink = document.getElementById('manual-entry-link');
+      const manualEntryLinkSingle = document.getElementById('manual-entry-link-single');
+      const returnUrl = '{{ data.returnUrl or "/dwp-find-an-address-plugin-mini-journey/question-one" }}';
+
+      function updateManualEntryLink(linkElement, selectedAddress) {
+        if (linkElement) {
+          if (selectedAddress) {
+            const encodedAddress = encodeURIComponent(selectedAddress);
+            linkElement.href = '/dwp-find-an-address-plugin-mini-journey/manual-entry?returnUrl=' + encodeURIComponent(returnUrl) + '&selectedAddress=' + encodedAddress;
+          } else {
+            linkElement.href = '/dwp-find-an-address-plugin-mini-journey/manual-entry?returnUrl=' + encodeURIComponent(returnUrl);
+          }
+        }
+      }
+
+      if (manualEntryLink) {
+        if (selectAddress) {
+          // Update the manual entry link when address is selected from dropdown
+          selectAddress.addEventListener('change', function() {
+            updateManualEntryLink(manualEntryLink, this.value);
+          });
+
+          // Set initial href based on current selection
+          updateManualEntryLink(manualEntryLink, selectAddress.value);
+        } else {
+          // No dropdown (single result case) - check if there's a selected address in the data
+          const selectedAddress = '{{ data.selectedAddress }}';
+          updateManualEntryLink(manualEntryLink, selectedAddress);
+        }
+      }
+
+      if (manualEntryLinkSingle) {
+        // For single address case, use the address text as the selected address
+        const addressText = '{{ data.addressResults[0].text if data.addressResults and data.addressResults.length == 1 else "" }}';
+        updateManualEntryLink(manualEntryLinkSingle, addressText);
+      }
+    });
+  </script>
+
+{% endblock %}

@@ -1,0 +1,89 @@
+
+ <!-- New HTML content for before element -->
+ <div id="before-content">
+    <p class="govuk-body-s" style="margin-bottom: 0">
+      <a
+        href="#"
+        class="govuk-link govuk-link--no-visited-state"
+        rel="noreferrer noopener"
+        target="_blank"
+        >Preview this page in a new tab</a
+      >
+    </p>
+  </div>
+
+  <!-- Additional Content Here -->
+  <div class="additional-content">
+
+
+    <div>
+      <!-- Tag for Preview -->
+      {{ govukTag({ text: "Preview of page 2", classes: "govuk-tag--yellow
+      govuk-!-margin-bottom-2 govuk-!-margin-top-8" }) }}
+
+      </div>
+
+      <div id="heading-container">
+        {% set setName = data['setName'] or '' %}
+        <span id="dynamic-caption" class="govuk-caption-xl" data-setname="{{ setName }}">{{ data['setName'] or '' }} 1</span>
+
+
+        <h1 class="govuk-heading-xl" id="dynamic-heading">{{ data['pageHeadingInputMoreThan1'] or '' }}</h1>
+      </div>
+
+<!-- Guidance Paragraph -->
+<p class="govuk-body" id="guidance-paragraph">{{ data['guidanceMoreThan1'] or '' }}</p>
+
+{% set setName = data['setName'] | default('') %}
+{% set overview0 = data['overview0'] | default('') %}
+
+{% if overview0 == "morethan1" %}
+  {{ govukButton({
+    text: "Add another " ~ setName,
+    classes: "govuk-button govuk-!-margin-top-3",
+    id: "add-another-set-button",
+    disabled: true
+  }) }}
+{% else %}
+  {{ govukButton({
+    text: "Continue",
+    classes: "govuk-button govuk-!-margin-top-6",
+    id: "once-button",
+    disabled: true
+  }) }}
+{% endif %}
+
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const onceButton = document.getElementById("once-button");
+    const addAnotherButton = document.getElementById("add-another-set-button");
+
+    const radioOnce = document.getElementById("once");
+    const radioMoreThan1 = document.getElementById("more-than-1");
+
+    if (radioOnce && radioMoreThan1) {
+        function updateButtonDisplay() {
+            if (radioOnce.checked) {
+                onceButton.style.display = "inline-block";
+                addAnotherButton.style.display = "none";
+            } else if (radioMoreThan1.checked) {
+                addAnotherButton.style.display = "inline-block";
+                onceButton.style.display = "none";
+            }
+        }
+
+        // Initial check on page load
+        updateButtonDisplay();
+
+        // Event listeners to handle selection change
+        radioOnce.addEventListener("change", updateButtonDisplay);
+        radioMoreThan1.addEventListener("change", updateButtonDisplay);
+    } else {
+        console.error("Radio buttons with IDs 'once' and 'more-than-1' were not found.");
+    }
+});
+
+
+
+</script>

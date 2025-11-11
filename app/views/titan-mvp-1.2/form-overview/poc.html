@@ -1,0 +1,194 @@
+{% extends "titan-mvp-1.2/form-overview/includes/_base-overview-poc.html" %}
+
+{% block pageTitle %}
+{{ form.name }} - Overview
+{% endblock %}
+
+{% block content %}
+{{ super() }}
+{% endblock %}
+
+{% block overview_content %}
+
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+
+
+        <h2 class="govuk-heading-m">Form details</h2>
+
+        {{ govukSummaryList({
+        rows: [
+        {
+        key: {
+        text: "Organisation"
+        },
+        value: {
+        text: form.organisation.name
+        },
+        actions: {
+        items: [
+        {
+        href: "/titan-mvp-1.2/form-overview/organisation/edit",
+        text: "Change",
+        visuallyHiddenText: "organisation"
+        }
+        ]
+        }
+        },
+        {
+        key: {
+        text: "Team"
+        },
+        value: {
+        text: form.team.name
+        },
+        actions: {
+        items: [
+        {
+        href: "/titan-mvp-1.2/form-overview/team/edit",
+        text: "Change",
+        visuallyHiddenText: "team"
+        }
+        ]
+        }
+        },
+        {
+        key: {
+        text: "Team email"
+        },
+        value: {
+        text: form.team.email
+        },
+        actions: {
+        items: [
+        {
+        href: "/titan-mvp-1.2/form-overview/team/edit",
+        text: "Change",
+        visuallyHiddenText: "team email"
+        }
+        ]
+        }
+        }
+        ]
+        }) }}
+
+        <h2 class="govuk-heading-m">Support</h2>
+
+        {{ govukSummaryList({
+        rows: [
+        {
+        key: {
+        text: "Phone number"
+        },
+        value: {
+        text: form.support.phone or "Not set"
+        },
+        actions: {
+        items: [
+        {
+        href: "/titan-mvp-1.2/form-overview/support/phone",
+        text: "Change",
+        visuallyHiddenText: "phone number"
+        }
+        ]
+        }
+        },
+        {
+        key: {
+        text: "Email address"
+        },
+        value: {
+        text: form.support.email or "Not set"
+        },
+        actions: {
+        items: [
+        {
+        href: "/titan-mvp-1.2/form-overview/support/email",
+        text: "Change",
+        visuallyHiddenText: "email address"
+        }
+        ]
+        }
+        },
+        {
+        key: {
+        text: "Contact link"
+        },
+        value: {
+        text: form.support.link or "Not set"
+        },
+        actions: {
+        items: [
+        {
+        href: "/titan-mvp-1.2/form-overview/support/link",
+        text: "Change",
+        visuallyHiddenText: "contact link"
+        }
+        ]
+        }
+        }
+        ]
+        }) }}
+
+        <h2 class="govuk-heading-m">Form settings</h2>
+
+        {{ govukSummaryList({
+        rows: [
+        {
+        key: {
+        text: "Next steps"
+        },
+        value: {
+        text: form.nextSteps or "Not set"
+        },
+        actions: {
+        items: [
+        {
+        href: "/titan-mvp-1.2/form-overview/support/next-steps",
+        text: "Change",
+        visuallyHiddenText: "next steps"
+        }
+        ]
+        }
+        },
+        {
+        key: {
+        text: "Privacy notice"
+        },
+        value: {
+        text: form.privacyNotice or "Not set"
+        },
+        actions: {
+        items: [
+        {
+        href: "/titan-mvp-1.2/form-overview/support/privacy-notice",
+        text: "Change",
+        visuallyHiddenText: "privacy notice"
+        }
+        ]
+        }
+        },
+        {
+        key: {
+        text: "Notification email"
+        },
+        value: {
+        text: form.notificationEmail or "Not set"
+        },
+        actions: {
+        items: [
+        {
+        href: "/titan-mvp-1.2/form-overview/support/notification-email",
+        text: "Change",
+        visuallyHiddenText: "notification email"
+        }
+        ]
+        }
+        }
+        ]
+        }) }}
+
+    </div>
+</div>
+
+{% endblock %}

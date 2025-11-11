@@ -1,356 +1,648 @@
 {% extends "layouts/main.html" %}
 
+
 {% block pageTitle %}
-Components – {{ serviceName }} – GOV.UK Prototype Kit
+Prototypes – {{ serviceName }} - Product information
+{% endblock %}
+
+{% block head %}
+{{ super() }}
 {% endblock %}
 
 {% from "components/service-header/macro.njk" import serviceHeader %}
 {% from "side-navigation/macro.njk" import dwpSideNavigation %}
+{% from "govuk/components/table/macro.njk" import govukTable %}
+{% from "govuk/components/tabs/macro.njk" import govukTabs %}
 
-{% set pageName = "Kit of parts - Defra Forms Designer" %}
+
+{% set pageName = "Forms Designer prototypes" %}
+
+{% set features = [
+{
+name: "Save and exit",
+problem: "Users need to save and come back to a form later.",
+status: "Tested",
+statusClass: "green",
+phase: "Private beta",
+type: "Public journeys",
+category: "Public journeys",
+designHistoryHref: "",
+researchRounds: [
+{ round: 7, date: "Oct 2024" },
+{ round: 8, date: "Nov 2024" },
+{ round: 9, date: "Mar 2025" },
+{ round: 10, date: "Mar 2025" }
+]
+},
+{
+name: "Precise location questions",
+problem: "Users need to ask for location information other than address lines, such as coordinates and grid
+references.",
+status: "In progress",
+statusClass: "orange",
+phase: "Private beta",
+type: "Question types",
+category: "Form editor",
+designHistoryHref: "",
+researchRounds: [
+{ round: 11, date: "" }
+]
+},
+
+{
+
+name: "Confirmation emails",
+problem: "Users need reassurance they their form has been submitted.",
+status: "Tested",
+statusClass: "green",
+phase: "Private beta",
+type: "Public journeys",
+category: "Public journeys",
+designHistoryHref: "",
+researchRounds: [
+{ round: 7, date: "" }
+]
+},
+{
+name: "Form history",
+problem: "Users need to see a history of their form and policy requires this.",
+status: "Tested",
+statusClass: "green",
+phase: "Private beta",
+type: "Form structure",
+category: "Form overview",
+designHistoryHref: "",
+researchRounds: [
+{ round: 7, date: "Oct 2024" },
+{ round: 8, date: "Nov 2024" },
+{ round: 9, date: "Mar 2025" },
+{ round: 10, date: "Mar 2025" }
+]
+},
+{
+name: "Machine readable submission data",
+problem: "Users need to be able to choose the data they want to send to their systems.",
+status: "In progress",
+statusClass: "orange",
+phase: "Private beta",
+type: "Form management",
+category: "Form management",
+designHistoryHref: "",
+researchRounds: [
+{ round: 7, date: "Oct 2024" },
+{ round: 8, date: "Nov 2024" },
+{ round: 9, date: "Mar 2025" },
+{ round: 10, date: "Mar 2025" }
+]
+},
+{
+name: "Declaration page",
+problem: "Users need to ask for a declaration before submitting a form.",
+status: "Tested",
+statusClass: "green",
+phase: "Private beta",
+type: "Question types",
+category: "Form editor",
+designHistoryHref: "",
+researchRounds: [
+{ round: 7, date: "Oct 2024" },
+{ round: 8, date: "Nov 2024" },
+{ round: 9, date: "Mar 2025" },
+{ round: 10, date: "Mar 2025" }
+]
+},
+{
+name: "List items",
+problem: "Users need to create lists of options",
+status: "Tested",
+statusClass: "green",
+phase: "Private beta",
+type: "Question types",
+category: "Form editor",
+designHistoryHref: "/design-history/lists/index.html",
+researchRounds: [
+{ round: 7, date: "Oct 2024" },
+{ round: 8, date: "Nov 2024" },
+{ round: 9, date: "Mar 2025" },
+{ round: 10, date: "Mar 2025" }
+]
+},
+{
+name: "Form overview",
+problem: "Users need to be able to manage their forms",
+status: "Tested",
+statusClass: "green",
+phase: "Private beta",
+type: "Form structure",
+category: "Form overview",
+designHistoryHref: "/design-history/form-overview/index.html",
+researchRounds: [
+{ round: 1, date: "May 2024" },
+{ round: 2, date: "Jun 2024" },
+{ round: 3, date: "Jun 2024" },
+{ round: 4, date: "Jul 2024" }
+]
+},
+{
+name: "Conditions (page conditions)",
+problem: "Users need to show different pages based on responses",
+status: "Tested",
+statusClass: "green",
+phase: "Private beta",
+type: "Form logic",
+category: "Form editor",
+designHistoryHref: "/design-history/page-conditions/index.html",
+researchRounds: [
+{ round: 2, date: "Jun 2024" },
+{ round: 11, date: "Mar 2025" },
+{ round: 12, date: "Mar 2025" },
+{ round: 13, date: "Apr 2025" }
+]
+},
+{
+name: "Create new form (overall journey)",
+problem: "Users need a clear process for creating and managing forms",
+status: "Tested",
+statusClass: "green",
+phase: "Private beta",
+type: "Form management",
+category: "Form creation",
+designHistoryHref: "/design-history/form-creation/index.html",
+researchRounds: [
+{ round: 1, date: "May 2024" },
+{ round: 3, date: "Jun 2024" },
+{ round: 4, date: "Jul 2024" },
+{ round: 7, date: "Oct 2024" }
+]
+},
+{
+name: "'Add another' pattern (repeaters)",
+problem: "Users need to ask the same question multiple times",
+status: "Tested",
+statusClass: "green",
+phase: "Private beta",
+type: "Question types",
+category: "Form editor",
+designHistoryHref: "/design-history/add-another/index.html",
+researchRounds: [
+{ round: 5, date: "Jul 2024" },
+{ round: 6, date: "Sep 2024" },
+{ round: 7, date: "Oct 2024" },
+{ round: 9, date: "Mar 2025" }
+]
+},
+{
+name: "Forms library (sorting, filtering, tags)",
+problem: "Users need to efficiently find and manage their forms",
+status: "Tested",
+statusClass: "green",
+phase: "Private beta",
+type: "Form management",
+category: "Form library",
+designHistoryHref: "/design-history/form-library/index.html",
+researchRounds: [
+{ round: 1, date: "May 2024" },
+{ round: 3, date: "Jun 2024" },
+{ round: 4, date: "Jul 2024" },
+{ round: 5, date: "Jul 2024" }
+]
+},
+{
+name: "File upload (citizen view, internal, supporting evidence)",
+problem: "Users need to allow file uploads and manage supporting evidence",
+status: "Tested",
+statusClass: "green",
+phase: "Private beta",
+type: "Question types",
+category: "Form editor",
+designHistoryHref: "/design-history/file-upload/index.html",
+researchRounds: [
+{ round: 3, date: "Jun 2024" },
+{ round: 4, date: "Jul 2024" },
+{ round: 7, date: "Oct 2024" },
+{ round: 8, date: "Nov 2024" }
+]
+},
+{
+name: "Preview panel",
+problem: "Users need to see how their form will look",
+status: "Tested",
+statusClass: "green",
+phase: "Private beta",
+type: "Form preview",
+category: "Form editor",
+designHistoryHref: "/design-history/preview-panel/index.html",
+researchRounds: [
+{ round: 7, date: "Oct 2024" },
+{ round: 8, date: "Nov 2024" },
+{ round: 12, date: "Mar 2025" }
+]
+},
+{
+name: "Short description for error messages",
+problem: "Users need to provide clear error messages",
+status: "Tested",
+statusClass: "green",
+phase: "Private beta",
+type: "Form validation",
+category: "Form editor",
+designHistoryHref: "/design-history/short-description/index.html",
+researchRounds: [
+{ round: 7, date: "Oct 2024" },
+{ round: 8, date: "Nov 2024" }
+]
+},
+
+{
+name: "Page sections",
+problem: "Users need to organize forms into logical sections",
+status: "Tested",
+statusClass: "green",
+phase: "Private beta",
+type: "Form structure",
+category: "Form editor",
+designHistoryHref: "/design-history/sections/index.html",
+researchRounds: [
+{ round: 13, date: "Apr 2025" }
+]
+},
+{
+name: "Importing/exporting forms",
+problem: "Users need to share and reuse form designs",
+status: "Tested",
+statusClass: "green",
+phase: "Private beta",
+type: "Form management",
+category: "Form editor",
+designHistoryHref: "/design-history/importing-exporting/index.html",
+researchRounds: [
+{ round: 11, date: "Mar 2025" }
+]
+}
+] %}
+
+{% set sortedFeatures = features|sort(attribute='status', reverse=true) %}
+{% set groupedFeatures = sortedFeatures|groupby('category') %}
 
 {% block header %}
 {{ serviceHeader({
 organisationName: "Defra",
 productName: "Forms Designer",
-serviceName: "Kit of parts",
+serviceName: "Design history",
+accountName: "Account",
 containerClasses: containerClasses,
-homepageLink: "/design-system/components.html",
-signOutLink: "/onboarding/sign-out-confirmation",
+homepageLink: "/index.html",
 navigationItems: [
-{ href: "/library", text: "Prototype", id: "prototype" },
-{ href: "/design-system/components.html", text: "Components", id: "components" },
+{ href: "/library", text: "Histories and prototypes", id: "prototype" },
 { href: "/design-system/user-journeys/home.html", text: "User journeys", id: "user-journeys" }
 ],
-activeLinkId: "components"
+activeLinkId: "prototype"
 }) }}
 
-<div class="x-govuk-masthead x-govuk-masthead--large">
-  <div class="govuk-width-container">
-    <div class="govuk-grid-row">
-      <div class="govuk-grid-column-full-from-desktop">
-        <h1 class="x-govuk-masthead__title">
-          Component parts for the form editor
-        </h1>
-      </div>
-    </div>
-  </div>
-</div>
+{{ xGovukMasthead({
+title: {
+text: "Forms Designer histories and prototypes"
+},
+description: {
+html: 'This page shows prototypes for the Defra Forms Designer (DxT). You can see the current status and features of
+different versions of the tool.'
+},
+startButton: {
+href: "/titan-mvp-1.2/choose.html",
+text: "Start latest prototype (Titan MVP 1.2)"
+}
+}) }}
+
 {% endblock %}
 
 {% block content %}
-<div class="govuk-width-container">
-  <div class="govuk-grid-row">
-    <!-- Side Navigation -->
-    <div class="govuk-grid-column-one-quarter">
-      {% from "side-navigation/macro.njk" import dwpSideNavigation %}
-      <nav>
-        <h2 class="govuk-caption-m govuk-!-font-weight-bold">Question editor</h2>
-        {{
-        dwpSideNavigation({
-        pageId: "side-navigation-question-editor",
-        selectedItem: "",
-        items: [
-        { text: "Configuration panels", href: "/design-system/editor/configuration-panel.html", id: "sn-config-panels"
-        },
-        { text: "Guided input", href: "/design-system/editor/guided-input.html", id: "sn-guided-input" },
-        { text: "Preview panels", href: "/design-system/editor/preview-panel.html", id: "sn-preview-panels" },
-        { text: "Previews in a new tab", href: "/design-system/editor/previews-in-new-tab.html", id:
-        "sn-previews-new-tab"
-        },
-        { text: "Question borders", href: "/design-system/editor/border.html", id: "sn-question-borders" }
-        ]
-        })
-        }}
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-full">
 
-        <h2 class="govuk-caption-m govuk-!-font-weight-bold">Information types</h2>
-        {{
-        dwpSideNavigation({
-        pageId: "side-navigation-information-types",
-        selectedItem: "",
-        items: [
-        { text: "Answer limits", href: "/design-system/information-type/answer-limits.html", id: "sn-answer-limits" },
-        { text: "Configuration for each type", href: "/design-system/information-type/configuration-types.html", id:
-        "sn-configuration-types" }
-        ]
-        })
-        }}
+    {%- from "moj/components/ticket-panel/macro.njk" import mojTicketPanel -%}
 
-        <h2 class="govuk-caption-m govuk-!-font-weight-bold">Re-ordering</h2>
-        {{
-        dwpSideNavigation({
-        pageId: "side-navigation-reordering",
-        selectedItem: "",
-        items: [
-        { text: "Lists", href: "/design-system/reordering/lists.html", id: "sn-lists" },
-        { text: "Pages", href: "/design-system/reordering/pages.html", id: "sn-pages" },
-        { text: "Questions", href: "/design-system/reordering/questions.html", id: "sn-questions" }
-        ]
-        })
-        }}
-
-        <h2 class="govuk-caption-m govuk-!-font-weight-bold">Deletion</h2>
-        {{
-        dwpSideNavigation({
-        pageId: "side-navigation-deletion",
-        selectedItem: "",
-        items: [
-        { text: "Pages", href: "/design-system/deletion/pages.html", id: "sn-deletion-pages" }
-        ]
-        })
-        }}
-
-        <h2 class="govuk-caption-m govuk-!-font-weight-bold">Header</h2>
-        {{
-        dwpSideNavigation({
-        pageId: "side-navigation-header",
-        selectedItem: "",
-        items: [
-        { text: "Mastheads", href: "/design-system/header/masthead.html", id: "sn-mastheads" }
-        ]
-        })
-        }}
-    </div>
-
-    </nav>
-
-    <!-- Main Content -->
     <div class="govuk-grid-column-two-thirds">
-      <h2 class="govuk-heading-l">Quick links</h2>
-      <ul class="govuk-list govuk-list--bullet">
-        <li>
-          <a href="https://www.figma.com/design/1A9Tthy0CJeqp2rGNSKRjH/Defra-Form-Builder-flows?node-id=13394-310294&t=ES0UKt8LTJdYtlOX-4"
-            class="govuk-link govuk-link--no-visited-state" rel="noreferrer noopener" target="_blank">
-            Figma kit of parts: detailed breakdown at a lower level
-          </a>
-        </li>
-        <li>
-          <a href="/redesigntest/listing.html" class="govuk-link govuk-link--no-visited-state" rel="noreferrer noopener"
-            target="_blank">
-            Prototype: link to be updated in due course
-          </a>
-        </li>
-      </ul>
 
-      </section>
-
-      <section class="govuk-!-margin-bottom-6">
-        <h2 class="govuk-heading-l">What is the overall flow?</h2>
-        <p class="govuk-body">
-          Below is a visual illustration of the general flow. You can read more details about this flow on
-          the
-          <a href="/design-system/user-journeys/home.html" class="govuk-link govuk-link--no-visited-state"
-            rel="noreferrer noopener" target="_blank">
-            design system user journey tab
-          </a>.
-        </p>
-        <iframe style="border: 1px solid rgba(0, 0, 0, 0.1);" width="100%" height="450"
-          src="https://embed.figma.com/design/1A9Tthy0CJeqp2rGNSKRjH/Defra-Form-Builder-flows?node-id=18388-32046&embed-host=share"
-          allowfullscreen></iframe>
-      </section>
-
-      <section class="govuk-!-margin-bottom-6">
-        <h2 class="govuk-heading-l">Types of Pages</h2>
-
-        <h3 class="govuk-heading-m">Form management pages</h3>
-        <dl class="govuk-summary-list">
-          <div class="govuk-summary-list__row">
-            <dt class="govuk-summary-list__key"><a
-                href="https://defra-forms-mvp-prototype-6c025bd15252.herokuapp.com/design-system/reordering/pages"
-                class="govuk-link govuk-link--no-visited-state" rel="noreferrer noopener" target="_blank">Listing
-                page</a></dt>
-            <dd class="govuk-summary-list__value">
-              <p class="govuk-body">A summary of all the pages the user has created, including 'End pages' such as the
-                Check
-                Answers page. When JavaScript is enabled, users can access a quick preview of each page.</p>
-              <ul class="govuk-list govuk-list--bullet">
-                <li>Pages are represented using summary cards.</li>
-              </ul>
-            </dd>
-          </div>
-
-          <div class="govuk-summary-list__row">
-            <dt class="govuk-summary-list__key"><a
-                href="https://defra-forms-mvp-prototype-6c025bd15252.herokuapp.com/design-system/reordering/pages"
-                class="govuk-link govuk-link--no-visited-state" rel="noreferrer noopener" target="_blank">Re-ordering
-                page</a></dt>
-            <dd class="govuk-summary-list__value">
-              <p class="govuk-body">Change the order of pages by moving them up or down.</p>
-            </dd>
-
-          </div>
-
-          <div class="govuk-summary-list__row">
-            <dt class="govuk-summary-list__key">Preview form</dt>
-            <dd class="govuk-summary-list__value">
-              <p class="govuk-body">Preview the form from start to finish.</p>
-            </dd>
-          </div>
-        </dl>
-
-        <h3 class="govuk-heading-m">Form creation pages</h3>
-        <dl class="govuk-summary-list">
-          <div class="govuk-summary-list__row">
-            <dt class="govuk-summary-list__key"><a
-                href="https://www.figma.com/design/1A9Tthy0CJeqp2rGNSKRjH/Defra-Form-Builder-flows?node-id=13384-93382&t=KGAtImqUVLcbc5IG-4"
-                class="govuk-link govuk-link--no-visited-state" rel="noreferrer noopener" target="_blank">Page type
-                selection</a></dt>
-            <dd class="govuk-summary-list__value">
-              <p class="govuk-body">Choose to create a question or a guidance page.</p>
-            </dd>
-          </div>
-          <div class="govuk-summary-list__row">
-            <dt class="govuk-summary-list__key"><a
-                href="https://www.figma.com/design/1A9Tthy0CJeqp2rGNSKRjH/Defra-Form-Builder-flows?node-id=13384-89842&t=KGAtImqUVLcbc5IG-4"
-                class="govuk-link govuk-link--no-visited-state" rel="noreferrer noopener" target="_blank">Information
-                type selection</a></dt>
-            <dd class="govuk-summary-list__value">
-              <p class="govuk-body">Choose the type of question to add.</p>
-            </dd>
-          </div>
-          <div class="govuk-summary-list__row">
-            <dt class="govuk-summary-list__key"><a
-                href="https://www.figma.com/design/1A9Tthy0CJeqp2rGNSKRjH/Defra-Form-Builder-flows?node-id=13384-93254&t=KGAtImqUVLcbc5IG-4"
-                class="govuk-link govuk-link--no-visited-state" rel="noreferrer noopener" target="_blank">Question
-                configuration</a></dt>
-            <dd class="govuk-summary-list__value">
-              <p class="govuk-body">Configure a question that appears on a page.</p>
-            </dd>
-          </div>
-          <div class="govuk-summary-list__row">
-            <dt class="govuk-summary-list__key"><a
-                href="https://www.figma.com/design/1A9Tthy0CJeqp2rGNSKRjH/Defra-Form-Builder-flows?node-id=13384-90510&t=KGAtImqUVLcbc5IG-4"
-                class="govuk-link govuk-link--no-visited-state" rel="noreferrer noopener" target="_blank">Page
-                overview</a></dt>
-            <dd class="govuk-summary-list__value">
-              <p class="govuk-body">View a summary of questions, add headings and guidance, allow multiple responses,
-                and
-                re-order questions.</p>
-            </dd>
-
-          </div>
-        </dl>
-      </section>
-
-      <section class="govuk-!-margin-bottom-6">
-        <h2 class="govuk-heading-l">Progressive Enhancement</h2>
-        <p class="govuk-body">The user journeys for creating pages follow progressive enhancement principles, ensuring a
-          quality service for all users, regardless of whether JavaScript is enabled. The experience may vary slightly
-          for
-          users without JavaScript, but the outcomes remain consistent and accessible.</p>
-        <table class="govuk-table">
-          <caption class="govuk-table__caption govuk-table__caption--m">Comparison: JavaScript enabled vs. disabled (see
-            also a <a
-              href="https://www.figma.com/design/1A9Tthy0CJeqp2rGNSKRjH/Defra-Form-Builder-flows?node-id=18338-42163&t=KGAtImqUVLcbc5IG-4"
-              class="govuk-link govuk-link--no-visited-state" rel="noreferrer noopener" target="_blank">Figma overview
-              of visual differences</a>)
-          </caption>
-          <thead class="govuk-table__head">
-            <tr class="govuk-table__row">
-              <th scope="col" class="govuk-table__header">Feature</th>
-              <th scope="col" class="govuk-table__header">When JavaScript is disabled</th>
-              <th scope="col" class="govuk-table__header">When JavaScript is enabled</th>
-            </tr>
-          </thead>
-          <tbody class="govuk-table__body">
-            <tr class="govuk-table__row">
-              <th scope="row" class="govuk-table__header"><a href="/design-system/editor/preview-panel.html"
-                  class="govuk-link govuk-link--no-visited-state" rel="noreferrer noopener" target="_blank">Preview
-                  panels</a></th>
-              <td class="govuk-table__cell">Preview panels are not shown together with <a
-                  href="/design-system/editor/configuration-panel.html" class="govuk-link govuk-link--no-visited-state"
-                  rel="noreferrer noopener" target="_blank">configuration panels</a>.</td>
-              <td class="govuk-table__cell">Preview panels are shown alongside <a
-                  href="/design-system/editor/configuration-panel.html" class="govuk-link govuk-link--no-visited-state"
-                  rel="noreferrer noopener" target="_blank">configuration panels</a>.</td>
-            </tr>
-            <tr class="govuk-table__row">
-              <th scope="row" class="govuk-table__header">Preview buttons</th>
-              <td class="govuk-table__cell">
-                <ul class="govuk-list govuk-list--bullet">
-                  <li>Open a preview of the question/page being created</li>
-                  <li>View the error messages for a question</li>
-                </ul>
-              </td>
-              <td class="govuk-table__cell">
-                <ul class="govuk-list govuk-list--bullet">
-                  <li>
-                    Preview buttons are removed and replaced by skip links that are only visible when Tabbing activates
-                    it. <a
-                      href="https://www.figma.com/design/1A9Tthy0CJeqp2rGNSKRjH/Defra-Form-Builder-flows?node-id=18338-47922&t=ES0UKt8LTJdYtlOX-4"
-                      class="govuk-link govuk-link--no-visited-state" rel="noreferrer noopener" target="_blank"> (See
-                      overview of
-                      this in Figma kit of parts)</a>
-                  </li>
-                  <li><a href="https://design-system.service.gov.uk/components/skip-link/"
-                      class="govuk-link govuk-link--no-visited-state" rel="noreferrer noopener" target="_blank">Skip
-                      links</a> jump users from the configuration panel to a preview tab (Page preview or Error
-                    messages)</li>
-                  <li>Skip links inside preview tabs return users to the configuration panel</li>
-                </ul>
-              </td>
-            </tr>
-            <tr class="govuk-table__row">
-              <th scope="row" class="govuk-table__header">Preview panel styling</th>
-              <td class="govuk-table__cell">No additional styling is applied to questions in the preview panel.</td>
-              <td class="govuk-table__cell">Questions in the preview panel receive a <a
-                  href="https://defra-forms-mvp-prototype-6c025bd15252.herokuapp.com/design-system/editor/border.html"
-                  class="govuk-link govuk-link--no-visited-state" rel="noreferrer noopener"
-                  target="_blank">left-border</a>.</td>
-            </tr>
-            <tr class="govuk-table__row">
-              <th scope="row" class="govuk-table__header"><a href="/design-system/editor/guided-input.html"
-                  class="govuk-link govuk-link--no-visited-state" rel="noreferrer noopener" target="_blank">Guided
-                  input</a></th>
-              <td class="govuk-table__cell">No guided input or content highlighting in the preview area.</td>
-              <td class="govuk-table__cell">When users focus on an input field, the related content in the preview area
-                gets <a href="/design-system/editor/guided-input.html" class="govuk-link govuk-link--no-visited-state"
-                  rel="noreferrer noopener" target="_blank">
-                  highlighted</a>.</td>
-            </tr>
-            <tr class="govuk-table__row">
-              <th scope="row" class="govuk-table__header">Re-ordering movements</th>
-              <td class="govuk-table__cell">Page reloads are required after each re-ordering action.</td>
-              <td class="govuk-table__cell">
-                <ul class="govuk-list govuk-list--bullet">
-                  <li><strong>Highlight on focus:</strong> When focus is applied to an input field or button, a
-                    highlight
-                    appears on the corresponding preview element. The highlight is removed when the focus moves away.
-                  </li>
-                  <li><strong>Types of reordering:</strong>
-                    <ul class="govuk-list govuk-list--bullet">
-                      <li>Lists (checkboxes, radios) – see <a
-                          href="https://www.figma.com/design/1A9Tthy0CJeqp2rGNSKRjH/Defra-Form-Builder-flows?node-id=13384-93733&t=ES0UKt8LTJdYtlOX-4"
-                          class="govuk-link govuk-link--no-visited-state" rel="noreferrer noopener"
-                          target="_blank">Figma</a> and the <a href="/design-system/reordering/lists.html"
-                          class="govuk-link govuk-link--no-visited-state" rel="noreferrer noopener"
-                          target="_blank">design
-                          system</a></li>
-                      <li>Pages – see <a
-                          href="https://www.figma.com/design/1A9Tthy0CJeqp2rGNSKRjH/Defra-Form-Builder-flows?node-id=13384-97780&t=ES0UKt8LTJdYtlOX-4"
-                          class="govuk-link govuk-link--no-visited-state" rel="noreferrer noopener"
-                          target="_blank">Figma</a> and the <a
-                          href="https://defra-forms-mvp-prototype-6c025bd15252.herokuapp.com/design-system/reordering/pages"
-                          class="govuk-link govuk-link--no-visited-state" rel="noreferrer noopener"
-                          target="_blank">design system</a></li>
-                      <li>Questions – see <a
-                          href="https://www.figma.com/design/1A9Tthy0CJeqp2rGNSKRjH/Defra-Form-Builder-flows?node-id=13384-95373&t=ES0UKt8LTJdYtlOX-4"
-                          class="govuk-link govuk-link--no-visited-state" rel="noreferrer noopener"
-                          target="_blank">Figma</a> and the <a
-                          href="https://defra-forms-mvp-prototype-6c025bd15252.herokuapp.com/design-system/reordering/questions"
-                          class="govuk-link govuk-link--no-visited-state" rel="noreferrer noopener"
-                          target="_blank">design system</a></li>
-                    </ul>
-                  </li>
-                  <li>Specific screen reader announcements must be applied for accessibility.</li>
-                </ul>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </section>
+      {{ mojTicketPanel({
+      attributes: {
+      "aria-label": "Read an overview of the re-design of the forms designer"
+      },
+      items: [{
+      html: ' <h2 class="govuk-heading-m govuk-!-margin-bottom-2">Read an overview of the re-design of the forms
+        designer</h2>
+      <p class="govuk-body">The Defra Forms Designer (DxT) underwent a major re-design to improve usability,
+        accessibility, and efficiency. Read an overview of the re-design and the changes made
+        to the tool.</p>
+      <a class="govuk-button govuk-!-margin-bottom-1" data-module="govuk-button"
+        href="/design-history/forms-designer/index.html" target="_blank" rel="noopener noreferrer">
+        Read overview
+      </a>',
+      attributes: {
+      "aria-label": "Section 1"
+      },
+      classes: "moj-ticket-panel__content--green govuk-!-margin-bottom-6"
+      }]
+      }) }}
     </div>
-  </div>
-</div>
+    <div class="govuk-grid-column-full">
 
-{% endblock %}
+      <h2 class="govuk-heading-l">Features</h2>
+      <details class="govuk-details">
+        <summary class="govuk-details__summary">
+          <span class="govuk-details__summary-text">
+            Understanding the design process
+          </span>
+        </summary>
+        <div class="govuk-details__text">
+          <h3 class="govuk-heading-s">Understanding the design process</h3>
+          <p class="govuk-body">Each feature has gone through multiple rounds of user research and testing. The design
+            history link provides access to:</p>
+          <ul class="govuk-list govuk-list--bullet">
+            <li>Research findings and insights</li>
+            <li>Design iterations and improvements</li>
+            <li>User feedback and testing results</li>
+            <li>Implementation decisions and rationale</li>
+          </ul>
+        </div>
+      </details>
+
+      {% set testedTableData = [] %}
+      {% set inProgressTableData = [] %}
+      {% set nextTableData = [] %}
+
+      {% for feature in sortedFeatures %}
+      {% set researchRoundsText = '' %}
+      {% for round in feature.researchRounds %}
+      {% if not loop.first %}{% set researchRoundsText = researchRoundsText + '<br>' %}{% endif %}
+      {% set researchRoundsText = researchRoundsText + round.date + ' (Round ' + round.round + ')' %}
+      {% endfor %}
+      {# {% set detailsHtml = govukDetails({
+      summaryText: "View rounds",
+      html: researchRoundsText
+      }) %} #}
+
+      {% set designHistoryLink = '' %}
+      {% if feature.designHistoryHref and feature.designHistoryHref != "" %}
+      {% set designHistoryLink = '<a class="govuk-link" href="' + feature.designHistoryHref + '">View<span
+          class="govuk-visually-hidden"> design history for ' + feature.name + '</span></a>' %}
+      {% endif %}
+
+      {% if feature.status == "Tested" %}
+      {% set featureRow = [
+      { text: feature.name },
+      { text: feature.problem },
+      { html: '<strong class="govuk-tag govuk-tag--' + feature.statusClass + '">' + feature.status + '</strong>' },
+      { html: designHistoryLink }
+      ] %}
+      {% set testedTableData = (testedTableData.push(featureRow), testedTableData) %}
+      {% elif feature.status == "Next" %}
+      {% set featureRow = [
+      { text: feature.name },
+      { text: feature.problem },
+      { html: '<strong class="govuk-tag govuk-tag--' + feature.statusClass + '">' + feature.status + '</strong>' },
+      { html: designHistoryLink }
+      ] %}
+      {% set nextTableData = (nextTableData.push(featureRow), nextTableData) %}
+      {% else %}
+      {% set featureRow = [
+      { text: feature.name },
+      { text: feature.problem },
+      { html: '<strong class="govuk-tag govuk-tag--' + feature.statusClass + '">' + feature.status + '</strong>' },
+      { html: designHistoryLink }
+      ] %}
+      {% set inProgressTableData = (inProgressTableData.push(featureRow), inProgressTableData) %}
+      {% endif %}
+      {% endfor %}
+
+      {% set testedCount = testedTableData | length %}
+      {% set inProgressCount = inProgressTableData | length %}
+      {% set nextCount = nextTableData | length %}
+
+      {% set tabItems = [
+      {
+      label: "In progress (" + inProgressCount + ")",
+      id: "in-progress",
+      panel: {
+      html: govukTable({
+      attributes: { "data-module": "moj-sortable-table" },
+      head: [
+      { text: "Feature", attributes: { "aria-sort": "ascending" } },
+      { text: "Problem statement" },
+      { text: "Status" },
+      { text: "Design history" }
+      ],
+      rows: inProgressTableData
+      })
+      }
+      }
+      ] %}
+
+      {% if nextCount >= 1 %}
+      {% set tabItems = tabItems.concat([
+      {
+      label: "Next (" + nextCount + ")",
+      id: "next",
+      panel: {
+      html: govukTable({
+      attributes: { "data-module": "moj-sortable-table" },
+      head: [
+      { text: "Feature", attributes: { "aria-sort": "ascending" } },
+      { text: "Problem statement" },
+      { text: "Status" },
+      { text: "Design history" }
+      ],
+      rows: nextTableData
+      })
+      }
+      }
+      ]) %}
+      {% endif %}
+
+      {% set tabItems = tabItems.concat([
+      {
+      label: "Tested (" + testedCount + ")",
+      id: "tested",
+      panel: {
+      html: govukTable({
+      attributes: { "data-module": "moj-sortable-table" },
+      caption: "Tested features",
+      head: [
+      { text: "Feature", attributes: { "aria-sort": "ascending" } },
+      { text: "Problem statement" },
+      { text: "Status" },
+      { text: "Design history" }
+      ],
+      rows: testedTableData
+      })
+      }
+      }
+      ]) %}
+
+      {{ govukTabs({
+      items: tabItems
+      }) }}
+    </div>
+
+
+
+  {% endblock %}
+
+  {% block pageScripts %}
+  <script src="/public/javascripts/moj-sortable-table.js"></script>
+  <script>
+    // Table sorting functionality
+      // Initial sort (with safety check to prevent multiple calls)
+      if (typeof window.tableSortInitialized === 'undefined') {
+        window.tableSortInitialized = true;
+        sortTableByRecentDate();
+      }
+
+      // Override the click handler for sortable columns
+      const sortableHeaders = document.querySelectorAll('.govuk-table__header[aria-sort]');
+      sortableHeaders.forEach(header => {
+        header.addEventListener('click', (e) => {
+          e.preventDefault();
+          const table = header.closest('.govuk-table');
+          const tbody = table.querySelector('tbody');
+          const rows = Array.from(tbody.querySelectorAll('tr'));
+
+          // Get the column index
+          const columnIndex = Array.from(header.parentElement.children).indexOf(header);
+
+          // Sort rows by the clicked column
+          rows.sort((a, b) => {
+            const cellA = a.children[columnIndex];
+            const cellB = b.children[columnIndex];
+            const valueA = cellA.textContent.trim();
+            const valueB = cellB.textContent.trim();
+            return valueA.localeCompare(valueB);
+          });
+
+          // Re-append rows in sorted order
+          rows.forEach(row => tbody.appendChild(row));
+        });
+      });
+  </script>
+  <script>
+    // Helper to extract all dates from a string and return the most recent one
+    function getMostRecentDate(detailsText) {
+      const monthMap = {
+        'Jan': 0, 'Feb': 1, 'Mar': 2, 'Apr': 3, 'May': 4, 'Jun': 5,
+        'Jul': 6, 'Aug': 7, 'Sep': 8, 'Oct': 9, 'Nov': 10, 'Dec': 11
+      };
+
+      // Use matchAll instead of exec to avoid infinite loops
+      const dateRegex = /([A-Za-z]+) (\d{4})/g;
+      const matches = detailsText.matchAll(dateRegex);
+      let maxDate = new Date(0);
+
+      for (const match of matches) {
+        const month = match[1];
+        const year = parseInt(match[2]);
+        if (monthMap[month] !== undefined) {
+          const d = new Date(year, monthMap[month], 1);
+          if (d > maxDate) maxDate = d;
+        }
+      }
+      return maxDate;
+    }
+
+    // Sort table rows by most recent research round date (for tested features)
+    function sortTableByRecentDate() {
+      try {
+        const tables = document.querySelectorAll('.govuk-table')
+        tables.forEach(table => {
+          const tbody = table.querySelector('tbody')
+          if (!tbody) return; // Safety check
+
+          const rows = Array.from(tbody.querySelectorAll('tr'))
+          if (rows.length === 0) return; // Safety check
+
+          // Sort rows by most recent research round date
+          rows.sort((a, b) => {
+            try {
+              const detailsA = a.querySelector('.govuk-details__text')
+              const detailsB = b.querySelector('.govuk-details__text')
+
+              if (detailsA && detailsB) {
+                const maxDateA = getMostRecentDate(detailsA.textContent || '')
+                const maxDateB = getMostRecentDate(detailsB.textContent || '')
+                return maxDateB - maxDateA
+              }
+
+              return 0
+            } catch (error) {
+              console.warn('Error sorting table row:', error)
+              return 0
+            }
+          })
+
+          // Re-append rows in sorted order
+          rows.forEach(row => {
+            try {
+              tbody.appendChild(row)
+            } catch (error) {
+              console.warn('Error appending table row:', error)
+            }
+          })
+        })
+      } catch (error) {
+        console.warn('Error in sortTableByRecentDate:', error)
+      }
+    }
+
+  </script>
+  {% endblock %}
+
+  {
+  name: "OTP Input Component",
+  problem: "Users need to enter verification codes, PINs, and other one-time passwords with smart focus management.",
+  status: "Demo",
+  statusClass: "green",
+  phase: "Prototype",
+  type: "Question types",
+  category: "Form editor",
+  designHistoryHref: "",
+  researchRounds: [],
+  demoHref: "/titan-mvp-1.2/govuk-otp-input-demo"
+  },
+  {
+  name: "OTP Input for Coordinates",
+  problem: "Users need to enter precise coordinate data with smart focus management and paste functionality.",
+  status: "Demo",
+  statusClass: "green",
+  phase: "Prototype",
+  type: "Question types",
+  category: "Form editor",
+  designHistoryHref: "",
+  researchRounds: [],
+  demoHref: "/titan-mvp-1.2/form-editor/location/wreck-otp"
+  },
+  {
+    name: "Support pages",
+    problem: "Users need to add supporting information to their forms",
+    status: "Tested",
+    statusClass: "green",
+    phase: "Private beta",
+    type: "Form structure",
+    category: "Form overview",
+    designHistoryHref: "",
+    researchRounds: [
+    { round: 2, date: "Jun 2024" }
+    ]
+    },
+    {
+      name: "Guidance pages (includes page heading)",
+      problem: "Users need to provide clear instructions and context",
+      status: "Tested",
+      statusClass: "green",
+      phase: "Private beta",
+      type: "Form structure",
+      category: "Form editor",
+      designHistoryHref: "",
+      researchRounds: [
+      { round: 1, date: "May 2024" },
+      { round: 6, date: "Sep 2024" },
+      { round: 8, date: "Nov 2024" }
+      ]
+      },

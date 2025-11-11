@@ -1,0 +1,383 @@
+{#
+Design History Page for "Adding form details when creating a new form"
+----------------------------------------------------------------------
+This file documents the design and research history for the "Add form details" feature.
+It extends the main design history template and sets all the variables required by that template.
+
+Key variables:
+- featureName: The name of the feature being documented.
+- latestVersionLink: URL to the latest prototype version.
+- status, statusColor: Status tag and its color.
+- userNeed: The user need this feature addresses.
+- phase, category: Project phase and category.
+- researchRounds: List of research rounds (for the summary table).
+- improvements: Key improvements in the latest version.
+- researchHistory: Table of research rounds, findings, and prototype links.
+- researchSummaries: Detailed summaries for each research round.
+Each summary can contain sections of type: content, details, images, objectives, findings, recommendations, preview.
+
+How to use:
+- Add or update research rounds and summaries as new research is conducted.
+- Use the provided structure for each section type.
+- For previews, images, and details, see the template for rendering logic.
+
+For more info, see: /design-history/index.html (the template guide)
+#}
+
+{% extends "design-history/template.html" %}
+
+{# --- Feature metadata --- #}
+{% set featureName = "Adding form details when creating a new form" %}
+{% set latestVersionLink = "/titan-mvp-1/create-new-form/form-name.html" %}
+{% set status = "Tested" %}
+{% set statusColor = "green" %}
+{% set userNeed = "Users need to create new forms with clear details so they can effectively manage and identify their
+forms." %}
+{% set phase = "Private beta" %}
+{% set category = "Form admin" %}
+{% set description = "This feature allows users to create new forms by providing essential details including form name,
+lead organisation, and team details. This information helps manage the form and appears on the Form overview page." %}
+{% set journeySteps = [
+{
+number: "1",
+title: "Onboarding",
+subtitles: [
+{ text: "Sign in/out", isCurrent: false },
+{ text: "Roles and permissions", isCurrent: false }
+]
+},
+{
+number: "2",
+title: "Create new form",
+subtitles: [
+{ text: "Add form details", isCurrent: true }
+],
+isCurrent: true
+},
+{
+number: "3",
+title: "Form design",
+subtitles: [
+{ text: "Create and edit questions", isCurrent: false },
+{ text: "Set up page conditions", isCurrent: false }
+]
+},
+{
+number: "4",
+title: "Testing",
+subtitles: [
+{ text: "Preview form", isCurrent: false },
+{ text: "Check routing", isCurrent: false }
+]
+},
+{
+number: "5",
+title: "Form management",
+subtitles: [
+{ text: "Finding forms", isCurrent: false },
+{ text: "Publishing forms", isCurrent: false },
+{ text: "Receiving submissions", isCurrent: false },
+{ text: "Updating form details", isCurrent: false }
+]
+}
+] %}
+
+{# --- Full page list --- #}
+{% set pageList = [
+{
+section: "Form creation",
+pages: [
+{
+name: "Form name",
+link: "/titan-mvp-1/create-new-form/form-name.html",
+release: "Titan 1.0 MVP"
+},
+{
+name: "Form name (error)",
+link: "/titan-mvp-1/create-new-form/form-name-error.html",
+release: "Titan 1.0 MVP"
+},
+{
+name: "Organisation name",
+link: "/titan-mvp-1/create-new-form/organisation-name.html",
+release: "Titan 1.0 MVP"
+},
+{
+name: "Organisation name (error)",
+link: "/titan-mvp-1/create-new-form/organisation-name-error.html",
+release: "Titan 1.0 MVP"
+},
+{
+name: "Policy SME details",
+link: "/titan-mvp-1/create-new-form/policy-sme.html",
+release: "Titan 1.0 MVP"
+},
+{
+name: "Policy SME details (error)",
+link: "/titan-mvp-1/create-new-form/policy-sme-error.html",
+release: "Titan 1.0 MVP"
+}
+]
+}
+] %}
+
+{# --- Feature links --- #}
+{% set featureLinks = [
+{
+title: "Form name",
+screens: [
+{
+name: "Main screen",
+path: "/titan-mvp-1/create-new-form/form-name.html"
+},
+{
+name: "Error state",
+path: "/titan-mvp-1/create-new-form/form-name-error.html"
+}
+]
+},
+{
+title: "Organisation name",
+screens: [
+{
+name: "Main screen",
+path: "/titan-mvp-1/create-new-form/organisation-name.html"
+},
+{
+name: "Error state",
+path: "/titan-mvp-1/create-new-form/organisation-name-error.html"
+}
+]
+},
+{
+title: "Policy SME details",
+screens: [
+{
+name: "Main screen",
+path: "/titan-mvp-1/create-new-form/policy-sme.html"
+},
+{
+name: "Error state",
+path: "/titan-mvp-1/create-new-form/policy-sme-error.html"
+}
+]
+}
+] %}
+
+{# --- Research rounds for the summary table --- #}
+{% set researchRounds = [
+"Round 7 - October 2024",
+"Round 2 - May/June 2024",
+"Round 1 - May 2024"
+] %}
+
+{# --- Key improvements in the latest version --- #}
+{% set improvements = [
+"Clarified difference between form name and title",
+"Added support for multiple organisations",
+"Improved email usage instructions",
+"Enhanced form overview and publication process explanation"
+] %}
+
+{# --- Research history table --- #}
+{% set researchHistory = [
+{
+roundNumber: "7",
+researchDate: "October 2024",
+researchFinding: "Users needed clearer guidance on email usage in team details. Hint text was helpful but could be
+improved.",
+changeMade: "Added clarification about personal email addresses. Updated hint text."
+},
+{
+roundNumber: "3 & 4",
+researchDate: "July 2024",
+researchFinding: "No major issues identified. Still an expectation to be able to choose more than one organisation.
+Participants would refer SMEs/Policy teams for unclear information.",
+changeMade: "Screens unchanged from Round 1. Noted need for multi-organisation selection."
+},
+{
+roundNumber: "1",
+researchDate: "May 2024",
+researchFinding: "Users needed clearer guidance on required fields and naming conventions. Confusion between form 'name'
+and 'title'. Need for multiple organisation selection. Uncertainty around what to put as 'shared team email'",
+changeMade: "Initial implementation of form details collection. Added guidance and clarified naming conventions."
+}
+] %}
+
+{# --- Research summaries --- #}
+{% set researchSummaries = [
+{
+title: "Round 7 - October 2024",
+summary: "Testing of team details and email usage",
+sections: [
+{
+type: "content",
+content: "**Research conducted:** Remote usability testing (1–2 October 2024)\n\n**Participants:** 4 senior content
+designers and 1 proxy user (APHA, RPA, Countryside Stewardship)\n\n**Method:** Remote usability testing with think-aloud
+protocol\n\n**Scenario:** Testing form creation process, focusing on team details and email usage. Participants were
+asked to create new forms and provide team information.",
+fullReportLink: "/public/research/round-7-full-report.pdf"
+},
+{
+type: "changes",
+showImageColumn: false,
+content: [
+{
+screen: "Team details screen",
+what: "Added clarification about personal email addresses",
+why: "To address user confusion about what constitutes a personal email address"
+}
+]
+},
+{
+type: "screen",
+title: "Team details screen",
+content: "The team details screen collects information about the team responsible for the form, including contact
+details and roles.",
+images: [
+{
+src: "/public/images/form-admin/round-7/team-details.png",
+alt: "Screenshot of the team details input screen",
+caption: "Team details screen",
+width: "two-thirds"
+}
+],
+insights: [
+"Hint text was helpful but copy could be improved"
+],
+quotes: [
+"'Personal email—my Defra email or my Hotmail?' [Content designer, BAU]"
+]
+}
+]
+},
+{
+title: "Round 3 & 4 - July 2024",
+summary: "The same screens were tested again with a different participant group.",
+sections: [
+{
+type: "content",
+content: "### Round 3
+- 1 x BaU working mainly with Farming – Whitehall\n- 1 x EA - Check for
+flooding service\n- 1 x Find Team, Sustainable Farming Incentive (SFI), Farming\n- 1 x BaU - Whitehall\n\n### Round 4
+- 1 x BaU working mainly with Farming – Whitehall\n- 1 x BaU working mainly with Farming – GOV.UK forms\n- 1 x Cefas -
+Whitehall\n- 1 x BaU working mainly with Nature, forestry and climate change content - Whitehall",
+fullReportLink:
+"https://defra.sharepoint.com.mcas.ms/:p:/r/teams/Team1466/_layouts/15/Doc.aspx?sourcedoc=%7B5239DF9E-4310-4653-A010-866F308A50F6%7D&file=Private%20Beta%20Round%203%20UR%20Report%20June%202024.pptx&action=edit&mobileredirect=true"
+},
+{
+type: "content",
+content: "The screens were unchanged from Round 1."
+},
+{
+type: "findings",
+content: [
+"No major issues identified",
+"Participants would refer SMEs/Policy teams for unclear information",
+"Still an expectation to be able to choose more than one organisation. Often ALBs collaborate on services."
+]
+}
+]
+},
+{
+title: "Round 1 - May 2024",
+summary: "Initial testing of adding form details when creating a new form",
+sections: [
+{
+type: "content",
+content: "**Research conducted:** Remote interviews and usability testing (15–23 May 2024)\n\n**Participants:** 6
+content designers from various Defra teams (RPA, BAU, Air Quality Control, Trade and Borders, Natural
+England)\n\n**Method:** Remote usability testing with think-aloud protocol\n\n**Scenario:** Testing initial form
+creation process, focusing on required fields and naming conventions.",
+fullReportLink:
+"https://defra.sharepoint.com.mcas.ms/:p:/r/teams/Team1466/_layouts/15/Doc.aspx?sourcedoc=%7BF0D60B66-2081-4D83-BBBA-D80C124CCD99%7D&file=Private%20Beta%20Round%201%20UR%20Report%20May%202024.pptx&action=edit&mobileredirect=true"
+},
+{
+type: "findings",
+content: [
+"Users needed clearer guidance on required fields and naming conventions",
+"Confusion between form 'name' and 'title'",
+"Need for multiple organisation selection",
+"Uncertainty around what to put as 'shared team email'"
+]
+},
+{
+type: "screen",
+title: "Screen 1: Form name screen",
+content: "The form name screen allows users to enter a unique name for their form. This name is used throughout the
+system to identify and reference the form.",
+images: [
+{
+src: "/public/images/form-admin/round-1/form-name.png",
+alt: "Screenshot of the form name input screen",
+caption: "Form name screen"}
+],
+insights: [
+"Names often decided collaboratively; users expect flexibility",
+"Confusion between form 'name' and 'title'",
+"Most participants expected to be able to change the form name later."
+],
+quotes: [
+"'Ideally, it would be together based on what they want the form to do and be based on good content design principles.'
+[Content designer, BAU]",
+"'The name, I assume something unique so that I can find it again.' [Round 1, May 2024]"
+]
+},
+{
+type: "audio",
+src: "/public/audio/round-1/Name-vs-title.mp4",
+caption: "Discussion about the difference between form name and title [Content designer, BAU]"
+},
+{
+type: "screen",
+title: "Screen 2: Lead organisation screen",
+content: "The lead organisation screen allows users to specify which organisation is responsible for the form.",
+images: [
+{
+src: "/public/images/form-admin/round-1/lead-org.png",
+alt: "Screenshot of the lead organisation input screen",
+caption: "Lead organisation screen"
+}
+],
+insights: [
+"Clear interface but requires ability to select multiple organisations",
+"Users operate across multiple organisational areas",
+"Need for flexibility in organisation selection"
+],
+quotes: [
+"'We're sort of operating within three areas: Defra core, APHA and DAERA. So, I'm going to pick APHA, but I might want
+to pick two.' [Content Designer, Trade]",
+"'I don't know what the policy team are actually called. What business area responsible for this form?' [Content
+designer, Air Quality Control]"
+]
+},
+{
+type: "screen",
+title: "Screen 3: Team details screen",
+content: "The team details screen collects information about the team responsible for the form.",
+images: [
+{
+src: "/public/images/form-admin/round-1/team-details.png",
+alt: "Screenshot of the team details input screen",
+caption: "Team details screen"
+}
+],
+insights: [
+"Often no shared team email; reliance on personal Defra emails"
+],
+quotes: [
+"'I don't know what the policy team are actually called. What business area responsible for this form? I would assume
+that
+I'm responsible for this form as I'm creating it and I'm in the xxx team. So that's what I would put there.' [Content
+designer, Air Quality Control]"
+]
+}
+]
+}
+] %}
+
+<style>
+        .app-secondary-text {
+                color: #505a5f;
+        }
+</style>

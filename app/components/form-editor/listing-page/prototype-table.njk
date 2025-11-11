@@ -1,0 +1,24 @@
+/* components/prototype-table.njk */
+{% macro renderPrototypeTable(features) %}
+  {% set rows = [] %}
+  {% for f in features %}
+    {% set rows = rows.push([
+      { html: '<a class="govuk-link" href="' ~ f.prototypeHref ~ '">' ~ f.name ~ '</a>' },
+      { text: f.problem },
+      { html: '<strong class="govuk-tag govuk-tag--' ~ f.statusClass ~ '">' ~ f.status ~ '</strong>' },
+      { text: f.phase }
+    ]) %}
+  {% endfor %}
+
+  {{ govukTable({
+      attributes: { 'data-module': 'moj-sortable-table' },
+      head: [
+        { text: 'Feature',            classes: 'govuk-!-width-one-third',  attributes: { 'aria-sort': 'ascending' } },
+        { text: 'Problem statement',  classes: 'govuk-!-width-one-quarter' },
+        { text: 'Status',             classes: 'govuk-!-width-one-quarter' },
+        { text: 'Phase',              classes: 'govuk-!-width-one-quarter' }
+      ],
+      rows: rows
+    }) }}
+{% endmacro %}
+

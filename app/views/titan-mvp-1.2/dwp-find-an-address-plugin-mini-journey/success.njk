@@ -1,0 +1,35 @@
+{% extends "layouts/main.html" %}
+
+{% block pageTitle %}
+  Application complete - GOV.UK Prototype Kit
+{% endblock %}
+
+{% block content %}
+
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+
+      {{ govukPanel({
+        titleText: "Application complete",
+        html: "Your application has been successfully submitted."
+      }) }}
+
+      <h2 class="govuk-heading-m">What happens next</h2>
+
+      <p class="govuk-body">
+        We have received your application and will process it within 5 working days.
+      </p>
+
+      <p class="govuk-body">
+        We will send you an email confirmation to the address you provided.
+      </p>
+
+      <p class="govuk-body">
+        <a href="/dwp-find-an-address-plugin-mini-journey/question-one" class="govuk-link">Start again</a>
+      </p>
+
+    </div>
+  </div>
+
+{% endblock %}
+

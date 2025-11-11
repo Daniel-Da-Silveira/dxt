@@ -1,0 +1,359 @@
+// Service Header Component Styles
+// Based on DEFRA forms-designer repository
+
+.service-header {
+  // Base styles
+  border-bottom: 1px solid #b1b4b6;
+  background-color: #ffffff;
+
+  // Container
+  .govuk-width-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 15px;
+  }
+
+  // Navigation
+  .govuk-service-navigation {
+    background-color: #f8f9fa;
+    border-bottom: 1px solid #d1d5db;
+    
+    // Inverse navigation styling
+    &--inverse {
+      background-color: #0a8631;
+      border-bottom-color: #ffffff;
+      
+      .govuk-service-navigation__link {
+        color: #ffffff !important;
+        
+        &:hover {
+          color: #ffffff !important;
+          text-decoration: underline;
+        }
+        
+        &:focus {
+          color: #0b0c0c !important;
+        }
+      }
+      
+      .service-header__heading {
+        color: #ffffff !important;
+      }
+      
+      .govuk-service-navigation__toggle {
+        color: #ffffff !important;
+      }
+    }
+
+    &__container {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 15px 0;
+
+      @media (max-width: 768px) {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 15px;
+      }
+    }
+
+    &__wrapper {
+      position: relative;
+    }
+
+    &__toggle {
+      display: none;
+      background: none;
+      border: none;
+      color: #008531;
+      font-weight: 600;
+      cursor: pointer;
+      padding: 8px 12px;
+
+      @media (max-width: 768px) {
+        display: block;
+      }
+    }
+
+    &__list {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      gap: 30px;
+
+      @media (max-width: 768px) {
+        display: none;
+        flex-direction: column;
+        gap: 0;
+        border-top: 1px solid #d1d5db;
+        padding-top: 15px;
+
+        &.govuk-js-service-navigation--open {
+          display: flex;
+        }
+      }
+    }
+  }
+
+  // Navigation items
+  .govuk-service-navigation__item {
+    position: relative;
+
+    &--active {
+      .govuk-service-navigation__link {
+        color: #008531;
+        font-weight: 700;
+
+        &::after {
+          content: "";
+          position: absolute;
+          bottom: -15px;
+          left: 0;
+          right: 0;
+          height: 3px;
+          background-color: #008531;
+        }
+      }
+    }
+  }
+
+  // Navigation links
+  .govuk-service-navigation__link {
+    color: #0b0c0c;
+    text-decoration: none;
+    font-weight: 600;
+    padding: 8px 0;
+    display: block;
+    position: relative;
+    transition: color 0.2s ease;
+
+    &:hover {
+      color: #008531;
+    }
+
+    &:focus {
+      outline: 3px solid #ffdd00;
+      outline-offset: 2px;
+      color: #0b0c0c;
+    }
+
+    &[aria-current="page"] {
+      color: #008531;
+      font-weight: 700;
+    }
+  }
+
+  // Service heading
+  &__heading {
+    margin: 0;
+    font-size: 24px;
+    font-weight: 700;
+    color: #0b0c0c;
+
+    @media (max-width: 768px) {
+      font-size: 20px;
+    }
+  }
+
+  // Cross service header (One Login)
+  .cross-service-header {
+    background-color: #008531;
+
+    .one-login-header {
+      &__container {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 15px 0;
+
+        @media (max-width: 768px) {
+          flex-direction: column;
+          align-items: flex-start;
+          gap: 15px;
+        }
+      }
+
+      &__logo {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+      }
+
+      &__link {
+        color: #ffffff;
+        text-decoration: none;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+
+        &:hover {
+          text-decoration: underline;
+        }
+
+        &:focus {
+          outline: 3px solid #ffdd00;
+          outline-offset: 2px;
+        }
+      }
+
+      &__logotype {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      &__logotype-crown {
+        color: #ffffff;
+        flex-shrink: 0;
+      }
+
+      &__logotype-text {
+        font-size: 18px;
+        font-weight: 600;
+        color: #ffffff;
+      }
+
+      &__product-name {
+        font-size: 16px;
+        font-weight: 500;
+        color: #ffffff;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      &__nav {
+        &__list {
+          list-style: none;
+          margin: 0;
+          padding: 0;
+          display: flex;
+          gap: 20px;
+
+          @media (max-width: 768px) {
+            display: none;
+            flex-direction: column;
+            gap: 0;
+            width: 100%;
+
+            &.one-login-header__nav--open {
+              display: flex;
+            }
+          }
+        }
+
+        &__list-item {
+          margin: 0;
+        }
+
+        &__link {
+          color: #ffffff;
+          text-decoration: none;
+          padding: 8px 12px;
+          border-radius: 4px;
+          transition: background-color 0.2s ease;
+
+          &:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+          }
+
+          &:focus {
+            outline: 3px solid #ffdd00;
+            outline-offset: 2px;
+          }
+
+          &--one-login {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+          }
+        }
+      }
+    }
+
+    // Account button
+    .cross-service-header__button {
+      background: none;
+      border: none;
+      color: #ffffff;
+      cursor: pointer;
+      padding: 8px 12px;
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: background-color 0.2s ease;
+
+      &:hover {
+        background-color: rgba(255, 255, 255, 0.1);
+      }
+
+      &:focus {
+        outline: 3px solid #ffdd00;
+        outline-offset: 2px;
+      }
+
+      &--open {
+        background-color: rgba(255, 255, 255, 0.1);
+      }
+
+      &-icon {
+        width: 22px;
+        height: 22px;
+        flex-shrink: 0;
+      }
+
+      &-content {
+        font-weight: 600;
+      }
+    }
+  }
+}
+
+// Responsive breakpoints
+@media (max-width: 768px) {
+  .service-header {
+    .govuk-service-navigation {
+      &__toggle {
+        display: block;
+      }
+
+      &__list {
+        display: none;
+
+        &.govuk-js-service-navigation--open {
+          display: flex;
+        }
+      }
+    }
+
+    .cross-service-header {
+      .one-login-header {
+        &__nav {
+          &__toggle {
+            display: block;
+          }
+
+          &__list {
+            display: none;
+
+            &.one-login-header__nav--open {
+              display: flex;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+// JavaScript functionality for mobile navigation
+.govuk-js-service-navigation--open {
+  display: flex !important;
+}
+
+.one-login-header__nav--open {
+  display: flex !important;
+}

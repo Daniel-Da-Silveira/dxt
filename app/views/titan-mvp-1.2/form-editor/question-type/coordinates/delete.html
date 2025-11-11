@@ -1,0 +1,36 @@
+{% extends "layouts/form-editor-layout.html" %}
+
+{% block pageTitle %}
+{{ commonTerms.form_editor.delete_question.page_title }} - {{ serviceName }} – GOV.UK
+{% endblock %}
+
+{% block beforeContent %}
+{{ govukBackLink({
+text: commonTerms.form_editor.common.back,
+href: "/titan-mvp-1.2/page-overview"
+}) }}
+{% endblock %}
+
+{% block content %}
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+        <h1 class="govuk-heading-l">Delete coordinates question</h1>
+
+        <p class="govuk-body">Are you sure you want to delete this coordinates question?</p>
+
+        <form action="/titan-mvp-1.2/form-editor/delete-question" method="post">
+            <input type="hidden" name="pageIndex" value="{{ currentPageIndex }}">
+            <input type="hidden" name="questionIndex" value="{{ currentQuestionIndex }}">
+
+            <div class="govuk-button-group">
+                {{ govukButton({
+                text: "Delete question",
+                classes: "govuk-button--warning"
+                }) }}
+
+                <a class="govuk-link" href="/titan-mvp-1.2/page-overview">Cancel</a>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

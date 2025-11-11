@@ -1,0 +1,190 @@
+{% extends "layouts/main.html" %}
+
+{% from "components/service-header/macro.njk" import serviceHeader %}
+
+{% set pageName = "Add page - Apply for a county parish holding number in England" %}
+
+{% block header %}
+  {{ serviceHeader({
+    organisationName: "Defra",
+    productName: "Forms Designer",
+    serviceName: "",
+    accountName: "Chris Smith",
+    homepageLink: "/",
+    signOutLink: "/onboarding/sign-out-confirmation",
+    navigationItems: [
+    {
+      href: "/library.html",
+      text: "Forms library",
+      id: "library"
+     },
+    {
+      href: "/cph-overview/draft/complete-clean.html",
+      text: "Overview",
+      id: "overview"
+     },{
+         href: "/editor-pets/0.html",
+    text: 'Editor',
+    id: 'editor'
+    }],
+    activeLinkId: "/"
+  }) }}
+{% endblock %}
+
+{% block beforeContent %}
+  {{ govukBackLink({
+  text: "Back",
+  href: "javascript:window.history.back()"
+}) }}
+{% endblock %}
+
+{% block content %}
+
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+
+      <h1 class="govuk-heading-l">
+        Add page
+      </h1>
+      <h2 class="govuk-heading-m">
+        Page types
+      </h2>
+      <p class="govuk-body">You can choose between 3 page types.</p>
+      <p class="govuk-body">Use:</p>
+      <ul class="govuk-list govuk-list--bullet">
+        <li>start pages to start a form (you can only use 1 start page for your form)</li>
+        <li>question pages to request information, like a UK address</li>
+        <li>summary pages at the end of a section or form.</li>
+      </ul>
+      <p class="govuk-body">For example, use a summary page to let users check their answers before submitting the form.</p>
+
+      {{ govukSelect({
+  id: "location",
+  name: "location",
+  label: {
+    text: "Select a page type",
+        classes: "govuk-label--s"
+  },
+  items: [
+    {
+      value: "choose",
+      text: "Select a page type",
+      selected: true
+    },
+    {
+      value: "questionPage",
+      text: "Question page"
+    },
+    {
+      value: "startPage",
+      text: "Start page"
+    },
+    {
+      value: "summaryPage",
+      text: "Summary page"
+    }
+  ]
+}) }}
+
+      {{ govukSelect({
+  id: "location",
+  name: "location",
+  label: {
+    text: "Link from (optional)",
+    classes: "govuk-label--s"
+  },
+  hint: {
+    text: "Add a link to this page from a different page in the form"
+  },
+  items: [
+    {
+      value: "choose",
+      text: "Add a link to this page",
+      selected: true
+    },
+    {
+      value: "page1",
+      text: "What is your full name? (question set)"
+    },
+    {
+      value: "page1",
+      text: "What is their species? (question set)"
+    }
+  ]
+}) }}
+
+      {% from "govuk/components/input/macro.njk" import govukInput %}
+
+      {{ govukInput({
+  label: {
+    text: "Page title",
+        classes: "govuk-label--s"
+
+  },
+  id: "event-name",
+  name: "eventName"
+}) }}
+
+      {{ govukCheckboxes({
+
+  items: [
+    {
+      value: "optionalComponent",
+
+      text: "Hide page title",
+
+       hint: {
+        text: "Tick this box if you want to use the component's 'Question label' as the page title"
+      }
+    }
+  ]
+
+}) }}
+
+      {{ govukSelect({
+  id: "location",
+  name: "location",
+  label: {
+    text: "Section (optional)",
+        classes: "govuk-label--s"
+
+  },
+  hint: {
+    text: "Use sections to split a form. For example, to add a section per applicant. The section title appears above the page title or question label. However, if these titles are the same, the form will only show the page title."
+  },
+  formGroup: {
+    classes: "govuk-!-margin-bottom-2"
+  },
+  items: [
+    {
+      value: "choose",
+      text: "Select a section (optional)",
+      selected: true
+    },
+    {
+      value: "q1",
+      text: "Question 1"
+    },
+    {
+      value: "q2",
+      text: "Question 2"
+    },
+    {
+      value: "summary",
+      text: "Check your answers"
+    }
+  ]
+}) }}
+
+      <div class="govuk-button-group govuk-!-padding-top-4">
+        <a href="/editor-pets/component-pages/patterns/add3.html">
+          <button type="submit" class="govuk-button govuk-button" data-module="govuk-button">
+            Save and continue
+          </button>
+        </a>
+
+      </div>
+    </div>
+  </div>
+
+{% endblock %}

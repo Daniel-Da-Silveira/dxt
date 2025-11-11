@@ -1,0 +1,215 @@
+{% extends "layouts/main.html" %}
+
+{% from "components/service-header/macro.njk" import serviceHeader %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "govuk/components/radios/macro.njk" import govukRadios %}
+
+{% set pageName = "Form Aim Task" %}
+
+{% block header %}
+{{ serviceHeader({
+organisationName: "Defra",
+productName: "Forms designer",
+serviceName: "",
+accountName: "Chris Smith",
+homepageLink: "/",
+signOutLink: "/titan-mvp-1.2/onboarding/sign-out-confirmation",
+navigationItems: [{
+href: "/titan-mvp-1.2/library",
+text: "Library",
+id: "titan-mvp-1.2/library"
+}]
+}) }}
+
+<div class="x-govuk-masthead x-govuk-masthead--large">
+    <div class="govuk-width-container">
+        {{ govukBackLink({
+        classes: "govuk-back-link--inverse govuk-!-margin-bottom-0",
+        text: "Back to task list",
+        href: "/titan-mvp-1.2/ai/tasklist-form-creation"
+        }) }}
+
+        <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible"
+            style="border-bottom: 1px solid white; margin-bottom: 0" />
+
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-full-from-desktop">
+                <h1 class="x-govuk-masthead__title">
+                    <span class="govuk-caption-l" style="color: white;">AI form creation
+                    </span>
+                    Form aims
+                </h1>
+                {# <p class="x-govuk-masthead__description">
+                    Explain the purpose and goals of your form. This helps the AI understand what you're trying to
+                    achieve and create appropriate form fields and validation.
+                </p> #}
+
+            </div>
+
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+
+
+        <form class="form" action="/titan-mvp-1.2/ai/task/form-aim" method="post">
+
+            {{ govukTextarea({
+            id: "form-aim",
+            name: "formAim",
+            label: {
+            text: "Describe what your form is for, who will use it, and what outcomes users will achieve by completing
+            it",
+            classes: "govuk-label--m",
+            isPageHeading: false
+            },
+            hint: {
+            text: ""
+            },
+            rows: 8,
+            value: formAim,
+            attributes: {
+            required: "required"
+            }
+            }) }}
+
+            {{ govukDetails({
+            summaryText: "What to include and example",
+            html: "
+            <p class='govuk-body'>Your form aim should cover:</p>
+            <ul class='govuk-list govuk-list--bullet'>
+                <li>What the form is for</li>
+                <li>Who will use it</li>
+                <li>What you want to achieve</li>
+                <li>Any specific requirements or constraints</li>
+                <li>Expected outcomes</li>
+            </ul>
+
+            <h3 class='govuk-heading-s govuk-!-margin-top-4'>Example form aim</h3>
+            <p class='govuk-body'>This form allows people to apply for a fishing license. It will be used by
+                individuals who want to fish in UK waters. The form should collect personal details, fishing
+                preferences, and payment information. We want to make the process simple and accessible while
+                ensuring we collect all necessary information for licensing purposes.</p>
+            "
+            }) }}
+
+            <div class="govuk-!-margin-top-6">
+                {{ govukRadios({
+                name: "haveYouCompletedThisSection",
+                fieldset: {
+                legend: {
+                text: "Have you completed this section?",
+                isPageHeading: false,
+                classes: "govuk-fieldset__legend--m"
+                }
+                },
+                items: [
+                {
+                value: "yes",
+                text: "Yes, I've completed this section"
+                },
+                {
+                value: "no",
+                text: "No, I'll come back to it later"
+                }
+                ]
+                }) }}
+
+                <div class="govuk-button-group">
+                    {{ govukButton({
+                    text: "Continue",
+                    classes: "govuk-button"
+                    }) }}
+
+
+                </div>
+            </div>
+
+        </form>
+    </div>
+
+
+</div>
+
+<style>
+    .govuk-sticky {
+        position: sticky;
+        top: 20px;
+    }
+</style>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // Handle form submission based on radio selection
+        const form = document.querySelector('form');
+        const continueButton = document.querySelector('button[type="submit"]');
+
+        continueButton.addEventListener('click', function (e) {
+            e.preventDefault();
+
+            const selectedOption = document.querySelector('input[name="haveYouCompletedThisSection"]:checked');
+
+            if (selectedOption && selectedOption.value === 'no') {
+                // If "No, I'll come back to it later" is selected, save as incomplete and redirect
+                const formData = new FormData(form);
+                formData.append('taskStatus', 'incomplete');
+                formData.append('returnToTaskList', 'true');
+
+
+
+                // Create a temporary form to submit
+                const tempForm = document.createElement('form');
+                tempForm.method = 'POST';
+                tempForm.action = form.action;
+
+                for (let [key, value] of formData.entries()) {
+                    const input = document.createElement('input');
+                    input.type = 'hidden';
+                    input.name = key;
+                    input.value = value;
+                    tempForm.appendChild(input);
+                }
+
+                document.body.appendChild(tempForm);
+                tempForm.submit();
+            } else if (selectedOption && selectedOption.value === 'yes') {
+                // If "Yes, I've completed this section" is selected, save as completed
+                // Check if form is valid before proceeding
+                if (!form.checkValidity()) {
+                    console.log('Form is not valid, showing validation message');
+                    form.reportValidity();
+                    return;
+                }
+
+                const formData = new FormData(form);
+                formData.append('taskStatus', 'completed');
+
+
+
+                // Create a temporary form to submit
+                const tempForm = document.createElement('form');
+                tempForm.method = 'POST';
+                tempForm.action = form.action;
+
+                for (let [key, value] of formData.entries()) {
+                    const input = document.createElement('input');
+                    input.type = 'hidden';
+                    input.name = key;
+                    input.value = value;
+                    tempForm.appendChild(input);
+                }
+
+                document.body.appendChild(tempForm);
+                tempForm.submit();
+            } else {
+                // If no option is selected, submit the form normally
+                form.submit();
+            }
+        });
+    });
+</script>
+{% endblock %}

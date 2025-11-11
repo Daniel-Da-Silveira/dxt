@@ -1,0 +1,566 @@
+{% extends "layouts/main.html" %}
+
+{% block pageTitle %}
+Prototypes – {{ serviceName }} - Product information
+{% endblock %}
+
+{% from "components/service-header/macro.njk" import serviceHeader %}
+{% from "side-navigation/macro.njk" import dwpSideNavigation %}
+{% from "govuk/components/table/macro.njk" import govukTable %}
+{% from "govuk/components/tabs/macro.njk" import govukTabs %}
+
+{% set pageName = "Forms Designer prototypes" %}
+
+{% set features = [
+{
+name: "List items",
+problem: "Users need to create lists of options",
+status: "Tested",
+statusClass: "green",
+phase: "Private beta",
+type: "Question types",
+category: "Form editor",
+designHistoryHref: "/design-history/lists/index.html",
+researchRounds: [
+{ round: 7, date: "Oct 2024" },
+{ round: 8, date: "Nov 2024" },
+{ round: 9, date: "Mar 2025" },
+{ round: 10, date: "Mar 2025" }
+]
+},
+{
+name: "Form overview",
+problem: "Users need to be able to manage their forms",
+status: "Tested",
+statusClass: "green",
+phase: "Private beta",
+type: "Form structure",
+category: "Form overview",
+designHistoryHref: "/design-history/form-overview/index.html",
+researchRounds: [
+{ round: 1, date: "May 2024" },
+{ round: 2, date: "Jun 2024" },
+{ round: 3, date: "Jun 2024" },
+{ round: 4, date: "Jul 2024" }
+]
+},
+{
+name: "Conditions (page conditions)",
+problem: "Users need to show different pages based on responses",
+status: "In progress",
+statusClass: "orange",
+phase: "Private beta",
+type: "Form logic",
+category: "Form editor",
+designHistoryHref: "",
+researchRounds: [
+{ round: 2, date: "Jun 2024" },
+{ round: 9, date: "Mar 2025" },
+{ round: 10, date: "Mar 2025" },
+{ round: 11, date: "Mar 2025" }
+]
+},
+{
+name: "Create new form (overall journey)",
+problem: "Users need a clear process for creating and managing forms",
+status: "Tested",
+statusClass: "green",
+phase: "Private beta",
+type: "Form management",
+category: "Form creation",
+designHistoryHref: "/design-history/form-creation/index.html",
+researchRounds: [
+{ round: 1, date: "May 2024" },
+{ round: 3, date: "Jun 2024" },
+{ round: 4, date: "Jul 2024" },
+{ round: 7, date: "Oct 2024" }
+]
+},
+{
+name: "'Add another' pattern (repeaters)",
+problem: "Users need to ask the same question multiple times",
+status: "Tested",
+statusClass: "green",
+phase: "Private beta",
+type: "Question types",
+category: "Form editor",
+designHistoryHref: "/design-history/add-another/index.html",
+researchRounds: [
+{ round: 5, date: "Jul 2024" },
+{ round: 6, date: "Sep 2024" },
+{ round: 7, date: "Oct 2024" },
+{ round: 9, date: "Mar 2025" }
+]
+},
+{
+name: "Guidance pages (includes page heading)",
+problem: "Users need to provide clear instructions and context",
+status: "Tested",
+statusClass: "green",
+phase: "Private beta",
+type: "Form structure",
+category: "Form editor",
+designHistoryHref: "",
+researchRounds: [
+{ round: 1, date: "May 2024" },
+{ round: 6, date: "Sep 2024" },
+{ round: 8, date: "Nov 2024" }
+]
+},
+{
+name: "Forms library (sorting, filtering, tags)",
+problem: "Users need to efficiently find and manage their forms",
+status: "Tested",
+statusClass: "green",
+phase: "Private beta",
+type: "Form management",
+category: "Form library",
+designHistoryHref: "/design-history/form-library/index.html",
+researchRounds: [
+{ round: 1, date: "May 2024" },
+{ round: 3, date: "Jun 2024" },
+{ round: 4, date: "Jul 2024" },
+{ round: 5, date: "Jul 2024" }
+]
+},
+{
+name: "File upload (citizen view, internal, supporting evidence)",
+problem: "Users need to allow file uploads and manage supporting evidence",
+status: "Tested",
+statusClass: "green",
+phase: "Private beta",
+type: "Question types",
+category: "Form editor",
+designHistoryHref: "/design-history/file-upload/index.html",
+researchRounds: [
+{ round: 3, date: "Jun 2024" },
+{ round: 4, date: "Jul 2024" },
+{ round: 7, date: "Oct 2024" },
+{ round: 8, date: "Nov 2024" }
+]
+},
+{
+name: "Preview panel",
+problem: "Users need to see how their form will look",
+status: "Tested",
+statusClass: "green",
+phase: "Private beta",
+type: "Form preview",
+category: "Form editor",
+designHistoryHref: "",
+researchRounds: [
+{ round: 7, date: "Oct 2024" },
+{ round: 8, date: "Nov 2024" }
+]
+},
+{
+name: "Markdown support",
+problem: "Users need rich text formatting capabilities",
+status: "Tested",
+statusClass: "green",
+phase: "Private beta",
+type: "Form content",
+category: "Form editor",
+designHistoryHref: "",
+researchRounds: [
+{ round: 7, date: "Oct 2024" },
+{ round: 8, date: "Nov 2024" }
+]
+},
+{
+name: "Short description for error messages",
+problem: "Users need to provide clear error messages",
+status: "Tested",
+statusClass: "green",
+phase: "Private beta",
+type: "Form validation",
+category: "Form editor",
+designHistoryHref: "",
+researchRounds: [
+{ round: 7, date: "Oct 2024" },
+{ round: 8, date: "Nov 2024" }
+]
+},
+{
+name: "Editor design refresh",
+problem: "Users need an improved editor interface",
+status: "Tested",
+statusClass: "green",
+phase: "Private beta",
+type: "Form management",
+category: "Form editor",
+designHistoryHref: "",
+researchRounds: [
+{ round: 6, date: "Sep 2024" },
+{ round: 7, date: "Oct 2024" }
+]
+},
+{
+name: "Autosave",
+problem: "Users need their work to be saved automatically",
+status: "Tested",
+statusClass: "green",
+phase: "Private beta",
+type: "Form management",
+category: "Form editor",
+designHistoryHref: "",
+researchRounds: [
+{ round: 8, date: "Nov 2024" }
+]
+},
+{
+name: "Advanced settings",
+problem: "Users need more control over form behavior",
+status: "Tested",
+statusClass: "green",
+phase: "Private beta",
+type: "Form management",
+category: "Form editor",
+designHistoryHref: "",
+researchRounds: [
+{ round: 8, date: "Nov 2024" }
+]
+},
+{
+name: "Support pages",
+problem: "Users need to add supporting information to their forms",
+status: "Tested",
+statusClass: "green",
+phase: "Private beta",
+type: "Form structure",
+category: "Form overview",
+designHistoryHref: "",
+researchRounds: [
+{ round: 2, date: "Jun 2024" }
+]
+},
+{
+name: "Legacy editor",
+problem: "Users need to maintain compatibility with existing form designs",
+status: "Tested",
+statusClass: "green",
+phase: "Private beta",
+type: "Form management",
+category: "Form editor",
+designHistoryHref: "",
+researchRounds: [
+{ round: 2, date: "Jun 2024" }
+]
+},
+{
+name: "Page sections",
+problem: "Users need to organize forms into logical sections",
+status: "In progress",
+statusClass: "orange",
+phase: "Private beta",
+type: "Form structure",
+category: "Form editor",
+designHistoryHref: "",
+researchRounds: [
+{ round: 11, date: "Mar 2025" }
+]
+},
+{
+name: "Importing/exporting forms",
+problem: "Users need to share and reuse form designs",
+status: "In progress",
+statusClass: "orange",
+phase: "Private beta",
+type: "Form management",
+category: "Form editor",
+designHistoryHref: "",
+researchRounds: [
+{ round: 11, date: "Mar 2025" }
+]
+}
+] %}
+
+{% set sortedFeatures = features|sort(attribute='status', reverse=true) %}
+{% set groupedFeatures = sortedFeatures|groupby('category') %}
+
+{% block header %}
+{{ serviceHeader({
+organisationName: "Defra",
+productName: "Forms Designer",
+serviceName: "Design history",
+accountName: "Account",
+containerClasses: containerClasses,
+homepageLink: "/design-system/components.html",
+navigationItems: [
+{ href: "/library", text: "Prototypes", id: "prototype" },
+{ href: "/design-system/components.html", text: "Components", id: "components" },
+{ href: "/design-system/user-journeys/home.html", text: "User journeys", id: "user-journeys" }
+],
+activeLinkId: "prototype"
+}) }}
+
+{{ xGovukMasthead({
+title: {
+text: "Forms Designer prototypes"
+},
+description: {
+html: 'This page shows prototypes for the Defra Forms Designer (DxT). You can see the current status and features of
+different versions of the tool.'
+},
+startButton: {
+href: "/titan-mvp-1.2/choose.html",
+text: "Start latest prototype (Titan MVP 1.2)"
+}
+}) }}
+
+{% endblock %}
+
+{% block content %}
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-full">
+
+    {%- from "moj/components/ticket-panel/macro.njk" import mojTicketPanel -%}
+
+    <div class="govuk-grid-column-two-thirds">
+
+      {{ mojTicketPanel({
+      attributes: {
+      "aria-label": "Read an overview of the re-design of the forms designer"
+      },
+      items: [{
+      html: ' <h2 class="govuk-heading-m govuk-!-margin-bottom-2">Read an overview of the re-design of the forms
+        designer</h2>
+      <p class="govuk-body">The Defra Forms Designer (DxT) underwent a major re-design to improve usability,
+        accessibility, and efficiency. Read an overview of the re-design and the changes made
+        to the tool.</p>
+      <a class="govuk-button govuk-!-margin-bottom-1" data-module="govuk-button"
+        href="/design-history/forms-designer/index.html" target="_blank" rel="noopener noreferrer">
+        Read overview
+      </a>',
+      attributes: {
+      "aria-label": "Section 1"
+      },
+      classes: "moj-ticket-panel__content--green govuk-!-margin-bottom-6"
+      }]
+      }) }}
+    </div>
+    <div class="govuk-grid-column-full">
+
+      <h2 class="govuk-heading-l">Features</h2>
+      <details class="govuk-details">
+        <summary class="govuk-details__summary">
+          <span class="govuk-details__summary-text">
+            Understanding the design process
+          </span>
+        </summary>
+        <div class="govuk-details__text">
+          <h3 class="govuk-heading-s">Understanding the design process</h3>
+          <p class="govuk-body">Each feature has gone through multiple rounds of user research and testing. The design
+            history link provides access to:</p>
+          <ul class="govuk-list govuk-list--bullet">
+            <li>Research findings and insights</li>
+            <li>Design iterations and improvements</li>
+            <li>User feedback and testing results</li>
+            <li>Implementation decisions and rationale</li>
+          </ul>
+        </div>
+      </details>
+
+      {% set testedTableData = [] %}
+      {% set inProgressTableData = [] %}
+
+      {% for feature in sortedFeatures %}
+      {% set researchRoundsText = '' %}
+      {% for round in feature.researchRounds %}
+      {% if not loop.first %}{% set researchRoundsText = researchRoundsText + '<br>' %}{% endif %}
+      {% set researchRoundsText = researchRoundsText + round.date + ' (Round ' + round.round + ')' %}
+      {% endfor %}
+      {% set detailsHtml = govukDetails({
+      summaryText: "View rounds",
+      html: researchRoundsText
+      }) %}
+
+      {% set designHistoryLink = '' %}
+      {% if feature.designHistoryHref and feature.designHistoryHref != "" %}
+      {% set designHistoryLink = '<a class="govuk-link" href="' + feature.designHistoryHref + '">View<span
+          class="govuk-visually-hidden"> design history for ' + feature.name + '</span></a>' %}
+      {% endif %}
+
+      {% set featureRow = [
+      { text: feature.name },
+      { text: feature.problem },
+      { html: '<strong class="govuk-tag govuk-tag--' + feature.statusClass + '">' + feature.status + '</strong>' },
+      { text: feature.phase },
+      { text: feature.researchRounds.length + ' rounds' },
+      { html: detailsHtml },
+      { html: designHistoryLink }
+      ] %}
+
+      {% if feature.status == "Tested" %}
+      {% set testedTableData = (testedTableData.push(featureRow), testedTableData) %}
+      {% else %}
+      {% set inProgressTableData = (inProgressTableData.push(featureRow), inProgressTableData) %}
+      {% endif %}
+      {% endfor %}
+
+      {% set testedCount = testedTableData | length %}
+      {% set inProgressCount = inProgressTableData | length %}
+
+      {{ govukTabs({
+      items: [
+      {
+      label: "In progress (" + inProgressCount + ")",
+      id: "in-progress",
+      panel: {
+      html: govukTable({
+      attributes: { "data-module": "moj-sortable-table" },
+      head: [
+      { text: "Feature", attributes: { "aria-sort": "ascending" } },
+      { text: "Problem statement" },
+      { text: "Status" },
+      { text: "Phase" },
+      { text: "Number of rounds" },
+      { text: "Rounds tested" },
+      { text: "Design history" }
+      ],
+      rows: inProgressTableData
+      })
+      }
+      },
+      {
+      label: "Tested (" + testedCount + ")",
+      id: "tested",
+      panel: {
+      html: govukTable({
+      attributes: { "data-module": "moj-sortable-table" },
+      head: [
+      { text: "Feature", attributes: { "aria-sort": "ascending" } },
+      { text: "Problem statement" },
+      { text: "Status" },
+      { text: "Phase" },
+      { text: "Number of rounds" },
+      { text: "Rounds tested" },
+      { text: "Design history" }
+      ],
+      rows: testedTableData
+      })
+      }
+      }
+      ]
+      }) }}
+    </div>
+    {#
+    <div class="govuk-grid-column-full govuk-grid-column-two-thirds-from-desktop">
+      <h2 class="govuk-heading-l govuk-!-margin-top-6">Design System</h2>
+      <p class="govuk-body">
+        Explore our <a class="govuk-link--no-visited-state" href="/design-system/components.html">design system
+          components</a> and <a class="govuk-link--no-visited-state" href="/design-system/user-journeys/home.html">user
+          journeys</a>.
+      </p>
+
+      <hr class="govuk-section-break govuk-section-break--xl govuk-section-break--visible">
+
+      <h2 class="govuk-heading-l">Documentation</h2>
+      <h3 class="govuk-heading-m">Editor Components</h3>
+      <p class="govuk-body"><a class="govuk-link--no-visited-state"
+          href="/design-system/editor/configuration-panel.html">Configuration panels</a></p>
+      <p class="govuk-body"><a class="govuk-link--no-visited-state"
+          href="/design-system/editor/guided-input.html">Guided
+          input</a></p>
+      <p class="govuk-body"><a class="govuk-link--no-visited-state"
+          href="/design-system/editor/preview-panel.html">Preview panels</a></p>
+
+      <h3 class="govuk-heading-m">Form Management</h3>
+      <p class="govuk-body"><a class="govuk-link--no-visited-state" href="/design-system/reordering/pages.html">Page
+          reordering</a></p>
+      <p class="govuk-body"><a class="govuk-link--no-visited-state"
+          href="/design-system/reordering/questions.html">Question reordering</a></p>
+      <p class="govuk-body"><a class="govuk-link--no-visited-state" href="/design-system/deletion/pages.html">Page
+          deletion</a></p>
+    </div>
+  </div> #}
+
+
+
+  {% endblock %}
+
+  {% block pageScripts %}
+  <script src="/public/javascripts/moj-sortable-table.js"></script>
+  <script>
+    // Helper to extract all dates from a string and return the most recent one
+    function getMostRecentDate(detailsText) {
+      const monthMap = {
+        'Jan': 0, 'Feb': 1, 'Mar': 2, 'Apr': 3, 'May': 4, 'Jun': 5,
+        'Jul': 6, 'Aug': 7, 'Sep': 8, 'Oct': 9, 'Nov': 10, 'Dec': 11
+      };
+      const dateRegex = /([A-Za-z]+) (\d{4})/g;
+      let match;
+      let maxDate = new Date(0);
+      while ((match = dateRegex.exec(detailsText)) !== null) {
+        const month = match[1];
+        const year = parseInt(match[2]);
+        if (monthMap[month] !== undefined) {
+          const d = new Date(year, monthMap[month], 1);
+          if (d > maxDate) maxDate = d;
+        }
+      }
+      return maxDate;
+    }
+
+    // Sort table rows by most recent research round date
+    function sortTableByRecentDate() {
+      const tables = document.querySelectorAll('.govuk-table')
+      tables.forEach(table => {
+        const tbody = table.querySelector('tbody')
+        const rows = Array.from(tbody.querySelectorAll('tr'))
+
+        // Sort rows by most recent research round date
+        rows.sort((a, b) => {
+          const detailsA = a.querySelector('.govuk-details__text').textContent
+          const detailsB = b.querySelector('.govuk-details__text').textContent
+          const maxDateA = getMostRecentDate(detailsA)
+          const maxDateB = getMostRecentDate(detailsB)
+          return maxDateB - maxDateA
+        })
+
+        // Re-append rows in sorted order
+        rows.forEach(row => tbody.appendChild(row))
+      })
+    }
+
+    // Override the default sorting behavior
+    document.addEventListener('DOMContentLoaded', () => {
+      // Initial sort
+      sortTableByRecentDate()
+
+      // Override the click handler for sortable columns
+      const sortableHeaders = document.querySelectorAll('.govuk-table__header[aria-sort]')
+      sortableHeaders.forEach(header => {
+        header.addEventListener('click', (e) => {
+          e.preventDefault()
+          const table = header.closest('.govuk-table')
+          const tbody = table.querySelector('tbody')
+          const rows = Array.from(tbody.querySelectorAll('tr'))
+
+          // Get the column index
+          const columnIndex = Array.from(header.parentElement.children).indexOf(header)
+
+          // Sort rows - first by most recent date, then by the clicked column
+          rows.sort((a, b) => {
+            const detailsA = a.querySelector('.govuk-details__text').textContent
+            const detailsB = b.querySelector('.govuk-details__text').textContent
+            const maxDateA = getMostRecentDate(detailsA)
+            const maxDateB = getMostRecentDate(detailsB)
+            if (maxDateA - maxDateB !== 0) {
+              return maxDateB - maxDateA
+            }
+            // If dates are equal, sort by the clicked column
+            const cellA = a.children[columnIndex]
+            const cellB = b.children[columnIndex]
+            const valueA = cellA.textContent.trim()
+            const valueB = cellB.textContent.trim()
+            return valueA.localeCompare(valueB)
+          })
+
+          // Re-append rows in sorted order
+          rows.forEach(row => tbody.appendChild(row))
+        })
+      })
+    })
+  </script>
+  {% endblock %}

@@ -1,0 +1,208 @@
+{% extends "layouts/main.html" %}
+
+{% from "components/service-header/macro.njk" import serviceHeader %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "govuk/components/radios/macro.njk" import govukRadios %}
+
+{% set pageName = "Page Description Task" %}
+
+{% block header %}
+{{ serviceHeader({
+organisationName: "Defra",
+productName: "Forms designer",
+serviceName: "",
+accountName: "Chris Smith",
+homepageLink: "/",
+signOutLink: "/titan-mvp-1.2/onboarding/sign-out-confirmation",
+navigationItems: [{
+href: "/titan-mvp-1.2/library",
+text: "Library",
+id: "titan-mvp-1.2/library"
+}]
+}) }}
+
+<div class="x-govuk-masthead x-govuk-masthead--large">
+    <div class="govuk-width-container">
+        {{ govukBackLink({
+        classes: "govuk-back-link--inverse govuk-!-margin-bottom-0",
+        text: "Back to task list",
+        href: "/titan-mvp-1.2/ai/tasklist-form-creation"
+        }) }}
+
+        <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible"
+            style="border-bottom: 1px solid white; margin-bottom: 0" />
+
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-full-from-desktop">
+                <h1 class="x-govuk-masthead__title">
+                    <span class="govuk-caption-l" style="color: white;">AI form creation
+                    </span>
+                    Page descriptions
+                </h1>
+                <p class="x-govuk-masthead__description">
+                    Describe each page of your form in detail. This helps the AI understand the user journey and create
+                    appropriate form fields and validation.
+                </p>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+
+
+
+        <form class="form" action="/titan-mvp-1.2/ai/task/page-description" method="post">
+
+            {{ govukTextarea({
+            id: "page-description",
+            name: "pageDescription",
+            label: {
+            text: "Describe each page in your form",
+            classes: "govuk-label--m",
+            isPageHeading: false
+            },
+            hint: {
+            text: "Include what questions should be on each page and any specific requirements"
+            },
+            rows: 12,
+            value: data.pageDescription,
+            attributes: {
+            required: "required"
+            }
+            }) }}
+
+            {{ govukDetails({
+            summaryText: "What to include and example",
+            html: "
+            <p class='govuk-body'>For each page, describe:</p>
+            <ul class='govuk-list govuk-list--bullet'>
+                <li>Page purpose and title</li>
+                <li>Help text or guidance</li>
+            </ul>
+
+            <h3 class='govuk-heading-s govuk-!-margin-top-4'>Example page descriptions</h3>
+            <p class='govuk-body'><strong>Page 1: Personal details</strong></p>
+            <p class='govuk-body'>This page collects basic personal information. Include fields for full name
+                (text input, required), date of birth (date input, required), email address (email input,
+                required), and phone number (tel input, optional). Add help text explaining why we need this
+                information.</p>
+            <br>
+            <p class='govuk-body'><strong>Page 2: Contact preferences</strong></p>
+            <p class='govuk-body'>This page collects communication preferences. Include fields for preferred contact
+                method
+                (radio buttons: email, phone, post), contact frequency (dropdown: daily, weekly, monthly), and
+                marketing consent (checkbox, optional). Add help text explaining how this information will be used.</p>
+            "
+            }) }}
+
+            <div class="govuk-!-margin-top-6">
+                {{ govukRadios({
+                name: "haveYouCompletedThisSection",
+                fieldset: {
+                legend: {
+                text: "Have you completed this section?",
+                isPageHeading: false,
+                classes: "govuk-fieldset__legend--m"
+                }
+                },
+                items: [
+                {
+                value: "yes",
+                text: "Yes, I've completed this section"
+                },
+                {
+                value: "no",
+                text: "No, I'll come back to it later"
+                }
+                ]
+                }) }}
+
+                <div class="govuk-button-group">
+                    {{ govukButton({
+                    text: "Continue",
+                    classes: "govuk-button"
+                    }) }}
+
+
+                </div>
+            </div>
+
+        </form>
+    </div>
+
+
+</div>
+
+<style>
+    .govuk-sticky {
+        position: sticky;
+        top: 20px;
+    }
+</style>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // Handle form submission based on radio selection
+        const form = document.querySelector('form');
+        const continueButton = document.querySelector('button[type="submit"]');
+
+        continueButton.addEventListener('click', function (e) {
+            e.preventDefault();
+
+            const selectedOption = document.querySelector('input[name="haveYouCompletedThisSection"]:checked');
+
+            if (selectedOption && selectedOption.value === 'no') {
+                // If "No, I'll come back to it later" is selected, save as incomplete and redirect
+                const formData = new FormData(form);
+                formData.append('taskStatus', 'incomplete');
+                formData.append('returnToTaskList', 'true');
+
+                // Create a temporary form to submit
+                const tempForm = document.createElement('form');
+                tempForm.method = 'POST';
+                tempForm.action = form.action;
+
+                for (let [key, value] of formData.entries()) {
+                    const input = document.createElement('input');
+                    input.type = 'hidden';
+                    input.name = key;
+                    input.value = value;
+                    tempForm.appendChild(input);
+                }
+
+                document.body.appendChild(tempForm);
+                tempForm.submit();
+            } else if (selectedOption && selectedOption.value === 'yes') {
+                // If "Yes, I've completed this section" is selected, save as completed
+                const formData = new FormData(form);
+                formData.append('taskStatus', 'completed');
+
+                // Create a temporary form to submit
+                const tempForm = document.createElement('form');
+                tempForm.method = 'POST';
+                tempForm.action = form.action;
+
+                for (let [key, value] of formData.entries()) {
+                    const input = document.createElement('input');
+                    input.type = 'hidden';
+                    input.name = key;
+                    input.value = value;
+                    tempForm.appendChild(input);
+                }
+
+                document.body.appendChild(tempForm);
+                tempForm.submit();
+            } else {
+                // If no option is selected, submit the form normally
+                form.submit();
+            }
+        });
+    });
+</script>
+{% endblock %}

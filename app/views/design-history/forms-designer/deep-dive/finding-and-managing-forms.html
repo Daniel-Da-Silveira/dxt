@@ -1,0 +1,217 @@
+{% set featureName = "Finding and managing forms" %}
+
+{% extends "design-history/template.html" %}
+
+{% from "components/service-header/macro.njk" import serviceHeader %}
+{% from "govuk/components/breadcrumbs/macro.njk" import govukBreadcrumbs %}
+{% from "govuk/components/tag/macro.njk" import govukTag %}
+{% from "components/contents-list-with-body.njk" import contentsListWithBody %}
+
+{% block header %}
+{{ serviceHeader({
+organisationName: "Defra",
+productName: "Forms Designer",
+serviceName: "Design History",
+containerClasses: containerClasses,
+accountName: "Chris Smith (Admin)",
+homepageLink: "/",
+signOutLink: "/onboarding/sign-out-confirmation",
+navigationItems: [
+{ href: "/roles/my-account.html", text: "My account", id: "my-account" },
+{ href: "/roles/manage-users.html", text: "Manage users", id: "manage-users" }
+],
+activeLinkId: ""
+}) }}
+<div class="x-govuk-masthead x-govuk-masthead--large">
+    <div class="govuk-width-container">
+        {{ govukBreadcrumbs({
+        classes: "govuk-breadcrumbs--inverse",
+        items: breadcrumbs
+        }) }}
+        <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible"
+            style="border-bottom: 1px solid white; margin-bottom: 0" />
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-full-from-desktop">
+                <h1 class="x-govuk-masthead__title" id="finding-and-managing-forms">
+                    <span class="govuk-caption-l" style="color: white;">Transforming the Defra Forms Designer: A design
+                        history</span>
+                    {{ featureName }}
+                </h1>
+                <div class="govuk-body" style="color: white; margin-top: 1em;">
+                    <span class="govuk-tag govuk-tag--grey">Post</span>
+                    <span style="margin-left: 1em;">Originally published on 15 May 2024</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block content %}
+{% set contents = [
+{
+href: "/design-history/forms-designer/index.html",
+text: "Re-design overview"
+},
+{
+href: "/design-history/forms-designer/summary-of-changes.html",
+text: "Summary of changes and improvements"
+},
+{
+text: "Feature by feature deep dive",
+items: [
+{ href: "#finding-and-managing-forms", text: "Finding and managing forms" },
+{ href: "/design-history/forms-designer/deep-dive/editing-a-form.html", text: "Editing a Form" },
+{ href: "/design-history/forms-designer/deep-dive/adding-questions.html", text: "Adding Questions" },
+{ href: "/design-history/forms-designer/deep-dive/adding-conditions.html", text: "Adding Conditions" },
+{ href: "/design-history/forms-designer/deep-dive/re-ordering-content.html", text: "Re-ordering Content" },
+{ href: "/design-history/forms-designer/deep-dive/visualising-form-structure.html", text: "Visualising Form Structure"
+},
+{ href: "/design-history/forms-designer/deep-dive/previewing-forms-and-edits.html", text: "Previewing Forms and Edits"
+},
+{ href: "/design-history/forms-designer/deep-dive/signing-in-and-out.html", text: "Signing In and Out" },
+{ href: "/design-history/forms-designer/deep-dive/additional-improvements.html", text: "Additional Improvements" }
+]
+},
+{
+href: "/design-history/forms-designer/user-flow-breakdown.html",
+text: "User flow breakdown for the Titan release of the forms designer"
+}
+] %}
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-one-quarter app-contents-list--sticky govuk-!-padding-right-0">
+        {{ contentsListWithBody({ contents: contents, alternative_line_style: true, activeHref:
+        "/design-history/forms-designer/deep-dive/finding-and-managing-forms.html" }) }}
+    </div>
+    <div class="govuk-grid-column-two-thirds">
+        <div class="app-prose-scope">
+            <h2 class="govuk-heading-l" id="finding-and-managing-forms">Finding and managing forms</h2>
+            <h3 class="govuk-heading-m">Old iteration (finding forms):</h3>
+            <ul class="govuk-list govuk-list--bullet">
+                <li>no way to distinguish between form that were being worked on and those that were live</li>
+                <li>in a long list of forms, it was hard to find the one you were looking for because you could only go
+                    off the name of the form</li>
+            </ul>
+            <div class="preview-section">
+                <span class="govuk-caption-m govuk-!-margin-bottom-1 govuk-!-margin-top-6">Preview of list of form
+                    selection in the old iteration</span>
+                <div class="iframe-container govuk-!-margin-bottom-6" role="region"
+                    aria-labelledby="preview-heading-xgov">
+                    <h2 id="preview-heading-xgov" class="govuk-visually-hidden">x-gov form builder as-is</h2>
+                    <iframe
+                        src="https://embed.figma.com/design/2xHXxJtz4Y1tcRR9J2GEmc/x-gov-as-is-flows?node-id=14-53258&embed-host=share"
+                        class="iframe-content" style="overflow-y: auto; height: 500px; width: 100%; border: none;"
+                        scrolling="yes" frameborder="0" title="Form preview" marginheight="0" marginwidth="0"
+                        allowfullscreen></iframe>
+                    <div class="iframe-tabs" role="navigation" aria-label="Preview controls">
+                        <a class="govuk-link govuk-link--no-visited-state iframe-tab maximise-button"
+                            style="border-right: #007f3b 1px solid;" href="#" role="button"
+                            aria-label="Maximise preview" title="Maximise preview" tabindex="0">Maximise</a>
+                        <a class="govuk-link govuk-link--no-visited-state iframe-tab"
+                            href="https://embed.figma.com/design/2xHXxJtz4Y1tcRR9J2GEmc/x-gov-as-is-flows?node-id=14-53258&embed-host=share"
+                            target="_blank" rel="noopener noreferrer" aria-label="Open preview in a new tab"
+                            title="Open preview in a new tab">Open in a new tab</a>
+                    </div>
+                </div>
+            </div>
+            <h3 class="govuk-heading-m">Latest iteration (finding forms):</h3>
+            <ul class="govuk-list govuk-list--bullet">
+                <li>now you can see the status of the form</li>
+                <li>you can search and filter a form by name, status, or date</li>
+                <li>you can filter forms by status, date, or name</li>
+                <li>there's a clear and familiar process for publishing forms</li>
+                <li>you can publish a form without an engineer</li>
+                <li>you can add meta data to a form</li>
+            </ul>
+            <div class="govuk-inset-text">
+                <p class="govuk-body">"'Search' works very well – it meets what users need." — Content designer feedback
+                    from Rounds 3 & 4</p>
+            </div>
+            <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+            <h3 class="govuk-heading-m">Old iteration (managing forms):</h3>
+            <ul class="govuk-list govuk-list--bullet">
+                <li>lack of status indicators made it difficult to track form progress</li>
+                <li>metadata editing required support from an engineer</li>
+                <li>publishing process was complex and required an engineer</li>
+                <li>lack of clear authorship</li>
+            </ul>
+            <h3 class="govuk-heading-m">Latest iteration (managing forms):</h3>
+            <ul class="govuk-list govuk-list--bullet">
+                <li>clear status labels ("Draft", "Live") with visual indicators</li>
+                <li>self-service metadata is self-service</li>
+                <li>streamlined publishing workflow with clear steps and safeguards</li>
+                <li>immediate feedback on form status changes</li>
+            </ul>
+            <details class="govuk-details" data-module="govuk-details">
+                <summary class="govuk-details__summary">
+                    <span class="govuk-details__summary-text">View the latest iteration of the forms library and form
+                        overview</span>
+                </summary>
+                <div class="govuk-details__text">
+                    <div class="preview-section">
+                        <span class="govuk-caption-m govuk-!-margin-bottom-1 govuk-!-margin-top-6">Forms library</span>
+                        <div class="iframe-container govuk-!-margin-bottom-6" role="region"
+                            aria-labelledby="preview-heading-xgov">
+                            <h2 id="preview-heading-xgov" class="govuk-visually-hidden">Forms library in the latest
+                                iteration</h2>
+                            <iframe src="/titan-mvp-1.2/library" class="iframe-content"
+                                style="overflow-y: auto; height: 500px; width: 100%; border: none;" scrolling="yes"
+                                frameborder="0" title="Form preview" marginheight="0" marginwidth="0"
+                                allowfullscreen></iframe>
+                            <div class="iframe-tabs" role="navigation" aria-label="Preview controls">
+                                <a class="govuk-link govuk-link--no-visited-state iframe-tab maximise-button"
+                                    style="border-right: #007f3b 1px solid;" href="#" role="button"
+                                    aria-label="Maximise preview" title="Maximise preview" tabindex="0">Maximise</a>
+                                <a class="govuk-link govuk-link--no-visited-state iframe-tab"
+                                    href="/titan-mvp-1.2/library" target="_blank" rel="noopener noreferrer"
+                                    aria-label="Open preview in a new tab" title="Open preview in a new tab">Open in a
+                                    new tab</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="preview-section">
+                        <span class="govuk-caption-m govuk-!-margin-bottom-1 govuk-!-margin-top-6">Form overview</span>
+                        <div class="iframe-container govuk-!-margin-bottom-6" role="region"
+                            aria-labelledby="preview-heading-xgov">
+                            <h2 id="preview-heading-xgov" class="govuk-visually-hidden">Form overview in the latest
+                                iteration</h2>
+                            <iframe src="/titan-mvp-1.2/form-overview/live-overview" class="iframe-content"
+                                style="overflow-y: auto; height: 500px; width: 100%; border: none;" scrolling="yes"
+                                frameborder="0" title="Form preview" marginheight="0" marginwidth="0"
+                                allowfullscreen></iframe>
+                            <div class="iframe-tabs" role="navigation" aria-label="Preview controls">
+                                <a class="govuk-link govuk-link--no-visited-state iframe-tab maximise-button"
+                                    style="border-right: #007f3b 1px solid;" href="#" role="button"
+                                    aria-label="Maximise preview" title="Maximise preview" tabindex="0">Maximise</a>
+                                <a class="govuk-link govuk-link--no-visited-state iframe-tab"
+                                    href="/titan-mvp-1.2/form-overview/live-overview" target="_blank"
+                                    rel="noopener noreferrer" aria-label="Open preview in a new tab"
+                                    title="Open preview in a new tab">Open in a new tab</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </details>
+
+            <hr class="govuk-section-break govuk-section-break--xl govuk-section-break--visible">
+            <div class="govuk-inset-text">
+                <p class="govuk-body">"It's very similar to Whitehall Publishing..." — Content Designer, Round 1</p>
+            </div>
+            <hr class="govuk-section-break govuk-section-break--xl govuk-section-break--visible">
+
+            {% from "govuk/components/pagination/macro.njk" import govukPagination %}
+            {{ govukPagination({
+            previous: {
+            labelText: "Feature by feature deep dive",
+            href: "/design-history/forms-designer/old-new-page2.html"
+            },
+            next: {
+            labelText: "Editing a Form",
+            href: "/design-history/forms-designer/deep-dive/editing-a-form.html"
+            },
+            classes: "app-pagination govuk-!-margin-top-6"
+            }) }}
+        </div>
+    </div>
+</div>
+{% endblock %}

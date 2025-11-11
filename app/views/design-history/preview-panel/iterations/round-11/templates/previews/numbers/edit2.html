@@ -1,0 +1,65 @@
+{% set questionType = "textarea" %} <!-- Ensure this matches the main template -->
+
+<!-- New HTML content for before element -->
+<div id="{{ 'before-content' | appendSuffix(questionType) }}">
+  <p class="govuk-body-s" style="margin-bottom: 0">
+    <a
+      href="#"
+      class="govuk-link govuk-link--no-visited-state"
+      rel="noreferrer noopener"
+      target="_blank"
+      >Preview this page in a new tab</a>
+  </p>
+</div>
+
+<!-- Additional Content Here -->
+<div class="additional-content">
+
+  <div>
+    <!-- Tag for Preview -->
+    {{ govukTag({ text: "Preview of page 2", classes: "govuk-tag--yellow govuk-!-margin-bottom-2 govuk-!-margin-top-8" }) }}
+
+    <!-- Form for Preview -->
+    <!-- Dynamic Heading -->
+
+    <div id="{{ 'heading-container' | appendSuffix(questionType) }}">
+      <span id="{{ 'dynamic-caption' | appendSuffix(questionType) }}" class="govuk-caption-xl">
+        {{ (data['setName'] or '') + ' 1' }}
+      </span>
+
+      <h1 class="govuk-heading-xl" id="{{ 'dynamic-heading' | appendSuffix(questionType) }}">
+        {{ data['pageHeading'] or '' }}
+      </h1>
+    </div>
+
+    <!-- Guidance Paragraph -->
+    <p class="govuk-body" id="{{ 'guidance-paragraph' | appendSuffix(questionType) }}">
+      {{ data['guidanceText'] or '' }}
+    </p>
+
+    <div class="govuk-form-group">
+      <label class="govuk-label govuk-label--l" for="{{ 'text-input-field' | appendSuffix(questionType) }}" id="{{ 'question-label-legend' | appendSuffix(questionType) }}">
+        Question
+      </label>
+      <div id="{{ 'hint-text-output' | appendSuffix(questionType) }}" class="govuk-hint"></div>
+
+      <textarea class="govuk-textarea" rows="5" id="{{ 'text-input-field' | appendSuffix(questionType) }}" name="{{ 'textInputField' | appendSuffix(questionType) }}" type="text" aria-describedby="{{ 'hint-text-output' | appendSuffix(questionType) }}"></textarea>
+    </div>
+
+    {{ govukButton({
+      text: "Continue",
+      classes: "govuk-button govuk-!-margin-top-3",
+      id: "once-button" | appendSuffix(questionType),
+      disabled: true
+    }) }}
+
+    {{ govukButton({
+      text: "Add another [question set name]",
+      classes: "govuk-button govuk-!-margin-top-3",
+      id: "add-another-set-button" | appendSuffix(questionType),
+      disabled: true,
+      attributes: { style: "display:none;" }
+    }) }}
+
+  </div>
+</div>

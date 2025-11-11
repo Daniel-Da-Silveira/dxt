@@ -1,0 +1,266 @@
+{% extends "layouts/main.html" %}
+
+{% block pageTitle %}
+  Content page template –
+  {{ serviceName }}
+  – GOV.UK Prototype Kit
+{% endblock %}
+
+{% block content %}
+
+  {% set mainClasses = "govuk-main-wrapper--l" %}
+
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <div class="app-example-wrapper snipcss0-2-4-14" id="button-example" data-module="app-tabs">
+        <div class="app-example app-example--tabs snipcss0-3-14-15">
+          <div class="app-example__toolbar snipcss0-4-15-16">
+            <a class="app-example__new-window snipcss0-5-16-17" href="/components/button/default/" target="_blank">
+              Open this example in a new tab<span class="govuk-visually-hidden snipcss0-6-17-18">: button</span>
+            </a>
+          </div>
+          <iframe title="Button example" data-module="app-example-frame" class="app-example__frame app-example__frame--resizable snipcss0-4-15-19" src="/components/button/default/index.html" loading="eager" id="iFrameResizer0" style="overflow: auto; height: 130px;"></iframe>
+        </div>
+        <span id="options-button-example" class="snipcss0-3-14-20"></span>
+        <ul class="app-tabs snipcss0-3-14-21" role="tablist">
+          <li class="app-tabs__item js-tabs__item snipcss0-4-21-22" role="presentation">
+            <a href="#button-example-html" role="tab" aria-controls="button-example-html" data-track="tab-html" aria-expanded="false" class="snipcss0-5-22-23">HTML</a>
+          </li>
+          <li class="app-tabs__item js-tabs__item snipcss0-4-21-24" role="presentation">
+            <a href="#button-example-nunjucks" role="tab" aria-controls="button-example-nunjucks" data-track="tab-nunjucks" aria-expanded="false" class="snipcss0-5-24-25">Nunjucks</a>
+          </li>
+        </ul>
+        <div class="app-tabs__heading js-tabs__heading snipcss0-3-14-26">
+          <button aria-controls="button-example-html" data-track="tab-html" class="app-tabs__heading-button snipcss0-4-26-27" aria-expanded="false">HTML</button>
+        </div>
+        <div class="app-tabs__container js-tabs__container snipcss0-3-14-28" id="button-example-html" role="tabpanel" hidden="hidden">
+          <div class="app-example__code snipcss0-4-28-29" data-module="app-copy">
+
+            <span class="govuk-visually-hidden snipcss0-5-29-30" aria-live="assertive"></span>
+            <button class="app-copy-button snipcss0-5-29-31">Copy code</button>
+            <pre class="snipcss0-5-29-32"><code tabindex="0" class="language-html snipcss0-6-32-33"><span class="hljs-tag snipcss0-7-33-34">&lt;<span class="hljs-name snipcss0-8-34-35">button</span> <span class="hljs-attr snipcss0-8-34-36">type</span>=<span class="hljs-string snipcss0-8-34-37">"submit"</span> <span class="hljs-attr snipcss0-8-34-38">class</span>=<span class="hljs-string snipcss0-8-34-39">"govuk-button"</span> <span class="hljs-attr snipcss0-8-34-40">data-module</span>=<span class="hljs-string snipcss0-8-34-41">"govuk-button"</span>&gt;</span>
+  save and continue
+<span class="hljs-tag snipcss0-7-33-42">&lt;/<span class="hljs-name snipcss0-8-42-43">button</span>&gt;</span></code></pre>
+          </div>
+        </div>
+        <div class="app-tabs__heading js-tabs__heading snipcss0-3-14-44">
+          <button aria-controls="button-example-nunjucks" data-track="tab-nunjucks" class="app-tabs__heading-button snipcss0-4-44-45" aria-expanded="false">Nunjucks</button>
+        </div>
+        <div class="app-tabs__container js-tabs__container snipcss0-3-14-46" id="button-example-nunjucks" role="tabpanel" hidden="hidden">
+          <details class="govuk-details app-options snipcss0-4-46-47" id="options-button-example-details">
+            <summary class="govuk-details__summary snipcss0-5-47-48">
+              <span class="govuk-details__summary-text snipcss0-6-48-49">
+                <span data-components="github-component-arguments" class="snipcss0-7-49-50">Nunjucks macro options</span>
+              </span>
+            </summary>
+            <div class="govuk-details__text snipcss0-5-47-51">
+              <p class="snipcss0-6-51-52">
+                Use options to customise the appearance, content and behaviour of a component when using a macro, for example, changing the text.
+              </p>
+              <p class="snipcss0-6-51-53">
+                Some options are required for the macro to work; these are marked as “Required” in the option description.
+              </p>
+              <p class="snipcss0-6-51-54">
+                If you’re using Nunjucks macros in production with “html” options, or ones ending with “html”, you must sanitise the HTML to protect against
+                <a href="https://developer.mozilla.org/en-US/docs/Glossary/Cross-site_scripting" class="snipcss0-7-54-55">cross-site scripting exploits</a>.
+              </p>
+              <table class="govuk-table app-options__table snipcss0-6-51-56" id="options-button-example--primary">
+                <caption class="govuk-table__caption govuk-heading-m govuk-visually-hidden snipcss0-7-56-57">Primary options</caption>
+                <thead class="govuk-table__head snipcss0-7-56-58">
+                  <tr class="govuk-table__row snipcss0-8-58-59">
+                    <th class="govuk-table__header app-options__limit-table-cell snipcss0-9-59-60" scope="col">Name</th>
+                    <th class="govuk-table__header app-options__limit-table-cell snipcss0-9-59-61" scope="col">Type</th>
+                    <th class="govuk-table__header snipcss0-9-59-62" scope="col">Description</th>
+                  </tr>
+                </thead>
+                <tbody class="govuk-table__body snipcss0-7-56-63">
+                  <tr class="govuk-table__row snipcss0-8-63-64">
+                    <th class="govuk-table__header snipcss0-9-64-65" scope="row">element</th>
+                    <td class="govuk-table__cell snipcss0-9-64-66">string</td>
+                    <td class="govuk-table__cell snipcss0-9-64-67">
+                      HTML element for the button component –
+                      <code class="snipcss0-10-67-68">input</code>,
+                      <code class="snipcss0-10-67-69">button</code>
+                      or
+                      <code class="snipcss0-10-67-70">a</code>. In most cases you will not need to set this as it will be configured automatically if
+                      <code class="snipcss0-10-67-71">href</code>
+                      is provided. This parameter will be removed in the next major version.
+                    </td>
+                  </tr>
+                  <tr class="govuk-table__row snipcss0-8-63-72">
+                    <th class="govuk-table__header snipcss0-9-72-73" scope="row">text</th>
+                    <td class="govuk-table__cell snipcss0-9-72-74">string</td>
+                    <td class="govuk-table__cell snipcss0-9-72-75">
+                      <strong class="snipcss0-10-75-76">Required.</strong>
+                      If
+                      <code class="snipcss0-10-75-77">html</code>
+                      is set, this is not required. Text for the
+                      <code class="snipcss0-10-75-78">input</code>,
+                      <code class="snipcss0-10-75-79">button</code>
+                      or
+                      <code class="snipcss0-10-75-80">a</code>
+                      element. If
+                      <code class="snipcss0-10-75-81">html</code>
+                      is provided, the
+                      <code class="snipcss0-10-75-82">text</code>
+                      option will be ignored and
+                      <code class="snipcss0-10-75-83">element</code>
+                      will be automatically set to
+                      <code class="snipcss0-10-75-84">"button"</code>
+                      unless
+                      <code class="snipcss0-10-75-85">href</code>
+                      is also set, or it has already been defined.
+                    </td>
+                  </tr>
+                  <tr class="govuk-table__row snipcss0-8-63-86">
+                    <th class="govuk-table__header snipcss0-9-86-87" scope="row">html</th>
+                    <td class="govuk-table__cell snipcss0-9-86-88">string</td>
+                    <td class="govuk-table__cell snipcss0-9-86-89">
+                      <strong class="snipcss0-10-89-90">Required.</strong>
+                      If
+                      <code class="snipcss0-10-89-91">text</code>
+                      is set, this is not required. HTML for the
+                      <code class="snipcss0-10-89-92">button</code>
+                      or
+                      <code class="snipcss0-10-89-93">a</code>
+                      element only. If
+                      <code class="snipcss0-10-89-94">html</code>
+                      is provided, the
+                      <code class="snipcss0-10-89-95">text</code>
+                      option will be ignored and
+                      <code class="snipcss0-10-89-96">element</code>
+                      will be automatically set to
+                      <code class="snipcss0-10-89-97">"button"</code>
+                      unless
+                      <code class="snipcss0-10-89-98">href</code>
+                      is also set, or it has already been defined. This option has no effect if
+                      <code class="snipcss0-10-89-99">element</code>
+                      is set to
+                      <code class="snipcss0-10-89-100">"input"</code>.
+                    </td>
+                  </tr>
+                  <tr class="govuk-table__row snipcss0-8-63-101">
+                    <th class="govuk-table__header snipcss0-9-101-102" scope="row">name</th>
+                    <td class="govuk-table__cell snipcss0-9-101-103">string</td>
+                    <td class="govuk-table__cell snipcss0-9-101-104">
+                      Name for the
+                      <code class="snipcss0-10-104-105">input</code>
+                      or
+                      <code class="snipcss0-10-104-106">button</code>. This has no effect on
+                      <code class="snipcss0-10-104-107">a</code>
+                      elements.
+                    </td>
+                  </tr>
+                  <tr class="govuk-table__row snipcss0-8-63-108">
+                    <th class="govuk-table__header snipcss0-9-108-109" scope="row">type</th>
+                    <td class="govuk-table__cell snipcss0-9-108-110">string</td>
+                    <td class="govuk-table__cell snipcss0-9-108-111">
+                      Type for the
+                      <code class="snipcss0-10-111-112">input</code>
+                      or
+                      <code class="snipcss0-10-111-113">button</code>
+                      element –
+                      <code class="snipcss0-10-111-114">"button"</code>,
+                      <code class="snipcss0-10-111-115">"submit"</code>
+                      or
+                      <code class="snipcss0-10-111-116">"reset"</code>. Defaults to
+                      <code class="snipcss0-10-111-117">"submit"</code>. This has no effect on
+                      <code class="snipcss0-10-111-118">a</code>
+                      elements.
+                    </td>
+                  </tr>
+                  <tr class="govuk-table__row snipcss0-8-63-119">
+                    <th class="govuk-table__header snipcss0-9-119-120" scope="row">value</th>
+                    <td class="govuk-table__cell snipcss0-9-119-121">string</td>
+                    <td class="govuk-table__cell snipcss0-9-119-122">
+                      Value for the
+                      <code class="snipcss0-10-122-123">button</code>
+                      element only. This has no effect on
+                      <code class="snipcss0-10-122-124">a</code>
+                      or
+                      <code class="snipcss0-10-122-125">input</code>
+                      elements.
+                    </td>
+                  </tr>
+                  <tr class="govuk-table__row snipcss0-8-63-126">
+                    <th class="govuk-table__header snipcss0-9-126-127" scope="row">disabled</th>
+                    <td class="govuk-table__cell snipcss0-9-126-128">boolean</td>
+                    <td class="govuk-table__cell snipcss0-9-126-129">
+                      Whether the button component should be disabled. For
+                      <code class="snipcss0-10-129-130">input</code>
+                      and
+                      <code class="snipcss0-10-129-131">button</code>
+                      elements,
+                      <code class="snipcss0-10-129-132">disabled</code>
+                      and
+                      <code class="snipcss0-10-129-133">aria-disabled</code>
+                      attributes will be set automatically. This has no effect on
+                      <code class="snipcss0-10-129-134">a</code>
+                      elements.
+                    </td>
+                  </tr>
+                  <tr class="govuk-table__row snipcss0-8-63-135">
+                    <th class="govuk-table__header snipcss0-9-135-136" scope="row">href</th>
+                    <td class="govuk-table__cell snipcss0-9-135-137">string</td>
+                    <td class="govuk-table__cell snipcss0-9-135-138">
+                      The URL that the button component should link to. If this is set,
+                      <code class="snipcss0-10-138-139">element</code>
+                      will be automatically set to
+                      <code class="snipcss0-10-138-140">"a"</code>
+                      if it has not already been defined.
+                    </td>
+                  </tr>
+                  <tr class="govuk-table__row snipcss0-8-63-141">
+                    <th class="govuk-table__header snipcss0-9-141-142" scope="row">classes</th>
+                    <td class="govuk-table__cell snipcss0-9-141-143">string</td>
+                    <td class="govuk-table__cell snipcss0-9-141-144">
+                      Classes to add to the button component.
+                    </td>
+                  </tr>
+                  <tr class="govuk-table__row snipcss0-8-63-145">
+                    <th class="govuk-table__header snipcss0-9-145-146" scope="row">attributes</th>
+                    <td class="govuk-table__cell snipcss0-9-145-147">object</td>
+                    <td class="govuk-table__cell snipcss0-9-145-148">
+                      HTML attributes (for example data attributes) to add to the button component.
+                    </td>
+                  </tr>
+                  <tr class="govuk-table__row snipcss0-8-63-149">
+                    <th class="govuk-table__header snipcss0-9-149-150" scope="row">prevent<wbr class="snipcss0-10-150-151">Double<wbr class="snipcss0-10-150-152">Click</th>
+                    <td class="govuk-table__cell snipcss0-9-149-153">boolean</td>
+                    <td class="govuk-table__cell snipcss0-9-149-154">
+                      Prevent accidental double clicks on submit buttons from submitting forms multiple times.
+                    </td>
+                  </tr>
+                  <tr class="govuk-table__row snipcss0-8-63-155">
+                    <th class="govuk-table__header snipcss0-9-155-156" scope="row">is<wbr class="snipcss0-10-156-157">Start<wbr class="snipcss0-10-156-158">Button</th>
+                    <td class="govuk-table__cell snipcss0-9-155-159">boolean</td>
+                    <td class="govuk-table__cell snipcss0-9-155-160">
+                      Use for the main call to action on your service’s start page.
+                    </td>
+                  </tr>
+                  <tr class="govuk-table__row snipcss0-8-63-161">
+                    <th class="govuk-table__header snipcss0-9-161-162" scope="row">id</th>
+                    <td class="govuk-table__cell snipcss0-9-161-163">string</td>
+                    <td class="govuk-table__cell snipcss0-9-161-164">
+                      The ID of the button.
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+
+            </div>
+          </details>
+
+          <div class="app-example__code snipcss0-4-46-165" data-module="app-copy">
+
+            <span class="govuk-visually-hidden snipcss0-5-165-166" aria-live="assertive"></span>
+            <button class="app-copy-button snipcss0-5-165-167">Copy code</button>
+
+          </pre>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

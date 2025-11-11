@@ -1,0 +1,18 @@
+{# {% if currentPage.questions.length == 0 %}
+<p>No questions have been added yet.</p>
+{% else %}
+{% for question in currentPage.questions %} #}
+<div class="govuk-form-group">
+    <label class="govuk-label govuk-label--l" for="email-input-field" id="question-label-legend">
+        {{ question.label or 'Default Label' }}
+    </label>
+
+    <div id="hint-text-output" class="govuk-hint">
+        {{ question.hint or '' }}
+    </div>
+
+    <input class="govuk-input" id="email" name="email" type="email" spellcheck="false" aria-describedby="email-hint"
+        autocomplete="email">
+</div>
+{# {% endfor %}
+{% endif %} #}

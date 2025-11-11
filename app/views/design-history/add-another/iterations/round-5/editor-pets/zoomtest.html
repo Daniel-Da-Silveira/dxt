@@ -1,0 +1,413 @@
+{% extends "layouts/main.html" %}
+
+{% from "components/service-header/macro.njk" import serviceHeader %}
+
+{% set pageName = "Editor - Apply for a county parish holding number in England" %}
+
+{% block header %}
+  {{ serviceHeader({
+    organisationName: "Defra",
+    productName: "Forms Designer",
+    serviceName: "",
+    accountName: "Chris Smith",
+    homepageLink: "/",
+    signOutLink: "/onboarding/sign-out-confirmation",
+    navigationItems: [
+    {
+      href: "/library.html",
+      text: "Forms library",
+      id: "library"
+     },
+    {
+      href: "/cph-overview/draft/complete-clean.html",
+      text: "Overview",
+      id: "overview"
+     },{
+         href: "/editor-pets/1",
+    text: 'Editor',
+    id: 'editor'
+    }],
+    activeLinkId: "editor"
+  }) }}
+{% endblock %}
+
+{% block content %}
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-one-third govuk-!-padding-left-0">
+      {%- from "moj/components/side-navigation/macro.njk" import mojSideNavigation -%}
+      {{ mojSideNavigation({
+        label: 'Side navigation',
+        classes: 'govuk-!-padding-top-0',
+        items: [{
+          text: 'Conditions',
+          href: '/conditions/existing0.html',
+          active: false
+        }, {
+          text: 'Sections',
+          href: '#2'
+        }, {
+          text: 'Lists',
+          href: '#3'
+        }, {
+          text: 'Links',
+          href: '#4'
+        }, {
+          text: 'Summary behaviour',
+          href: '#5'
+        }]
+      }) }}
+    </div>
+
+    <div class="govuk-grid-column-two-thirds">
+      <h1 class="govuk-heading-l">
+        Take your pets abroad
+        <span class="govuk-caption-m govuk-!-padding-top-2">Last updated at 11:32</span>
+
+      </h1>
+      <p class="govuk-body-s govuk-!-padding-top-0">Add a page to your form first and then add a question. As a guide, you should use one question per page.</p>
+      {{ govukButton({
+        text: "Add page",
+        href: ""
+      }) }}
+
+      <style>
+        .horizontal-stack {
+          display: flex;
+          flex-wrap: nowrap;
+          margin-left: 30px;
+          /* Prevent wrapping */
+        }
+
+        .horizontal-stack > div {
+          min-width: 200px;
+          /* Set a minimum width for each column */
+          padding-bottom: 125px;
+          margin-right: 90px;
+          margin-left: -15px;
+
+          /* Margin between columns */
+          position: relative;
+          /* Ensure relative positioning for pseudo-element */
+        }
+
+        .horizontal-stack svg.polyline {
+          position: absolute;
+          bottom: 0;
+          left: 0;
+          width: 100%;
+          height: 1px;
+          /* Thickness of the horizontal line */
+        }
+
+        #pets-box:focus {
+          background-color: #fd0;
+          color: #0b0c0c;
+          box-shadow: none;
+          cursor: pointer;
+        }
+
+        .zoom-controls {
+          display: flex;
+          justify-content: center;
+          margin-bottom: 10px;
+        }
+
+        .zoomable-container {
+          transition: transform 0.3s ease;
+        }
+
+        .moj-scrollable-pane {
+          overflow: auto;
+          cursor: grab;
+        }
+        .moj-scrollable-pane:active {
+          cursor: grabbing;
+        }
+      </style>
+
+      <div class="govuk-grid-row">
+        <div class="govuk-grid-column-full-width">
+          <div class="moj-scrollable-pane" id="scrollablePane" style="border: 2px solid gray; padding: 30px;">
+            <div class="govuk-grid-row horizontal-stack">
+              <script>
+                document.addEventListener("DOMContentLoaded", function () {
+                  var zoomLevel = 1;
+                  var zoomStep = 0.1;
+                  var maxZoom = 2;
+                  var minZoom = 0.5;
+                  var container = document.querySelector(".zoomable-container");
+
+                  document
+                    .getElementById("zoom-in")
+                    .addEventListener("click", function () {
+                      if (zoomLevel < maxZoom) {
+                        zoomLevel += zoomStep;
+                        container.style.transform = "scale(" + zoomLevel + ")";
+                      }
+                    });
+
+                  document
+                    .getElementById("zoom-out")
+                    .addEventListener("click", function () {
+                      if (zoomLevel > minZoom) {
+                        zoomLevel -= zoomStep;
+                        container.style.transform = "scale(" + zoomLevel + ")";
+                      }
+                    });
+                });
+              </script>
+
+              <script>
+                document.addEventListener('DOMContentLoaded', (event) => {
+                  const scrollablePane = document.getElementById('scrollablePane');
+
+                  let isDragging = false;
+                  let startX,
+                    startY,
+                    scrollLeft,
+                    scrollTop;
+
+                  scrollablePane.addEventListener('mousedown', (e) => {
+                    isDragging = true;
+                    scrollablePane
+                      .classList
+                      .add('active');
+                    startX = e.pageX - scrollablePane.offsetLeft;
+                    startY = e.pageY - scrollablePane.offsetTop;
+                    scrollLeft = scrollablePane.scrollLeft;
+                    scrollTop = scrollablePane.scrollTop;
+                  });
+
+                  scrollablePane.addEventListener('mouseleave', () => {
+                    isDragging = false;
+                    scrollablePane
+                      .classList
+                      .remove('active');
+                  });
+
+                  scrollablePane.addEventListener('mouseup', () => {
+                    isDragging = false;
+                    scrollablePane
+                      .classList
+                      .remove('active');
+                  });
+
+                  scrollablePane.addEventListener('mousemove', (e) => {
+                    if (!isDragging) 
+                      return;
+                    e.preventDefault();
+                    const x = e.pageX - scrollablePane.offsetLeft;
+                    const y = e.pageY - scrollablePane.offsetTop;
+                    const walkX = (x - startX) * 2; // Adjust scroll speed
+                    const walkY = (y - startY) * 2; // Adjust scroll speed
+                    scrollablePane.scrollLeft = scrollLeft - walkX;
+                    scrollablePane.scrollTop = scrollTop - walkY;
+                  });
+                });
+              </script>
+
+              <div class="zoom-controls">
+                <button id="zoom-in" class="govuk-button" type="button">Zoom In</button>
+                <button id="zoom-out" class="govuk-button" type="button">Zoom Out</button>
+              </div>
+
+              <div class="govuk-grid-row horizontal-stack zoomable-container">
+                {# first page visualiser #}
+                <div class="govuk-grid-column-full-width">
+                  <div id="/page-1" title="/page-1" style="border-style: solid;  width: 240px;">
+                    <div class="page__heading">
+                      <h3>What is your full name?</h3>
+                      <div class="page-linkage__drag-area" draggable="true"></div>
+                      <div class="govuk-input__wrapper" style="margin-top: 20px;">
+                        <input class="govuk-input govuk-input--width-full" id="cost" name="cost" type="text" spellcheck="false">
+                      </div>
+                    </div>
+                    <div class="component-list"></div>
+                    <div class="page__actions" style="background-color: black;">
+                      <button title="Edit page">
+                        <a href="/" class="govuk-link govuk-link--inverse" title="Edit page">Edit page</a>
+                      </button>
+                      <button title="Add component">
+                        <a href="/editor-pets/component-pages/add.html" class="govuk-link govuk-link--inverse" title="Add component">Add component</a>
+                      </button>
+                      <button title="Preview">
+                        <a href="draft/preview/custom-reference.html" class="govuk-link govuk-link--inverse" rel="noreferrer noopener" target="_blank" title="Preview">Preview</a>
+                      </button>
+                    </div>
+                  </div>
+
+                </div>
+
+                {# next page visualiser #}
+                <div class="govuk-grid-column-full-width">
+                  <div id="/page-1" title="/page-1" style="border-style: solid;  width: 240px;">
+                    <div class="page__heading">
+                      <h3>What is your address?</h3>
+                      <div class="page-linkage__drag-area" draggable="true"></div>
+                      <div class="govuk-input__wrapper" style="margin-top: 20px;">
+                        <input class="govuk-input govuk-input--width-full" id="cost" name="cost" type="text" spellcheck="false">
+                      </div>
+                    </div>
+                    <div class="component-list"></div>
+                    <div class="page__actions" style="background-color: black;">
+                      <button title="Edit page">
+                        <a href="/" class="govuk-link govuk-link--inverse" title="Edit page">Edit page</a>
+                      </button>
+                      <button title="Add component">
+                        <a href="/editor-pets/component-pages/add.html" class="govuk-link govuk-link--inverse" title="Add component">Add component</a>
+                      </button>
+                      <button title="Preview">
+                        <a href="draft/preview/custom-reference.html" class="govuk-link govuk-link--inverse" rel="noreferrer noopener" target="_blank" title="Preview">Preview</a>
+                      </button>
+                    </div>
+                  </div>
+
+                </div>
+
+                {# next page visualiser #}
+                <div class="govuk-grid-column-full-width">
+                  <div id="/page-1" title="/page-1" style="border-style: solid;  width: 240px;">
+                    <div class="page__heading">
+                      <h3>Where are you travelling to?</h3>
+                      <div class="page-linkage__drag-area" draggable="true"></div>
+                      <div class="govuk-input__wrapper" style="margin-top: 20px;">
+                        <input class="govuk-input govuk-input--width-full" id="cost" name="cost" type="text" spellcheck="false">
+                      </div>
+                    </div>
+                    <div class="component-list"></div>
+                    <div class="page__actions" style="background-color: black;">
+                      <button title="Edit page">
+                        <a href="/" class="govuk-link govuk-link--inverse" title="Edit page">Edit page</a>
+                      </button>
+                      <button title="Add component">
+                        <a href="/editor-pets/component-pages/add.html" class="govuk-link govuk-link--inverse" title="Add component">Add component</a>
+                      </button>
+                      <button title="Preview">
+                        <a href="draft/preview/custom-reference.html" class="govuk-link govuk-link--inverse" rel="noreferrer noopener" target="_blank" title="Preview">Preview</a>
+                      </button>
+                    </div>
+                  </div>
+                  <svg class="polyline" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 100 1">
+                    <polyline points="0,0 100,0" style="stroke:#ccc; stroke-width:10"/>
+                  </svg>
+                </div>
+
+                {# next page visualiser #}
+                <div class="govuk-grid-column-full-width">
+                  <div id="/page-1" title="/page-1" style="border-style: solid;  width: 240px;">
+                    <div class="page__heading">
+                      <h3>How many pets are you taking abroad?</h3>
+                      <div class="page-linkage__drag-area" draggable="true"></div>
+                      <div class="govuk-input__wrapper" style="margin-top: 20px;">
+                        <input class="govuk-input govuk-input--width-full" id="cost" name="cost" type="text" spellcheck="false">
+                      </div>
+                    </div>
+                    <div class="component-list"></div>
+                    <div class="page__actions" style="background-color: black;">
+                      <button title="Edit page">
+                        <a href="/" class="govuk-link govuk-link--inverse" title="Edit page">Edit page</a>
+                      </button>
+                      <button title="Add component">
+                        <a href="/editor-pets/component-pages/add.html" class="govuk-link govuk-link--inverse" title="Add component">Add component</a>
+                      </button>
+                      <button title="Preview">
+                        <a href="draft/preview/custom-reference.html" class="govuk-link govuk-link--inverse" rel="noreferrer noopener" target="_blank" title="Preview">Preview</a>
+                      </button>
+                    </div>
+                  </div>
+
+                </div>
+
+                {# next page visualiser #}
+                <script>
+                  window.onload = function () {
+                    document
+                      .getElementById('pets-box')
+                      .focus();
+                  };
+                </script>
+                <div class="govuk-grid-column-full-width">
+                  <div id="pets-box" title="/page-1" tabindex="0" style="border-style: solid; width: 240px; box-shadow: 5px 10px #888888;">
+                    <div class="page__heading">
+                      <h3>Pets</h3>
+                      <div class="page-linkage__drag-area" draggable="true" style="padding-bottom: 40px;"></div>
+                      <div class="govuk-input__wrapper" style="margin-top: 20px; padding-bottom: 10px;">
+                        <svg width="210" height="77" viewbox="0 0 210 77" fill="none" xmlns="http://www.w3.org/2000/svg">
+                          <rect y="58.668" width="210" height="3.66666" fill="#BFC1C3"/>
+                          <rect y="29.332" width="210" height="3.66667" fill="#BFC1C3"/>
+                          <rect width="210" height="3.66667" fill="#BFC1C3"/>
+                          <rect x="180.832" y="14.668" width="29.1667" height="3.66667" fill="#005EA5"/>
+                          <rect x="180.832" y="73.3359" width="29.1667" height="3.66666" fill="#005EA5"/>
+                          <rect x="180.832" y="44" width="29.1667" height="3.66667" fill="#005EA5"/>
+                          <rect y="14.668" width="35" height="3.66667" fill="#0B0C0C"/>
+                          <rect x="55.418" y="14.668" width="96.25" height="3.66667" fill="#0B0C0C"/>
+                          <rect y="73.3359" width="35" height="3.66666" fill="#0B0C0C"/>
+                          <rect x="55.418" y="73.3359" width="96.25" height="3.66666" fill="#0B0C0C"/>
+                          <rect y="44" width="35" height="3.66667" fill="#0B0C0C"/>
+                          <rect x="55.418" y="44" width="96.25" height="3.66667" fill="#0B0C0C"/>
+                        </svg>
+
+                      </div>
+                    </div>
+                    <div class="component-list"></div>
+                    <div class="page__actions" style="background-color: black;">
+
+                      <button title="Edit question set">
+                        <a href="/editor-pets/component-pages/add.html" class="govuk-link govuk-link--inverse" title="Edit question set">Edit question set</a>
+                      </button>
+
+                      <button title="Edit question set">
+                        <a href="/editor-pets/component-pages/patterns/3.html" class="govuk-link govuk-link--inverse" title="Preview">Edit question set</a>
+                      </button>
+
+                      <button title="Preview">
+                        <a href="draft/preview/custom-reference.html" class="govuk-link govuk-link--inverse" rel="noreferrer noopener" target="_blank" title="Preview">Preview</a>
+                      </button>
+
+                    </div>
+                  </div>
+                </div>
+
+                {# next page visualiser #}
+                <div class="govuk-grid-column-full-width">
+                  <div id="/page-1" title="/page-1" style="border-style: solid;  width: 240px;">
+                    <div class="page__heading">
+                      <h3>Summary</h3>
+                      <div class="page-linkage__drag-area" draggable="true"></div>
+                      <div class="govuk-input__wrapper" style="margin-top: 20px;"></div>
+                    </div>
+                    <div class="component-list"></div>
+                    <div class="page__actions" style="background-color: black;">
+                      <button title="Edit page">
+                        <a href="/" class="govuk-link govuk-link--inverse" title="Edit page">Edit page</a>
+                      </button>
+                      <button title="Add component">
+                        <a href="/editor-pets/component-pages/add.html" class="govuk-link govuk-link--inverse" title="Add component">Add component</a>
+                      </button>
+                      <button title="Preview">
+                        <a href="draft/preview/custom-reference.html" class="govuk-link govuk-link--inverse" rel="noreferrer noopener" target="_blank" title="Preview">Preview</a>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        {% endblock %}
+
+        <form class="form" action="/path/of/next/page" method="post"></form>
+
+        <div class="govuk-grid-row">
+          <div class="govuk-grid-column-two-thirds">
+            <p>govuk-grid-column-two-thirds</p>
+            <div class="govuk-grid-row">
+              <div class="govuk-grid-column-one-half">
+                <p>govuk-grid-column-one-half</p>
+              </div>
+              <div class="govuk-grid-column-one-half">
+                <p>govuk-grid-column-one-half</p>
+              </div>
+            </div>
+          </div>
+        </div>

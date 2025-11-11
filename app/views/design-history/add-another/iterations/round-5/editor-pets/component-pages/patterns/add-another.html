@@ -1,0 +1,82 @@
+{% extends "layouts/main.html" %}
+
+{% from "components/service-header/macro.njk" import serviceHeader %}
+
+{% set pageName = "Give your question set a name - Apply for a county parish holding number in England" %}
+
+{% block header %}
+  {{ serviceHeader({
+    organisationName: "Defra",
+    productName: "Forms Designer",
+    serviceName: "",
+    accountName: "Chris Smith",
+    homepageLink: "/",
+    signOutLink: "/onboarding/sign-out-confirmation",
+    navigationItems: [
+    {
+      href: "/library.html",
+      text: "Forms library",
+      id: "library"
+     },
+    {
+      href: "/cph-overview/draft/complete-clean.html",
+      text: "Overview",
+      id: "overview"
+     },{
+         href: "/editor-pets/0.html",
+    text: 'Editor',
+    id: 'editor'
+    }],
+    activeLinkId: "/"
+  }) }}
+{% endblock %}
+
+{% block beforeContent %}
+  {{ govukBackLink({
+  text: "Back",
+  href: "javascript:window.history.back()"
+}) }}
+{% endblock %}
+
+{% block content %}
+
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+
+      <h1 class="govuk-heading-l">
+        Create a new question set
+      </h1>
+
+      <p class="govuk-body">
+        A question set lets you ask someone for multiple pieces of information related to one thing.</p>
+      <p class="govuk-body">
+        This means you do not need to manually duplicate questions that may require more than one answer.
+      </p>
+
+      {% from "govuk/components/input/macro.njk" import govukInput %}
+
+      {{ govukInput({
+  label: {
+    text: "Give this question set a name",
+    classes: "govuk-label--m govuk-!-padding-top-2",
+    isPageHeading: true
+  },
+  hint: {
+    text: "Keep the name short and descriptive, like ‘Application information’"
+  },
+  id: "event-name",
+  name: "eventName"
+}) }}
+
+      <form class="form" action="/editor-pets/component-pages/patterns/0" method="post">
+
+        {{ govukButton({
+          text: "Save and continue"
+        }) }}
+
+      </form>
+
+    </div>
+  </div>
+
+{% endblock %}

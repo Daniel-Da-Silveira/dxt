@@ -1,0 +1,207 @@
+{#
+Design History Page Template
+---------------------------
+This is a blank template for creating new design history pages.
+It extends the main design history template and sets all the variables required by that template.
+
+Key variables:
+- featureName: The name of the feature being documented.
+- latestVersionLink: URL to the latest prototype version.
+- status, statusColor: Status tag and its color.
+- userNeed: The user need this feature addresses.
+- phase, category: Project phase and category.
+- researchRounds: List of research rounds (for the summary table).
+- improvements: Key improvements in the latest version.
+- researchHistory: Table of research rounds, findings, and prototype links.
+- researchSummaries: Detailed summaries for each research round.
+Each summary can contain sections of type: content, details, images, objectives, findings, recommendations, preview.
+
+How to use:
+1. Copy this file to a new location in the design-history directory
+2. Fill in all the variables below
+3. Add research rounds and summaries as needed
+#}
+
+{% extends "design-history/template.html" %}
+
+{# --- Feature metadata --- #}
+{% set featureName = "Uploading and downloading forms" %}
+{# {% set latestVersionLink = "/titan-mvp-1.2/form-editor/listing" %} #}
+{% set status = "Tested" %}
+{% set statusColor = "green" %}
+{% set userNeed = "Users need to import existing forms and export their current form as JSON so they can back up and
+reuse their work." %}
+{% set phase = "Private beta" %}
+{% set category = "Form editor" %}
+{% set description = "Lets users export the current form to JSON ('Download form') and replace it by uploading a JSON
+file ('Upload a form')." %}
+
+{# --- Journey steps --- #}
+{% set journeySteps = [
+{
+number: "1",
+title: "Onboarding",
+subtitles: [
+{ text: "Sign in/out", isCurrent: false },
+{ text: "Roles and permissions", isCurrent: false }
+]
+},
+{
+number: "2",
+title: "Create new form",
+subtitles: [
+{ text: "Add form details", isCurrent: false }
+],
+isCurrent: false
+},
+{
+number: "3",
+title: "Form design",
+subtitles: [
+{ text: "Create and edit questions", isCurrent: false },
+{ text: "Set up page conditions", isCurrent: false }
+]
+},
+{
+number: "4",
+title: "Testing",
+subtitles: [
+{ text: "Preview form", isCurrent: false },
+{ text: "Check routing", isCurrent: false }
+]
+},
+{
+number: "5",
+title: "Form management",
+subtitles: [
+{ text: "Finding forms", isCurrent: true },
+{ text: "Publishing forms", isCurrent: false },
+{ text: "Receiving submissions", isCurrent: false },
+{ text: "Updating form details", isCurrent: false }
+],
+isCurrent: true
+}
+] %}
+
+{# --- Full page list --- #}
+{% set pageList = [
+{
+section: "Form editor",
+detailsTitle: "Latest screens for uploading and downloading",
+showDescriptionColumn: true,
+pages: [
+{
+name: "Download form (exports JSON)",
+link: "/titan-mvp-1.2/form-editor/listing",
+release: "Titan MVP 1.2",
+description: "Listing page with a Download link to export the current form as JSON."
+},
+{
+name: "Upload a form (confirmation)",
+link: "/titan-mvp-1.2/form-editor/upload-confirmation",
+release: "Titan MVP 1.2",
+description: "Choose a JSON file to replace your current form. Shows a warning that this cannot be undone."
+}
+]
+}
+] %}
+
+{# --- Feature links --- #}
+{% set featureLinks = [
+{
+title: "Form editor",
+screens: [
+{ name: "Download form", path: "/titan-mvp-1.2/form-editor/listing" },
+{ name: "Upload a form", path: "/titan-mvp-1.2/form-editor/upload-confirmation" }
+]
+}
+] %}
+
+{# --- Research rounds for the summary table --- #}
+{% set researchRounds = [
+"Round 13 - March 2025"
+] %}
+
+{# --- Key improvements in the latest version --- #}
+{% set improvements = [
+"Added 'Download form' to export the current form as JSON",
+"Added 'Upload a form' flow with file upload (JSON) and clear hint",
+"Introduced warning text before upload and a cancel route",
+"Prompted users to download a backup before uploading a replacement"
+] %}
+
+{# --- Research history table --- #}
+{% set researchHistory = [
+{
+roundNumber: "13",
+researchDate: "March 2025",
+researchFinding: "Upload/download was straightforward and error free. One participant said downloading forms was 'really
+handy' for sharing with colleagues. Overall, the system had a familiar 'GDS feel' and was easy to navigate.
+Upload/download was included as part of wider tasks and no issues were reported.",
+changeMade: "No changes required for upload/download based on this round; continue monitoring as part of wider tasks."
+}
+] %}
+
+{# --- Detailed research summaries --- #}
+{% set researchSummaries = [
+{
+title: "Round 13 – March 2025",
+summary: "Prototype evaluation of page conditions, page sections, and form upload/download.",
+sections: [
+{
+type: "content",
+content: "**What was tested:** Prototype evaluation of page conditions, page sections, and form upload / download."
+},
+{
+type: "details",
+summary: "Participants",
+content: "**P1** - Defra Farming Service, Senior Content Designer\n\nWorked for a private agency where they built
+websites for clients which included contact forms; used MS Forms\n\n**P2** - Defra Flooding Service, Content
+Designer\n\nMS Forms\n\n**P3** - Defra Farming, Content Designer\n\nMS Forms\n\n**P4** - Defra BAU, Junior Content
+Designer\n\nPdfs, ODT Forms, Word; led a project nearly a year ago to update some complex editable PDFs\n\n**P5** -
+Defra BAU, Content Designer\n\nJot Form, Pdfs"
+},
+{
+type: "findings",
+content: [
+"The functionality for form upload and download was straightforward and error free, with one participant noting that
+downloading forms was 'really handy' for sharing with colleagues.",
+"Overall system was described as having a \"nice GDS feel,\" making it seem familiar and easy to navigate.",
+"Upload/download was included as part of wider tasks and no issues were reported."
+]
+},
+{
+type: "quotes",
+content: [
+"\"Downloading forms was really handy for sharing with colleagues.\"",
+"\"Nice GDS feel\""
+]
+}
+]
+}
+] %}
+
+{# --- Related posts --- #}
+{# {% set relatedPosts = [
+{
+title: "Creating an accessible forms library",
+link: "/design-history/form-library/posts/accessible-forms-library.html",
+date: "2 March 2024"
+},
+{
+title: "Making it easier to find forms",
+link: "/design-history/form-library/posts/finding-forms.html",
+date: "3 March 2024"
+},
+{
+title: "Using the GOV.UK tags component to show the status of forms",
+link: "/design-history/form-library/posts/form-status-tags.html",
+date: "12 April 2024"
+}
+] %} #}
+
+<style>
+    .app-secondary-text {
+        color: #505a5f;
+    }
+</style>

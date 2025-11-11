@@ -1,0 +1,574 @@
+{% extends "layouts/main.html" %}
+{% from "components/service-header/macro.njk" import serviceHeader %}
+{% set pageName = "Overview of radios question - Apply for a county parish holding number in England" %}
+{% set headingPlaceholder = "Page heading" %}
+{% set guidancePlaceholder = "" %}
+
+{% block header %}
+  {{ serviceHeader({
+    organisationName: "Defra",
+    productName: "Forms Designer",
+    serviceName: "",
+    containerClasses: containerClasses,
+    accountName: "Chris Smith",
+    homepageLink: "/",
+    signOutLink: "/onboarding/sign-out-confirmation",
+    navigationItems: [
+      { href: "/library.html", text: "Forms library", id: "nav-library" },
+      { href: "/cph-overview/draft/complete-clean.html", text: "Overview", id: "nav-overview" },
+      { href: "/redesigntest/listing", text: "Editor", id: "nav-editor" }    ],
+    activeLinkId: "nav-editor"
+  }) }}
+
+<div class="x-govuk-masthead x-govuk-masthead--large">
+  <div class="govuk-width-container">
+{{ govukBackLink({ classes: "govuk-back-link--inverse govuk-!-margin-bottom-0", text: "Back to add
+    and edit pages", href: "/redesigntest/listing.html" }) }}
+
+    <hr
+      class="govuk-section-break govuk-section-break--m govuk-section-break--visible"
+      style="border-bottom: 1px solid white; margin-bottom: 0"
+    />
+
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-two-thirds-from-desktop">
+        <h1 class="x-govuk-masthead__title">
+          <span class="govuk-caption-l" style="color: white">
+            Apply for a county parish holding certificate
+          </span>
+          Edit page 2
+        </h1>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-full">
+    <div class="govuk-grid-row">
+      <!-- Left Column for Form Controls -->
+      <div class="govuk-grid-column-one-half-from-desktop" id="container" style="flex: 1 1 75%; overflow-y: auto">
+        <div class="govuk-summary-card govuk-!-margin-top-0" style="border-left: 10px solid #008938">
+          <div class="govuk-summary-card__content govuk-!-padding-top-0" style="background-color: #f3f2f1">
+            <dl class="govuk-summary-list">
+              <div class="govuk-summary-list__row">
+                <dd class="govuk-summary-list__value">
+                  <!-- Sub Navigation for Question -->
+                  <nav class="moj-sub-navigation govuk-!-padding-top-0 govuk-!-margin-bottom-2 " aria-label="Sub navigation">
+                    <ul class="moj-sub-navigation__list" id="nav-list2">
+                      <!-- Question Link -->
+                      <li class="moj-sub-navigation__item">
+                        <a class="moj-sub-navigation__link" href="#question-1">Page settings</a>
+                      </li>
+                      <li class="moj-sub-navigation__item">
+                        <a class="moj-sub-navigation__link" aria-current="page" href="#overview-noquestions">Overview of questions</a>
+                      </li>
+                    </ul>
+                  </nav>
+
+                  <div class="govuk-summary-card__title-wrapper govuk-!-padding-top-0"></div>
+
+                  <span class="govuk-caption-l" id="page-caption">Page 2</span>
+
+                  <h2 class="govuk-heading-l" id="page-heading">Overview of questions</h2>
+
+                  <form class="form" action="/redesigntest/Multi/question-2-date/information-type" method="post">
+                    <div id="summary-container">
+                      <!-- Question 1 -->
+                      <div class="question-item govuk-summary-list__row">
+                        {{ govukSummaryList({
+                          classes: "govuk-summary-list",
+                          rows: [
+                            {
+                              key: { text: "Question 1" },
+                              value: { html: data['multiQuestionLabelInputShorttext'] or '' },
+                              actions: {
+                                items: [{
+                                  href: "/redesigntest/templates/1-question/shorttext/edit.html",
+                                  text: "Change",
+                                  visuallyHiddenText: "name",
+                                  classes: "govuk-link"
+                                }]
+                              }
+                            }
+                          ]
+                        }) | safe }}
+                      </div>
+
+                      <!-- Question 2 -->
+                      <div class="question-item govuk-summary-list__row">
+                        {{ govukSummaryList({
+                          classes: "govuk-summary-list",
+                          rows: [
+                            {
+                              key: { text: "Question 2" },
+                              value: { html: data['multiQuestionLabelInputTextArea'] or '' },
+                              actions: {
+                                items: [{
+                                  href: "/redesigntest/templates/1-question/textarea/edit.html",
+                                  text: "Change",
+                                  visuallyHiddenText: "name",
+                                  classes: "govuk-link"
+                                }]
+                              }
+                            }
+                          ]
+                        }) | safe }}
+                      </div>
+
+                      <!-- Question 3 -->
+                      <div class="question-item govuk-summary-list__row">
+                        {{ govukSummaryList({
+                          classes: "govuk-summary-list",
+                          rows: [
+                            {
+                              key: { text: "Question 3" },
+                              value: { html: data['questionLabelInputNumbers'] or '' },
+                              actions: {
+                                items: [{
+                                  href: "/redesigntest/templates/1-question/numbers/edit.html",
+                                  text: "Change",
+                                  visuallyHiddenText: "name",
+                                  classes: "govuk-link"
+                                }]
+                              }
+                            }
+                          ]
+                        }) | safe }}
+                      </div>
+
+                      <!-- Question 4 -->
+                      <div class="question-item govuk-summary-list__row">
+                        {{ govukSummaryList({
+                          classes: "govuk-summary-list",
+                          rows: [
+                            {
+                              key: { text: "Question 4" },
+                              value: { html: data['multiQuestionLabelInputDate'] or '' },
+                              actions: {
+                                items: [{
+                                  href: "/redesigntest/templates/1-question/date/edit.html",
+                                  text: "Change",
+                                  visuallyHiddenText: "name",
+                                  classes: "govuk-link"
+                                }]
+                              }
+                            }
+                          ]
+                        }) | safe }}
+                      </div>
+
+                      <!-- Question 5 -->
+                      <div class="question-item govuk-summary-list__row">
+                        {{ govukSummaryList({
+                          classes: "govuk-summary-list",
+                          rows: [
+                            {
+                              key: { text: "Question 5" },
+                              value: { html: data['multiQuestionLabelInputAddress'] or '' },
+                              actions: {
+                                items: [{
+                                  href: "/redesigntest/templates/1-question/address/edit.html",
+                                  text: "Change",
+                                  visuallyHiddenText: "name",
+                                  classes: "govuk-link"
+                                }]
+                              }
+                            }
+                          ]
+                        }) | safe }}
+                      </div>
+
+                      <!-- Question 6 -->
+                      <div class="question-item govuk-summary-list__row">
+                        {{ govukSummaryList({
+                          classes: "govuk-summary-list",
+                          rows: [
+                            {
+                              key: { text: "Question 6" },
+                              value: { html: data['multiQuestionLabelInputPhone'] or '' },
+                              actions: {
+                                items: [{
+                                  href: "/redesigntest/templates/1-question/phone/edit.html",
+                                  text: "Change",
+                                  visuallyHiddenText: "name",
+                                  classes: "govuk-link"
+                                }]
+                              }
+                            }
+                          ]
+                        }) | safe }}
+                      </div>
+
+                      <!-- Question 7 -->
+                      <div class="question-item govuk-summary-list__row">
+                        {{ govukSummaryList({
+                          classes: "govuk-summary-list",
+                          rows: [
+                            {
+                              key: { text: "Question 7" },
+                              value: { html: data['multiQuestionLabelInputFile'] or '' },
+                              actions: {
+                                items: [{
+                                  href: "/redesigntest/templates/1-question/file/edit.html",
+                                  text: "Change",
+                                  visuallyHiddenText: "name",
+                                  classes: "govuk-link"
+                                }]
+                              }
+                            }
+                          ]
+                        }) | safe }}
+                      </div>
+
+                      <!-- Question 8 -->
+                      <div class="question-item govuk-summary-list__row">
+                        {{ govukSummaryList({
+                          classes: "govuk-summary-list",
+                          rows: [
+                            {
+                              key: { text: "Question 8" },
+                              value: { html: data['multiQuestionLabelInputEmail'] or '' },
+                              actions: {
+                                items: [{
+                                  href: "/redesigntest/templates/1-question/email/edit.html",
+                                  text: "Change",
+                                  visuallyHiddenText: "name",
+                                  classes: "govuk-link"
+                                }]
+                              }
+                            }
+                          ]
+                        }) | safe }}
+                      </div>
+
+                      <!-- Question 9 -->
+                      <div class="question-item govuk-summary-list__row">
+                        {{ govukSummaryList({
+                          classes: "govuk-summary-list",
+                          rows: [
+                            {
+                              key: { text: "Question 9" },
+                              value: { html: data['multiQuestionLabelInputYesno'] or '' },
+                              actions: {
+                                items: [{
+                                  href: "/redesigntest/templates/1-question/yesno/edit.html",
+                                  text: "Change",
+                                  visuallyHiddenText: "name",
+                                  classes: "govuk-link"
+                                }]
+                              }
+                            }
+                          ]
+                        }) | safe }}
+                      </div>
+
+                      <!-- Question 10 -->
+                      <div class="question-item govuk-summary-list__row">
+                        {{ govukSummaryList({
+                          classes: "govuk-summary-list",
+                          rows: [
+                            {
+                              key: { text: "Question 10" },
+                              value: { html: data['multiQuestionLabelInputCheckboxes'] or '' },
+                              actions: {
+                                items: [{
+                                  href: "/redesigntest/templates/1-question/checkboxes/edit.html",
+                                  text: "Change",
+                                  visuallyHiddenText: "name",
+                                  classes: "govuk-link"
+                                }]
+                              }
+                            }
+                          ]
+                        }) | safe }}
+                      </div>
+
+                      <!-- Question 11 -->
+                      <div class="question-item govuk-summary-list__row">
+                        {{ govukSummaryList({
+                          classes: "govuk-summary-list",
+                          rows: [
+                            {
+                              key: { text: "Question 11" },
+                              value: { html: data['multiQuestionLabelInputRadios'] or '' },
+                              actions: {
+                                items: [{
+                                  href: "/redesigntest/templates/1-question/radios/edit.html",
+                                  text: "Change",
+                                  visuallyHiddenText: "name",
+                                  classes: "govuk-link"
+                                }]
+                              }
+                            }
+                          ]
+                        }) | safe }}
+                      </div>
+
+
+
+
+
+</div>
+<div class="govuk-button-group govuk-!-margin-top-6">
+  <a href="/redesigntest/templates/more-than-1-question/yesno/information-type.html" class="govuk-button" role="button">
+    Add next question
+  </a>
+  <a href="/redesigntest/listing.html" class="govuk-button govuk-button--inverse" role="button">
+    Back to all pages
+  </a>
+  <button id="reorder-questions-button" class="govuk-button govuk-button--secondary" type="button">
+    Re-order questions
+  </button>
+</div>
+
+
+
+
+
+                </form>
+              </dd>
+            </div>
+          </dl>
+        </div>
+      </div>
+    </div>
+
+
+
+<!-- Right Column for Preview -->
+<div class="govuk-grid-column-one-half-from-desktop" id="second-container"
+  style="outline: solid 1px #008938; height: 100vh;overflow-y: auto; position: sticky; top: 0; padding: 20px; box-shadow: 5px 10px #008938;">
+  <!-- Before content -->
+  <div id="before-content">
+    <p class="govuk-body-s" style="margin-bottom: 0">
+      <a href="#" class="govuk-link govuk-link--no-visited-state" rel="noreferrer noopener" target="_blank">Preview this
+        page in a new tab</a>
+    </p>
+  </div>
+
+
+  {% include "/redesigntest/templates/previews-more-than-1-question/textarea/overview.html" %}
+
+  {% include "/redesigntest/templates/previews-more-than-1-question/numbers/for-overview.html" %}
+  <!-- Include the preview template -->
+  {% include "/redesigntest/templates/previews-more-than-1-question/date/for-overview.html" %}
+
+  {% include "/redesigntest/templates/previews-more-than-1-question/address/for-overview.html" %}
+
+
+  {% include "/redesigntest/templates/previews-more-than-1-question/phone/for-overview.html" %}
+
+  {% include "/redesigntest/templates/previews-more-than-1-question/fileupload/for-overview.html" %}
+
+  {% include "/redesigntest/templates/previews-more-than-1-question/email/for-overview.html" %}
+
+  {% include "/redesigntest/templates/previews-more-than-1-question/yesno/for-overview.html" %}
+
+
+  {% include "/redesigntest/templates/previews-more-than-1-question/checkboxes/for-overview.html" %}
+
+  {% include "/redesigntest/templates/previews-more-than-1-question/radios/overview.html" %}
+
+
+</div>
+</div>
+
+
+<!-- Include SortableJS Library -->
+<script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>
+
+<!-- JavaScript to Toggle Edit Mode -->
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  const questionsContainer = document.getElementById('summary-container');
+  const reorderQuestionsButton = document.getElementById('reorder-questions-button');
+  let sortableInstance;
+  let editMode = false;
+
+  // Initialize SortableJS
+  function initializeSortable() {
+    sortableInstance = new Sortable(questionsContainer, {
+      animation: 150,
+      handle: '.question-item',
+      draggable: '.question-item',
+      ghostClass: 'sortable-ghost',
+      disabled: true,
+      onEnd: () => {
+        updateQuestionNumbers();
+        manageUpDownButtons();
+      }
+    });
+    console.log("Sortable initialized.");
+  }
+
+  // Function to update question numbers after reordering
+  function updateQuestionNumbers() {
+    const items = questionsContainer.querySelectorAll('.question-item');
+    items.forEach((item, index) => {
+      const keyElement = item.querySelector('.govuk-summary-list__key');
+      if (keyElement) keyElement.textContent = `Question ${index + 1}`;
+      item.setAttribute('data-index', index);
+    });
+  }
+
+  // Function to add "Up" and "Down" buttons only when appropriate
+  function addControlButtons(item) {
+    const actionsContainer = item.querySelector('.govuk-summary-list__actions');
+    const changeLink = actionsContainer.querySelector('.govuk-link');
+
+    changeLink.style.display = 'none'; // Hide "Change" link in edit mode
+
+    // Determine position in list to conditionally add buttons
+    const isFirstItem = !item.previousElementSibling;
+    const isLastItem = !item.nextElementSibling;
+
+    // Create "Up" button if not the first item
+    if (!isFirstItem) {
+      const upButton = document.createElement('button');
+      upButton.textContent = 'Up';
+      upButton.classList.add('govuk-button', 'govuk-button--secondary');
+      upButton.type = 'button';
+      upButton.style.width = '100%';
+      upButton.style.marginBottom = '5px';
+      upButton.addEventListener('click', () => moveUp(item));
+      actionsContainer.appendChild(upButton);
+    }
+
+    // Create "Down" button if not the last item
+    if (!isLastItem) {
+      const downButton = document.createElement('button');
+      downButton.textContent = 'Down';
+      downButton.classList.add('govuk-button', 'govuk-button--secondary');
+      downButton.type = 'button';
+      downButton.style.width = '100%';
+      downButton.style.marginBottom = '5px';
+      downButton.addEventListener('click', () => moveDown(item));
+      actionsContainer.appendChild(downButton);
+    }
+  }
+
+  // Remove control buttons and show "Change" link
+  function removeControlButtons() {
+    const actionsContainers = questionsContainer.querySelectorAll('.govuk-summary-list__actions');
+    actionsContainers.forEach(actionsContainer => {
+      actionsContainer.querySelectorAll('button').forEach(button => button.remove());
+      const changeLink = actionsContainer.querySelector('.govuk-link');
+      if (changeLink) changeLink.style.display = 'inline';
+    });
+  }
+
+  // Move item up
+  function moveUp(item) {
+    const previousItem = item.previousElementSibling;
+    if (previousItem && previousItem.classList.contains('question-item')) {
+      questionsContainer.insertBefore(item, previousItem);
+      updateQuestionNumbers();
+      manageUpDownButtons();
+    }
+  }
+
+  // Move item down
+  function moveDown(item) {
+    const nextItem = item.nextElementSibling;
+    if (nextItem && nextItem.classList.contains('question-item')) {
+      questionsContainer.insertBefore(nextItem, item);
+      updateQuestionNumbers();
+      manageUpDownButtons();
+    }
+  }
+
+  // Ensure "Up" and "Down" buttons are correctly displayed based on item positions
+  function manageUpDownButtons() {
+    const items = questionsContainer.querySelectorAll('.question-item');
+    items.forEach((item, index) => {
+      const actionsContainer = item.querySelector('.govuk-summary-list__actions');
+      actionsContainer.querySelectorAll('button').forEach(button => button.remove());
+      addControlButtons(item);
+    });
+  }
+
+  // Toggle edit mode on button click
+  reorderQuestionsButton.addEventListener('click', () => {
+    editMode = !editMode;
+    reorderQuestionsButton.textContent = editMode ? 'Save changes' : 'Re-order questions';
+    reorderQuestionsButton.setAttribute('aria-live', 'polite');
+    sortableInstance.option('disabled', !editMode);
+
+    // Toggle edit-mode class on container
+    if (editMode) {
+      questionsContainer.classList.add('edit-mode');
+      manageUpDownButtons(); // Ensure correct buttons show when entering edit mode
+    } else {
+      questionsContainer.classList.remove('edit-mode');
+      removeControlButtons(); // Remove buttons when exiting edit mode
+    }
+  });
+
+  initializeSortable();
+});
+
+</script>
+
+
+
+
+<style>/* Main Styles for Reorderable List */
+  /* Main Styles for Reorderable List */
+.gem-c-reorderable-list {
+  list-style-type: none;
+  margin: 0;
+  padding: 0 0 20px 0; /* Adds space at the bottom */
+}
+
+/* Apply styles only in edit mode */
+.edit-mode .question-item {
+  margin-bottom: 15px;
+  padding: 15px 20px;
+  border-left: 5px solid #008938;
+  border-right: 1px solid #b1b4b6;
+  background-color: #fff;
+  /* border-radius: 4px; Optional rounded corners */
+  transition: background-color 0.2s ease;
+}
+
+/* Hover State in Edit Mode */
+.edit-mode .question-item:hover {
+  background-color: #f0f0f0 !important;
+  cursor: move;
+}
+
+/* Selected State in Edit Mode */
+.edit-mode .question-item.sortable-chosen {
+  background-color: #e5f5ff !important;
+  outline: 4px solid #ffdd00;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Ghost State for Dragging in Edit Mode */
+.edit-mode .sortable-ghost {
+  opacity: 0.4;
+  background-color: #ddd;
+  border: 1px dashed #999;
+}
+
+/* Show action buttons only in edit mode */
+.edit-mode .gem-c-reorderable-list__actions {
+  display: flex;
+}
+
+/* Add left padding to create space from the left border */
+.question-item .govuk-summary-list__key {
+  padding-left: 15px; /* Adjust this value as needed for space from the left border */
+}
+
+/* Add right padding or margin to create space after actions */
+.question-item .govuk-summary-list__actions {
+  padding-right:15px!important; /* Adjust as needed for spacing on the right side */
+}
+
+</style>
+
+{% endblock %}

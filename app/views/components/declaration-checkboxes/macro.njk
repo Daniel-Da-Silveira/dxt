@@ -1,0 +1,142 @@
+{% macro declarationCheckboxes(params) %}
+  {%- set name = params.name %}
+  {%- set fieldset = params.fieldset %}
+  {%- set hint = params.hint %}
+  {%- set content = params.content %}
+  {%- set items = params.items %}
+  {%- set errorMessage = params.errorMessage %}
+  {%- set formGroup = params.formGroup %}
+  {%- set id = params.id %}
+  {%- set describedBy = params.describedBy %}
+  {%- set classes = params.classes %}
+  {%- set attributes = params.attributes %}
+  
+  {# Determine if we should include a fieldset based on whether legend is provided #}
+  {%- set hasFieldset = fieldset and fieldset.legend and fieldset.legend.text %}
+
+  {%- set formGroupClasses = "govuk-form-group" %}
+  {%- if errorMessage %}
+    {%- set formGroupClasses = formGroupClasses + " govuk-form-group--error" %}
+  {%- endif %}
+  {%- if formGroup.classes %}
+    {%- set formGroupClasses = formGroupClasses + " " + formGroup.classes %}
+  {%- endif %}
+
+  {%- set fieldsetClasses = "govuk-fieldset" %}
+  {%- if hasFieldset and fieldset.classes %}
+    {%- set fieldsetClasses = fieldsetClasses + " " + fieldset.classes %}
+  {%- endif %}
+
+  {%- set legendClasses = "govuk-fieldset__legend" %}
+  {%- if hasFieldset and fieldset.legend.classes %}
+    {%- set legendClasses = legendClasses + " " + fieldset.legend.classes %}
+  {%- elif hasFieldset and (fieldset.legend.isPageHeading or fieldset.legend.is_page_heading) %}
+    {%- set legendClasses = legendClasses + " govuk-fieldset__legend--xl" %}
+  {%- endif %}
+
+  {%- set describedByValue = describedBy %}
+  {%- if hint %}
+    {%- set describedByValue = describedByValue + " " + (id or name) + "-hint" %}
+  {%- endif %}
+  {%- if errorMessage %}
+    {%- set describedByValue = describedByValue + " " + (id or name) + "-error" %}
+  {%- endif %}
+
+  <div class="{{ formGroupClasses }}"{% if formGroup.attributes %}{% for attribute, value in formGroup.attributes.items() %} {{ attribute }}="{{ value }}"{% endfor %}{% endif %}>
+    {%- if hasFieldset %}
+    <fieldset class="{{ fieldsetClasses }}"{% if describedByValue %} aria-describedby="{{ describedByValue }}"{% endif %}{% if fieldset.attributes %}{% for attribute, value in fieldset.attributes.items() %} {{ attribute }}="{{ value }}"{% endfor %}{% endif %}>
+      <legend class="{{ legendClasses }}"{% if fieldset.legend.attributes %}{% for attribute, value in fieldset.legend.attributes.items() %} {{ attribute }}="{{ value }}"{% endfor %}{% endif %}>
+        {%- if fieldset.legend.isPageHeading or fieldset.legend.is_page_heading %}
+          <h1 class="govuk-fieldset__heading">{{ fieldset.legend.text }}</h1>
+        {%- else %}
+          {{ fieldset.legend.text }}
+        {%- endif %}
+      </legend>
+    {%- endif %}
+      {%- if hint %}
+        <div id="{{ id or name }}-hint" class="govuk-hint"{% if hint.attributes %}{% for attribute, value in hint.attributes.items() %} {{ attribute }}="{{ value }}"{% endfor %}{% endif %}>
+          {%- if hint.html %}
+            {{ hint.html | safe }}
+          {%- else %}
+            {{ hint.text }}
+          {%- endif %}
+        </div>
+      {%- endif %}
+      
+      {%- if content %}
+        <div{% if content.attributes %}{% for attribute, value in content.attributes.items() %} {{ attribute }}="{{ value }}"{% endfor %}{% endif %}>
+          {%- if content.html %}
+            {{ content.html | safe }}
+          {%- else %}
+            {{ content.text }}
+          {%- endif %}
+        </div>
+      {%- endif %}
+      
+      {%- if errorMessage %}
+        <span id="{{ id or name }}-error" class="govuk-error-message"{% if errorMessage.attributes %}{% for attribute, value in errorMessage.attributes.items() %} {{ attribute }}="{{ value }}"{% endfor %}{% endif %}>
+          <span class="govuk-visually-hidden">Error:</span>
+          {%- if errorMessage.html %}
+            {{ errorMessage.html | safe }}
+          {%- else %}
+            {{ errorMessage.text }}
+          {%- endif %}
+        </span>
+      {%- endif %}
+      
+      <div class="govuk-checkboxes" data-module="govuk-checkboxes"{% if attributes %}{% for attribute, value in attributes.items() %} {{ attribute }}="{{ value }}"{% endfor %}{% endif %}>
+        {%- for item in items %}
+          {%- set itemId = item.id or (name + "-" + loop.index) %}
+          {%- set itemName = item.name or name %}
+          {%- set itemValue = item.value %}
+          {%- set itemText = item.text %}
+          {%- set itemHtml = item.html %}
+          {%- set itemHint = item.hint %}
+          {%- set itemDivider = item.divider %}
+          {%- set itemChecked = item.checked %}
+          {%- set itemDisabled = item.disabled %}
+          {%- set itemConditional = item.conditional %}
+          {%- set itemBehaviour = item.behaviour %}
+          {%- set itemAttributes = item.attributes %}
+          {%- set itemClasses = "govuk-checkboxes__item" %}
+          {%- if item.classes %}
+            {%- set itemClasses = itemClasses + " " + item.classes %}
+          {%- endif %}
+          {%- if itemDivider %}
+            <div class="govuk-checkboxes__divider">{{ itemDivider }}</div>
+          {%- endif %}
+          <div class="{{ itemClasses }}"{% if itemAttributes %}{% for attribute, value in itemAttributes.items() %} {{ attribute }}="{{ value }}"{% endfor %}{% endif %}>
+            <input class="govuk-checkboxes__input" id="{{ itemId }}" name="{{ itemName }}" type="checkbox" value="{{ itemValue }}"{% if itemChecked %} checked{% endif %}{% if itemDisabled %} disabled{% endif %}{% if itemBehaviour %} data-behaviour="{{ itemBehaviour }}"{% endif %}{% if item.attributes %}{% for attribute, value in item.attributes.items() %}{% if attribute != "class" and attribute != "id" and attribute != "name" and attribute != "type" and attribute != "value" and attribute != "checked" and attribute != "disabled" and attribute != "data-behaviour" %} {{ attribute }}="{{ value }}"{% endif %}{% endfor %}{% endif %}>
+            <label class="govuk-label govuk-checkboxes__label" for="{{ itemId }}">
+              {%- if itemHtml %}
+                {{ itemHtml | safe }}
+              {%- else %}
+                {{ itemText }}
+              {%- endif %}
+            </label>
+            {%- if itemHint %}
+              <div id="{{ itemId }}-item-hint" class="govuk-hint govuk-checkboxes__hint"{% if itemHint.attributes %}{% for attribute, value in itemHint.attributes.items() %} {{ attribute }}="{{ value }}"{% endfor %}{% endif %}>
+                {%- if itemHint.html %}
+                  {{ itemHint.html | safe }}
+                {%- else %}
+                  {{ itemHint.text }}
+                {%- endif %}
+              </div>
+            {%- endif %}
+          </div>
+          {%- if itemConditional %}
+            <div class="govuk-checkboxes__conditional{% if not itemChecked %} govuk-checkboxes__conditional--hidden{% endif %}" id="{{ itemId }}-conditional">
+              {%- if itemConditional.html %}
+                {{ itemConditional.html | safe }}
+              {%- else %}
+                {{ itemConditional.text }}
+              {%- endif %}
+            </div>
+          {%- endif %}
+        {%- endfor %}
+      </div>
+    {%- if hasFieldset %}
+    </fieldset>
+    {%- endif %}
+  </div>
+{% endmacro %}

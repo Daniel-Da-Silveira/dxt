@@ -1,0 +1,212 @@
+{% extends "layouts/main.html" %}
+
+{% from "components/service-header/macro.njk" import serviceHeader %}
+
+{% set pageName = "Editor - Apply for a county parish holding number in England" %}
+
+{% block header %}
+  {{ serviceHeader({
+    organisationName: "Defra",
+    productName: "Forms Designer",
+    serviceName: "",
+    accountName: "Chris Smith",
+    homepageLink: "/",
+    signOutLink: "/onboarding/sign-out-confirmation",
+    navigationItems: [
+    {
+      href: "/library.html",
+      text: "Forms library",
+      id: "library"
+     },
+    {
+      href: "/cph-overview/draft/complete-clean.html",
+      text: "Overview",
+      id: "overview"
+     },{
+         href: "/editor-pets/1",
+    text: 'Editor',
+    id: 'editor'
+    }],
+    activeLinkId: "editor"
+  }) }}
+{% endblock %}
+
+{% block content %}
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-one-third govuk-!-padding-left-0">
+      {%- from "moj/components/side-navigation/macro.njk" import mojSideNavigation -%}
+      {{ mojSideNavigation({
+        label: 'Side navigation',
+        classes: 'govuk-!-padding-top-0',
+        items: [{
+          text: 'Conditions',
+          href: '/conditions/existing0.html',
+          active: false
+        }, {
+          text: 'Sections',
+          href: '#2'
+        }, {
+          text: 'Lists',
+          href: '#3'
+        }, {
+          text: 'Links',
+          href: '#4'
+        }, {
+          text: 'Summary behaviour',
+          href: '#5'
+        }]
+      }) }}
+    </div>
+
+    <div class="govuk-grid-column-two-thirds">
+      <h1 class="govuk-heading-l">
+        Take your pets abroad
+        <span class="govuk-caption-m govuk-!-padding-top-2">Last updated at 11:32</span>
+      </h1>
+      <p class="govuk-body-s">Add a page to your form first and then add a question. As a guide, you should use one question per page.</p>
+
+      {{ govukButton({
+        text: "Add page",
+        href: "/editor-pets/add-page3.html"
+      }) }}
+
+      <style>
+        .horizontal-stack {
+          display: flex;
+          flex-wrap: nowrap;
+          margin-left: 15px;
+          /* Prevent wrapping */
+        }
+
+        .horizontal-stack > div {
+          min-width: 200px;
+          /* Set a minimum width for each column */
+          padding-bottom: 25px;
+          margin-right: 90px;
+          /* Margin between columns */
+          position: relative;
+          /* Ensure relative positioning for pseudo-element */
+        }
+
+        .horizontal-stack svg.polyline {
+          position: absolute;
+          bottom: 0;
+          left: 0;
+          width: 100%;
+          height: 1px;
+          /* Thickness of the horizontal line */
+        }
+      </style>
+
+      <div class="govuk-grid-row">
+        <div class="govuk-grid-column-full-width">
+          <div class="moj-scrollable-pane">
+            <div class="govuk-grid-row horizontal-stack">
+
+              {# first page visualiser #}
+              <div class="govuk-grid-column-full-width">
+                <div id="/page-1" title="/page-1" style="border-style: solid;  width: 240px;">
+                  <div class="page__heading">
+                    <h3>What is your full name</h3>
+                    <div class="page-linkage__drag-area" draggable="true"></div>
+                    <div class="govuk-input__wrapper" style="margin-top: 20px;">
+                      <input class="govuk-input govuk-input--width-full" id="cost" name="cost" type="text" spellcheck="false">
+                    </div>
+                  </div>
+                  <div class="component-list"></div>
+                  <div class="page__actions" style="background-color: black;">
+                    <button title="Edit page">
+                      <a href="/" class="govuk-link govuk-link--inverse" title="Edit page">Edit page</a>
+                    </button>
+                    <button title="Add component">
+                      <a href="/editor-pets/component-pages/add.html" class="govuk-link govuk-link--inverse" title="Add component">Add component</a>
+                    </button>
+                    <button title="Preview">
+                      <a href="draft/preview/custom-reference.html" class="govuk-link govuk-link--inverse" rel="noreferrer noopener" target="_blank" title="Preview">Preview</a>
+                    </button>
+                  </div>
+                </div>
+
+              </div>
+
+              {# next page visualiser #}
+              <div class="govuk-grid-column-full-width">
+                <div id="/page-1" title="/page-1" style="border-style: solid;  width: 240px;">
+                  <div class="page__heading">
+                    <h3>What is your address?</h3>
+                    <div class="page-linkage__drag-area" draggable="true"></div>
+                    <div class="govuk-input__wrapper" style="margin-top: 20px;">
+                      <input class="govuk-input govuk-input--width-full" id="cost" name="cost" type="text" spellcheck="false">
+                    </div>
+                  </div>
+                  <div class="component-list"></div>
+                  <div class="page__actions" style="background-color: black;">
+                    <button title="Edit page">
+                      <a href="/" class="govuk-link govuk-link--inverse" title="Edit page">Edit page</a>
+                    </button>
+                    <button title="Add component">
+                      <a href="/editor-pets/component-pages/add.html" class="govuk-link govuk-link--inverse" title="Add component">Add component</a>
+                    </button>
+                    <button title="Preview">
+                      <a href="draft/preview/custom-reference.html" class="govuk-link govuk-link--inverse" rel="noreferrer noopener" target="_blank" title="Preview">Preview</a>
+                    </button>
+                  </div>
+                </div>
+
+              </div>
+
+              {# next page visualiser #}
+              <div class="govuk-grid-column-full-width">
+                <div id="/page-1" title="/page-1" style="border-style: solid;  width: 240px;">
+                  <div class="page__heading">
+                    <h3>Where are you travelling to?</h3>
+                    <div class="page-linkage__drag-area" draggable="true"></div>
+                    <div class="govuk-input__wrapper" style="margin-top: 20px;">
+                      <input class="govuk-input govuk-input--width-full" id="cost" name="cost" type="text" spellcheck="false">
+                    </div>
+                  </div>
+                  <div class="component-list"></div>
+                  <div class="page__actions" style="background-color: black;">
+                    <button title="Edit page">
+                      <a href="/" class="govuk-link govuk-link--inverse" title="Edit page">Edit page</a>
+                    </button>
+                    <button title="Add component">
+                      <a href="/editor-pets/component-pages/add.html" class="govuk-link govuk-link--inverse" title="Add component">Add component</a>
+                    </button>
+                    <button title="Preview">
+                      <a href="draft/preview/custom-reference.html" class="govuk-link govuk-link--inverse" rel="noreferrer noopener" target="_blank" title="Preview">Preview</a>
+                    </button>
+                  </div>
+                </div>
+
+              </div>
+
+              {# next page visualiser #}
+              <div class="govuk-grid-column-full-width">
+                <div id="/page-1" title="/page-1" style="border-style: solid;  width: 240px;">
+                  <div class="page__heading">
+                    <h3>Summary</h3>
+                    <div class="page-linkage__drag-area" draggable="true"></div>
+                    <div class="govuk-input__wrapper" style="margin-top: 20px;"></div>
+                  </div>
+                  <div class="component-list"></div>
+                  <div class="page__actions" style="background-color: black;">
+                    <button title="Edit page">
+                      <a href="/" class="govuk-link govuk-link--inverse" title="Edit page">Edit page</a>
+                    </button>
+                    <button title="Add component">
+                      <a href="/editor-pets/component-pages/add.html" class="govuk-link govuk-link--inverse" title="Add component">Add component</a>
+                    </button>
+                    <button title="Preview">
+                      <a href="draft/preview/custom-reference.html" class="govuk-link govuk-link--inverse" rel="noreferrer noopener" target="_blank" title="Preview">Preview</a>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      {% endblock %}
+
+      <form class="form" action="/path/of/next/page" method="post"></form>

@@ -1,0 +1,808 @@
+{% extends "layouts/main.html" %}
+{% from "components/service-header/macro.njk" import serviceHeader %}
+{% from "govuk/components/select/macro.njk" import govukSelect %}
+{% from "govuk/components/input/macro.njk" import govukInput %}
+{% from "govuk/components/textarea/macro.njk" import govukTextarea %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "govuk/components/notification-banner/macro.njk" import govukNotificationBanner %}
+{% set pageName = "Page " + pageNumber + " overview - Apply for a county parish holding number in England" %}
+{% set headingPlaceholder = "Page heading" %}
+{% set guidancePlaceholder = "" %}
+
+{% block header %}
+{{ serviceHeader({
+organisationName: "Defra",
+productName: "Form Designer",
+serviceName: "",
+containerClasses: containerClasses,
+accountName: "Chris Smith",
+homepageLink: "/",
+signOutLink: "/titan-mvp-1.2/onboarding/sign-out-confirmation",
+navigationItems: [
+{ href: "/titan-mvp-1.2/library", text: "Forms library", id: "nav-library" },
+{ href: "/titan-mvp-1.2/form-overview/index", text: "Overview", id: "nav-overview" },
+{ href: "/titan-mvp-1.2/form-editor/listing", text: "Editor", id: "nav-editor", active: true }
+]
+}) }}
+
+<div class="x-govuk-masthead x-govuk-masthead--large">
+    <div class="govuk-width-container">
+        {{ govukBackLink({
+        classes: "govuk-back-link--inverse govuk-!-margin-bottom-0",
+        text: commonTerms.form_editor.navigation.back_to_add_edit_pages,
+        href: "/titan-mvp-1.2/form-editor/listing.html"
+        }) }}
+
+        <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible"
+            style="border-bottom: 1px solid white; margin-bottom: 0" />
+
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-full-from-desktop">
+                <h1 class="x-govuk-masthead__title">
+                    Results of AI review
+                </h1>
+
+
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+
+{% block content %}
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+
+        <!-- Overall Score and CTA at Top -->
+        {% set overallScoreHtml %}
+        <p class="govuk-notification-banner__heading">
+            Overall compliance score: {{ compliance.overallScore }}%
+        </p>
+        <p class="govuk-body">
+
+            {% if compliance.passed %}
+            Your form is ready to go live. All compliance checks have passed.
+            {% else %}
+            Review the issues before making your form live.
+            {% endif %}
+        </p>
+        <p class="govuk-body">
+            While the AI provides helpful guidance, it's important to review the
+            recommendations
+            and
+            ensure
+            they align with
+            your specific use case and requirements.
+        </p>
+        <p class="govuk-body">
+            The final decision to make a form live
+            remains
+            with
+            the
+            form owner.
+        </p>
+        {% endset %}
+
+        {{ govukNotificationBanner({
+        html: overallScoreHtml,
+        titleText: compliance.passed and "Compliance check passed" or "Compliance issues found"
+        }) }}
+
+        <!-- Quick Summary -->
+        <div class="govuk-!-margin-bottom-6">
+            <div class="govuk-grid-row">
+                <div class="govuk-grid-column-one-third">
+                    <div class="govuk-card govuk-card--contained">
+                        <div class="govuk-card__content">
+                            <h3 class="govuk-heading-s govuk-!-margin-bottom-2">Total Issues</h3>
+                            <p class="govuk-body-l govuk-!-font-weight-bold">{{ compliance.issues.length }}</p>
+                            {# <p class="govuk-body-s">across 6 categories</p> #}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="govuk-grid-column-one-third">
+                    <div class="govuk-card govuk-card--contained">
+                        <div class="govuk-card__content">
+                            <h3 class="govuk-heading-s govuk-!-margin-bottom-2">High Priority</h3>
+                            <p class="govuk-body-l govuk-!-font-weight-bold">
+                                {% set highIssues = 0 %}
+                                {% if compliance.categories.content.issues %}
+                                {% for issue in compliance.categories.content.issues %}
+                                {% if issue.severity == 'High' %}
+                                {% set highIssues = highIssues + 1 %}
+                                {% endif %}
+                                {% endfor %}
+                                {% endif %}
+                                {% if compliance.categories.formDesign.issues %}
+                                {% for issue in compliance.categories.formDesign.issues %}
+                                {% if issue.severity == 'High' %}
+                                {% set highIssues = highIssues + 1 %}
+                                {% endif %}
+                                {% endfor %}
+                                {% endif %}
+                                {% if compliance.categories.formStructure.issues %}
+                                {% for issue in compliance.categories.formStructure.issues %}
+                                {% if issue.severity == 'High' %}
+                                {% set highIssues = highIssues + 1 %}
+                                {% endif %}
+                                {% endfor %}
+                                {% endif %}
+                                {% if compliance.categories.accessibility.issues %}
+                                {% for issue in compliance.categories.accessibility.issues %}
+                                {% if issue.severity == 'High' %}
+                                {% set highIssues = highIssues + 1 %}
+                                {% endif %}
+                                {% endfor %}
+                                {% endif %}
+                                {% if compliance.categories.userExperience.issues %}
+                                {% for issue in compliance.categories.userExperience.issues %}
+                                {% if issue.severity == 'High' %}
+                                {% set highIssues = highIssues + 1 %}
+                                {% endif %}
+                                {% endfor %}
+                                {% endif %}
+                                {% if compliance.categories.styleGuide.issues %}
+                                {% for issue in compliance.categories.styleGuide.issues %}
+                                {% if issue.severity == 'High' %}
+                                {% set highIssues = highIssues + 1 %}
+                                {% endif %}
+                                {% endfor %}
+                                {% endif %}
+                                {{ highIssues }}
+                            </p>
+                            {# <p class="govuk-body-s">need immediate attention</p> #}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="govuk-grid-column-one-third">
+                    <div class="govuk-card govuk-card--contained">
+                        <div class="govuk-card__content">
+                            <h3 class="govuk-heading-s govuk-!-margin-bottom-2">Estimated Fix Time</h3>
+                            <p class="govuk-body-l govuk-!-font-weight-bold">
+                                {% if compliance.issues.length <= 3 %}15 mins{% elif compliance.issues.length <=8 %}30
+                                    mins{% else %}1 hour{% endif %} </p>
+                                    {# <p class="govuk-body-s">based on issue count</p> #}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+        <!-- Issues by Category -->
+        {# <h2 class="govuk-heading-l govuk-!-margin-top-6 govuk-!-margin-bottom-3">Detailed Issues by Category</h2> #}
+
+        <!-- Content and Style Guide Issues -->
+        {% set contentIssues = compliance.categories.content.issues or [] %}
+        {% set styleGuideIssues = compliance.categories.styleGuide.issues or [] %}
+        {% set combinedIssues = contentIssues.concat(styleGuideIssues) %}
+        {% if combinedIssues.length > 0 %}
+        <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+
+        <div class="govuk-!-margin-top-6">
+            <div class="govuk-grid-row govuk-!-margin-bottom-3">
+                <div class="govuk-grid-column-two-thirds">
+                    <h2 class="govuk-heading-m govuk-!-margin-bottom-2">Content and Style Guide Issues ({{
+                        combinedIssues.length }})</h2>
+                    <p class="govuk-body-s">Form name, language, labels, and GOV.UK writing standards</p>
+                </div>
+                <div class="govuk-grid-column-one-third">
+                    <div class="govuk-!-text-align-right">
+                        <p class="govuk-body-s govuk-!-margin-bottom-1">Score: <span class="govuk-!-font-weight-bold">{{
+                                compliance.categories.content.score }}%</span></p>
+                        {% if compliance.categories.content.passed %}
+                        <div class="govuk-tag govuk-tag--green govuk-!-margin-bottom-0">Passed</div>
+                        {% else %}
+                        <div class="govuk-tag govuk-tag--red govuk-!-margin-bottom-0">Failed</div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            <div class="govuk-!-margin-top-4">
+                {% for issue in combinedIssues %}
+                <div class="govuk-summary-card govuk-!-margin-bottom-4" style="border-left: 10px solid #008938">
+                    <div class="govuk-summary-card__content" style="background-color: #f3f2f1; padding: 20px;">
+                        <div class="govuk-grid-row">
+                            <div class="govuk-grid-column-two-thirds">
+                                <h4 class="govuk-heading-s govuk-!-margin-bottom-2">{{ issue.title }}</h4>
+                            </div>
+                            <div class="govuk-grid-column-one-third">
+                                <div class="govuk-!-text-align-right">
+                                    {% if issue.severity == 'High' %}
+                                    <div class="govuk-tag govuk-tag--red">High priority</div>
+                                    {% elif issue.severity == 'Medium' %}
+                                    <div class="govuk-tag govuk-tag--orange">Medium priority</div>
+                                    {% else %}
+                                    <div class="govuk-tag govuk-tag--blue">Low priority</div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="govuk-!-margin-top-3">
+                            <h5 class="govuk-heading-s govuk-!-margin-bottom-1">What's wrong</h5>
+                            <p class="govuk-body-s">{{ issue.description }}</p>
+                        </div>
+
+                        <div class="govuk-!-margin-top-3">
+                            <h4 class="govuk-heading-s govuk-!-margin-bottom-1">How to fix</h4>
+                            <p class="govuk-body-s">{{ issue.recommendation }}</p>
+                        </div>
+
+                        {# {% if issue.example %}
+                        <div class="govuk-!-margin-top-3">
+                            <h4 class="govuk-heading-s govuk-!-margin-bottom-1">Example</h4>
+                            <div class="govuk-inset-text govuk-!-margin-bottom-0">
+                                <p class="govuk-body-s">{{ issue.example }}</p>
+                            </div>
+                        </div>
+                        {% endif %} #}
+
+                        {% if issue.formExamples %}
+                        <div class="govuk-!-margin-top-3">
+                            <details class="govuk-details">
+                                <summary class="govuk-details__summary">
+                                    <span class="govuk-details__summary-text">
+                                        Impacted content
+                                    </span>
+                                </summary>
+                                <div class="govuk-details__text">
+                                    <ul class="govuk-list govuk-list--bullet govuk-body-s">
+                                        {% for example in issue.formExamples %}
+                                        <li><code>{{ example }}</code></li>
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+                            </details>
+                        </div>
+                        {% endif %}
+                        {# {% if issue.source %}
+                        <div class="govuk-!-margin-top-2">
+                            <a href="{{ issue.source }}" class="govuk-link govuk-body-s" target="_blank"
+                                rel="noopener noreferrer">See guidance</a>
+                        </div>
+                        {% endif %} #}
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            {% endif %}
+
+            <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+
+            <!-- Form Design Issues -->
+            {% if compliance.categories.formDesign.issues.length > 0 %}
+            <div class="govuk-!-margin-top-6">
+                <div class="govuk-grid-row govuk-!-margin-bottom-3">
+                    <div class="govuk-grid-column-two-thirds">
+                        <h2 class="govuk-heading-m govuk-!-margin-bottom-2">Form Design Issues ({{
+                            compliance.categories.formDesign.issues.length }})</h2>
+                        <p class="govuk-body-s">Field types, validation, setup</p>
+                    </div>
+                    <div class="govuk-grid-column-one-third">
+                        <div class="govuk-!-text-align-right">
+                            <p class="govuk-body-s govuk-!-margin-bottom-1">Score: <span
+                                    class="govuk-!-font-weight-bold">{{ compliance.categories.formDesign.score
+                                    }}%</span></p>
+                            {% if compliance.categories.formDesign.passed %}
+                            <div class="govuk-tag govuk-tag--green govuk-!-margin-bottom-0">Passed</div>
+                            {% else %}
+                            <div class="govuk-tag govuk-tag--red govuk-!-margin-bottom-0">Failed</div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                <div class="govuk-!-margin-top-4">
+                    {% for issue in compliance.categories.formDesign.issues %}
+                    <div class="govuk-summary-card govuk-!-margin-bottom-4" style="border-left: 10px solid #008938">
+                        <div class="govuk-summary-card__content" style="background-color: #f3f2f1; padding: 20px;">
+                            <div class="govuk-grid-row">
+                                <div class="govuk-grid-column-two-thirds">
+                                    <h3 class="govuk-heading-s govuk-!-margin-bottom-2">{{ issue.title }}</h3>
+                                </div>
+                                <div class="govuk-grid-column-one-third">
+                                    <div class="govuk-!-text-align-right">
+                                        {% if issue.severity == 'High' %}
+                                        <div class="govuk-tag govuk-tag--red">High priority</div>
+                                        {% elif issue.severity == 'Medium' %}
+                                        <div class="govuk-tag govuk-tag--orange">Medium priority</div>
+                                        {% else %}
+                                        <div class="govuk-tag govuk-tag--blue">Low priority</div>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="govuk-!-margin-top-3">
+                                <h4 class="govuk-heading-s govuk-!-margin-bottom-1">What's wrong</h4>
+                                <p class="govuk-body-s">{{ issue.description }}</p>
+                            </div>
+
+                            <div class="govuk-!-margin-top-3">
+                                <h4 class="govuk-heading-s govuk-!-margin-bottom-1">How to fix</h4>
+                                <p class="govuk-body-s">{{ issue.recommendation }}</p>
+                            </div>
+
+                            {# {% if issue.example %}
+                            <div class="govuk-!-margin-top-3">
+                                <h4 class="govuk-heading-s govuk-!-margin-bottom-1">Example</h4>
+                                <div class="govuk-inset-text govuk-!-margin-bottom-0">
+                                    <p class="govuk-body-s">{{ issue.example }}</p>
+                                </div>
+                            </div>
+                            {% endif %} #}
+
+                            {% if issue.formExamples %}
+                            <div class="govuk-!-margin-top-3">
+                                <details class="govuk-details">
+                                    <summary class="govuk-details__summary">
+                                        <span class="govuk-details__summary-text">
+                                            Impacted content
+                                        </span>
+                                    </summary>
+                                    <div class="govuk-details__text">
+                                        <ul class="govuk-list govuk-list--bullet govuk-body-s">
+                                            {% for example in issue.formExamples %}
+                                            <li><code>{{ example }}</code></li>
+                                            {% endfor %}
+                                        </ul>
+                                    </div>
+                                </details>
+                            </div>
+                            {% endif %}
+                            {# {% if issue.source %}
+                            <div class="govuk-!-margin-top-2">
+                                <a href="{{ issue.source }}" class="govuk-link govuk-body-s" target="_blank"
+                                    rel="noopener noreferrer">See guidance</a>
+                            </div>
+                            {% endif %} #}
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+            {% endif %}
+
+            <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+
+            <!-- Form Structure Issues -->
+            {% if compliance.categories.formStructure.issues.length > 0 %}
+            <div class="govuk-!-margin-top-6">
+                <div class="govuk-grid-row govuk-!-margin-bottom-3">
+                    <div class="govuk-grid-column-two-thirds">
+                        <h2 class="govuk-heading-m govuk-!-margin-bottom-2">Form Structure Issues ({{
+                            compliance.categories.formStructure.issues.length }})</h2>
+                        <p class="govuk-body-s">Page layout, question order, logic</p>
+                    </div>
+                    <div class="govuk-grid-column-one-third">
+                        <div class="govuk-!-text-align-right">
+                            <p class="govuk-body-s govuk-!-margin-bottom-1">Score: <span
+                                    class="govuk-!-font-weight-bold">{{ compliance.categories.formStructure.score
+                                    }}%</span></p>
+                            {% if compliance.categories.formStructure.passed %}
+                            <div class="govuk-tag govuk-tag--green govuk-!-margin-bottom-0">Passed</div>
+                            {% else %}
+                            <div class="govuk-tag govuk-tag--red govuk-!-margin-bottom-0">Failed</div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                <div class="govuk-!-margin-top-4">
+                    {% for issue in compliance.categories.formStructure.issues %}
+                    <div class="govuk-summary-card govuk-!-margin-bottom-4" style="border-left: 10px solid #008938">
+                        <div class="govuk-summary-card__content" style="background-color: #f3f2f1; padding: 20px;">
+                            <div class="govuk-grid-row">
+                                <div class="govuk-grid-column-two-thirds">
+                                    <h3 class="govuk-heading-s govuk-!-margin-bottom-2">{{ issue.title }}</h3>
+                                </div>
+                                <div class="govuk-grid-column-one-third">
+                                    <div class="govuk-!-text-align-right">
+                                        {% if issue.severity == 'High' %}
+                                        <div class="govuk-tag govuk-tag--red">High priority</div>
+                                        {% elif issue.severity == 'Medium' %}
+                                        <div class="govuk-tag govuk-tag--orange">Medium priority</div>
+                                        {% else %}
+                                        <div class="govuk-tag govuk-tag--blue">Low priority</div>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="govuk-!-margin-top-3">
+                                <h4 class="govuk-heading-s govuk-!-margin-bottom-1">What's wrong</h4>
+                                <p class="govuk-body-s">{{ issue.description }}</p>
+                            </div>
+
+                            <div class="govuk-!-margin-top-3">
+                                <h4 class="govuk-heading-s govuk-!-margin-bottom-1">How to fix</h4>
+                                <p class="govuk-body-s">{{ issue.recommendation }}</p>
+                            </div>
+
+                            {# {% if issue.example %}
+                            <div class="govuk-!-margin-top-3">
+                                <h4 class="govuk-heading-s govuk-!-margin-bottom-1">Example</h4>
+                                <div class="govuk-inset-text govuk-!-margin-bottom-0">
+                                    <p class="govuk-body-s">{{ issue.example }}</p>
+                                </div>
+                            </div>
+                            {% endif %} #}
+
+                            {% if issue.formExamples %}
+                            <div class="govuk-!-margin-top-3">
+                                <details class="govuk-details">
+                                    <summary class="govuk-details__summary">
+                                        <span class="govuk-details__summary-text">
+                                            Impacted content
+                                        </span>
+                                    </summary>
+                                    <div class="govuk-details__text">
+                                        <ul class="govuk-list govuk-list--bullet govuk-body-s">
+                                            {% for example in issue.formExamples %}
+                                            <li><code>{{ example }}</code></li>
+                                            {% endfor %}
+                                        </ul>
+                                    </div>
+                                </details>
+                            </div>
+                            {% endif %}
+                            {# {% if issue.source %}
+                            <div class="govuk-!-margin-top-2">
+                                <a href="{{ issue.source }}" class="govuk-link govuk-body-s" target="_blank"
+                                    rel="noopener noreferrer">See guidance</a>
+                            </div>
+                            {% endif %} #}
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+                {% endif %}
+
+                <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+
+                <!-- Accessibility Issues -->
+                {% if compliance.categories.accessibility.issues.length > 0 %}
+                <div class="govuk-!-margin-top-6">
+                    <div class="govuk-grid-row govuk-!-margin-bottom-3">
+                        <div class="govuk-grid-column-two-thirds">
+                            <h2 class="govuk-heading-m govuk-!-margin-bottom-2">Accessibility Issues ({{
+                                compliance.categories.accessibility.issues.length }})</h2>
+                            <p class="govuk-body-s">Labels, privacy, screen readers</p>
+                        </div>
+                        <div class="govuk-grid-column-one-third">
+                            <div class="govuk-!-text-align-right">
+                                <p class="govuk-body-s govuk-!-margin-bottom-1">Score: <span
+                                        class="govuk-!-font-weight-bold">{{
+                                        compliance.categories.accessibility.score }}%</span></p>
+                                {% if compliance.categories.accessibility.passed %}
+                                <div class="govuk-tag govuk-tag--green govuk-!-margin-bottom-0">Passed</div>
+                                {% else %}
+                                <div class="govuk-tag govuk-tag--red govuk-!-margin-bottom-0">Failed</div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="govuk-!-margin-top-4">
+                        {% for issue in compliance.categories.accessibility.issues %}
+                        <div class="govuk-summary-card govuk-!-margin-bottom-4" style="border-left: 10px solid #008938">
+                            <div class="govuk-summary-card__content" style="background-color: #f3f2f1; padding: 20px;">
+                                <div class="govuk-grid-row">
+                                    <div class="govuk-grid-column-two-thirds">
+                                        <h3 class="govuk-heading-s govuk-!-margin-bottom-2">{{ issue.title }}</h3>
+                                    </div>
+                                    <div class="govuk-grid-column-one-third">
+                                        <div class="govuk-!-text-align-right">
+                                            {% if issue.severity == 'High' %}
+                                            <div class="govuk-tag govuk-tag--red">High priority</div>
+                                            {% elif issue.severity == 'Medium' %}
+                                            <div class="govuk-tag govuk-tag--orange">Medium priority</div>
+                                            {% else %}
+                                            <div class="govuk-tag govuk-tag--blue">Low priority</div>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="govuk-!-margin-top-3">
+                                    <h4 class="govuk-heading-s govuk-!-margin-bottom-1">What's wrong</h4>
+                                    <p class="govuk-body-s">{{ issue.description }}</p>
+                                </div>
+
+                                <div class="govuk-!-margin-top-3">
+                                    <h4 class="govuk-heading-s govuk-!-margin-bottom-1">How to fix</h4>
+                                    <p class="govuk-body-s">{{ issue.recommendation }}</p>
+                                </div>
+
+                                {# {% if issue.example %}
+                                <div class="govuk-!-margin-top-3">
+                                    <h4 class="govuk-heading-s govuk-!-margin-bottom-1">Example</h4>
+                                    <div class="govuk-inset-text govuk-!-margin-bottom-0">
+                                        <p class="govuk-body-s">{{ issue.example }}</p>
+                                    </div>
+                                </div>
+                                {% endif %} #}
+
+                                {% if issue.formExamples %}
+                                <div class="govuk-!-margin-top-3">
+                                    <details class="govuk-details">
+                                        <summary class="govuk-details__summary">
+                                            <span class="govuk-details__summary-text">
+                                                Impacted content
+                                            </span>
+                                        </summary>
+                                        <div class="govuk-details__text">
+                                            <ul class="govuk-list govuk-list--bullet govuk-body-s">
+                                                {% for example in issue.formExamples %}
+                                                <li><code>{{ example }}</code></li>
+                                                {% endfor %}
+                                            </ul>
+                                        </div>
+                                    </details>
+                                </div>
+                                {% endif %}
+                                {# {% if issue.source %}
+                                <div class="govuk-!-margin-top-2">
+                                    <a href="{{ issue.source }}" class="govuk-link govuk-body-s" target="_blank"
+                                        rel="noopener noreferrer">See guidance</a>
+                                </div>
+                                {% endif %} #}
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                {% endif %}
+
+                <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+
+
+                <!-- User Experience Issues -->
+                {% if compliance.categories.userExperience.issues.length > 0 %}
+                <div class="govuk-!-margin-top-6">
+                    <div class="govuk-grid-row govuk-!-margin-bottom-3">
+                        <div class="govuk-grid-column-two-thirds">
+                            <h2 class="govuk-heading-m govuk-!-margin-bottom-2">User Experience Issues ({{
+                                compliance.categories.userExperience.issues.length }})</h2>
+                            <p class="govuk-body-s">Length, journey, mobile</p>
+                        </div>
+                        <div class="govuk-grid-column-one-third">
+                            <div class="govuk-!-text-align-right">
+                                <p class="govuk-body-s govuk-!-margin-bottom-1">Score: <span
+                                        class="govuk-!-font-weight-bold">{{
+                                        compliance.categories.userExperience.score }}%</span></p>
+                                {% if compliance.categories.userExperience.passed %}
+                                <div class="govuk-tag govuk-tag--green govuk-!-margin-bottom-0">Passed</div>
+                                {% else %}
+                                <div class="govuk-tag govuk-tag--red govuk-!-margin-bottom-0">Failed</div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="govuk-!-margin-top-4">
+                        {% for issue in compliance.categories.userExperience.issues %}
+                        <div class="govuk-summary-card govuk-!-margin-bottom-4" style="border-left: 10px solid #008938">
+                            <div class="govuk-summary-card__content" style="background-color: #f3f2f1; padding: 20px;">
+                                <div class="govuk-grid-row">
+                                    <div class="govuk-grid-column-two-thirds">
+                                        <h3 class="govuk-heading-s govuk-!-margin-bottom-2">{{ issue.title }}</h3>
+                                    </div>
+                                    <div class="govuk-grid-column-one-third">
+                                        <div class="govuk-!-text-align-right">
+                                            {% if issue.severity == 'High' %}
+                                            <div class="govuk-tag govuk-tag--red">High priority</div>
+                                            {% elif issue.severity == 'Medium' %}
+                                            <div class="govuk-tag govuk-tag--orange">Medium priority</div>
+                                            {% else %}
+                                            <div class="govuk-tag govuk-tag--blue">Low priority</div>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="govuk-!-margin-top-3">
+                                    <h4 class="govuk-heading-s govuk-!-margin-bottom-1">What's wrong</h4>
+                                    <p class="govuk-body-s">{{ issue.description }}</p>
+                                </div>
+
+                                <div class="govuk-!-margin-top-3">
+                                    <h4 class="govuk-heading-s govuk-!-margin-bottom-1">How to fix</h4>
+                                    <p class="govuk-body-s">{{ issue.recommendation }}</p>
+                                </div>
+
+                                {# {% if issue.example %}
+                                <div class="govuk-!-margin-top-3">
+                                    <h4 class="govuk-heading-s govuk-!-margin-bottom-1">Example</h4>
+                                    <div class="govuk-inset-text govuk-!-margin-bottom-0">
+                                        <p class="govuk-body-s">{{ issue.example }}</p>
+                                    </div>
+                                </div>
+                                {% endif %} #}
+
+                                {% if issue.formExamples %}
+                                <div class="govuk-!-margin-top-3">
+                                    <details class="govuk-details">
+                                        <summary class="govuk-details__summary">
+                                            <span class="govuk-details__summary-text">
+                                                Impacted content
+                                            </span>
+                                        </summary>
+                                        <div class="govuk-details__text">
+                                            <ul class="govuk-list govuk-list--bullet govuk-body-s">
+                                                {% for example in issue.formExamples %}
+                                                <li><code>{{ example }}</code></li>
+                                                {% endfor %}
+                                            </ul>
+                                        </div>
+                                    </details>
+                                </div>
+                                {% endif %}
+                                {# {% if issue.source %}
+                                <div class="govuk-!-margin-top-2">
+                                    <a href="{{ issue.source }}" class="govuk-link govuk-body-s" target="_blank"
+                                        rel="noopener noreferrer">See guidance</a>
+                                </div>
+                                {% endif %} #}
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                {% endif %}
+
+                {#
+                <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+
+                <!-- Recommendations -->
+                {% if compliance.recommendations.length > 0 %}
+                <h2 class="govuk-heading-m govuk-!-margin-top-6 govuk-!-margin-bottom-3">Priority
+                    Recommendations
+                </h2>
+                <table class="govuk-table">
+                    <thead class="govuk-table__head">
+                        <tr class="govuk-table__row">
+                            <th scope="col" class="govuk-table__header">Priority</th>
+                            <th scope="col" class="govuk-table__header">Action</th>
+                            <th scope="col" class="govuk-table__header">Description</th>
+                        </tr>
+                    </thead>
+                    <tbody class="govuk-table__body">
+                        {% for recommendation in compliance.recommendations %}
+                        <tr class="govuk-table__row">
+                            <td class="govuk-table__cell">
+                                {% if recommendation.priority == 'high' %}
+                                <div class="govuk-tag govuk-tag--red">High</div>
+                                {% elif recommendation.priority == 'medium' %}
+                                <div class="govuk-tag govuk-tag--orange">Medium</div>
+                                {% else %}
+                                <div class="govuk-tag govuk-tag--blue">Low</div>
+                                {% endif %}
+                            </td>
+                            <td class="govuk-table__cell">
+                                <strong>{{ recommendation.title }}</strong>
+                            </td>
+                            <td class="govuk-table__cell">
+                                <span class="govuk-body-s">{{ recommendation.description }}</span>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                {% endif %} #}
+
+                <!-- Action Buttons -->
+                {# <div class="govuk-button-group govuk-!-margin-top-6">
+                    {% if compliance.passed %}
+                    <form method="post" action="/titan-mvp-1.2/form-overview/make-draft-live" novalidate>
+                        <button type="submit" class="govuk-button" data-module="govuk-button">
+                            Make form live
+                        </button>
+                    </form>
+                    {% else %}
+                    <a href="/titan-mvp-1.2/form-editor/listing" class="govuk-button govuk-button--secondary">
+                        Edit form to fix issues
+                    </a>
+                    {% endif %}
+
+                    <a href="/titan-mvp-1.2/form-overview/index" class="govuk-button govuk-button--secondary">
+                        Back to overview
+                    </a>
+                </div> #}
+
+
+            </div>
+        </div>
+    </div>
+
+    <div class="govuk-grid-column-one-third">
+        <div style="background-color: #f3f2f1; padding: 15px;">
+            <h2 class="govuk-heading-m">Manage form</h2>
+
+            <a href="/titan-mvp-1.2/form-editor/listing"
+                class="gem-c-button govuk-button gem-c-button-publishing--secondary-quiet"
+                style="width: 100%; margin-bottom: 15px;">Edit draft</a>
+
+
+
+            <a href="/titan-mvp-1.2/form-overview/manage-form/make-draft-live/passed-validation">
+                <button type="submit" class="govuk-button" data-module="govuk-button"
+                    style="width: 100%; margin-bottom: 15px;">
+                    Make form live
+                </button>
+            </a>
+
+        </div>
+
+        {# <div class="govuk-card govuk-card--contained">
+            <div class="govuk-card__content">
+                <h2 class="govuk-heading-s">What was checked?</h2>
+                <ul class="govuk-list govuk-list--bullet govuk-body-s">
+                    <li><strong>Content clarity</strong> - Technical language and unclear labels
+                    </li>
+                    <li><strong>Field types</strong> - Appropriate input types for better UX
+                    </li>
+                    <li><strong>Form structure</strong> - One thing per page and question order
+                    </li>
+                    <li><strong>Question justification</strong> - Complex questions need clear
+                        purpose
+                    </li>
+                    <li><strong>Accessibility</strong> - Clear field labels for screen readers
+                    </li>
+                    <li><strong>Form length</strong> - Breaking long forms into sections</li>
+                    <li><strong>Style guide</strong> - GOV.UK writing standards compliance</li>
+                </ul>
+                <p class="govuk-body-s govuk-!-margin-top-2">
+                    <strong>Note:</strong> The form builder automatically handles mobile
+                    optimization,
+                    progress
+                    indication, privacy notices, support information, and standard validation.
+                </p>
+            </div>
+        </div>
+
+        <div class="govuk-card govuk-card--contained">
+            <div class="govuk-card__content">
+                <h2 class="govuk-heading-s">Need help?</h2>
+                <p class="govuk-body-s">If you need assistance addressing any issues, contact
+                    the
+                    Forms
+                    Designer
+                    team.</p>
+                <a href="#" class="govuk-link govuk-body-s">Contact support</a>
+            </div>
+        </div> #}
+    </div>
+</div>
+{% endblock %}
+
+<style>
+    .highlight {
+        background-color: #ffe5cc;
+        border-bottom: 2px solid #ffb266;
+    }
+
+    #before-content {
+        position: absolute;
+        top: 0;
+        left: 10 !important;
+        right: 0;
+        width: 100%;
+        padding: 10px !important;
+        box-sizing: border-box;
+        z-index: 1;
+        border-bottom: 1px solid #008938;
+        padding-left: 10px;
+    }
+
+    #second-container {
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    #second-container>* {
+        padding-left: 0px;
+        z-index: 2;
+    }
+</style>

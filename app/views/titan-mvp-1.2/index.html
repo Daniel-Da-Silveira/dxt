@@ -1,0 +1,133 @@
+{% extends "layouts/main.html" %}
+
+{% block pageTitle %}
+Titan MVP Milestone 1 – {{ serviceName }}
+{% endblock %}
+
+{% from "components/service-header/macro.njk" import serviceHeader %}
+
+{% block header %}
+{{ serviceHeader({
+organisationName: "Defra",
+productName: "Form Designer",
+serviceName: "Product information",
+accountName: "Account",
+containerClasses: containerClasses,
+homepageLink: "/",
+navigationItems: [
+{ href: "/", text: "Prototypes", id: "prototype" },
+{ href: "/design-system/components.html", text: "Components", id: "components" },
+{ href: "/design-system/user-journeys/home.html", text: "User journeys", id: "user-journeys" }
+],
+activeLinkId: "prototype"
+}) }}
+{% endblock %}
+
+{% block content %}
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+        <h1 class="govuk-heading-xl">Titan MVP Milestone 1</h1>
+
+        <div class="govuk-notification-banner" role="region" aria-labelledby="govuk-notification-banner-title"
+            data-module="govuk-notification-banner">
+            <div class="govuk-notification-banner__header">
+                <h2 class="govuk-notification-banner__title" id="govuk-notification-banner-title">
+                    Share this prototype
+                </h2>
+            </div>
+            <div class="govuk-notification-banner__content">
+                <p class="govuk-notification-banner__heading">
+                    <a class="govuk-link"
+                        href="https://fcp-farming-front-door-59e0a6ac6fb8.herokuapp.com/v8/start-sfd-sign-in?r=t&release=b1&view=ext&iv=true"
+                        target="_blank">
+                        View shared prototype link
+                    </a>
+                </p>
+            </div>
+        </div>
+
+        <h2 class="govuk-heading-l">Design History</h2>
+        <p class="govuk-body">
+            <a href="/titan-mvp-1.2/design-history" class="govuk-link">View design history</a> for this milestone,
+            including:
+        </p>
+        <ul class="govuk-list govuk-list--bullet">
+            <li>Functionality changes</li>
+            <li>Internal user journey exploration</li>
+            <li>Design approach</li>
+            <li>Pain points and user needs</li>
+            <li>What we designed and tested</li>
+            <li>Outcomes and decisions</li>
+            <li>Design tickets</li>
+        </ul>
+
+        <h2 class="govuk-heading-l">Prototype Pages</h2>
+
+        <h3 class="govuk-heading-m">Iteration 1.3</h3>
+        <table class="govuk-table">
+            <thead class="govuk-table__head">
+                <tr class="govuk-table__row">
+                    <th scope="col" class="govuk-table__header">ID</th>
+                    <th scope="col" class="govuk-table__header">Name</th>
+                    <th scope="col" class="govuk-table__header">Prototype Link</th>
+                    <th scope="col" class="govuk-table__header">Release</th>
+                </tr>
+            </thead>
+            <tbody class="govuk-table__body">
+                <tr class="govuk-table__row">
+                    <td class="govuk-table__cell">pd01</td>
+                    <td class="govuk-table__cell">Manage personal details</td>
+                    <td class="govuk-table__cell"><a href="/details-personal-details?r=t&release=b1"
+                            class="govuk-link">View prototype</a></td>
+                    <td class="govuk-table__cell">🐃 Buffalo 1.0 MVP</td>
+                </tr>
+                <!-- Add more pages for Iteration 1.3 -->
+            </tbody>
+        </table>
+
+        <h3 class="govuk-heading-m">Iteration 1.2</h3>
+        <table class="govuk-table">
+            <thead class="govuk-table__head">
+                <tr class="govuk-table__row">
+                    <th scope="col" class="govuk-table__header">ID</th>
+                    <th scope="col" class="govuk-table__header">Name</th>
+                    <th scope="col" class="govuk-table__header">Prototype Link</th>
+                    <th scope="col" class="govuk-table__header">Release</th>
+                </tr>
+            </thead>
+            <tbody class="govuk-table__body">
+                <tr class="govuk-table__row">
+                    <td class="govuk-table__cell">si01</td>
+                    <td class="govuk-table__cell">SFD sign in</td>
+                    <td class="govuk-table__cell"><a href="/start-sfd-sign-in?r=t&release=b1" class="govuk-link">View
+                            prototype</a></td>
+                    <td class="govuk-table__cell">🐃 Buffalo 1.0 MVP</td>
+                </tr>
+                <!-- Add more pages for Iteration 1.2 -->
+            </tbody>
+        </table>
+
+        <h3 class="govuk-heading-m">Iteration 1.1</h3>
+        <table class="govuk-table">
+            <thead class="govuk-table__head">
+                <tr class="govuk-table__row">
+                    <th scope="col" class="govuk-table__header">ID</th>
+                    <th scope="col" class="govuk-table__header">Name</th>
+                    <th scope="col" class="govuk-table__header">Prototype Link</th>
+                    <th scope="col" class="govuk-table__header">Release</th>
+                </tr>
+            </thead>
+            <tbody class="govuk-table__body">
+                <tr class="govuk-table__row">
+                    <td class="govuk-table__cell">si02</td>
+                    <td class="govuk-table__cell">SFD reset password</td>
+                    <td class="govuk-table__cell"><a href="/start-sfd-reset-password?r=t&release=b1"
+                            class="govuk-link">View prototype</a></td>
+                    <td class="govuk-table__cell">🐃 Buffalo 1.0 MVP</td>
+                </tr>
+                <!-- Add more pages for Iteration 1.1 -->
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

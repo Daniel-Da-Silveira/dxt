@@ -1,0 +1,109 @@
+{% extends "design-history/template.html" %}
+
+{# --- Feature metadata --- #}
+{% set featureName = "Support Pages" %}
+{% set latestVersionLink = "/titan-mvp-1/form-overview/support-pages.html" %}
+{% set status = "Tested" %}
+{% set statusColor = "green" %}
+{% set userNeed = "Users need to add supporting information to their forms so respondents can understand the context and
+requirements." %}
+{% set phase = "Private beta" %}
+{% set category = "Form overview" %}
+{% set description = "This feature allows users to add supporting information pages to their forms, providing context
+and additional guidance to respondents." %}
+
+{# --- Research rounds for the summary table --- #}
+{% set researchRounds = [
+"Round 2 - June 2024"
+] %}
+
+{# --- Key improvements in the latest version --- #}
+{% set improvements = [
+"Enhanced support page creation",
+"Improved page organization",
+"Added clear content guidance",
+"Enhanced page visibility"
+] %}
+
+{# --- Research history table --- #}
+{% set researchHistory = [
+{
+roundNumber: "2",
+researchDate: "June 2024",
+researchFinding: "Support pages clear but needed better organization",
+changeMade: "Improved page organization and guidance"
+}
+] %}
+
+{# --- Detailed research summaries --- #}
+{% set researchSummaries = [
+{
+title: "Round 2 - June 2024",
+summary: "Testing of support pages",
+sections: [
+{
+type: "content",
+content: "**Research conducted:** Remote usability testing (June 2024)\n\n**Participants:** Content designers and form
+administrators"
+},
+{
+type: "findings",
+content: [
+"Support pages clear and useful",
+"Needed better organization",
+"Recommendation to add clear guidance",
+"Users wanted more content options"
+]
+}
+]
+}
+] %}
+
+{% block pageTitle %}
+Support Pages - Design History
+{% endblock %}
+
+{% block content %}
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+        <h1 class="govuk-heading-xl">Support Pages</h1>
+        <p class="govuk-body-l">Users need to add supporting information to their forms</p>
+
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-one-third">
+                <div class="gem-c-big-number">
+                    <span class="gem-c-big-number__value">
+                        119
+                    </span>
+                    <span class="govuk-visually-hidden">&nbsp;</span>
+                    <span class="gem-c-big-number__label">
+                        Open consultations
+                    </span>
+
+                </div>
+                <h2 class="govuk-heading-l">Research rounds</h2>
+                <ul class="govuk-list">
+                    <li>
+                        <a class="govuk-link" href="/design-history/form-overview/support-pages/posts/round-2.html"
+                            target="_blank" rel="noopener noreferrer">Round 2 -
+                            June 2024</a>
+                    </li>
+                </ul>
+
+                <h2 class="govuk-heading-l">Problem statement</h2>
+                <p class="govuk-body">Users need to add supporting information to their forms</p>
+
+                <h2 class="govuk-heading-l">Status</h2>
+                <strong class="govuk-tag govuk-tag--green">Tested</strong>
+
+                <h2 class="govuk-heading-l">Phase</h2>
+                <p class="govuk-body">Private beta</p>
+
+                <h2 class="govuk-heading-l">Type</h2>
+                <p class="govuk-body">Form structure</p>
+
+                <h2 class="govuk-heading-l">Category</h2>
+                <p class="govuk-body">Form overview</p>
+            </div>
+        </div>
+        {% endblock %}

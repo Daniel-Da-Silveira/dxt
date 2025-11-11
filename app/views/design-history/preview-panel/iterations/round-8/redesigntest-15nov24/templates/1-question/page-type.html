@@ -1,0 +1,94 @@
+{% extends "layouts/main.html" %}
+
+{% from "components/service-header/macro.njk" import serviceHeader %}
+
+{% set pageName = "Number of questions - Apply for a county parish holding number in England" %}
+
+{% block header %}
+{{ serviceHeader({
+organisationName: "Defra",
+productName: "Forms Designer",
+serviceName: "",
+containerClasses: containerClasses,
+accountName: "Chris Smith",
+homepageLink: "/",
+signOutLink: "/onboarding/sign-out-confirmation",
+navigationItems: [
+{ href: "/library.html", text: "Forms library", id: "nav-library" },
+{ href: "/cph-overview/draft/complete-clean.html", text: "Overview", id: "nav-overview" },
+{ href: "/redesigntest/listing", text: "Editor", id: "nav-editor" }
+],
+activeLinkId: "nav-editor"
+}) }}
+{% endblock %}
+
+
+{% block beforeContent %}
+{{ govukBackLink({
+text: "Back",
+href: "javascript:window.history.back()"
+}) }}
+{% endblock %}
+
+
+{% block content %}
+
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds" id="container">
+
+        {% from "govuk/components/radios/macro.njk" import govukRadios %}
+
+        <form class="form" action="/page-type-answer-3" method="post">
+
+            <div class="govuk-form-group" id="question-page-radio-group">
+                {{ govukRadios({
+                name: "pagetype3",
+                fieldset: {
+                legend: {
+                text: "How many questions will you add to this page?",
+                isPageHeading: true,
+                classes: "govuk-fieldset__legend--l"
+                }
+                },
+                items: [
+                {
+                value: "1",
+                text: "1 question",
+                hint: {
+                text: "This is recommended"
+                }
+                },
+                {
+                value: "morethan1",
+                text: "More than 1 question",
+                hint: {
+                text: "If you need to ask for multiple related things on a page, like a passport number and
+                expiry date"
+                }
+                },
+                {
+                divider: "or"
+                },
+                {
+                value: "guidance",
+                text: "None (guidance only)",
+                hint: {
+                text: "If you need to add guidance without asking a question"
+                }
+                }
+                ],
+                attributes: {
+                id: "question-page-radio-group"
+                }
+                }) }}
+
+            </div>
+            {{ govukButton({
+            text: "Save and continue"
+            }) }}
+
+        </form>
+
+
+
+        {% endblock %}

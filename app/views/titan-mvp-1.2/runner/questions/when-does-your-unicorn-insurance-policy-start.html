@@ -1,0 +1,140 @@
+{% extends "layouts/runner.html" %}
+
+{% block pageTitle %}
+When does your unicorn insurance policy start? – {{ serviceName }} – GOV.UK
+{% endblock %}
+
+{% block beforeContent %}
+{{ govukBackLink({
+text: "Back",
+href: "javascript:window.history.back()"
+}) }}
+{% endblock %}
+
+{% block content %}
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+
+    {% if error %}
+      {{ govukErrorSummary({
+        titleText: "There is a problem",
+        errorList: [
+          {
+            text: error.dateError,
+            href: "#insuranceStartDate-day"
+          } if error.dateError else ""
+        ]
+      }) }}
+    {% endif %}
+
+    <form class="form" action="/when-does-your-unicorn-insurance-policy-start" method="post">
+
+      {{ govukDateInput({
+      id: "insuranceStartDate",
+      namePrefix: "insuranceStartDate",
+      fieldset: {
+      legend: {
+      text: "When does your unicorn insurance policy start?",
+      classes: "govuk-fieldset__legend--l",
+      isPageHeading: true
+      }
+      },
+      errorMessage: { text: error.dateError } if error.dateError else "",
+      items: [
+        {
+          name: "day",
+          classes: "govuk-input--width-2",
+          value: data['insuranceStartDate-day']
+        },
+        {
+          name: "month", 
+          classes: "govuk-input--width-2",
+          value: data['insuranceStartDate-month']
+        },
+        {
+          name: "year",
+          classes: "govuk-input--width-4",
+          value: data['insuranceStartDate-year']
+        }
+      ]
+      }) }}
+
+      <div class="govuk-button-group">
+        {{ govukButton({
+        text: "Continue"
+        }) }}
+
+        {{ govukButton({
+        text: "Save and exit",
+        classes: "govuk-button--secondary",
+        href: "/save-progress",
+        type: "button",
+        attributes: {
+          "data-save-exit": "true"
+        }
+        }) }}
+      </div>
+
+    </form>
+
+  </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const saveExitButton = document.querySelector('[data-save-exit="true"]');
+  
+  if (saveExitButton) {
+    saveExitButton.addEventListener('click', function(e) {
+      e.preventDefault();
+      
+      // Validate required fields
+      const dayField = document.querySelector('input[name="insuranceStartDate-day"]');
+      const monthField = document.querySelector('input[name="insuranceStartDate-month"]');
+      const yearField = document.querySelector('input[name="insuranceStartDate-year"]');
+      
+      const dayValue = dayField ? dayField.value.trim() : '';
+      const monthValue = monthField ? monthField.value.trim() : '';
+      const yearValue = yearField ? yearField.value.trim() : '';
+      
+      if (!dayValue || !monthValue || !yearValue) {
+        // Show error message
+        const errorMessage = document.createElement('div');
+        errorMessage.className = 'govuk-error-message';
+        errorMessage.innerHTML = '<span class="govuk-visually-hidden">Error:</span>Enter the date when your unicorn insurance policy starts';
+        
+        // Remove any existing error messages
+        const existingError = document.querySelector('.govuk-error-message');
+        if (existingError) {
+          existingError.remove();
+        }
+        
+        // Add error message above the date fields
+        const formGroup = dayField.closest('.govuk-form-group');
+        if (formGroup) {
+          formGroup.classList.add('govuk-form-group--error');
+          [dayField, monthField, yearField].forEach(field => {
+            if (field) field.classList.add('govuk-input--error');
+          });
+          formGroup.insertBefore(errorMessage, dayField);
+        }
+        
+        // Focus on the first empty field
+        if (!dayValue) dayField.focus();
+        else if (!monthValue) monthField.focus();
+        else if (!yearValue) yearField.focus();
+        return;
+      }
+      
+      // Get the current page URL
+      const currentUrl = window.location.pathname;
+      
+      // Redirect to save-progress with the current page as returnUrl
+      window.location.href = '/save-progress?returnUrl=' + encodeURIComponent(currentUrl);
+    });
+  }
+});
+</script>
+
+{% endblock %}

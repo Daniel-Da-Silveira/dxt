@@ -1,0 +1,143 @@
+{% extends "design-history/template.html" %}
+{% extends "layouts/main.html" %}
+{% from "components/service-header/macro.njk" import serviceHeader %}
+
+
+{# --- Feature metadata --- #}
+{% set featureName = "Page Sections" %}
+{% set latestVersionLink =
+"https://dxt-prototype-682ae311ff10.herokuapp.com/titan-mvp-1.2/form-editor/check-answers/settings-modular" %}
+{% set status = "Tested" %}
+{% set statusColor = "green" %}
+{% set userNeed = "Users need to group pages into sections so they can create structured forms that are easier to follow
+and have clear groupings on the Check your answers page." %}
+{% set phase = "Private beta" %}
+{% set category = "Form admin" %}
+{% set description = "This feature allows users to group pages into sections with headings that provide structure and
+clarity. Sections help organize forms and make the Check your answers page easier to read by grouping related questions
+together." %}
+
+{# --- Research rounds for the summary table --- #}
+{# {% set researchRounds = [
+"Latest iteration - Current",
+"Round 13 - April 2025"
+] %} #}
+
+{# --- Journey steps --- #}
+{% set journeySteps = [
+{ number: "1", title: "Onboarding", subtitles: [ { text: "Sign in/out", isCurrent: false } ] },
+{ number: "2", title: "Create new form", subtitles: [ { text: "Add form details", isCurrent: false } ] },
+{ number: "3", title: "Form design", subtitles: [ { text: "Create and edit questions", isCurrent: true } ] },
+{ number: "4", title: "Form overview", subtitles: [ { text: "View and edit form details", isCurrent: false } ],
+isCurrent: true },
+{ number: "5", title: "Testing", subtitles: [ { text: "Preview form", isCurrent: false } ] }
+] %}
+
+
+{# --- Key improvements in the latest version --- #}
+{% set improvements = [
+"Structured section management with clear grouping of pages",
+"Automatic numbering and ordering of sections",
+"Easy page assignment with drag-and-drop functionality",
+"Hide/show options for sections without removing them",
+"Clear validation to prevent duplicate section names",
+"Improved Check your answers page layout with section groupings"
+] %}
+{% block customContent %}
+
+{% set preview = {
+type: "preview",
+url: "https://embed.figma.com/design/hnNpbZGk8k3LghzVcugZqw/Feature-development?node-id=1-10864&embed-host=share",
+caption: "Sections feature implementation showing how section headings appear across different page types: question
+pages, check your answers page, and confirmation page.",
+previewLabel: "Sections feature implementation",
+showSectionBreak: true
+} %}
+
+<div class="preview-section">
+    <span class="govuk-caption-m govuk-!-margin-bottom-1">{{ preview.previewLabel | default("Preview") }}</span>
+    <div class="iframe-container govuk-!-margin-bottom-6" role="region" aria-labelledby="preview-heading-1">
+        <h2 id="preview-heading-1" class="govuk-visually-hidden">Preview of the form</h2>
+        <iframe src="{{ preview.url }}" class="iframe-content"
+            style="overflow-y: auto; height: 500px; width: 100%; border: none;" scrolling="yes" frameborder="0"
+            title="Form preview" marginheight="0" marginwidth="0" allowfullscreen></iframe>
+    </div>
+    {% if preview.caption %}
+    <div class="markdown-content govuk-caption-m govuk-!-margin-bottom-1 govuk-!-margin-top-1"
+        data-markdown="{{ preview.caption | replace('"', ' &quot;') | replace('\n', '\\n' ) }}"></div>
+    {% endif %}
+</div>
+
+<div class="govuk-!-margin-bottom-6">
+    <h2 class="govuk-heading-l">What the feature does</h2>
+    <p class="govuk-body">This feature lets form builders group pages into sections. Sections act as headings that sit
+        above related pages or questions.</p>
+
+    <p class="govuk-body">When users fill in the form, these headings appear in the right places so the form is easier
+        to follow. They also show on the Check your answers page, helping people quickly see which answers belong
+        together.</p>
+
+    <h2 class="govuk-heading-l">Why it matters</h2>
+    <p class="govuk-body">In the previous iteration of the form builder, there was a way to add sub-headings directly
+        above page titles. This gave some structure, but the latest version of the tool didn't carry that functionality
+        forward.</p>
+
+    <p class="govuk-body">During testing, users said this made Check your answers pages harder to read, because all the
+        answers ran together without clear grouping.</p>
+
+    <p class="govuk-body">The new sections feature fixes that by re-introducing headings ; but in a more structured way.
+        Instead of adding headings one by one to pages, you can now create reusable sections and assign pages to them.
+    </p>
+
+    <h2 class="govuk-heading-l">How it works</h2>
+    <ul class="govuk-list govuk-list--bullet">
+        <li><strong>Create sections:</strong> Give them a name, which becomes a heading. Sections are numbered
+            automatically and shown in the order you create them.</li>
+        <li><strong>Assign pages:</strong> Move pages from an "Ungrouped" list into a section. You can ungroup them
+            later if needed.</li>
+        <li><strong>Hide or remove:</strong> You can hide a section so it doesn't show up in the live form, or remove it
+            entirely. Removing a section with pages just moves those pages back into the ungrouped list.</li>
+        <li><strong>Validation:</strong> You can't create a section without a name, or reuse an existing section name.
+        </li>
+    </ul>
+
+    <h2 class="govuk-heading-l">How it displays in the runner</h2>
+
+    <h3 class="govuk-heading-m">Guidance pages</h3>
+    <p class="govuk-body">Section heading (H2) appears above the page heading.</p>
+
+    <h3 class="govuk-heading-m">Check your answers page</h3>
+    <p class="govuk-body">Section heading (H2) appears above the grouped questions.</p>
+
+    <h3 class="govuk-heading-m">Question pages</h3>
+    <ul class="govuk-list govuk-list--bullet">
+        <li>If the page has its own heading → section heading sits above it</li>
+        <li>If the page is a repeating group → section heading is hidden</li>
+        <li>If no page heading is set → section heading appears at the top</li>
+    </ul>
+
+    <h3 class="govuk-heading-s">Hide option</h3>
+    <p class="govuk-body">If you tick "hide section," the heading won't appear in the runner at all.</p>
+
+    <h2 class="govuk-heading-l">Research findings</h2>
+
+    <h3 class="govuk-heading-m">Round 13 - April 2025</h3>
+    <p class="govuk-body">Most participants managed to complete the process of creating sections and pages, however:</p>
+
+    <h4 class="govuk-heading-m">Key issues identified</h4>
+    <ul class="govuk-list govuk-list--bullet">
+        <li>Some participants found the distinction between "page" and "section" unclear, and described the experience
+            as "confusing"</li>
+        <li>One participant suggested adding H1/H2 labels to clarify the hierarchy</li>
+        <li>Another participant raised concerns about potential SEO and accessibility issues related to repeated use of
+            H1 and H2 headings</li>
+    </ul>
+
+    <h4 class="govuk-heading-m">Changes needed</h4>
+    <ul class="govuk-list govuk-list--bullet">
+        <li>Clarify the distinction and hierarchy of page sections and page headings</li>
+        <li>Consider changing the labels and/or the visual page layout, where sections appeared above page headings
+            (which some users considered the h1)</li>
+        <li>Consider adding h1/h2 labels to clarify the hierarchy between sections and pages</li>
+    </ul>
+</div>{% endblock %}

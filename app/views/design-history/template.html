@@ -1,0 +1,931 @@
+{% extends "layouts/main.html" %}
+
+{% from "components/service-header/macro.njk" import serviceHeader %}
+{% from "side-navigation/macro.njk" import dwpSideNavigation %}
+{% from "govuk/components/table/macro.njk" import govukTable %}
+{% from "govuk/components/tabs/macro.njk" import govukTabs %}
+{% from "govuk/components/breadcrumbs/macro.njk" import govukBreadcrumbs %}
+
+{% macro imageCell(imageData) %}
+<figure class="govuk-image">
+    <img src="{{ imageData.src }}" alt="{{ imageData.alt }}">
+    <figcaption>{{ imageData.caption }}</figcaption>
+</figure>
+{% endmacro %}
+
+{% block pageTitle %}
+{{ featureName }} - Design History
+{% endblock %}
+
+{% block scripts %}
+{{ super() }}
+<script src="/public//javascripts/components/form-editor/post-navigation.js"></script>
+{% endblock %}
+
+
+{% block head %}
+{{ super() }}
+<script src="/assets/javascripts/components/form-editor/post-navigation.js"></script>
+<!-- Marked.js (for Markdown parsing) -->
+<style>
+    .iframe-container {
+        border: 5px solid black;
+        border-radius: 4px;
+        padding: 0;
+        overflow: hidden;
+        position: relative;
+        /* Ensure tabs stay relative to the container */
+    }
+
+    .iframe-tabs {
+        display: flex;
+        justify-content: flex-end;
+        border-bottom: 1px solid #ccc;
+        background-color: #f8f8f8;
+        position: absolute;
+        /* Tabs stay positioned above the iframe */
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 10;
+        padding: 10px;
+    }
+
+    .iframe-tab {
+        text-align: center;
+        padding: 10px;
+        font-size: 16px;
+        text-decoration: none;
+        cursor: pointer;
+    }
+
+    .iframe-tab:hover {
+        background-color: #e8e8e8;
+    }
+
+    .iframe-container.fullscreen {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100vh;
+        z-index: 9999;
+        background-color: white;
+    }
+
+    .iframe-container.fullscreen .iframe-tabs {
+        position: fixed;
+        /* Keeps tabs at the top in fullscreen mode */
+        z-index: 9999;
+        background-color: white;
+        /* Ensures visibility */
+    }
+
+    .iframe-container.fullscreen .iframe-content {
+        height: calc(100vh - 50px);
+        /* Deduct tab height from viewport */
+        width: 100%;
+        border: none;
+    }
+
+    .govuk-image {
+        max-width: 600px;
+        margin: 0 auto;
+
+    }
+
+    .govuk-image img {
+        width: 100%;
+        height: auto;
+        display: block;
+    }
+
+    .table-image {
+        max-width: 400px;
+        min-width: 400px;
+        height: auto;
+        display: block;
+    }
+
+    .govuk-table__cell {
+        vertical-align: top;
+    }
+
+    .app-related-items {
+        border-top: 2px solid #1d70b8;
+        padding-top: 10px;
+    }
+
+    .app-related-items .govuk-list {
+        margin-top: 0;
+    }
+
+    .app-related-items .govuk-list li {
+        margin-bottom: 0;
+    }
+
+    .app-related-items .govuk-inset-text {
+        border-left-color: #00703c;
+        background-color: #f3f2f1;
+    }
+
+    .app-secondary-text {
+        color: #505a5f !important;
+        font-weight: normal !important;
+    }
+
+    /* Add video container styles */
+    .video-container {
+        max-width: 100%;
+        margin: 0 auto;
+    }
+
+    .video-container video {
+        width: 100%;
+        height: auto;
+        display: block;
+    }
+
+    .video-container figcaption {
+        margin-top: 1em;
+        font-size: 16px;
+        color: #505a5f;
+    }
+</style>
+<script src="/assets/javascripts/components/form-editor/post-navigation.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // Configure marked to use standard markdown behavior
+        marked.setOptions({
+            breaks: false,  // Disable forced line breaks
+            gfm: true,     // Enable GitHub Flavored Markdown
+            pedantic: false // Use standard markdown behavior
+        });
+
+        // Custom renderer for GOV.UK inset text
+        const renderer = new marked.Renderer();
+        const defaultBlockquote = renderer.blockquote.bind(renderer);
+        renderer.blockquote = function (quote) {
+            // If quote is an object, render it as HTML
+            if (typeof quote !== 'string') {
+                quote = marked.parseInline(quote.text || '');
+            }
+            // Remove any wrapping <blockquote> tags, even with whitespace/newlines
+            quote = String(quote).replace(/^\s*<blockquote[^>]*>/i, '').replace(/<\/blockquote>\s*$/i, '');
+            return `<div class=\"govuk-inset-text\">${quote}</div>`;
+        };
+
+        // Find all elements with data-markdown attribute
+        document.querySelectorAll('.markdown-content').forEach(function (element) {
+            try {
+                // Get the markdown content and unescape newlines
+                const markdown = element.getAttribute('data-markdown').replace(/\\n/g, '\n');
+                // Render the markdown with the custom renderer
+                element.innerHTML = marked.parse(markdown, { renderer });
+            } catch (error) {
+                console.error('Error parsing markdown:', error);
+            }
+        });
+    });
+</script>
+{% endblock %}
+
+{% block header %}
+{{ serviceHeader({
+organisationName: "Defra",
+productName: "Forms Designer",
+serviceName: "Design History",
+accountName: "Account",
+containerClasses: containerClasses,
+homepageLink: "/index.html",
+navigationItems: [
+{ href: "/index.html", text: "Histories and prototypes", id: "prototype" },
+{ href: "/design-system/user-journeys/home.html", text: "User journeys", id: "user-journeys" }
+],
+activeLinkId: "prototype"
+}) }}
+
+{% if latestVersionLink %}
+{{ xGovukMasthead({
+title: {
+text: featureName
+},
+description: {
+text: "History of how this feature has evolved over time."
+},
+startButton: {
+href: latestVersionLink,
+text: "Latest version of this journey",
+attributes: {
+target: "_blank",
+rel: "noopener noreferrer"
+}
+},
+breadcrumbs: {
+items: breadcrumbs
+}
+}) }}
+{% else %}
+{{ xGovukMasthead({
+title: {
+text: featureName
+},
+description: {
+text: "History of how this feature has evolved over time."
+},
+breadcrumbs: {
+items: breadcrumbs
+}
+}) }}
+{% endif %}
+{% endblock %}
+
+{% block content %}
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+        <h2 class="govuk-heading-m">Feature details</h2>
+        <dl class="govuk-summary-list">
+            <div class="govuk-summary-list__row">
+                <dt class="govuk-summary-list__key">Status</dt>
+                <dd class="govuk-summary-list__value">
+                    <strong class="govuk-tag govuk-tag--{{ statusColor }}">{{ status }}</strong>
+                </dd>
+            </div>
+            <div class="govuk-summary-list__row">
+                <dt class="govuk-summary-list__key">Description</dt>
+                <dd class="govuk-summary-list__value">{{ description | safe }}</dd>
+            </div>
+            <div class="govuk-summary-list__row">
+                <dt class="govuk-summary-list__key">User need</dt>
+                <dd class="govuk-summary-list__value">{{ userNeed | safe }}</dd>
+            </div>
+            <div class="govuk-summary-list__row">
+                <dt class="govuk-summary-list__key">Phase</dt>
+                <dd class="govuk-summary-list__value">{{ phase }}</dd>
+            </div>
+            <div class="govuk-summary-list__row">
+                <dt class="govuk-summary-list__key">Category</dt>
+                <dd class="govuk-summary-list__value">
+                    {% if category is string %}
+                    <span class="govuk-!-margin-right-2" style="display: inline-flex; align-items: center;">
+                        {% if category == "Form creation" %}
+                        📝
+                        {% elif category == "Form editing" %}
+                        ✏️
+                        {% elif category == "Form publishing" %}
+                        📤
+                        {% elif category == "Form admin" %}
+                        ⚙️
+                        {% elif category == "Members of the public" %}
+                        👤
+                        {% else %}
+                        📄
+                        {% endif %}
+                    </span>
+                    {{ category }}
+                    {% else %}
+                    {% for cat in category %}
+                    <span class="govuk-!-margin-right-2" style="display: inline-flex; align-items: center;">
+                        {% if cat == "Form creation" %}
+                        📝
+                        {% elif cat == "Form editing" %}
+                        ✏️
+                        {% elif cat == "Form publishing" %}
+                        📤
+                        {% elif cat == "Form admin" %}
+                        ⚙️
+                        {% elif cat == "Members of the public" %}
+                        👤
+                        {% else %}
+                        📄
+                        {% endif %}
+                    </span>
+                    {{ cat }}{% if not loop.last %}, {% endif %}
+                    {% endfor %}
+                    {% endif %}
+                </dd>
+            </div>
+            <div class="govuk-summary-list__row">
+                <dt class="govuk-summary-list__key">Key improvements in latest version</dt>
+                <dd class="govuk-summary-list__value">
+                    <ul class="govuk-list govuk-list--bullet">
+                        {% for improvement in improvements %}
+                        <li>{{ improvement }}</li>
+                        {% endfor %}
+                    </ul>
+                </dd>
+            </div>
+        </dl>
+
+        {% block customContent %}{% endblock %}
+
+        {% if researchHistory and researchHistory.length > 0 %}
+        <h2 class="govuk-heading-m">Research history</h2>
+        <table class="govuk-table">
+            <thead class="govuk-table__head">
+                <tr class="govuk-table__row">
+                    <th scope="col" class="govuk-table__header">Round</th>
+                    <th scope="col" class="govuk-table__header">Date</th>
+                    <th scope="col" class="govuk-table__header">Research findings</th>
+                    <th scope="col" class="govuk-table__header">Changes made</th>
+                </tr>
+            </thead>
+            <tbody class="govuk-table__body">
+                {% for entry in researchHistory %}
+                <tr class="govuk-table__row">
+                    <td class="govuk-table__cell">{{ entry.roundNumber }}</td>
+                    <td class="govuk-table__cell">{{ entry.researchDate }}</td>
+                    <td class="govuk-table__cell">{{ entry.researchFinding }}</td>
+                    <td class="govuk-table__cell">{{ entry.changeMade }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% endif %}
+
+        {% if researchSummaries and researchSummaries.length > 0 %}
+        <h2 class="govuk-heading-m">Detailed research summaries</h2>
+
+        <div class="timeline govuk-accordion " data-module="govuk-accordion" id="accordion-default">
+            {% for researchSummary in researchSummaries %}
+            <div class="timeline__item govuk-accordion__section">
+                <div class="timeline__header govuk-accordion__section-header govuk-!-padding-bottom-0">
+                    <h3 class="timeline__title govuk-accordion__section-heading govuk-!-padding-bottom-0">
+                        <span class="govuk-accordion__section-button govuk-!-padding-bottom-0"
+                            id="accordion-default-heading-{{ loop.index }}">
+                            {{ researchSummary.title }}
+                        </span>
+                    </h3>
+                    <div class="timeline__summary govuk-accordion__section-summary govuk-body"
+                        id="accordion-default-summary-{{ loop.index }}">
+                        {{ researchSummary.summary }}
+                        {% if researchSummary.fullReportLink %}
+                        <p class="govuk-body govuk-!-margin-top-2">
+                            <a href="{{ researchSummary.fullReportLink }}" class="govuk-link" target="_blank"
+                                rel="noopener noreferrer">
+                                View full research report
+                            </a>
+                        </p>
+                        {% endif %}
+                    </div>
+                </div>
+                <div id="accordion-default-content-{{ loop.index }}"
+                    class="timeline__content govuk-accordion__section-content govuk-!-padding-top-0"
+                    aria-labelledby="accordion-default-heading-{{ loop.index }}">
+                    {% for section in researchSummary.sections %}
+                    {% if section.type == 'content' %}
+                    <div class="markdown-content govuk-body" data-markdown="{{ section.content | replace('"', ' &quot;')
+                        | replace('\n', '\\n' ) }}"></div>
+                    {% if section.fullReportLink %}
+                    <p class="govuk-body govuk-!-margin-top-2">
+                        <a href="{{ section.fullReportLink }}" class="govuk-link" target="_blank"
+                            rel="noopener noreferrer">
+                            View full research report
+                        </a>
+                    </p>
+                    {% endif %}
+                    {% elif section.type == 'objectives' %}
+                    <h4 class="govuk-heading-s">Research objectives</h4>
+                    <ul class="govuk-list govuk-list--bullet">
+                        {% for objective in section.content %}
+                        <li>{{ objective }}</li>
+                        {% endfor %}
+                    </ul>
+                    {% elif section.type == 'findings' %}
+                    <h4 class="govuk-heading-s">Key findings</h4>
+                    <ul class="govuk-list govuk-list--bullet">
+                        {% for finding in section.content %}
+                        <li>{{ finding }}</li>
+                        {% endfor %}
+                    </ul>
+                    {% elif section.type == 'recommendations' %}
+                    <h4 class="govuk-heading-s">Recommendations</h4>
+                    <ul class="govuk-list govuk-list--bullet">
+                        {% for recommendation in section.content %}
+                        <li>{{ recommendation }}</li>
+                        {% endfor %}
+                    </ul>
+                    {% elif section.type == 'images' %}
+                    {% if section.imagesLabel %}
+                    <span class="govuk-caption-m govuk-!-margin-bottom-1">{{ section.imagesLabel }}</span>
+                    {% endif %}
+                    <div class="govuk-grid-row app-prose-scope">
+                        {% for image in section.content %}
+                        <div class="govuk-grid-column-{{ image.width | default('two-thirds') }}">
+                            <figure class="govuk-image {% if image.classes %}{{ image.classes }}{% endif %}">
+                                {% if image.link %}
+                                <a href="{{ image.link }}" class="govuk-link">
+                                    {% endif %}
+                                    <img src="{{ image.src }}" alt="{{ image.alt }}" {% if image.scale
+                                        %}style="width: {{ image.scale }}%; height: auto;" {% endif %} {% if
+                                        image.widthPx %}width="{{ image.widthPx }}" {% endif %} {% if image.heightPx
+                                        %}height="{{ image.heightPx }}" {% endif %} {% if image.classes
+                                        %}class="{{ image.classes }}" {% endif %} />
+                                    {% if image.link %}
+                                </a>
+                                {% endif %}
+                                {% if image.caption %}
+                                <figcaption>
+                                    {{ image.caption }}
+                                </figcaption>
+                                {% endif %}
+                            </figure>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    {% if section.caption %}
+                    <div class="markdown-content govuk-caption-m govuk-!-margin-bottom-1 govuk-!-margin-top-1"
+                        data-markdown="{{ section.caption | replace('"', ' &quot;') | replace('\n', '\\n' ) }}"></div>
+                    {% endif %}
+                    {% elif section.type == 'table' %}
+                    {{ govukTable({
+                    caption: section.caption,
+                    firstCellIsHeader: section.firstCellIsHeader | default(true),
+                    head: section.head,
+                    rows: section.rows
+                    }) }}
+                    {% elif section.type == 'details' %}
+                    <details class="govuk-details" data-module="govuk-details">
+                        <summary class="govuk-details__summary">
+                            <span class="govuk-details__summary-text">
+                                {{ section.summary }}
+                            </span>
+                        </summary>
+                        <div class="govuk-details__text">
+                            {% if section.content %}
+                            <div class="markdown-content govuk-body" data-markdown="{{ section.content | replace('"', '
+                                &quot;') | replace('\n', '\\n' ) }}"></div>
+                            {% endif %}
+                            {% if section.images %}
+                            <div class="govuk-grid-row app-prose-scope">
+                                {% for image in section.images %}
+                                <div class="govuk-grid-column-{{ image.width | default('two-thirds') }}">
+                                    {% if image.content %}
+                                    <div class="markdown-content govuk-body"
+                                        data-markdown="{{ image.content | replace('"', ' &quot;') | replace('\n', '\\n'
+                                        ) }}"></div>
+                                    {% endif %}
+                                    <figure class="govuk-image {% if image.classes %}{{ image.classes }}{% endif %}">
+                                        {% if image.link %}
+                                        <a href="{{ image.link }}" class="govuk-link">
+                                            {% endif %}
+                                            <img src="{{ image.src }}" alt="{{ image.alt }}" {% if image.scale
+                                                %}style="width: {{ image.scale }}%; height: auto;" {% endif %} {% if
+                                                image.widthPx %}width="{{ image.widthPx }}" {% endif %} {% if
+                                                image.heightPx %}height="{{ image.heightPx }}" {% endif %} {% if
+                                                image.classes %}class="{{ image.classes }}" {% endif %} />
+                                            {% if image.link %}
+                                        </a>
+                                        {% endif %}
+                                        {% if image.caption %}
+                                        <figcaption>
+                                            {{ image.caption }}
+                                        </figcaption>
+                                        {% endif %}
+                                    </figure>
+                                </div>
+                                {% endfor %}
+                            </div>
+                            {% endif %}
+                            {% if section.items %}
+                            {% for item in section.items %}
+                            {% if item.type == 'content' %}
+                            <div class="markdown-content govuk-body" data-markdown="{{ item.content | replace('"', '
+                                &quot;') | replace('\n', '\\n' ) }}"></div>
+                            {% elif item.type == 'preview' %}
+                            <div class="preview-section">
+                                <span class="govuk-caption-m govuk-!-margin-bottom-1">{{ item.previewLabel |
+                                    default("Preview") }}</span>
+                                <div class="iframe-container govuk-!-margin-bottom-6" role="region"
+                                    aria-labelledby="preview-heading-{{ loop.index }}">
+                                    <h2 id="preview-heading-{{ loop.index }}" class="govuk-visually-hidden">Preview of
+                                        the form</h2>
+                                    <iframe src="{{ item.url }}" class="iframe-content"
+                                        style="overflow-y: auto; height: 500px; width: 100%; border: none;"
+                                        scrolling="yes" frameborder="0" title="Form preview" marginheight="0"
+                                        marginwidth="0" allowfullscreen></iframe>
+                                </div>
+                                {% if item.caption %}
+                                <div class="markdown-content govuk-caption-m govuk-!-margin-bottom-1 govuk-!-margin-top-1"
+                                    data-markdown="{{ item.caption | replace('"', ' &quot;') | replace('\n', '\\n' )
+                                    }}"></div>
+                                {% endif %}
+                            </div>
+                            {% elif item.type == 'images' %}
+                            {% if item.imagesLabel %}
+                            <span class="govuk-caption-m govuk-!-margin-bottom-1">{{ item.imagesLabel }}</span>
+                            {% endif %}
+                            <div class="govuk-grid-row app-prose-scope">
+                                {% if item.content is mapping %}
+                                <div class="govuk-grid-column-two-thirds">
+                                    <figure class="govuk-image">
+                                        <img src="{{ item.content.src }}" alt="{{ item.content.alt }}">
+                                        {% if item.content.caption %}
+                                        <figcaption>{{ item.content.caption }}</figcaption>
+                                        {% endif %}
+                                    </figure>
+                                </div>
+                                {% else %}
+                                {% for image in item.content %}
+                                <div class="govuk-grid-column-{{ image.width | default('two-thirds') }}">
+                                    <figure class="govuk-image {% if image.classes %}{{ image.classes }}{% endif %}">
+                                        {% if image.link %}
+                                        <a href="{{ image.link }}" class="govuk-link">
+                                            {% endif %}
+                                            <img src="{{ image.src }}" alt="{{ image.alt }}" {% if image.scale
+                                                %}style="width: {{ image.scale }}%; height: auto;" {% endif %} {% if
+                                                image.widthPx %}width="{{ image.widthPx }}" {% endif %} {% if
+                                                image.heightPx %}height="{{ image.heightPx }}" {% endif %} {% if
+                                                image.classes %}class="{{ image.classes }}" {% endif %} />
+                                            {% if image.link %}
+                                        </a>
+                                        {% endif %}
+                                        {% if image.caption %}
+                                        <figcaption>
+                                            {{ image.caption }}
+                                        </figcaption>
+                                        {% endif %}
+                                    </figure>
+                                </div>
+                                {% endfor %}
+                                {% endif %}
+                            </div>
+                            {% if item.caption %}
+                            <div class="markdown-content govuk-caption-m govuk-!-margin-bottom-1 govuk-!-margin-top-1"
+                                data-markdown="{{ item.caption | replace('"', ' &quot;') | replace('\n', '\\n' ) }}">
+                            </div>
+                            {% endif %}
+                            {% if item.showSectionBreak %}
+                            <hr
+                                class="govuk-section-break govuk-section-break--visible govuk-!-margin-top-6 govuk-!-margin-bottom-6">
+                            {% endif %}
+                            {% endif %}
+                            {% if item.showSectionBreak %}
+                            <hr
+                                class="govuk-section-break govuk-section-break--visible govuk-!-margin-top-6 govuk-!-margin-bottom-6">
+                            {% endif %}
+                            {% endfor %}
+                            {% endif %}
+                        </div>
+                    </details>
+                    {% elif section.type == 'quotes' %}
+                    <div class="govuk-grid-row">
+                        <div class="govuk-grid-column-two-thirds">
+                            {% if section.content|length > 1 %}
+                            <h4 class="govuk-heading-s">Participant quotes</h4>
+                            {% endif %}
+                            {% for quote in section.content %}
+                            <div class="govuk-inset-text">{{ quote | safe }}</div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    {% elif section.type == 'audio' %}
+                    <div class="govuk-grid-row">
+                        <div class="govuk-grid-column-two-thirds">
+                            <h4 class="govuk-heading-s govuk-!-padding-top-0">Audio recording</h4>
+                            <div class="govuk-inset-text">
+                                <audio controls>
+                                    <source src="{{ section.src }}" type="audio/mp4">
+                                    Your browser does not support the audio element.
+                                </audio>
+                                {% if section.caption %}
+                                <div class="markdown-content govuk-caption-m govuk-!-margin-top-2"
+                                    data-markdown="{{ section.caption | replace('"', ' &quot;') | replace('\n', '\\n' )
+                                    }}"></div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                    {% elif section.type == 'screen' %}
+                    <div class="govuk-grid-row">
+                        <div class="govuk-grid-column-two-thirds">
+                            <h3 class="govuk-heading-m">{{ section.title }}</h3>
+
+                            {% if section.content %}
+                            <div class="markdown-content govuk-body" data-markdown="{{ section.content | replace('"', '
+                                &quot;') | replace('\n', '\\n' ) }}"></div>
+                            {% endif %}
+
+                            {% if section.images %}
+                            <div class="govuk-grid-row app-prose-scope">
+                                {% for image in section.images %}
+                                <div class="govuk-grid-column-{{ image.width | default('two-thirds') }}">
+                                    {% if image.src and (image.src.endsWith('.mp4') or image.src.endsWith('.webm')) %}
+                                    <figure
+                                        class="video-container {% if image.classes %}{{ image.classes }}{% endif %}">
+                                        <video controls>
+                                            <source src="{{ image.src }}" type="video/{{ image.src.split('.').pop() }}">
+                                            Your browser does not support the video tag.
+                                        </video>
+                                        {% if image.caption %}
+                                        <figcaption>
+                                            <div class="markdown-content govuk-caption-m govuk-!-margin-bottom-1 govuk-!-margin-top-1"
+                                                data-markdown="{{ image.caption | replace('"', ' &quot;') |
+                                                replace('\n', '\\n' ) }}"></div>
+                                        </figcaption>
+                                        {% endif %}
+                                    </figure>
+                                    {% else %}
+                                    <figure class="govuk-image {% if image.classes %}{{ image.classes }}{% endif %}">
+                                        {% if image.link %}
+                                        <a href="{{ image.link }}" class="govuk-link">
+                                            {% endif %}
+                                            <img src="{{ image.src }}" alt="{{ image.alt }}" {% if image.scale
+                                                %}style="width: {{ image.scale }}%; height: auto;" {% endif %} {% if
+                                                image.widthPx %}width="{{ image.widthPx }}" {% endif %} {% if
+                                                image.heightPx %}height="{{ image.heightPx }}" {% endif %} {% if
+                                                image.classes %}class="{{ image.classes }}" {% endif %} />
+                                            {% if image.link %}
+                                        </a>
+                                        {% endif %}
+                                        {% if image.caption %}
+                                        <figcaption>
+                                            <div class="markdown-content govuk-caption-m govuk-!-margin-bottom-1 govuk-!-margin-top-1"
+                                                data-markdown="{{ image.caption | replace('"', ' &quot;') |
+                                                replace('\n', '\\n' ) }}"></div>
+                                        </figcaption>
+                                        {% endif %}
+                                    </figure>
+                                    {% endif %}
+                                </div>
+                                {% endfor %}
+                            </div>
+                            {% endif %}
+
+                            {% if section.insights %}
+                            <h4 class="govuk-heading-s">Main insights</h4>
+                            <ul class="govuk-list govuk-list--bullet">
+                                {% for insight in section.insights %}
+                                <li>{{ insight }}</li>
+                                {% endfor %}
+                            </ul>
+                            {% endif %}
+
+                            {% if section.quotes %}
+                            {% for quote in section.quotes %}
+                            <div class="govuk-inset-text">{{ quote | safe }}</div>
+                            {% endfor %}
+                            {% endif %}
+
+                            {% if section.changes %}
+                            <h4 class="govuk-heading-s">Changes and rationale</h4>
+                            <dl class="govuk-summary-list">
+                                {% for change in section.changes %}
+                                <div class="govuk-summary-list__row">
+                                    <dt class="govuk-summary-list__key">
+                                        {{ change.what }}
+                                    </dt>
+                                    <dd class="govuk-summary-list__value">
+                                        {{ change.why }}
+                                    </dd>
+                                </div>
+                                {% endfor %}
+                            </dl>
+                            {% endif %}
+
+                            {% if section.preview %}
+                            <div class="preview-section">
+                                <span class="govuk-caption-m govuk-!-margin-bottom-1">{{ section.previewLabel |
+                                    default("Preview") }}</span>
+                                <div class="iframe-container govuk-!-margin-bottom-6" role="region"
+                                    aria-labelledby="preview-heading-{{ loop.index }}">
+                                    <h2 id="preview-heading-{{ loop.index }}" class="govuk-visually-hidden">Preview of
+                                        the form</h2>
+                                    <iframe src="{{ section.preview.url }}" class="iframe-content"
+                                        style="overflow-y: auto; height: 500px; width: 100%; border: none;"
+                                        scrolling="yes" frameborder="0" title="Form preview" marginheight="0"
+                                        marginwidth="0" allowfullscreen>
+                                    </iframe>
+                                    <div class="iframe-tabs" role="navigation" aria-label="Preview controls">
+                                        <a class="govuk-link govuk-link--no-visited-state iframe-tab maximise-button"
+                                            style="border-right: #007f3b 1px solid;" href="#" role="button"
+                                            aria-label="Maximise preview" title="Maximise preview" tabindex="0">
+                                            Maximise
+                                        </a>
+                                        <a class="govuk-link govuk-link--no-visited-state iframe-tab"
+                                            href="{{ section.preview.url }}" target="_blank" rel="noopener noreferrer"
+                                            aria-label="Open preview in a new tab" title="Open preview in a new tab">
+                                            Open in a new tab
+                                        </a>
+                                    </div>
+                                </div>
+                                {% if section.caption %}
+                                <div class="markdown-content govuk-caption-m govuk-!-margin-bottom-1 govuk-!-margin-top-1"
+                                    data-markdown="{{ section.caption | replace('"', ' &quot;') | replace('\n', '\\n' )
+                                    }}"></div>
+                                {% if section.showSectionBreak %}
+                                <hr
+                                    class="govuk-section-break govuk-section-break--visible govuk-!-margin-top-6 govuk-!-margin-bottom-6">
+                                {% endif %}
+                                {% endif %}
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    {% elif section.type == 'insights' %}
+                    <h4 class="govuk-heading-s">Insights</h4>
+                    <ul class="govuk-list govuk-list--bullet">
+                        {% for insight in section.content %}
+                        <li>{{ insight }}</li>
+                        {% endfor %}
+                    </ul>
+                    {% elif section.type == 'preview' %}
+                    <div class="preview-section">
+                        <span class="govuk-caption-m govuk-!-margin-bottom-1">{{ section.previewLabel |
+                            default("Preview") }}</span>
+                        <div class="iframe-container govuk-!-margin-bottom-6" role="region"
+                            aria-labelledby="preview-heading-{{ loop.index }}">
+                            <h2 id="preview-heading-{{ loop.index }}" class="govuk-visually-hidden">Preview of the form
+                            </h2>
+                            <iframe src="{{ section.url }}" class="iframe-content"
+                                style="overflow-y: auto; height: 500px; width: 100%; border: none;" scrolling="yes"
+                                frameborder="0" title="Form preview" marginheight="0" marginwidth="0" allowfullscreen>
+                            </iframe>
+                            <div class="iframe-tabs" role="navigation" aria-label="Preview controls">
+                                <a class="govuk-link govuk-link--no-visited-state iframe-tab maximise-button"
+                                    style="border-right: #007f3b 1px solid;" href="#" role="button"
+                                    aria-label="Maximise preview" title="Maximise preview" tabindex="0">
+                                    Maximise
+                                </a>
+                                <a class="govuk-link govuk-link--no-visited-state iframe-tab" href="{{ section.url }}"
+                                    target="_blank" rel="noopener noreferrer" aria-label="Open preview in a new tab"
+                                    title="Open preview in a new tab">
+                                    Open in a new tab
+                                </a>
+                                <a class="govuk-link govuk-link--no-visited-state iframe-tab"
+                                    href="http://localhost:3000/design-system/editor/preview-panel" target="_blank"
+                                    rel="noopener noreferrer" aria-label="View design system preview panel"
+                                    title="View design system preview panel">
+                                    Design system
+                                </a>
+                            </div>
+                        </div>
+                        {% if section.caption %}
+                        <div class="markdown-content govuk-caption-m govuk-!-margin-bottom-1 govuk-!-margin-top-1"
+                            data-markdown="{{ section.caption | replace('"', ' &quot;') | replace('\n', '\\n' ) }}">
+                        </div>
+                        {% if section.showSectionBreak %}
+                        <hr
+                            class="govuk-section-break govuk-section-break--visible govuk-!-margin-top-6 govuk-!-margin-bottom-6">
+                        {% endif %}
+                        {% endif %}
+                    </div>
+                    {% elif section.type == 'changes' %}
+                    <h4 class="govuk-heading-s">
+                        {%- if section.screen -%}
+                        {{ section.screen }}
+                        {%- else -%}
+                        {{ section.title | default("Changes and rationale") }}
+                        {%- endif -%}
+                    </h4>
+                    <table class="govuk-table">
+                        <thead class="govuk-table__head">
+                            <tr class="govuk-table__row">
+                                <th scope="col" class="govuk-table__header">Screen</th>
+                                <th scope="col" class="govuk-table__header">What changed</th>
+                                <th scope="col" class="govuk-table__header">Why</th>
+                                {% if section.showImageColumn != false %}
+                                <th scope="col" class="govuk-table__header">Image</th>
+                                {% endif %}
+                            </tr>
+                        </thead>
+                        <tbody class="govuk-table__body">
+                            {% for change in section.content %}
+                            <tr class="govuk-table__row">
+                                <td class="govuk-table__cell">{{ change.screen }}</td>
+                                <td class="govuk-table__cell">{{ change.what }}</td>
+                                <td class="govuk-table__cell">{{ change.why }}</td>
+                                {% if section.showImageColumn != false %}
+                                <td class="govuk-table__cell">
+                                    {% if change.image %}
+                                    <figure class="govuk-image govuk-!-margin-0">
+                                        <img src="{{ change.image.src }}" alt="{{ change.image.alt }}"
+                                            class="table-image">
+                                        {% if change.image.caption %}
+                                        <figcaption class="govuk-body-s govuk-!-margin-top-1">{{ change.image.caption }}
+                                        </figcaption>
+                                        {% endif %}
+                                    </figure>
+                                    {% endif %}
+                                </td>
+                                {% endif %}
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                    {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+    </div>
+    <div class="govuk-grid-column-one-third">
+        <div class="app-related-items">
+            <h2 class="govuk-heading-s">Where this feature fits</h2>
+            <nav role="navigation" aria-labelledby="journey-navigation">
+                <ul class="govuk-list govuk-list--spaced">
+                    {% for step in journeySteps %}
+                    <li class="govuk-!-margin-top-4">
+                        <span
+                            class="govuk-heading-s govuk-!-margin-bottom-1{% if not step.isCurrent %} app-secondary-text{% endif %}"
+                            style="display: block;">
+                            {{ step.number }}. {{ step.title }}
+                        </span>
+                        {% if step.subtitles %}
+                        <ul class="govuk-list govuk-list--bullet govuk-!-margin-bottom-2 govuk-!-margin-top-1">
+                            {% for subtitle in step.subtitles %}
+                            {% if not subtitle.isCurrent %}
+                            <li>
+                                <span class="govuk-body-s app-secondary-text">{{ subtitle.text }}</span>
+                            </li>
+                            {% endif %}
+                            {% endfor %}
+                        </ul>
+                        {% set hasCurrent = false %}
+                        {% for subtitle in step.subtitles %}
+                        {% if subtitle.isCurrent %}
+                        {% set hasCurrent = true %}
+                        {% endif %}
+                        {% endfor %}
+                        {% if hasCurrent %}
+                        <div
+                            class="govuk-inset-text govuk-!-margin-top-0 govuk-!-margin-bottom-2 govuk-!-padding-top-2 govuk-!-padding-bottom-2">
+                            <ul class="govuk-list govuk-list--bullet govuk-!-margin-bottom-0">
+                                {% for subtitle in step.subtitles %}
+                                {% if subtitle.isCurrent %}
+                                <li>
+                                    <span class="govuk-body-s govuk-!-font-weight-bold">{{ subtitle.text }}</span>
+                                </li>
+                                {% endif %}
+                                {% endfor %}
+                            </ul>
+                        </div>
+                        {% endif %}
+                        {% endif %}
+                    </li>
+                    {% endfor %}
+                </ul>
+            </nav>
+
+            {% if relatedPosts %}
+            <h2 class="govuk-heading-s govuk-!-margin-top-6">Related posts</h2>
+            <nav role="navigation" aria-labelledby="related-posts">
+                <ul class="govuk-list govuk-list--spaced">
+                    {% for post in relatedPosts %}
+                    <li>
+                        <a href="{{ post.link }}" class="govuk-link">{{ post.title }}</a>
+                        <p class="govuk-body-s govuk-!-margin-top-1">
+                            {{ post.date }}
+                            {% if post.tags %}
+                            <br>
+                            {% for tag in post.tags %}
+                            <span class="govuk-tag govuk-tag--grey govuk-!-margin-right-1">{{ tag }}</span>
+                            {% endfor %}
+                            {% endif %}
+                        </p>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </nav>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<script>
+    document.querySelector('.maximise-button').addEventListener('click', function (event) {
+        event.preventDefault();
+
+        const iframeContainer = document.querySelector('.iframe-container');
+        const iframe = document.querySelector('.iframe-content');
+        const button = event.target;
+
+        // Toggle fullscreen mode
+        if (iframeContainer.classList.contains('fullscreen')) {
+            iframeContainer.classList.remove('fullscreen');
+            iframe.style.height = '400px'; // Reset iframe height
+            button.textContent = 'Maximise';
+        } else {
+            iframeContainer.classList.add('fullscreen');
+            iframe.style.height = 'calc(100vh - 50px)';
+            button.textContent = 'Minimise';
+        }
+    });
+
+
+</script>
+
+
+
+{% endblock %}
+
+{% block bodyEnd %}
+{{ super() }}
+{% endblock %}
+</body>
+
+</html>

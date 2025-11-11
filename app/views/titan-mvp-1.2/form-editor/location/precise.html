@@ -1,0 +1,441 @@
+{% extends "layouts/main.html" %}
+
+{% from "govuk/components/input/macro.njk" import govukInput %}
+{% from "govuk/components/date-input/macro.njk" import govukDateInput %}
+{% from "govuk/components/fieldset/macro.njk" import govukFieldset %}
+{% from "govuk/components/radios/macro.njk" import govukRadios %}
+{% from "govuk/components/textarea/macro.njk" import govukTextarea %}
+{% from "govuk/components/select/macro.njk" import govukSelect %}
+{% from "components/defra-coordinate-input/macro.njk" import defraCoordinateInput %}
+{% from "components/location/macro.njk" import eastingNorthing, gridReference, osGridReferenceNumber, longitudeLatitude,
+nationalGridFieldNumber %}
+
+
+{# {% block pageTitle %}
+{{ errorPrefix(errorSummary) }}
+Where was the wreck material located? - {{ serviceName }} – GOV.UK
+{% endblock %} #}
+{#
+{% block beforeContent %}
+{% include "includes/phase-banner.html" %}
+<a class="govuk-back-link" href="/report/salvaged-from">Back</a>
+{% endblock %} #}
+
+{% block content %}
+
+<div class="govuk-grid-row" data-js="conditional-content">
+    <div class="govuk-grid-column-full">
+
+        <form class="form" action="/titan-mvp-1.2/form-editor/location/precise" method="post" autocomplete="off">
+            {% if errorSummary.length > 0 %}
+            {{ govukErrorSummary({
+            titleText: "There is a problem",
+            errorList: errorSummary
+            }) }}
+            {% endif %}
+
+            {% set locationLatitudeDecimalClass = "govuk-input--width-5" %}
+            {% set locationLongitudeDecimalClass = "govuk-input--width-5" %}
+
+            {% if errors["location-latitude-decimal"] %}
+            {% set locationLatitudeDecimalClass = locationLatitudeDecimalClass + " govuk-input--error" %}
+            {% endif %}
+            {% if errors["location-longitude-decimal"] %}
+            {% set locationLongitudeDecimalClass = locationLongitudeDecimalClass + " govuk-input--error" %}
+            {% endif %}
+
+            {% if errors["map-radius-input"] %}
+            {% set mapErrorDisplayClasses = "govuk-error-message block" %}
+            {% else %}
+            {% set mapErrorDisplayClasses = "govuk-error-message hidden" %}
+            {% endif %}
+
+            {# CSS classes for Degrees and Decimal Minutes #}
+            {% set locationLatitudeDecimalMinutesDegreeClass = "govuk-input--width-5" %}
+            {% set locationLatitudeDecimalMinutesMinuteClass = "govuk-input--width-5" %}
+            {% set locationLongitudeDecimalMinutesDegreeClass = "govuk-input--width-5" %}
+            {% set locationLongitudeDecimalMinutesMinuteClass = "govuk-input--width-5" %}
+
+            {% if errors["location-latitude-decimal-minutes-degree"] %}
+            {% set locationLatitudeDecimalMinutesDegreeClass = locationLatitudeDecimalMinutesDegreeClass + "
+            govuk-input--error" %}
+            {% endif %}
+            {% if errors["location-latitude-decimal-minutes-minute"] %}
+            {% set locationLatitudeDecimalMinutesMinuteClass = locationLatitudeDecimalMinutesMinuteClass + "
+            govuk-input--error" %}
+            {% endif %}
+            {% if errors["location-longitude-decimal-minutes-degree"] %}
+            {% set locationLongitudeDecimalMinutesDegreeClass = locationLongitudeDecimalMinutesDegreeClass + "
+            govuk-input--error" %}
+            {% endif %}
+            {% if errors["location-longitude-decimal-minutes-minute"] %}
+            {% set locationLongitudeDecimalMinutesMinuteClass = locationLongitudeDecimalMinutesMinuteClass + "
+            govuk-input--error" %}
+            {% endif %}
+
+            {# CSS classes for Degrees, Minutes and Seconds #}
+            {% set locationLatitudeDegreesDegreeClass = "govuk-input--width-2" %}
+            {% set locationLatitudeDegreesMinuteClass = "govuk-input--width-2" %}
+            {% set locationLatitudeDegreesSecondClass = "govuk-input--width-2" %}
+            {% set locationLongitudeDegreesDegreeClass = "govuk-input--width-2" %}
+            {% set locationLongitudeDegreesMinuteClass = "govuk-input--width-2" %}
+            {% set locationLongitudeDegreesSecondClass = "govuk-input--width-2" %}
+
+            {% if errors["location-latitude-degrees-degree"] %}
+            {% set locationLatitudeDegreesDegreeClass = locationLatitudeDegreesDegreeClass + " govuk-input--error" %}
+            {% endif %}
+            {% if errors["location-latitude-degrees-minute"] %}
+            {% set locationLatitudeDegreesMinuteClass = locationLatitudeDegreesMinuteClass + " govuk-input--error" %}
+            {% endif %}
+            {% if errors["location-latitude-degrees-second"] %}
+            {% set locationLatitudeDegreesSecondClass = locationLatitudeDegreesSecondClass + " govuk-input--error" %}
+            {% endif %}
+            {% if errors["location-longitude-degrees-degree"] %}
+            {% set locationLongitudeDegreesDegreeClass = locationLongitudeDegreesDegreeClass + " govuk-input--error" %}
+            {% endif %}
+            {% if errors["location-longitude-degrees-minute"] %}
+            {% set locationLongitudeDegreesMinuteClass = locationLongitudeDegreesMinuteClass + " govuk-input--error" %}
+            {% endif %}
+            {% if errors["location-longitude-degrees-second"] %}
+            {% set locationLongitudeDegreesSecondClass = locationLongitudeDegreesSecondClass + " govuk-input--error" %}
+            {% endif %}
+
+            {# CSS classes for UK Grid Reference #}
+            {% set locationOsGridSquareClass = "govuk-input--width-4" %}
+            {% set locationOsGridEastingClass = "govuk-input--width-5" %}
+            {% set locationOsGridNorthingClass = "govuk-input--width-5" %}
+
+            {% if errors["location-osgrid-square"] %}
+            {% set locationOsGridSquareClass = locationOsGridSquareClass + " govuk-input--error" %}
+            {% endif %}
+            {% if errors["location-osgrid-easting"] %}
+            {% set locationOsGridEastingClass = locationOsGridEastingClass + " govuk-input--error" %}
+            {% endif %}
+            {% if errors["location-osgrid-northing"] %}
+            {% set locationOsGridNorthingClass = locationOsGridNorthingClass + " govuk-input--error" %}
+            {% endif %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            <h1 class="govuk-heading-l">List of every location component</h1>
+
+            <div class="govuk-inset-text">
+                <p><a href="/titan-mvp-1.2/form-editor/location/wreck-errors">View error scenarios page</a> - See all
+                    validation errors for this form</p>
+            </div>
+
+            <!-- Decimal Degrees Section (macro) -->
+            {{ longitudeLatitude({
+            values: data["location"]
+            }) }}
+
+            <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
+
+            <!-- Degrees and Decimal Minutes Section -->
+            <!-- Latitude -->
+            {{ defraCoordinateInput({
+            id: "latitude-decimal-minutes",
+            namePrefix: "location",
+            fieldset: {
+            legend: {
+            text: "Latitude (degrees and decimal minutes)",
+            isPageHeading: false,
+            classes: "govuk-fieldset__legend--m"
+            }
+            },
+            hint: {
+            text: "For example 53° 45.831' N"
+            },
+            classes: "row-prototype-coordinate-input",
+            items: [
+            {
+            id: "location-latitude-decimal-minutes-degree",
+            name: "location-latitude-decimal-minutes-degree",
+            label: "Degree",
+            value: data["location"]["location-latitude-decimal-minutes-degree"],
+            classes: locationLatitudeDecimalMinutesDegreeClass,
+            type: "text",
+            attributes: {
+            inputmode: "numeric",
+            suffix: "°"
+            }
+            },
+            {
+            id: "location-latitude-decimal-minutes-minute",
+            name: "location-latitude-decimal-minutes-minute",
+            label: "Minute",
+            value: data["location"]["location-latitude-decimal-minutes-minute"],
+            classes: locationLatitudeDecimalMinutesMinuteClass,
+            type: "text",
+            attributes: {
+            inputmode: "numeric",
+            suffix: "'"
+            }
+            },
+            {
+            id: "location-latitude-decimal-minutes-direction",
+            name: "location-latitude-decimal-minutes-direction",
+            label: "Direction",
+            value: data["location"]["location-latitude-decimal-minutes-direction"],
+            type: "select",
+            options: [
+            { value: "N", text: "N", selected: checked("['location']['location-latitude-decimal-minutes-direction']",
+            "N") },
+            { value: "S", text: "S", selected: checked("['location']['location-latitude-decimal-minutes-direction']",
+            "S") }
+            ]
+            }
+            ]
+            }) }}
+
+            <!-- Longitude -->
+            {{ defraCoordinateInput({
+            id: "longitude-decimal-minutes",
+            namePrefix: "location",
+            fieldset: {
+            legend: {
+            text: "Longitude (degrees and decimal minutes)",
+            isPageHeading: false,
+            classes: "govuk-fieldset__legend--m"
+            }
+            },
+            hint: {
+            text: "For example 3° 44.342' W"
+            },
+            classes: "row-prototype-coordinate-input",
+            items: [
+            {
+            id: "location-longitude-decimal-minutes-degree",
+            name: "location-longitude-decimal-minutes-degree",
+            label: "Degree",
+            value: data["location"]["location-longitude-decimal-minutes-degree"],
+            classes: locationLongitudeDecimalMinutesDegreeClass,
+            type: "text",
+            attributes: {
+            inputmode: "numeric",
+            suffix: "°"
+            }
+            },
+            {
+            id: "location-longitude-decimal-minutes-minute",
+            name: "location-longitude-decimal-minutes-minute",
+            label: "Minute",
+            value: data["location"]["location-longitude-decimal-minutes-minute"],
+            classes: locationLongitudeDecimalMinutesMinuteClass,
+            type: "text",
+            attributes: {
+            inputmode: "numeric",
+            suffix: "'"
+            }
+            },
+            {
+            id: "location-longitude-decimal-minutes-direction",
+            name: "location-longitude-decimal-minutes-direction",
+            label: "Direction",
+            value: data["location"]["location-longitude-decimal-minutes-direction"],
+            type: "select",
+            options: [
+            { value: "E", text: "E", selected: checked("['location']['location-longitude-decimal-minutes-direction']",
+            "E") },
+            { value: "W", text: "W", selected: checked("['location']['location-longitude-decimal-minutes-direction']",
+            "W") }
+            ]
+            }
+            ]
+            }) }}
+            <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
+
+            <!-- Degrees, Minutes and Seconds Section -->
+            <!-- Latitude -->
+            {# {{ defraCoordinateInput({
+            id: "latitude-degrees-minutes-seconds",
+            namePrefix: "location",
+            fieldset: {
+            legend: {
+            text: "Latitude (degrees, minutes and seconds)",
+            isPageHeading: false,
+            classes: "govuk-fieldset__legend--m"
+            }
+            },
+            hint: {
+            text: "For example 53° 45′ 49″ N"
+            },
+            classes: "row-prototype-coordinate-input",
+
+            items: [
+            {
+            id: "location-latitude-degrees-degree",
+            name: "location-latitude-degrees-degree",
+            label: "Degree",
+            value: data["location"]["location-latitude-degrees-degree"],
+            classes: locationLatitudeDegreesDegreeClass,
+            type: "text",
+            attributes: {
+            inputmode: "numeric",
+            suffix: "°"
+            }
+            },
+            {
+            id: "location-latitude-degrees-minute",
+            name: "location-latitude-degrees-minute",
+            label: "Minute",
+            value: data["location"]["location-latitude-degrees-minute"],
+            classes: locationLatitudeDegreesMinuteClass,
+            type: "text",
+            attributes: {
+            inputmode: "numeric",
+            suffix: "'"
+            }
+            },
+            {
+            id: "location-latitude-degrees-second",
+            name: "location-latitude-degrees-second",
+            label: "Second",
+            value: data["location"]["location-latitude-degrees-second"],
+            classes: locationLatitudeDegreesSecondClass,
+            type: "text",
+            attributes: {
+            inputmode: "numeric",
+            suffix: '"'
+            }
+            },
+            {
+            id: "location-latitude-degrees-direction",
+            name: "location-latitude-degrees-direction",
+            label: "Direction",
+            value: data["location"]["location-latitude-degrees-direction"],
+            type: "select",
+            options: [
+            { value: "N", text: "N", selected: checked("['location']['location-latitude-degrees-direction']", "N") },
+            { value: "S", text: "S", selected: checked("['location']['location-latitude-degrees-direction']", "S") }
+            ]
+            }
+            ]
+            }) }}
+
+            <!-- Longitude -->
+            {{ defraCoordinateInput({
+            id: "longitude-degrees-minutes-seconds",
+            namePrefix: "location",
+            fieldset: {
+            legend: {
+            text: "Longitude (degrees, minutes and seconds)",
+            isPageHeading: false,
+            classes: "govuk-fieldset__legend--m"
+            }
+            },
+            hint: {
+            text: "For example 3° 44′ 20″ W"
+            },
+            classes: "row-prototype-coordinate-input",
+            items: [
+            {
+            id: "location-longitude-degrees-degree",
+            name: "location-longitude-degrees-degree",
+            label: "Degree",
+            value: data["location"]["location-longitude-degrees-degree"],
+            classes: locationLongitudeDegreesDegreeClass,
+            type: "text",
+            attributes: {
+            inputmode: "numeric",
+            suffix: "°"
+            }
+            },
+            {
+            id: "location-longitude-degrees-minute",
+            name: "location-longitude-degrees-minute",
+            label: "Minute",
+            value: data["location"]["location-longitude-degrees-minute"],
+            classes: locationLongitudeDegreesMinuteClass,
+            type: "text",
+            attributes: {
+            inputmode: "numeric",
+            suffix: "'"
+            }
+            },
+            {
+            id: "location-longitude-degrees-second",
+            name: "location-longitude-degrees-second",
+            label: "Second",
+            value: data["location"]["location-longitude-degrees-second"],
+            classes: locationLongitudeDegreesSecondClass,
+            type: "text",
+            attributes: {
+            inputmode: "numeric",
+            suffix: '"'
+            }
+            },
+            {
+            id: "location-longitude-degrees-direction",
+            name: "location-longitude-degrees-direction",
+            label: "Direction",
+            value: data["location"]["location-longitude-degrees-direction"],
+            type: "select",
+            options: [
+            { value: "E", text: "E", selected: checked("['location']['location-longitude-degrees-direction']", "E") },
+            { value: "W", text: "W", selected: checked("['location']['location-longitude-degrees-direction']", "W") }
+            ]
+            }
+            ]
+            }) }}
+
+            <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible"> #}
+
+            <!-- UK Grid Reference Section (macro) -->
+            {{ gridReference({
+            values: data["location"]
+            }) }}
+            <!-- Easting and Northing only (macro with alternate IDs) -->
+            <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
+
+            {{ eastingNorthing({
+            values: data["location"],
+            ids: {
+            eastingId: "location-osgrid-easting-alt",
+            eastingName: "location-osgrid-easting-alt",
+            northingId: "location-osgrid-northing-alt",
+            northingName: "location-osgrid-northing-alt"
+            }
+            }) }}
+
+
+
+
+            <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
+
+            {{ osGridReferenceNumber({
+            values: data["location"]
+            }) }}
+
+            <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
+
+            {{ nationalGridFieldNumber({
+            values: data["location"]
+            }) }}
+
+            {{ govukButton({
+            text: "Continue"
+            }) }}
+
+        </form>
+
+    </div>
+</div>
+
+{% endblock %}
+
+{% block pageScripts %}
+<script type="module" src="/assets/javascripts/coordinate-validation.js"></script>
+<script type="module" src="/assets/javascripts/location-form-validation.js"></script>
+{% endblock %}

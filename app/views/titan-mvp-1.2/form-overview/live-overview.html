@@ -1,0 +1,236 @@
+{% extends "titan-mvp-1.2/form-overview/includes/_base-live-overview.html" %}
+
+{% block content %}
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+        <h1 class="govuk-heading-xl">Employee Onboarding</h1>
+
+        <!-- Draft Status Block -->
+        <dl class="govuk-summary-list">
+            <div class="govuk-summary-list__row">
+                <dt class="govuk-summary-list__key">Status</dt>
+                <dd class="govuk-summary-list__value">
+                    <strong class="govuk-tag govuk-tag--orange">Draft</strong>
+                </dd>
+            </div>
+            <div class="govuk-summary-list__row">
+                <dt class="govuk-summary-list__key">Created</dt>
+                <dd class="govuk-summary-list__value">8 May 2024, 9:00am by Alex Patel</dd>
+            </div>
+            <div class="govuk-summary-list__row">
+                <dt class="govuk-summary-list__key">Updated</dt>
+                <dd class="govuk-summary-list__value">8 May 2024, 4:30pm by Chris Smith</dd>
+            </div>
+            <div class="govuk-summary-list__row">
+                <dt class="govuk-summary-list__key">Preview link</dt>
+                <dd class="govuk-summary-list__value" style="padding-right:0!important;">
+                    <a href="https://preview.example.gov.uk/onboarding-draft" class="govuk-link"
+                        rel="noreferrer noopener" target="_blank">https://preview.example.gov.uk/onboarding-draft (opens
+                        in new tab)</a>
+                </dd>
+            </div>
+        </dl>
+
+        <!-- Form Status (Live) -->
+        <dl class="govuk-summary-list">
+            <div class="govuk-summary-list__row">
+                <dt class="govuk-summary-list__key">Status</dt>
+                <dd class="govuk-summary-list__value">
+                    <strong class="govuk-tag govuk-tag--green">Live</strong>
+                </dd>
+            </div>
+            <div class="govuk-summary-list__row">
+                <dt class="govuk-summary-list__key">Went live</dt>
+                <dd class="govuk-summary-list__value">8 May 2024, 2:45pm by Emily Wong</dd>
+            </div>
+            <div class="govuk-summary-list__row">
+                <dt class="govuk-summary-list__key">Preview link</dt>
+                <dd class="govuk-summary-list__value" style="padding-right:0!important;">
+                    <a href="https://preview.example.gov.uk/onboarding" class="govuk-link" rel="noreferrer noopener"
+                        target="_blank">https://preview.example.gov.uk/onboarding (opens in new tab)</a>
+                </dd>
+            </div>
+            <div class="govuk-summary-list__row">
+                <dt class="govuk-summary-list__key">Live link</dt>
+                <dd class="govuk-summary-list__value" style="padding-right:0!important;">
+                    <a href="https://live.example.gov.uk/onboarding" class="govuk-link" rel="noreferrer noopener"
+                        target="_blank">https://live.example.gov.uk/onboarding (opens in new tab)</a>
+                </dd>
+            </div>
+        </dl>
+
+        <!-- Submission Details -->
+        <h2 class="govuk-heading-m govuk-!-padding-top-2">Where submitted forms are sent</h2>
+        <dl class="govuk-summary-list">
+            <div class="govuk-summary-list__row">
+                <dt class="govuk-summary-list__key">Submitted forms sent to</dt>
+                <dd class="govuk-summary-list__value"><a href="mailto:notify@defra.gov.uk"
+                        class="govuk-link">notify@defra.gov.uk</a>
+                </dd>
+                <dd class="govuk-summary-list__actions">
+                    <a class="govuk-link" href="#">Change<span class="govuk-visually-hidden"> submitted forms sent
+                            to</span></a>
+                </dd>
+            </div>
+        </dl>
+
+        <!-- Support Details -->
+        <h2 class="govuk-heading-m govuk-!-padding-top-2">Contact details for support</h2>
+        <p class="govuk-body">You must provide at least one way for users to get help. The contact details are shown in
+            the footer of every page of the form.</p>
+        <dl class="govuk-summary-list">
+            <div class="govuk-summary-list__row">
+                <dt class="govuk-summary-list__key">Phone</dt>
+                <dd class="govuk-summary-list__value">987654321</dd>
+                <dd class="govuk-summary-list__actions">
+                    <a class="govuk-link" href="#">Change<span class="govuk-visually-hidden"> phone</span></a>
+                </dd>
+            </div>
+            <div class="govuk-summary-list__row">
+                <dt class="govuk-summary-list__key">Email address</dt>
+                <dd class="govuk-summary-list__value"><a href="mailto:support@defra.com"
+                        class="govuk-link">support@defra.com</a></dd>
+                <dd class="govuk-summary-list__actions">
+                    <a class="govuk-link" href="#">Change<span class="govuk-visually-hidden"> email address</span></a>
+                </dd>
+            </div>
+            <div class="govuk-summary-list__row">
+                <dt class="govuk-summary-list__key">Online contact link</dt>
+                <dd class="govuk-summary-list__value"><a href="https://gov.uk/support"
+                        class="govuk-link">https://gov.uk/support</a>
+                </dd>
+                <dd class="govuk-summary-list__actions">
+                    <a class="govuk-link" href="#">Change<span class="govuk-visually-hidden"> online contact
+                            link</span></a>
+                </dd>
+            </div>
+        </dl>
+
+        <!-- What happens next -->
+        <h2 class="govuk-heading-m govuk-!-padding-top-2">What happens next</h2>
+        <dl class="govuk-summary-list">
+            <div class="govuk-summary-list__row">
+                <dt class="govuk-summary-list__key">Tell users what happens after they submit their form</dt>
+                <dd class="govuk-summary-list__value">We will send a confirmation email to the email address you
+                    provided.</dd>
+                <dd class="govuk-summary-list__actions">
+                    <a class="govuk-link" href="#">Change<span class="govuk-visually-hidden"> what happens
+                            next</span></a>
+                </dd>
+            </div>
+        </dl>
+
+        <!-- Data protection -->
+        <h2 class="govuk-heading-m govuk-!-padding-top-2">Data protection</h2>
+        <dl class="govuk-summary-list">
+            <div class="govuk-summary-list__row">
+                <dt class="govuk-summary-list__key">Privacy notice</dt>
+                <dd class="govuk-summary-list__value"><a href="https://gov.uk/privacy"
+                        class="govuk-link">https://gov.uk/privacy</a>
+                </dd>
+                <dd class="govuk-summary-list__actions">
+                    <a class="govuk-link" href="#">Change<span class="govuk-visually-hidden"> privacy notice</span></a>
+                </dd>
+            </div>
+        </dl>
+
+        <!-- Organisation details -->
+        <h2 class="govuk-heading-m govuk-!-padding-top-2">Organisation details</h2>
+        <dl class="govuk-summary-list">
+            <div class="govuk-summary-list__row">
+                <dt class="govuk-summary-list__key">Form name</dt>
+                <dd class="govuk-summary-list__value">Employee Onboarding</dd>
+                <dd class="govuk-summary-list__actions">
+                    <a class="govuk-link" href="#">Change<span class="govuk-visually-hidden"> form name</span></a>
+                </dd>
+            </div>
+            <div class="govuk-summary-list__row">
+                <dt class="govuk-summary-list__key">Lead organisation</dt>
+                <dd class="govuk-summary-list__value">Defra</dd>
+                <dd class="govuk-summary-list__actions">
+                    <a class="govuk-link" href="#">Change<span class="govuk-visually-hidden"> lead
+                            organisation</span></a>
+                </dd>
+            </div>
+            <div class="govuk-summary-list__row">
+                <dt class="govuk-summary-list__key">Team name</dt>
+                <dd class="govuk-summary-list__value">Dev team</dd>
+                <dd class="govuk-summary-list__actions">
+                    <a class="govuk-link" href="#">Change<span class="govuk-visually-hidden"> team name</span></a>
+                </dd>
+            </div>
+            <div class="govuk-summary-list__row">
+                <dt class="govuk-summary-list__key">Shared email address</dt>
+                <dd class="govuk-summary-list__value">eng@acme.com</dd>
+                <dd class="govuk-summary-list__actions">
+                    <a class="govuk-link" href="#">Change<span class="govuk-visually-hidden"> shared email
+                            address</span></a>
+                </dd>
+            </div>
+        </dl>
+    </div>
+    <div class="govuk-grid-column-one-third-from-desktop">
+        <div style="background-color: #f3f2f1; padding: 15px;">
+            <h2 class="govuk-heading-m">Manage form</h2>
+
+
+            <a href="/titan-mvp-1.2/form-editor/listing"
+                class="gem-c-button govuk-button gem-c-button-publishing--secondary-quiet"
+                style="width: 100%; margin-bottom: 15px;">Edit draft</a>
+
+            <a href="/titan-mvp-1.2/form-overview/manage-form/make-draft-live/failed-validation">
+                <button type="submit" class="govuk-button" data-module="govuk-button"
+                    style="width: 100%; margin-bottom: 15px;">
+                    Make draft live
+                </button>
+            </a>
+
+            <a href="/titan-mvp-1.2/form-overview/manage-form/delete-draft" class="govuk-link">Delete draft</a>
+        </div>
+
+        <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
+        <h2 class="govuk-heading-m">History</h2>
+        <div id="timeline-container">
+            {{ mojTimeline({
+            items: [
+            {
+            label: { text: "Switched to new editor" },
+            datetime: { timestamp: "2024-05-08T15:30:00.000Z", type: "datetime" },
+            byline: { text: "Alex Patel" }
+            },
+            {
+            label: { text: "Draft created from live form" },
+            datetime: { timestamp: "2024-05-08T14:45:00.000Z", type: "datetime" },
+            byline: { text: "Alex Patel" }
+            },
+            {
+            label: { text: "🎉 Form went live" },
+            datetime: { timestamp: "2024-05-08T14:45:00.000Z", type: "datetime" },
+            byline: { text: "Emily Wong" }
+            },
+            {
+            label: { text: "Next steps updated" },
+            text: "Updated the next steps guidance from 'We will call you in 2 working days' to 'We will send you a
+            confirmation email to the email address you provided'.",
+            datetime: { timestamp: "2024-05-08T11:15:00.000Z", type: "datetime" },
+            byline: { text: "Emily Wong" }
+            },
+            {
+            label: { text: "Notification email updated" },
+            text: "Updated where submitted forms are sent from 'notify@old.com' to 'notify@new.com'.",
+            datetime: { timestamp: "2024-05-08T11:00:00.000Z", type: "datetime" },
+            byline: { text: "Chris Smith" }
+            }
+            ]
+            }) }}
+            <a href="/titan-mvp-1.2/form-overview/form-history"
+                class="govuk-link govuk-link--no-visited-state govuk-!-margin-top-2">
+                View full history<span class="govuk-visually-hidden">, opens in a new page</span>
+            </a>
+        </div>
+
+    </div>
+</div>
+
+
+{% endblock %}

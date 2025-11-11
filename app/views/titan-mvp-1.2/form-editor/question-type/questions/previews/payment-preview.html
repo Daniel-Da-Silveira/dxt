@@ -1,0 +1,52 @@
+{% from "./_label_size_macro.html" import get_label_size -%}
+
+{%- set page_heading = data['pageHeadingPayment'] if data is defined and data['pageHeadingPayment'] else false
+-%}
+{%- set question_count = currentPage.questions | length if currentPage and currentPage.questions else 1 -%}
+{%- set labelSize = get_label_size(page_heading, question_count, true) -%}
+
+<div class="payment-summary-wrap">
+    <div class="payment-summary">
+        <h1 class="govuk-heading-l">Payment required</h1>
+
+        <p class="govuk-body">
+            {{ question.paymentDescription or 'Payment description' }}
+        </p>
+
+        {{ govukWarningText({
+            text: "You must pay before you can send your form",
+            classes: "govuk-!-margin-bottom-4",
+            iconFallbackText: "Warning"
+        }) }}
+
+        <p class="govuk-body">
+            When your payment is complete, you'll able to continue with your form.
+        </p>
+
+        <p class="govuk-body govuk-!-margin-bottom-0">
+            Total amount:
+            <span class="amount govuk-!-font-size-36 govuk-!-font-weight-bold">
+                £{{ question.paymentAmount or '0.00' }}
+            </span>
+        </p>
+
+        {{ govukButton({
+            text: "Pay now",
+            classes: "govuk-button--primary govuk-!-margin-top-4 govuk-!-margin-bottom-0"
+        }) }}
+    </div>
+</div>
+
+<style>
+    .payment-summary {
+        border-top: 2px solid #1d70b8;
+        padding: 15px;
+        background-color: #f3f2f1;
+    }
+
+    @media all{
+        .amount  {
+            display: block;
+        }
+    }
+</style>

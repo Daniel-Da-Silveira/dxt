@@ -1,0 +1,127 @@
+{% extends "layouts/main.html" %}
+
+{% block pageTitle %}
+  File download –
+  {{ serviceName }}
+  – GOV.UK Prototype Kit
+{% endblock %}
+
+{% block beforeContent %}
+  {{ govukBackLink({
+    text: "Back",
+    href: "javascript:window.history.back()"
+  }) }}
+{% endblock %}
+
+{% block content %}
+
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+
+      <h1 class="govuk-heading-l">
+        You have a file to download
+      </h1>
+
+      {% from "govuk/components/input/macro.njk" import govukInput %}
+
+      <p class="govuk-body">To confirm the file was meant for your team, enter the email address the file was sent to.
+      </p>
+
+      {{ govukInput({
+  label: {
+    classes: "govuk-label--m",
+    text: "Email address"
+
+  },
+
+  id: "email",
+  name: "email",
+  type: "email",
+  autocomplete: "email",
+  spellcheck: false
+}) }}
+
+      {% from "govuk/components/button/macro.njk" import govukButton %}
+
+      {{ govukButton({
+  text: "Download file",
+  href: "https://download.documents.service.gov.uk/services/af90d4cb-ae88-4a7c-a197-5c30c7db423b/documents/d5b02bfd-6377-40d7-900d-9725250af517.pdf?key=UaOBRV0CwBHvXmumnqCAUGY26WmO_2sSenoN1imtkgY",
+  attributes: {
+    download: "filename.pdf"
+  }
+
+}) }}
+
+    </div>
+  </div>
+
+  <details class="govuk-details">
+
+    <summary class="govuk-details__summary">
+      <span class="govuk-details__summary-text">
+        View error messages
+      </span>
+    </summary>
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-two-thirds">
+        <div class="govuk-details__text">
+          {% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
+          {% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
+
+          <div class="govuk-error-summary" data-module="govuk-error-summary">
+            <div role="alert">
+              <h2 class="govuk-error-summary__title">
+                There is a problem
+              </h2>
+              <div class="govuk-error-summary__body">
+
+                <p class="govuk-list govuk-error-summary__list">
+                  This is not the email address the file was sent to.</p>
+                <br>
+                <p class="govuk-list govuk-error-summary__list">
+                  To confirm the file was meant for your team, enter the email address the file was sent to.</p>
+              </div>
+            </div>
+          </div>
+
+          <h1 class="govuk-heading-l">
+            You have a file to download
+          </h1>
+
+          {% from "govuk/components/input/macro.njk" import govukInput %}
+
+          <p class="govuk-body">To confirm the file was meant for you, enter the email address the file was sent to.
+          </p>
+
+          {{ govukInput({
+  label: {
+    classes: "govuk-label--m",
+    text: "Email address"
+
+  },
+
+  id: "email",
+  name: "email",
+  type: "email",
+  autocomplete: "email",
+  spellcheck: false,
+    errorMessage: {
+    text: "This is not the email address the file was sent to. To confirm the file was meant for your team, enter the email address the file was sent to."
+  }
+}) }}
+
+          {% from "govuk/components/button/macro.njk" import govukButton %}
+
+          {{ govukButton({
+  text: "Download file",
+  href: "https://download.documents.service.gov.uk/services/af90d4cb-ae88-4a7c-a197-5c30c7db423b/documents/d5b02bfd-6377-40d7-900d-9725250af517.pdf?key=UaOBRV0CwBHvXmumnqCAUGY26WmO_2sSenoN1imtkgY",
+  attributes: {
+    download: "filename.pdf"
+  }
+
+}) }}
+
+        </div>
+      </details>
+
+    {% endblock %}

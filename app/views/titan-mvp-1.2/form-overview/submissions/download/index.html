@@ -1,0 +1,165 @@
+{% extends "layouts/main.html" %}
+{% from "components/service-header/macro.njk" import serviceHeader %}
+{% from "moj/components/timeline/macro.njk" import mojTimeline %}
+{% from "govuk/components/summary-list/macro.njk" import govukSummaryList %}
+
+{% block header %}
+{{ serviceHeader({
+organisationName: "Defra",
+productName: "Form Designer",
+serviceName: "Apply for an individual licence to release gamebirds on or near a European Site",
+accountName: "Chris Smith",
+homepageLink: "/",
+signOutLink: "/titan-mvp-1.2/onboarding/sign-out-confirmation",
+navigationItems: [
+{
+href: "/titan-mvp-1.2/library",
+text: "Forms library",
+id: "nav-library"
+},
+{
+href: "/titan-mvp-1.2/form-overview/{{ form.id }}",
+text: "Overview",
+id: "nav-overview",
+active: true
+},
+{
+    href: "/titan-mvp-1.2/form-overview/poc",
+    text: "Responses",
+    id: "nav-submissions"
+},
+{
+href: "/titan-mvp-1.2/form-editor/listing",
+text: "Editor",
+id: "nav-editor"
+}
+],
+activeLinkId: ""
+}) }}
+
+
+<div class="x-govuk-masthead x-govuk-masthead--large">
+    <div class="govuk-width-container">
+
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-full-from-desktop">
+                <h1 class="x-govuk-masthead__title">
+                    <span class="govuk-caption-l" style="color: #fff;">
+                        {{ form.name or "Example Form" }}
+                        </span>
+You have a file to download
+                </h1>
+                <p class="x-govuk-masthead__description">
+                    To confirm the file was meant for your team, enter the email address the file was sent to.
+                  </p>            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block pageTitle %}
+{{ pageName }}
+{% endblock %}
+
+
+{% block content %}
+
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+
+      {% from "govuk/components/input/macro.njk" import govukInput %}
+
+      {{ govukInput({
+  label: {
+    classes: "govuk-label--m",
+    text: "Email address"
+
+  },
+
+  id: "email",
+  name: "email",
+  type: "email",
+  autocomplete: "email",
+  spellcheck: false
+}) }}
+
+      {% from "govuk/components/button/macro.njk" import govukButton %}
+
+      {{ govukButton({
+  text: "Download file",
+  href: "/titan-mvp-1.2/form-overview/submissions/download/downloading"
+}) }}
+
+    </div>
+  </div>
+
+  <details class="govuk-details">
+
+    <summary class="govuk-details__summary">
+      <span class="govuk-details__summary-text">
+        View error messages
+      </span>
+    </summary>
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-two-thirds">
+        <div class="govuk-details__text">
+          {% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
+          {% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
+
+          <div class="govuk-error-summary" data-module="govuk-error-summary">
+            <div role="alert">
+              <h2 class="govuk-error-summary__title">
+                There is a problem
+              </h2>
+              <div class="govuk-error-summary__body">
+
+                <p class="govuk-list govuk-error-summary__list">
+                  This is not the email address the file was sent to.</p>
+                <br>
+                <p class="govuk-list govuk-error-summary__list">
+                  To confirm the file was meant for your team, enter the email address the file was sent to.</p>
+              </div>
+            </div>
+          </div>
+
+          <h1 class="govuk-heading-l">
+            You have a file to download
+          </h1>
+
+          {% from "govuk/components/input/macro.njk" import govukInput %}
+
+          <p class="govuk-body">To confirm the file was meant for you, enter the email address the file was sent to.
+          </p>
+
+          {{ govukInput({
+  label: {
+    classes: "govuk-label--m",
+    text: "Email address"
+
+  },
+
+  id: "email",
+  name: "email",
+  type: "email",
+  autocomplete: "email",
+  spellcheck: false,
+    errorMessage: {
+    text: "This is not the email address the file was sent to. To confirm the file was meant for your team, enter the email address the file was sent to."
+  }
+}) }}
+
+          {% from "govuk/components/button/macro.njk" import govukButton %}
+
+          {{ govukButton({
+  text: "Download file",
+  href: "/titan-mvp-1.2/form-overview/submissions/download/downloading.html",
+  attributes: {
+    download: "filename.pdf"
+  }
+
+}) }}
+
+        </div>
+      </details>
+
+    {% endblock %}

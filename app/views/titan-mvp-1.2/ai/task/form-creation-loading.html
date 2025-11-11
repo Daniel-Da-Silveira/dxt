@@ -1,0 +1,227 @@
+{% extends "layouts/main.html" %}
+
+{% from "components/service-header/macro.njk" import serviceHeader %}
+
+{% block header %}
+{{ serviceHeader({
+organisationName: "Defra",
+productName: "Forms designer",
+serviceName: "",
+accountName: "Chris Smith",
+homepageLink: "/",
+signOutLink: "/titan-mvp-1.2/onboarding/sign-out-confirmation",
+navigationItems: [{
+href: "/titan-mvp-1.2/library",
+text: "Library",
+id: "titan-mvp-1.2/library"
+}]
+}) }}
+
+<div class="x-govuk-masthead x-govuk-masthead--large">
+    <div class="govuk-width-container">
+        {{ govukBackLink({
+        classes: "govuk-back-link--inverse govuk-!-margin-bottom-0",
+        text: "Back to task list",
+        href: "/titan-mvp-1.2/ai/tasklist-form-creation"
+        }) }}
+
+        <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible"
+            style="border-bottom: 1px solid white; margin-bottom: 0" />
+
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-full-from-desktop">
+                <h1 class="x-govuk-masthead__title">Creating your form with AI
+                </h1>
+                <p class="x-govuk-masthead__description">
+                    Our AI is analyzing your requirements and generating a complete form structure.
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+        <div class="govuk-notification-banner" role="alert" aria-labelledby="govuk-notification-banner-title">
+            <div class="govuk-notification-banner__header">
+                <h2 class="govuk-notification-banner__title" id="govuk-notification-banner-title">
+                    Generating your form
+                </h2>
+            </div>
+            <div class="govuk-notification-banner__content">
+                <p class="govuk-notification-banner__heading">
+                    Our AI is creating your form based on your requirements...
+                </p>
+                <p class="govuk-body">This usually takes 15-45 seconds.</p>
+            </div>
+        </div>
+
+        <!-- Loading Animation -->
+        <div class="govuk-body" style="text-align: center; padding: 40px 0;">
+            <div class="govuk-body-l" style="margin-bottom: 20px;">
+                <div class="loading-spinner"
+                    style="display: inline-block; width: 40px; height: 40px; border: 4px solid #f3f2f1; border-top: 4px solid #00703c; border-radius: 50%; animation: spin 1s linear infinite; margin-right: 15px;">
+                </div>
+                Creating form structure...
+            </div>
+
+            <div class="govuk-body-s" style="color: #6b7280;">
+                <div id="loading-messages">
+                    <div class="loading-message">Analyzing form requirements...</div>
+                    <div class="loading-message" style="display: none;">Designing form structure...</div>
+                    <div class="loading-message" style="display: none;">Creating form fields...</div>
+                    <div class="loading-message" style="display: none;">Setting up validation rules...</div>
+                    <div class="loading-message" style="display: none;">Generating form pages...</div>
+                    <div class="loading-message" style="display: none;">Finalizing your form...</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- What's being created -->
+        <h2 class="govuk-heading-l">What we're creating</h2>
+
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-one-half">
+                <div class="govuk-card govuk-card--contained">
+                    <div class="govuk-card__content">
+                        <h3 class="govuk-heading-s">Form Structure</h3>
+                        <ul class="govuk-list govuk-list--bullet govuk-body-s">
+                            <li>Complete form pages</li>
+                            <li>Logical question flow</li>
+                            <li>Appropriate field types</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="govuk-grid-column-one-half">
+                <div class="govuk-card govuk-card--contained">
+                    <div class="govuk-card__content">
+                        <h3 class="govuk-heading-s">Form Fields</h3>
+                        <ul class="govuk-list govuk-list--bullet govuk-body-s">
+                            <li>Text inputs and textareas</li>
+                            <li>Radio buttons and checkboxes</li>
+                            <li>Date pickers and dropdowns</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-one-half">
+                <div class="govuk-card govuk-card--contained">
+                    <div class="govuk-card__content">
+                        <h3 class="govuk-heading-s">Validation & Logic</h3>
+                        <ul class="govuk-list govuk-list--bullet govuk-body-s">
+                            <li>Required field validation</li>
+                            <li>Conditional logic</li>
+                            <li>Error messages</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="govuk-grid-column-one-half">
+                <div class="govuk-card govuk-card--contained">
+                    <div class="govuk-card__content">
+                        <h3 class="govuk-heading-s">User Experience</h3>
+                        <ul class="govuk-list govuk-list--bullet govuk-body-s">
+                            <li>Clear field labels</li>
+                            <li>Helpful guidance text</li>
+                            <li>Progress indicators</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Cancel button -->
+        <div class="govuk-button-group">
+            <a href="/titan-mvp-1.2/ai/tasklist-form-creation" class="govuk-button govuk-button--secondary">
+                Cancel
+            </a>
+        </div>
+    </div>
+
+    <div class="govuk-grid-column-one-third">
+        <div class="govuk-card govuk-card--contained">
+            <div class="govuk-card__content">
+                <h3 class="govuk-heading-s">About AI Form Creation</h3>
+                <p class="govuk-body-s">
+                    Our AI analyzes your requirements and creates a complete form structure following Government Digital
+                    Service (GDS) design patterns.
+                </p>
+                <p class="govuk-body-s">
+                    The generated form will be ready for you to review and customize in the form editor.
+                </p>
+            </div>
+        </div>
+
+        <div class="govuk-card govuk-card--contained">
+            <div class="govuk-card__content">
+                <h3 class="govuk-heading-s">What happens next</h3>
+                <p class="govuk-body-s">
+                    Once your form is created, you'll be able to:
+                </p>
+                <ul class="govuk-list govuk-list--bullet govuk-body-s">
+                    <li>Review the generated form</li>
+                    <li>Edit fields and content</li>
+                    <li>Customize styling and layout</li>
+                    <li>Test the form flow</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    @keyframes spin {
+        0% {
+            transform: rotate(0deg);
+        }
+
+        100% {
+            transform: rotate(360deg);
+        }
+    }
+
+    .loading-message {
+        transition: opacity 0.5s ease-in-out;
+    }
+</style>
+
+<script>
+    // Simulate loading messages and redirect to results
+    document.addEventListener('DOMContentLoaded', function () {
+        const messages = document.querySelectorAll('.loading-message');
+        let currentMessage = 0;
+
+        function showNextMessage() {
+            if (currentMessage < messages.length) {
+                // Hide current message
+                if (currentMessage > 0) {
+                    messages[currentMessage - 1].style.display = 'none';
+                }
+
+                // Show next message
+                messages[currentMessage].style.display = 'block';
+                currentMessage++;
+
+                // Schedule next message
+                setTimeout(showNextMessage, 2500);
+            }
+        }
+
+        // Start the message rotation
+        setTimeout(showNextMessage, 1000);
+
+        // Redirect to form creation results after 12 seconds (simulating AI processing)
+        setTimeout(function () {
+            window.location.href = '/titan-mvp-1.2/ai/form-creation-results';
+        }, 12000);
+    });
+</script>
+{% endblock %}

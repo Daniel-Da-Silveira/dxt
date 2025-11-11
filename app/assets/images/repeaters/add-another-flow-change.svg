@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="820" height="340" viewBox="0 0 820 340" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <style>
+    .label { font: 16px sans-serif; fill: #222; }
+    .caption { font: 14px sans-serif; fill: #555; }
+    .box { fill: #e5f3e8; stroke: #00703c; stroke-width: 2; rx: 8; }
+    .arrow { stroke: #00703c; stroke-width: 2; marker-end: url(#arrowhead); }
+    .section { font: bold 18px sans-serif; fill: #00703c; }
+  </style>
+  <defs>
+    <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#00703c" />
+    </marker>
+  </defs>
+  <!-- Before Section -->
+  <text x="80" y="35" class="section">Before</text>
+  <rect x="40" y="60" width="180" height="44" class="box"/>
+  <text x="55" y="88" class="label">1. Set page heading</text>
+  <rect x="240" y="60" width="180" height="44" class="box"/>
+  <text x="255" y="88" class="label">2. Add guidance</text>
+  <rect x="440" y="60" width="180" height="44" class="box"/>
+  <text x="455" y="88" class="label">3. Set repeater settings</text>
+  <rect x="640" y="60" width="140" height="44" class="box" fill="#fffbe2" stroke="#b58800"/>
+  <text x="655" y="88" class="label">Page overview</text>
+  <!-- Arrows Before -->
+  <line x1="220" y1="82" x2="240" y2="82" class="arrow"/>
+  <line x1="420" y1="82" x2="440" y2="82" class="arrow"/>
+  <line x1="620" y1="82" x2="640" y2="82" class="arrow"/>
+
+  <!-- After Section -->
+  <text x="80" y="175" class="section">After</text>
+  <rect x="40" y="200" width="140" height="44" class="box" fill="#fffbe2" stroke="#b58800"/>
+  <text x="55" y="228" class="label">Page overview</text>
+  <rect x="220" y="200" width="180" height="44" class="box"/>
+  <text x="235" y="228" class="label">1. Set page heading</text>
+  <rect x="420" y="200" width="180" height="44" class="box"/>
+  <text x="435" y="228" class="label">2. Add guidance</text>
+  <rect x="620" y="200" width="180" height="44" class="box"/>
+  <text x="635" y="228" class="label">3. Set repeater settings</text>
+  <!-- Arrows After -->
+  <line x1="180" y1="222" x2="220" y2="222" class="arrow"/>
+  <line x1="400" y1="222" x2="420" y2="222" class="arrow"/>
+  <line x1="600" y1="222" x2="620" y2="222" class="arrow"/>
+
+  <!-- Caption -->
+  <text x="40" y="310" class="caption">In the new flow, users first see the page overview and then set the page heading, guidance, and repeater settings in context, rather than being asked for these upfront.</text>
+</svg>

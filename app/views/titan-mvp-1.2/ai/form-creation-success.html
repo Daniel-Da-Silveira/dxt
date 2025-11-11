@@ -1,0 +1,202 @@
+{% extends "layouts/main.html" %}
+
+{% from "components/service-header/macro.njk" import serviceHeader %}
+
+{% set pageName = "Form Creation Success" %}
+
+{% block header %}
+{{ serviceHeader({
+organisationName: "Defra",
+productName: "Forms designer",
+serviceName: "",
+accountName: "Chris Smith",
+homepageLink: "/",
+signOutLink: "/titan-mvp-1.2/onboarding/sign-out-confirmation",
+navigationItems: [{
+href: "/titan-mvp-1.2/library",
+text: "Library",
+id: "titan-mvp-1.2/library"
+}]
+}) }}
+{% endblock %}
+
+{% block beforeContent %}
+{{ govukBackLink({
+text: "Back to AI form creation",
+href: "/titan-mvp-1.2/ai/section-based-form-creation"
+}) }}
+{% endblock %}
+
+{% block content %}
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+        <div class="govuk-notification-banner govuk-notification-banner--success" role="region"
+            aria-labelledby="govuk-notification-banner-title" data-module="govuk-notification-banner">
+            <div class="govuk-notification-banner__header">
+                <h2 class="govuk-notification-banner__title" id="govuk-notification-banner-title">
+                    Success
+                </h2>
+            </div>
+            <div class="govuk-notification-banner__content">
+                <p class="govuk-notification-banner__heading">
+                    Your form requirements have been successfully submitted to the AI system.
+                </p>
+            </div>
+        </div>
+
+        <h1 class="govuk-heading-xl">Form creation request submitted</h1>
+
+        <p class="govuk-body">Your structured form requirements have been assembled and submitted. Here's what happens
+            next:</p>
+
+        <div class="govuk-!-margin-bottom-6">
+            <h2 class="govuk-heading-m">What happens next</h2>
+            <ol class="govuk-list govuk-list--number">
+                <li>Our AI system will analyze your requirements</li>
+                <li>A draft form structure will be generated</li>
+                <li>You'll receive an email notification when ready</li>
+                <li>You can then review and refine the generated form</li>
+            </ol>
+        </div>
+
+        <div class="govuk-!-margin-bottom-6">
+            <h2 class="govuk-heading-m">Your submitted requirements</h2>
+            <p class="govuk-body">Below is the assembled prompt that was sent to the AI system:</p>
+
+            <div class="govuk-inset-text">
+                <pre
+                    style="margin: 0; font-family: monospace; font-size: 12px; white-space: pre-wrap; background: #f8f8f8; padding: 15px; border-radius: 4px; max-height: 400px; overflow-y: auto;">{{ formData.assembledPrompt | default("No prompt data available") }}</pre>
+            </div>
+        </div>
+
+        <div class="govuk-!-margin-bottom-6">
+            <h2 class="govuk-heading-m">Section summary</h2>
+            <dl class="govuk-summary-list">
+                <div class="govuk-summary-list__row">
+                    <dt class="govuk-summary-list__key">Wireframe Upload</dt>
+                    <dd class="govuk-summary-list__value">
+                        {% if formData.wireframeUpload %}
+                        <span class="govuk-tag govuk-tag--green">Provided</span>
+                        {% else %}
+                        <span class="govuk-tag govuk-tag--grey">Not provided</span>
+                        {% endif %}
+                    </dd>
+                </div>
+                <div class="govuk-summary-list__row">
+                    <dt class="govuk-summary-list__key">Question Protocol</dt>
+                    <dd class="govuk-summary-list__value">
+                        {% if formData.questionProtocol %}
+                        <span class="govuk-tag govuk-tag--green">Provided</span>
+                        {% else %}
+                        <span class="govuk-tag govuk-tag--grey">Not provided</span>
+                        {% endif %}
+                    </dd>
+                </div>
+                <div class="govuk-summary-list__row">
+                    <dt class="govuk-summary-list__key">Reference Links</dt>
+                    <dd class="govuk-summary-list__value">
+                        {% if formData.referenceLinks %}
+                        <span class="govuk-tag govuk-tag--green">Provided</span>
+                        {% else %}
+                        <span class="govuk-tag govuk-tag--grey">Not provided</span>
+                        {% endif %}
+                    </dd>
+                </div>
+                <div class="govuk-summary-list__row">
+                    <dt class="govuk-summary-list__key">Page-by-Page Description</dt>
+                    <dd class="govuk-summary-list__value">
+                        {% if formData.pageDescription %}
+                        <span class="govuk-tag govuk-tag--green">Provided</span>
+                        {% else %}
+                        <span class="govuk-tag govuk-tag--grey">Not provided</span>
+                        {% endif %}
+                    </dd>
+                </div>
+                <div class="govuk-summary-list__row">
+                    <dt class="govuk-summary-list__key">Form Aim</dt>
+                    <dd class="govuk-summary-list__value">
+                        {% if formData.formAim %}
+                        <span class="govuk-tag govuk-tag--green">Provided</span>
+                        {% else %}
+                        <span class="govuk-tag govuk-tag--grey">Not provided</span>
+                        {% endif %}
+                    </dd>
+                </div>
+                <div class="govuk-summary-list__row">
+                    <dt class="govuk-summary-list__key">Conditional Logic</dt>
+                    <dd class="govuk-summary-list__value">
+                        {% if formData.conditionalLogic %}
+                        <span class="govuk-tag govuk-tag--green">Provided</span>
+                        {% else %}
+                        <span class="govuk-tag govuk-tag--grey">Not provided</span>
+                        {% endif %}
+                    </dd>
+                </div>
+            </dl>
+        </div>
+
+        <div class="govuk-!-margin-bottom-6">
+            <h2 class="govuk-heading-m">Next steps</h2>
+            <div class="govuk-button-group">
+                {{ govukButton({
+                text: "Go to library",
+                href: "/titan-mvp-1.2/library",
+                classes: "govuk-button"
+                }) }}
+                {{ govukButton({
+                text: "Create another form",
+                href: "/titan-mvp-1.2/ai/section-based-form-creation",
+                classes: "govuk-button--secondary"
+                }) }}
+            </div>
+        </div>
+
+        <div class="govuk-!-margin-bottom-6">
+            <details class="govuk-details">
+                <summary class="govuk-details__summary">
+                    <span class="govuk-details__summary-text">
+                        Technical details
+                    </span>
+                </summary>
+                <div class="govuk-details__text">
+                    <p class="govuk-body">Request ID: <code>{{ data.formId | default("N/A") }}</code></p>
+                    <p class="govuk-body">Submitted: <code>{{ data.formDetails.lastUpdated | default("N/A") }}</code>
+                    </p>
+                    <p class="govuk-body">Prompt length:
+                        <code>{{ formData.assembledPrompt | length | default(0) }} characters</code></p>
+                </div>
+            </details>
+        </div>
+    </div>
+
+    <div class="govuk-grid-column-one-third">
+        <div class="govuk-sticky" style="position: sticky; top: 20px;">
+            <h2 class="govuk-heading-m">Need help?</h2>
+            <p class="govuk-body">If you have any questions about the AI form creation process:</p>
+            <ul class="govuk-list govuk-list--bullet">
+                <li>Check the <a href="#" class="govuk-link">AI form creation guide</a></li>
+                <li>Contact the <a href="#" class="govuk-link">Forms Designer team</a></li>
+                <li>Review <a href="#" class="govuk-link">best practices</a></li>
+            </ul>
+
+            <div class="govuk-!-margin-top-4">
+                <h3 class="govuk-heading-s">Estimated processing time</h3>
+                <p class="govuk-body">AI form generation typically takes 5-10 minutes depending on complexity.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .govuk-sticky {
+        position: sticky;
+        top: 20px;
+    }
+
+    pre {
+        font-family: 'Courier New', monospace;
+        font-size: 12px;
+        line-height: 1.4;
+    }
+</style>
+{% endblock %}

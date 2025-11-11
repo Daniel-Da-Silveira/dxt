@@ -1,0 +1,121 @@
+
+
+ <style>
+  .border-left-container {
+    border-left: 10px solid #ffb266;
+    padding-left: 20px;
+  }
+</style>
+
+<div class="border-left-container">
+  <div class="govuk-form-group">
+    <h1 class="govuk-label-wrapper">
+      <label class="govuk-label govuk-label--l" for="numbers" id="question-label-legend-numbers">
+        Question
+      </label>
+    </h1>
+    <div id="hint-text-output-numbers" class="govuk-hint">
+      <!-- Hint text will be dynamically updated here -->
+    </div>
+    <input
+      class="govuk-input govuk-input--width-10"
+      id="numbers"
+      name="Numbers"
+      type="text"
+      spellcheck="false"
+      aria-describedby="hint-text-output-numbers"
+      inputmode="numeric"
+    >
+  </div>
+</div>
+
+{% if data['setName'] %}
+  {{ govukButton({
+      text: "Add another " + (data['setName'] | lower),
+      classes: "govuk-button govuk-!-margin-top-3",
+      id: "add-another-set-button",
+      disabled: true
+  }) }}
+{% else %}
+  {# {{ govukButton({
+      text: "Continue",
+      classes: "govuk-button govuk-!-margin-top-3",
+      id: "add-another-set-button",
+      disabled: true
+  }) }} #}
+{% endif %}
+
+
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+const dynamicCaption = document.getElementById("dynamic-caption");
+const setName = dynamicCaption.getAttribute("data-setname");
+
+if (!setName) {
+  dynamicCaption.style.display = "none";
+}
+});
+
+  </script>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+const dynamicCaption = document.getElementById("dynamic-caption");
+const setName = dynamicCaption.getAttribute("data-setname");
+
+if (!setName) {
+dynamicCaption.style.display = "none";
+}
+});
+
+// Select the input field and the details element
+const inputField = document.getElementById("error-message-input-shorttext");
+const errorMessagePreview = document.getElementById("error-message-preview-summary");
+
+// Add event listener for focus and blur on the input field
+inputField.addEventListener("focus", () => {
+// Set the open attribute on details to expand it
+errorMessagePreview.setAttribute("open", "true");
+});
+
+inputField.addEventListener("blur", () => {
+// Remove the open attribute on details to collapse it
+errorMessagePreview.removeAttribute("open");
+});
+
+// Function to capitalize first letter
+function capitalizeFirstLetter(string) {
+  return string.charAt(0).toUpperCase() + string.slice(1);
+}
+
+// Function to lowercase first letter
+function lowercaseFirstLetter(string) {
+  return string.charAt(0).toLowerCase() + string.slice(1);
+}
+
+// Function to apply the correct capitalization
+function applyDynamicCapitalization() {
+  // Select the error dynamic text spans
+  const errorDynamicTexts = document.querySelectorAll('#error-dynamic-text, #error-dynamic-text-long, #error-dynamic-text-short');
+
+  errorDynamicTexts.forEach((element) => {
+    const parentText = element.closest('a').innerText.trim(); // Get the full text of the parent <a> tag
+    const elementText = element.textContent.trim(); // Get the current content of the span
+
+    // If the short description is at the start of the sentence, capitalize the first letter
+    if (parentText.startsWith('Enter') || parentText.startsWith(elementText)) {
+      element.textContent = capitalizeFirstLetter(elementText);
+    } else {
+      element.textContent = lowercaseFirstLetter(elementText);
+    }
+  });
+}
+
+// Call the function on page load
+document.addEventListener('DOMContentLoaded', applyDynamicCapitalization);
+
+
+
+</script>
+

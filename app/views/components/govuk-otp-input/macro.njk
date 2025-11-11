@@ -1,0 +1,103 @@
+{% macro govukOtpInput(params) %}
+  {%- set id = params.id %}
+  {%- set name = params.name %}
+  {%- set fieldset = params.fieldset %}
+  {%- set hint = params.hint %}
+  {%- set errorMessage = params.errorMessage %}
+  {%- set maxLength = params.maxLength | default(6) %}
+  {%- set pattern = params.pattern | default('[0-9]') %}
+  {%- set value = params.value | default('') %}
+  {%- set classes = params.classes %}
+  {%- set attributes = params.attributes %}
+  {%- set groups = params.groups | default([{ slots: maxLength }]) %}
+
+  {%- set fieldsetClasses = "govuk-fieldset" %}
+  {%- if classes %}
+    {%- set fieldsetClasses = fieldsetClasses + " " + classes %}
+  {%- endif %}
+
+  {%- set describedBy = "" %}
+  {%- if hint %}
+    {%- set describedBy = describedBy + " " + id + "-hint" %}
+  {%- endif %}
+  {%- if errorMessage %}
+    {%- set describedBy = describedBy + " " + id + "-error" %}
+  {%- endif %}
+
+  <div class="govuk-form-group{% if errorMessage %} govuk-form-group--error{% endif %}">
+    <fieldset class="{{ fieldsetClasses }}" role="group"{% if describedBy %} aria-describedby="{{ describedBy | trim }}"{% endif %}{% if attributes %}{% for attribute, value in attributes %} {{ attribute }}="{{ value }}"{% endfor %}{% endif %}>
+      {% if fieldset.legend %}
+        <legend class="govuk-fieldset__legend{% if fieldset.legend.classes %} {{ fieldset.legend.classes }}{% endif %}">
+          {% if fieldset.legend.isPageHeading %}
+            <h1 class="govuk-fieldset__heading">
+              {{ fieldset.legend.text }}
+            </h1>
+          {% else %}
+            {{ fieldset.legend.text }}
+          {% endif %}
+        </legend>
+      {% endif %}
+
+      {% if hint %}
+        <div id="{{ id }}-hint" class="govuk-hint">
+          {{ hint.text }}
+        </div>
+      {% endif %}
+
+      {% if errorMessage %}
+        <p id="{{ id }}-error" class="govuk-error-message">
+          <span class="govuk-visually-hidden">Error:</span>
+          {{ errorMessage.text }}
+        </p>
+      {% endif %}
+
+      <div class="govuk-otp-input" 
+           id="{{ id }}-container"
+           data-max-length="{{ maxLength }}"
+           data-pattern="{{ pattern }}"
+           data-name="{{ name }}"
+           {% if hint %}aria-describedby="{{ id }}-hint"{% endif %}
+           {% if errorMessage %}aria-describedby="{{ id }}-error"{% endif %}>
+        
+        {% set globalIndex = 0 %}
+        {% for group in groups %}
+          <div class="govuk-otp-input__group">
+            {% for slotIndex in range(0, group.slots) %}
+              <div class="govuk-otp-input__slot" 
+                   data-slot="{{ globalIndex }}"
+                   data-index="{{ globalIndex }}">
+                <label class="govuk-visually-hidden" for="{{ id }}-{{ globalIndex }}">
+                  Character {{ globalIndex + 1 }} of {{ maxLength }}
+                </label>
+                <input class="govuk-input govuk-otp-input__input" 
+                       id="{{ id }}-{{ globalIndex }}"
+                       name="{{ name }}-{{ globalIndex }}"
+                       type="text"
+                       maxlength="1"
+                       pattern="{{ pattern }}"
+                       inputmode="numeric"
+                       autocomplete="one-time-code"
+                       value="{{ value[globalIndex] | default('') }}"
+                       aria-label="Character {{ globalIndex + 1 }} of {{ maxLength }}"
+                       {% if globalIndex == 0 %}autofocus{% endif %}>
+              </div>
+              {% set globalIndex = globalIndex + 1 %}
+            {% endfor %}
+            {% if not loop.last and group.separator %}
+              <div class="govuk-otp-input__separator" aria-hidden="true">
+                {{ group.separator }}
+              </div>
+            {% endif %}
+          </div>
+        {% endfor %}
+        
+        <!-- Hidden input to store the complete value -->
+        <input type="hidden" 
+               id="{{ id }}" 
+               name="{{ name }}" 
+               value="{{ value }}"
+               class="govuk-otp-input__hidden">
+      </div>
+    </fieldset>
+  </div>
+{% endmacro %}

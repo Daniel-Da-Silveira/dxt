@@ -1,0 +1,217 @@
+{% extends "layouts/main.html" %}
+
+{% from "components/service-header/macro.njk" import serviceHeader %}
+
+{% set pageName = "Single line text box component - Apply for a county parish holding number in England" %}
+
+{% block header %}
+  {{ serviceHeader({
+    organisationName: "Defra",
+    productName: "Forms Designer",
+    serviceName: "",
+    accountName: "Chris Smith",
+    homepageLink: "/",
+    signOutLink: "/form-designer-v2/onboarding/sign-out-confirmation",
+    navigationItems: [
+    {
+      href: "/library.html",
+      text: "Forms library",
+      id: "library"
+     },
+    {
+      href: "/cph-overview/draft.html",
+      text: "Overview",
+      id: "overview"
+     },{
+         href: "/editor.html",
+    text: 'Editor',
+    id: 'editor'
+    }],
+    activeLinkId: "/"
+  }) }}
+{% endblock %}
+{% block beforeContent %}
+  {{ govukBackLink({
+  text: "Back",
+  href: "javascript:window.history.back()"
+}) }}
+{% endblock %}
+
+{% block content %}
+
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+
+      <h1 class="govuk-heading-l">
+        Number component
+      </h1>
+      {{ govukInput({
+  label: {
+    text: "Short label",
+    classes: "govuk-label",
+    isPageHeading: true
+  },
+  hint: {
+    text: "Give the component a short description, for example ‘training course completion date’. Short labels are used in error messages, such as ‘Enter a training course completion date’."
+  },
+  id: "event-name",
+  name: "eventName"
+}) }}
+
+      {{ govukInput({
+  label: {
+    text: "Question label (optional)",
+    classes: "govuk-label",
+    isPageHeading: true
+  },
+  hint: {
+    text: "Use a question label when you want 2 or more related questions on the same page, or if you’ve added guidance above a question. The label must be the question in full, for example, ‘When did you complete your training course?’"
+  },
+  id: "event-name",
+  name: "eventName"
+}) }}
+      {% from "govuk/components/textarea/macro.njk" import govukTextarea %}
+
+      {{ govukTextarea({
+  name: "moreDetail",
+  id: "more-detail",
+  label: {
+    text: "Hint text (optional)",
+    classes: "govuk-label",
+    isPageHeading: false
+  },
+  hint: {
+    text: "Use hint text to help users answer the question."
+  }
+}) }}
+
+      {% from "govuk/components/checkboxes/macro.njk" import govukCheckboxes %}
+
+      {% from "govuk/components/input/macro.njk" import govukInput %}
+
+      {{ govukCheckboxes({
+
+  items: [
+    {
+      value: "optionalComponent",
+      text: "Make number component field optional",
+       hint: {
+        text: "Tick this box if you do not need to complete this field to progress through the form"
+      }
+    }
+  ]
+
+}) }}
+
+      {# {{ govukCheckboxes({
+
+  items: [
+    {
+      value: "exposeContext",
+      text: "Expose to context",
+       hint: {
+        text: "If using additional context, tick this option to expose the field to be used by additional contexts."
+      }
+    }
+  ]
+
+}) }} #}
+
+      <details class="govuk-details">
+        <summary class="govuk-details__summary">
+          <span class="govuk-details__summary-text">
+            Additional settings
+          </span>
+        </summary>
+        <div class="govuk-details__text">
+          {{ govukInput({
+  label: {
+    text: "Min"
+  },
+  hint: {
+    text: "Specifies the lowest number users can enter"
+  },
+  classes: "govuk-input--width-3",
+  id: "min-length",
+  name: "minLength"
+}) }}
+
+          {{ govukInput({
+  label: {
+    text: "Prefix"
+  },
+  hint: {
+    text: "Specifies the prefix of the field"
+  },
+  classes: "govuk-input--width-3",
+  id: "max-length",
+  name: "maxLength"
+}) }}
+
+          {{ govukInput({
+  label: {
+    text: "Suffix"
+  },
+  hint: {
+    text: "Specifies the suffix of the field"
+  },
+  classes: "govuk-input--width-3",
+  id: "max-words",
+  name: "maxWords"
+}) }}
+
+          {{ govukInput({
+  label: {
+    text: "Max"
+  },
+  hint: {
+    text: "Specifies the highest number users can enter"
+  },
+  classes: "govuk-input--width-3",
+  id: "length",
+  name: "length"
+}) }}
+
+          {{ govukInput({
+  label: {
+    text: "Precision"
+  },
+  hint: {
+    text: "Specifies the number of decimal places users can enter. For example, to allow users to enter numbers with up to two decimal places, set this to 2"
+  },
+  classes: "govuk-input--width-3",
+  id: "length",
+  name: "length"
+}) }}
+
+          {{ govukInput({
+  label: {
+    text: "Classes"
+  },
+  hint: {
+    text: "Apply CSS classes to this field. For example, govuk-input govuk-!-width-full."
+  },
+  classes: "govuk-input",
+  id: "classes",
+  name: "classes"
+}) }}
+        </div>
+      </details>
+
+      <div class="govuk-button-group govuk-!-padding-top-4">
+        <a href="/editor-pets/4.html">
+          <button type="submit" class="govuk-button govuk-button" data-module="govuk-button">
+            Save
+          </button>
+        </a>
+        <a href="/cph-overview/closed-success">
+          <button type="submit" class="govuk-button govuk-button--warning" data-module="govuk-button">
+            Delete component
+          </button>
+        </a>
+
+      </div>
+    </div>
+  </div>
+
+{% endblock %}

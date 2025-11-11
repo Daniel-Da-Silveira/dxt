@@ -1,0 +1,158 @@
+{% extends "layouts/main.html" %}
+{% from "components/service-header/macro.njk" import serviceHeader %}
+{% from "moj/components/timeline/macro.njk" import mojTimeline %}
+{% from "govuk/components/table/macro.njk" import govukTable %}
+{% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
+
+{% block header %}
+{{ serviceHeader({
+organisationName: "Defra",
+productName: "Form Designer",
+serviceName: "",
+accountName: "Chris Smith",
+homepageLink: "/",
+signOutLink: "/titan-mvp-1.2/onboarding/sign-out-confirmation",
+navigationItems: [
+{
+href: "/titan-mvp-1.2/library",
+text: "Forms library",
+id: "nav-library"
+},
+{
+href: "/titan-mvp-1.2/form-overview/poc.html",
+text: "Overview",
+id: "nav-overview",
+active: true
+},
+{
+    href: "/titan-mvp-1.2/form-overview/submissions/index-improved-2-table",
+    text: "Responses",
+    id: "nav-submissions"
+},
+{
+href: "/titan-mvp-1.2/form-editor/listing",
+text: "Editor",
+id: "nav-editor"
+}
+],
+activeLinkId: "nav-submissions"
+}) }}
+
+
+<div class="x-govuk-masthead x-govuk-masthead--large">
+    <div class="govuk-width-container">
+        {{ govukBackLink({
+        classes: "govuk-back-link--inverse govuk-!-margin-bottom-0",
+        text: "Back to form overview",
+        href: "/titan-mvp-1.2/form-overview/{{ form.id }}"
+        }) }}
+
+        <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible"
+            style="border-bottom: 1px solid white; margin-bottom: 0" />
+
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-full-from-desktop">
+                <h1 class="x-govuk-masthead__title">
+                    {# <span class="govuk-caption-l" style="color: #fff;">
+                        {{ form.name or "Example Form" }}
+                        </span> #}
+
+                    Download responses as an Excel spreadsheet
+                </h1>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block pageTitle %}
+{{ pageName }}
+{% endblock %}
+
+{% block content %}
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-two-thirds">
+        {% if showSuccessMessage %}
+        {% set html %}
+          <h3 class="govuk-notification-banner__heading">
+            We have emailed a link to your shared mailbox
+          </h3>
+          <p class="govuk-body">This might take a couple of minutes.</p>
+
+          <p class="govuk-body">Shared mailbox: example@example.com</p>
+        {% endset %}
+
+        {{ govukNotificationBanner({
+          html: html,
+          type: "success"
+        }) }}
+        {% endif %}
+
+        {% if showFeedbackSuccessMessage %}
+        {% set feedbackHtml %}
+          <h3 class="govuk-notification-banner__heading">
+            We have emailed a link to your shared mailbox
+          </h3>
+          <p class="govuk-body">This might take a couple of minutes.</p>
+
+          <p class="govuk-body">Shared mailbox: example@example.com</p>
+
+        {% endset %}
+
+        {{ govukNotificationBanner({
+          html: feedbackHtml,
+          type: "success"
+        }) }}
+        {% endif %}
+
+        {% if showErrorMessage %}
+       <div class="govuk-error-summary" data-module="govuk-error-summary">
+  <div role="alert">
+    <h2 class="govuk-error-summary__title">
+      There is a problem
+    </h2>
+    <div class="govuk-error-summary__body">
+      <p>
+        The file couldn&#39;t be loaded. Try again later.
+      </p>
+    </div>
+  </div>
+</div>
+        {% endif %}
+        </div>
+        </div>
+
+        <div class="govuk-!-margin-bottom-6">
+            {{ govukTable({
+            firstCellIsHeader: true,
+            head: [
+              { text: "Type of data" },
+              { text: "How long we keep it" },
+              { text: "Send to shared mailbox" }
+            ],
+            rows: [
+              [
+                { text: "Form submissions" },
+                { text: "9 months after submission" },
+                { html: '<a class="govuk-link" href="/titan-mvp-1.2/form-overview/submissions/improved-2-table/download" id="download-submissions">Send submissions data</a><span class="govuk-visually-hidden"> to shared mailbox</span>' }
+              ],
+              [
+                { text: "User feedback" },
+                { text: "9 months after submission" },
+                { html: '<a class="govuk-link" href="/titan-mvp-1.2/form-overview/submissions/improved-2-table/download-feedback">Send feedback data</a><span class="govuk-visually-hidden"> to shared mailbox</span>' }
+              ]
+            ]
+            }) }}
+        </div>
+
+    </div>
+
+
+</div>
+
+{% endblock %}
+
+

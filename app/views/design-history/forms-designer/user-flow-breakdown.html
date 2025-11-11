@@ -1,0 +1,415 @@
+{# {% extends "layouts/main.html" %} #}
+{% extends "design-history/template.html" %}
+
+
+{% from "components/service-header/macro.njk" import serviceHeader %}
+{% from "govuk/components/summary-list/macro.njk" import govukSummaryList %}
+{% from "govuk/components/breadcrumbs/macro.njk" import govukBreadcrumbs %}
+{% from "govuk/components/tag/macro.njk" import govukTag %}
+{% from "govuk/components/table/macro.njk" import govukTable %}
+{% from "components/contents-list-with-body.njk" import contentsListWithBody %}
+
+{% set featureName = "User flow breakdown for the Titan release of the forms designer" %}
+
+
+{% block head %}
+{{ super() }}
+<style>
+    .govuk-image {
+        max-width: 600px;
+        margin: 0 auto;
+    }
+
+    .govuk-image img {
+        width: 100%;
+        height: auto;
+        display: block;
+    }
+
+    /* .app-prose-scope {
+        max-width: 38em;
+    } */
+
+    .app-related-items {
+        border-top: 2px solid #1d70b8;
+        padding-top: 10px;
+    }
+
+    .app-related-items .govuk-list {
+        margin-top: 0;
+    }
+
+    .app-related-items .govuk-list li {
+        margin-bottom: 0;
+    }
+
+    .app-secondary-text {
+        color: #505a5f !important;
+        font-weight: normal !important;
+    }
+
+    /* Add iframe container styles */
+    .iframe-container {
+        border: 5px solid black;
+        border-radius: 4px;
+        padding: 0;
+        overflow: hidden;
+        position: relative;
+    }
+
+    .iframe-tabs {
+        display: flex;
+        justify-content: flex-end;
+        border-bottom: 1px solid #ccc;
+        background-color: #f8f8f8;
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 10;
+        padding: 10px;
+    }
+
+    .iframe-tab {
+        text-align: center;
+        padding: 10px;
+        font-size: 16px;
+        text-decoration: none;
+        cursor: pointer;
+    }
+
+    .iframe-tab:hover {
+        background-color: #e8e8e8;
+    }
+
+    .iframe-container.fullscreen {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100vh;
+        z-index: 9999;
+        background-color: white;
+    }
+
+    .iframe-container.fullscreen .iframe-tabs {
+        position: fixed;
+        z-index: 9999;
+        background-color: white;
+    }
+
+    .iframe-container.fullscreen .iframe-content {
+        height: calc(100vh - 50px);
+        width: 100%;
+        border: none;
+    }
+</style>
+<script src="/assets/javascripts/components/form-editor/post-navigation.js"></script>
+{% endblock %}
+
+{% block header %}
+{{ serviceHeader({
+organisationName: "Defra",
+productName: "Forms Designer",
+serviceName: "Design history",
+containerClasses: containerClasses,
+homepageLink: "/design-system/components.html",
+signOutLink: "/onboarding/sign-out-confirmation",
+navigationItems: [
+{ href: "/index", text: "Histories and prototypes", id: "histories-and-prototypes" },
+{ href: "/design-system/components.html", text: "Components", id: "components" },
+{ href: "/design-system/user-journeys/home.html", text: "User journeys", id: "user-journeys" }
+],
+activeLinkId: "histories-and-prototypes"
+}) }}
+
+
+<div class="x-govuk-masthead x-govuk-masthead--large">
+    <div class="govuk-width-container">
+        {{ govukBreadcrumbs({
+        classes: "govuk-breadcrumbs--inverse",
+        items: [
+        {
+        text: "Design History",
+        href: "/index.html"
+        },
+        {
+        text: "Transforming the Defra Forms Designer: A design history",
+        href: "/design-history/forms-designer/index.html"
+        },
+        {
+        text: "User flow breakdown for the Titan release of the forms designer"
+        }
+        ]
+        }) }}
+
+        <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible"
+            style="border-bottom: 1px solid white; margin-bottom: 0" />
+
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-full-from-desktop">
+                <h1 class="x-govuk-masthead__title" id="overall-flow-and-page-types">
+                    <span class="govuk-caption-l" style="color: white;">Transforming the Defra Forms Designer: A design
+                        history</span>
+                    Overall Flow and Page Types
+                </h1>
+                <div class="govuk-body" style="color: white; margin-top: 1em;">
+                    <span class="govuk-tag govuk-tag--grey">Post</span>
+                    <span style="margin-left: 1em;">Originally published on 15 May 2024</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-one-quarter app-contents-list--sticky govuk-!-padding-right-0">
+        {# <div data-sticky-element=""
+            class="gem-c-contents-list-with-body__link-wrapper gem-c-contents-list-with-body__sticky-element--enabled gem-c-contents-list-with-body__sticky-element--stuck-to-window govuk-!-padding-top-0 govuk-!-margin-top-0">
+            <div class="gem-c-contents-list-with-body__link-container govuk-!-padding-top-0 govuk-!-margin-top-0">
+                <a class="govuk-link govuk-link--no-visited-state gem-c-back-to-top-link govuk-!-display-none-print"
+                    href="#overall-flow-and-page-types">
+                    <svg class="gem-c-back-to-top-link__icon" xmlns="http://www.w3.org/2000/svg" width="13" height="17"
+                        viewBox="0 0 13 17" aria-hidden="true" focusable="false">
+                        <path fill="currentColor" d="M6.5 0L0 6.5 1.4 8l4-4v12.7h2V4l4.3 4L13 6.4z"></path>
+                    </svg>
+                    Back to top
+                </a>
+            </div>
+        </div> #}
+        {% set contents = [
+        {
+        href: "/design-history/forms-designer/index.html",
+        text: "Re-design overview",
+        items: [
+        {
+        href: "#problem-we-set-out-to-solve",
+        text: "Problem we set out to solve"
+        },
+        {
+        href: "#mapping-out-as-is",
+        text: "Mapping out the current state (as-is)"
+        },
+        {
+        href: "#initial-assessment",
+        text: "Initial assessment: Accessibility and heuristic evaluation"
+        }
+        ]
+        },
+        {
+        href: "/design-history/forms-designer/summary-of-changes.html",
+        text: "Summary of changes and improvements"
+        },
+        {
+        href: "#overall-flow-and-page-types",
+        text: "User flow breakdown for the Titan release of the forms designer",
+        items: [
+        {
+        href: "#core-features-and-page-types",
+        text: "Core features and page types"
+        },
+        {
+        href: "#progressive-enhancement-implementation",
+        text: "Progressive enhancement implementation"
+        },
+        {
+        href: "#reordering-features",
+        text: "Reordering features"
+        }
+        ]
+        }
+        ] %}
+        {{ contentsListWithBody({ contents: contents, alternative_line_style: true }) }}
+    </div>
+    <div class="govuk-grid-column-two-thirds">
+        <div class="app-prose-scope">
+
+            {{ mojTicketPanel({
+            attributes: {
+            "aria-label": "See how each feature"
+            },
+            items: [{
+            html: "<h2 class='govuk-heading-m govuk-!-margin-bottom-2'>See how each feature works</h2>
+            <p class='govuk-body'>This page only provides a high-level overview of the functionality of each feature in
+                the Forms Designer. We've created a more detailed breakdown of each feature.</p>
+            <a class='govuk-button govuk-!-margin-bottom-1' data-module='govuk-button'
+                href='/design-system/components.html' target='_blank' rel='noopener noreferrer'>
+                See how each feature works
+            </a>",
+            attributes: {
+            "aria-label": "Section 1"
+            },
+            classes: "moj-ticket-panel__content--green"
+            }]
+            }) }}
+        </div>
+        <h2 class="govuk-heading-m" id="overall-flow-and-page-types">Summary</h2>
+        <p class="govuk-body">The Forms Designer follows a clear, intuitive flow that guides content designers
+            through the form creation process. The service is built with progressive enhancement principles,
+            ensuring a quality experience for all users, regardless of JavaScript availability.</p>
+
+        <h3 class="govuk-heading-m" id="core-features-and-page-types">Core Features and Page Types</h3>
+        <h4 class="govuk-heading-s">Form Management</h4>
+        <ul class="govuk-list govuk-list--bullet">
+            <li><strong>Form Listing Page:</strong> Summary of all created pages and end pages (including Check
+                answers page), with quick preview functionality when JavaScript is enabled</li>
+            <li><strong>Page Re-ordering:</strong> Intuitive interface for changing page order using up and down
+                controls</li>
+            <li><strong>Form Preview:</strong> Complete preview of the form from start to finish</li>
+        </ul>
+
+        <h4 class="govuk-heading-s">Form Creation</h4>
+        <ul class="govuk-list govuk-list--bullet">
+            <li><strong>Page Type Selection:</strong> Choose between question or guidance page creation</li>
+            <li><strong>Information Type Selection:</strong> Select the specific type of question to add</li>
+            <li><strong>Question Configuration:</strong> Configure individual questions with appropriate settings
+            </li>
+            <li><strong>Page Overview:</strong> Summary of questions, page heading, guidance, multiple response
+                settings, and question reordering</li>
+        </ul>
+
+        <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
+
+        <h3 class="govuk-heading-m" id="progressive-enhancement-implementation">Progressive Enhancement
+            Implementation</h3>
+        <p class="govuk-body">The user journeys for creating pages follow <a class="govuk-link"
+                href="https://www.gov.uk/service-manual/technology/using-progressive-enhancement">progressive
+                enhancement principles</a>, ensuring a quality service for all users, regardless of whether
+            JavaScript is enabled. While the experience may vary slightly for users without JavaScript, the outcomes
+            remain consistent and accessible.</p>
+
+        <iframe style="border: 1px solid rgba(0, 0, 0, 0.1); margin-bottom: 2em;" width="800" height="450"
+            src="https://embed.figma.com/design/1A9Tthy0CJeqp2rGNSKRjH/Defra-Form-Builder-flows?node-id=18388-32046&embed-host=share"
+            allowfullscreen></iframe>
+
+        <h4 class="govuk-heading-s">JavaScript Disabled</h4>
+        <ul class="govuk-list govuk-list--bullet">
+            <li>Preview panels shown separately from configuration panels</li>
+            <li>Preview buttons for viewing questions/pages or error messages</li>
+            <li>Page reloads required for reordering actions</li>
+        </ul>
+
+        <h4 class="govuk-heading-s">Basic Flow (JavaScript disabled)</h4>
+
+        <div class="govuk-grid-column-full-from-desktop govuk-!-margin-bottom-6">
+            <iframe style="border: 1px solid rgba(0, 0, 0, 0.1);" width="100%" height="450"
+                src="https://embed.figma.com/design/1A9Tthy0CJeqp2rGNSKRjH/Defra-Form-Builder-flows?node-id=13385-245749&embed-host=share"
+                allowfullscreen></iframe>
+        </div>
+
+        <p class="govuk-body">This process repeats each time a user adds a new question to the page:</p>
+        <ol class="govuk-list govuk-list--number">
+            <li>
+                Select the type of page:
+                <ul class="govuk-list govuk-list--bullet">
+                    <li>question: Allows users to create a question on the page.</li>
+                    <li>guidance: Provides users with informational content only.</li>
+                </ul>
+            </li>
+            <li>
+                Configure the first question on the page:
+                <ul class="govuk-list govuk-list--bullet">
+                    <li>set a question label, for example, "What is your name?"</li>
+                    <li>optionally, add hint text to guide the user</li>
+                    <li><a class="govuk-link" href="/design-system/information-type/configuration-types">set
+                            specific question configurations</a>, such as whether the question is optional and
+                        <a class="govuk-link" href="/design-system/information-type/answer-limits">answer
+                            limits</a>
+                    </li>
+                </ul>
+            </li>
+            <li>
+                Save the question and proceed to the page overview. From here, users can:
+                <ul class="govuk-list govuk-list--bullet">
+                    <li>edit the saved question if adjustments are needed.</li>
+                    <li><a class="govuk-link" href="/design-system/editor/previews-in-new-tab">preview</a> the
+                        current state of the page.</li>
+                    <li>add another question to the page.</li>
+                    <li><a class="govuk-link" href="/design-system/deletion/pages">delete the page</a> entirely
+                        if
+                        no longer needed.</li>
+                    <li>add a page heading and optional guidance text to provide context for users.</li>
+                    <li>enable the page to allow multiple responses (e.g., selecting multiple options).</li>
+                    <li><a class="govuk-link" href="/design-system/reordering/questions">re-order questions</a>
+                        (if
+                        more than one question has been added).</li>
+                </ul>
+            </li>
+            <li>repeat the process to add more questions or configure additional pages.</li>
+        </ol>
+
+        <h4 class="govuk-heading-s">JavaScript Enabled</h4>
+        <div class="govuk-grid-column-full-from-desktop">
+            <iframe style="border: 1px solid rgba(0, 0, 0, 0.1); margin-bottom: 2em;" width="100%" height="450"
+                src="https://embed.figma.com/design/1A9Tthy0CJeqp2rGNSKRjH/Defra-Form-Builder-flows?node-id=13384-89841&embed-host=share"
+                allowfullscreen></iframe>
+        </div>
+        <p class="govuk-body">When JavaScript is enabled, the main differences are:</p>
+        <ul class="govuk-list govuk-list--bullet">
+            <li>the addition of a <a class="govuk-link" href="/design-system/editor/preview-panel">preview
+                    panel</a>
+                that supports <a class="govuk-link" href="/design-system/editor/guided-input">guided input</a>
+            </li>
+            <li>the use of <a class="govuk-link" href="/design-system/editor/preview-panel">skip links</a>
+                rather
+                than buttons to view previews and navigate between the <a class="govuk-link"
+                    href="/design-system/editor/configuration-panel">configuration panel</a> and <a class="govuk-link"
+                    href="/design-system/editor/preview-panel">preview panel</a></li>
+        </ul>
+
+        <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
+
+
+        <h3 class="govuk-heading-m" id="reordering-features">Reordering Features</h3>
+        <p class="govuk-body">The service includes specialized reordering functionality for different elements:
+        </p>
+        <ul class="govuk-list govuk-list--bullet">
+            <li>Lists (checkboxes, radios)</li>
+            <li>Pages</li>
+            <li>Questions</li>
+        </ul>
+        <p class="govuk-body">All reordering movements include specific screen reader announcements for
+            accessibility.</p>
+
+
+
+
+
+
+
+        {# <div class="govuk-grid-column-one-third">
+            <div class="app-related-items">
+                <h2 class="govuk-heading-s">Related posts</h2>
+                <nav role="navigation" aria-labelledby="related-posts">
+                    <ul class="govuk-list govuk-list--spaced">
+                        <li>
+                            <a href="/design-history/form-overview/posts/form-details.html" class="govuk-link">How
+                                we
+                                present information about forms</a>
+                            <p class="govuk-body-s govuk-!-margin-top-1">Originally published on 26 April
+                                2024</p>
+                        </li>
+                        <li>
+                            <a href="/design-history/form-overview/posts/form-actions.html" class="govuk-link">Making
+                                form
+                                actions intuitive</a>
+                            <p class="govuk-body-s govuk-!-margin-top-1">Originally published on 26 April
+                                2024</p>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div> #}
+
+        {{ govukPagination({
+        previous: {
+        labelText: "Summary of changes and improvements",
+        href: "/design-history/forms-designer/summary-of-changes.html"
+        }
+        }) }}
+    </div>
+</div>
+</div>
+{% endblock %}

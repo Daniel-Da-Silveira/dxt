@@ -1,0 +1,128 @@
+{% extends "layouts/main.html" %}
+
+{% from "govuk/components/summary-list/macro.njk" import govukSummaryList %}
+
+{% block pageTitle %}
+Location details - {{ serviceName }} – GOV.UK
+{% endblock %}
+
+{# {% block beforeContent %}
+{% include "includes/phase-banner.html" %}
+<a class="govuk-back-link" href="/titan-mvp-1.2/form-editor/location/wreck">Back</a>
+{% endblock %} #}
+
+{% block content %}
+
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+
+        <h1 class="govuk-heading-l">Location details</h1>
+
+        {% set locationData = data.location %}
+        {% set locationSummary = [] %}
+
+        <!-- Decimal Degrees -->
+        {% if locationData["location-latitude-decimal"] and locationData["location-longitude-decimal"] %}
+        {% set locationSummary = locationSummary.concat([
+        {
+        key: { text: "Decimal degrees" },
+        value: { text: locationData["location-latitude-decimal"] + "°, " + locationData["location-longitude-decimal"] +
+        "°" }
+        }
+        ]) %}
+        {% endif %}
+
+        <!-- Degrees and Decimal Minutes -->
+        {% if locationData["location-latitude-decimal-minutes-degree"] and
+        locationData["location-longitude-decimal-minutes-degree"] %}
+        {% set locationSummary = locationSummary.concat([
+        {
+        key: { text: "Degrees and decimal minutes" },
+        value: { text: locationData["location-latitude-decimal-minutes-degree"] + "° " +
+        locationData["location-latitude-decimal-minutes-minute"] + "' " +
+        locationData["location-latitude-decimal-minutes-direction"] + ", " +
+        locationData["location-longitude-decimal-minutes-degree"] + "° " +
+        locationData["location-longitude-decimal-minutes-minute"] + "' " +
+        locationData["location-longitude-decimal-minutes-direction"] }
+        }
+        ]) %}
+        {% endif %}
+
+        <!-- Degrees, Minutes and Seconds -->
+        {% if locationData["location-latitude-degrees-degree"] and locationData["location-longitude-degrees-degree"] %}
+        {% set locationSummary = locationSummary.concat([
+        {
+        key: { text: "Degrees, minutes and seconds" },
+        value: { text: locationData["location-latitude-degrees-degree"] + "° " +
+        locationData["location-latitude-degrees-minute"] + "' " + locationData["location-latitude-degrees-second"] + '"
+        ' + locationData["location-latitude-degrees-direction"] + ", " +
+        locationData["location-longitude-degrees-degree"] + "° " + locationData["location-longitude-degrees-minute"] +
+        "' " + locationData["location-longitude-degrees-second"] + '" ' +
+        locationData["location-longitude-degrees-direction"] }
+        }
+        ]) %}
+        {% endif %}
+
+        <!-- UK Grid Reference -->
+        {% if locationData["location-osgrid-square"] and locationData["location-osgrid-easting"] and
+        locationData["location-osgrid-northing"] %}
+        {% set locationSummary = locationSummary.concat([
+        {
+        key: { text: "UK grid reference" },
+        value: { text: locationData["location-osgrid-square"] + " " + locationData["location-osgrid-easting"] + " " +
+        locationData["location-osgrid-northing"] }
+        }
+        ]) %}
+        {% endif %}
+
+        <!-- Map -->
+        {% if locationData["map-latitude-input"] and locationData["map-longitude-input"] and
+        locationData["map-radius-input"] %}
+        {% set locationSummary = locationSummary.concat([
+        {
+        key: { text: "Map area" },
+        value: { text: "Area drawn on interactive map" }
+        }
+        ]) %}
+        {% endif %}
+
+        <!-- Text Description -->
+        {% if locationData["text-location"] and locationData["text-location"].trim().length > 0 %}
+        {% set locationSummary = locationSummary.concat([
+        {
+        key: { text: "Text description" },
+        value: { text: locationData["text-location"] }
+        }
+        ]) %}
+        {% endif %}
+
+        {{ govukSummaryList({
+        rows: locationSummary
+        }) }}
+
+        {% if locationData["location-description"] %}
+        <h2 class="govuk-heading-m">Additional information</h2>
+        <p class="govuk-body">{{ locationData["location-description"] }}</p>
+        {% endif %}
+
+        <form method="post" action="/titan-mvp-1.2/form-editor/location/wreck">
+            {% for key, value in locationData %}
+            <input type="hidden" name="{{ key }}" value="{{ value }}">
+            {% endfor %}
+
+            {{ govukButton({
+            text: "Change location details",
+            classes: "govuk-button--secondary"
+            }) }}
+        </form>
+
+        <form method="post" action="/titan-mvp-1.2/form-editor/next-step">
+            {{ govukButton({
+            text: "Continue"
+            }) }}
+        </form>
+
+    </div>
+</div>
+
+{% endblock %}

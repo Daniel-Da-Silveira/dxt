@@ -1,0 +1,77 @@
+{% extends "layouts/main.html" %}
+{% from "components/service-header/macro.njk" import serviceHeader %}
+{% from "govuk/components/breadcrumbs/macro.njk" import govukBreadcrumbs %}
+{% from "components/contents-list-with-body.njk" import contentsListWithBody %}
+
+{% block pageTitle %}
+Get started – Defra Form Designer – GOV.UK Prototype Kit
+{% endblock %}
+
+{% block header %}
+{{ serviceHeader({
+organisationName: "Defra",
+productName: "Form Designer",
+serviceName: "",
+homepageLink: "/titan-mvp-1.2/product-pages/homepage",
+signInLink: "/titan-mvp-1.2/library",
+showSupportLink: false,
+navigationItems: [
+{ href: "/titan-mvp-1.2/product-pages/about", text: "About", id: "nav-about" },
+{ href: "/titan-mvp-1.2/product-pages/get-started", text: "Get started", id: "nav-get-started" },
+{ href: "/titan-mvp-1.2/product-pages/features", text: "Features", id: "nav-features" },
+{ href: "/titan-mvp-1.2/product-pages/resources", text: "Resources", id: "nav-resources" },
+{ href: "/titan-mvp-1.2/product-pages/support", text: "Support", id: "nav-support" }
+],
+activeLinkId: "nav-get-started"
+}) }}
+
+<div class="x-govuk-masthead x-govuk-masthead--large">
+    <div class="govuk-width-container">
+        {# {{ govukBreadcrumbs({
+        classes: "govuk-breadcrumbs--inverse",
+        items: [
+        {
+        text: "Get started",
+        href: "/titan-mvp-1.2/product-pages/get-started"
+        },
+        {
+        text: "Getting started guide"
+        }
+        ]
+        }) }} #}
+
+        {#
+        <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible"
+            style="border-bottom: 1px solid white; margin-bottom: 0" /> #}
+
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-full-from-desktop">
+                <h1 class="x-govuk-masthead__title" id="get-started">
+                    <span class="govuk-caption-l" style="color: white;">Getting started guide</span>
+                    Get started with Defra Form Designer
+                </h1>
+                <div class="govuk-body" style="color: white; margin-top: 1em;">
+                    <span class="govuk-tag govuk-tag--grey">Guide</span>
+                    <span style="margin-left: 1em;">Follow our step-by-step process to create and publish your
+                        forms</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block content %}
+<script>
+    // Redirect to the first section
+    window.location.href = '/titan-mvp-1.2/product-pages/get-started/get-access';
+</script>
+
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+        <div class="app-prose-scope">
+            <p class="govuk-body">Redirecting to the first section...</p>
+        </div>
+    </div>
+</div>
+{% endblock %}

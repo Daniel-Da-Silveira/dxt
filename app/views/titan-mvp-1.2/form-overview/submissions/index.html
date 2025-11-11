@@ -1,0 +1,141 @@
+{% extends "layouts/main.html" %}
+{% from "components/service-header/macro.njk" import serviceHeader %}
+{% from "moj/components/timeline/macro.njk" import mojTimeline %}
+
+{% block header %}
+{{ serviceHeader({
+organisationName: "Defra",
+productName: "Form Designer",
+serviceName: "Apply for an individual licence to release gamebirds on or near a European Site ",
+accountName: "Chris Smith",
+homepageLink: "/",
+signOutLink: "/titan-mvp-1.2/onboarding/sign-out-confirmation",
+navigationItems: [
+{
+href: "/titan-mvp-1.2/library",
+text: "Forms library",
+id: "nav-library"
+},
+{
+href: "/titan-mvp-1.2/form-overview/{{ form.id }}",
+text: "Overview",
+id: "nav-overview",
+active: true
+},
+{
+    href: "/titan-mvp-1.2/form-overview/poc",
+    text: "Submissions",
+    id: "nav-submissions"
+},
+{
+href: "/titan-mvp-1.2/form-editor/listing",
+text: "Editor",
+id: "nav-editor"
+}
+],
+activeLinkId: "nav-submissions"
+}) }}
+
+{{ xGovukMasthead({
+    title: {
+    text: "Form submissions"
+    },
+    breadcrumbs: {
+    items: [
+    {
+        text: "Forms library",
+        href: "/titan-mvp-1.2/library"
+        },
+    {
+    text: "Forms overview",
+    href: "/titan-mvp-1.2/form-overview/{{ form.id }}"
+    },
+    {
+    text: "Form submissions"
+    }
+    ]
+    }
+    }) }}
+{% endblock %}
+
+{% block pageTitle %}
+{{ pageName }}
+{% endblock %}
+
+{# {% block beforeContent %}
+{{ govukBackLink({
+text: "Back to forms library",
+href: "/titan-mvp-1.2/library"
+}) }}
+{% endblock %} #}
+
+
+
+{% block content %}
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+        {% if showSuccessMessage %}
+        {% set html %}
+          <h3 class="govuk-notification-banner__heading">
+            We have emailed a link to your shared mailbox
+          </h3>
+          <p class="govuk-body">This might take a couple of minutes.</p>
+        {% endset %}
+
+        {{ govukNotificationBanner({
+          html: html,
+          type: "success"
+        }) }}
+        {% endif %}
+
+        {% if showFeedbackSuccessMessage %}
+        {% set feedbackHtml %}
+          <h3 class="govuk-notification-banner__heading">
+            We have emailed a link to your shared mailbox
+          </h3>
+          <p class="govuk-body">This might take a couple of minutes.</p>
+        {% endset %}
+
+        {{ govukNotificationBanner({
+          html: feedbackHtml,
+          type: "success"
+        }) }}
+        {% endif %}
+
+        <h2 class="govuk-heading-m">Download form submissions</h2>
+        <p class="govuk-body">Get form submissions as a CSV file.</p>
+        {{ govukWarningText({
+        text: "Data expires 9 months after submission",
+        iconFallbackText: "Warning"
+        }) }}
+
+        <form method="post" action="/titan-mvp-1.2/form-overview/submissions/download">
+          {{ govukButton({
+            text: "Download submissions",
+            classes: "govuk-button--secondary"
+          }) }}
+        </form>
+
+        <h2 class="govuk-heading-m">Download feedback</h2>
+        <p class="govuk-body">Get feedback about this form as an Excel spreadsheet.</p>
+        {{ govukWarningText({
+        text: "Feedback expires 3 months after submission",
+        iconFallbackText: "Warning"
+        }) }}
+
+        <form method="post" action="/titan-mvp-1.2/form-overview/submissions/download-feedback">
+          {{ govukButton({
+            text: "Download feedback",
+            classes: "govuk-button--secondary"
+          }) }}
+        </form>
+
+
+    </div>
+
+    <div class="govuk-grid-column-one-third-from-desktop">
+
+    </div>
+</div>
+
+{% endblock %}

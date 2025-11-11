@@ -1,0 +1,47 @@
+{% from "govuk/components/summary-list/macro.njk" import govukSummaryList %}
+
+<h1 class="govuk-heading-l">Privacy notice</h1>
+<p class="govuk-body">This is the privacy notice tab content.</p>
+
+<form class="form" action="/titan-mvp-1.2/form-editor/listing" method="post">
+  {{ govukSummaryList({
+    rows: [
+      {
+        key: {
+          text: "Privacy notice link"
+        },
+        value: {
+          html: '<span id="privacy-notice-value">Loading privacy notice link...</span>'
+        },
+        actions: {
+          items: [
+            {
+              html: '<a href="/titan-mvp-1.2/form-overview/support/add-privacy-notice" class="govuk-link govuk-link--no-visited-state" id="privacy-notice-action">Add privacy notice link</a>'
+            }
+          ]
+        }
+      }
+    ]
+  }) }}
+
+  <a href="#privacy-notice-preview" class="govuk-skip-link" style="margin-bottom: 30px!important;" data-module="govuk-skip-link">
+    Skip to privacy notice preview
+  </a>
+</form>
+
+<script>
+  // Load privacy notice data and update the display
+  document.addEventListener('DOMContentLoaded', function() {
+    const privacyNoticeValue = document.getElementById('privacy-notice-value');
+    const privacyNoticeAction = document.getElementById('privacy-notice-action');
+
+    // Handle privacy notice link
+    {% if data['privacyNoticeLink'] %}
+      privacyNoticeValue.innerHTML = '<a href="{{ data["privacyNoticeLink"] }}" class="govuk-link govuk-link--no-visited-state" target="_blank" rel="noopener noreferrer">{{ data["privacyNoticeLink"] }}</a>';
+      privacyNoticeAction.textContent = 'Change';
+    {% else %}
+      privacyNoticeValue.innerHTML = '<a href="/titan-mvp-1.2/form-overview/support/add-privacy-notice" class="govuk-link govuk-link--no-visited-state">Add privacy notice link</a>';
+      privacyNoticeAction.style.display = 'none';
+    {% endif %}
+  });
+</script> 

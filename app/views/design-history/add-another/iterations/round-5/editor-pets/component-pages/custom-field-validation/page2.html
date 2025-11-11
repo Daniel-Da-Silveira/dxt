@@ -1,0 +1,152 @@
+{% extends "layouts/main.html" %}
+
+{% from "components/service-header/macro.njk" import serviceHeader %}
+
+{% set pageName = "Custom reference number - Apply for a county parish holding number in England" %}
+
+{% block header %}
+  {{ serviceHeader({
+    organisationName: "Defra",
+    productName: "Forms Designer",
+    serviceName: "",
+    accountName: "Chris Smith",
+    homepageLink: "/",
+    signOutLink: "/onboarding/sign-out-confirmation",
+    navigationItems: [
+    {
+      href: "/library.html",
+      text: "Forms library",
+      id: "library"
+     },
+    {
+      href: "/cph-overview/draft/complete-clean.html",
+      text: "Overview",
+      id: "overview"
+     },{
+         href: "/editor-pets/1.html",
+    text: 'Editor',
+    id: 'editor'
+    }],
+    activeLinkId: "/"
+  }) }}
+{% endblock %}
+
+{% block beforeContent %}
+  {{ govukBackLink({
+  text: "Back",
+  href: "javascript:window.history.back()"
+}) }}
+{% endblock %}
+
+{% block content %}
+
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+
+      <h1 class="govuk-heading-l">
+        Reference number in a specific format: character combinations
+      </h1>
+
+      {% from "govuk/components/inset-text/macro.njk" import govukInsetText %}
+
+      {{ govukInsetText({
+  html: '<p class="govuk-body">You have selected to ask for a reference with a minimum of 9 characters and maximum of 9 characters.</p><p><a href="javascript:window.history.back()" class="govuk-link">Change selection</a></p>'
+}) }}
+
+      <div class="govuk-form-group">
+        <h1 class="govuk-label-wrapper">
+          <label class="govuk-label govuk-label" for="cost">
+            Enter the character combinations you will accept
+          </label>
+        </h1>
+        <div id="event-name-hint" class="govuk-hint">
+          <details class="govuk-details">
+            <summary class="govuk-details__summary">
+              <span class="govuk-details__summary-text">
+                Guidance
+              </span>
+            </summary>
+            <div class="govuk-details__text">
+              <label class="govuk-label govuk-label--s" for="cost">
+                Letters</label>
+              <ul class="govuk-list govuk-list--bullet">
+                <li>To accept any letter from A to Z, enter “A-Z”</li>
+                <li>To accept a specific range of letters, enter the first letter in the range followed by the last letter. For example, to accept letters only between C and G, enter “C-G”.</li>
+                <li>To accept more than one range of letters, separate each range with a comma. For example, “C-G, X-Y”.
+                </li>
+                <li>To accept a specific letter, enter just the required letter on its own.</li>
+              </ul>
+              <label class="govuk-label govuk-label--s" for="cost">
+                Numbers</label>
+              <ul class="govuk-list govuk-list--bullet">
+                <li>To include all numbers (0 to 9), enter "0-9".</li>
+                <li>To include numbers only within a certain range, enter the starting number and the ending number with a dash between them. For example, for numbers from 4 to 6, enter "4-6".</li>
+                <li>To include just one specific number, enter that number by itself.</li>
+              </ul>
+            </div>
+          </details>
+        </div>
+        <div class="govuk-input__wrapper">
+          <div class="govuk-input__prefix" aria-hidden="true">1</div>
+          <input class="govuk-input govuk-input--width-4  govuk-!-margin-bottom-2" id="cost" name="cost" type="text" spellcheck="false">
+        </div>
+        <div class="govuk-input__wrapper">
+          <div class="govuk-input__prefix" aria-hidden="true">2</div>
+          <input class="govuk-input govuk-input--width-4  govuk-!-margin-bottom-2" id="cost" name="cost" type="text" spellcheck="false">
+        </div>
+        <div class="govuk-input__wrapper">
+          <div class="govuk-input__prefix" aria-hidden="true">3</div>
+          <input class="govuk-input govuk-input--width-4  govuk-!-margin-bottom-2" id="cost" name="cost" type="text" spellcheck="false">
+        </div>
+        <div class="govuk-input__wrapper">
+          <div class="govuk-input__prefix" aria-hidden="true">4</div>
+          <input class="govuk-input govuk-input--width-4 govuk-!-margin-bottom-2" id="cost" name="cost" type="text" spellcheck="false">
+        </div>
+        <div class="govuk-input__wrapper">
+          <div class="govuk-input__prefix" aria-hidden="true">5</div>
+          <input class="govuk-input govuk-input--width-4 govuk-!-margin-bottom-2" id="cost" name="cost" type="text" spellcheck="false">
+        </div>
+        <div class="govuk-input__wrapper">
+          <div class="govuk-input__prefix" aria-hidden="true">6</div>
+          <input class="govuk-input govuk-input--width-4  govuk-!-margin-bottom-2" id="cost" name="cost" type="text" spellcheck="false">
+        </div>
+        <div class="govuk-input__wrapper">
+          <div class="govuk-input__prefix" aria-hidden="true">7</div>
+          <input class="govuk-input govuk-input--width-4  govuk-!-margin-bottom-2" id="cost" name="cost" type="text" spellcheck="false">
+        </div>
+        <div class="govuk-input__wrapper">
+          <div class="govuk-input__prefix" aria-hidden="true">8</div>
+          <input class="govuk-input govuk-input--width-4  govuk-!-margin-bottom-2" id="cost" name="cost" type="text" spellcheck="false">
+        </div>
+        <div class="govuk-input__wrapper">
+          <div class="govuk-input__prefix" aria-hidden="true">9</div>
+          <input class="govuk-input govuk-input--width-4  govuk-!-margin-bottom-2" id="cost" name="cost" type="text" spellcheck="false">
+        </div>
+
+      </div>
+
+      <div style="background-color: #f3f2f1; padding: 20px; width: autofit;">
+        <h2 class="govuk-heading-s">Preview of a valid reference number entry</h2>
+        <div id="event-name-hint" class="govuk-hint">
+          PX123456X
+        </div>
+
+      </div>
+
+      <div class="govuk-button-group govuk-!-padding-top-4">
+        <a href="/editor-pets/2.html">
+          <button type="submit" class="govuk-button govuk-button" data-module="govuk-button">
+            Save
+          </button>
+        </a>
+        <a href="/cph-overview/closed-success">
+          <button type="submit" class="govuk-button govuk-button--warning" data-module="govuk-button">
+            Delete component
+          </button>
+        </a>
+
+      </div>
+    </div>
+  </div>
+
+{% endblock %}

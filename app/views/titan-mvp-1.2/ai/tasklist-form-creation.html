@@ -1,0 +1,275 @@
+{% extends "layouts/main.html" %}
+
+{% from "components/service-header/macro.njk" import serviceHeader %}
+
+{% set pageName = "AI Form Creation - Task List" %}
+
+{% block header %}
+{{ serviceHeader({
+organisationName: "Defra",
+productName: "Forms designer",
+serviceName: "",
+accountName: "Chris Smith",
+homepageLink: "/",
+signOutLink: "/titan-mvp-1.2/onboarding/sign-out-confirmation",
+navigationItems: [{
+href: "/titan-mvp-1.2/library",
+text: "Library",
+id: "titan-mvp-1.2/library"
+}]
+}) }}
+
+<div class="x-govuk-masthead x-govuk-masthead--large">
+    <div class="govuk-width-container">
+        {{ govukBackLink({
+        classes: "govuk-back-link--inverse govuk-!-margin-bottom-0",
+        text: commonTerms.form_editor.navigation.back_to_add_edit_pages,
+        href: "/titan-mvp-1.2/form-editor/listing.html"
+        }) }}
+
+        <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible"
+            style="border-bottom: 1px solid white; margin-bottom: 0" />
+
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-full-from-desktop">
+                <h1 class="x-govuk-masthead__title">Create a new AI-generated form
+                </h1>
+                {# <p class="x-govuk-masthead__description">
+                    Complete all the tasks below to create your form requirements.
+                </p> #}
+            </div>
+
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+
+
+{% block content %}
+
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+
+        <h2 class="govuk-heading-m">Step 1: required information</h2>
+        <p class="govuk-body">You must complete both tasks to use the AI form creation tool.</p>
+
+        {% set completedStatus = {
+        text: "Completed"
+        } %}
+
+        {% set notStartedStatus = {
+        tag: {
+        text: "Not yet started",
+        classes: "govuk-tag--blue"
+        }
+        } %}
+
+        {% set inProgressStatus = {
+        tag: {
+        text: "In progress",
+        classes: "govuk-tag--light-blue"
+        }
+        } %}
+
+        {% set cannotStartYetStatus = {
+        text: "Cannot start yet"
+        } %}
+
+        {{ govukTaskList({
+        idPrefix: "essential-information",
+        items: [
+        {
+        title: {
+        text: "Describe what the form is for"
+        },
+        hint: {
+        text: ""
+        },
+        href: "/titan-mvp-1.2/ai/task/form-aim",
+        status: (completedStatus if (taskStatuses.formAim == 'completed') else (inProgressStatus if (formAimStarted or
+        taskStatuses.formAim == 'incomplete') else notStartedStatus))
+        },
+        {
+        title: {
+        text: "Describe the pages"
+        },
+        hint: {
+        text: ""
+        },
+        href: "/titan-mvp-1.2/ai/task/page-description",
+        status: (completedStatus if (taskStatuses.pageDescription == 'completed') else (inProgressStatus if
+        (pageDescriptionStarted or taskStatuses.pageDescription == 'incomplete') else notStartedStatus))
+        }
+        ]
+        }) }}
+
+
+        {# {% set essentialCompleted = 0 %}
+        {% if formAim %} {% set essentialCompleted = essentialCompleted + 1 %} {% endif %}
+        {% if pageDescription %} {% set essentialCompleted = essentialCompleted + 1 %} {% endif %}
+        {% if referenceLinks %} {% set essentialCompleted = essentialCompleted + 1 %} {% endif %}
+
+        {% if essentialCompleted >= 2 %}
+        <div class="govuk-inset-text">
+            <p class="govuk-body"><strong>Step 1 completed</strong></p>
+            <p class="govuk-body">You have completed {{ essentialCompleted }} of 3 essential tasks. You can now proceed
+                to the next step.</p>
+        </div>
+        {% else %}
+        <div class="govuk-inset-text">
+            <p class="govuk-body"><strong>Step 1 incomplete</strong></p>
+            <p class="govuk-body">You have completed {{ essentialCompleted }} of 3 essential tasks. Complete at least 2
+                tasks to proceed to the next step.</p>
+        </div>
+        {% endif %} #}
+
+        <h2 class="govuk-heading-m govuk-!-margin-top-6">Step 2: Optional information</h2>
+        <p class="govuk-body">These tasks are optional but can help improve the AI's understanding of your requirements.
+        </p>
+
+        {{ govukTaskList({
+        idPrefix: "additional-context",
+        items: [
+        {
+        title: {
+        text: "Describe any page conditions"
+        },
+        hint: {
+        text: ""
+        },
+        href: "/titan-mvp-1.2/ai/task/conditional-logic",
+        status: (completedStatus if (taskStatuses.conditionalLogic == 'completed') else (inProgressStatus if
+        (conditionalLogicStarted or taskStatuses.conditionalLogic == 'incomplete') else notStartedStatus))
+        },
+        {
+        title: {
+        text: "Upload wireframes"
+        },
+        hint: {
+        text: ""
+        },
+        href: "/titan-mvp-1.2/ai/task/wireframe",
+        status: (completedStatus if (taskStatuses.wireframe == 'completed') else (inProgressStatus if
+        (wireframeUploadStarted or taskStatuses.wireframe == 'incomplete') else notStartedStatus))
+        },
+
+        {
+        title: {
+        text: "Share links to similar forms or guidance"
+        },
+        hint: {
+        text: ""
+        },
+        href: "/titan-mvp-1.2/ai/task/reference-links",
+        status: (completedStatus if (taskStatuses.referenceLinks == 'completed') else (inProgressStatus if
+        (referenceLinksStarted or taskStatuses.referenceLinks == 'incomplete') else notStartedStatus))
+        }
+        ]
+        }) }}
+
+        {% set additionalCompleted = 0 %}
+        {% if wireframeUploadCompleted %} {% set additionalCompleted = additionalCompleted + 1 %} {% endif %}
+        {% if questionProtocolCompleted %} {% set additionalCompleted = additionalCompleted + 1 %} {% endif %}
+        {% if conditionalLogicCompleted %} {% set additionalCompleted = additionalCompleted + 1 %} {% endif %}
+        {% if referenceLinks %} {% set additionalCompleted = additionalCompleted + 1 %} {% endif %}
+
+
+        <h2 class="govuk-heading-m govuk-!-margin-top-6">Step 3: Check and submit</h2>
+        <p class="govuk-body">You can review and submit after you add the required information.</p>
+
+        {% set essentialCompleted = 0 %}
+        {% if taskStatuses.formAim == 'completed' %} {% set essentialCompleted = essentialCompleted + 1 %} {% endif %}
+        {% if taskStatuses.pageDescription == 'completed' %} {% set essentialCompleted = essentialCompleted + 1 %} {%
+        endif %}
+
+        {% set reviewStatus = (cannotStartYetStatus if essentialCompleted < 2 else notStartedStatus) %} {% if
+            essentialCompleted>= 2 %}
+            {{ govukTaskList({
+            idPrefix: "review-section",
+            items: [
+            {
+            title: {
+            text: "Review your prompt before submitting"
+            },
+            hint: {
+            text: ""
+            },
+            href: "/titan-mvp-1.2/ai/task/review",
+            status: reviewStatus
+            }
+            ]
+            }) }}
+            {% else %}
+            {{ govukTaskList({
+            idPrefix: "review-section",
+            items: [
+            {
+            title: {
+            text: "Check your prompt"
+            },
+            hint: {
+            text: ""
+            },
+            status: reviewStatus
+            }
+            ]
+            }) }}
+            {% endif %}
+
+            <div class="govuk-!-margin-top-6">
+                {# {% set completedTasks = 0 %}
+                {% if wireframeUploadCompleted %} {% set completedTasks = completedTasks + 1 %} {% endif %}
+                {% if questionProtocolCompleted %} {% set completedTasks = completedTasks + 1 %} {% endif %}
+                {% if referenceLinks %} {% set completedTasks = completedTasks + 1 %} {% endif %}
+                {% if pageDescription %} {% set completedTasks = completedTasks + 1 %} {% endif %}
+                {% if formAim %} {% set completedTasks = completedTasks + 1 %} {% endif %}
+                {% if conditionalLogicCompleted %} {% set completedTasks = completedTasks + 1 %} {% endif %}
+
+                {% set requiredTasks = 0 %}
+                {% if referenceLinks %} {% set requiredTasks = requiredTasks + 1 %} {% endif %}
+                {% if pageDescription %} {% set requiredTasks = requiredTasks + 1 %} {% endif %}
+                {% if formAim %} {% set requiredTasks = requiredTasks + 1 %} {% endif %}
+
+                <div class="govuk-inset-text">
+                    <p class="govuk-body">
+                        <strong>Overall progress:</strong> {{ completedTasks }} of 6 tasks completed
+                    </p>
+                    <p class="govuk-body">
+                        <strong>Essential tasks:</strong> {{ requiredTasks }} of 3 completed
+                    </p>
+                    {% if requiredTasks >= 2 %}
+                    <p class="govuk-body">
+                        You can now review your assembled prompt and submit to the AI system.
+                    </p>
+                    {% else %}
+                    <p class="govuk-body">
+                        Complete at least 2 of the essential tasks (form aim, page descriptions, or reference links) to
+                        review your assembled prompt.
+                    </p>
+                    {% endif %}
+                </div> #}
+
+                {% if requiredTasks >= 2 %}
+                <div class="govuk-button-group">
+                    {{ govukButton({
+                    text: "Review and submit",
+                    href: "/titan-mvp-1.2/ai/task/review",
+                    classes: "govuk-button"
+                    }) }}
+                </div>
+                {% endif %}
+            </div>
+
+
+    </div>
+
+</div>
+
+<style>
+    .govuk-sticky {
+        position: sticky;
+        top: 20px;
+    }
+</style>
+{% endblock %}

@@ -1,0 +1,345 @@
+{% extends "layouts/main.html" %}
+{% from "govuk/components/notification-banner/macro.njk" import govukNotificationBanner %}
+
+{% block content %}
+<div class="govuk-width-container">
+    <h1 class="govuk-heading-l">Error messages and summaries - Conditions</h1>
+
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <h2 class="govuk-heading-m">Common form field errors</h2>
+            <p class="govuk-body">These error states are shared between the manager and edit pages.</p>
+
+            <!-- Error Summary - Appears directly below sub-navigation -->
+            <div class="govuk-error-summary" data-module="govuk-error-summary">
+                <div role="alert">
+                    <h2 class="govuk-error-summary__title">
+                        There is a problem
+                    </h2>
+                    <div class="govuk-error-summary__body">
+                        <ul class="govuk-list govuk-error-summary__list">
+                            <!-- First condition errors -->
+                            <li>
+                                <a href="#questionSelect">Select a question for condition 1</a>
+                            </li>
+                            <li>
+                                <a href="#operatorSelect">Select a condition type for condition 1</a>
+                            </li>
+                            <li>
+                                <a href="#valueContainer">Select a value for condition 1</a>
+                            </li>
+                            <!-- Second condition errors -->
+                            <li>
+                                <a href="#condition-question-2">Select a question for condition 2</a>
+                            </li>
+                            <li>
+                                <a href="#condition-operator-2">Select a condition type for condition 2</a>
+                            </li>
+                            <li>
+                                <a href="#condition-value-container-2">Select a value for condition 2</a>
+                            </li>
+                            <!-- Condition name error -->
+                            <li>
+                                <a href="#conditionName">Enter condition name</a>
+                            </li>
+                            <!-- Duplicate condition name error -->
+                            <li>
+                                <a href="#conditionName">Condition name already exists - use a unique condition name</a>
+                            </li>
+                            <!-- No conditions selected error -->
+                            <li>
+                                <a href="#existing-conditions">Select existing condition</a>
+                            </li>
+                            <!-- Logical operator error (when multiple conditions) -->
+                            <li>
+                                <a href="#logical-operator-group">Choose how you want to combine conditions</a>
+                            </li>
+                            <!-- Join conditions errors -->
+                            <li>
+                                <a href="#join-conditions">Select at least two conditions to join</a>
+                            </li>
+                            <li>
+                                <a href="#joined-condition-name">Enter a name for the joined condition</a>
+                            </li>
+                            <!-- Page selection errors -->
+                            <li>
+                                <a href="#pages-selection">Select at least one page to apply the condition to</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <h3 class="govuk-heading-s">Individual field errors</h3>
+
+            <!-- Empty Question Selection -->
+            <div class="govuk-form-group govuk-form-group--error">
+                <label class="govuk-label" for="questionSelect">
+                    Select a question
+                </label>
+                <p id="questionSelect-error" class="govuk-error-message">
+                    <span class="govuk-visually-hidden">Error:</span> Select a question for condition 1
+                </p>
+                <select class="govuk-select govuk-select--error" id="questionSelect" name="question">
+                    <option value="">Choose a question</option>
+                    <option value="1">Are you a farmer?</option>
+                    <option value="2">What type of livestock do you have?</option>
+                </select>
+            </div>
+
+            <!-- Empty Condition Type -->
+            <div class="govuk-form-group govuk-form-group--error">
+                <label class="govuk-label" for="operatorSelect">
+                    Condition type
+                </label>
+                <p id="operatorSelect-error" class="govuk-error-message">
+                    <span class="govuk-visually-hidden">Error:</span> Select a condition type for condition 1
+                </p>
+                <select class="govuk-select govuk-select--error" id="operatorSelect" name="operator">
+                    <option value="">Select a condition type</option>
+                    <option value="is">is</option>
+                    <option value="is-not">is not</option>
+                </select>
+            </div>
+
+            <!-- Empty Condition Value -->
+            <div class="govuk-form-group govuk-form-group--error">
+                <label class="govuk-label" for="valueContainer">
+                    Select a value
+                </label>
+                <p id="valueContainer-error" class="govuk-error-message">
+                    <span class="govuk-visually-hidden">Error:</span> Select a value for condition 1
+                </p>
+                <div class="govuk-radios" data-module="govuk-radios">
+                    <div class="govuk-radios__item">
+                        <input class="govuk-radios__input" type="radio" name="value" id="value-yes" value="Yes">
+                        <label class="govuk-label govuk-radios__label" for="value-yes">Yes</label>
+                    </div>
+                    <div class="govuk-radios__item">
+                        <input class="govuk-radios__input" type="radio" name="value" id="value-no" value="No">
+                        <label class="govuk-label govuk-radios__label" for="value-no">No</label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Empty Condition Name -->
+            <div class="govuk-form-group govuk-form-group--error">
+                <label class="govuk-label" for="conditionName">
+                    Condition name
+                </label>
+                <div class="govuk-hint">
+                    Condition names help you to identify conditions in your form, for example, 'Not a farmer'.
+                    Users will not see condition names.
+                </div>
+                <p id="conditionName-error" class="govuk-error-message">
+                    <span class="govuk-visually-hidden">Error:</span> Enter condition name
+                </p>
+                <input class="govuk-input govuk-input--error" id="conditionName" name="conditionName" type="text">
+            </div>
+
+            <!-- Duplicate Condition Name -->
+            <div class="govuk-form-group govuk-form-group--error">
+                <label class="govuk-label" for="conditionName">
+                    Condition name
+                </label>
+                <p id="conditionName-duplicate-error" class="govuk-error-message">
+                    <span class="govuk-visually-hidden">Error:</span> Condition name already exists - use a unique
+                    condition name
+                </p>
+                <input class="govuk-input govuk-input--error" id="conditionName" name="conditionName" type="text">
+            </div>
+
+            <!-- No Conditions Selected -->
+            <div class="govuk-form-group govuk-form-group--error">
+                <label class="govuk-label" for="existing-conditions">
+                    Select existing condition
+                </label>
+                <p id="existing-conditions-error" class="govuk-error-message">
+                    <span class="govuk-visually-hidden">Error:</span> Select existing condition
+                </p>
+                <select class="govuk-select govuk-select--error" id="existing-conditions" name="existing-conditions">
+                    <option value="">Choose a condition</option>
+                </select>
+            </div>
+
+            <!-- Join Conditions Errors -->
+            <div class="govuk-form-group govuk-form-group--error">
+                <label class="govuk-label" for="join-conditions">
+                    Join conditions
+                </label>
+                <p id="join-conditions-error" class="govuk-error-message">
+                    <span class="govuk-visually-hidden">Error:</span> Select at least two conditions to join
+                </p>
+                <div class="govuk-checkboxes" data-module="govuk-checkboxes">
+                    <div class="govuk-checkboxes__item">
+                        <input class="govuk-checkboxes__input" id="condition-1" name="conditions" type="checkbox"
+                            value="1">
+                        <label class="govuk-label govuk-checkboxes__label" for="condition-1">Condition 1</label>
+                    </div>
+                    <div class="govuk-checkboxes__item">
+                        <input class="govuk-checkboxes__input" id="condition-2" name="conditions" type="checkbox"
+                            value="2">
+                        <label class="govuk-label govuk-checkboxes__label" for="condition-2">Condition 2</label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Edit Joined Conditions Errors -->
+            <div class="govuk-form-group govuk-form-group--error">
+                <fieldset class="govuk-fieldset">
+                    <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">
+                        Joined conditions
+                    </legend>
+                    <p id="joined-conditions-error" class="govuk-error-message">
+                        <span class="govuk-visually-hidden">Error:</span> Select at least two conditions to join
+                    </p>
+                    <div class="govuk-hint">
+                        Select at least two conditions
+                    </div>
+                    <div class="govuk-checkboxes govuk-checkboxes--small" data-module="govuk-checkboxes">
+                        <div class="govuk-checkboxes__item">
+                            <input class="govuk-checkboxes__input" id="edit-condition-1" name="selectedConditions"
+                                type="checkbox" value="1">
+                            <label class="govuk-label govuk-checkboxes__label" for="edit-condition-1">
+                                <span class="govuk-!-font-weight-bold">Condition 1</span><br>
+                                <span class="govuk-body-s">Are you a farmer? is 'Yes'</span>
+                            </label>
+                        </div>
+                        <div class="govuk-checkboxes__item">
+                            <input class="govuk-checkboxes__input" id="edit-condition-2" name="selectedConditions"
+                                type="checkbox" value="2">
+                            <label class="govuk-label govuk-checkboxes__label" for="edit-condition-2">
+                                <span class="govuk-!-font-weight-bold">Condition 2</span><br>
+                                <span class="govuk-body-s">What type of livestock do you have? is 'Cattle'</span>
+                            </label>
+                        </div>
+                    </div>
+                </fieldset>
+            </div>
+
+            <!-- Joined Condition Name -->
+            <div class="govuk-form-group govuk-form-group--error">
+                <label class="govuk-label" for="joined-condition-name">
+                    Name for joined condition
+                </label>
+                <p id="joined-condition-name-error" class="govuk-error-message">
+                    <span class="govuk-visually-hidden">Error:</span> Enter a name for the joined condition
+                </p>
+                <input class="govuk-input govuk-input--error" id="joined-condition-name" name="joined-condition-name"
+                    type="text">
+            </div>
+
+            <!-- Page Selection Errors -->
+            <div class="govuk-form-group govuk-form-group--error">
+                <label class="govuk-label" for="pages-selection">
+                    Select pages
+                </label>
+                <p id="pages-selection-error" class="govuk-error-message">
+                    <span class="govuk-visually-hidden">Error:</span> Select at least one page to apply the condition to
+                </p>
+                <div class="govuk-checkboxes" data-module="govuk-checkboxes">
+                    <div class="govuk-checkboxes__item">
+                        <input class="govuk-checkboxes__input" id="page-1" name="pages" type="checkbox" value="1">
+                        <label class="govuk-label govuk-checkboxes__label" for="page-1">Page 1</label>
+                    </div>
+                    <div class="govuk-checkboxes__item">
+                        <input class="govuk-checkboxes__input" id="page-2" name="pages" type="checkbox" value="2">
+                        <label class="govuk-label govuk-checkboxes__label" for="page-2">Page 2</label>
+                    </div>
+                </div>
+            </div>
+
+            <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+
+            <h2 class="govuk-heading-m">Page specific contexts</h2>
+
+            <!-- Manager page context -->
+            <h3 class="govuk-heading-s">Conditions manager page</h3>
+            <nav class="moj-sub-navigation govuk-!-padding-top-0 govuk-!-margin-bottom-2" aria-label="Sub navigation">
+                <ul class="moj-sub-navigation__list">
+                    <li class="moj-sub-navigation__item">
+                        <a class="moj-sub-navigation__link" aria-current="page" href="#">
+                            All conditions
+                        </a>
+                    </li>
+                    <li class="moj-sub-navigation__item">
+                        <a class="moj-sub-navigation__link" href="#">
+                            Add condition
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+            <p class="govuk-body">Uses the common form fields above when adding a new condition.</p>
+
+            <!-- Edit page context -->
+            <h3 class="govuk-heading-s">Edit condition page</h3>
+            <nav class="moj-sub-navigation govuk-!-padding-top-0 govuk-!-margin-bottom-2" aria-label="Sub navigation">
+                <ul class="moj-sub-navigation__list">
+                    <li class="moj-sub-navigation__item">
+                        <a class="moj-sub-navigation__link" href="/titan-mvp-1.2/form-editor/conditions/manager">
+                            All conditions
+                        </a>
+                    </li>
+                    <li class="moj-sub-navigation__item">
+                        <a class="moj-sub-navigation__link" aria-current="page" href="#">
+                            Edit condition
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+            <p class="govuk-body">Uses the common form fields above when editing an existing condition.</p>
+
+            <!-- Page-level context -->
+            <h3 class="govuk-heading-s">Page-level condition management</h3>
+            <p class="govuk-body">When adding conditions to a specific page, the following additional error states may
+                appear:</p>
+
+            <!-- Page-level errors -->
+            <div class="govuk-form-group govuk-form-group--error">
+                <label class="govuk-label" for="page-condition-mode">
+                    Select how to add a condition
+                </label>
+                <p id="page-condition-mode-error" class="govuk-error-message">
+                    <span class="govuk-visually-hidden">Error:</span> Choose whether to add an existing condition or
+                    create a new one
+                </p>
+                <div class="govuk-radios" data-module="govuk-radios">
+                    <div class="govuk-radios__item">
+                        <input class="govuk-radios__input" id="mode-existing" name="condition-mode" type="radio"
+                            value="existing">
+                        <label class="govuk-label govuk-radios__label" for="mode-existing">
+                            Add an existing condition
+                        </label>
+                    </div>
+                    <div class="govuk-radios__item">
+                        <input class="govuk-radios__input" id="mode-new" name="condition-mode" type="radio" value="new">
+                        <label class="govuk-label govuk-radios__label" for="mode-new">
+                            Create a new condition
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Success Notification Banner -->
+            {{ govukNotificationBanner({
+            type: "success",
+            titleText: "Success",
+            text: "Changes saved"
+            }) }}
+
+        </div>
+    </div>
+</div>
+
+<style>
+    /* New styles for the form container */
+    .app-form-container {
+        border-left: 4px solid #008938;
+        background-color: #f8f8f8;
+        outline: 1px solid #b1b4b6;
+        padding: 30px;
+        position: relative;
+        margin-bottom: 20px;
+    }
+</style>
+{% endblock %}

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Address Selection - Select Menu</title>
+    <link href="https://www.gov.uk/assets/static/govuk-frontend-4.8.0.min.css" rel="stylesheet">
+</head>
+
+<body>
+    <div class="govuk-width-container">
+        <main class="govuk-main-wrapper">
+            <div class="govuk-grid-row">
+                <div class="govuk-grid-column-two-thirds">
+                    <h1 class="govuk-heading-l">
+                        Test Address Selection
+                    </h1>
+                    <p class="govuk-body">This page demonstrates the address selection using a select menu instead of
+                        radio buttons.</p>
+
+                    <div class="govuk-inset-text">
+                        <strong>5 addresses found for</strong> <span class="govuk-!-font-weight-bold">SW1A 1AA</span>
+                        <br>
+                        <a class="govuk-link" href="/dwp-find-an-address-plugin">Search again</a>
+                    </div>
+
+                    <form method="post" autocomplete="off" action="/dwp-find-an-address-plugin/confirm-address">
+                        <div class="govuk-form-group">
+                            <label class="govuk-label govuk-label--m" for="address">
+                                Select address
+                            </label>
+                            <div id="address-hint" class="govuk-hint">
+                                Choose an address from the list
+                            </div>
+                            <select class="govuk-select" id="address" name="address" aria-describedby="address-hint">
+                                <option value="">Select an address</option>
+                                <option value="10 Downing Street, London, SW1A 1AA">10 Downing Street, London, SW1A 1AA
+                                </option>
+                                <option value="11 Downing Street, London, SW1A 1AA">11 Downing Street, London, SW1A 1AA
+                                </option>
+                                <option value="12 Downing Street, London, SW1A 1AA">12 Downing Street, London, SW1A 1AA
+                                </option>
+                                <option value="13 Downing Street, London, SW1A 1AA">13 Downing Street, London, SW1A 1AA
+                                </option>
+                                <option value="14 Downing Street, London, SW1A 1AA">14 Downing Street, London, SW1A 1AA
+                                </option>
+                            </select>
+                        </div>
+
+                        <button class="govuk-button" data-module="govuk-button">
+                            Use this address
+                        </button>
+                    </form>
+
+                    <p class="govuk-body govuk-!-margin-bottom-0">
+                        <a href="/dwp-find-an-address-plugin/manual-entry" class="govuk-link">Enter address manually</a>
+                    </p>
+                </div>
+            </div>
+        </main>
+    </div>
+</body>
+
+</html>

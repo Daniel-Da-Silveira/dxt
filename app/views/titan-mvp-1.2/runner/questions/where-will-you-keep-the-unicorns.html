@@ -1,0 +1,95 @@
+{% extends "layouts/runner.html" %}
+{% from "components/defra-coordinate-input/macro.njk" import defraCoordinateInput %}
+
+{% block pageTitle %}
+  Where will you keep the unicorns? – {{ serviceName }} – GOV.UK Prototype Kit
+{% endblock %}
+
+{% block beforeContent %}
+  {{ govukBackLink({
+  text: "Back",
+  href: "javascript:window.history.back()"
+}) }}
+{% endblock %}
+
+{% block content %}
+
+<style>
+  .form .govuk-form-group {
+    margin-bottom: 0 !important;
+  }
+</style>
+
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+
+      <form class="form" action="/where-will-you-keep-the-unicorns" method="post">
+
+        {{ defraCoordinateInput({
+        id: "easting-northing",
+        namePrefix: "location",
+        fieldset: {
+        legend: {
+        text: "Where will you keep the unicorns?",
+        isPageHeading: true,
+        classes: "govuk-fieldset__legend--l"
+        }
+        },
+        hint: {
+        text: "For example. Easting: 248741, Northing: 63688"
+        },
+        classes: "row-prototype-coordinate-input govuk-!-margin-bottom-0",
+        items: [
+        {
+        id: "easting",
+        name: "location-easting",
+        label: "Easting",
+        classes: "govuk-input--width-5",
+        type: "text",
+        attributes: {
+        inputmode: "numeric"
+        }
+        },
+        {
+        id: "northing",
+        name: "location-northing",
+        label: "Northing",
+        classes: "govuk-input--width-5",
+        type: "text",
+        attributes: {
+        inputmode: "numeric"
+        }
+        }
+        ]
+        }) }}
+
+        <details class="govuk-details" data-module="govuk-details">
+          <summary class="govuk-details__summary">
+            <span class="govuk-details__summary-text">
+              How to find location details
+            </span>
+          </summary>
+            <div class="govuk-details__text">
+              <p class="govuk-body">Use the <a href="https://magic.defra.gov.uk/" class="govuk-link" target="_blank">MAGIC map tool (opens in a new tab)</a> to find the Easting and Northing for your land or buildings. Follow these instructions:</p>
+
+              <ol class="govuk-list govuk-list--number">
+                <li>Select 'Get Started'.</li>
+                <li>Search for a postcode or place.</li>
+                <li>Using the map, locate the land or building. Use the +/- icons to zoom in and out.</li>
+                <li>In the top toolbar, select the fourth icon along ('Where am I?') - it looks like a target.</li>
+                <li>Click on the land or building.</li>
+                <li>A pop-up box will appear showing the land details for this location. Easting and Northing appear at the top of the list. They are made up of 6 digits each, for example, 248741 and 63688.</li>
+              </ol>
+            </div>
+        </details>
+
+        {{ govukButton({
+          text: "Continue"
+        }) }}
+
+      </form>
+
+
+    </div>
+</div>
+{% endblock %}

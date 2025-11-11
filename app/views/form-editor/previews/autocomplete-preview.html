@@ -1,0 +1,54 @@
+{% from "./_label_size_macro.html" import get_label_size -%}
+
+{%- set page_heading = data['pageHeadingAutocomplete'] if data is defined and data['pageHeadingAutocomplete'] else false
+-%}
+{%- set question_count = currentPage.questions | length if currentPage and currentPage.questions else 1 -%}
+{%- set labelSize = get_label_size(page_heading, question_count, true) -%}
+
+<div class="govuk-form-group">
+  <fieldset class="govuk-fieldset">
+    <legend class="govuk-fieldset__legend govuk-fieldset__legend--{{ labelSize }}">
+      <h1 class="govuk-fieldset__heading" id="question-label-legend-q1">
+        {{ question.label or data['questionLabelInputAutocomplete'] or '' }}
+      </h1>
+    </legend>
+    {% if data.hintTextInputAutocomplete %}
+    <div id="listPreview-hint" class="govuk-hint">
+      {{ question.hint or '' }}
+    </div>
+    {% endif %}
+
+    <script src="https://unpkg.com/accessible-autocomplete@2.0.4/dist/accessible-autocomplete.min.js"></script>
+
+    <input type="hidden" id="autocomplete-options"
+      value="{% for option in question.options %}{{ option.label }}{% if not loop.last %},{% endif %}{% endfor %}">
+    <div id="autocomplete-container"></div>
+
+    <script>
+      // Initialise or reinitialise the autocomplete
+      function initialiseAutocomplete() {
+        // Clear the container before reinitializing
+        const container = document.querySelector("#autocomplete-container");
+        container.innerHTML = "";
+
+        // Get options from the hidden input
+        const optionsInput = document.getElementById("autocomplete-options");
+        const options = optionsInput.value ? optionsInput.value.split(",") : [];
+
+        // Initialise the accessible autocomplete with the options
+        accessibleAutocomplete({
+          element: container,
+          id: "autocomplete-input",
+          source: options,
+          displayMenu: 'inline'
+        });
+      }
+
+      // Ensure that the function runs after the content is loaded
+      document.addEventListener("DOMContentLoaded", function () {
+        initialiseAutocomplete();
+      });
+    </script>
+
+  </fieldset>
+</div>

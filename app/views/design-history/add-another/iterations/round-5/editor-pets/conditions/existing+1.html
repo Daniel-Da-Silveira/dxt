@@ -1,0 +1,101 @@
+{% extends "layouts/main.html" %}
+
+{% from "components/service-header/macro.njk" import serviceHeader %}
+
+{% set pageName = "Add or change conditions - Apply for a county parish holding number in England" %}
+
+{% block header %}
+  {{ serviceHeader({
+    organisationName: "Defra",
+    productName: "Forms Designer",
+    serviceName: "",
+    accountName: "Chris Smith",
+    homepageLink: "/",
+    signOutLink: "/onboarding/sign-out-confirmation",
+    navigationItems: [
+    {
+      href: "/library.html",
+      text: "Forms library",
+      id: "library"
+     },
+    {
+      href: "/cph-overview/draft/complete-clean.html",
+      text: "Overview",
+      id: "overview"
+     },{
+         href: "/editor-pets/2.html",
+    text: 'Editor',
+    id: 'editor'
+    }],
+    activeLinkId: "/"
+  }) }}
+{% endblock %}
+
+{% block beforeContent %}
+  {{ govukBackLink({
+  text: "Back to editor",
+  href: "/editor-pets/2.html"
+}) }}
+{% endblock %}
+
+{% block content %}
+
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      {% set html %}
+      <h3 class="govuk-notification-banner__heading">
+        New condition has been saved
+      </h3>
+      {% endset %}
+
+      {{ govukNotificationBanner({
+  html: html,
+  type: "success"
+}) }}
+      <span class="govuk-caption-l">Apply for a county parish holding number in England</span>
+      <h1 class="govuk-heading-l">
+        Add or change conditions
+      </h1>
+
+      {% from "govuk/components/summary-list/macro.njk" import govukSummaryList %}
+
+      {% from "govuk/components/phase-banner/macro.njk" import govukPhaseBanner %}
+      <h2 id="search-results-heading" class="govuk-heading-m">
+        <span class="govuk-visually-hidden">Search results</span>
+        1 condition
+        <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
+      </h2>
+
+      {{ govukButton({
+  text: "Add a new condition",
+  href: ""
+}) }}
+
+      {{ govukSummaryList({
+  rows: [
+    {
+      key: {
+        text: "Pet type"
+      },
+      value: {
+        html: '<p class="govuk-body">If the question: What animal do you have?</p><p class="govuk-body">is answered as “Dog”</p><p class="govuk-body">Take the person to “How old is your dog?”</p>'
+      },
+      actions: {
+        items: [
+          {
+            href: "#",
+            text: "Change",
+            visuallyHiddenText: "name"
+          }
+        ]
+      }
+    }
+  ]
+}) }}
+
+      {# <form class="form" action="/conditions/name" method="post"></form> #}
+
+    </div>
+  </div>
+
+{% endblock %}

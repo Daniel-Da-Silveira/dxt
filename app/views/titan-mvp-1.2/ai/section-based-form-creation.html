@@ -1,0 +1,472 @@
+{% extends "layouts/main.html" %}
+
+{% from "components/service-header/macro.njk" import serviceHeader %}
+
+{% set pageName = "AI-Powered Form Creation" %}
+
+{% block header %}
+{{ serviceHeader({
+organisationName: "Defra",
+productName: "Form Designer",
+serviceName: "",
+accountName: "Chris Smith",
+homepageLink: "/",
+signOutLink: "/titan-mvp-1.2/onboarding/sign-out-confirmation",
+navigationItems: [{
+href: "/titan-mvp-1.2/library",
+text: "Forms library",
+id: "nav-library"
+}]
+}) }}
+
+<div class="x-govuk-masthead x-govuk-masthead--large">
+    <div class="govuk-width-container">
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-two-thirds-from-desktop">
+                <h1 class="x-govuk-masthead__title">
+                    Create a new form with AI
+                </h1>
+                <p class="x-govuk-masthead__description">
+                    Use our step-by-step approach to create your form with AI assistance.</p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block beforeContent %}
+{{ govukBackLink({
+text: "Back to library",
+href: "/titan-mvp-1.2/library"
+}) }}
+{% endblock %}
+
+{% block content %}
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+
+
+        <form class="form" action="/titan-mvp-1.2/ai/section-based-form-creation" method="post" id="sectionForm">
+
+            <!-- Progress indicator -->
+            {# <div class="govuk-!-margin-bottom-6">
+                <h2 class="govuk-heading-m">Progress</h2>
+                <div class="govuk-progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0"
+                    aria-valuemax="6">
+                    <div class="govuk-progress-bar__bar" style="width: 0%"></div>
+                </div>
+                <p class="govuk-body-s govuk-!-margin-top-2">Step <span id="currentStep">1</span> of 6</p>
+            </div> #}
+
+            <!-- Section 1: Wireframe Upload -->
+            <div class="form-section" id="section-1">
+                <h2 class="govuk-heading-l">1. Wireframe Upload</h2>
+                <p class="govuk-body">Upload an image or PDF of your form layout to help us understand the visual
+                    structure.</p>
+
+                {{ govukFileUpload({
+                id: "wireframe-upload",
+                name: "wireframeUpload",
+                label: {
+                text: "Upload wireframe or mockup",
+                classes: "govuk-label--m"
+                },
+                hint: {
+                text: "Accepted formats: PNG, JPG, PDF (max 10MB)"
+                },
+                attributes: {
+                accept: ".png,.jpg,.jpeg,.pdf"
+                }
+                }) }}
+
+                <div class="govuk-!-margin-top-4">
+                    {{ govukButton({
+                    text: "Save and continue", attributes: {
+                    "data-next-section": "2"
+                    }
+                    }) }}
+                </div>
+            </div>
+
+
+
+            <!-- Section 2: Reference Links -->
+            <div class="form-section" id="section-2" style="display: none;">
+                <h2 class="govuk-heading-l">2. Reference Links</h2>
+                <p class="govuk-body">Provide URLs to design specifications, APIs, or research documents.</p>
+
+                {{ govukTextarea({
+                id: "reference-links",
+                name: "referenceLinks",
+                label: {
+                text: "Reference Links",
+                classes: "govuk-label--m"
+                },
+                hint: {
+                text: "Enter one URL per line"
+                },
+                rows: 6
+                }) }}
+
+                <div class="govuk-!-margin-top-4">
+                    {{ govukButton({
+                    text: "Save and continue",
+                    attributes: {
+                    "data-next-section": "3"
+                    }
+                    }) }}
+                </div>
+            </div>
+
+            <!-- Section 3: Page-by-Page Description -->
+            <div class="form-section" id="section-3" style="display: none;">
+                <h2 class="govuk-heading-l">3. Page-by-Page Description</h2>
+                <p class="govuk-body">Provide a plain-text walkthrough of every form page.</p>
+
+                {{ govukTextarea({
+                id: "page-description",
+                name: "pageDescription",
+                label: {
+                text: "Page-by-Page Description",
+                classes: "govuk-label--m"
+                },
+                hint: {
+                text: "Describe each page of your form in detail"
+                },
+                rows: 10,
+                attributes: {
+                required: "required"
+                }
+                }) }}
+
+                <div class="govuk-!-margin-top-4">
+                    {{ govukButton({
+                    text: "Save and continue",
+                    attributes: {
+                    "data-next-section": "4"
+                    }
+                    }) }}
+                </div>
+            </div>
+
+            <!-- Section 4: Form Aim -->
+            <div class="form-section" id="section-4" style="display: none;">
+                <h2 class="govuk-heading-l">4. Form Aim</h2>
+                <p class="govuk-body">Provide a one-sentence statement of purpose and success criteria.</p>
+
+                {{ govukTextarea({
+                id: "form-aim",
+                name: "formAim",
+                label: {
+                text: "Form Aim",
+                classes: "govuk-label--m"
+                },
+                hint: {
+                text: "Describe the purpose of this form and what success looks like"
+                },
+                rows: 4,
+                attributes: {
+                required: "required"
+                }
+                }) }}
+
+                <div class="govuk-!-margin-top-4">
+                    {{ govukButton({
+                    text: "Save and continue",
+                    attributes: {
+                    "data-next-section": "5"
+                    }
+                    }) }}
+                </div>
+            </div>
+
+            <!-- Section 5: Conditional Logic -->
+            <div class="form-section" id="section-5" style="display: none;">
+                <h2 class="govuk-heading-l">5. Conditional Logic</h2>
+                <p class="govuk-body">Outline any branching or show/hide rules for your form.</p>
+
+                {{ govukTextarea({
+                id: "conditional-logic",
+                name: "conditionalLogic",
+                label: {
+                text: "Conditional Logic",
+                classes: "govuk-label--m"
+                },
+                hint: {
+                text: "Describe any conditional logic, branching, or show/hide rules"
+                },
+                rows: 6
+                }) }}
+
+                <div class="govuk-!-margin-top-4">
+                    {{ govukButton({
+                    text: "Review and submit",
+                    classes: "govuk-button",
+                    attributes: {
+                    "data-action": "review"
+                    }
+                    }) }}
+                </div>
+            </div>
+
+            <!-- Review Section -->
+            <div class="form-section" id="section-review" style="display: none;">
+                <h2 class="govuk-heading-l">Review your form requirements</h2>
+                <p class="govuk-body">Please review the assembled prompt before submitting.</p>
+
+                <div class="govuk-inset-text">
+                    <h3 class="govuk-heading-s">Assembled Prompt:</h3>
+                    <div id="assembled-prompt" class="govuk-body"
+                        style="white-space: pre-wrap; background: #f8f8f8; padding: 15px; border-radius: 4px;"></div>
+                </div>
+
+                <div class="govuk-!-margin-top-4">
+                    {{ govukButton({
+                    text: "Back to edit",
+                    attributes: {
+                    "data-action": "back-to-edit"
+                    }
+                    }) }}
+                    {{ govukButton({
+                    text: "Submit to AI",
+                    classes: "govuk-button",
+                    attributes: {
+                    "data-action": "submit"
+                    }
+                    }) }}
+                </div>
+            </div>
+
+        </form>
+    </div>
+
+    <!-- Preview Column -->
+    <div class="govuk-grid-column-one-third">
+        <div class="govuk-sticky" style="position: sticky; top: 20px;">
+            <h2 class="govuk-heading-m">Live Preview</h2>
+            <div class="govuk-body-s govuk-!-margin-bottom-3">
+                This shows how your prompt is being assembled as you complete each section.
+            </div>
+
+            <div id="preview-content" class="govuk-inset-text" style="min-height: 200px; background: #f8f8f8;">
+                <p class="govuk-body-s">Complete the sections to see your prompt preview here...</p>
+            </div>
+
+
+        </div>
+    </div>
+</div>
+
+<style>
+    .govuk-sticky {
+        position: sticky;
+        top: 20px;
+    }
+
+    .form-section {
+        margin-bottom: 2rem;
+    }
+
+    #preview-content {
+        min-height: 200px;
+        max-height: 400px;
+        overflow-y: auto;
+    }
+
+    .govuk-progress-bar {
+        background-color: #f3f2f1;
+        border-radius: 4px;
+        height: 8px;
+        margin-bottom: 10px;
+    }
+
+    .govuk-progress-bar__bar {
+        background-color: #00703c;
+        border-radius: 4px;
+        height: 100%;
+        transition: width 0.3s ease;
+    }
+</style>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        let currentSection = 1;
+        const totalSections = 5;
+        const formData = {};
+
+        // Update progress bar
+        function updateProgress() {
+            const progressBar = document.querySelector('.govuk-progress-bar__bar');
+            const progressContainer = document.querySelector('.govuk-progress-bar');
+            const currentStepElement = document.getElementById('currentStep');
+
+            if (progressBar && progressContainer && currentStepElement) {
+                const progress = (currentSection / totalSections) * 100;
+                progressBar.style.width = progress + '%';
+                progressContainer.setAttribute('aria-valuenow', currentSection);
+                currentStepElement.textContent = currentSection;
+            }
+        }
+
+        // Show/hide sections
+        function showSection(sectionNumber) {
+            console.log('Showing section:', sectionNumber);
+            document.querySelectorAll('.form-section').forEach(section => {
+                section.style.display = 'none';
+            });
+
+            if (sectionNumber === 'review') {
+                document.getElementById('section-review').style.display = 'block';
+            } else {
+                const targetSection = document.getElementById(`section-${sectionNumber}`);
+                if (targetSection) {
+                    targetSection.style.display = 'block';
+                } else {
+                    console.error('Section not found:', sectionNumber);
+                }
+            }
+        }
+
+
+
+        // Assemble prompt
+        function assemblePrompt() {
+            const sections = [
+                { title: 'Wireframe Upload', key: 'wireframeUpload' },
+                { title: 'Reference Links', key: 'referenceLinks' },
+                { title: 'Page-by-Page Description', key: 'pageDescription' },
+                { title: 'Form Aim', key: 'formAim' },
+                { title: 'Conditional Logic', key: 'conditionalLogic' }
+            ];
+
+            let prompt = '';
+            sections.forEach((section, index) => {
+                const value = formData[section.key] || '';
+                if (value.trim()) {
+                    prompt += `## ${section.title}\n\n${value}\n\n`;
+                }
+            });
+
+            return prompt;
+        }
+
+        // Update preview
+        function updatePreview() {
+            const prompt = assemblePrompt();
+            const previewContent = document.getElementById('preview-content');
+
+            if (prompt.trim()) {
+                previewContent.innerHTML = `<pre style="margin: 0; font-family: monospace; font-size: 12px;">${prompt}</pre>`;
+            } else {
+                previewContent.innerHTML = '<p class="govuk-body-s">Complete the sections to see your prompt preview here...</p>';
+            }
+        }
+
+        // Handle next/previous buttons
+        document.addEventListener('click', function (e) {
+            if (e.target.hasAttribute('data-next-section')) {
+                e.preventDefault(); // Prevent form submission
+                const nextSection = parseInt(e.target.getAttribute('data-next-section'));
+                console.log('Next section clicked:', nextSection, 'Current section:', currentSection);
+
+                // Save current section data
+                const currentSectionElement = document.getElementById(`section-${currentSection}`);
+                const inputs = currentSectionElement.querySelectorAll('input, textarea, select');
+                inputs.forEach(input => {
+                    formData[input.name] = input.value;
+                });
+
+                // Basic validation for required fields
+                let isValid = true;
+                const requiredFields = currentSectionElement.querySelectorAll('input[required], textarea[required], select[required]');
+                requiredFields.forEach(field => {
+                    if (!field.value.trim()) {
+                        isValid = false;
+                        field.classList.add('govuk-input--error');
+                        // Add error message if not already present
+                        if (!field.nextElementSibling || !field.nextElementSibling.classList.contains('govuk-error-message')) {
+                            const errorMessage = document.createElement('p');
+                            errorMessage.className = 'govuk-error-message';
+                            errorMessage.textContent = 'This field is required';
+                            field.parentNode.insertBefore(errorMessage, field.nextSibling);
+                        }
+                    } else {
+                        field.classList.remove('govuk-input--error');
+                        const errorMessage = field.nextElementSibling;
+                        if (errorMessage && errorMessage.classList.contains('govuk-error-message')) {
+                            errorMessage.remove();
+                        }
+                    }
+                });
+
+                if (!isValid) {
+                    console.log('Validation failed, not proceeding');
+                    return; // Don't proceed if validation fails
+                }
+
+                console.log('Validation passed, moving to section:', nextSection);
+                // Move to next section
+                currentSection = nextSection;
+                showSection(currentSection);
+                updateProgress();
+                updatePreview();
+            }
+
+
+
+            if (e.target.hasAttribute('data-action')) {
+                e.preventDefault(); // Prevent form submission
+                const action = e.target.getAttribute('data-action');
+
+                if (action === 'review') {
+                    // Save current section data
+                    const currentSectionElement = document.getElementById(`section-${currentSection}`);
+                    const inputs = currentSectionElement.querySelectorAll('input, textarea, select');
+                    inputs.forEach(input => {
+                        formData[input.name] = input.value;
+                    });
+
+                    // Show review section
+                    showSection('review');
+                    document.getElementById('assembled-prompt').textContent = assemblePrompt();
+                }
+
+                if (action === 'back-to-edit') {
+                    showSection(currentSection);
+                }
+
+                if (action === 'submit') {
+                    // Submit the form
+                    const prompt = assemblePrompt();
+
+                    // Create hidden input for the assembled prompt
+                    let hiddenInput = document.getElementById('assembled-prompt-input');
+                    if (!hiddenInput) {
+                        hiddenInput = document.createElement('input');
+                        hiddenInput.type = 'hidden';
+                        hiddenInput.id = 'assembled-prompt-input';
+                        hiddenInput.name = 'assembledPrompt';
+                        document.getElementById('sectionForm').appendChild(hiddenInput);
+                    }
+                    hiddenInput.value = prompt;
+
+                    // Submit the form
+                    document.getElementById('sectionForm').submit();
+                }
+            }
+        });
+
+        // Handle input changes for real-time preview
+        document.addEventListener('input', function (e) {
+            if (e.target.matches('input, textarea, select')) {
+                formData[e.target.name] = e.target.value;
+                updatePreview();
+            }
+        });
+
+        // Initialize
+        updateProgress();
+        updatePreview();
+    });
+</script>
+{% endblock %}

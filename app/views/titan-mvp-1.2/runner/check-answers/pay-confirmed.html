@@ -1,0 +1,185 @@
+{% extends "layouts/runner.html" %}
+
+{% block pageTitle %}
+Check your answers template – {{ serviceName }} – GOV.UK Prototype Kit
+{% endblock %}
+
+{% block beforeContent %}
+{{ govukBackLink({
+text: "Back",
+href: "javascript:window.history.back()"
+}) }}
+{% endblock %}
+
+{% block content %}
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds-from-desktop">
+
+    <h1 class="govuk-heading-xl">
+      Check your answers before sending your form
+    </h1>
+
+    {{ govukSummaryList({
+    rows: [
+    {
+    key: {
+    text: "Question 1"
+    },
+    value: {
+    text: "Answer 1"
+    },
+    actions: {
+    items: [
+    {
+    href: "#",
+    text: "Change",
+    visuallyHiddenText: "Question 1"
+    }
+    ]
+    }
+    }
+    ,
+    {
+    key: {
+    text: "Question 2"
+    },
+    value: {
+    text: "Answer 2"
+    },
+    actions: {
+    items: [
+    {
+    href: "#",
+    text: "Change",
+    visuallyHiddenText: "Question 2"
+    }
+    ]
+    }
+    }
+    ,
+    {
+    key: {
+    text: "Question 3"
+    },
+    value: {
+    text: "Answer 3"
+    },
+    actions: {
+    items: [
+    {
+    href: "#",
+    text: "Change",
+    visuallyHiddenText: "Question 3"
+    }
+    ]
+    }
+    }
+    ]
+    }) }}
+
+        <!-- Payment Section - Clear separation -->
+        <div class="payment-summary-wrap">
+          <div class="payment-summary">
+              <h2 class="govuk-heading-m">Payment received</h2>
+
+              {% from "govuk/components/summary-list/macro.njk" import govukSummaryList %}
+
+  {{ govukSummaryList({
+    classes: "govuk-!-margin-bottom-t0",
+    rows: [
+      {
+        key: {
+          text: "Total amount"
+        },
+        value: {
+          text: "£300.00"
+        }
+      },
+      {
+        key: {
+          text: "Reference"
+        },
+        value: {
+          text: "V44FX85M58"
+        }
+      },
+      {
+        key: {
+          text: "Date of payment"
+        },
+        value: {
+          html: "3 October 2025 – 13:41:53"
+        }
+      }
+    ]
+  }) }}
+
+
+          </div>
+        </div>
+
+
+    {{ govukInput({
+    label: {
+    text: "Confirmation email (optional)",
+    classes: "govuk-label--m"
+    },
+    hint: {
+    text: "Enter your email address to get an email confirming your form has been submitted"
+    },
+    id: "email",
+    name: "email",
+    type: "email",
+    autocomplete: "email",
+    spellcheck: false
+    }) }}
+
+    <!-- Declaration Section -->
+    <h2 class="govuk-heading-m">Declaration</h2>
+    <p class="govuk-body">
+      By submitting this form you are confirming that, to the best of your knowledge, the details you are providing are
+      correct.
+    </p>
+
+
+
+
+      <div class="govuk-button-group">
+
+
+        {{ govukButton({
+        text: "Accept and send",
+        classes: "govuk-button--primary govuk-!-margin-top-4 govuk-!-margin-bottom-0",
+        href: "/accept-and-send"
+        }) }}
+
+
+        {{ govukButton({
+        text: "Save and exit",
+        classes: "govuk-button--secondary govuk-!-margin-top-4",
+        href: "/save-draft"
+        }) }}
+
+      </div>
+
+      <style>
+
+  .payment-summary {
+    border-top: 2px solid #1d70b8;
+    padding: 15px;
+    background-color: #f3f2f1;
+    margin-top: 30px;
+    margin-bottom: 30px;
+  }
+
+
+@media all{
+  .amount  {
+    display: block;
+  }
+}
+
+      </style>
+
+
+      {% endblock %}

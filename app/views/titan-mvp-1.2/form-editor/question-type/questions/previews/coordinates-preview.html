@@ -1,0 +1,102 @@
+{% from "./_label_size_macro.html" import get_label_size -%}
+{% from "govuk/components/details/macro.njk" import govukDetails -%}
+
+{%- set page_heading = data['pageHeadingCoordinates'] if data is defined and data['pageHeadingCoordinates'] else false -%}
+{%- set question_count = currentPage.questions | length if currentPage and currentPage.questions else 1 -%}
+{%- set labelSize = get_label_size(page_heading, question_count, true) -%}
+
+<div class="govuk-form-group">
+    <fieldset class="govuk-fieldset">
+        <legend class="govuk-fieldset__legend govuk-fieldset__legend--{{ labelSize }}">
+            {{ question.label }}{% if question.isOptional %} (optional){% endif %}
+        </legend>
+
+        {%- if question.hint -%}
+        <div id="coordinates-hint" class="govuk-hint">{{ question.hint }}</div>
+        {%- endif -%}
+
+        {# Render representative inputs for location subtypes #}
+        {%- if question.subType == 'easting_northing' -%}
+        <div class="govuk-form-group govuk-!-margin-bottom-2">
+            <label class="govuk-label" for="easting">Easting</label>
+            <input class="govuk-input govuk-input--width-10" id="easting" type="text">
+        </div>
+        <div class="govuk-form-group govuk-!-margin-bottom-2">
+            <label class="govuk-label" for="northing">Northing</label>
+            <input class="govuk-input govuk-input--width-10" id="northing" type="text">
+        </div>
+        {%- elif question.subType == 'os_grid_number' -%}
+        <div class="govuk-form-group govuk-!-margin-bottom-2">
+            {# <label class="govuk-label" for="os-grid">OS grid reference</label> #}
+            <input class="govuk-input govuk-input--width-20" id="os-grid" type="text">
+        </div>
+        {%- elif question.subType == 'field_number' -%}
+        <div class="govuk-form-group govuk-!-margin-bottom-2">
+            <label class="govuk-label" for="field-number">National Grid field number</label>
+            <input class="govuk-input govuk-input--width-20" id="field-number" type="text">
+        </div>
+        {%- elif question.subType == 'longitude_latitude' -%}
+        <div class="govuk-date-input row-prototype-coordinate-input" role="group" aria-describedby="coordinates-hint">
+            <div class="govuk-date-input__item govuk-!-margin-bottom-2">
+                <div class="govuk-form-group">
+                    <label class="govuk-label" for="latitude">Latitude</label>
+                    <div class="govuk-input__wrapper">
+                        <input class="govuk-input govuk-input--width-6" id="latitude" name="latitude" type="text" inputmode="numeric">
+                        <div class="govuk-input__suffix" aria-hidden="true">°</div>
+                    </div>
+                </div>
+            </div>
+            <div class="govuk-date-input__item govuk-!-margin-bottom-2">
+                <div class="govuk-form-group">
+                    <label class="govuk-label" for="longitude">Longitude</label>
+                    <div class="govuk-input__wrapper">
+                        <input class="govuk-input govuk-input--width-9" id="longitude" name="longitude" type="text" inputmode="numeric">
+                        <div class="govuk-input__suffix" aria-hidden="true">°</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {%- else -%}
+        <div class="govuk-body">Enter location</div>
+        {%- endif -%}
+
+        {# Help/instructions must appear directly beneath the input fields #}
+        {%- if question.showHelp and question.helpText -%}
+        <div class="govuk-form-group govuk-!-margin-bottom-2">
+            {% set helpHtml %}<div class="govuk-body markdown-content" data-markdown="{{ question.helpText | replace('"', '&quot;') }}"></div>{% endset %}
+            {{ govukDetails({
+                summaryText: "How to find location details",
+                html: helpHtml
+            }) }}
+        </div>
+        {%- endif -%}
+    </fieldset>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // Render markdown in help text if present
+        document.querySelectorAll('.markdown-content').forEach(function (element) {
+            let markdownText = element.getAttribute('data-markdown');
+            if (!markdownText) return;
+            if (window.marked) {
+                try {
+                    let unescapedText = markdownText.replace(/&quot;/g, '"');
+                    // Normalise leading indentation so markdown numbered lists don't render as code blocks
+                    if (!/```/.test(unescapedText)) {
+                        // If there are no fenced code blocks, strip all leading whitespace per line
+                        unescapedText = unescapedText.replace(/^\s+/gm, '');
+                    }
+                    // Also remove any remaining 4+ space/tab indents at line starts
+                    unescapedText = unescapedText.replace(/(^|\n)[ \t]{4,}/g, '$1');
+                    element.innerHTML = marked.parse(unescapedText);
+                } catch (e) {
+                    element.textContent = markdownText;
+                }
+            } else {
+                element.textContent = markdownText;
+            }
+        });
+    });
+</script>

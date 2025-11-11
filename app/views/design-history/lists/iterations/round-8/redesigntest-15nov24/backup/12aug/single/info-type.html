@@ -1,0 +1,199 @@
+{% extends "layouts/main.html" %}
+
+{% from "components/service-header/macro.njk" import serviceHeader %}
+
+{% set pageName = "Page type - Apply for a county parish holding number in England" %}
+
+{% block header %}
+  {{ serviceHeader({
+    organisationName: "Defra",
+    productName: "Forms Designer",
+    serviceName: "",
+    containerClasses: containerClasses,
+    accountName: "Chris Smith",
+    homepageLink: "/",
+    signOutLink: "/onboarding/sign-out-confirmation",
+    navigationItems: [
+      { href: "/library.html", text: "Forms library", id: "nav-library" },
+      { href: "/cph-overview/draft/complete-clean.html", text: "Overview", id: "nav-overview" },
+      { href: "/redesigntest/listing", text: "Editor", id: "nav-editor" }    ],
+    activeLinkId: "nav-editor"
+  }) }}
+{% endblock %}
+
+{% block content %}
+
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-full">
+      <div class="app-masthead">
+        <div class="app-width-container">
+          <div class="govuk-grid-row">
+            <div class="govuk-grid-column-full">
+              <span class="govuk-caption-l" style="color: #ffffff;">Apply for a county parish holding certificate</span>
+              <h1 class="govuk-heading-xl app-masthead__title">Edit draft form</h1>
+              <p class="app-masthead__description">Create and manage the pages in this form.</p>
+              <a href="/get-started/" role="button" draggable="false" class="govuk-button govuk-button--inverse govuk-!-margin-top-6 govuk-!-margin-bottom-0 govuk-button--start" data-module="govuk-button">
+                Preview form
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <nav class="moj-sub-navigation" aria-label="Sub navigation">
+        <div class="moj-sub-navigation__container">
+          <ul class="moj-sub-navigation__list" id="nav-list1">
+            <li class="moj-sub-navigation__item">
+              <a class="moj-sub-navigation__link" aria-current="page" href="#your-pages">Pages</a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+
+      <div class="govuk-grid-row">
+        <div class="govuk-grid-column-one-half" id="container">
+
+          {% from "govuk/components/radios/macro.njk" import govukRadios %}
+
+          {% block beforeContent %}
+            {{ govukBackLink({
+            text: "Back",
+            href: "javascript:window.history.back()"
+          }) }}
+          {% endblock %}
+
+          <div id="info-page-radio-group">
+            <form class="form" action="/info-type-1-answer" method="post">
+              {{ govukRadios({
+                name: "infotype1",
+                fieldset: {
+                  legend: {
+                    text: "What information do you need from users?",
+                    isPageHeading: true,
+                    classes: "govuk-fieldset__legend--l"
+                  }
+                },
+                hint: {
+                  text: "You can ask for more information later"
+                },
+                items: [
+                  {
+                    value: "text",
+                    text: "Written answer",
+                    hint: {
+                      text: "A short or long answer as text or number"
+                    }
+                  },
+                  {
+                    value: "date",
+                    text: "Date",
+                    hint: {
+                      text: "A day, month and year or month and year only"
+                    }
+                  },
+                  {
+                    value: "address",
+                    text: "UK address",
+                    hint: {
+                      text: "A street address, town or city and postcode"
+                    }
+                  },
+                  {
+                    value: "phone",
+                    text: "Phone number",
+                    hint: {
+                      text: "A text box that users can enter numbers and some symbols into, such as '+'"
+                    }
+                  },
+                  {
+                    value: "file",
+                    text: "1 file or multiple files",
+                    hint: {
+                      text: "Users can select and upload any type of file"
+                    }
+                  },
+                  {
+                    value: "email",
+                    text: "Email address",
+                    hint: {
+                      text: "A text box that users can enter their email address into"
+                    }
+                  },
+                  {
+                    divider: "or"
+                  },
+                  {
+                    value: "list",
+                    text: "Ask users to select options from a list"
+                  }
+                ]
+              }) }}
+
+              {{ govukButton({
+                text: "Save and continue"
+              }) }}
+
+            </form>
+          </div>
+
+          <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
+
+          <h2 class="govuk-heading-m">End pages</h2>
+
+          <div class="govuk-summary-card" style="border-left: solid 4px #b1b4b6!important; outline-color: transparent; border: 1px solid transparent;">
+            <div class="govuk-summary-card__title-wrapper" tabindex="0">
+              <h2 class="govuk-summary-card__title">Check answers page</h2>
+              <ul class="govuk-summary-card__actions">
+                <li class="govuk-summary-card__action">
+                  <a class="govuk-link" href="#">Edit<span class="govuk-visually-hidden">Edit check answers page</span></a>
+                </li>
+                <li class="govuk-summary-card__action">
+                  <a class="govuk-link" href="#">Preview<span class="govuk-visually-hidden">Preview check answers page</span></a>
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="govuk-summary-card" style="border-left: solid 4px #b1b4b6!important; outline-color: transparent; border: 1px solid transparent;">
+            <div class="govuk-summary-card__title-wrapper" tabindex="0">
+              <h2 class="govuk-summary-card__title">Confirmation page</h2>
+              <ul class="govuk-summary-card__actions">
+                <li class="govuk-summary-card__action">
+                  <a class="govuk-link" href="#">Edit<span class="govuk-visually-hidden">Edit confirmation page</span></a>
+                </li>
+                <li class="govuk-summary-card__action">
+                  <a class="govuk-link" href="#">Preview<span class="govuk-visually-hidden">Preview confirmation page</span></a>
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <script>
+            // Wait for the DOM to fully load
+            document.addEventListener('DOMContentLoaded', function () {
+              // Get the radio group element by its ID
+              const radioGroup = document.getElementById('info-page-radio-group');
+
+              // Check if the element exists and scroll it into view
+              if (radioGroup) {
+                // Ensure the radio group is not hidden
+                const visibility = window
+                  .getComputedStyle(radioGroup)
+                  .display;
+                if (visibility !== 'none') {
+                  radioGroup.scrollIntoView({behavior: 'smooth', block: 'center'});
+                  console.log("Radio group scrolled into view.");
+                } else {
+                  console.error("Radio group is not visible on page load.");
+                }
+              } else {
+                console.error("Radio group element not found.");
+              }
+            });
+          </script>
+
+        </div>
+      </div>
+    </div>
+
+  {% endblock %}

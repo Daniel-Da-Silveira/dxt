@@ -1,0 +1,856 @@
+{% extends "layouts/main.html" %}
+{% from "components/service-header/macro.njk" import serviceHeader %}
+{% set pageName = "Organize Check answer page PoC - Inline Section Assignment" %}
+
+{% block header %}
+{{ serviceHeader({
+organisationName: "Defra",
+productName: "Form Designer",
+serviceName: "",
+containerClasses: containerClasses,
+accountName: "Chris Smith",
+homepageLink: "/",
+signOutLink: "/titan-mvp-1.2/onboarding/sign-out-confirmation",
+navigationItems: [
+{ href: "/titan-mvp-1.2/library", text: "Forms library", id: "nav-library" },
+{ href: "/titan-mvp-1.2/form-overview/index", text: "Overview", id: "nav-overview" },
+{ href: "/titan-mvp-1.2/form-editor/listing", text: "Editor", id: "nav-editor", active: true }
+]
+}) }}
+
+<div class="x-govuk-masthead x-govuk-masthead--large">
+    <div class="govuk-width-container">
+        <div class="govuk-inset-text govuk-!-margin-bottom-4 govuk-!-margin-top-4">
+            <strong>PoC: Inline section assignment with GOV.UK select dropdown (no navigation)</strong>
+        </div>
+        {{ govukBackLink({
+        classes: "govuk-back-link--inverse govuk-!-margin-bottom-0",
+        text: "Back to add and edit pages",
+        href: "/titan-mvp-1.2/form-editor/listing"
+        }) }}
+        <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible"
+            style="border-bottom: 1px solid white; margin-bottom: 0;" />
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-full-from-desktop">
+                <h1 class="x-govuk-masthead__title">
+                    Apply for a county parish holding (CPH) number
+                </h1>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-one-half-from-desktop govuk-grid-column-full-from-tablet govuk-grid-column-full"
+        id="container" style="flex: 1 1 75%; height: 100%; overflow-y: auto;">
+        <div class="govuk-summary-card govuk-!-margin-top-0" style="border-left: 10px solid #b1b4b6;">
+            <div class="govuk-summary-card__content govuk-!-padding-top-0" style="background-color: #f8f8f8;">
+                <dl class="govuk-summary-list">
+                    <div class="govuk-summary-list__row">
+                        <dd class="govuk-summary-list__value">
+                            <div class="govuk-grid-row" id="organization-container">
+                                <div id="organization-controls">
+                                    <div class="govuk-summary-card__content" style="margin-bottom: 0;">
+                                        <nav class="moj-sub-navigation" aria-label="Sub navigation">
+                                            <ul class="moj-sub-navigation__list" id="nav-list2">
+                                                <li class="moj-sub-navigation__item">
+                                                    <a class="moj-sub-navigation__link" aria-current="page"
+                                                        href="#organization-controls">
+                                                        Organize check answers
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </nav>
+                                        {# <span class="govuk-caption-l">Check answers</span> #}
+                                        <h1 class="govuk-heading-l">Organize check answers </h1>
+                                        <form class="form" action="/titan-mvp-1.2/form-editor/listing" method="post">
+                                            {% from "govuk/components/radios/macro.njk" import govukRadios %}
+                                            {% from "govuk/components/input/macro.njk" import govukInput %}
+                                            {% from "govuk/components/button/macro.njk" import govukButton %}
+                                            <div class="govuk-form-group">
+                                                <label class="govuk-label govuk-label--m" for="section-heading">
+                                                    Add section heading
+                                                </label>
+                                                <div class="govuk-hint" id="section-heading-hint">
+                                                    Add a heading to group related questions together
+                                                </div>
+                                                <input class="govuk-input" id="section-heading" name="sectionHeading"
+                                                    type="text" aria-describedby="section-heading-hint">
+                                                <button type="button"
+                                                    class="govuk-button govuk-button--inverse govuk-!-margin-top-2 js-add-section-heading">
+                                                    + Add section heading
+                                                </button>
+                                            </div>
+                                            <hr
+                                                class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+
+                                            <div id="organization-list" class="govuk-!-margin-top-4">
+                                                <!-- Items will be populated by JavaScript -->
+                                            </div>
+                                            {# <div class="govuk-button-group">
+                                                {{ govukButton({
+                                                text: "Save and continue",
+                                                type: "submit",
+                                                id: "continue-button"
+                                                }) }}
+                                                <a href="#tab-one-check-answers" class="govuk-skip-link"
+                                                    style="margin-bottom: 30px!important;"
+                                                    data-module="govuk-skip-link">
+                                                    Skip to page preview
+                                                </a>
+                                            </div> #}
+                                    </div>
+
+
+                                    </form>
+                                </div>
+                            </div>
+                    </div>
+                    </dd>
+            </div>
+            </dl>
+        </div>
+    </div>
+    {#
+</div> #}
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-one-half-from-desktop govuk-grid-column-full-from-tablet govuk-grid-column-full"
+        id="second-container"
+        style="outline: solid 1px #008938; height: 100%; position: sticky; top: 0; padding: 20px; box-shadow: 5px 10px #008938; overflow-y: auto; max-height: 100vh;">
+        <div id="before-content" style="background-color: #cce2d8;">
+            <p class="govuk-body-s" style="margin-bottom: 0; color: #005a30; padding: 2px 8px 3px; text-align: center;">
+                Preview
+            </p>
+        </div>
+        <div style="margin-top: 60px!important;">
+            {% from "govuk/components/tabs/macro.njk" import govukTabs %}
+            <div class="govuk-tabs" data-module="govuk-tabs">
+                <h2 class="govuk-tabs__title">Contents</h2>
+                <ul class="govuk-tabs__list">
+                    <li class="govuk-tabs__list-item govuk-tabs__list-item--selected">
+                        <a class="govuk-tabs__tab" href="#tab-one">Page preview</a>
+                    </li>
+                </ul>
+                <div class="govuk-tabs__panel" id="tab-one">
+                    <p class="govuk-body-s" style="margin-bottom: 30px; border-bottom: #008938 1px;">
+                        <a href="#" class="govuk-link govuk-link--no-visited-state" rel="noreferrer noopener"
+                            target="_blank">
+                            Preview this page in a new tab
+                        </a>
+                    </p>
+                    <div id="heading-container">
+                        {% if data['setName'] %}
+                        <span id="dynamic-caption" class="govuk-caption-xl"
+                            data-setname="{{ data['setName'] | capitalize }}">
+                            {{ data['setName'] | capitalize }} 1
+                        </span>
+                        {% endif %}
+                        <h1 class="govuk-heading-l" id="dynamic-heading">
+                            Check your answers before sending your form
+                        </h1>
+                    </div>
+                    <div id="dynamic-summary-list">
+                        <!-- Content will be populated by JavaScript -->
+                    </div>
+                    <button class="govuk-button govuk-!-margin-top-6" id="once-button" disabled>
+                        Send
+                    </button>
+                    <a href="#tab-one-check-answers" class="govuk-skip-link" style="margin-bottom: 30px!important;"
+                        data-module="govuk-skip-link">
+                        Skip to page settings
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>
+<script>
+    // Get data from session or use defaults
+    let checkAnswersItems = [];
+    let sections = [];
+    let nextSectionId = 1;
+
+    // Try to get data from session first
+    fetch('/titan-mvp-1.2/form-editor/check-answers/get-session-data')
+        .then(response => response.json())
+        .then(data => {
+            if (data.checkAnswersItems && data.checkAnswersItems.length > 0) {
+                checkAnswersItems = data.checkAnswersItems;
+            } else {
+                // Use default data ONLY if session is truly empty (first load)
+                checkAnswersItems = [
+                    {
+                        id: 1, type: 'page', key: 'Business details', value: 'Page with multiple questions', section: null, questions: [
+                            { label: 'Business registered with RPA', value: 'Yes' },
+                            { label: 'Business name', value: 'Doe Farms Ltd' },
+                            { label: 'Business address', value: '123 Farm Lane, Rural Town' }
+                        ]
+                    },
+                    { id: 2, type: 'question', key: 'Country for livestock', value: 'England', section: null },
+                    { id: 3, type: 'question', key: 'Arrival date of livestock', value: '20 04 2024', section: null },
+                    {
+                        id: 4, type: 'page', key: 'Livestock information', value: 'Page with multiple questions', section: null, questions: [
+                            { label: 'Type of livestock', value: 'Cow' },
+                            { label: 'Number of animals', value: '25' },
+                            { label: 'Breed', value: 'Holstein Friesian' }
+                        ]
+                    },
+                    { id: 5, type: 'question', key: 'Applicant\'s name', value: 'John Doe', section: null },
+                    {
+                        id: 6, type: 'page', key: 'Contact details', value: 'Page with multiple questions', section: null, questions: [
+                            { label: 'Main phone number', value: '07700 900457' },
+                            { label: 'Email address', value: 'john.doe@example.com' },
+                            { label: 'Alternative contact', value: 'Jane Doe - 07700 900458' }
+                        ]
+                    },
+                    { id: 7, type: 'question', key: 'Business purpose', value: 'Livestock farming', section: null },
+                    { id: 8, type: 'question', key: 'National Grid field number', value: 'NG123456', section: null },
+                    { id: 9, type: 'question', key: 'Methodology statement', value: '1 file uploaded', section: null }
+                ];
+                // Sync default data to session
+                syncToSession();
+            }
+
+            if (data.sections && data.sections.length > 0) {
+                sections = data.sections;
+                if (sections.length > 0) {
+                    const maxId = Math.max(...sections.map(s => parseInt(s.id) || 0));
+                    nextSectionId = maxId + 1;
+                }
+            } else {
+                sections = [];
+            }
+
+            renderOrganizationList();
+            renderPreview();
+        });
+
+    function renderOrganizationList() {
+        const container = document.getElementById('organization-list');
+        container.innerHTML = '';
+
+        // Only show "Sections" label if there are sections
+        if (sections.length > 0) {
+            container.innerHTML = `
+        <label class="govuk-label govuk-label--m">
+                                                    Sections
+                                                </label>
+`;
+        }
+        // Render sections first
+        sections.forEach((section, index) => {
+            const sectionDiv = document.createElement('div');
+            sectionDiv.className = 'app-form-container govuk-!-margin-bottom-4';
+            sectionDiv.innerHTML = `
+              <div class="govuk-!-margin-bottom-2">
+                <h2 class="govuk-heading-s govuk-!-margin-bottom-2">Section ${index + 1}: ${section.title}</h2>
+                <div style="text-align: right; margin-top: -36px;">
+                  <button type="button" class="govuk-button govuk-button--warning js-remove-section" 
+                          data-section-id="${section.id}">
+                    Remove section
+                  </button>
+                </div>
+              </div>
+              <ol class="gem-c-reorderable-list js-enabled section-items govuk-!-margin-bottom-4" data-section-id="${section.id}" data-module="reorderable-list">
+                ${checkAnswersItems.filter(item => String(item.section) === String(section.id)).length === 0
+                    ? `<div class="govuk-hint" style="margin: 10px 0;">Pages added to this section will appear here</div>`
+                    : checkAnswersItems.filter(item => String(item.section) === String(section.id)).map(item =>
+                        renderItem(item, true)
+                    ).join('')
+                }
+              </ol>
+              <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
+              <div class="govuk-form-group">
+                <form method="post" action="/titan-mvp-1.2/form-editor/check-answers/hide-section">
+                  <input type="hidden" name="sectionId" value="${section.id}">
+                  <fieldset class="govuk-fieldset" aria-describedby="section-visibility-hint-${section.id}">
+                    <legend class="govuk-fieldset__legend govuk-fieldset__legend--s">
+                      <h2 class="govuk-fieldset__heading">Settings</h2>
+                    </legend>
+                
+                    <div class="govuk-checkboxes govuk-checkboxes--small" data-module="govuk-checkboxes">
+                      <div class="govuk-checkboxes__item">
+                        <input class="govuk-checkboxes__input" id="hide-section-${section.id}" 
+                               name="hideSectionFromRespondents" type="checkbox" value="true" 
+                               ${section.hideFromRespondents ? 'checked' : ''}>
+                        <label class="govuk-label govuk-checkboxes__label" for="hide-section-${section.id}">
+                          Hide this heading from people filling in the form
+                        </label>
+                        <div id="section-visibility-hint-${section.id}" class="govuk-hint govuk-checkboxes__hint govuk-!-margin-bottom-2">
+It will still appear on the check answers page
+                        </div>
+                      </div>
+                    </div>
+                    <button type="submit" class="govuk-button govuk-!-margin-top-2 govuk-!-margin-bottom-0" id="settings-button-${section.id}">
+                      ${section.settingsSaved ? 'Update settings' : 'Save settings'}
+                    </button>
+                  </fieldset>
+                </form>
+              </div>
+            `;
+            container.appendChild(sectionDiv);
+        });
+        // Render ungrouped items
+        const ungroupedItems = checkAnswersItems.filter(item => item.section === null || item.section === undefined || item.section === 'null');
+        if (ungroupedItems.length > 0) {
+            const ungroupedDiv = document.createElement('div');
+            ungroupedDiv.className = 'govuk-summary-card govuk-!-margin-bottom-4';
+            ungroupedDiv.innerHTML = `
+        <div class="govuk-summary-card__title-wrapper">
+            
+          <h2 class="govuk-summary-card__title">Ungrouped pages</h2>
+        </div>
+        <div class="govuk-summary-card__content">
+          <ol class="gem-c-reorderable-list js-enabled ungrouped-items" data-module="reorderable-list">
+            ${ungroupedItems.map(item => renderItem(item, false)).join('')}
+          </ol>
+        </div>
+      `;
+            container.appendChild(ungroupedDiv);
+        }
+        updateMoveButtons();
+    }
+
+    // PoC: Inline section assignment for ungrouped items (no JS required for form submission)
+    function renderItem(item, isInSection) {
+        // Determine if this is a page with multiple questions
+        const isMultiQuestionPage = item.type === 'page' && item.questions && item.questions.length > 1;
+
+        if (isInSection) {
+            return `
+      <li class="gem-c-reorderable-list__item" draggable="true" data-item-id="${item.id}">
+        <div class="gem-c-reorderable-list__wrapper">
+          <div class="gem-c-reorderable-list__content">
+            <div class="govuk-!-margin-bottom-2">
+              <p class="govuk-body fauxlabel item-label-display">
+                ${item.key}
+              </p>
+              ${isMultiQuestionPage ?
+                    `<p class="govuk-body-s govuk-!-margin-top-0 govuk-!-margin-bottom-0" style="color: #505a5f;">
+                  Page with ${item.questions.length} questions
+                </p>` :
+                    ``
+                }
+            </div>
+          </div>
+          <div class="gem-c-reorderable-list__actions" style="display: flex; flex-direction: column; margin-left: 15px;">
+            ${isInSection ? `
+             
+              <a href="#" class="govuk-link govuk-link--destructive js-remove-from-section" 
+                  role="button" aria-label="Remove from section">Ungroup</a>
+            ` : `
+              <a href="/titan-mvp-1.2/form-editor/check-answers/choose-section?item=${item.id}" class="govuk-link govuk-link--destructive govuk-link govuk-link--no-visited-state js-add-to-section" 
+                  role="button" aria-label="Add to section">Add to section</a>
+            `}
+          </div>
+        </div>
+    `;
+        } else {
+            // PoC: Inline form for assigning to section (no JS required)
+            return `
+      <li class="gem-c-reorderable-list__item" data-item-id="${item.id}">
+        <div class="gem-c-reorderable-list__wrapper">
+          <div class="gem-c-reorderable-list__content">
+            <div class="govuk-!-margin-bottom-2">
+              <p class="govuk-body fauxlabel item-label-display">
+                ${item.key}
+              </p>
+              ${isMultiQuestionPage ?
+                    `<p class="govuk-body-s govuk-!-margin-top-0 govuk-!-margin-bottom-0" style="color: #505a5f;">
+                  Page with ${item.questions.length} questions
+                </p>` :
+                    `<p class="govuk-body-s govuk-!-margin-top-0 govuk-!-margin-bottom-0" style="color: #505a5f;">
+        
+                </p>`
+                }
+            </div>
+          </div>
+          <div class="gem-c-reorderable-list__actions" style="display: flex; flex-direction: column; margin-left: 15px;">
+            <!-- PoC: Inline section assignment form -->
+            <form method="post" action="/titan-mvp-1.2/form-editor/check-answers/assign-section" style="display: flex; align-items: center; gap: 8px;">
+              <input type="hidden" name="itemId" value="${item.id}">
+              <select class="govuk-select" name="sectionId" required style="margin-right: 8px;">
+                <option value="">Select section</option>
+                ${sections.map(section => `<option value="${section.id}">${section.title || section.name}</option>`).join('')}
+              </select>
+              <button type="submit" class="govuk-button govuk-button--secondary ">Add</button>
+            </form>
+          </div>
+        </div>
+      </li>
+    `;
+        }
+    }
+
+    function renderPreview() {
+        const container = document.getElementById('dynamic-summary-list');
+
+        let html = '';
+
+        // Group items by section
+        const groupedItems = {};
+        sections.forEach(section => {
+            groupedItems[section.id] = {
+                section: section,
+                items: checkAnswersItems.filter(item => String(item.section) === String(section.id))
+            };
+        });
+
+        const ungroupedItems = checkAnswersItems.filter(item => item.section === null || item.section === undefined || item.section === 'null');
+
+        // Render sections first
+        Object.values(groupedItems).forEach(group => {
+            if (group.items.length > 0) {
+                // Always show section heading in preview (Check answers page)
+                html += `<h2 class="govuk-heading-m">${group.section.title}</h2>`;
+                html += '<div class="govuk-summary-list govuk-!-margin-bottom-9">';
+                group.items.forEach(item => {
+                    html += renderPreviewItem(item);
+                });
+                html += '</div>';
+            }
+        });
+
+        // Render ungrouped items
+        if (ungroupedItems.length > 0) {
+            html += '<div class="govuk-summary-list govuk-!-margin-bottom-9">';
+            ungroupedItems.forEach(item => {
+                html += renderPreviewItem(item);
+            });
+            html += '</div>';
+        }
+
+        container.innerHTML = html;
+    }
+
+    function renderPreviewItem(item) {
+        // Check if this is a page with multiple questions
+        if (item.type === 'page' && item.questions && item.questions.length > 1) {
+            // Render each question as a separate row
+            let html = '';
+            item.questions.forEach((question, index) => {
+                html += `
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">
+          ${question.label}
+        </dt>
+        <dd class="govuk-summary-list__value">
+          ${question.value}
+        </dd>
+        <dd class="govuk-summary-list__actions">
+          <a class="govuk-link govuk-link--no-visited-state" href="#" style="color: #b1b4b6; cursor: default;"
+             onclick="event.preventDefault(); event.stopPropagation(); this.blur(); return false;">
+            Change<span class="govuk-visually-hidden"> ${question.label.toLowerCase()}</span>
+          </a>
+        </dd>
+      </div>
+    `;
+            });
+            return html;
+        } else {
+            // Single question or regular item
+            return `
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">
+          ${item.key}
+        </dt>
+        <dd class="govuk-summary-list__value">
+          ${item.value}
+        </dd>
+        <dd class="govuk-summary-list__actions">
+          <a class="govuk-link govuk-link--no-visited-state" href="#" style="color: #b1b4b6; cursor: default;"
+             onclick="event.preventDefault(); event.stopPropagation(); this.blur(); return false;">
+            Change<span class="govuk-visually-hidden"> ${item.key.toLowerCase()}</span>
+          </a>
+        </dd>
+      </div>
+    `;
+        }
+    }
+
+    function updateMoveButtons() {
+        const sectionContainers = document.querySelectorAll('.section-items');
+
+        sectionContainers.forEach(container => {
+            const items = container.querySelectorAll('.gem-c-reorderable-list__item');
+            items.forEach((item, index) => {
+                const upButton = item.querySelector('.js-reorderable-list-up');
+                const downButton = item.querySelector('.js-reorderable-list-down');
+
+                if (upButton && downButton) {
+                    // First item - only show Down
+                    if (index === 0) {
+                        upButton.style.display = 'none';
+                        downButton.style.display = 'inline-block';
+                    }
+                    // Last item - only show Up
+                    else if (index === items.length - 1) {
+                        upButton.style.display = 'inline-block';
+                        downButton.style.display = 'none';
+                    }
+                    // Middle items - show both
+                    else {
+                        upButton.style.display = 'inline-block';
+                        downButton.style.display = 'inline-block';
+                    }
+                }
+            });
+        });
+    }
+
+
+
+
+
+    function updateAllItemsOrder() {
+        // Update the order of items based on their current position in the DOM
+        const allItems = [];
+
+        // Get items from sections first
+        sections.forEach(section => {
+            const sectionContainer = document.querySelector(`[data-section-id="${section.id}"]`);
+            if (sectionContainer) {
+                const items = sectionContainer.querySelectorAll('.gem-c-reorderable-list__item');
+                items.forEach(item => {
+                    const itemId = parseInt(item.dataset.itemId);
+                    const checkItem = checkAnswersItems.find(i => i.id === itemId);
+                    if (checkItem) {
+                        checkItem.section = section.id;
+                        allItems.push(checkItem);
+                    }
+                });
+            }
+        });
+
+        // Get ungrouped items
+        const ungroupedContainer = document.querySelector('.ungrouped-items');
+        if (ungroupedContainer) {
+            const items = ungroupedContainer.querySelectorAll('.gem-c-reorderable-list__item');
+            items.forEach(item => {
+                const itemId = parseInt(item.dataset.itemId);
+                const checkItem = checkAnswersItems.find(i => i.id === itemId);
+                if (checkItem) {
+                    checkItem.section = null;
+                    allItems.push(checkItem);
+                }
+            });
+        }
+
+        // Update the main array with new order
+        checkAnswersItems = allItems;
+        // Sync changes to session
+        syncToSession();
+    }
+
+    function highlightPreviewItem(index) {
+        const previewContainer = document.getElementById('dynamic-summary-list');
+        if (!previewContainer) return;
+
+        // Remove any existing highlights
+        removePreviewHighlights();
+
+        // Add highlight to the corresponding preview item
+        const previewItems = previewContainer.querySelectorAll('.govuk-summary-list__row');
+        if (previewItems[index]) {
+            previewItems[index].classList.add('highlight');
+        }
+    }
+
+    function removePreviewHighlights() {
+        const previewContainer = document.getElementById('dynamic-summary-list');
+        if (!previewContainer) return;
+
+        const items = previewContainer.querySelectorAll('.govuk-summary-list__row');
+        items.forEach(item => item.classList.remove('highlight'));
+    }
+
+    function syncToSession() {
+        console.log('Syncing to session:', { checkAnswersItems, sections });
+        fetch('/titan-mvp-1.2/form-editor/check-answers/sync', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                checkAnswersItems: checkAnswersItems,
+                sections: sections
+            })
+        })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Sync response:', data);
+            })
+            .catch(error => {
+                console.error('Sync error:', error);
+            });
+    }
+
+    function addSectionHeading() {
+        const headingInput = document.getElementById('section-heading');
+        const headingText = headingInput.value.trim();
+
+        if (headingText) {
+            const section = {
+                id: nextSectionId++,
+                title: headingText,
+                hideFromRespondents: false,
+                settingsSaved: false
+            };
+            sections.push(section);
+            headingInput.value = '';
+            renderOrganizationList();
+            renderPreview();
+            // Sync sections to session
+            syncToSession();
+        }
+    }
+
+    function removeSection(sectionId) {
+        // Move all items in this section back to ungrouped
+        checkAnswersItems.forEach(item => {
+            if (String(item.section) === String(sectionId)) {
+                item.section = null;
+            }
+        });
+
+        // Remove the section
+        sections = sections.filter(section => String(section.id) !== String(sectionId));
+        renderOrganizationList();
+        renderPreview();
+        // Sync changes to session
+        syncToSession();
+    }
+
+    function removeFromSection(itemId) {
+        const item = checkAnswersItems.find(item => item.id === itemId);
+        if (item) {
+            item.section = null;
+            renderOrganizationList();
+            renderPreview();
+            // Sync changes to session
+            syncToSession();
+        }
+    }
+
+    // Add event handlers for up/down buttons and edit functionality
+    document.addEventListener('click', function (e) {
+        if (e.target.classList.contains('js-reorderable-list-up')) {
+            const item = e.target.closest('.gem-c-reorderable-list__item');
+            // Only allow reordering within sections
+            if (item && item.closest('.section-items')) {
+                const prevItem = item.previousElementSibling;
+                if (prevItem) {
+                    item.parentNode.insertBefore(item, prevItem);
+                    updateAllItemsOrder();
+                    renderPreview();
+                    updateMoveButtons();
+                }
+            }
+        } else if (e.target.classList.contains('js-reorderable-list-down')) {
+            const item = e.target.closest('.gem-c-reorderable-list__item');
+            // Only allow reordering within sections
+            if (item && item.closest('.section-items')) {
+                const nextItem = item.nextElementSibling;
+                if (nextItem) {
+                    item.parentNode.insertBefore(nextItem, item);
+                    updateAllItemsOrder();
+                    renderPreview();
+                    updateMoveButtons();
+                }
+            }
+        } else if (e.target.classList.contains('js-remove-from-section')) {
+            e.preventDefault();
+            const item = e.target.closest('.gem-c-reorderable-list__item');
+            const itemId = parseInt(item.dataset.itemId);
+            removeFromSection(itemId);
+        } else if (e.target.classList.contains('js-remove-section')) {
+            e.preventDefault();
+            const sectionId = parseInt(e.target.dataset.sectionId);
+            removeSection(sectionId);
+        } else if (e.target.classList.contains('js-add-section-heading')) {
+            e.preventDefault();
+            addSectionHeading();
+        } else if (e.target.name === 'hideSectionFromRespondents') {
+            const sectionId = parseInt(e.target.id.replace('hide-section-', ''));
+            const section = sections.find(s => s.id === sectionId);
+            if (section) {
+                section.hideFromRespondents = e.target.checked;
+                renderPreview();
+                syncToSession();
+            }
+        } else if (e.target.closest('form[action*="hide-section"]')) {
+            // Let the form submit normally - the server will handle the redirect
+            // and the page will reload with updated data
+        }
+    });
+
+
+</script>
+
+<style>
+    /* Styling for fauxlabel */
+    .fauxlabel {
+        border: 0;
+        margin: 0;
+    }
+
+    .fauxlabel:focus,
+    .fauxlabel:active {
+        background-color: transparent !important;
+    }
+
+    .gem-c-reorderable-list .gem-c-reorderable-list__item:hover,
+    .gem-c-reorderable-list__item:hover .fauxlabel {
+        background-color: #fff;
+        cursor: initial;
+    }
+
+    .gem-c-reorderable-list__item:hover .fauxlabel:focus {
+        cursor: initial;
+    }
+
+    /* Highlighting styles */
+    .highlight {
+        background-color: #ffe5cc;
+        border-bottom: 2px solid #ffb266;
+    }
+
+    .highlight-dragging {
+        border: 2px dotted #ffb266;
+        background-color: #f0f0f0;
+    }
+
+    .highlight-moving {
+        border: 2px dashed #ff0;
+    }
+
+    /* Styles for the reorderable list */
+    .gem-c-reorderable-list {
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+    }
+
+    .gem-c-reorderable-list__item {
+        margin-bottom: 15px;
+        border-left: 5px solid #008938;
+        outline: 1px solid #b1b4b6;
+        padding: 15px;
+        background-color: #fff;
+    }
+
+    .gem-c-reorderable-list__wrapper {
+        display: flex;
+        align-items: center;
+    }
+
+    .gem-c-reorderable-list__content {
+        flex-grow: 1;
+    }
+
+    .gem-c-reorderable-list__actions {
+        display: none;
+        flex-direction: column;
+        margin-left: 15px;
+    }
+
+    .gem-c-reorderable-list__actions .govuk-button {
+        margin-bottom: 10px;
+    }
+
+    .govuk-body.fauxlabel.item-label-display {
+        white-space: normal;
+        word-wrap: break-word;
+        overflow-wrap: break-word;
+    }
+
+    .sortable-ghost {
+        opacity: 0.4;
+    }
+
+    .sortable-chosen {
+        background-color: #e5f5ff;
+    }
+
+    /* Style for hover state of the list item */
+    .gem-c-reorderable-list__item:hover {
+        background-color: #f0f0f0;
+    }
+
+    /* Only show move cursor for section items */
+    .section-items .gem-c-reorderable-list__item:hover {
+        cursor: move;
+    }
+
+    /* Keep default cursor for ungrouped items */
+    .ungrouped-items .gem-c-reorderable-list__item:hover {
+        cursor: default;
+    }
+
+    /* Dialog styling */
+    .section-dialog {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 1000;
+    }
+
+    .section-dialog-content {
+        background: white;
+        padding: 30px;
+        border-radius: 4px;
+        max-width: 400px;
+        width: 90%;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Style for the chosen item (when selected) */
+    .gem-c-reorderable-list__item.sortable-chosen {
+        background-color: #e5f5ff;
+        outline: 4px solid #ffdd00;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .govuk-summary-card__actions {
+        display: flex;
+        gap: 10px;
+        align-items: flex-start;
+        flex-wrap: wrap;
+    }
+
+    .govuk-summary-card__actions .govuk-checkboxes {
+        margin-bottom: 0;
+    }
+
+    .govuk-summary-card__actions .govuk-checkboxes__item {
+        margin-bottom: 0;
+    }
+
+    .govuk-button--small {
+        padding: 5px 10px;
+        font-size: 14px;
+    }
+
+    /* Section items styling */
+    .section-items,
+    .ungrouped-items {
+        min-height: 50px;
+        padding: 10px;
+        border: 2px dashed #ccc;
+        border-radius: 4px;
+        transition: border-color 0.2s;
+    }
+
+    .section-items:hover,
+    .ungrouped-items:hover {
+        border-color: #00703c;
+    }
+</style>
+{% endblock %}

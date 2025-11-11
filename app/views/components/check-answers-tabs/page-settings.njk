@@ -1,0 +1,124 @@
+{% from "govuk/components/summary-list/macro.njk" import govukSummaryList %}
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+
+{# <span class="govuk-caption-l">Check answers</span> #}
+<h1 class="govuk-heading-l">Check answers page overview</h1>
+
+<form class="form" action="/titan-mvp-1.2/form-editor/listing" method="post">
+  {{ govukSummaryList({
+    rows: [
+      {
+        key: {
+          text: "Declaration text (optional)"
+        },
+        value: {
+          html: '<span id="declaration-value">Loading declaration...</span>'
+        },
+        actions: {
+          items: [
+            {
+              html: '<a href="/titan-mvp-1.2/form-editor/check-answers/settings-modular?tab=declaration" class="govuk-link govuk-link--no-visited-state" id="declaration-action">Add declaration text</a>'
+            }
+          ]
+        }
+      },
+      {
+        key: {
+          text: "Sections (optional)"
+        },
+        value: {
+          html: '<span id="sections-value">Loading sections...</span>'
+        },
+        actions: {
+          items: [
+            {
+              html: '<a href="/titan-mvp-1.2/form-editor/check-answers/settings-modular?tab=sections" class="govuk-link govuk-link--no-visited-state" id="sections-action">Add sections</a>'
+            }
+          ]
+        }
+      }
+    ]
+  }) }}
+
+  <a href="#tab-one-check-answers" class="govuk-skip-link" style="margin-bottom: 30px!important;" data-module="govuk-skip-link">
+    Skip to page preview
+  </a>
+</form>
+
+{# {% from "govuk/components/details/macro.njk" import govukDetails %}
+<hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible"
+>
+{{ govukDetails({
+  classes: "govuk-!-margin-top-6",
+  summaryText: "Declarations and sections",
+  html: "<h2 class='govuk-heading-m'>Declaration</h2><p class='govuk-body'>A declaration allows users to confirm that they have understood or agreed to something before they submit an online form.</p><p class='govuk-body'>When you add a declaration to the check answers page, it appears at the bottom of the page.</p><h2 class='govuk-heading-m'>Sections</h2><p class='govuk-body'>You can group related pages into sections to help break up particularly long pages. <p class='govuk-body'>When you add sections to the check answers page, each section appears with its own heading, making it easier for people to review their answers by topic.</p>"
+}) }} #}
+
+
+<script>
+    // Load sections data and update the display
+  document.addEventListener('DOMContentLoaded', function() {
+    fetch('/titan-mvp-1.2/form-editor/check-answers/get-session-data')
+      .then(response => response.json())
+      .then(data => {
+        const sectionsValue = document.getElementById('sections-value');
+        const sectionsAction = document.getElementById('sections-action');
+        const declarationValue = document.getElementById('declaration-value');
+        const declarationAction = document.getElementById('declaration-action');
+
+        // Handle declaration text and option
+        if (data.declarationOption === 'no-declaration') {
+          // Always show the link if user said no
+          declarationValue.innerHTML = '<a href="/titan-mvp-1.2/form-editor/check-answers/settings-modular?tab=declaration" class="govuk-link govuk-link--no-visited-state">Add declaration text</a>';
+          declarationAction.style.display = 'none'; // Hide the actions column when no declaration
+        } else if (data.declarationOption === 'yes-declaration' && data.declarationText && data.declarationText.trim() !== '') {
+          // Show declaration text preview (truncated if too long)
+          const preview = data.declarationText.length > 50
+            ? data.declarationText.substring(0, 50) + '...'
+            : data.declarationText;
+          declarationValue.innerHTML = preview;
+          // Update action link to "Change"
+          declarationAction.textContent = 'Change';
+          declarationAction.href = '/titan-mvp-1.2/form-editor/check-answers/settings-modular?tab=declaration';
+        } else {
+          // Yes selected but no text
+          declarationValue.innerHTML = '<a href="/titan-mvp-1.2/form-editor/check-answers/settings-modular?tab=declaration" class="govuk-link govuk-link--no-visited-state">Add declaration text</a>';
+          declarationAction.style.display = 'none'; // Hide the actions column when no declaration text
+        }
+
+        // Handle sections
+        if (data.sections && data.sections.length > 0) {
+          // Show sections information
+          const sectionCount = data.sections.length;
+          const sectionNames = data.sections.map(section => section.title || section.name).join(', ');
+
+          if (sectionCount === 1) {
+            sectionsValue.innerHTML = `1 section: ${sectionNames}`;
+          } else {
+            sectionsValue.innerHTML = `${sectionCount} sections: ${sectionNames}`;
+          }
+
+          // Update action link to "Change"
+          sectionsAction.textContent = 'Change';
+          sectionsAction.href = '/titan-mvp-1.2/form-editor/check-answers/settings-modular?tab=sections';
+        } else {
+          // No sections - show "Add sections" link
+          sectionsValue.innerHTML = '<a href="/titan-mvp-1.2/form-editor/check-answers/settings-modular?tab=sections" class="govuk-link govuk-link--no-visited-state">Add and organise sections</a>';
+          sectionsAction.style.display = 'none'; // Hide the actions column when no sections
+        }
+      })
+      .catch(error => {
+        console.error('Error loading session data:', error);
+        // Fallback to default links if there's an error
+        const sectionsValue = document.getElementById('sections-value');
+        const declarationValue = document.getElementById('declaration-value');
+        const sectionsAction = document.getElementById('sections-action');
+        const declarationAction = document.getElementById('declaration-action');
+
+        sectionsValue.innerHTML = '<a href="/titan-mvp-1.2/form-editor/check-answers/settings-modular?tab=sections" class="govuk-link">Add sections</a>';
+        declarationValue.innerHTML = '<a href="/titan-mvp-1.2/form-editor/check-answers/settings-modular?tab=declaration" class="govuk-link">Enter declaration text</a>';
+        sectionsAction.style.display = 'none';
+        declarationAction.style.display = 'none';
+      });
+  });
+</script>

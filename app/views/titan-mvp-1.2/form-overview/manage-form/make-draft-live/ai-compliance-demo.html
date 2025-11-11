@@ -1,0 +1,1060 @@
+{% extends "layouts/main.html" %}
+
+{% from "components/service-header/macro.njk" import serviceHeader %}
+
+{% block header %}
+{{ serviceHeader({
+organisationName: "Defra",
+productName: "Form Designer",
+serviceName: "",
+accountName: "Chris Smith",
+homepageLink: "/",
+signOutLink: "/titan-mvp-1.2/onboarding/sign-out-confirmation",
+navigationItems: [
+{
+href: "/titan-mvp-1.2/library.html",
+text: "Forms library",
+id: "nav-library"
+},
+{
+href: "/titan-mvp-1.2/form-overview/draft/complete.html",
+text: "Overview",
+id: "nav-overview"
+},{
+href: "/titan-mvp-1.2/form-editor/listing",
+text: 'Editor',
+id: 'nav-editor'
+}],
+activeLinkId: "/"
+}) }}
+{% endblock %}
+
+{% block content %}
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+        <span class="govuk-caption-xl">{{ form.name }}</span>
+        <h1 class="govuk-heading-xl">AI Compliance Check Demo</h1>
+
+        <div class="govuk-inset-text">
+            <p class="govuk-body">This demo shows how the AI compliance checker analyzes your actual form content and
+                provides specific recommendations with examples from your form.</p>
+        </div>
+
+        <!-- Overall Score and CTA at Top -->
+        <div class="govuk-grid-row govuk-!-margin-bottom-6">
+            <div class="govuk-grid-column-one-half">
+                <div class="govuk-card govuk-card--contained">
+                    <div class="govuk-card__content">
+                        <h2 class="govuk-heading-m govuk-!-margin-bottom-2">Overall Score</h2>
+                        <p class="govuk-body-xl govuk-!-font-weight-bold">65%</p>
+                        <div class="govuk-!-margin-top-2">
+                            <div class="govuk-tag govuk-tag--red">Needs fixes</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="govuk-grid-column-one-half">
+                <div class="govuk-card govuk-card--contained">
+                    <div class="govuk-card__content">
+                        <h2 class="govuk-heading-m govuk-!-margin-bottom-2">Next Steps</h2>
+                        <p class="govuk-body">Review and fix the issues below before making your form live.</p>
+                        <a href="/titan-mvp-1.2/form-editor/listing" class="govuk-button govuk-button--secondary">
+                            Edit form to fix issues
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Export Options -->
+        <div class="govuk-inset-text govuk-!-margin-bottom-6">
+            <h3 class="govuk-heading-s govuk-!-margin-bottom-2">Export Results</h3>
+            <div class="govuk-button-group">
+                <a href="#" class="govuk-button govuk-button--secondary govuk-button--small">
+                    Download PDF report
+                </a>
+                <a href="#" class="govuk-button govuk-button--secondary govuk-button--small">
+                    Export to CSV
+                </a>
+            </div>
+        </div>
+
+        <!-- Quick Summary -->
+        <div class="govuk-grid-row govuk-!-margin-bottom-6">
+            <div class="govuk-grid-column-one-third">
+                <div class="govuk-card govuk-card--contained">
+                    <div class="govuk-card__content">
+                        <h3 class="govuk-heading-s govuk-!-margin-bottom-2">Total Issues</h3>
+                        <p class="govuk-body-l govuk-!-font-weight-bold">16</p>
+                        <p class="govuk-body-s">across 5 categories</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="govuk-grid-column-one-third">
+                <div class="govuk-card govuk-card--contained">
+                    <div class="govuk-card__content">
+                        <h3 class="govuk-heading-s govuk-!-margin-bottom-2">High Priority</h3>
+                        <p class="govuk-body-l govuk-!-font-weight-bold">3</p>
+                        <p class="govuk-body-s">need immediate attention</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="govuk-grid-column-one-third">
+                <div class="govuk-card govuk-card--contained">
+                    <div class="govuk-card__content">
+                        <h3 class="govuk-heading-s govuk-!-margin-bottom-2">Estimated Fix Time</h3>
+                        <p class="govuk-body-l govuk-!-font-weight-bold">1 hour</p>
+                        <p class="govuk-body-s">based on issue count</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Compliance Categories Table -->
+        <h3 class="govuk-heading-m govuk-!-margin-bottom-3">Compliance Categories</h3>
+        <table class="govuk-table">
+            <thead class="govuk-table__head">
+                <tr class="govuk-table__row">
+                    <th scope="col" class="govuk-table__header">Category</th>
+                    <th scope="col" class="govuk-table__header">Score</th>
+                    <th scope="col" class="govuk-table__header">Status</th>
+                    <th scope="col" class="govuk-table__header">Issues</th>
+                </tr>
+            </thead>
+            <tbody class="govuk-table__body">
+                <tr class="govuk-table__row">
+                    <td class="govuk-table__cell">
+                        <strong>Content</strong>
+                        <br><span class="govuk-body-s">Form name, language, labels</span>
+                    </td>
+                    <td class="govuk-table__cell">
+                        <span class="govuk-body-l govuk-!-font-weight-bold">60%</span>
+                    </td>
+                    <td class="govuk-table__cell">
+                        <div class="govuk-tag govuk-tag--red">Issues</div>
+                    </td>
+                    <td class="govuk-table__cell">
+                        <span class="govuk-body">4 issues</span>
+                    </td>
+                </tr>
+                <tr class="govuk-table__row">
+                    <td class="govuk-table__cell">
+                        <strong>Form Design</strong>
+                        <br><span class="govuk-body-s">Field types, validation, setup</span>
+                    </td>
+                    <td class="govuk-table__cell">
+                        <span class="govuk-body-l govuk-!-font-weight-bold">80%</span>
+                    </td>
+                    <td class="govuk-table__cell">
+                        <div class="govuk-tag govuk-tag--red">Issues</div>
+                    </td>
+                    <td class="govuk-table__cell">
+                        <span class="govuk-body">3 issues</span>
+                    </td>
+                </tr>
+                <tr class="govuk-table__row">
+                    <td class="govuk-table__cell">
+                        <strong>Form Structure</strong>
+                        <br><span class="govuk-body-s">Page layout, question order, logic</span>
+                    </td>
+                    <td class="govuk-table__cell">
+                        <span class="govuk-body-l govuk-!-font-weight-bold">50%</span>
+                    </td>
+                    <td class="govuk-table__cell">
+                        <div class="govuk-tag govuk-tag--red">Issues</div>
+                    </td>
+                    <td class="govuk-table__cell">
+                        <span class="govuk-body">4 issues</span>
+                    </td>
+                </tr>
+                <tr class="govuk-table__row">
+                    <td class="govuk-table__cell">
+                        <strong>Accessibility</strong>
+                        <br><span class="govuk-body-s">Labels, privacy, screen readers</span>
+                    </td>
+                    <td class="govuk-table__cell">
+                        <span class="govuk-body-l govuk-!-font-weight-bold">85%</span>
+                    </td>
+                    <td class="govuk-table__cell">
+                        <div class="govuk-tag govuk-tag--red">Issues</div>
+                    </td>
+                    <td class="govuk-table__cell">
+                        <span class="govuk-body">2 issues</span>
+                    </td>
+                </tr>
+                <tr class="govuk-table__row">
+                    <td class="govuk-table__cell">
+                        <strong>User Experience</strong>
+                        <br><span class="govuk-body-s">Length, journey, mobile</span>
+                    </td>
+                    <td class="govuk-table__cell">
+                        <span class="govuk-body-l govuk-!-font-weight-bold">75%</span>
+                    </td>
+                    <td class="govuk-table__cell">
+                        <div class="govuk-tag govuk-tag--red">Issues</div>
+                    </td>
+                    <td class="govuk-table__cell">
+                        <span class="govuk-body">3 issues</span>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <!-- Issues by Category -->
+        <h3 class="govuk-heading-m govuk-!-margin-top-6 govuk-!-margin-bottom-3">Detailed Issues by Category</h3>
+
+        <!-- Content Issues -->
+        <h4 class="govuk-heading-s govuk-!-margin-top-4 govuk-!-margin-bottom-2">Content Issues (4)</h4>
+        <table class="govuk-table">
+            <thead class="govuk-table__head">
+                <tr class="govuk-table__row">
+                    <th scope="col" class="govuk-table__header">Issue</th>
+                    <th scope="col" class="govuk-table__header">Severity</th>
+                    <th scope="col" class="govuk-table__header">What's wrong & How to fix</th>
+                </tr>
+            </thead>
+            <tbody class="govuk-table__body">
+                <tr class="govuk-table__row">
+                    <td class="govuk-table__cell">
+                        <strong>Form Name is Too Long</strong>
+                        <div class="govuk-!-margin-top-1">
+                            <details class="govuk-details govuk-!-margin-bottom-0">
+                                <summary class="govuk-details__summary">
+                                    <span class="govuk-details__summary-text govuk-body-s">
+                                        Show affected content
+                                    </span>
+                                </summary>
+                                <div class="govuk-details__text">
+                                    <p class="govuk-body-s">
+                                        <code>Apply for a County Parish Holding Number - Livestock Registration and Compliance Documentation</code>
+                                    </p>
+                                </div>
+                            </details>
+                        </div>
+                    </td>
+                    <td class="govuk-table__cell">
+                        <div class="govuk-tag govuk-tag--blue">Medium</div>
+                    </td>
+                    <td class="govuk-table__cell">
+                        <p class="govuk-body-s"><strong>What's wrong:</strong> Your form name is 89 characters long.</p>
+                        <div class="govuk-!-margin-top-2">
+                            <p class="govuk-body-s"><strong>How to fix:</strong></p>
+                            <ul class="govuk-list govuk-list--bullet govuk-body-s">
+                                <li>Keep form names under 50 characters for better clarity</li>
+                                <li>Example: <code>Apply for a County Parish Holding Number...</code></li>
+                                <li>Go to: <a href="/titan-mvp-1.2/form-editor/listing#content"
+                                        class="govuk-link govuk-link--no-visited-state">Form Editor → Content</a></li>
+                            </ul>
+                        </div>
+                    </td>
+                </tr>
+                <tr class="govuk-table__row">
+                    <td class="govuk-table__cell">
+                        <strong>Technical Language Detected in Questions</strong>
+                        <div class="govuk-!-margin-top-1">
+                            <details class="govuk-details govuk-!-margin-bottom-0">
+                                <summary class="govuk-details__summary">
+                                    <span class="govuk-details__summary-text govuk-body-s">
+                                        Show affected content
+                                    </span>
+                                </summary>
+                                <div class="govuk-details__text">
+                                    <ul class="govuk-list govuk-list--bullet govuk-body-s">
+                                        <li><code>Methodology statement for livestock management</code> (contains
+                                            "methodology")</li>
+                                        <li><code>Regulatory compliance documentation</code> (contains "compliance")
+                                        </li>
+                                        <li><code>Stakeholder consultation results</code> (contains "stakeholder")</li>
+                                        <li><code>Protocol adherence confirmation</code> (contains "protocol")</li>
+                                        <li><code>Implementation timeline</code> (contains "implementation")</li>
+                                        <li><code>Leverage existing infrastructure</code> (contains "leverage")</li>
+                                        <li><code>Optimize resource utilization</code> (contains "optimize")</li>
+                                        <li><code>Facilitate stakeholder engagement</code> (contains "facilitate")</li>
+                                    </ul>
+                                </div>
+                            </details>
+                        </div>
+                    </td>
+                    <td class="govuk-table__cell">
+                        <div class="govuk-tag govuk-tag--orange">High</div>
+                    </td>
+                    <td class="govuk-table__cell">
+                        <p class="govuk-body-s">Found 8 questions with technical terms that may confuse users.</p>
+                        <details class="govuk-details govuk-!-margin-top-2">
+                            <summary class="govuk-details__summary">
+                                <span class="govuk-details__summary-text govuk-body-s">
+                                    Show recommendation
+                                </span>
+                            </summary>
+                            <div class="govuk-details__text">
+                                <p class="govuk-body-s"><strong>Recommendation:</strong> Replace technical terms with
+                                    plain English alternatives.</p>
+                                <div class="govuk-inset-text govuk-inset-text--info govuk-!-margin-top-2">
+                                    <h5 class="govuk-heading-xs govuk-!-margin-bottom-1">Example fix:</h5>
+                                    <pre class="govuk-body-s" style="white-space: pre-wrap;">Instead of "methodology statement", use "explain your approach"
+Instead of "regulatory compliance", use "meet legal requirements"
+Instead of "stakeholder consultation", use "consultation with interested parties"
+Instead of "protocol adherence", use "follow procedures"</pre>
+                                </div>
+                            </div>
+                        </details>
+                    </td>
+                </tr>
+                <tr class="govuk-table__row">
+                    <td class="govuk-table__cell">
+                        <strong>Unclear or Overly Long Question Labels</strong>
+                        <div class="govuk-!-margin-top-1">
+                            <details class="govuk-details govuk-!-margin-bottom-0">
+                                <summary class="govuk-details__summary">
+                                    <span class="govuk-details__summary-text govuk-body-s">
+                                        Show affected content
+                                    </span>
+                                </summary>
+                                <div class="govuk-details__text">
+                                    <ul class="govuk-list govuk-list--bullet govuk-body-s">
+                                        <li><code>If you have additional livestock, please specify</code></li>
+                                        <li><code>Other relevant information (please specify)</code></li>
+                                        <li><code>Please specify any additional documentation</code></li>
+                                    </ul>
+                                </div>
+                            </details>
+                        </div>
+                    </td>
+                    <td class="govuk-table__cell">
+                        <div class="govuk-tag govuk-tag--blue">Medium</div>
+                    </td>
+                    <td class="govuk-table__cell">
+                        <p class="govuk-body-s">Found 3 questions that may be unclear to users.</p>
+                        <details class="govuk-details govuk-!-margin-top-2">
+                            <summary class="govuk-details__summary">
+                                <span class="govuk-details__summary-text govuk-body-s">
+                                    Show recommendation
+                                </span>
+                            </summary>
+                            <div class="govuk-details__text">
+                                <p class="govuk-body-s"><strong>Recommendation:</strong> Make question labels clear,
+                                    concise, and specific.</p>
+                                <div class="govuk-inset-text govuk-inset-text--info govuk-!-margin-top-2">
+                                    <h5 class="govuk-heading-xs govuk-!-margin-bottom-1">Example fix:</h5>
+                                    <pre class="govuk-body-s" style="white-space: pre-wrap;">Instead of "If you have additional livestock, please specify", use "Additional livestock"
+Instead of "Other relevant information (please specify)", use "Additional comments"
+Instead of "Please specify any additional documentation", use "Additional documents"</pre>
+                                </div>
+                            </div>
+                        </details>
+                    </td>
+                </tr>
+                <tr class="govuk-table__row">
+                    <td class="govuk-table__cell">
+                        <strong>Consider Customizing "What happens next" Information</strong>
+                        <div class="govuk-!-margin-top-1">
+                            <details class="govuk-details govuk-!-margin-bottom-0">
+                                <summary class="govuk-details__summary">
+                                    <span class="govuk-details__summary-text govuk-body-s">
+                                        Show affected content
+                                    </span>
+                                </summary>
+                                <div class="govuk-details__text">
+                                    <p class="govuk-body-s"><code>Using default next steps</code></p>
+                                </div>
+                            </details>
+                        </div>
+                    </td>
+                    <td class="govuk-table__cell">
+                        <div class="govuk-tag govuk-tag--blue">Low</div>
+                    </td>
+                    <td class="govuk-table__cell">
+                        <p class="govuk-body-s">The form builder provides default next steps, but you may want to
+                            customize them for your specific form.</p>
+                        <details class="govuk-details govuk-!-margin-top-2">
+                            <summary class="govuk-details__summary">
+                                <span class="govuk-details__summary-text govuk-body-s">
+                                    Show recommendation
+                                </span>
+                            </summary>
+                            <div class="govuk-details__text">
+                                <p class="govuk-body-s"><strong>Recommendation:</strong> Review and customize the
+                                    default next steps information if needed.</p>
+                                <div class="govuk-inset-text govuk-inset-text--info govuk-!-margin-top-2">
+                                    <h5 class="govuk-heading-xs govuk-!-margin-bottom-1">Example fix:</h5>
+                                    <pre class="govuk-body-s" style="white-space: pre-wrap;">Add specific information about:
+• When they'll receive a response
+• What documents they might need
+• How to contact support if needed</pre>
+                                </div>
+                            </div>
+                        </details>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <!-- Form Design Issues -->
+        <h4 class="govuk-heading-s govuk-!-margin-top-4 govuk-!-margin-bottom-2">Form Design Issues (3)</h4>
+        <table class="govuk-table">
+            <thead class="govuk-table__head">
+                <tr class="govuk-table__row">
+                    <th scope="col" class="govuk-table__header">Issue</th>
+                    <th scope="col" class="govuk-table__header">Severity</th>
+                    <th scope="col" class="govuk-table__header">Description</th>
+                </tr>
+            </thead>
+            <tbody class="govuk-table__body">
+                <tr class="govuk-table__row">
+                    <td class="govuk-table__cell">
+                        <strong>Team Email Not Customized</strong>
+                        <div class="govuk-!-margin-top-1">
+                            <details class="govuk-details govuk-!-margin-bottom-0">
+                                <summary class="govuk-details__summary">
+                                    <span class="govuk-details__summary-text govuk-body-s">
+                                        Show affected content
+                                    </span>
+                                </summary>
+                                <div class="govuk-details__text">
+                                    <p class="govuk-body-s"><code>Using default team email</code></p>
+                                </div>
+                            </details>
+                        </div>
+                    </td>
+                    <td class="govuk-table__cell">
+                        <div class="govuk-tag govuk-tag--blue">Low</div>
+                    </td>
+                    <td class="govuk-table__cell">
+                        <p class="govuk-body-s">The form builder provides default team email settings.</p>
+                        <details class="govuk-details govuk-!-margin-top-2">
+                            <summary class="govuk-details__summary">
+                                <span class="govuk-details__summary-text govuk-body-s">
+                                    Show recommendation
+                                </span>
+                            </summary>
+                            <div class="govuk-details__text">
+                                <p class="govuk-body-s"><strong>Recommendation:</strong> Review and customize the team
+                                    email settings if needed.</p>
+                                <div class="govuk-inset-text govuk-inset-text--info govuk-!-margin-top-2">
+                                    <h5 class="govuk-heading-xs govuk-!-margin-bottom-1">Example fix:</h5>
+                                    <pre class="govuk-body-s"
+                                        style="white-space: pre-wrap;">Set up form submissions to go to: your-team@defra.gov.uk</pre>
+                                </div>
+                            </div>
+                        </details>
+                    </td>
+                </tr>
+                <tr class="govuk-table__row">
+                    <td class="govuk-table__cell">
+                        <strong>Inappropriate Field Types Detected</strong>
+                        <div class="govuk-!-margin-top-1">
+                            <details class="govuk-details govuk-!-margin-bottom-0">
+                                <summary class="govuk-details__summary">
+                                    <span class="govuk-details__summary-text govuk-body-s">
+                                        Show affected content
+                                    </span>
+                                </summary>
+                                <div class="govuk-details__text">
+                                    <ul class="govuk-list govuk-list--bullet govuk-body-s">
+                                        <li><code>Email address</code></li>
+                                        <li><code>Main phone number</code></li>
+                                    </ul>
+                                </div>
+                            </details>
+                        </div>
+                    </td>
+                    <td class="govuk-table__cell">
+                        <div class="govuk-tag govuk-tag--blue">Medium</div>
+                    </td>
+                    <td class="govuk-table__cell">
+                        <p class="govuk-body-s">Found 2 fields that could use more specific field types.</p>
+                        <details class="govuk-details govuk-!-margin-top-2">
+                            <summary class="govuk-details__summary">
+                                <span class="govuk-details__summary-text govuk-body-s">
+                                    Show recommendation
+                                </span>
+                            </summary>
+                            <div class="govuk-details__text">
+                                <p class="govuk-body-s"><strong>Recommendation:</strong> Use appropriate field types for
+                                    better user experience and validation.</p>
+                                <div class="govuk-inset-text govuk-inset-text--info govuk-!-margin-top-2">
+                                    <h5 class="govuk-heading-xs govuk-!-margin-bottom-1">Example fix:</h5>
+                                    <pre class="govuk-body-s" style="white-space: pre-wrap;">"Email address" should be email type instead of text
+"Main phone number" should be phone type instead of text</pre>
+                                </div>
+                            </div>
+                        </details>
+                    </td>
+                </tr>
+                <tr class="govuk-table__row">
+                    <td class="govuk-table__cell">
+                        <strong>Consider Custom Validation for Specific Fields</strong>
+                        <div class="govuk-!-margin-top-1">
+                            <details class="govuk-details govuk-!-margin-bottom-0">
+                                <summary class="govuk-details__summary">
+                                    <span class="govuk-details__summary-text govuk-body-s">
+                                        Show affected content
+                                    </span>
+                                </summary>
+                                <div class="govuk-details__text">
+                                    <ul class="govuk-list govuk-list--bullet govuk-body-s">
+                                        <li><code>Custom validation field</code></li>
+                                        <li><code>Specific business requirements</code></li>
+                                    </ul>
+                                </div>
+                            </details>
+                        </div>
+                    </td>
+                    <td class="govuk-table__cell">
+                        <div class="govuk-tag govuk-tag--blue">Low</div>
+                    </td>
+                    <td class="govuk-table__cell">
+                        <p class="govuk-body-s">Found 2 fields that may need custom validation rules.</p>
+                        <details class="govuk-details govuk-!-margin-top-2">
+                            <summary class="govuk-details__summary">
+                                <span class="govuk-details__summary-text govuk-body-s">
+                                    Show recommendation
+                                </span>
+                            </summary>
+                            <div class="govuk-details__text">
+                                <p class="govuk-body-s"><strong>Recommendation:</strong> Review if these fields need
+                                    custom validation beyond standard field types.</p>
+                                <div class="govuk-inset-text govuk-inset-text--info govuk-!-margin-top-2">
+                                    <h5 class="govuk-heading-xs govuk-!-margin-bottom-1">Example fix:</h5>
+                                    <pre class="govuk-body-s" style="white-space: pre-wrap;">"Custom validation field" may need custom validation rules
+"Specific business requirements" may need custom validation rules</pre>
+                                </div>
+                            </div>
+                        </details>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <!-- Form Structure Issues -->
+        <h4 class="govuk-heading-s govuk-!-margin-top-4 govuk-!-margin-bottom-2">Form Structure Issues (4)</h4>
+        <table class="govuk-table">
+            <thead class="govuk-table__head">
+                <tr class="govuk-table__row">
+                    <th scope="col" class="govuk-table__header">Issue</th>
+                    <th scope="col" class="govuk-table__header">Severity</th>
+                    <th scope="col" class="govuk-table__header">Description</th>
+                </tr>
+            </thead>
+            <tbody class="govuk-table__body">
+                <tr class="govuk-table__row">
+                    <td class="govuk-table__cell">
+                        <strong>Pages with Too Many Questions</strong>
+                        <div class="govuk-!-margin-top-1">
+                            <details class="govuk-details govuk-!-margin-bottom-0">
+                                <summary class="govuk-details__summary">
+                                    <span class="govuk-details__summary-text govuk-body-s">
+                                        Show affected content
+                                    </span>
+                                </summary>
+                                <div class="govuk-details__text">
+                                    <ul class="govuk-list govuk-list--bullet govuk-body-s">
+                                        <li><code>Business Registration and Compliance Details</code> (5 questions)</li>
+                                        <li><code>Livestock Information and Documentation</code> (6 questions)</li>
+                                        <li><code>Contact Information and Communication Preferences</code> (5 questions)
+                                        </li>
+                                    </ul>
+                                </div>
+                            </details>
+                        </div>
+                    </td>
+                    <td class="govuk-table__cell">
+                        <div class="govuk-tag govuk-tag--blue">Medium</div>
+                    </td>
+                    <td class="govuk-table__cell">
+                        <p class="govuk-body-s">Found 3 pages that may have too many questions per page.</p>
+                        <details class="govuk-details govuk-!-margin-top-2">
+                            <summary class="govuk-details__summary">
+                                <span class="govuk-details__summary-text govuk-body-s">
+                                    Show recommendation
+                                </span>
+                            </summary>
+                            <div class="govuk-details__text">
+                                <p class="govuk-body-s"><strong>Recommendation:</strong> Consider splitting complex
+                                    pages into simpler, single-purpose pages.</p>
+                                <div class="govuk-inset-text govuk-inset-text--info govuk-!-margin-top-2">
+                                    <h5 class="govuk-heading-xs govuk-!-margin-bottom-1">Example fix:</h5>
+                                    <pre class="govuk-body-s" style="white-space: pre-wrap;">Split "Business Registration and Compliance Details" into separate pages:
+• Business registration
+• Business details
+• Contact information</pre>
+                                </div>
+                            </div>
+                        </details>
+                    </td>
+                </tr>
+                <tr class="govuk-table__row">
+                    <td class="govuk-table__cell">
+                        <strong>Eligibility Questions Not Prioritized</strong>
+                        <div class="govuk-!-margin-top-1">
+                            <details class="govuk-details govuk-!-margin-bottom-0">
+                                <summary class="govuk-details__summary">
+                                    <span class="govuk-details__summary-text govuk-body-s">
+                                        Show affected content
+                                    </span>
+                                </summary>
+                                <div class="govuk-details__text">
+                                    <ul class="govuk-list govuk-list--bullet govuk-body-s">
+                                        <li><code>Are you eligible for livestock registration?</code></li>
+                                        <li><code>Do you have a valid permit for livestock farming?</code></li>
+                                    </ul>
+                                </div>
+                            </details>
+                        </div>
+                    </td>
+                    <td class="govuk-table__cell">
+                        <div class="govuk-tag govuk-tag--blue">Medium</div>
+                    </td>
+                    <td class="govuk-table__cell">
+                        <p class="govuk-body-s">Questions that determine eligibility should come first to avoid wasting
+                            users' time.</p>
+                        <details class="govuk-details govuk-!-margin-top-2">
+                            <summary class="govuk-details__summary">
+                                <span class="govuk-details__summary-text govuk-body-s">
+                                    Show recommendation
+                                </span>
+                            </summary>
+                            <div class="govuk-details__text">
+                                <p class="govuk-body-s"><strong>Recommendation:</strong> Move eligibility questions to
+                                    the beginning of the form.</p>
+                                <div class="govuk-inset-text govuk-inset-text--info govuk-!-margin-top-2">
+                                    <h5 class="govuk-heading-xs govuk-!-margin-bottom-1">Example fix:</h5>
+                                    <pre class="govuk-body-s"
+                                        style="white-space: pre-wrap;">Move "Are you eligible for livestock registration?" to be one of the first questions</pre>
+                                </div>
+                            </div>
+                        </details>
+                    </td>
+                </tr>
+                <tr class="govuk-table__row">
+                    <td class="govuk-table__cell">
+                        <strong>Complex Questions Without Clear Justification</strong>
+                        <div class="govuk-!-margin-top-1">
+                            <details class="govuk-details govuk-!-margin-bottom-0">
+                                <summary class="govuk-details__summary">
+                                    <span class="govuk-details__summary-text govuk-body-s">
+                                        Show affected content
+                                    </span>
+                                </summary>
+                                <div class="govuk-details__text">
+                                    <ul class="govuk-list govuk-list--bullet govuk-body-s">
+                                        <li><code>Methodology statement for livestock management</code></li>
+                                        <li><code>Regulatory compliance documentation</code></li>
+                                        <li><code>Environmental impact assessment</code></li>
+                                    </ul>
+                                </div>
+                            </details>
+                        </div>
+                    </td>
+                    <td class="govuk-table__cell">
+                        <div class="govuk-tag govuk-tag--red">High</div>
+                    </td>
+                    <td class="govuk-table__cell">
+                        <p class="govuk-body-s">Found 3 questions that may need clearer justification.</p>
+                        <details class="govuk-details govuk-!-margin-top-2">
+                            <summary class="govuk-details__summary">
+                                <span class="govuk-details__summary-text govuk-body-s">
+                                    Show recommendation
+                                </span>
+                            </summary>
+                            <div class="govuk-details__text">
+                                <p class="govuk-body-s"><strong>Recommendation:</strong> Create a question protocol that
+                                    justifies each field and its purpose.</p>
+                                <div class="govuk-inset-text govuk-inset-text--info govuk-!-margin-top-2">
+                                    <h5 class="govuk-heading-xs govuk-!-margin-bottom-1">Example fix:</h5>
+                                    <pre class="govuk-body-s" style="white-space: pre-wrap;">For "Methodology statement for livestock management":
+• Why is this information needed?
+• How will it be used?
+• What happens if it's not provided?</pre>
+                                </div>
+                            </div>
+                        </details>
+                    </td>
+                </tr>
+                <tr class="govuk-table__row">
+                    <td class="govuk-table__cell">
+                        <strong>Potential Branching Logic Opportunities</strong>
+                        <div class="govuk-!-margin-top-1">
+                            <details class="govuk-details govuk-!-margin-bottom-0">
+                                <summary class="govuk-details__summary">
+                                    <span class="govuk-details__summary-text govuk-body-s">
+                                        Show affected content
+                                    </span>
+                                </summary>
+                                <div class="govuk-details__text">
+                                    <ul class="govuk-list govuk-list--bullet govuk-body-s">
+                                        <li><code>If you have additional livestock, please specify</code></li>
+                                        <li><code>When did you start farming?</code></li>
+                                        <li><code>Other relevant information (please specify)</code></li>
+                                    </ul>
+                                </div>
+                            </details>
+                        </div>
+                    </td>
+                    <td class="govuk-table__cell">
+                        <div class="govuk-tag govuk-tag--blue">Low</div>
+                    </td>
+                    <td class="govuk-table__cell">
+                        <p class="govuk-body-s">Found 3 questions that could benefit from conditional logic.</p>
+                        <details class="govuk-details govuk-!-margin-top-2">
+                            <summary class="govuk-details__summary">
+                                <span class="govuk-details__summary-text govuk-body-s">
+                                    Show recommendation
+                                </span>
+                            </summary>
+                            <div class="govuk-details__text">
+                                <p class="govuk-body-s"><strong>Recommendation:</strong> Consider implementing
+                                    conditional logic to show only relevant questions based on user responses.</p>
+                                <div class="govuk-inset-text govuk-inset-text--info govuk-!-margin-top-2">
+                                    <h5 class="govuk-heading-xs govuk-!-margin-bottom-1">Example fix:</h5>
+                                    <pre class="govuk-body-s"
+                                        style="white-space: pre-wrap;">"If you have additional livestock, please specify" could be shown conditionally based on previous answers</pre>
+                                </div>
+                            </div>
+                        </details>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <!-- Accessibility Issues -->
+        <h4 class="govuk-heading-s govuk-!-margin-top-4 govuk-!-margin-bottom-2">Accessibility Issues (2)</h4>
+        <table class="govuk-table">
+            <thead class="govuk-table__head">
+                <tr class="govuk-table__row">
+                    <th scope="col" class="govuk-table__header">Issue</th>
+                    <th scope="col" class="govuk-table__header">Severity</th>
+                    <th scope="col" class="govuk-table__header">Description</th>
+                </tr>
+            </thead>
+            <tbody class="govuk-table__body">
+                <tr class="govuk-table__row">
+                    <td class="govuk-table__cell">
+                        <strong>Privacy Notice Not Customized</strong>
+                        <div class="govuk-!-margin-top-1">
+                            <details class="govuk-details govuk-!-margin-bottom-0">
+                                <summary class="govuk-details__summary">
+                                    <span class="govuk-details__summary-text govuk-body-s">
+                                        Show affected content
+                                    </span>
+                                </summary>
+                                <div class="govuk-details__text">
+                                    <p class="govuk-body-s"><code>Using default privacy notice</code></p>
+                                </div>
+                            </details>
+                        </div>
+                    </td>
+                    <td class="govuk-table__cell">
+                        <div class="govuk-tag govuk-tag--blue">Low</div>
+                    </td>
+                    <td class="govuk-table__cell">
+                        <p class="govuk-body-s">The form builder provides default privacy notice settings.</p>
+                        <details class="govuk-details govuk-!-margin-top-2">
+                            <summary class="govuk-details__summary">
+                                <span class="govuk-details__summary-text govuk-body-s">
+                                    Show recommendation
+                                </span>
+                            </summary>
+                            <div class="govuk-details__text">
+                                <p class="govuk-body-s"><strong>Recommendation:</strong> Review and customize the
+                                    privacy notice if needed for your specific form.</p>
+                                <div class="govuk-inset-text govuk-inset-text--info govuk-!-margin-top-2">
+                                    <h5 class="govuk-heading-xs govuk-!-margin-bottom-1">Example fix:</h5>
+                                    <pre class="govuk-body-s" style="white-space: pre-wrap;">Customize the privacy notice to explain:
+• What data is collected
+• How it's used
+• How long it's kept
+• User rights under GDPR</pre>
+                                </div>
+                            </div>
+                        </details>
+                    </td>
+                </tr>
+                <tr class="govuk-table__row">
+                    <td class="govuk-table__cell">
+                        <strong>Unclear Field Labels</strong>
+                        <div class="govuk-!-margin-top-1">
+                            <details class="govuk-details govuk-!-margin-bottom-0">
+                                <summary class="govuk-details__summary">
+                                    <span class="govuk-details__summary-text govuk-body-s">
+                                        Show affected content
+                                    </span>
+                                </summary>
+                                <div class="govuk-details__text">
+                                    <ul class="govuk-list govuk-list--bullet govuk-body-s">
+                                        <li><code>Field 1</code></li>
+                                        <li><code>Input field</code></li>
+                                    </ul>
+                                </div>
+                            </details>
+                        </div>
+                    </td>
+                    <td class="govuk-table__cell">
+                        <div class="govuk-tag govuk-tag--blue">Medium</div>
+                    </td>
+                    <td class="govuk-table__cell">
+                        <p class="govuk-body-s">Found 2 fields with unclear labels that may confuse screen readers.</p>
+                        <details class="govuk-details govuk-!-margin-top-2">
+                            <summary class="govuk-details__summary">
+                                <span class="govuk-details__summary-text govuk-body-s">
+                                    Show recommendation
+                                </span>
+                            </summary>
+                            <div class="govuk-details__text">
+                                <p class="govuk-body-s"><strong>Recommendation:</strong> Use clear, descriptive labels
+                                    for all form fields.</p>
+                                <div class="govuk-inset-text govuk-inset-text--info govuk-!-margin-top-2">
+                                    <h5 class="govuk-heading-xs govuk-!-margin-bottom-1">Example fix:</h5>
+                                    <pre class="govuk-body-s" style="white-space: pre-wrap;">Instead of "Field 1", use "Business registration number"
+Instead of "Input field", use "Contact phone number"</pre>
+                                </div>
+                            </div>
+                        </details>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <!-- User Experience Issues -->
+        <h4 class="govuk-heading-s govuk-!-margin-top-4 govuk-!-margin-bottom-2">User Experience Issues (3)</h4>
+        <table class="govuk-table">
+            <thead class="govuk-table__head">
+                <tr class="govuk-table__row">
+                    <th scope="col" class="govuk-table__header">Issue</th>
+                    <th scope="col" class="govuk-table__header">Severity</th>
+                    <th scope="col" class="govuk-table__header">Description</th>
+                </tr>
+            </thead>
+            <tbody class="govuk-table__body">
+                <tr class="govuk-table__row">
+                    <td class="govuk-table__cell">
+                        <strong>User Journey Not Customized</strong>
+                        <div class="govuk-!-margin-top-1">
+                            <details class="govuk-details govuk-!-margin-bottom-0">
+                                <summary class="govuk-details__summary">
+                                    <span class="govuk-details__summary-text govuk-body-s">
+                                        Show affected content
+                                    </span>
+                                </summary>
+                                <div class="govuk-details__text">
+                                    <p class="govuk-body-s"><code>Using default user journey</code></p>
+                                </div>
+                            </details>
+                        </div>
+                    </td>
+                    <td class="govuk-table__cell">
+                        <div class="govuk-tag govuk-tag--blue">Low</div>
+                    </td>
+                    <td class="govuk-table__cell">
+                        <p class="govuk-body-s">The form builder provides default user journey settings.</p>
+                        <details class="govuk-details govuk-!-margin-top-2">
+                            <summary class="govuk-details__summary">
+                                <span class="govuk-details__summary-text govuk-body-s">
+                                    Show recommendation
+                                </span>
+                            </summary>
+                            <div class="govuk-details__text">
+                                <p class="govuk-body-s"><strong>Recommendation:</strong> Consider customizing the user
+                                    journey for your specific form if needed.</p>
+                                <div class="govuk-inset-text govuk-inset-text--info govuk-!-margin-top-2">
+                                    <h5 class="govuk-heading-xs govuk-!-margin-bottom-1">Example fix:</h5>
+                                    <pre class="govuk-body-s" style="white-space: pre-wrap;">Customize the user journey to show:
+• How users find the form
+• What information they need
+• How long it takes to complete
+• What happens after submission</pre>
+                                </div>
+                            </div>
+                        </details>
+                    </td>
+                </tr>
+                <tr class="govuk-table__row">
+                    <td class="govuk-table__cell">
+                        <strong>Form Appears to be Very Long</strong>
+                        <div class="govuk-!-margin-top-1">
+                            <details class="govuk-details govuk-!-margin-bottom-0">
+                                <summary class="govuk-details__summary">
+                                    <span class="govuk-details__summary-text govuk-body-s">
+                                        Show affected content
+                                    </span>
+                                </summary>
+                                <div class="govuk-details__text">
+                                    <p class="govuk-body-s"><code>28 total questions detected</code></p>
+                                </div>
+                            </details>
+                        </div>
+                    </td>
+                    <td class="govuk-table__cell">
+                        <div class="govuk-tag govuk-tag--blue">Medium</div>
+                    </td>
+                    <td class="govuk-table__cell">
+                        <p class="govuk-body-s">Estimated 28 questions detected. Long forms can discourage completion.
+                        </p>
+                        <details class="govuk-details govuk-!-margin-top-2">
+                            <summary class="govuk-details__summary">
+                                <span class="govuk-details__summary-text govuk-body-s">
+                                    Show recommendation
+                                </span>
+                            </summary>
+                            <div class="govuk-details__text">
+                                <p class="govuk-body-s"><strong>Recommendation:</strong> Consider breaking the form into
+                                    smaller sections or multiple pages.</p>
+                                <div class="govuk-inset-text govuk-inset-text--info govuk-!-margin-top-2">
+                                    <h5 class="govuk-heading-xs govuk-!-margin-bottom-1">Example fix:</h5>
+                                    <pre class="govuk-body-s" style="white-space: pre-wrap;">Split your 28 questions into logical sections:
+• Business details (8 questions)
+• Livestock information (10 questions)
+• Contact details (5 questions)
+• Supporting documents (5 questions)</pre>
+                                </div>
+                            </div>
+                        </details>
+                    </td>
+                </tr>
+                <tr class="govuk-table__row">
+                    <td class="govuk-table__cell">
+                        <strong>Consider Testing on Mobile Devices</strong>
+                        <div class="govuk-!-margin-top-1">
+                            <details class="govuk-details govuk-!-margin-bottom-0">
+                                <summary class="govuk-details__summary">
+                                    <span class="govuk-details__summary-text govuk-body-s">
+                                        Show affected content
+                                    </span>
+                                </summary>
+                                <div class="govuk-details__text">
+                                    <p class="govuk-body-s"><code>28 questions - consider mobile testing</code></p>
+                                </div>
+                            </details>
+                        </div>
+                    </td>
+                    <td class="govuk-table__cell">
+                        <div class="govuk-tag govuk-tag--blue">Low</div>
+                    </td>
+                    <td class="govuk-table__cell">
+                        <p class="govuk-body-s">The form builder handles mobile optimization, but complex forms should
+                            be tested.</p>
+                        <details class="govuk-details govuk-!-margin-top-2">
+                            <summary class="govuk-details__summary">
+                                <span class="govuk-details__summary-text govuk-body-s">
+                                    Show recommendation
+                                </span>
+                            </summary>
+                            <div class="govuk-details__text">
+                                <p class="govuk-body-s"><strong>Recommendation:</strong> Test the form on mobile devices
+                                    to ensure it works well for your specific use case.</p>
+                                <div class="govuk-inset-text govuk-inset-text--info govuk-!-margin-top-2">
+                                    <h5 class="govuk-heading-xs govuk-!-margin-bottom-1">Example fix:</h5>
+                                    <pre class="govuk-body-s" style="white-space: pre-wrap;">Test the form on mobile devices to ensure:
+• All fields are easily tappable
+• Text is readable without zooming
+• Forms work on different screen sizes
+• Touch targets are at least 44px</pre>
+                                </div>
+                            </div>
+                        </details>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <!-- Priority Recommendations -->
+        <h3 class="govuk-heading-m govuk-!-margin-top-6 govuk-!-margin-bottom-3">Priority Recommendations</h3>
+        <table class="govuk-table">
+            <thead class="govuk-table__head">
+                <tr class="govuk-table__row">
+                    <th scope="col" class="govuk-table__header">Priority</th>
+                    <th scope="col" class="govuk-table__header">Action</th>
+                    <th scope="col" class="govuk-table__header">Description</th>
+                </tr>
+            </thead>
+            <tbody class="govuk-table__body">
+                <tr class="govuk-table__row">
+                    <td class="govuk-table__cell">
+                        <div class="govuk-tag govuk-tag--red">High</div>
+                    </td>
+                    <td class="govuk-table__cell">
+                        <strong>Address critical issues first</strong>
+                    </td>
+                    <td class="govuk-table__cell">
+                        <span class="govuk-body-s">Focus on fixing critical and high-severity issues before making the
+                            form live.</span>
+                    </td>
+                </tr>
+                <tr class="govuk-table__row">
+                    <td class="govuk-table__cell">
+                        <div class="govuk-tag govuk-tag--orange">Medium</div>
+                    </td>
+                    <td class="govuk-table__cell">
+                        <strong>Improve content clarity</strong>
+                    </td>
+                    <td class="govuk-table__cell">
+                        <span class="govuk-body-s">Review and simplify language to make it more user-friendly.</span>
+                    </td>
+                </tr>
+                <tr class="govuk-table__row">
+                    <td class="govuk-table__cell">
+                        <div class="govuk-tag govuk-tag--orange">Medium</div>
+                    </td>
+                    <td class="govuk-table__cell">
+                        <strong>Optimize form structure</strong>
+                    </td>
+                    <td class="govuk-table__cell">
+                        <span class="govuk-body-s">Follow GDS guidance on one thing per page and question
+                            protocols.</span>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="govuk-button-group">
+            <a href="/titan-mvp-1.2/form-overview/manage-form/make-draft-live/ai-compliance-loading"
+                class="govuk-button">
+                Run Real AI Check
+            </a>
+            <a href="/titan-mvp-1.2/form-overview/manage-form/make-draft-live"
+                class="govuk-button govuk-button--secondary">
+                Back to Make Draft Live
+            </a>
+        </div>
+
+        <div class="govuk-inset-text">
+            <p class="govuk-body-s">
+                <strong>Demo Note:</strong> This shows how the AI compliance checker analyzes your actual form content
+                and provides specific, actionable recommendations with examples from your form. The real AI check will
+                analyze your actual form data and provide personalized feedback.
+            </p>
+        </div>
+    </div>
+
+    <div class="govuk-grid-column-one-third">
+        <div class="govuk-card govuk-card--contained">
+            <div class="govuk-card__content">
+                <h3 class="govuk-heading-s">How It Works</h3>
+                <ol class="govuk-list govuk-list--number govuk-body-s">
+                    <li>AI analyzes your actual form questions and content</li>
+                    <li>Identifies specific issues with real examples</li>
+                    <li>Provides concrete recommendations with fixes</li>
+                    <li>Shows exactly what needs to be changed</li>
+                    <li>Gives you actionable next steps</li>
+                </ol>
+            </div>
+        </div>
+
+        <div class="govuk-card govuk-card--contained">
+            <div class="govuk-card__content">
+                <h3 class="govuk-heading-s">Benefits</h3>
+                <ul class="govuk-list govuk-list--bullet govuk-body-s">
+                    <li>Specific feedback on your form</li>
+                    <li>Real examples from your content</li>
+                    <li>Clear action items to fix issues</li>
+                    <li>GDS compliance guidance</li>
+                    <li>Better user experience</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

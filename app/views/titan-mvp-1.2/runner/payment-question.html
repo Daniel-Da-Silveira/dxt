@@ -1,0 +1,107 @@
+{% extends "layouts/runner.html" %}
+
+{% block pageTitle %}
+  Question page template – {{ serviceName }} – GOV.UK Prototype Kit
+{% endblock %}
+
+{% block beforeContent %}
+
+{{ govukPhaseBanner({
+  tag: {
+    text: "Beta"
+  },
+  html: 'This is a new service. Help us improve it and <a class="govuk-link" target="_blank" href="/titan-mvp-1.2/form-editor/CSAT/form.html">give your feedback (opens in new tab)</a>.'
+}) }}
+
+  {{ govukBackLink({
+  text: "Back",
+  href: "javascript:window.history.back()"
+}) }}
+{% endblock %}
+
+{% block content %}
+
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <div class="payment-summary-wrap">
+        <div class="payment-summary">
+            <h1 class="govuk-heading-l">Payment required</h1>
+
+            <p id="payment-description" class="govuk-body">
+              Registration fee for your unicorn breeder certificate.
+            </p>
+
+            {{ govukWarningText({
+              text: "You must pay before you can send your form",
+              classes: "govuk-!-margin-bottom-4",
+              iconFallbackText: "Warning"
+            }) }}
+
+            <p id="payment-description" class="govuk-body">
+              When your payment is complete, you’ll able to continue with your form.
+            </p>
+            <p class="govuk-body hidden" id="payment-summary-breakdown">
+            Amount
+            <span class="govuk-!-font-weight-bold" id="payment-summary-breakdown-amount"></span><br>
+            Corporate card fee:
+            <span class="govuk-!-font-weight-bold" id="payment-summary-corporate-card-fee"></span>
+            </p>
+            <p class="govuk-body govuk-!-margin-bottom-0">
+            Total amount:
+            <span id="amount" class="amount govuk-!-font-size-36 govuk-!-font-weight-bold" data-amount="300.00">£300.00</span>
+            </p>
+            {{ govukButton({
+              text: "Pay now",
+              classes: "govuk-button--primary govuk-!-margin-top-4 govuk-!-margin-bottom-0",
+              href: "https://products.payments.service.gov.uk/pay/794743a669314e36b3e4c78a3ffba307"
+              }) }}
+
+
+
+        </div>
+      </div>
+
+
+      {{ govukButton({
+        text: "Save and exit",
+        classes: "govuk-button--secondary govuk-!-margin-top-6",
+        href: "/save-progress",
+        type: "button"
+        }) }}
+      <form class="form" action="/path/of/next/page" method="post">
+
+
+      </form>
+
+    </div>
+  </div>
+
+  <style>
+
+    .payment-summary {
+      border-top: 2px solid #1d70b8;
+      padding: 15px;
+      background-color: #f3f2f1;
+    }
+
+
+  @media all{
+    .amount  {
+      display: block;
+    }
+  }
+
+        </style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  // Store the token in localStorage before payment
+  const token = '{{ resumeToken }}';
+  if (token) {
+    localStorage.setItem('resumeToken', token);
+    console.log('Stored token in localStorage:', token);
+  }
+});
+</script>
+
+{% endblock %}

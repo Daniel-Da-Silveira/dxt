@@ -4,16 +4,68 @@ https://prototype-kit.service.gov.uk/docs/how-to-use-layouts
 #}
 
 {% extends "govuk-prototype-kit/layouts/govuk-branded.njk" %}
+{% set govukRebrand = true %}
+
+{% block content %}
+{{ super() }}
+{% endblock %}
+
 
 
 {% block footer %}
+
 {{ govukFooter({
-containerClasses: containerClasses,
-navigation: [
+meta: {
+items: [
 
 {
-title: "Quick links",
-width: "full",
+href: "#",
+text: "Privacy"
+},
+{
+href: "#",
+text: "Accessibility"
+}
+],
+html: '<strong class="govuk-tag govuk-phase-banner__content__tag">Beta</strong>This is a new service. Help us improve it
+and <a class="govuk-footer__link" href="mailto:defraforms@defra.gov.uk">give your feedback by email</a>.'
+}
+}) }}
+{% endblock %}
+{# {{ govukFooter({
+
+meta: {
+items: [
+{
+href: "",
+text: "Accessibility statement"
+},
+{
+href: "",
+text: "Cookies"
+},
+{
+href: "",
+text: "Privacy"
+},
+{
+href: "/manage-prototype",
+text: "Manage prototype"
+},
+{
+href: "/manage-prototype/clear-data",
+text: "Clear data"
+}
+]
+}
+}) }}
+
+{% endblock %} #}
+{#
+{% block footer %}
+{{ govukFooter({
+
+meta: {
 items: [
 {
 href: "/index.html",
@@ -45,10 +97,9 @@ text: "Clear data"
 }
 ]
 }
-]
 }) }}
 
-{% endblock %}
+{% endblock %} #}
 
 {# {% block footer %}
 {{ govukFooter({
@@ -77,4 +128,16 @@ visuallyHiddenTitle: "Footer links"
 <script src="/public/javascripts/screenwidth.js"></script>
 <script src="/public/javascripts/comments.js"></script>
 <script src="/public/javascripts/help.js"></script>
+<script>
+    if (window.self !== window.top) {
+        document.addEventListener('DOMContentLoaded', function () {
+            document.body.classList.add('in-iframe');
+        });
+    }
+</script>
+<style>
+    body.in-iframe .govuk-footer {
+        display: none !important;
+    }
+</style>
 {% endblock %}

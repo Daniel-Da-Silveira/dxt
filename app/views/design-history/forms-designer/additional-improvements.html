@@ -1,0 +1,99 @@
+{% extends "design-history/template.html" %}
+
+{% from "components/service-header/macro.njk" import serviceHeader %}
+{% from "govuk/components/breadcrumbs/macro.njk" import govukBreadcrumbs %}
+{% from "govuk/components/tag/macro.njk" import govukTag %}
+{% from "components/contents-list-with-body.njk" import contentsListWithBody %}
+
+{% block header %}
+{{ serviceHeader({
+organisationName: "Defra",
+productName: "Forms Designer",
+serviceName: "Design History",
+containerClasses: containerClasses,
+accountName: "Chris Smith (Admin)",
+homepageLink: "/",
+signOutLink: "/onboarding/sign-out-confirmation",
+navigationItems: [
+{ href: "/roles/my-account.html", text: "My account", id: "my-account" },
+{ href: "/roles/manage-users.html", text: "Manage users", id: "manage-users" }
+],
+activeLinkId: ""
+}) }}
+<div class="x-govuk-masthead x-govuk-masthead--large">
+    <div class="govuk-width-container">
+        {{ govukBreadcrumbs({
+        classes: "govuk-breadcrumbs--inverse",
+        items: [
+        { text: "Design History", href: "/design-history/index.html" },
+        { text: "Forms Designer", href: "/design-history/forms-designer/index.html" },
+        { text: "Feature by feature deep dive", href: "/design-history/forms-designer/old-new-page2.html" },
+        { text: "Additional Improvements" }
+        ]
+        }) }}
+        <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible"
+            style="border-bottom: 1px solid white; margin-bottom: 0" />
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-full-from-desktop">
+                <h1 class="x-govuk-masthead__title" id="additional-improvements">
+                    <span class="govuk-caption-l" style="color: white;">Transforming the Defra Forms Designer: A design
+                        history</span>
+                    Additional Improvements
+                </h1>
+                <div class="govuk-body" style="color: white; margin-top: 1em;">
+                    <span class="govuk-tag govuk-tag--grey">Post</span>
+                    <span style="margin-left: 1em;">Originally published on 15 May 2024</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+        <div class="app-prose-scope">
+            <!-- Content from #additional-improvements section goes here -->
+            <h2 class="govuk-heading-l" id="additional-improvements">Additional Improvements</h2>
+            <h4 class="govuk-heading-s">Markdown Support</h4>
+            <ul class="govuk-list govuk-list--bullet">
+                <li>clear guidance and examples for formatting</li>
+                <li>real-time preview of markdown rendering</li>
+                <li>contextual help for markdown syntax</li>
+            </ul>
+            <h4 class="govuk-heading-s">Error Messages</h4>
+            <ul class="govuk-list govuk-list--bullet">
+                <li>guided input for error message creation</li>
+                <li>best practice examples and templates</li>
+                <li>preview of error states</li>
+            </ul>
+            <h4 class="govuk-heading-s">Autosave</h4>
+            <ul class="govuk-list govuk-list--bullet">
+                <li>clear save status indicators</li>
+                <li>automatic version history</li>
+                <li>recovery options for unsaved changes</li>
+            </ul>
+            <h4 class="govuk-heading-s">Guidance Pages</h4>
+            <ul class="govuk-list govuk-list--bullet">
+                <li>integrated guidance page creation</li>
+                <li>clear relationship to form questions</li>
+                <li>preview of guidance in context</li>
+            </ul>
+            <div class="govuk-inset-text">
+                <p class="govuk-body">"The design feels really clean, really like a lot of space, very methodical step
+                    by step" — Content designer feedback from Round 12</p>
+            </div>
+            <hr class="govuk-section-break govuk-section-break--xl govuk-section-break--visible">
+            {% from "govuk/components/pagination/macro.njk" import govukPagination %}
+            {{ govukPagination({
+            previous: {
+            labelText: "Signing In and Out",
+            href: "/design-history/forms-designer/deep-dive/signing-in-and-out.html"
+            },
+            classes: "app-pagination govuk-!-margin-top-6"
+            }) }}
+        </div>
+    </div>
+</div>
+{% endblock %}

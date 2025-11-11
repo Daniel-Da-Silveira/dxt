@@ -1,0 +1,139 @@
+{% extends "layouts/main.html" %}
+
+{% from "components/service-header/macro.njk" import serviceHeader %}
+
+{% set pageName = "Overview - Apply for a county parish holding number in England" %}
+
+{% block header %}
+  {{ serviceHeader({
+    organisationName: "Defra",
+    productName: "Forms Designer",
+    serviceName: "",
+    accountName: "Chris Smith",
+    homepageLink: "/",
+    signOutLink: "/form-designer-v2/onboarding/sign-out-confirmation",
+    navigationItems: [
+    {
+      href: "/library.html",
+      text: "Forms library",
+      id: "library"
+     },
+    {
+      href: "/cph-overview/draft.html",
+      text: "Overview",
+      id: "overview"
+     },{
+         href: "/editor.html",
+    text: 'Editor',
+    id: 'editor'
+    }],
+    activeLinkId: "/"
+  }) }}
+{% endblock %}
+
+{% block beforeContent %}
+  {{ govukBackLink({
+  text: "Back to editor",
+  href: "/editor.html"
+}) }}
+{% endblock %}
+
+{% block content %}
+
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+    {% from "govuk/components/notification-banner/macro.njk" import govukNotificationBanner %}
+
+{% set html %}
+  <h3 class="govuk-notification-banner__heading">
+    New condition has been saved
+  </h3>
+{% endset %}
+
+{{ govukNotificationBanner({
+  html: html,
+  type: "success"
+}) }}
+      <span class="govuk-caption-l">Apply for a county parish holding number in England</span>
+      <h1 class="govuk-heading-l">
+        Add or change conditions
+      </h1>
+
+      {% from "govuk/components/summary-list/macro.njk" import govukSummaryList %}
+
+
+{% from "govuk/components/phase-banner/macro.njk" import govukPhaseBanner %}
+<h2 id="search-results-heading" class="govuk-heading-m">
+        <span class="govuk-visually-hidden">Search results</span>
+        3 conditions
+        <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
+      </h2>
+
+{{ govukButton({
+  text: "Add a new condition",
+  href: "/conditions/name.html"
+}) }}
+
+
+      {{ govukSummaryList({
+  rows: [
+    {
+      key: {
+        text: "Pet type"
+      },
+      value: {
+        html: '<p class="govuk-body">If the question: Do you have pets?</p><p class="govuk-body">is answered as “Yes”</p><p class="govuk-body">Take the person to “Why did the dog eat your homework?”</p>'
+      },
+      actions: {
+        items: [
+          {
+            href: "#",
+            text: "Change",
+            visuallyHiddenText: "name"
+          }
+        ]
+      }
+    },
+    {
+      key: {
+        text: "Location"
+      },
+      value: {
+        html: '<p class="govuk-body">If the question: Do you have pets?</p><p class="govuk-body">is answered as “Yes”</p><p class="govuk-body">Take the person to “Why did the dog eat your homework?”</p>'
+      },
+      actions: {
+        items: [
+          {
+            href: "#",
+            text: "Change",
+            visuallyHiddenText: "location"
+          }
+        ]
+      }
+    },
+    {
+      key: {
+        text: "Date of birth"
+      },
+      value: {
+        html: '<p class="govuk-body">If the question: Do you have pets?</p><p class="govuk-body">is answered as “Yes”</p><p class="govuk-body">Take the person to “Why did the dog eat your homework?”</p>'
+      },
+      actions: {
+        items: [
+          {
+            href: "#",
+            text: "Change",
+            visuallyHiddenText: "date of birth"
+          }
+        ]
+      }
+    }
+  ]
+}) }}
+
+      {# <form class="form" action="/conditions/name" method="post"></form> #}
+
+    </div>
+  </div>
+
+{% endblock %}

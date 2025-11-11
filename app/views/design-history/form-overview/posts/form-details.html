@@ -1,0 +1,172 @@
+{% extends "design-history/template.html" %}
+
+{% from "components/service-header/macro.njk" import serviceHeader %}
+{% from "govuk/components/summary-list/macro.njk" import govukSummaryList %}
+{% from "govuk/components/breadcrumbs/macro.njk" import govukBreadcrumbs %}
+{% from "govuk/components/tag/macro.njk" import govukTag %}
+
+{% set myMarkdown %}
+## What we changed
+### 1. Presenting organisation details in the main body of the page
+When users first create a new form, they add details about lead organisation and team details.
+
+- Previously we had those details wrapped inside of the [GOV.UK details
+component](https://design-system.service.gov.uk/components/details/). However, in testing, users struggled to understand
+what information to expect when it was expanded and it rarely matched with their expectations once they did expand it.
+Several users suggested that it presented in the main body of the page rather than hidden away.
+- It was also unclear how users could edit those organisation details
+
+We changed this and made this information appear in the main body of the page and used the [GOV.UK summary list
+component](https://design-system.service.gov.uk/components/summary-list/) because it was purposely designed and tested
+for such scenarios.
+
+#### Details component expanded to reveal organisation details (before)
+
+![Form home page with details component expanded](/public/images/form-overview/posts/form-details/01.png "Details
+component expanded to reveal organisation details")
+
+#### Displaying organisation details using the summary list component (after)
+![Organisation details in summary list format](/public/images/form-overview/posts/form-details/02.png "Organisation
+details in summary list format")
+
+This tested positively and users correctly identified how they could update this information.
+
+### 2. Presenting versions of forms in their different states using seperate summary list rather than one table
+
+- Previously forms were presented on one table
+- We found that forms presented in this way limited our ability to include other piece of information such as preview
+links
+- Though this made the page longer, the users of this system would be expert users that prefer more information
+presented on a page than the average user
+
+#### Summary list of draft and live form (before)
+![Draft and live forms in a single table](/public/images/form-overview/posts/form-details/03.png "Summary list of
+draft and live form (before)")
+
+#### Summary list of draft and live form (after)
+![Separate summary lists for draft and live forms](/public/images/form-overview/posts/form-details/04.png "Summary
+list of draft and live form (after)")
+
+{% endset %}
+
+{% block head %}
+{{ super() }}
+<style>
+    .govuk-image {
+        max-width: 600px;
+        margin: 0 auto;
+    }
+
+    .govuk-image img {
+        width: 100%;
+        height: auto;
+        display: block;
+    }
+
+    /* .app-prose-scope {
+        max-width: 38em;
+    } */
+
+    .app-related-items {
+        border-top: 2px solid #1d70b8;
+        padding-top: 10px;
+    }
+
+    .app-related-items .govuk-list {
+        margin-top: 0;
+    }
+
+    .app-related-items .govuk-list li {
+        margin-bottom: 0;
+    }
+
+    .app-secondary-text {
+        color: #505a5f !important;
+        font-weight: normal !important;
+    }
+</style>
+{% endblock %}
+
+{% block header %}
+{{ serviceHeader({
+organisationName: "Defra",
+productName: "Forms Designer",
+serviceName: "Design History",
+containerClasses: containerClasses,
+accountName: "Chris Smith (Admin)",
+homepageLink: "/",
+signOutLink: "/onboarding/sign-out-confirmation",
+navigationItems: [
+{ href: "/roles/my-account.html", text: "My account", id: "my-account" },
+{ href: "/roles/manage-users.html", text: "Manage users", id: "manage-users" }
+],
+activeLinkId: ""
+}) }}
+
+<div class="x-govuk-masthead x-govuk-masthead--large">
+    <div class="govuk-width-container">
+        {{ govukBreadcrumbs({
+        classes: "govuk-breadcrumbs--inverse",
+        items: [
+        {
+        text: "Design History",
+        href: "/design-history/index.html"
+        },
+        {
+        text: "Form Overview",
+        href: "/design-history/form-overview/index.html"
+        },
+        {
+        text: "Form Details"
+        }
+        ]
+        }) }}
+        <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible"
+            style="border-bottom: 1px solid white; margin-bottom: 0" />
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-full-from-desktop">
+                <h1 class="x-govuk-masthead__title">
+                    <span class="govuk-caption-l" style="color: white;">Form overview</span>
+                    How we present information about forms
+                </h1>
+                <div class="govuk-body" style="color: white; margin-top: 1em;">
+                    {{ govukTag({
+                    text: "Post",
+                    classes: "govuk-tag--grey"
+                    }) }}
+                    <span style="margin-left: 1em;">Originally published on 26 April 2024</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+        <div class="app-prose-scope">
+            {{ myMarkdown | govukMarkdown | safe }}
+        </div>
+    </div>
+    <div class="govuk-grid-column-one-third">
+        <div class="app-related-items">
+            <h2 class="govuk-heading-s">Related posts</h2>
+            <nav role="navigation" aria-labelledby="related-posts">
+                <ul class="govuk-list govuk-list--spaced">
+                    <li>
+                        <a href="/design-history/form-overview/posts/form-actions.html" class="govuk-link">Form
+                            overview:
+                            Making form actions intuitive</a>
+                        <p class="govuk-body-s govuk-!-margin-top-1">
+                            26 April 2024
+                            <br>
+
+                        </p>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+</div>
+{% endblock %}

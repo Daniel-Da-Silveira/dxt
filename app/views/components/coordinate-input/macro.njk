@@ -1,0 +1,86 @@
+{% macro defraCoordinateInput(params) %}
+  {%- set id = params.id %}
+  {%- set namePrefix = params.namePrefix %}
+  {%- set fieldset = params.fieldset %}
+  {%- set hint = params.hint %}
+  {%- set errorMessage = params.errorMessage %}
+  {%- set items = params.items %}
+  {%- set classes = params.classes %}
+  {%- set attributes = params.attributes %}
+
+  {%- set fieldsetClasses = "govuk-fieldset" %}
+  {%- if classes %}
+    {%- set fieldsetClasses = fieldsetClasses + " " + classes %}
+  {%- endif %}
+
+  {%- set describedBy = "" %}
+  {%- if hint %}
+    {%- set describedBy = describedBy + " " + id + "-hint" %}
+  {%- endif %}
+  {%- if errorMessage %}
+    {%- set describedBy = describedBy + " " + id + "-error" %}
+  {%- endif %}
+
+  <div class="govuk-form-group{% if errorMessage %} govuk-form-group--error{% endif %}">
+    <fieldset class="{{ fieldsetClasses }}" role="group"{% if describedBy %} aria-describedby="{{ describedBy | trim }}"{% endif %}{% if attributes %}{% for attribute, value in attributes %} {{ attribute }}="{{ value }}"{% endfor %}{% endif %}>
+      {% if fieldset.legend %}
+        <legend class="govuk-fieldset__legend{% if fieldset.legend.classes %} {{ fieldset.legend.classes }}{% endif %}">
+          {% if fieldset.legend.isPageHeading %}
+            <h1 class="govuk-fieldset__heading">
+              {{ fieldset.legend.text }}
+            </h1>
+          {% else %}
+            {{ fieldset.legend.text }}
+          {% endif %}
+        </legend>
+      {% endif %}
+
+      {% if hint %}
+        <div id="{{ id }}-hint" class="govuk-hint">
+          {{ hint.text }}
+        </div>
+      {% endif %}
+
+      {% if errorMessage %}
+        <p id="{{ id }}-error" class="govuk-error-message">
+          <span class="govuk-visually-hidden">Error:</span>
+          {{ errorMessage.text }}
+        </p>
+      {% endif %}
+
+      <div class="govuk-date-input" id="{{ id }}">
+        {% for item in items %}
+          <div class="govuk-date-input__item">
+            <div class="govuk-form-group">
+              <label class="govuk-label govuk-date-input__label" for="{{ item.id }}">
+                {{ item.label }}
+              </label>
+              {% if item.attributes and item.attributes.suffix %}
+                <div class="govuk-input__wrapper">
+                  <input class="govuk-input govuk-date-input__input{% if item.classes %} {{ item.classes }}{% endif %}{% if errorMessage %} govuk-input--error{% endif %}" 
+                         id="{{ item.id }}" 
+                         name="{{ item.name }}" 
+                         type="{{ item.type | default('text') }}"
+                         value="{{ item.value | default('') }}"
+                         {% if item.attributes %}{% for attribute, value in item.attributes %}{% if attribute != 'suffix' %}{{ attribute }}="{{ value }}" {% endif %}{% endfor %}{% endif %}
+                         {% if hint %}aria-describedby="{{ id }}-hint"{% endif %}
+                         {% if errorMessage %}aria-describedby="{{ id }}-error"{% endif %}>
+                  <div class="govuk-input__suffix" aria-hidden="true">{{ item.attributes.suffix }}</div>
+                </div>
+              {% else %}
+                <input class="govuk-input govuk-date-input__input{% if item.classes %} {{ item.classes }}{% endif %}{% if errorMessage %} govuk-input--error{% endif %}" 
+                       id="{{ item.id }}" 
+                       name="{{ item.name }}" 
+                       type="{{ item.type | default('text') }}"
+                       value="{{ item.value | default('') }}"
+                       {% if item.attributes %}{% for attribute, value in item.attributes %}{{ attribute }}="{{ value }}" {% endfor %}{% endif %}
+                       {% if hint %}aria-describedby="{{ id }}-hint"{% endif %}
+                       {% if errorMessage %}aria-describedby="{{ id }}-error"{% endif %}>
+              {% endif %}
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+    </fieldset>
+  </div>
+{% endmacro %}

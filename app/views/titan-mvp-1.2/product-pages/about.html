@@ -1,0 +1,257 @@
+{% extends "layouts/main.html" %}
+{% from "components/service-header/macro.njk" import serviceHeader %}
+
+
+{% block pageTitle %}
+Content page template – {{ serviceName }} – GOV.UK Prototype Kit
+{% endblock %}
+
+{# {% block beforeContent %}
+{{ govukBackLink({
+text: "Back",
+href: "javascript:window.history.back()"
+}) }}
+{% endblock %} #}
+
+{% block header %}
+{{ serviceHeader({
+organisationName: "Defra",
+productName: "Form Designer",
+serviceName: "",
+homepageLink: "/titan-mvp-1.2/product-pages/homepage",
+signInLink: "/titan-mvp-1.2/library",
+showSupportLink: false,
+navigationItems: [
+{ href: "/titan-mvp-1.2/product-pages/about", text: "About", id: "nav-about" },
+
+{ href: "/titan-mvp-1.2/product-pages/get-started", text: "Get started", id: "nav-get-started" },
+{ href: "/titan-mvp-1.2/product-pages/features", text: "Features", id: "nav-features" },
+{ href: "/titan-mvp-1.2/product-pages/resources", text: "Resources", id: "nav-resources" },
+{ href: "/titan-mvp-1.2/product-pages/support", text: "Support", id: "nav-support" }
+],
+activeLinkId: "nav-about"
+}) }}
+
+
+
+
+{{ xGovukMasthead({
+inverse: true,
+title: {
+text: "About the Defra Forms team"
+},
+description: {
+text: "The Defra Forms project aims to tackle Defra Group’s reliance on paper (document-based) forms. The Defra Forms
+team is a multidisciplinary team in the Digital, Data and Technology Services (DDTS) directorate."
+}
+}) }}
+
+
+{% endblock %}
+
+{% block content %}
+
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+        {# <h2 class="govuk-heading-l">How we enable digital transformation</h2> #}
+        <p class="govuk-body">
+            We enable digital transformation at Defra in two ways:
+        </p>
+        <ol class="govuk-list govuk-list--number">
+            <li>We provide strategic form consultancy for select ALBs to understand how to design good digital
+                forms, and how to change processes to make them work better for staff and the public.</li>
+            <li>We built a powerful digital form builder called the <a href="/titan-mvp-1.2/product-pages/get-started"
+                    class="govuk-link govuk-link--no-visited-state">Defra Form
+                    Designer</a> that enables complex data collection, automation and integration with Defra
+                systems.
+            </li>
+        </ol>
+
+        {# <h2 class="govuk-heading-l">Our work and insights</h2> #}
+        <p class="govuk-body">
+            We've published several blogs about our work, including:
+        </p>
+
+        <ul class="govuk-list govuk-list--bullet">
+            <li><a href="https://defradigital.blog.gov.uk/2024/12/12/transforming-defra-together-the-journey-from-paper-to-online-forms/"
+                    class="govuk-link govuk-link--no-visited-state">Transforming Defra together: the journey
+                    from paper to online forms</a>
+            </li>
+            <li><a href="https://defradigital.blog.gov.uk/2024/09/26/how-we-are-leading-a-bold-and-innovative-approach-to-online-forms/"
+                    class="govuk-link govuk-link--no-visited-state">How we are leading a bold and innovative
+                    approach to online forms</a>
+            </li>
+            <li><a href="https://defradigital.blog.gov.uk/2024/04/19/being-assessed-and-assessing-a-tale-of-two-perspectives-part-one/"
+                    class="govuk-link govuk-link--no-visited-state">Being assessed and assessing – a tale of two
+                    perspectives: Part one</a>
+            </li>
+        </ul>
+    </div>
+</div>
+
+
+<style>
+    /* Enhanced styling inspired by Notion's visual concepts while maintaining GOV.UK Design System */
+    .govuk-grid-row {
+        display: flex;
+        flex-wrap: wrap;
+    }
+
+    .govuk-grid-column-full,
+    .govuk-grid-column-one-third-from-desktop {
+        display: flex;
+    }
+
+    .govuk-card--feature {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        transition: all 0.2s ease-in-out;
+        border: 2px solid #b1b4b6;
+        background-color: #ffffff;
+    }
+
+    /* .govuk-card--feature:hover {
+        border-color: #0b0c0c;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    } */
+
+    .govuk-card__content {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        padding: 1.5rem;
+    }
+
+    .govuk-card__header {
+        margin-bottom: 1rem;
+        padding-bottom: 0.5rem;
+        border-bottom: 1px solid #d8dde0;
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+    }
+
+    .govuk-card__header h3 {
+        margin: 0;
+        color: #0b0c0c;
+    }
+
+    .feature-icon {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 32px;
+        height: 32px;
+        flex-shrink: 0;
+    }
+
+    .govuk-card__content p,
+    .govuk-card__content ul {
+        flex: 1;
+        margin-bottom: 0;
+    }
+
+    .govuk-card--coming-soon {
+        /* opacity: 0.8; */
+        background-color: #f8f9fa;
+    }
+
+    /* .govuk-card--coming-soon:hover {
+        opacity: 1;
+        background-color: #ffffff;
+    } */
+
+    .govuk-inset-text {
+        border-left: 4px solid #00703c;
+        background-color: #f8f9fa;
+        padding: 1.5rem;
+        margin: 2rem 0;
+    }
+
+    .govuk-body-l {
+        font-size: 1.25rem;
+        line-height: 1.5;
+    }
+
+    /* Enhanced spacing for better visual hierarchy */
+    .govuk-heading-l {
+        margin-bottom: 1.5rem;
+    }
+
+    .govuk-heading-m {
+        margin-bottom: 1rem;
+    }
+
+    /* Improved card spacing */
+    .govuk-card {
+        margin-bottom: 1rem;
+    }
+
+    /* GOV.UK Related Navigation Component Styles */
+    .gem-c-related-navigation {
+        border-top: 2px solid #00703c;
+        margin-bottom: 60px;
+        color: #0b0c0c;
+    }
+
+    .gem-c-related-navigation__main-heading {
+        margin-top: 15px;
+        margin-bottom: 10px;
+        font-family: "GDS Transport", arial, sans-serif;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        font-weight: 700;
+        font-size: 1.1875rem;
+        line-height: 1.3157894737;
+    }
+
+    .gem-c-related-navigation__nav-section {
+        margin-bottom: 30px;
+    }
+
+    .gem-c-related-navigation__link-list {
+        padding: 0;
+        margin: 0;
+        list-style: none;
+        margin-bottom: 1.25em;
+    }
+
+    .gem-c-related-navigation__link {
+        list-style-type: none;
+        margin-top: 15px;
+        font-family: "GDS Transport", arial, sans-serif;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        font-weight: 400;
+        font-size: 1rem;
+        line-height: 1.45;
+    }
+
+    @media (min-width: 40.0625em) {
+        .gem-c-related-navigation__link {
+            line-height: 1.28;
+        }
+    }
+
+    @media all {
+        .govuk-link {
+            font-family: "GDS Transport", arial, sans-serif;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            text-decoration: underline;
+            text-decoration-thickness: max(1px, .0625rem);
+            text-underline-offset: .1578em;
+        }
+    }
+
+    .gem-c-related-navigation__section-link {
+        font-weight: bold;
+    }
+
+    .gem-c-related-navigation__section-link--other {
+        font-weight: normal;
+    }
+</style>
+{% endblock %}

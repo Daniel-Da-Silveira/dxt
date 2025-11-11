@@ -1,0 +1,1181 @@
+{# {% extends "layouts/main.html" %} #}
+{% extends "design-history/template.html" %}
+
+
+{% from "components/service-header/macro.njk" import serviceHeader %}
+{% from "govuk/components/summary-list/macro.njk" import govukSummaryList %}
+{% from "govuk/components/breadcrumbs/macro.njk" import govukBreadcrumbs %}
+{% from "govuk/components/tag/macro.njk" import govukTag %}
+{% from "govuk/components/table/macro.njk" import govukTable %}
+{% from "components/contents-list-with-body.njk" import contentsListWithBody %}
+
+{% block head %}
+{{ super() }}
+<style>
+    .govuk-image {
+        max-width: 600px;
+        margin: 0 auto;
+    }
+
+    .govuk-image img {
+        width: 100%;
+        height: auto;
+        display: block;
+    }
+
+    /* .app-prose-scope {
+        max-width: 38em;
+    } */
+
+    .app-related-items {
+        border-top: 2px solid #1d70b8;
+        padding-top: 10px;
+    }
+
+    .app-related-items .govuk-list {
+        margin-top: 0;
+    }
+
+    .app-related-items .govuk-list li {
+        margin-bottom: 0;
+    }
+
+    .app-secondary-text {
+        color: #505a5f !important;
+        font-weight: normal !important;
+    }
+
+    /* Add iframe container styles */
+    .iframe-container {
+        border: 5px solid black;
+        border-radius: 4px;
+        padding: 0;
+        overflow: hidden;
+        position: relative;
+    }
+
+    .iframe-tabs {
+        display: flex;
+        justify-content: flex-end;
+        border-bottom: 1px solid #ccc;
+        background-color: #f8f8f8;
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 10;
+        padding: 10px;
+    }
+
+    .iframe-tab {
+        text-align: center;
+        padding: 10px;
+        font-size: 16px;
+        text-decoration: none;
+        cursor: pointer;
+    }
+
+    .iframe-tab:hover {
+        background-color: #e8e8e8;
+    }
+
+    .iframe-container.fullscreen {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100vh;
+        z-index: 9999;
+        background-color: white;
+    }
+
+    .iframe-container.fullscreen .iframe-tabs {
+        position: fixed;
+        z-index: 9999;
+        background-color: white;
+    }
+
+    .iframe-container.fullscreen .iframe-content {
+        height: calc(100vh - 50px);
+        width: 100%;
+        border: none;
+    }
+</style>
+{% endblock %}
+
+{% block header %}
+{{ serviceHeader({
+organisationName: "Defra",
+productName: "Forms Designer",
+serviceName: "Design History",
+containerClasses: containerClasses,
+accountName: "Chris Smith (Admin)",
+homepageLink: "/",
+signOutLink: "/onboarding/sign-out-confirmation",
+navigationItems: [
+{ href: "/roles/my-account.html", text: "My account", id: "my-account" },
+{ href: "/roles/manage-users.html", text: "Manage users", id: "manage-users" }
+],
+activeLinkId: ""
+}) }}
+
+<div class="x-govuk-masthead x-govuk-masthead--large">
+    <div class="govuk-width-container">
+        {{ govukBreadcrumbs({
+        classes: "govuk-breadcrumbs--inverse",
+        items: [
+        {
+        text: "Design History",
+        href: "/design-history/index.html"
+        },
+        {
+        text: "Forms Designer",
+        href: "/design-history/forms-designer/index.html"
+        },
+        {
+        text: "Redesign Journey"
+        }
+        ]
+        }) }}
+
+        <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible"
+            style="border-bottom: 1px solid white; margin-bottom: 0" />
+
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-full-from-desktop">
+                <h1 class="x-govuk-masthead__title" id="key-changes-and-improvements">
+                    <span class="govuk-caption-l" style="color: white;">Transforming the Defra Forms Designer: A design
+                        history</span>
+                    Key Changes and Improvements
+                </h1>
+                <div class="govuk-body" style="color: white; margin-top: 1em;">
+                    <span class="govuk-tag govuk-tag--grey">Post</span>
+                    <span style="margin-left: 1em;">Originally published on 15 May 2024</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-one-quarter app-contents-list--sticky govuk-!-padding-right-0">
+        <div data-sticky-element=""
+            class="gem-c-contents-list-with-body__link-wrapper gem-c-contents-list-with-body__sticky-element--enabled gem-c-contents-list-with-body__sticky-element--stuck-to-window govuk-!-padding-top-0 govuk-!-margin-top-0">
+            <div class="gem-c-contents-list-with-body__link-container govuk-!-padding-top-0 govuk-!-margin-top-0">
+                <a class="govuk-link govuk-link--no-visited-state gem-c-back-to-top-link govuk-!-display-none-print"
+                    href="#key-changes-and-improvements">
+                    <svg class="gem-c-back-to-top-link__icon" xmlns="http://www.w3.org/2000/svg" width="13" height="17"
+                        viewBox="0 0 13 17" aria-hidden="true" focusable="false">
+                        <path fill="currentColor" d="M6.5 0L0 6.5 1.4 8l4-4v12.7h2V4l4.3 4L13 6.4z"></path>
+                    </svg>
+                    Back to top
+                </a>
+            </div>
+        </div>
+        {{ contentsListWithBody({
+        contents: [
+        { text: "Problem we set out to solve", href: "#problem-we-set-out-to-solve" },
+        { text: "Mapping out the current state (as-is)", href: "#mapping-out-as-is" },
+        { text: "Initial assessment: Accessibility and heuristic evaluation", href: "#initial-assessment" },
+        { text: "Key Changes and Improvements", href: "#key-changes-and-improvements" },
+        { text: "Finding and managing forms", href: "#finding-and-managing-forms" },
+        { text: "Editing a Form", href: "#editing-a-form" },
+        { text: "Signing In and Out", href: "#signing-in-and-out" },
+        { text: "Additional Improvements", href: "#additional-improvements" }
+        ]
+        }) }}
+    </div>
+    <div class="govuk-grid-column-two-thirds">
+        <div class="app-prose-scope">
+            <h2 class="govuk-heading-l" id="problem-we-set-out-to-solve">Problem we set out to solve</h2>
+
+            <p class="govuk-body">Most of Defra's forms were paper-based, making them inaccessible, costly, and
+                inefficient. The existing digital tools available for building forms were unintuitive, inaccessible, and
+                required significant training, limiting the pace and efficiency of digitisation efforts.</p>
+            <p class="govuk-body">Traditionally, many interactions with Defra could only be completed via offline or
+                manual channels such as call centres, email, or paper/PDF forms. These channels are not only expensive
+                to operate, but also lead to unstructured and error-prone data collection, making it difficult to
+                process information efficiently and accurately.</p>
+            <ul class="govuk-list govuk-list--bullet">
+                <li><strong>Call centres:</strong> High operational costs and resource-intensive</li>
+                <li><strong>Email:</strong> Unstructured submissions, hard to automate or analyse</li>
+                <li><strong>Paper/PDF:</strong> Prone to manual errors, slow to process, and inaccessible for many users
+                </li>
+            </ul>
+
+            <p class="govuk-body">We started with the x-gov form builder, which didn't meet accessibility requirements
+                and wasn't very intuitive. This has prevented the team from opening the product to other content
+                designers to help tackle the backlog of forms and new requests coming in. We need to make DXT more
+                intuitive, user friendly and accessible to aid adoption.</p>
+
+            <p class="govuk-body">However, although starting with x-gov form builder (starting with what already
+                exists), we needed to make the product more intuitive, user friendly and accessible to aid adoption.</p>
+
+            <p class="govuk-body">This is because usage of the x-gov form builder impacted:</p>
+            <ul class="govuk-list govuk-list--bullet">
+                <li>User confidence</li>
+                <li>Form publication speed</li>
+                <li>Widespread adoption by content designers outside the core Defra Forms team</li>
+                <li>Ability to meet WCAG 2.2 compliance requirements</li>
+                <li>Conformance to design standards</li>
+            </ul>
+            <p class="govuk-body">Defra is a large and complex organisation, working with over 35 agencies and public
+                bodies, each with different policies, operations, and technical systems. This diversity means that a
+                one-size-fits-all approach does not work, and any solution must be flexible enough to support a wide
+                range of needs and service teams.</p>
+
+            <p class="govuk-inset-text">The following sections highlight the work we've done to improve the x-gov form
+                builder, and the new forms designer (version: Titan).</p>
+
+            <hr class="govuk-section-break govuk-section-break--xl govuk-section-break--visible">
+
+            <h2 class="govuk-heading-l" id="mapping-out-as-is">Mapping out the current state (as-is)</h2>
+            <p class="govuk-body">We mapped the existing x-gov form builder workflows extensively using detailed
+                diagrams in Figma. This allowed us to pinpoint specific areas for improvement and establish baseline
+                metrics for future iterations.</p>
+            <p class="govuk-body">Key findings included:</p>
+            <ul class="govuk-list govuk-list--bullet">
+                <li>A complex, unintuitive interface</li>
+                <li>Overwhelming information presentation</li>
+                <li>Non-standardised components causing user confusion</li>
+                <li>Accessibility barriers preventing wider adoption</li>
+                <li>Inconsistent design patterns</li>
+            </ul>
+
+            <div class="preview-section">
+                <span class="govuk-caption-m govuk-!-margin-bottom-1">Preview of x-gov form builder state when first
+                    adopted</span>
+                <div class="iframe-container govuk-!-margin-bottom-6" role="region"
+                    aria-labelledby="preview-heading-xgov">
+                    <h2 id="preview-heading-xgov" class="govuk-visually-hidden">x-gov form builder as-is
+                    </h2>
+                    <iframe
+                        src="https://embed.figma.com/design/2xHXxJtz4Y1tcRR9J2GEmc/x-gov-as-is-flows?node-id=6-41685&embed-host=share"
+                        class="iframe-content" style="overflow-y: auto; height: 500px; width: 100%; border: none;"
+                        scrolling="yes" frameborder="0" title="Form preview" marginheight="0" marginwidth="0"
+                        allowfullscreen>
+                    </iframe>
+                    <div class="iframe-tabs" role="navigation" aria-label="Preview controls">
+                        <a class="govuk-link govuk-link--no-visited-state iframe-tab maximise-button"
+                            style="border-right: #007f3b 1px solid;" href="#" role="button"
+                            aria-label="Maximise preview" title="Maximise preview" tabindex="0">
+                            Maximise
+                        </a>
+                        <a class="govuk-link govuk-link--no-visited-state iframe-tab"
+                            href="https://embed.figma.com/design/2xHXxJtz4Y1tcRR9J2GEmc/x-gov-as-is-flows?node-id=6-41685&embed-host=share"
+                            target="_blank" rel="noopener noreferrer" aria-label="Open preview in a new tab"
+                            title="Open preview in a new tab">
+                            Open in a new tab
+                        </a>
+                    </div>
+                </div>
+
+                <hr class="govuk-section-break govuk-section-break--xl govuk-section-break--visible">
+
+                <h2 class="govuk-heading-l" id="initial-assessment">Initial
+                    assessment: Accessibility and heuristic evaluation</h2>
+
+
+                <p class="govuk-body">To identify immediate usability issues, we started with heuristic and
+                    accessibility
+                    testing of the existing x-gov form builder. A senior interaction designer and two senior content
+                    designers evaluated the product against NNGroup heuristics and accessibility guidelines.</p>
+                <p class="govuk-body">Findings highlighted multiple usability and accessibility concerns, documented
+                    clearly
+                    in our <a href="https://defra-forms-design-history-18deac2f53ea.herokuapp.com/heuristic/"
+                        class="govuk-link">Design History</a>.</p>
+                <p class="govuk-body">We also engaged the Defra accessibility team for an independent review.</p>
+
+                <h2 class="govuk-heading-l" id="key-changes-and-improvements">Key Changes and Improvements</h2>
+
+                <p class="govuk-body">Through 13 rounds of user research conducted between May 2024 and April 2025,
+                    involving over 50 participants including content designers, proxy users, and internal stakeholders
+                    across Defra departments, we identified and addressed several key areas for improvement in the Forms
+                    Designer. Here's how we transformed the experience:</p>
+
+                <h3 class="govuk-heading-m">Summary of improvements</h3>
+                <ul class="govuk-list govuk-list--bullet">
+                    <li><strong>From component-led to intent-led:</strong> Users begin by declaring what kind of
+                        page they need (Question vs Guidance), rather than hunting through a dense catalogue of
+                        components</li>
+                    <li><strong>Linear, guided editing:</strong> Designers move through steps with clear
+                        progression, replacing the modal-heavy approach of the current builder</li>
+                    <li><strong>Multi-question pages:</strong> Support for adding multiple questions within a single
+                        page, with intuitive reordering</li>
+                    <li><strong>Consolidated page management:</strong> All page-level actions consolidated into a
+                        single Page overview screen</li>
+                    <li><strong>Contextual choices:</strong> Options are revealed progressively based on user
+                        intent, reducing cognitive load</li>
+                    <li><strong>Clear save points:</strong> Explicit save actions and visual feedback on changes
+                    </li>
+                </ul>
+
+                <div class="govuk-inset-text">
+                    <p class="govuk-body">The redesign replaces a component-driven, tool-heavy experience with a
+                        task-driven, guided approach that dramatically reduces complexity and cognitive load.</p>
+                </div>
+
+                <div class="govuk-inset-text">
+                    <p class="govuk-body">The new system provides clear separation of concerns between form, page,
+                        and question levels, with explicit save points and contextual controls that appear only when
+                        needed.</p>
+
+                </div>
+
+                {{ govukTable({
+                caption: "Comparison of form builder approaches",
+                captionClasses: "govuk-heading-m",
+                firstCellIsHeader: true,
+                head: [
+                {
+                text: "Principle"
+                },
+                {
+                text: "Old forms designer (x-gov)"
+                },
+                {
+                text: "New forms designer (Titan)"
+                }
+                ],
+                rows: [
+                [
+                {
+                text: "Guiding idea"
+                },
+                {
+                text: "Build pages by dropping individual components"
+                },
+                {
+                text: "Intent-first: declare what you're adding (Question page, Guidance page), then the tool narrows
+                choices and walks you through"
+                }
+                ],
+                [
+                {
+                text: "Granularity ladder"
+                },
+                {
+                text: "No clear hierarchy: every modal feels equal"
+                },
+                {
+                html: "<p class='govuk-body'>Four nested levels, each with its own workspace:</p>
+                <ul class='govuk-list govuk-list--number'>
+                    <li><strong>Form overview</strong> – name, status</li>
+                    <li><strong>Listing page</strong> – add/preview/reorder pages</li>
+                    <li><strong>Page overview</strong> – page-specific settings, convert to 'Add another', reorder
+                        questions
+                    </li>
+                    <li><strong>Edit question</strong> – label, validation, help text</li>
+                </ul>"
+                }
+                ],
+                [
+                {
+                text: "Creating a page"
+                },
+                {
+                text: "Click 'Add page' then immediately hunt for a component"
+                },
+                {
+                html: "<p class='govuk-body'>Add new page → Page-type selector</p>
+                <ul class='govuk-list govuk-list--bullet'>
+                    <li>Guidance only path → edit guidance → back</li>
+                    <li>Question path → Information type → Edit question → Page overview wizard</li>
+                </ul>"
+                }
+                ],
+                [
+                {
+                text: "Multi-question pages"
+                },
+                {
+                text: "Add component one at a time to page"
+                },
+                {
+                html: "<ul class='govuk-list govuk-list--bullet'>
+                    <li>Dedicated 'Add new question' loop inside a page</li>
+                    <li>Drag-and-drop reordering appears only when needed</li>
+                </ul>"
+                }
+                ],
+                [
+                {
+                text: "Conditions and routing"
+                },
+                {
+                html: "<p class='govuk-body'>Link-based approach:</p>
+                <ul class='govuk-list govuk-list--bullet'>
+                    <li>Conditions applied to links between pages</li>
+                    <li>Complex graph-based routing</li>
+                    <li>No protection against illogical flows</li>
+                    <li>Difficult to handle additional questions</li>
+                    <li>Technical terminology ('operators') confused users</li>
+                </ul>"
+                },
+                {
+                html: "<p class='govuk-body'>Page-based approach:</p>
+                <ul class='govuk-list govuk-list--bullet'>
+                    <li>Linear sequence of pages with conditions</li>
+                    <li>Automatic routing to next valid page</li>
+                    <li>Clearer, more predictable user journeys</li>
+                    <li>Better support for additional questions</li>
+                    <li>Plain English condition types ('is', 'is not')</li>
+                    <li>Visual condition builder with real-time preview</li>
+                    <li>Ability to combine conditions with AND/OR logic</li>
+                    <li>Reusable conditions across multiple pages</li>
+                </ul>"
+                }
+                ],
+                [
+                {
+                text: "Condition Builder"
+                },
+                {
+                text: "Single-condition modal; supports AND/OR logic, but no preview, no reusability, no visual
+                feedback"
+                },
+                {
+                html: "<p class='govuk-body'>Intuitive condition builder with:</p>
+                <ul class='govuk-list govuk-list--bullet'>
+                    <li>Step-by-step guided creation process</li>
+                    <li>Question selection from available form questions</li>
+                    <li>Plain English condition types (is/is not)</li>
+                    <li>Dynamic value selection based on question type</li>
+                    <li>Real-time preview of condition logic</li>
+                    <li>Ability to add multiple conditions with AND/OR logic</li>
+                    <li>Clear visual feedback on condition status</li>
+                </ul>"
+                }
+                ],
+                [
+                {
+                text: "Reusable Conditions"
+                },
+                {
+                text: "Conditions tied to specific questions, requiring duplication and making it easy to create overly
+                complex forms"
+                },
+                {
+                html: "<p class='govuk-body'>Centralized condition management:</p>
+                <ul class='govuk-list govuk-list--bullet'>
+                    <li>Create conditions once, use them anywhere in the form</li>
+                    <li>Edit a condition in one place, updates everywhere</li>
+                    <li>Condition library for quick reuse</li>
+                    <li>Combine existing conditions to create new ones</li>
+                    <li>Clear visibility of where conditions are used</li>
+                    <li>Easier maintenance and updates</li>
+                </ul>"
+                }
+                ],
+                [
+                {
+                text: "Listing page condition filter"
+                },
+                {
+                text: "No way to filter and reliance on scanning complex tree of pages to see which pages have
+                conditions"
+                },
+                {
+                text: "Filter and view all pages with conditions; direct access for auditing and troubleshooting"
+                }
+                ],
+                [
+                {
+                text: "Page management"
+                },
+                {
+                text: "Scattered green buttons (Headings, Repeaters, Conditions, etc.)"
+                },
+                {
+                text: "All page-level tweaks in one Page overview screen; global page order handled on the Listing page"
+                }
+                ],
+                [
+                {
+                text: "Form-wide actions"
+                },
+                {
+                text: "None except publish"
+                },
+                {
+                html: "<p class='govuk-body'>From Listing page you can:</p>
+                <ul class='govuk-list govuk-list--bullet'>
+                    <li>Preview whole form</li>
+                    <li>Preview individual pages</li>
+                    <li>Filter pages by conditions</li>
+                    <li>Edit 'Check answers' page</li>
+                    <li>Drag-reorder pages</li>
+                </ul>"
+                }
+                ],
+                [
+                {
+                text: "Cognitive load"
+                },
+                {
+                text: "≈30 component tiles + many always-visible buttons"
+                },
+                {
+                text: "2–3 context-relevant choices at any step; advanced options revealed progressively when
+                needed"
+                }
+                ]
+                ]
+                }) }}
+
+                {# <div class="govuk-!-margin-top-6 govuk-!-margin-bottom-6">
+                    <figure class="govuk-!-margin-bottom-2">
+                        <img src="/design-history/assets/conditions-journey-thumbnail.jpg"
+                            alt="Screenshot of the new conditions journey in the Titan form editor, showing the page overview, conditions tab, and conditions manager with step-by-step flows for creating, editing, and applying conditions."
+                            style="width:100%; max-width:900px; border:1px solid #b1b4b6; border-radius:4px;">
+                        <figcaption class="govuk-body-s govuk-!-margin-top-1">Visual journey: The new Titan editor
+                            provides
+                            a dedicated Conditions tab and Conditions manager, allowing users to create, edit, and apply
+                            named, reusable conditions with clear visual feedback and summaries.</figcaption>
+                    </figure>
+                    <p class="govuk-body">The new editor introduces a dedicated <strong>Conditions tab</strong> and a
+                        powerful <strong>Conditions manager</strong>. Users can add conditions directly from the page
+                        overview or manage all conditions centrally. The journey is visual and step-by-step: you select
+                        a
+                        question, choose a plain English condition type (like 'is' or 'is not'), and pick a value. You
+                        can
+                        add multiple conditions using AND/OR logic, preview the logic in real time, and see a summary of
+                        all
+                        conditions applied to each page. Named conditions can be reused across the form, and the
+                        Conditions
+                        manager provides a clear overview of where each condition is used, making maintenance and
+                        updates
+                        much easier. This approach dramatically reduces complexity, prevents errors, and gives content
+                        designers confidence and control over form logic.</p>
+                    <p class="govuk-body"><strong>Listing page condition filter:</strong> The listing page now includes
+                        a
+                        powerful filter that lets users quickly find and view all pages with conditions applied. You can
+                        filter the list to show only pages with specific conditions, making it easy to audit logic,
+                        troubleshoot complex forms, and ensure that all necessary routing is in place. This feature is
+                        especially valuable for large forms, giving content designers a clear overview and direct access
+                        to
+                        pages with conditional logic.</p>
+                </div> #}
+
+
+                <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+
+            </div>
+
+
+            <h2 class="govuk-heading-l" id="finding-and-managing-forms">Finding and managing forms</h2>
+
+            <h3 class="govuk-heading-m">Old iteration (finding forms):</h3>
+            <ul class="govuk-list govuk-list--bullet">
+                <li>no way to distinguish between form that were being worked on and those that were live</li>
+                <li>in a long list of forms, it was hard to find the one you were looking for because you could only go
+                    off the name of the form</li>
+
+
+                <iframe style="border: 1px solid rgba(0, 0, 0, 0.1); margin-top: 1em; margin-bottom: 2em;" width="800"
+                    height="450"
+                    src="https://embed.figma.com/design/2xHXxJtz4Y1tcRR9J2GEmc/x-gov-as-is-flows?node-id=14-53258&embed-host=share"
+                    allowfullscreen></iframe>
+
+                <h3 class="govuk-heading-m">Latest iteration (finding forms):</h3>
+                <ul class="govuk-list govuk-list--bullet">
+                    <li>now you can see the status of the form</li>
+                    <li>you can search and filter a form by name, status, or date</li>
+                    <li>you can filter forms by status, date, or name</li>
+                    <li>there's a clear and familiar process for publishing forms</li>
+                    <li>you can publish a form without an engineer</li>
+                    <li>you can add meta data to a form</li>
+                </ul>
+
+                <div class="govuk-inset-text">
+                    <p class="govuk-body">"'Search' works very well – it meets what users need." — Content designer
+                        feedback
+                        from Rounds 3 & 4</p>
+                </div>
+
+                {%- from "moj/components/ticket-panel/macro.njk" import mojTicketPanel -%}
+
+                <h3 class="govuk-heading-m">Old iteration (managing forms):</h3>
+                <ul class="govuk-list govuk-list--bullet">
+                    <li>lack of status indicators made it difficult to track form progress</li>
+                    <li>metadata editing required support from an engineer</li>
+                    <li>publishing process was complex and required an engineer</li>
+                    <li>lack of clear authorship</li>
+                </ul>
+
+                <h3 class="govuk-heading-m">Latest iteration (managing forms):</h3>
+                <ul class="govuk-list govuk-list--bullet">
+                    <li>clear status labels ("Draft", "Live") with visual indicators</li>
+                    <li>self-service metadata is self-service</li>
+                    <li>streamlined publishing workflow with clear steps and safeguards</li>
+                    <li>immediate feedback on form status changes</li>
+                </ul>
+
+                <div class="govuk-inset-text">
+                    <p class="govuk-body">"It's very similar to Whitehall Publishing..." — Content Designer,
+                        Round 1</p>
+                </div>
+
+                {{ mojTicketPanel({
+                attributes: {
+                "aria-label": "Sub navigation 2"
+                },
+                items: [{
+                html: ' <h2 class="govuk-heading-m govuk-!-margin-bottom-2">Design history links</h2>
+
+                <ul class="govuk-list">
+                    <li>
+                        <a class="govuk-link govuk-link--no-visited-state"
+                            href="/design-history/form-overview/posts/form-status">Form status and publishing
+                            workflow</a>
+                    </li>
+                    <li>
+                        <a class="govuk-link govuk-link--no-visited-state"
+                            href="/design-history/form-overview/posts/metadata">Managing form metadata</a>
+                    </li>
+                    <li>
+                        <a class="govuk-link govuk-link--no-visited-state"
+                            href="/design-history/form-overview/posts/form-actions">Making form actions intuitive</a>
+                    </li>
+                </ul>',
+                attributes: {
+                "aria-label": "Section 2"
+                },
+                classes: "moj-ticket-panel__content--green govuk-!-margin-bottom-8"
+                }]
+                }) }}
+
+                <hr class="govuk-section-break govuk-section-break--xl govuk-section-break--visible">
+
+                <h2 class="govuk-heading-l" id="editing-a-form">Editing a Form</h2>
+                <h3 class="govuk-heading-m">Creating Pages</h3>
+                <h4 class="govuk-heading-s">Old iteration:</h4>
+                <ul class="govuk-list govuk-list--bullet">
+                    <li>confusing relationship between pages and questions</li>
+                    <li>limited page type options without clear guidance</li>
+                    <li>no preview of how pages would look in the final form</li>
+                    <li>technical terminology that confused content designers</li>
+                </ul>
+                <h4 class="govuk-heading-s">Latest iteration:</h4>
+                <ul class="govuk-list govuk-list--bullet">
+                    <li>clear distinction between question pages, guidance pages, and summary pages</li>
+                    <li>intuitive page type selection with examples</li>
+                    <li>real-time preview of page layout and content</li>
+                    <li>plain English terminology that matches content designers' mental models</li>
+                </ul>
+                <div class="govuk-inset-text">
+                    <p class="govuk-body">"Participants' mental model is to create/add a question to the form." —
+                        Research
+                        finding from Round 2</p>
+                </div>
+                {{ mojTicketPanel({
+                attributes: {
+                "aria-label": "Sub navigation 3"
+                },
+                items: [{
+                html: ' <h2 class="govuk-heading-m govuk-!-margin-bottom-2">Design history links</h2>
+                <ul class="govuk-list">
+                    <li>
+                        <a class="govuk-link govuk-link--no-visited-state"
+                            href="/design-history/form-editor/posts/page-types">Page types and structure</a>
+                    </li>
+                    <li>
+                        <a class="govuk-link govuk-link--no-visited-state"
+                            href="/design-history/form-editor/posts/question-types">Question types and configuration</a>
+                    </li>
+                    <li>
+                        <a class="govuk-link govuk-link--no-visited-state"
+                            href="/design-history/form-editor/posts/conditions">Conditional logic and routing</a>
+                    </li>
+                    <li>
+                        <a class="govuk-link govuk-link--no-visited-state"
+                            href="/design-history/form-editor/posts/preview">Form preview and testing</a>
+                    </li>
+                </ul>',
+                attributes: {
+                "aria-label": "Section 3"
+                },
+                classes: "moj-ticket-panel__content--green govuk-!-margin-bottom-8"
+                }]
+                }) }}
+                <hr class="govuk-section-break govuk-section-break--xl govuk-section-break--visible">
+                <h2 class="govuk-heading-l">Adding Questions</h2>
+                <h3 class="govuk-heading-m">Old iteration:</h3>
+                <ul class="govuk-list govuk-list--bullet">
+                    <li>difficult to understand different question types</li>
+                    <li>no immediate feedback on question setup</li>
+                    <li>complex configuration options without guidance</li>
+                    <li>separate steps for question text and options</li>
+                </ul>
+                <h3 class="govuk-heading-m">Latest iteration:</h3>
+                <ul class="govuk-list govuk-list--bullet">
+                    <li>clear categorization of question types with examples</li>
+                    <li>real-time preview of questions as they're being built</li>
+                    <li>guided input with contextual help</li>
+                    <li>integrated workflow for question text and options</li>
+                </ul>
+                <div class="govuk-inset-text">
+                    <p class="govuk-body">"It would be really nice to... think about what's my question text then think
+                        about all of my radios at the same time." — Content designer feedback from Round 11</p>
+                </div>
+                <hr class="govuk-section-break govuk-section-break--xl govuk-section-break--visible">
+                <h2 class="govuk-heading-l">Adding Conditions</h2>
+                <h3 class="govuk-heading-m">Old iteration:</h3>
+                <ul class="govuk-list govuk-list--bullet">
+                    <li>technical terms like "operators" confused users</li>
+                    <li>complex logic building without visual aids</li>
+                    <li>conditions separated from question creation</li>
+                    <li>no way to preview conditional paths</li>
+                </ul>
+                <h3 class="govuk-heading-m">Latest iteration:</h3>
+                <ul class="govuk-list govuk-list--bullet">
+                    <li>plain English terminology ("condition type" instead of "operator")</li>
+                    <li>visual logic builder with clear options</li>
+                    <li>integrated condition setup with question creation</li>
+                    <li>interactive preview of conditional paths</li>
+                </ul>
+                <div class="govuk-inset-text">
+                    <p class="govuk-body">"The ability to combine conditions—that's pretty wicked." — Content designer
+                        feedback from Round 13</p>
+                </div>
+                <hr class="govuk-section-break govuk-section-break--xl govuk-section-break--visible">
+                <h2 class="govuk-heading-l">Re-ordering Content</h2>
+                <h3 class="govuk-heading-m">Old iteration:</h3>
+                <ul class="govuk-list govuk-list--bullet">
+                    <li>manual reordering required multiple clicks</li>
+                    <li>no visual feedback during reordering</li>
+                    <li>separate interface for reordering pages and questions</li>
+                    <li>difficult to maintain context while reordering</li>
+                </ul>
+                <h3 class="govuk-heading-m">Latest iteration:</h3>
+                <ul class="govuk-list govuk-list--bullet">
+                    <li>intuitive drag-and-drop reordering</li>
+                    <li>real-time visual feedback during moves</li>
+                    <li>unified interface for all reordering tasks</li>
+                    <li>maintains context with preview updates</li>
+                </ul>
+                <div class="govuk-inset-text">
+                    <p class="govuk-body">"Missing visual cues; can reordering be on summary page to avoid extra click?"
+                        —
+                        Content designer feedback from Round 6</p>
+                </div>
+                <hr class="govuk-section-break govuk-section-break--xl govuk-section-break--visible">
+                <h2 class="govuk-heading-l">Visualising Form Structure</h2>
+                <h3 class="govuk-heading-m">Old iteration:</h3>
+                <ul class="govuk-list govuk-list--bullet">
+                    <li>no clear overview of form structure</li>
+                    <li>difficult to understand relationships between pages</li>
+                    <li>separate views for structure and content</li>
+                    <li>no way to quickly navigate between sections</li>
+                </ul>
+                <h3 class="govuk-heading-m">Latest iteration:</h3>
+                <ul class="govuk-list govuk-list--bullet">
+                    <li>clear visual hierarchy of form structure</li>
+                    <li>interactive navigation between sections</li>
+                    <li>integrated view of structure and content</li>
+                    <li>quick access to any part of the form</li>
+                </ul>
+                <div class="govuk-inset-text">
+                    <p class="govuk-body">"It's easy to see and edit your questions, really useful." — Content designer
+                        feedback from Round 6</p>
+                </div>
+                <hr class="govuk-section-break govuk-section-break--xl govuk-section-break--visible">
+                <h2 class="govuk-heading-l">Previewing Forms and Edits</h2>
+                <h3 class="govuk-heading-m">Old iteration:</h3>
+                <ul class="govuk-list govuk-list--bullet">
+                    <li>separate preview mode required</li>
+                    <li>no real-time updates while editing</li>
+                    <li>difficult to test form flow</li>
+                    <li>limited preview capabilities</li>
+                </ul>
+                <h3 class="govuk-heading-m">Latest iteration:</h3>
+                <ul class="govuk-list govuk-list--bullet">
+                    <li>live preview alongside editing</li>
+                    <li>instant updates as changes are made</li>
+                    <li>interactive form flow testing</li>
+                    <li>comprehensive preview options</li>
+                </ul>
+                <div class="govuk-inset-text">
+                    <p class="govuk-body">"Preview is very smart!" — Content designer feedback from Round 7</p>
+                </div>
+                <hr class="govuk-section-break govuk-section-break--xl govuk-section-break--visible">
+
+                <h2 class="govuk-heading-l" id="signing-in-and-out">Signing In and Out</h2>
+
+                <h3 class="govuk-heading-m">Signing In and Out</h3>
+                <h4 class="govuk-heading-s">Old iteration:</h4>
+                <ul class="govuk-list govuk-list--bullet">
+                    <li>complex authentication process</li>
+                    <li>unclear user status indicators</li>
+                    <li>confusing sign-out flow</li>
+                    <li>limited security feedback</li>
+                </ul>
+
+                <h4 class="govuk-heading-s">Latest iteration:</h4>
+                <ul class="govuk-list govuk-list--bullet">
+                    <li>streamlined sign-in process</li>
+                    <li>clear user status display</li>
+                    <li>intuitive sign-out confirmation</li>
+                    <li>enhanced security feedback</li>
+                </ul>
+
+                {{ mojTicketPanel({
+                attributes: {
+                "aria-label": "Sub navigation 4"
+                },
+                items: [{
+                html: ' <h2 class="govuk-heading-m govuk-!-margin-bottom-2">Design history links</h2>
+
+                <ul class="govuk-list">
+                    <li>
+                        <a class="govuk-link govuk-link--no-visited-state"
+                            href="/design-history/authentication/posts/sign-in">Sign in process</a>
+                    </li>
+                    <li>
+                        <a class="govuk-link govuk-link--no-visited-state"
+                            href="/design-history/authentication/posts/user-status">User status and feedback</a>
+                    </li>
+                    <li>
+                        <a class="govuk-link govuk-link--no-visited-state"
+                            href="/design-history/authentication/posts/security">Security enhancements</a>
+                    </li>
+                </ul>',
+                attributes: {
+                "aria-label": "Section 4"
+                },
+                classes: "moj-ticket-panel__content--green govuk-!-margin-bottom-8"
+                }]
+                }) }}
+
+                <hr class="govuk-section-break govuk-section-break--xl govuk-section-break--visible">
+
+
+                <h2 class="govuk-heading-l" id="additional-improvements">Additional Improvements</h2>
+
+                <h4 class="govuk-heading-s">Markdown Support</h4>
+                <ul class="govuk-list govuk-list--bullet">
+                    <li>clear guidance and examples for formatting</li>
+                    <li>real-time preview of markdown rendering</li>
+                    <li>contextual help for markdown syntax</li>
+                </ul>
+
+                <h4 class="govuk-heading-s">Error Messages</h4>
+                <ul class="govuk-list govuk-list--bullet">
+                    <li>guided input for error message creation</li>
+                    <li>best practice examples and templates</li>
+                    <li>preview of error states</li>
+                </ul>
+
+                <h4 class="govuk-heading-s">Autosave</h4>
+                <ul class="govuk-list govuk-list--bullet">
+                    <li>clear save status indicators</li>
+                    <li>automatic version history</li>
+                    <li>recovery options for unsaved changes</li>
+                </ul>
+
+                <h4 class="govuk-heading-s">Guidance Pages</h4>
+                <ul class="govuk-list govuk-list--bullet">
+                    <li>integrated guidance page creation</li>
+                    <li>clear relationship to form questions</li>
+                    <li>preview of guidance in context</li>
+                </ul>
+
+                <div class="govuk-inset-text">
+                    <p class="govuk-body">"The design feels really clean, really like a lot of space, very methodical
+                        step by step" — Content designer feedback from Round 12</p>
+                </div>
+
+                {{ mojTicketPanel({
+                attributes: {
+                "aria-label": "Sub navigation 5"
+                },
+                items: [{
+                html: ' <h2 class="govuk-heading-m govuk-!-margin-bottom-2">Design history links</h2>
+
+                <ul class="govuk-list">
+                    <li>
+                        <a class="govuk-link govuk-link--no-visited-state"
+                            href="/design-history/features/posts/markdown">Markdown support and formatting</a>
+                    </li>
+                    <li>
+                        <a class="govuk-link govuk-link--no-visited-state"
+                            href="/design-history/features/posts/error-messages">Error message creation</a>
+                    </li>
+                    <li>
+                        <a class="govuk-link govuk-link--no-visited-state"
+                            href="/design-history/features/posts/autosave">Autosave and version history</a>
+                    </li>
+                    <li>
+                        <a class="govuk-link govuk-link--no-visited-state"
+                            href="/design-history/features/posts/guidance">Guidance page integration</a>
+                    </li>
+                </ul>',
+                attributes: {
+                "aria-label": "Section 5"
+                },
+                classes: "moj-ticket-panel__content--green govuk-!-margin-bottom-8"
+                }]
+                }) }}
+
+                <h2 class="govuk-heading-l">Scope and aims of the service</h2>
+                <p class="govuk-body">Our goal was clear: transform the x-gov form builder into a timely,
+                    cost-effective,
+                    accessible, and user-centred digital experience for content designers building online forms. This
+                    would
+                    streamline digitisation and enable rapid, accurate processing of data submitted by end users.</p>
+                <p class="govuk-body">Key objectives included:</p>
+                <ul class="govuk-list govuk-list--bullet">
+                    <li>Achieve WCAG 2.2 compliance across all components and interactions</li>
+                    <li>Conform to design standards and best practices</li>
+                    <li>Improve intuitiveness and user experience</li>
+                    <li>Enable wider adoption by content designers</li>
+                    <li>Accelerate form digitisation efforts</li>
+                </ul>
+
+
+
+                <h2 class="govuk-heading-l">Research and Iterations</h2>
+                <p class="govuk-body">Our redesign process was driven by extensive user research and iterative
+                    testing
+                    across 13 rounds between May 2024 and April 2025, involving over 50 participants from content
+                    designers,
+                    proxy users, and internal stakeholders across Defra departments.</p>
+
+                <h3 class="govuk-heading-m">Key Themes and Trends</h3>
+                <ul class="govuk-list govuk-list--bullet">
+                    <li><strong>Form Creation Flow:</strong> Users preferred a linear, intuitive flow from form name
+                        to
+                        question creation</li>
+                    <li><strong>Page Conditions:</strong> Improved terminology from "operator" to "condition type"
+                        and
+                        better visibility of condition filters</li>
+                    <li><strong>Multiple Response Questions:</strong> Renamed from "repeater" to "multiple
+                        responses"
+                        for
+                        clarity</li>
+                    <li><strong>Visual Design:</strong> Positive feedback on GOV.UK style familiarity and white
+                        space
+                        usage
+                    </li>
+                    <li><strong>Guidance Tools:</strong> Enhanced markdown support and contextual help integration
+                    </li>
+                    <li><strong>Accessibility:</strong> Focus on WCAG 2.2 compliance and inclusive design patterns
+                    </li>
+                </ul>
+
+                <div class="govuk-inset-text">
+                    <p class="govuk-body">"Even just doing it once made it less confusing the second time." —
+                        Content
+                        designer feedback from Round 2</p>
+                </div>
+
+                <h3 class="govuk-heading-m">Research Journey</h3>
+                <p class="govuk-body">Our research journey spanned 13 rounds, each building upon previous findings
+                    and
+                    driving continuous improvements:</p>
+
+                <h4 class="govuk-heading-s">Initial Discovery (Rounds 1-3)</h4>
+                <ul class="govuk-list govuk-list--bullet">
+                    <li>Initial research with 6 content designers from various Defra teams</li>
+                    <li>Key findings on form library, filters, and terminology clarity</li>
+                    <li>Identified need for better search functionality and immediate access to personal forms</li>
+                    <li>Clarified confusion around "Published" vs "Live" terminology</li>
+                    <li>Component testing showed improved usability with new designs</li>
+                    <li>Users responded positively to clearer visual feedback</li>
+                    <li>User journey testing confirmed improved navigation and task success rates</li>
+                </ul>
+
+                <h4 class="govuk-heading-s">Deep Dive and Refinement (Rounds 4-7)</h4>
+                <ul class="govuk-list govuk-list--bullet">
+                    <li>Explored complex interactions like conditional logic and multiple responses</li>
+                    <li>Refined terminology and improved guidance clarity</li>
+                    <li>Enhanced accessibility features based on user feedback</li>
+                    <li>Implemented enhanced component designs with progressive enhancement support</li>
+                </ul>
+
+                <h4 class="govuk-heading-s">Validation and Optimization (Rounds 8-10)</h4>
+                <ul class="govuk-list govuk-list--bullet">
+                    <li>Tested complete user journeys with diverse user groups</li>
+                    <li>Optimized performance and interaction patterns</li>
+                    <li>Further refinement of navigation hierarchy implemented</li>
+                </ul>
+
+                <h4 class="govuk-heading-s">Final Iterations (Rounds 11-13)</h4>
+                <ul class="govuk-list govuk-list--bullet">
+                    <li>Conducted comprehensive accessibility testing</li>
+                    <li>Refined edge cases and complex scenarios</li>
+                    <li>Validated improvements with new and returning users</li>
+                </ul>
+
+                <h3 class="govuk-heading-m">Key Research Outcomes</h3>
+                <ul class="govuk-list govuk-list--bullet">
+                    <li>Improved navigation hierarchy and clarity</li>
+                    <li>Enhanced component accessibility</li>
+                    <li>Streamlined user workflows</li>
+                    <li>Better progressive enhancement support</li>
+                    <li>Clearer visual feedback</li>
+                    <li>Standardised UI patterns</li>
+                    <li>Reduced cognitive load</li>
+                    <li>Improved task success rates</li>
+                </ul>
+
+                <div class="govuk-inset-text">
+                    <p class="govuk-body">"The design feels really clean, really like a lot of space, very
+                        methodical
+                        step
+                        by step" — Content designer feedback</p>
+                </div>
+
+                <h2 class="govuk-heading-l">Component improvements and innovations</h2>
+                <h3 class="govuk-heading-m">Guided Input Component</h3>
+                <ul class="govuk-list govuk-list--bullet">
+                    <li>Live, dynamic highlighting within a real-time preview panel</li>
+                    <li>Enhanced visual feedback as content designers input or edit data</li>
+                    <li>Clearer placeholders providing immediate context</li>
+                </ul>
+
+                <h3 class="govuk-heading-m">Preview Panel</h3>
+                <ul class="govuk-list govuk-list--bullet">
+                    <li>Real-time rendering of form edits</li>
+                    <li>Clear separation by context (questions, headings, multiple inputs)</li>
+                    <li>Improved visual hierarchy and context-aware interactions</li>
+                </ul>
+
+                <h3 class="govuk-heading-m">Configuration Panel</h3>
+                <ul class="govuk-list govuk-list--bullet">
+                    <li>Structured, accessible layout</li>
+                    <li>Clear delineation of settings, options, and actions</li>
+                    <li>Progressive enhancement strategies for JavaScript-disabled environments</li>
+                </ul>
+
+                <div class="govuk-inset-text">
+                    <p class="govuk-body">"Whatever appears in a green box, I just do it." — Content designer
+                        feedback
+                        on
+                        success messages</p>
+                </div>
+
+                <h2 class="govuk-heading-l">Overall Flow and Page Types</h2>
+                <p class="govuk-body">The Forms Designer follows a clear, intuitive flow that guides content
+                    designers
+                    through the form creation process. The service is built with progressive enhancement principles,
+                    ensuring a quality experience for all users, regardless of JavaScript availability.</p>
+
+                <h3 class="govuk-heading-m">Form Management Pages</h3>
+                <ul class="govuk-list govuk-list--bullet">
+                    <li><strong>Form Listing Page:</strong> Summary of all created pages and end pages (including
+                        Check
+                        answers page), with quick preview functionality when JavaScript is enabled</li>
+                    <li><strong>Page Re-ordering:</strong> Intuitive interface for changing page order using up and
+                        down
+                        controls</li>
+                    <li><strong>Form Preview:</strong> Complete preview of the form from start to finish</li>
+                </ul>
+
+                <h3 class="govuk-heading-m">Form Creation Pages</h3>
+                <ul class="govuk-list govuk-list--bullet">
+                    <li><strong>Page Type Selection:</strong> Choose between question or guidance page creation</li>
+                    <li><strong>Information Type Selection:</strong> Select the specific type of question to add
+                    </li>
+                    <li><strong>Question Configuration:</strong> Configure individual questions with appropriate
+                        settings
+                    </li>
+                    <li><strong>Page Overview:</strong> Summary of questions, page heading, guidance, multiple
+                        response
+                        settings, and question reordering</li>
+                </ul>
+
+                <h3 class="govuk-heading-m">Progressive Enhancement Features</h3>
+                <p class="govuk-body">The service is designed to work effectively with or without JavaScript, with
+                    specific
+                    enhancements for JavaScript-enabled environments:</p>
+
+                <h4 class="govuk-heading-s">JavaScript Disabled</h4>
+                <ul class="govuk-list govuk-list--bullet">
+                    <li>Preview panels shown separately from configuration panels</li>
+                    <li>Preview buttons for viewing questions/pages or error messages</li>
+                    <li>Page reloads required for reordering actions</li>
+                </ul>
+
+                <h4 class="govuk-heading-s">JavaScript Enabled</h4>
+                <ul class="govuk-list govuk-list--bullet">
+                    <li>Preview panels shown alongside configuration panels</li>
+                    <li>Skip links for quick navigation between panels (visible on tab focus)</li>
+                    <li>Left-border highlighting for questions in preview panel</li>
+                    <li>Guided input with dynamic highlighting of related preview content</li>
+                    <li>Smooth reordering without page reloads</li>
+                    <li>Focus-based highlighting of corresponding preview elements</li>
+                </ul>
+
+                <h3 class="govuk-heading-m">Reordering Features</h3>
+                <p class="govuk-body">The service includes specialized reordering functionality for different
+                    elements:
+                </p>
+                <ul class="govuk-list govuk-list--bullet">
+                    <li>Lists (checkboxes, radios)</li>
+                    <li>Pages</li>
+                    <li>Questions</li>
+                </ul>
+                <p class="govuk-body">All reordering movements include specific screen reader announcements for
+                    accessibility.</p>
+
+                <h2 class="govuk-heading-l">Outcomes and next steps</h2>
+                <p class="govuk-body">Our iterative redesign led to tangible improvements:</p>
+                <ul class="govuk-list govuk-list--bullet">
+                    <li>Users quickly recognised navigation elements and could intuitively interact with the
+                        interface
+                    </li>
+                    <li>Clearer UI reduced cognitive load, improved confidence, and increased task success rates
+                    </li>
+                    <li>Improved component accessibility and usability, accelerating form creation and publication
+                    </li>
+                </ul>
+
+                <h3 class="govuk-heading-m">Next Steps</h3>
+                <ul class="govuk-list govuk-list--bullet">
+                    <li>Continue refining terminology (e.g., 'repeater', 'short description')</li>
+                    <li>Improve layout clarity for sections and condition logic</li>
+                    <li>Support card sorts and diary studies to enhance guidance IA</li>
+                    <li>Conduct accessibility testing and continue inclusive design</li>
+                </ul>
+
+                <div class="govuk-inset-text">
+                    <p class="govuk-body">"The design feels really clean, really like a lot of space, very
+                        methodical
+                        step
+                        by step" — Content designer feedback</p>
+                </div>
+
+
+
+                {# <div class="govuk-grid-column-one-third">
+                    <div class="app-related-items">
+                        <h2 class="govuk-heading-s">Related posts</h2>
+                        <nav role="navigation" aria-labelledby="related-posts">
+                            <ul class="govuk-list govuk-list--spaced">
+                                <li>
+                                    <a href="/design-history/form-overview/posts/form-details.html"
+                                        class="govuk-link">How
+                                        we
+                                        present information about forms</a>
+                                    <p class="govuk-body-s govuk-!-margin-top-1">Originally published on 26 April
+                                        2024</p>
+                                </li>
+                                <li>
+                                    <a href="/design-history/form-overview/posts/form-actions.html"
+                                        class="govuk-link">Making
+                                        form
+                                        actions intuitive</a>
+                                    <p class="govuk-body-s govuk-!-margin-top-1">Originally published on 26 April
+                                        2024</p>
+                                </li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div> #}
+        </div>
+    </div>
+
+    {% endblock %}

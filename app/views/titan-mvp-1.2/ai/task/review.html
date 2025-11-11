@@ -1,0 +1,150 @@
+{% extends "layouts/main.html" %}
+
+{% from "components/service-header/macro.njk" import serviceHeader %}
+
+{% set pageName = "Review Assembled Prompt" %}
+
+{% block header %}
+{{ serviceHeader({
+organisationName: "Defra",
+productName: "Forms designer",
+serviceName: "",
+accountName: "Chris Smith",
+homepageLink: "/",
+signOutLink: "/titan-mvp-1.2/onboarding/sign-out-confirmation",
+navigationItems: [{
+href: "/titan-mvp-1.2/library",
+text: "Library",
+id: "titan-mvp-1.2/library"
+}]
+}) }}
+
+<div class="x-govuk-masthead x-govuk-masthead--large">
+    <div class="govuk-width-container">
+        {{ govukBackLink({
+        classes: "govuk-back-link--inverse govuk-!-margin-bottom-0",
+        text: "Back to task list",
+        href: "/titan-mvp-1.2/ai/tasklist-form-creation"
+        }) }}
+
+        <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible"
+            style="border-bottom: 1px solid white; margin-bottom: 0" />
+
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-full-from-desktop">
+                <h1 class="x-govuk-masthead__title">
+                    <span class="govuk-caption-l" style="color: white;">AI form creation
+                    </span>
+                    Review your requirements
+                </h1>
+                <p class="x-govuk-masthead__description">
+                    Review your generated prompt before submitting to the AI system for form generation. You can edit
+                    your requirements before submitting.
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+
+
+{% block content %}
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+
+        <p class="govuk-body">Below is the complete prompt that will be sent to the AI system. Please review it
+            carefully to ensure all information is accurate and complete.</p>
+
+        <div class="govuk-!-margin-bottom-6">
+
+            <div class="govuk-inset-text">
+                <div class="govuk-body" id="assembled-prompt-content">{{ assembledPrompt | default("No prompt data
+                    available") }}</div>
+            </div>
+        </div>
+
+
+
+        <form class="form" action="/titan-mvp-1.2/ai/task/review" method="post">
+            <div class="govuk-button-group">
+                {{ govukButton({
+                text: "Submit to AI",
+                classes: "govuk-button",
+                attributes: {
+                "data-action": "submit"
+                }
+                }) }}
+
+                {{ govukButton({
+                text: "Edit requirements",
+                href: "/titan-mvp-1.2/ai/tasklist-form-creation",
+                classes: "govuk-button--secondary"
+                }) }}
+            </div>
+        </form>
+
+        <div class="govuk-!-margin-top-6">
+            <details class="govuk-details">
+                <summary class="govuk-details__summary">
+                    <span class="govuk-details__summary-text">
+                        What happens next?
+                    </span>
+                </summary>
+                <div class="govuk-details__text">
+                    <ol class="govuk-list govuk-list--number">
+                        <li>Your prompt will be sent to our AI system</li>
+                        <li>The AI will analyze your requirements and generate a draft form structure</li>
+                        <li>You'll receive an email notification when the form is ready</li>
+                        <li>You can then review and refine the generated form in the form editor</li>
+                    </ol>
+                    <p class="govuk-body">Processing typically takes 5-10 minutes depending on the complexity of your
+                        requirements.</p>
+                </div>
+            </details>
+        </div>
+    </div>
+
+
+</div>
+</div>
+
+<style>
+    .govuk-sticky {
+        position: sticky;
+        top: 20px;
+    }
+
+    pre {
+        font-family: 'Courier New', monospace;
+        font-size: 12px;
+        line-height: 1.4;
+    }
+</style>
+
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // Render markdown content
+        const promptContent = document.getElementById('assembled-prompt-content');
+        if (promptContent && typeof marked !== 'undefined') {
+            try {
+                const markdownText = promptContent.textContent;
+                promptContent.innerHTML = marked.parse(markdownText);
+            } catch (error) {
+                console.error('Error rendering markdown:', error);
+            }
+        }
+
+        // Handle submit button
+        document.addEventListener('click', function (e) {
+            if (e.target.hasAttribute('data-action') && e.target.getAttribute('data-action') === 'submit') {
+                e.preventDefault();
+                // Submit the form
+                const form = document.querySelector('form');
+                form.submit();
+            }
+        });
+    });
+</script>
+{% endblock %}

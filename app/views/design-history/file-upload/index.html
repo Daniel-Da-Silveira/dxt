@@ -1,0 +1,405 @@
+{% extends "design-history/template.html" %}
+
+{# --- Feature metadata --- #}
+{% set featureName = "File Upload" %}
+{% set latestVersionLink =
+"https://www.figma.com/design/1A9Tthy0CJeqp2rGNSKRjH/Defra-Form-Builder-flows?node-id=18379-83816&t=pwTVAAbn83bKWW3p-4"
+%}
+{% set status = "Tested" %}
+{% set statusColor = "green" %}
+{% set userNeed = "Users need to upload and manage files within forms so they can collect and process document
+submissions effectively." %}
+{% set phase = "Private beta" %}
+{% set category = ["Form creation", "Members of the public"] %}
+{% set description %}
+This feature allows users to upload and manage files within forms, supporting a wide range of file types and providing a
+robust, accessible experience for all users.
+
+<details class='govuk-details govuk-!-margin-top-2' data-module='govuk-details'>
+    <summary class='govuk-details__summary'>
+        <span class='govuk-details__summary-text'>
+            Key Features and Accessibility
+        </span>
+    </summary>
+    <div class='govuk-details__text'>
+        <ul class='govuk-list govuk-list--bullet'>
+            <li><strong>Designed for everyone:</strong> Uses GOV.UK Design System components, follows form best practice
+                (clear, accessible, forgiving), and includes screen reader support via ARIA live regions.</li>
+            <li><strong>Wide file type support:</strong> Users can select from a range of document, image, and tabular
+                data formats. (See guidance for details.)</li>
+            <li><strong>Accessible by default:</strong> All interactions are accessible via keyboard and screen readers,
+                with ARIA live updates for status changes.</li>
+        </ul>
+        <p class='govuk-body govuk-!-margin-top-2'><strong>Recent improvements with JavaScript enabled:</strong></p>
+        <ul class='govuk-list govuk-list--bullet'>
+            <li><strong>Live upload feedback:</strong> AJAX form submission and status polling provide instant feedback
+                without page reloads.</li>
+            <li><strong>Status visualisation:</strong> Summary list below the input shows upload progress and results.
+            </li>
+            <li><strong>Inline error handling:</strong> Errors are shown instantly below the input, with clear messages
+                and accessible markup.</li>
+            <li><strong>Button and form state management:</strong> Upload, remove, and continue buttons are managed for
+                clarity and accessibility.</li>
+            <li><strong>Graceful fallback:</strong> If JavaScript is off, the form still works with full reloads and
+                accessible error messages.</li>
+        </ul>
+    </div>
+</details>
+
+<details class='govuk-details govuk-!-margin-top-2' data-module='govuk-details'>
+    <summary class='govuk-details__summary'>
+        <span class='govuk-details__summary-text'>
+            Key features and benefits
+        </span>
+    </summary>
+    <div class='govuk-details__text'>
+        <ul class='govuk-list govuk-list--bullet'>
+            <li><strong>Live upload feedback:</strong> No full-page reloads — the file just appears.</li>
+            <li><strong>Green "Uploaded" tag:</strong> Clear visual confirmation something worked.</li>
+            <li><strong>Instant error messages:</strong> Helpful and accessible — no guessing what went wrong.</li>
+            <li><strong>Remove buttons per file:</strong> Lets users stay in control before submission.</li>
+            <li><strong>Accessibility built-in:</strong> Screen readers announce status automatically.</li>
+            <li><strong>Supports rules like max size:</strong> Prevents upload errors before they happen.</li>
+        </ul>
+    </div>
+</details>
+
+<details class='govuk-details govuk-!-margin-top-2' data-module='govuk-details'>
+    <summary class='govuk-details__summary'>
+        <span class='govuk-details__summary-text'>
+            What users experience
+        </span>
+    </summary>
+    <div class='govuk-details__text'>
+        <ol class='govuk-list govuk-list--number'>
+            <li><strong>Choose a file:</strong> A "Choose file" button lets users pick a file to upload.</li>
+            <li><strong>Uploading:</strong> Once selected, the file appears in a summary list as "Uploading..."</li>
+            <li><strong>Success:</strong> File shows with a green "Uploaded" tag.</li>
+            <li><strong>Problems?</strong> Clear error messages appear both near the field and at the top.</li>
+            <li><strong>Remove if needed:</strong> Users can remove uploaded files before submitting the form.</li>
+            <li><strong>Continue:</strong> Once files are uploaded, they continue the form as normal.</li>
+        </ol>
+    </div>
+</details>
+{% endset %}
+
+{# --- Research rounds for the summary table --- #}
+{% set researchRounds = [
+"Round 13 - April 2025",
+"Round 7 - October 2024",
+"Rounds 3 & 4 - June/July 2024"
+] %}
+
+{# --- Key improvements in the latest version --- #}
+{% set improvements = [
+"Improved clarity of file upload notifications",
+"Enhanced file type and size guidance",
+"Added clearer instructions for multiple uploads",
+"Improved visibility of download options",
+"Added remove file confirmation page for better accessibility",
+"Enhanced security with email verification for downloads",
+"Improved error handling and user feedback",
+"Better integration with form editor interface"
+] %}
+
+{# --- Journey steps --- #}
+{% set journeySteps = [
+{ number: "1", title: "Onboarding", subtitles: [ { text: "Sign in/out", isCurrent: false } ] },
+{ number: "2", title: "Create new form", subtitles: [ { text: "Add form details", isCurrent: false } ] },
+{ number: "3", title: "Form design", subtitles: [ { text: "Create and edit questions", isCurrent: true } ] },
+{ number: "4", title: "Form overview", subtitles: [ { text: "View and edit form details", isCurrent: false } ],
+isCurrent: true },
+{ number: "5", title: "Testing", subtitles: [ { text: "Preview form", isCurrent: false } ] }
+] %}
+
+{# --- Research history table --- #}
+{% set researchHistory = [
+{
+roundNumber: "8",
+researchDate: "April 2025",
+researchFinding: "Tested the latest prototype from the Editor first page, focusing on the list of types of information
+to be collected from members of the public for the CPH number form. Participants included 5 content designers and 1
+proxy user. Not all users were familiar with all file types; guidance is needed to explain file types. The file type
+selection UI was tested, and the need for clearer guidance was identified.",
+changeMade: "Plan to add clearer guidance in Defra Forms for file types and improve supporting information in the UI."
+},
+{
+roundNumber: "7",
+researchDate: "October 2024",
+researchFinding: "Tested file upload notification emails and download flow. The notification email was clear and
+included expiring download links. The download and confirmation flow was clear, requiring the recipient to enter their
+email for security. Participants found the process straightforward and secure.",
+changeMade: "Maintained current clarity in notification emails and download flow; no major changes required."
+},
+{
+roundNumber: "3 & 4",
+researchDate: "June/July 2024",
+researchFinding: "Public view with JavaScript: Interactions and statuses clear. Some users were unsure why two files
+were required. Without JavaScript, some users expected files to upload automatically and missed the refresh link. Error
+messages were generally clear, but some users wanted more information about errors (e.g., virus in file). The 'Check
+your answers' page was clear and allowed users to review and change their uploads. In the editor, the journey for adding
+a file upload component was improved by removing unnecessary steps, and the new file upload configuration was clearer.
+The page visualiser icon for file upload was well understood.",
+changeMade: "Clarified reasons for multiple uploads, improved guidance for uploading with and without JavaScript, made
+error messages and refresh actions clearer, and improved the editor journey and visual cues for file upload components."
+}
+] %}
+
+{# --- Detailed research summaries --- #}
+{% set researchSummaries = [
+{
+title: "Round 8 - April 2025",
+summary: "We tested the latest version of the prototype from the Editor first page. Specifically, we tested the list of
+types of information to be collected from members of the public.",
+sections: [
+{
+type: "content",
+content: "**Scenario:**\nMembers of the public need a CPH number for land and buildings used to keep livestock for any
+purpose, including those kept as pets.\n\nYou have been working with the Rural Payments Agency (RPA) and you have been
+tasked to create their new 'Apply for a county parish holding (CPH) number' online form, which will be used by members
+of the public to request a CPH number.\n\n**Participants:** 5 content designers and 1 proxy user (advisor, senior
+content
+designers from Cefas, Environment Agency, BaU, Farming, APHA, and a team leader from the Environment Agency)."
+},
+{
+type: "content",
+content: "**Research conducted:** Remote usability testing (29 April 2025)\n\n**Participants:** Multiple Defra content
+designers and form creators\n\n**Method:** Remote usability testing with think-aloud protocol\n\n**Scenario:** Testing
+page conditions, page sections, and form upload/download functionality. Participants were asked to test condition
+creation, work with page sections, test form upload/download functionality, review condition usage, test combining
+multiple conditions, and review section vs page hierarchy."
+},
+{
+type: "images",
+imagesLabel: "Added a remove file confirmation page. This enabled us to maintain an accessible experience for users who
+have JavaScript disabled.",
+showSectionBreak: true,
+content: [
+{
+src: "/public/images/file-upload/remove-file.png",
+alt: "Remove file confirmation page",
+caption: "Remove file confirmation page",
+width: "two-thirds"
+}
+]
+},
+{
+type: "findings",
+content: [
+"Functionality tested well",
+"Users successfully found download option through 'Tools' menu",
+"Recommendation to maintain easy-to-locate form export/download tools"
+]
+},
+{
+type: "quotes",
+content: [
+"'The downloads thing is obviously really handy'",
+"'Nice big buttons... made it easy to confidently add page conditions'"
+]
+}
+]
+},
+{
+title: "Round 7 - October 2024",
+summary: "Testing of file upload notifications and download flow",
+sections: [
+{
+type: "content",
+content: "**Research conducted:** Remote usability testing (1–2 October 2024)\n\n**Participants:** 4 senior content
+designers and 1 proxy user (APHA, RPA, Countryside Stewardship)\n\n**Method:** Remote usability testing with think-aloud
+protocol\n\n**Scenario:** Testing DXT form editor redesign and file upload notifications. Participants were asked to
+review file upload notification emails, create new forms, add questions, test markdown usage, work with error messages,
+test user flow and navigation, use repeater feature, name question sets, review overview of questions, add options for
+radios, and reorder pages."
+},
+{
+type: "content",
+content: "**File upload notification and download flow context:**\n\nWhen a member of the public submits a form with
+file uploads, subject matter experts (SMEs) receive an email notification containing expiring download links for the
+uploaded files. To download a file, the SME must enter the email address the file was sent to, providing an extra layer
+of security. Download links are only valid for a set period, after which they expire and cannot be used."
+},
+{
+type: "findings",
+content: [
+"File upload notification email tested well",
+"Clear content and interaction",
+"Recommendation to maintain current clarity in notification emails"
+]
+},
+{
+type: "quotes",
+content: [
+"'I don't know what I have to use it for, but that tells me what I need to know'",
+"'The notification email is clear and helpful'"
+]
+},
+{
+type: "content",
+content: "**Insight 1:** The file upload email notification received by SMEs was clear and included all necessary
+information, including expiring download links for uploaded files.\n\n**Insight 2:** The file download and confirmation
+flow was clear and worked as intended, with clear instructions and a security step requiring the recipient's email
+address."
+},
+{
+type: "images",
+imagesLabel: "Screenshots of the file upload email and download flow",
+showSectionBreak: true,
+content: [
+{
+src: "/public/images/file-upload/notification.png",
+alt: "File upload email notification",
+caption: "Screenshot of an email confirming a CPH application with file upload links."
+},
+{
+src: "/public/images/file-upload/file-downloading.png",
+alt: "File downloading page",
+caption: "Screenshot of file downloading page with instructions and download button."
+},
+{
+src: "/public/images/file-upload/download-email.png",
+alt: "File download confirmation page",
+caption: "Screenshot of file download confirmation page requiring email address."
+}
+]
+}
+]
+},
+{
+title: "Rounds 3 & 4 - June/July 2024",
+summary: "Initial testing of file upload functionality and related journeys.",
+sections: [
+{
+type: "content",
+content: "**Research conducted:** Remote usability testing (24–25 June & 1–2 July 2024)\n\n**Participants:** 8 content
+designers across various teams (Farming, Cefas, Environment Agency, Nature, Forestry, Climate Change)\n\n**Method:**
+Remote usability testing with think-aloud protocol\n\n**Scenario:** Testing file upload and forms library. Participants
+were asked to test file upload functionality (with and without JavaScript), navigate forms library, use search and
+filter functions, create new forms, and edit draft forms.
+Based on the [HMRC file upload pattern](https://design.tax.service.gov.uk/hmrc-design-patterns/file-upload/)."
+},
+{
+type: "details",
+summary: "View the screens form designers used to create the file upload journey",
+content: "",
+items: [
+{
+type: "preview",
+url: "/design-history/file-upload/prototoype/settings-r3.html",
+caption: "Mixed views. The 'Hint text' copy was clear to all. The rest of the content and labels were not clear to all
+participants and needed to be reviewed to cater for everyone. We removed the 'Short label' and 'Question label' sections
+and reviewed the overall content.",
+previewLabel: "File upload settings page (round 3)",
+showSectionBreak: true
+},
+{
+type: "preview",
+url: "/design-history/file-upload/prototoype/settings",
+caption: "The new design tested well. The labels and copy were clear to all participants. The example provided was very
+helpful. The 'Make file upload optional' was confusing to one participant, possibly because we did not test the full
+journey of
+a
+form but only a specific page/question. It needs more research. ",
+previewLabel: "Configuration page for file uploads (round 4)",
+showSectionBreak: true
+},
+{
+type: "images",
+imagesLabel: "We added an icon in the page visualiser representing a file upload. The page was clear to all
+participants. They all
+understood the icon, clicked 'Edit page' to edit it and clicked Preview to view the public-facing page.",
+showSectionBreak: false,
+content: {
+src: "/public/images/file-upload/visualiser.png",
+alt: "Visualiser",
+caption: "Visualiser"
+}
+}
+]
+},
+{
+type: "details",
+summary: "View the screens for the file upload journey without JavaScript",
+content: "Javascript versions of the file upload journey differed by not requiring a refresh link to complete the upload
+as that was handled by the JavaScript. The no JavaScript version required a refresh link to complete the upload.",
+items: [
+{
+type: "preview",
+url: "/design-history/file-upload/prototoype/no-js/page1",
+caption: "",
+previewLabel: "Screen 1: File upload (no JavaScript)",
+showSectionBreak: true
+},
+{
+type: "preview",
+url: "/design-history/file-upload/prototoype/no-js/page2",
+caption: "",
+previewLabel: "Screen 2: Uploading in progress and refresh link to upload (no JavaScript)",
+showSectionBreak: true
+},
+{
+type: "preview",
+url: "/design-history/file-upload/prototoype/no-js/page3",
+caption: "",
+previewLabel: "Screen 3: File uploaded successfully (no JavaScript)",
+showSectionBreak: true
+},
+{
+type: "preview",
+url: "/design-history/file-upload/prototoype/no-js/page4",
+caption: "",
+previewLabel: "Screen 4: Uploading in progress while already having an uploaded file (no JavaScript)",
+showSectionBreak: true
+},
+{
+type: "preview",
+url: "/design-history/file-upload/prototoype/no-js/page5",
+caption: "",
+previewLabel: "Screen 5: 2 files uploaded successfully (no JavaScript)",
+showSectionBreak: true
+},
+{
+type: "preview",
+url: "/design-history/file-upload/prototoype/errors/3.html",
+caption: "",
+previewLabel: "Screen 6: error handling",
+showSectionBreak: true
+},
+{
+type: "preview",
+url: "/design-history/file-upload/prototoype/check-answers/summary.html",
+caption: "",
+previewLabel: "Screen 7: check your answers",
+showSectionBreak: true
+}
+]
+},
+{
+type: "findings",
+content: [
+"Public view with JavaScript: Interactions, file status, and file size were clear to all participants.",
+"Some users were unsure why two files were required; hint content needed to be more specific.",
+"Without JavaScript: Some users expected files to upload automatically and missed the refresh link, using the browser's
+refresh button instead.",
+"Error messages: Content was clear, but some users wanted more information about errors (e.g., virus in file).",
+"Check your answers page: Content and interactions were clear, users could review and change uploads.",
+"Editor journey: Improved by removing unnecessary steps between adding a page and adding a component.",
+"File upload configuration: New design and labels were clearer, example content was helpful.",
+"Page visualiser: Icon for file upload was well understood and used."
+]
+},
+
+{
+type: "quotes",
+content: [
+"I'm just wondering why I'd need to upload up to two. Is 1 file enough?",
+"The refresh page link was frequently overlooked.",
+"I saw uploading... thought I could add another one while that's still happening.",
+"The error links at the top are red and scary!",
+"The new file upload design tested well; labels and copy were clear, and the example was helpful."
+]
+}
+]
+}
+] %}

@@ -1,0 +1,383 @@
+{% extends "layouts/main.html" %}
+
+{% from "components/service-header/macro.njk" import serviceHeader %}
+
+{% set pageName = "Reorder pages - Apply for a county parish holding number in England" %}
+
+{% block header %}
+    {{ serviceHeader({
+  organisationName: "Defra",
+  productName: "Forms Designer",
+  serviceName: "",
+  containerClasses: containerClasses,
+  accountName: "Chris Smith",
+  homepageLink: "/",
+  signOutLink: "/onboarding/sign-out-confirmation",
+  navigationItems: [
+    { href: "/library.html", text: "Forms library", id: "nav-library" },
+    { href: "/cph-overview/draft/complete-clean.html", text: "Overview", id: "nav-overview" },
+    { href: "/redesigntest/listing", text: "Editor", id: "nav-editor" }
+  ],
+  activeLinkId: "nav-editor"
+}) }}
+{% endblock %}
+
+{% block content %}
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-full">
+            <div class="app-masthead">
+                <div class="app-width-container">
+                    <div class="govuk-grid-row">
+                        <div class="govuk-grid-column-full">
+                            <span class="govuk-caption-l" style="color: #ffffff;">Apply for a county parish holding certificate</span>
+                            <h1 class="govuk-heading-xl app-masthead__title">Form pages</h1>
+                            <p class="app-masthead__description">Create and manage the pages in this form.</p>
+                            <a href="/get-started/" role="button" draggable="false" class="govuk-button govuk-button--inverse govuk-!-margin-top-6 govuk-!-margin-bottom-0 govuk-button--start" data-module="govuk-button">
+                                Preview form
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <nav class="moj-sub-navigation" aria-label="Sub navigation">
+                <div class="moj-sub-navigation__container">
+                    <ul class="moj-sub-navigation__list" id="nav-list1">
+                        <li class="moj-sub-navigation__item">
+                            <a class="moj-sub-navigation__link" aria-current="page" href="#your-pages">Pages</a>
+                        </li>
+                        <li class="moj-sub-navigation__item">
+                            <a class="moj-sub-navigation__link" href="#" id="groups"></a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+
+            {{ mojPageHeaderActions({
+        heading: {
+            text: 'Pages'
+        },
+        items: [{
+            text: 'Add page',
+            href: "/redesign/questionnumber",
+            classes: 'govuk-button'
+        }, {
+            text: 'Finish editing',
+            classes: 'govuk-button--secondary'
+        },
+        {
+            text: 'Re-order pages',
+            classes: 'govuk-button--secondary'
+        }],
+        attributes: {
+            id: 'page-header',
+            name: 'page-header'
+        }
+    }) }}
+
+            <form id="reorderable-form" action="/submit" method="POST">
+                <ol class="gem-c-reorderable-list" id="reorderable-list" data-module="reorderable-list" data-reorderable-list-module-started="true">
+                    <li class="gem-c-reorderable-list__item" draggable="true">
+                        <div class="gem-c-reorderable-list__wrapper">
+                            <div class="gem-c-reorderable-list__content">
+                                <p class="gem-c-reorderable-list__title">Budget 2018</p>
+                            </div>
+                            <div class="gem-c-reorderable-list__actions">
+                                <div class="govuk-form-group">
+                                    <label for="input-60615499" class="gem-c-label govuk-label">
+                                        Position<span class="govuk-visually-hidden">
+                                            for Budget 2018</span>
+                                    </label>
+                                    <input class="gem-c-input govuk-input govuk-input--width-2" id="input-60615499" inputmode="numeric" name="ordering[ce99dd60-67dc-11eb-ae93-0242ac130002]" spellcheck="false" type="text" value="1">
+                                </div>
+                                <button class="gem-c-button govuk-button govuk-button--secondary js-reorderable-list-up" type="button" aria-label="Move &quot;Budget 2018&quot; up">Up</button>
+                                <button class="gem-c-button govuk-button govuk-button--secondary js-reorderable-list-down" type="button" aria-label="Move &quot;Budget 2018&quot; down">Down</button>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="gem-c-reorderable-list__item" draggable="true">
+                        <div class="gem-c-reorderable-list__wrapper">
+                            <div class="gem-c-reorderable-list__content">
+                                <p class="gem-c-reorderable-list__title">Budget 2018 (web)</p>
+                            </div>
+                            <div class="gem-c-reorderable-list__actions">
+                                <div class="govuk-form-group">
+                                    <label for="input-8c396638" class="gem-c-label govuk-label">
+                                        Position<span class="govuk-visually-hidden">
+                                            for Budget 2018 (web)</span>
+                                    </label>
+                                    <input class="gem-c-input govuk-input govuk-input--width-2" id="input-8c396638" inputmode="numeric" name="ordering[d321cb86-67dc-11eb-ae93-0242ac130002]" spellcheck="false" type="text" value="2">
+                                </div>
+                                <button class="gem-c-button govuk-button govuk-button--secondary js-reorderable-list-up" type="button" aria-label="Move &quot;Budget 2018 (web)&quot; up">Up</button>
+                                <button class="gem-c-button govuk-button govuk-button--secondary js-reorderable-list-down" type="button" aria-label="Move &quot;Budget 2018 (web)&quot; down">Down</button>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="gem-c-reorderable-list__item" draggable="true">
+                        <div class="gem-c-reorderable-list__wrapper">
+                            <div class="gem-c-reorderable-list__content">
+                                <p class="gem-c-reorderable-list__title">Impact on households: distributional analysis to accompany Budget 2018</p>
+                            </div>
+                            <div class="gem-c-reorderable-list__actions">
+                                <div class="govuk-form-group">
+                                    <label for="input-b93eefeb" class="gem-c-label govuk-label">
+                                        Position<span class="govuk-visually-hidden">
+                                            for Impact on households: distributional analysis to accompany Budget 2018</span>
+                                    </label>
+                                    <input class="gem-c-input govuk-input govuk-input--width-2" id="input-b93eefeb" inputmode="numeric" name="ordering[63a6d29e-6b6d-4157-9067-84c1a390e352]" spellcheck="false" type="text" value="3">
+                                </div>
+                                <button class="gem-c-button govuk-button govuk-button--secondary js-reorderable-list-up" type="button" aria-label="Move &quot;Impact on households: distributional analysis to accompany Budget 2018&quot; up">Up</button>
+                                <button class="gem-c-button govuk-button govuk-button--secondary js-reorderable-list-down" type="button" aria-label="Move &quot;Impact on households: distributional analysis to accompany Budget 2018&quot; down">Down</button>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="gem-c-reorderable-list__item" draggable="true">
+                        <div class="gem-c-reorderable-list__wrapper">
+                            <div class="gem-c-reorderable-list__content">
+                                <p class="gem-c-reorderable-list__title">Table 2.1: Budget 2018 policy decisions</p>
+                            </div>
+                            <div class="gem-c-reorderable-list__actions">
+                                <div class="govuk-form-group">
+                                    <label for="input-ad6f24d6" class="gem-c-label govuk-label">
+                                        Position<span class="govuk-visually-hidden">
+                                            for Table 2.1: Budget 2018 policy decisions</span>
+                                    </label>
+                                    <input class="gem-c-input govuk-input govuk-input--width-2" id="input-ad6f24d6" inputmode="numeric" name="ordering[0a4d377d-68f4-472f-b2e3-ef71dc750f85]" spellcheck="false" type="text" value="4">
+                                </div>
+                                <button class="gem-c-button govuk-button govuk-button--secondary js-reorderable-list-up" type="button" aria-label="Move &quot;Table 2.1: Budget 2018 policy decisions&quot; up">
+                                    Up
+                                </button>
+                                <button class="gem-c-button govuk-button govuk-button--secondary js-reorderable-list-down" type="button" aria-label="Move &quot;Table 2.1: Budget 2018 policy decisions&quot; down">
+                                    Down
+                                </button>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="gem-c-reorderable-list__item" draggable="true">
+                        <div class="gem-c-reorderable-list__wrapper">
+                            <div class="gem-c-reorderable-list__content">
+                                <p class="gem-c-reorderable-list__title">
+                                    Table 2.2: Measures announced at Autumn Budget 2017 or earlier that will take effect from November 2018 or later (£ million)
+                                </p>
+                            </div>
+                            <div class="gem-c-reorderable-list__actions">
+                                <div class="govuk-form-group">
+                                    <label for="input-0ed12862" class="gem-c-label govuk-label">
+                                        Position
+                                        <span class="govuk-visually-hidden">
+                                            for Table 2.2: Measures announced at Autumn Budget 2017 or earlier that will take effect from November 2018 or later (£ million)</span >
+                                    </label>
+                                    <input class="gem-c-input govuk-input govuk-input--width-2" id="input-0ed12862" inputmode="numeric" name="ordering[5ebd75d7-6c37-4b93-b444-1b7c49757fb9]" spellcheck="false" type="text" value="5"/>
+                                </div>
+                                <button class="gem-c-button govuk-button govuk-button--secondary js-reorderable-list-up" type="button" aria-label="Move &quot;Table 2.2: Measures announced at Autumn Budget 2017 or earlier that will take effect from November 2018 or later (£ million)&quot; up">
+                                    Up
+                                </button>
+                                <button class="gem-c-button govuk-button govuk-button--secondary js-reorderable-list-down" type="button" aria-label="Move &quot;Table 2.2: Measures announced at Autumn Budget 2017 or earlier that will take effect from November 2018 or later (£ million)&quot; down">
+                                    Down
+                                </button>
+                            </div>
+                        </div>
+                    </li>
+                </ol>
+                <button type="submit" class="govuk-button">Submit</button>
+            </form>
+        </div>
+
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css"/>
+        <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>
+        <style>
+            /* Ensure the chosen item remains solid */
+            .sortable-chosen {
+                opacity: 1 !important;
+                background-color: white !important;
+            }
+            .gem-c-reorderable-list {
+                list-style-type: none;
+                margin-bottom: 30px;
+                margin-top: 0;
+                padding-left: 0;
+                position: relative;
+                font-family: "GDS Transport", arial, sans-serif;
+                -webkit-font-smoothing: antialiased;
+                -moz-osx-font-smoothing: grayscale;
+                font-weight: 700;
+                font-size: 1rem;
+                line-height: 1.25;
+            }
+
+            @media (min-width: 40.0625em) {
+                .gem-c-reorderable-list {
+                    font-size: 1.1875rem;
+                    line-height: 1.3157894737;
+                }
+            }
+
+            .gem-c-reorderable-list__item {
+                margin-bottom: 15px;
+                border: 1px solid #b1b4b6;
+                padding: 15px;
+            }
+
+            @media (min-width: 48.0625em) {
+                .gem-c-reorderable-list__item {
+                    cursor: move;
+                }
+            }
+
+            .gem-c-reorderable-list__wrapper {
+                display: block;
+            }
+
+            @media (min-width: 48.0625em) {
+                .gem-c-reorderable-list__wrapper {
+                    display: inline-flex;
+                    width: 100%;
+                }
+            }
+
+            .gem-c-reorderable-list__content {
+                margin-bottom: 10px;
+            }
+
+            @media (min-width: 48.0625em) {
+                .gem-c-reorderable-list__content {
+                    margin-bottom: 0;
+                    flex: 0 1 auto;
+                    min-width: 65%;
+                }
+            }
+
+            .gem-c-reorderable-list__actions {
+                display: block;
+            }
+
+            @media (min-width: 48.0625em) {
+                .gem-c-reorderable-list__actions {
+                    flex: 1 0 auto;
+                    text-align: right;
+                }
+            }
+
+            .gem-c-reorderable-list__title {
+                margin: 0;
+            }
+
+            @media (min-width: 40.0625em) {
+                .gem-c-reorderable-list .govuk-form-group {
+                    margin-bottom: 0;
+                }
+
+                .gem-c-reorderable-list__actions .govuk-form-group {
+                    display: none;
+                }
+
+                .gem-c-reorderable-list__actions .gem-c-button {
+                    display: none;
+                }
+
+                .gem-c-reorderable-list__actions .gem-c-button {
+                    display: inline-block;
+                    margin-left: 15px;
+                    width: 80px;
+                }
+
+                .gem-c-reorderable-list__actions .gem-c-button:first-of-type {
+                    margin-left: 0;
+                }
+
+                @media (min-width: 48.0625em) {
+                    .gem-c-reorderable-list__actions .gem-c-button:first-of-type {
+                        margin-left: 15px;
+                    }
+                }
+
+                .gem-c-reorderable-list__item:first-child .gem-c-button:first-of-type {
+                    display: none;
+                }
+
+                @media (min-width: 48.0625em) {
+                    .gem-c-reorderable-list__item:first-child .gem-c-button:first-of-type {
+                        display: inline-block;
+                        visibility: hidden;
+                    }
+                }
+
+                .gem-c-reorderable-list__item:first-child .gem-c-button:last-of-type {
+                    margin-left: 0;
+                }
+
+                @media (min-width: 48.0625em) {
+                    .gem-c-reorderable-list__item:first-child .gem-c-button:last-of-type {
+                        margin-left: 15px;
+                    }
+                }
+
+                .gem-c-reorderable-list__item:last-child .gem-c-button:last-of-type {
+                    display: none;
+                }
+
+                @media (min-width: 48.0625em) {
+                    .gem-c-reorderable-list__item:last-child .gem-c-button:last-of-type {
+                        display: inline-block;
+                        visibility: hidden;
+                    }
+                }
+            }
+        </style>
+
+        <script>
+            // Initialize SortableJS for the list
+            const sortable = new Sortable(document.getElementById("reorderable-list"), {
+                animation: 150,
+                handle: ".gem-c-reorderable-list__item",
+                draggable: ".gem-c-reorderable-list__item",
+                ghostClass: "ghost",
+                onEnd: updateOrderInputs,
+                onStart: function (evt) {
+                    if (window.innerWidth <= 600) {
+                        evt.preventDefault(); // Prevent drag on small screens
+                    }
+                }
+            });
+
+            // Function to update order inputs after sorting
+            function updateOrderInputs() {
+                const items = document.querySelectorAll(".gem-c-reorderable-list__item input");
+                items.forEach((input, index) => {
+                    input.value = index + 1;
+                });
+            }
+
+            // Add event listeners to move buttons
+            document
+                .querySelectorAll(".js-reorderable-list-up")
+                .forEach((button) => {
+                    button.addEventListener("click", () => {
+                        const li = button.closest(".gem-c-reorderable-list__item");
+                        if (li.previousElementSibling) {
+                            li
+                                .parentNode
+                                .insertBefore(li, li.previousElementSibling);
+                            updateOrderInputs();
+                        }
+                    });
+                });
+
+            document
+                .querySelectorAll(".js-reorderable-list-down")
+                .forEach((button) => {
+                    button.addEventListener("click", () => {
+                        const li = button.closest(".gem-c-reorderable-list__item");
+                        if (li.nextElementSibling) {
+                            li
+                                .parentNode
+                                .insertBefore(li.nextElementSibling, li);
+                            updateOrderInputs();
+                        }
+                    });
+                });
+
+            // Ensure order is updated on page load
+            updateOrderInputs();
+        </script>
+    {% endblock %}
