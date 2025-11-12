@@ -1,0 +1,930 @@
+{% extends "layouts/main.html" %}
+{% from "components/service-header/macro.njk" import serviceHeader %}
+{% from "govuk/components/inset-text/macro.njk" import govukInsetText %}
+
+{% block pageTitle %}
+Before and After: Design Changes – Service Standard Point 4 Evidence – Defra Form Designer – GOV.UK Prototype Kit
+{% endblock %}
+
+{% block header %}
+{{ serviceHeader({
+organisationName: "Defra",
+productName: "Form Designer",
+serviceName: "",
+homepageLink: "/titan-mvp-1.2/product-pages/homepage",
+signInLink: "/titan-mvp-1.2/library",
+showSupportLink: false,
+navigationItems: [
+{ href: "/titan-mvp-1.2/product-pages/about", text: "About", id: "nav-about" },
+{ href: "/titan-mvp-1.2/product-pages/get-started", text: "Get started", id: "nav-get-started" },
+{ href: "/titan-mvp-1.2/product-pages/features", text: "Features", id: "nav-features" },
+{ href: "/titan-mvp-1.2/product-pages/resources", text: "Resources", id: "nav-resources" },
+{ href: "/titan-mvp-1.2/product-pages/support", text: "Support", id: "nav-support" }
+],
+activeLinkId: "nav-resources"
+}) }}
+
+<div class="x-govuk-masthead x-govuk-masthead--large">
+    <div class="govuk-width-container">
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-full-from-desktop">
+                <h1 class="x-govuk-masthead__title">
+                    <span class="govuk-caption-l" style="color: white;">Service Standard Assessment</span>
+                    Before and After: Design Changes
+                </h1>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-one-quarter app-contents-list--sticky govuk-!-padding-right-0">
+        {{ xGovukSubNavigation({
+        visuallyHiddenTitle: "Section navigation",
+        items: [{
+        text: "Service Standard Point 4 Evidence",
+        href: "/titan-mvp-1.2/product-pages/resources/service-standard-4-evidence",
+        parent: true,
+        children: [{
+        text: "Executive Summary",
+        href: "/titan-mvp-1.2/product-pages/resources/service-standard-4-evidence"
+        }, {
+        text: "1. Making the service simple to use",
+        href: "/titan-mvp-1.2/product-pages/resources/service-standard-4-evidence/section-1"
+        }, {
+        text: "2. Usability testing with users",
+        href: "/titan-mvp-1.2/product-pages/resources/service-standard-4-evidence/section-2"
+        }, {
+        text: "3. Testing all parts of the service",
+        href: "/titan-mvp-1.2/product-pages/resources/service-standard-4-evidence/section-3"
+        }, {
+        text: "4. Users with lowest digital skills",
+        href: "/titan-mvp-1.2/product-pages/resources/service-standard-4-evidence/section-4"
+        }, {
+        text: "5. Accessibility requirements",
+        href: "/titan-mvp-1.2/product-pages/resources/service-standard-4-evidence/section-5"
+        }, {
+        text: "6. Performance research",
+        href: "/titan-mvp-1.2/product-pages/resources/service-standard-4-evidence/section-6"
+        }, {
+        text: "7. Continuous improvement",
+        href: "/titan-mvp-1.2/product-pages/resources/service-standard-4-evidence/section-7"
+        }, {
+        text: "8. Data-driven decisions",
+        href: "/titan-mvp-1.2/product-pages/resources/service-standard-4-evidence/section-8"
+        }, {
+        text: "9. Continual monitoring",
+        href: "/titan-mvp-1.2/product-pages/resources/service-standard-4-evidence/section-9"
+        }, {
+        text: "Before and After",
+        href: "/titan-mvp-1.2/product-pages/resources/service-standard-4-evidence/before-after",
+        current: true
+        }, {
+        text: "Summary",
+        href: "/titan-mvp-1.2/product-pages/resources/service-standard-4-evidence/summary"
+        }]
+        }]
+        }) }}
+    </div>
+    <div class="govuk-grid-column-two-thirds">
+        <div class="app-prose-scope">
+
+            <h2 class="govuk-heading-l">Before and After: Design Changes</h2>
+
+            <p class="govuk-body">This page showcases key design improvements made to the Defra Forms Designer, demonstrating how user research and iterative design led to a more intuitive and accessible service. Each example includes visual comparisons and specific user feedback that drove the changes.</p>
+
+            <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+
+            <h3 class="govuk-heading-m">1. Form Overview: Organisation Details Display</h3>
+
+            <p class="govuk-body"><strong>Context:</strong> When users first create a new form, they add details about lead organisation and team details. Round 6 (June 2024) testing revealed usability issues with how this information was presented.</p>
+
+            <div class="govuk-grid-row govuk-!-margin-top-4">
+                <div class="govuk-grid-column-full">
+                    <div style="border: 2px solid #00703c; padding: 20px; background-color: #f3f2f1; margin-bottom: 20px;">
+                        <h4 class="govuk-heading-s govuk-!-margin-top-0">Organisation details presentation</h4>
+                        <div style="display: flex; flex-direction: column; gap: 20px; margin-top: 15px;">
+                            <div style="display: flex; align-items: flex-start; gap: 20px;">
+                                <div style="flex: 1; padding: 20px; background-color: #fff; border: 2px solid #d4351c; border-radius: 4px;">
+                                    <p class="govuk-body-s govuk-!-margin-0" style="font-weight: 700; color: #d4351c; margin-bottom: 12px; font-size: 16px;">Before: Details component</p>
+                                    <p class="govuk-body-s govuk-!-margin-bottom-2" style="font-weight: 700;">Hidden in expandable details component</p>
+                                    <ul class="govuk-list govuk-list--bullet govuk-body-s" style="margin-left: 20px; color: #505a5f;">
+                                        <li>Information hidden by default</li>
+                                        <li>Users struggled to understand what to expect when expanded</li>
+                                        <li>Rarely matched user expectations once expanded</li>
+                                        <li>Unclear how to edit organisation details</li>
+                                    </ul>
+                                    <div style="margin-top: 15px; padding: 10px; background-color: #f3f2f1; border-radius: 4px;">
+                                        <p class="govuk-body-s govuk-!-margin-0" style="font-style: italic; color: #505a5f;">"Users struggled to understand what information to expect when it was expanded"</p>
+                                    </div>
+                                </div>
+                                <div style="flex: 1; padding: 20px; background-color: #fff; border: 2px solid #00703c; border-radius: 4px;">
+                                    <p class="govuk-body-s govuk-!-margin-0" style="font-weight: 700; color: #00703c; margin-bottom: 12px; font-size: 16px;">After: Summary list component</p>
+                                    <p class="govuk-body-s govuk-!-margin-bottom-2" style="font-weight: 700;">Visible in main body using summary list</p>
+                                    <ul class="govuk-list govuk-list--bullet govuk-body-s" style="margin-left: 20px; color: #505a5f;">
+                                        <li>Information visible immediately</li>
+                                        <li>Uses GOV.UK summary list component (purposefully designed for this)</li>
+                                        <li>Clear how to edit (edit links visible)</li>
+                                        <li>Matches user mental model</li>
+                                    </ul>
+                                    <div style="margin-top: 15px; padding: 10px; background-color: #cce5d4; border-radius: 4px;">
+                                        <p class="govuk-body-s govuk-!-margin-0" style="font-style: italic; color: #0b0c0c;">"This tested positively and users correctly identified how they could update this information"</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="govuk-grid-row govuk-!-margin-top-4">
+                <div class="govuk-grid-column-one-half">
+                    <h4 class="govuk-heading-s">Before: Details component expanded</h4>
+                    <img src="/public/images/form-overview/posts/form-details/01.png" alt="Form home page with details component expanded to reveal organisation details" style="width: 100%; border: 1px solid #b1b4b6; border-radius: 4px;">
+                    <p class="govuk-body-s govuk-!-margin-top-2" style="color: #505a5f;">Details component expanded to reveal organisation details</p>
+                </div>
+                <div class="govuk-grid-column-one-half">
+                    <h4 class="govuk-heading-s">After: Summary list format</h4>
+                    <img src="/public/images/form-overview/posts/form-details/02.png" alt="Organisation details in summary list format" style="width: 100%; border: 1px solid #00703c; border-radius: 4px;">
+                    <p class="govuk-body-s govuk-!-margin-top-2" style="color: #505a5f;">Organisation details in summary list format</p>
+                </div>
+            </div>
+
+            <h4 class="govuk-heading-s">Impact</h4>
+            <ul class="govuk-list govuk-list--bullet">
+                <li>Users correctly identified how to update information</li>
+                <li>Reduced cognitive load - information visible immediately</li>
+                <li>Better alignment with GOV.UK Design System patterns</li>
+                <li>Tested positively in user research</li>
+            </ul>
+
+            <h4 class="govuk-heading-s">Related design history</h4>
+            <ul class="govuk-list">
+                <li><a href="https://dxt-prototype-682ae311ff10.herokuapp.com/design-history/form-overview/posts/form-details.html" class="govuk-link" target="_blank" rel="noopener noreferrer">Form overview: How we present information about forms</a></li>
+            </ul>
+
+            <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+
+            <h3 class="govuk-heading-m">2. Form Overview: Form Versions Display</h3>
+
+            <p class="govuk-body"><strong>Context:</strong> Forms can exist in different states (draft, live). The original design presented all forms in a single table, which limited the ability to include additional information.</p>
+
+            <div class="govuk-grid-row govuk-!-margin-top-4">
+                <div class="govuk-grid-column-full">
+                    <div style="border: 2px solid #00703c; padding: 20px; background-color: #f3f2f1; margin-bottom: 20px;">
+                        <h4 class="govuk-heading-s govuk-!-margin-top-0">Form versions presentation</h4>
+                        <div style="display: flex; flex-direction: column; gap: 20px; margin-top: 15px;">
+                            <div style="display: flex; align-items: flex-start; gap: 20px;">
+                                <div style="flex: 1; padding: 20px; background-color: #fff; border: 2px solid #d4351c; border-radius: 4px;">
+                                    <p class="govuk-body-s govuk-!-margin-0" style="font-weight: 700; color: #d4351c; margin-bottom: 12px; font-size: 16px;">Before: Single table</p>
+                                    <ul class="govuk-list govuk-list--bullet govuk-body-s" style="margin-left: 20px; color: #505a5f;">
+                                        <li>All forms in one table</li>
+                                        <li>Limited ability to include additional information</li>
+                                        <li>Couldn't easily add preview links</li>
+                                        <li>Less flexible for expert users who prefer more information</li>
+                                    </ul>
+                                </div>
+                                <div style="flex: 1; padding: 20px; background-color: #fff; border: 2px solid #00703c; border-radius: 4px;">
+                                    <p class="govuk-body-s govuk-!-margin-0" style="font-weight: 700; color: #00703c; margin-bottom: 12px; font-size: 16px;">After: Separate summary lists</p>
+                                    <ul class="govuk-list govuk-list--bullet govuk-body-s" style="margin-left: 20px; color: #505a5f;">
+                                        <li>Separate summary lists for draft and live forms</li>
+                                        <li>More space for additional information</li>
+                                        <li>Can include preview links and other metadata</li>
+                                        <li>Better suited for expert users</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="govuk-grid-row govuk-!-margin-top-4">
+                <div class="govuk-grid-column-one-half">
+                    <h4 class="govuk-heading-s">Before: Single table</h4>
+                    <img src="/public/images/form-overview/posts/form-details/03.png" alt="Draft and live forms in a single table" style="width: 100%; border: 1px solid #b1b4b6; border-radius: 4px;">
+                    <p class="govuk-body-s govuk-!-margin-top-2" style="color: #505a5f;">Draft and live forms in a single table</p>
+                </div>
+                <div class="govuk-grid-column-one-half">
+                    <h4 class="govuk-heading-s">After: Separate summary lists</h4>
+                    <img src="/public/images/form-overview/posts/form-details/04.png" alt="Separate summary lists for draft and live forms" style="width: 100%; border: 1px solid #00703c; border-radius: 4px;">
+                    <p class="govuk-body-s govuk-!-margin-top-2" style="color: #505a5f;">Separate summary lists for draft and live forms</p>
+                </div>
+            </div>
+
+            <h4 class="govuk-heading-s">Impact</h4>
+            <ul class="govuk-list govuk-list--bullet">
+                <li>More flexible presentation for expert users</li>
+                <li>Can include preview links and additional metadata</li>
+                <li>Clearer separation between draft and live forms</li>
+            </ul>
+
+            <h4 class="govuk-heading-s">Related design history</h4>
+            <ul class="govuk-list">
+                <li><a href="https://dxt-prototype-682ae311ff10.herokuapp.com/design-history/form-overview/posts/form-details.html" class="govuk-link" target="_blank" rel="noopener noreferrer">Form overview: How we present information about forms</a></li>
+            </ul>
+
+            <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+
+            <h3 class="govuk-heading-m">3. Form Editor Interface Redesign</h3>
+
+            <p class="govuk-body"><strong>Context:</strong> Initial evaluation (March 2024) revealed significant usability issues with the component-driven interface. Users struggled to understand how to create forms.</p>
+
+            <div class="govuk-grid-row govuk-!-margin-top-4">
+                <div class="govuk-grid-column-full">
+                    <div style="border: 2px solid #00703c; padding: 20px; background-color: #f3f2f1; margin-bottom: 20px;">
+                        <h4 class="govuk-heading-s govuk-!-margin-top-0">Interface structure transformation</h4>
+                        <div style="display: flex; flex-direction: column; gap: 20px; margin-top: 15px;">
+                            <div style="display: flex; align-items: flex-start; gap: 20px;">
+                                <div style="flex: 1; padding: 20px; background-color: #fff; border: 2px solid #d4351c; border-radius: 4px;">
+                                    <p class="govuk-body-s govuk-!-margin-0" style="font-weight: 700; color: #d4351c; margin-bottom: 12px; font-size: 16px;">Before (March 2024)</p>
+                                    <p class="govuk-body-s govuk-!-margin-bottom-2" style="font-weight: 700;">Component-driven approach</p>
+                                    <ul class="govuk-list govuk-list--bullet govuk-body-s" style="margin-left: 20px; color: #505a5f;">
+                                        <li>Complex, overwhelming interface</li>
+                                        <li>Non-standardised components</li>
+                                        <li>Users struggled to understand workflow</li>
+                                        <li>Required extensive training</li>
+                                    </ul>
+                                    <p class="govuk-body-s govuk-!-margin-top-8 govuk-!-margin-bottom-0" style="color: #505a5f; font-style: italic;">"Users struggled to understand how to create forms"</p>
+                                </div>
+                                <div style="flex: 1; padding: 20px; background-color: #fff; border: 2px solid #00703c; border-radius: 4px;">
+                                    <p class="govuk-body-s govuk-!-margin-0" style="font-weight: 700; color: #00703c; margin-bottom: 12px; font-size: 16px;">After (May 2024 onwards)</p>
+                                    <p class="govuk-body-s govuk-!-margin-bottom-2" style="font-weight: 700;">Task-driven approach</p>
+                                    <ul class="govuk-list govuk-list--bullet govuk-body-s" style="margin-left: 20px; color: #505a5f;">
+                                        <li>Clear hierarchical structure</li>
+                                        <li>Form overview → Page listing → Question editing</li>
+                                        <li>Intuitive navigation flow</li>
+                                        <li>Validated through 13 rounds of research</li>
+                                    </ul>
+                                    <p class="govuk-body-s govuk-!-margin-top-8 govuk-!-margin-bottom-0" style="color: #505a5f; font-style: italic;">"Complete redesign validated through user testing"</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <h4 class="govuk-heading-s">Impact</h4>
+            <ul class="govuk-list govuk-list--bullet">
+                <li>Reduced cognitive load for users</li>
+                <li>Clearer task completion paths</li>
+                <li>Validated through 13 rounds of research (May 2024 - April 2025)</li>
+            </ul>
+
+            <h4 class="govuk-heading-s">Related design history</h4>
+            <ul class="govuk-list">
+                <li><a href="https://dxt-prototype-682ae311ff10.herokuapp.com/design-history/editor-redesign/index.html" class="govuk-link" target="_blank" rel="noopener noreferrer">Editor redesign</a></li>
+                <li><a href="https://dxt-prototype-682ae311ff10.herokuapp.com/design-history/form-overview/index.html" class="govuk-link" target="_blank" rel="noopener noreferrer">Form overview</a></li>
+            </ul>
+
+            <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+
+            <h3 class="govuk-heading-m">4. Question Creation Flow: Question-First Approach</h3>
+
+            <p class="govuk-body"><strong>Context:</strong> Round 11 (March 2025) found users were confused by the question creation flow. The interface required users to add the first list option before editing the question text due to a technical constraint. Round 12 (March 2025) tested the improved question-first approach.</p>
+
+            <div class="govuk-grid-row govuk-!-margin-top-4">
+                <div class="govuk-grid-column-full">
+                    <div style="border: 2px solid #00703c; padding: 20px; background-color: #f3f2f1; margin-bottom: 20px;">
+                        <h4 class="govuk-heading-s govuk-!-margin-top-0">Improved question creation flow</h4>
+                        <div style="display: flex; flex-direction: column; gap: 15px; margin-top: 15px;">
+                            <div style="display: flex; align-items: flex-start; gap: 15px;">
+                                <div style="flex: 1; padding: 15px; background-color: #fff; border: 1px solid #d4351c; border-radius: 4px;">
+                                    <p class="govuk-body-s govuk-!-margin-0" style="font-weight: 700; color: #d4351c; margin-bottom: 8px;">Before (Round 11)</p>
+                                    <div style="display: flex; flex-direction: column; gap: 8px;">
+                                        <div style="display: flex; align-items: center; gap: 8px;">
+                                            <div style="width: 24px; height: 24px; border-radius: 50%; background-color: #d4351c; display: flex; align-items: center; justify-content: center; flex-shrink: 0;"><span class="govuk-body-s govuk-!-font-weight-bold govuk-!-margin-0" style="color: white;">1</span></div>
+                                            <p class="govuk-body-s govuk-!-margin-0">Select response options first</p>
+                                        </div>
+                                        <div style="display: flex; align-items: center; gap: 8px;">
+                                            <div style="width: 24px; height: 24px; border-radius: 50%; background-color: #d4351c; display: flex; align-items: center; justify-content: center; flex-shrink: 0;"><span class="govuk-body-s govuk-!-font-weight-bold govuk-!-margin-0" style="color: white;">2</span></div>
+                                            <p class="govuk-body-s govuk-!-margin-0">Then write question text</p>
+                                        </div>
+                                    </div>
+                                    <p class="govuk-body-s govuk-!-margin-top-8 govuk-!-margin-bottom-0" style="color: #505a5f; font-style: italic;">Users found this confusing</p>
+                                </div>
+                                <div style="flex: 1; padding: 15px; background-color: #fff; border: 1px solid #00703c; border-radius: 4px;">
+                                    <p class="govuk-body-s govuk-!-margin-0" style="font-weight: 700; color: #00703c; margin-bottom: 8px;">After (Round 12)</p>
+                                    <div style="display: flex; flex-direction: column; gap: 8px;">
+                                        <div style="display: flex; align-items: center; gap: 8px;">
+                                            <div style="width: 24px; height: 24px; border-radius: 50%; background-color: #00703c; display: flex; align-items: center; justify-content: center; flex-shrink: 0;"><span class="govuk-body-s govuk-!-font-weight-bold govuk-!-margin-0" style="color: white;">1</span></div>
+                                            <p class="govuk-body-s govuk-!-margin-0">Write question text first</p>
+                                        </div>
+                                        <div style="display: flex; align-items: center; gap: 8px;">
+                                            <div style="width: 24px; height: 24px; border-radius: 50%; background-color: #00703c; display: flex; align-items: center; justify-content: center; flex-shrink: 0;"><span class="govuk-body-s govuk-!-font-weight-bold govuk-!-margin-0" style="color: white;">2</span></div>
+                                            <p class="govuk-body-s govuk-!-margin-0">Then add response options</p>
+                                        </div>
+                                    </div>
+                                    <p class="govuk-body-s govuk-!-margin-top-8 govuk-!-margin-bottom-0" style="color: #505a5f; font-style: italic;">"No usability issues observed"</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="govuk-grid-row govuk-!-margin-top-4">
+                <div class="govuk-grid-column-full">
+                    <h4 class="govuk-heading-s">Before and After: Actual Screens</h4>
+                    <p class="govuk-body-s" style="color: #505a5f; margin-bottom: 15px;">Comparing Round 11 screens (options first) with Round 12 screens (question first):</p>
+
+                    <h5 class="govuk-heading-s govuk-!-margin-top-4">Flow diagrams</h5>
+                    <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; margin-top: 10px;">
+                        <div style="padding: 10px; background-color: #f3f2f1; border: 2px solid #d4351c; border-radius: 4px;">
+                            <p class="govuk-body-s govuk-!-margin-0" style="font-weight: 700; color: #d4351c; margin-bottom: 8px;">Before (Round 11): Options first flow</p>
+                            <iframe src="https://embed.figma.com/design/1A9Tthy0CJeqp2rGNSKRjH/Defra-Form-Builder-flows?node-id=24976-132404&embed-host=share" title="Round 11: lists journey - options first" style="width: 100%; height: 500px; border: 1px solid #b1b4b6; border-radius: 4px;" loading="lazy"></iframe>
+                            <p class="govuk-body-s govuk-!-margin-top-2" style="color: #505a5f;">Flow requires adding options before question text</p>
+                        </div>
+                        <div style="padding: 10px; background-color: #f3f2f1; border: 2px solid #00703c; border-radius: 4px;">
+                            <p class="govuk-body-s govuk-!-margin-0" style="font-weight: 700; color: #00703c; margin-bottom: 8px;">After (Round 12): Question first flow</p>
+                            <iframe src="https://embed.figma.com/design/1A9Tthy0CJeqp2rGNSKRjH/Defra-Form-Builder-flows?node-id=20891-32927&embed-host=share" title="Round 12: lists journey - question first" style="width: 100%; height: 500px; border: 1px solid #00703c; border-radius: 4px;" loading="lazy"></iframe>
+                            <p class="govuk-body-s govuk-!-margin-top-2" style="color: #505a5f;">Flow allows writing question text first, then adding options</p>
+                        </div>
+                    </div>
+
+                    <h5 class="govuk-heading-s govuk-!-margin-top-6">Actual prototype screens</h5>
+                    <p class="govuk-body-s" style="color: #505a5f; margin-bottom: 15px;">The screens users actually interacted with during testing:</p>
+                    <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; margin-top: 10px;">
+                        <div style="padding: 10px; background-color: #f3f2f1; border: 2px solid #d4351c; border-radius: 4px;">
+                            <p class="govuk-body-s govuk-!-margin-0" style="font-weight: 700; color: #d4351c; margin-bottom: 8px;">Before (Round 11): Add option first</p>
+                            <iframe src="/design-history/lists/iterations/round-11/templates/1-question/radios-nf/add.html" title="Round 11: Add radio option screen" style="width: 100%; height: 600px; border: 1px solid #b1b4b6; border-radius: 4px;" loading="lazy"></iframe>
+                            <p class="govuk-body-s govuk-!-margin-top-2" style="color: #505a5f;">Users had to add option before editing question</p>
+                        </div>
+                        <div style="padding: 10px; background-color: #f3f2f1; border: 2px solid #00703c; border-radius: 4px;">
+                            <p class="govuk-body-s govuk-!-margin-0" style="font-weight: 700; color: #00703c; margin-bottom: 8px;">After (Round 12): Question first, then options</p>
+                            <iframe src="/titan-mvp-1.2/form-editor/question-type/radios-nf/edit" title="Round 12: Edit radio question screen" style="width: 100%; height: 600px; border: 1px solid #00703c; border-radius: 4px;" loading="lazy"></iframe>
+                            <p class="govuk-body-s govuk-!-margin-top-2" style="color: #505a5f;">Question text field appears first, options below on same page</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <h4 class="govuk-heading-s govuk-!-margin-top-6">User feedback</h4>
+            {{ govukInsetText({
+            text: "It would be really nice to... think about what's my question text then think about all of my radios at the same time."
+            }) }}
+            <p class="govuk-body govuk-!-font-size-14 govuk-!-margin-top-0 govuk-!-margin-bottom-4" style="color: #505a5f;">— Participant 3, Round 11 (March 2025)</p>
+
+            <h4 class="govuk-heading-s">Impact</h4>
+            <ul class="govuk-list govuk-list--bullet">
+                <li>Round 12 testing: "No usability issues observed; setup was clear"</li>
+                <li>Users successfully completed question creation without confusion</li>
+                <li>Improved logical flow matches user mental model</li>
+            </ul>
+
+            <h4 class="govuk-heading-s">Related design history</h4>
+            <ul class="govuk-list">
+                <li><a href="https://dxt-prototype-682ae311ff10.herokuapp.com/design-history/lists/index.html" class="govuk-link" target="_blank" rel="noopener noreferrer">Lists feature</a></li>
+            </ul>
+
+            <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+
+            <h3 class="govuk-heading-m">5. List Options Entry: Bulk Entry and Single-Page Editing</h3>
+
+            <p class="govuk-body"><strong>Context:</strong> Round 8 (November 2024) found users were frustrated entering checkbox and radio options one at a time. Users requested the ability to enter options comma-separated. Round 11 found users wanted to see all options together while drafting, and disliked being redirected away from the list when adding new options.</p>
+
+            <div class="govuk-grid-row govuk-!-margin-top-4">
+                <div class="govuk-grid-column-full">
+                    <div style="border: 2px solid #00703c; padding: 20px; background-color: #f3f2f1; margin-bottom: 20px;">
+                        <h4 class="govuk-heading-s govuk-!-margin-top-0">Bulk option entry and single-page editing</h4>
+                        <div style="display: flex; flex-direction: column; gap: 15px; margin-top: 15px;">
+                            <div style="display: flex; align-items: flex-start; gap: 15px;">
+                                <div style="flex: 1; padding: 20px; background-color: #fff; border: 1px solid #d4351c; border-radius: 4px;">
+                                    <p class="govuk-body-s govuk-!-margin-0" style="font-weight: 700; color: #d4351c; margin-bottom: 12px; font-size: 16px;">Before (Round 11)</p>
+                                    <p class="govuk-body-s govuk-!-margin-bottom-2" style="font-weight: 700;">Separate pages for each option</p>
+                                    <ul class="govuk-list govuk-list--bullet govuk-body-s" style="margin-left: 20px; color: #505a5f;">
+                                        <li>Add options one at a time on separate pages</li>
+                                        <li>Redirected away from list when adding new option</li>
+                                        <li>Cannot see all options together during drafting</li>
+                                        <li>Risk of duplicating options</li>
+                                    </ul>
+                                    <p class="govuk-body-s govuk-!-margin-top-8 govuk-!-margin-bottom-0" style="color: #505a5f; font-style: italic;">"You never get to see your list in the drafting stage altogether"</p>
+                                </div>
+                                <div style="flex: 1; padding: 20px; background-color: #fff; border: 1px solid #00703c; border-radius: 4px;">
+                                    <p class="govuk-body-s govuk-!-margin-0" style="font-weight: 700; color: #00703c; margin-bottom: 12px; font-size: 16px;">After (Round 12)</p>
+                                    <p class="govuk-body-s govuk-!-margin-bottom-2" style="font-weight: 700;">All options on same page</p>
+                                    <ul class="govuk-list govuk-list--bullet govuk-body-s" style="margin-left: 20px; color: #505a5f;">
+                                        <li>Question text and all options on one page</li>
+                                        <li>Bulk entry: comma-separated or line breaks</li>
+                                        <li>See complete list while drafting</li>
+                                        <li>Edit all options together</li>
+                                    </ul>
+                                    <p class="govuk-body-s govuk-!-margin-top-8 govuk-!-margin-bottom-0" style="color: #505a5f; font-style: italic;">"Users appreciated entering all options on one page"</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="govuk-grid-row govuk-!-margin-top-4">
+                <div class="govuk-grid-column-full">
+                    <h4 class="govuk-heading-s">Before and After: Actual Screens</h4>
+                    <p class="govuk-body-s" style="color: #505a5f; margin-bottom: 15px;">Comparing Round 11 screens (separate pages) with Round 12 screens (single page):</p>
+                    <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; margin-top: 10px;">
+                        <div style="padding: 10px; background-color: #f3f2f1; border: 2px solid #d4351c; border-radius: 4px;">
+                            <p class="govuk-body-s govuk-!-margin-0" style="font-weight: 700; color: #d4351c; margin-bottom: 8px;">Before (Round 11): Add option on separate page</p>
+                            <iframe src="/design-history/lists/iterations/round-11/templates/1-question/radios-nf/add.html" title="Round 11: Add radio option - separate page" style="width: 100%; height: 600px; border: 1px solid #b1b4b6; border-radius: 4px;" loading="lazy"></iframe>
+                            <p class="govuk-body-s govuk-!-margin-top-2" style="color: #505a5f;">Users redirected to new page, can't see existing options</p>
+                        </div>
+                        <div style="padding: 10px; background-color: #f3f2f1; border: 2px solid #00703c; border-radius: 4px;">
+                            <p class="govuk-body-s govuk-!-margin-0" style="font-weight: 700; color: #00703c; margin-bottom: 8px;">After (Round 12): All options on same page</p>
+                            <iframe src="/titan-mvp-1.2/form-editor/question-type/radios-nf/edit" title="Round 12: Edit radio question - all on one page" style="width: 100%; height: 600px; border: 1px solid #00703c; border-radius: 4px;" loading="lazy"></iframe>
+                            <p class="govuk-body-s govuk-!-margin-top-2" style="color: #505a5f;">Question text and all options visible together, bulk entry available</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <h4 class="govuk-heading-s govuk-!-margin-top-6">User feedback</h4>
+            {{ govukInsetText({
+            text: "Why can't I enter them comma-separated?"
+            }) }}
+            <p class="govuk-body govuk-!-font-size-14 govuk-!-margin-top-0 govuk-!-margin-bottom-4" style="color: #505a5f;">— Participant, Round 8 (November 2024)</p>
+
+            {{ govukInsetText({
+            text: "Because you have to add them one at a time and come back to this point, you never get to like see your list in the drafting stage altogether, so I could have quite easily probably duplicated them if I wasn't kind of paying attention."
+            }) }}
+            <p class="govuk-body govuk-!-font-size-14 govuk-!-margin-top-0 govuk-!-margin-bottom-4" style="color: #505a5f;">— Participant 1, Round 11 (March 2025) - addressed by keeping users on the same page</p>
+
+            <h4 class="govuk-heading-s">Impact</h4>
+            <ul class="govuk-list govuk-list--bullet">
+                <li>Faster form creation - no longer need to add options one by one</li>
+                <li>Improved drafting visibility - users can see complete list while editing</li>
+                <li>Round 12 testing: "Users appreciated entering all options on one page"</li>
+                <li>Reduced risk of duplicate options - users can see all options together</li>
+                <li>More efficient workflow - question and options on same page</li>
+            </ul>
+
+            <h4 class="govuk-heading-s">Related design history</h4>
+            <ul class="govuk-list">
+                <li><a href="https://dxt-prototype-682ae311ff10.herokuapp.com/design-history/lists/index.html" class="govuk-link" target="_blank" rel="noopener noreferrer">Lists feature</a></li>
+            </ul>
+
+            <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+
+            <h3 class="govuk-heading-m">6. Preview Panel: Real-Time Visual Feedback</h3>
+
+            <p class="govuk-body"><strong>Context:</strong> The preview panel was introduced as part of the Form Editor redesign (June 2024). Previously, users had no way to see how their form would look while editing. Round 6 confirmed its value, and Private Beta Round 3 (October 2025) found it was consistently popular and essential for users.</p>
+
+            <div class="govuk-grid-row govuk-!-margin-top-4">
+                <div class="govuk-grid-column-full">
+                    <div style="border: 2px solid #00703c; padding: 20px; background-color: #f3f2f1; margin-bottom: 20px;">
+                        <h4 class="govuk-heading-s govuk-!-margin-top-0">Preview panel introduction</h4>
+                        <div style="display: flex; flex-direction: column; gap: 20px; margin-top: 15px;">
+                            <div style="display: flex; align-items: flex-start; gap: 20px;">
+                                <div style="flex: 1; padding: 20px; background-color: #fff; border: 2px solid #d4351c; border-radius: 4px;">
+                                    <p class="govuk-body-s govuk-!-margin-0" style="font-weight: 700; color: #d4351c; margin-bottom: 12px; font-size: 16px;">Before: No preview panel (Pre-June 2024)</p>
+                                    <ul class="govuk-list govuk-list--bullet govuk-body-s" style="margin-left: 20px; color: #505a5f;">
+                                        <li>Editor interface only - no visual preview</li>
+                                        <li>Users had to publish to see how form looked</li>
+                                        <li>Difficult to validate layout and content</li>
+                                        <li>No way to check formatting while editing</li>
+                                        <li>Couldn't see how form would appear to public</li>
+                                    </ul>
+                                </div>
+                                <div style="flex: 1; padding: 20px; background-color: #fff; border: 2px solid #00703c; border-radius: 4px;">
+                                    <p class="govuk-body-s govuk-!-margin-0" style="font-weight: 700; color: #00703c; margin-bottom: 12px; font-size: 16px;">After: Interactive preview panel (June 2024 onwards)</p>
+                                    <ul class="govuk-list govuk-list--bullet govuk-body-s" style="margin-left: 20px; color: #505a5f;">
+                                        <li>Real-time preview panel on right side</li>
+                                        <li>Updates automatically as users edit</li>
+                                        <li>Shows exactly how form appears to public</li>
+                                        <li>Validates layout, spacing, and formatting</li>
+                                        <li>Supports all question types including repeaters</li>
+                                    </ul>
+                                    <div style="margin-top: 15px; padding: 10px; background-color: #cce5d4; border-radius: 4px;">
+                                        <p class="govuk-body-s govuk-!-margin-0" style="font-style: italic; color: #0b0c0c;">"Some users felt this feature – which is unique to Defra Forms - was essential"</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="govuk-grid-row govuk-!-margin-top-4">
+                <div class="govuk-grid-column-full">
+                    <h4 class="govuk-heading-s">Before and After: Editor Interface</h4>
+                    <p class="govuk-body-s" style="color: #505a5f; margin-bottom: 15px;">The preview panel transformed the editing experience by providing real-time visual feedback:</p>
+                    <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; margin-top: 15px;">
+                        <div style="padding: 15px; background-color: #f3f2f1; border: 2px solid #d4351c; border-radius: 4px;">
+                            <p class="govuk-body-s govuk-!-margin-0" style="font-weight: 700; color: #d4351c; margin-bottom: 10px;">Before: Editor only (no preview)</p>
+                            <div style="background-color: white; padding: 20px; border-radius: 4px; min-height: 300px; display: flex; align-items: center; justify-content: center; border: 1px dashed #b1b4b6;">
+                                <p class="govuk-body-s" style="color: #505a5f; text-align: center; font-style: italic;">Editor interface<br>No preview available<br>Users had to publish to see result</p>
+                            </div>
+                        </div>
+                        <div style="padding: 15px; background-color: #f3f2f1; border: 2px solid #00703c; border-radius: 4px;">
+                            <p class="govuk-body-s govuk-!-margin-0" style="font-weight: 700; color: #00703c; margin-bottom: 10px;">After: Editor with preview panel</p>
+                            <img src="/public/images/preview-panel/round-6/01.png" alt="Editor interface with preview panel on the right showing real-time updates" style="width: 100%; border: 1px solid #00703c; border-radius: 4px;">
+                            <p class="govuk-body-s govuk-!-margin-top-2" style="color: #505a5f;">Editor on left, preview panel on right - real-time updates</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="govuk-grid-row govuk-!-margin-top-4">
+                <div class="govuk-grid-column-full">
+                    <h4 class="govuk-heading-s">Preview panel in action: Round 6 examples</h4>
+                    <p class="govuk-body-s" style="color: #505a5f;">Examples from Round 6 (June 2024) showing the preview panel alongside the editor for different editing tasks:</p>
+                    <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; margin-top: 15px;">
+                        <div>
+                            <img src="/public/images/preview-panel/round-6/01.png" alt="Editing a question label with preview panel visible on the right" style="width: 100%; border: 1px solid #00703c; border-radius: 4px;">
+                            <p class="govuk-body-s govuk-!-margin-top-2" style="color: #505a5f;">Editing a question label - preview updates in real time</p>
+                        </div>
+                        <div>
+                            <img src="/public/images/preview-panel/round-6/02.png" alt="Editing a short description with preview panel visible on the right" style="width: 100%; border: 1px solid #00703c; border-radius: 4px;">
+                            <p class="govuk-body-s govuk-!-margin-top-2" style="color: #505a5f;">Editing a short description - see changes instantly</p>
+                        </div>
+                        <div>
+                            <img src="/public/images/preview-panel/round-6/03.png" alt="Editing a page heading with preview panel visible on the right" style="width: 100%; border: 1px solid #00703c; border-radius: 4px;">
+                            <p class="govuk-body-s govuk-!-margin-top-2" style="color: #505a5f;">Editing a page heading - validate layout immediately</p>
+                        </div>
+                        <div>
+                            <img src="/public/images/preview-panel/round-6/04.png" alt="Editing guidance text with preview panel visible on the right" style="width: 100%; border: 1px solid #00703c; border-radius: 4px;">
+                            <p class="govuk-body-s govuk-!-margin-top-2" style="color: #505a5f;">Editing guidance text - check formatting as you type</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <h4 class="govuk-heading-s govuk-!-margin-top-6">User feedback</h4>
+            {{ govukInsetText({
+            text: "The interactive preview panel located on the right side is consistently popular with users, as it allows designers to immediately confirm that their changes look as expected. Some users felt this feature – which is unique to Defra Forms - was essential."
+            }) }}
+            <p class="govuk-body govuk-!-font-size-14 govuk-!-margin-top-0 govuk-!-margin-bottom-4" style="color: #505a5f;">— Private Beta Round 3 (October 2025)</p>
+
+            {{ govukInsetText({
+            text: "The preview thing is quite handy because you can sort of see how it would actually look for the users."
+            }) }}
+            <p class="govuk-body govuk-!-font-size-14 govuk-!-margin-top-0 govuk-!-margin-bottom-4" style="color: #505a5f;">— Participant, Round 6 (June 2024)</p>
+
+            {{ govukInsetText({
+            text: "Inside it's the edit screen and on the right hand side it's like the rendered screen. That's really helpful. Yeah, I think it is very helpful to sit in context."
+            }) }}
+            <p class="govuk-body govuk-!-font-size-14 govuk-!-margin-top-0 govuk-!-margin-bottom-4" style="color: #505a5f;">— Participant, Round 6 (June 2024)</p>
+
+            <h4 class="govuk-heading-s">Impact</h4>
+            <ul class="govuk-list govuk-list--bullet">
+                <li>Users can immediately confirm changes look as expected</li>
+                <li>Reduced need to publish to check appearance</li>
+                <li>Helps validate usability and labels before going live</li>
+                <li>Unique feature that sets Defra Forms apart</li>
+                <li>Consistently popular across all research rounds</li>
+            </ul>
+
+            <h4 class="govuk-heading-s">Related design history</h4>
+            <ul class="govuk-list">
+                <li><a href="https://dxt-prototype-682ae311ff10.herokuapp.com/design-history/preview-panel/index.html" class="govuk-link" target="_blank" rel="noopener noreferrer">Preview panel</a></li>
+            </ul>
+
+            <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+
+            <h3 class="govuk-heading-m">8. Accessibility: Screen Reader Support</h3>
+
+            <p class="govuk-body"><strong>Context:</strong> Initial evaluation found accessibility issues. Needed to ensure list reordering worked with screen readers.</p>
+
+            <div class="govuk-grid-row govuk-!-margin-top-4">
+                <div class="govuk-grid-column-full">
+                    <div style="border: 2px solid #00703c; padding: 20px; background-color: #f3f2f1; margin-bottom: 20px;">
+                        <h4 class="govuk-heading-s govuk-!-margin-top-0">Screen reader announcements</h4>
+                        <div style="display: flex; flex-direction: column; gap: 15px; margin-top: 15px;">
+                            <div style="display: flex; align-items: flex-start; gap: 15px;">
+                                <div style="flex: 1; padding: 20px; background-color: #fff; border: 1px solid #d4351c; border-radius: 4px;">
+                                    <p class="govuk-body-s govuk-!-margin-0" style="font-weight: 700; color: #d4351c; margin-bottom: 12px; font-size: 16px;">Before</p>
+                                    <ul class="govuk-list govuk-list--bullet govuk-body-s" style="margin-left: 20px; color: #505a5f;">
+                                        <li>No screen reader announcements</li>
+                                        <li>Users couldn't understand current position</li>
+                                        <li>No feedback when reordering</li>
+                                        <li>Focus lost after actions</li>
+                                    </ul>
+                                </div>
+                                <div style="flex: 1; padding: 20px; background-color: #fff; border: 1px solid #00703c; border-radius: 4px;">
+                                    <p class="govuk-body-s govuk-!-margin-0" style="font-weight: 700; color: #00703c; margin-bottom: 12px; font-size: 16px;">After</p>
+                                    <ul class="govuk-list govuk-list--bullet govuk-body-s" style="margin-left: 20px; color: #505a5f;">
+                                        <li>ARIA live regions for dynamic updates</li>
+                                        <li>Clear position announcements</li>
+                                        <li>Reordering feedback with new positions</li>
+                                        <li>Focus retention after actions</li>
+                                    </ul>
+                                    <p class="govuk-body-s govuk-!-margin-top-8 govuk-!-margin-bottom-0" style="color: #505a5f; font-style: italic;">"Option A is currently option 2 of 4 options"</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <h4 class="govuk-heading-s">Impact</h4>
+            <ul class="govuk-list govuk-list--bullet">
+                <li>Screen reader users can understand current and new positions</li>
+                <li>All announcements include: what happened, which item moved, new position</li>
+                <li>Focus management allows users to continue working</li>
+                <li>100% keyboard accessibility achieved</li>
+            </ul>
+
+            <h4 class="govuk-heading-s">Related design history</h4>
+            <ul class="govuk-list">
+                <li><a href="https://dxt-prototype-682ae311ff10.herokuapp.com/design-history/lists/index.html" class="govuk-link" target="_blank" rel="noopener noreferrer">Lists feature - Accessibility section</a></li>
+            </ul>
+
+            <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+
+            <h3 class="govuk-heading-m">9. Form Overview: Making Form Actions Intuitive</h3>
+
+            <p class="govuk-body"><strong>Context:</strong> Users struggled with the original flow for creating drafts and managing form actions. The process required multiple steps through different pages, which didn't match users' mental models.</p>
+
+            <div class="govuk-grid-row govuk-!-margin-top-4">
+                <div class="govuk-grid-column-full">
+                    <div style="border: 2px solid #00703c; padding: 20px; background-color: #f3f2f1; margin-bottom: 20px;">
+                        <h4 class="govuk-heading-s govuk-!-margin-top-0">Form actions workflow</h4>
+                        <div style="display: flex; flex-direction: column; gap: 20px; margin-top: 15px;">
+                            <div style="display: flex; align-items: flex-start; gap: 20px;">
+                                <div style="flex: 1; padding: 20px; background-color: #fff; border: 2px solid #d4351c; border-radius: 4px;">
+                                    <p class="govuk-body-s govuk-!-margin-0" style="font-weight: 700; color: #d4351c; margin-bottom: 12px; font-size: 16px;">Before: Complex multi-step flow</p>
+                                    <p class="govuk-body-s govuk-!-margin-bottom-2" style="font-weight: 700;">4-step process:</p>
+                                    <ol class="govuk-list govuk-list--number govuk-body-s" style="margin-left: 20px; color: #505a5f;">
+                                        <li>Open form from 'Form home' in edit mode</li>
+                                        <li>Find and click 'Form settings' link</li>
+                                        <li>Enter information to make form live</li>
+                                        <li>Go back to Form home and select 'Create draft'</li>
+                                    </ol>
+                                    <ul class="govuk-list govuk-list--bullet govuk-body-s" style="margin-left: 20px; color: #505a5f; margin-top: 12px;">
+                                        <li>Didn't match users' mental model</li>
+                                        <li>Term 'Form home' unclear</li>
+                                        <li>Too many page movements</li>
+                                        <li>Actions hidden in settings</li>
+                                    </ul>
+                                </div>
+                                <div style="flex: 1; padding: 20px; background-color: #fff; border: 2px solid #00703c; border-radius: 4px;">
+                                    <p class="govuk-body-s govuk-!-margin-0" style="font-weight: 700; color: #00703c; margin-bottom: 12px; font-size: 16px;">After: Actions on overview page</p>
+                                    <p class="govuk-body-s govuk-!-margin-bottom-2" style="font-weight: 700;">Single page with all actions:</p>
+                                    <ul class="govuk-list govuk-list--bullet govuk-body-s" style="margin-left: 20px; color: #505a5f;">
+                                        <li>Renamed 'Form home' to 'Overview'</li>
+                                        <li>Actions grouped in column layout (like Whitehall Publisher)</li>
+                                        <li>All key actions visible: create draft, make live, close live, edit draft, delete draft</li>
+                                        <li>Familiar pattern for expert users</li>
+                                    </ul>
+                                    <div style="margin-top: 15px; padding: 10px; background-color: #cce5d4; border-radius: 4px;">
+                                        <p class="govuk-body-s govuk-!-margin-0" style="font-style: italic; color: #0b0c0c;">"This feels like home" - BAU content designer</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="govuk-grid-row govuk-!-margin-top-4">
+                <div class="govuk-grid-column-full">
+                    <h4 class="govuk-heading-s">Before: Multi-step flow</h4>
+                    <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; margin-top: 15px;">
+                        <div>
+                            <img src="/public/images/form-overview/posts/form-actions/01.png" alt="Form home page, with 'Edit' link highlighted" style="width: 100%; border: 1px solid #b1b4b6; border-radius: 4px;">
+                            <p class="govuk-body-s govuk-!-margin-top-2" style="color: #505a5f;">Step 1: Form home page with 'Edit' link</p>
+                        </div>
+                        <div>
+                            <img src="/public/images/form-overview/posts/form-actions/02.png" alt="Form editor page, with 'Form settings' link highlighted" style="width: 100%; border: 1px solid #b1b4b6; border-radius: 4px;">
+                            <p class="govuk-body-s govuk-!-margin-top-2" style="color: #505a5f;">Step 2: Form editor with 'Form settings' link</p>
+                        </div>
+                        <div>
+                            <img src="/public/images/form-overview/posts/form-actions/03.png" alt="Form settings page with 'Publish' button" style="width: 100%; border: 1px solid #b1b4b6; border-radius: 4px;">
+                            <p class="govuk-body-s govuk-!-margin-top-2" style="color: #505a5f;">Step 3: Form settings page</p>
+                        </div>
+                        <div>
+                            <img src="/public/images/form-overview/posts/form-actions/04.png" alt="Form home page with 'Create draft' option" style="width: 100%; border: 1px solid #b1b4b6; border-radius: 4px;">
+                            <p class="govuk-body-s govuk-!-margin-top-2" style="color: #505a5f;">Step 4: Back to Form home for 'Create draft'</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="govuk-grid-row govuk-!-margin-top-4">
+                <div class="govuk-grid-column-full">
+                    <h4 class="govuk-heading-s">After: All actions on overview page</h4>
+                    <img src="/public/images/form-overview/posts/form-actions/05.png" alt="Form overview page with form actions in a column layout" style="width: 100%; max-width: 800px; border: 1px solid #00703c; border-radius: 4px;">
+                    <p class="govuk-body-s govuk-!-margin-top-2" style="color: #505a5f;">Form overview page with form actions in column layout (familiar Whitehall Publisher pattern)</p>
+                </div>
+            </div>
+
+            <h4 class="govuk-heading-s govuk-!-margin-top-6">User feedback</h4>
+            {{ govukInsetText({
+            text: "This feels like home"
+            }) }}
+            <p class="govuk-body govuk-!-font-size-14 govuk-!-margin-top-0 govuk-!-margin-bottom-4" style="color: #505a5f;">— BAU content designer</p>
+
+            <h4 class="govuk-heading-s">Impact</h4>
+            <ul class="govuk-list govuk-list--bullet">
+                <li>Reduced page movements - all actions in one place</li>
+                <li>Familiar pattern for users who work in Whitehall Publisher</li>
+                <li>Clearer page purpose - 'Overview' more intuitive than 'Form home'</li>
+                <li>Better alignment with user mental models</li>
+            </ul>
+
+            <h4 class="govuk-heading-s">Related design history</h4>
+            <ul class="govuk-list">
+                <li><a href="https://dxt-prototype-682ae311ff10.herokuapp.com/design-history/form-overview/posts/form-actions.html" class="govuk-link" target="_blank" rel="noopener noreferrer">Form overview: Making form actions intuitive</a></li>
+            </ul>
+
+            <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+
+            <h3 class="govuk-heading-m">10. Page Conditions: Terminology and Discoverability</h3>
+
+            <p class="govuk-body"><strong>Context:</strong> Page conditions allow users to create conditional logic for form pages. Round 11 (March 2025) found terminology issues with 'operator' and discoverability problems. Round 12 and 13 refined the approach.</p>
+
+            <div class="govuk-grid-row govuk-!-margin-top-4">
+                <div class="govuk-grid-column-full">
+                    <div style="border: 2px solid #00703c; padding: 20px; background-color: #f3f2f1; margin-bottom: 20px;">
+                        <h4 class="govuk-heading-s govuk-!-margin-top-0">Page conditions evolution</h4>
+                        <div style="display: flex; flex-direction: column; gap: 20px; margin-top: 15px;">
+                            <div style="display: flex; align-items: flex-start; gap: 20px;">
+                                <div style="flex: 1; padding: 20px; background-color: #fff; border: 2px solid #d4351c; border-radius: 4px;">
+                                    <p class="govuk-body-s govuk-!-margin-0" style="font-weight: 700; color: #d4351c; margin-bottom: 12px; font-size: 16px;">Before (Round 11)</p>
+                                    <ul class="govuk-list govuk-list--bullet govuk-body-s" style="margin-left: 20px; color: #505a5f;">
+                                        <li>Technical term 'operator' confused users</li>
+                                        <li>'Filter pages by condition' hidden in dropdown</li>
+                                        <li>Conditions appeared only after saving question</li>
+                                        <li>Not obvious conditions only work if questions on separate pages</li>
+                                        <li>Generic flow for all question types</li>
+                                    </ul>
+                                    <div style="margin-top: 15px; padding: 10px; background-color: #f3f2f1; border-radius: 4px;">
+                                        <p class="govuk-body-s govuk-!-margin-0" style="font-style: italic; color: #505a5f;">"The word 'operator' confused people"</p>
+                                    </div>
+                                </div>
+                                <div style="flex: 1; padding: 20px; background-color: #fff; border: 2px solid #00703c; border-radius: 4px;">
+                                    <p class="govuk-body-s govuk-!-margin-0" style="font-weight: 700; color: #00703c; margin-bottom: 12px; font-size: 16px;">After (Round 13 onwards)</p>
+                                    <ul class="govuk-list govuk-list--bullet govuk-body-s" style="margin-left: 20px; color: #505a5f;">
+                                        <li>Renamed 'operator' to 'Condition type' (plain English)</li>
+                                        <li>'Filter pages by condition' moved to left-hand pane</li>
+                                        <li>Type-specific flows: radios pre-load options, checkboxes allow multiple</li>
+                                        <li>Rich preview sentences in natural language</li>
+                                        <li>Overview page showing all conditions</li>
+                                    </ul>
+                                    <div style="margin-top: 15px; padding: 10px; background-color: #cce5d4; border-radius: 4px;">
+                                        <p class="govuk-body-s govuk-!-margin-0" style="font-style: italic; color: #0b0c0c;">"Overall setup described as 'very intuitive' and 'super duper clear'"</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="govuk-grid-row govuk-!-margin-top-4">
+                <div class="govuk-grid-column-full">
+                    <h4 class="govuk-heading-s">Before and After: Conditions Interface</h4>
+                    <p class="govuk-body-s" style="color: #505a5f; margin-bottom: 15px;">Comparing Round 11 screens with Round 13 and latest iteration:</p>
+
+                    <h5 class="govuk-heading-s govuk-!-margin-top-4">Page overview entry point</h5>
+                    <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; margin-top: 10px;">
+                        <div style="padding: 10px; background-color: #f3f2f1; border: 2px solid #d4351c; border-radius: 4px;">
+                            <p class="govuk-body-s govuk-!-margin-0" style="font-weight: 700; color: #d4351c; margin-bottom: 8px;">Before (Round 11): Basic entry point</p>
+                            <img src="/public/images/conditions/r11/page-overview.png" alt="Round 11 conditions entry point in page overview" style="width: 100%; border: 1px solid #b1b4b6; border-radius: 4px;">
+                            <p class="govuk-body-s govuk-!-margin-top-2" style="color: #505a5f;">Page overview with basic conditions column</p>
+                        </div>
+                        <div style="padding: 10px; background-color: #f3f2f1; border: 2px solid #00703c; border-radius: 4px;">
+                            <p class="govuk-body-s govuk-!-margin-0" style="font-weight: 700; color: #00703c; margin-bottom: 8px;">After (Round 13): Enhanced conditions manager</p>
+                            <img src="/public/images/conditions/r13/manager.png" alt="Round 13 conditions manager with reusable conditions and clearer states" style="width: 100%; border: 1px solid #00703c; border-radius: 4px;">
+                            <p class="govuk-body-s govuk-!-margin-top-2" style="color: #505a5f;">Conditions manager with tick icons, status tags, and reuse options</p>
+                        </div>
+                    </div>
+
+                    <h5 class="govuk-heading-s govuk-!-margin-top-6">Condition creation flow</h5>
+                    <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; margin-top: 10px;">
+                        <div style="padding: 10px; background-color: #f3f2f1; border: 2px solid #d4351c; border-radius: 4px;">
+                            <p class="govuk-body-s govuk-!-margin-0" style="font-weight: 700; color: #d4351c; margin-bottom: 8px;">Before (Round 11): Simple condition creation</p>
+                            <img src="/public/images/conditions/r11/create.png" alt="Round 11: Create new condition form" style="width: 100%; border: 1px solid #b1b4b6; border-radius: 4px;">
+                            <p class="govuk-body-s govuk-!-margin-top-2" style="color: #505a5f;">Basic form with 'operator' terminology</p>
+                        </div>
+                        <div style="padding: 10px; background-color: #f3f2f1; border: 2px solid #00703c; border-radius: 4px;">
+                            <p class="govuk-body-s govuk-!-margin-0" style="font-weight: 700; color: #00703c; margin-bottom: 8px;">After (Round 13): Enhanced condition creation</p>
+                            <img src="/public/images/conditions/r13/create.png" alt="Round 13: Individual condition creation form with improved UI" style="width: 100%; border: 1px solid #00703c; border-radius: 4px;">
+                            <p class="govuk-body-s govuk-!-margin-top-2" style="color: #505a5f;">Improved form with 'Condition type' (plain English) and better structure</p>
+                        </div>
+                    </div>
+
+                    <h5 class="govuk-heading-s govuk-!-margin-top-6">Latest iteration: Full conditions setup</h5>
+                    <p class="govuk-body-s" style="color: #505a5f; margin-bottom: 15px;">The latest iteration includes comprehensive condition management tools:</p>
+                    <div style="border: 2px solid #00703c; padding: 20px; background-color: #f3f2f1; border-radius: 4px; margin-top: 10px;">
+                        <iframe src="https://embed.figma.com/design/hnNpbZGk8k3LghzVcugZqw/Feature-development?node-id=1-323&embed-host=share" title="Latest iteration: Overall page conditions setup" style="width: 100%; height: 700px; border: 1px solid #00703c; border-radius: 4px;" loading="lazy"></iframe>
+                        <p class="govuk-body-s govuk-!-margin-top-2" style="color: #505a5f;">Complete conditions manager interface showing all screens and states</p>
+                    </div>
+                </div>
+            </div>
+
+            <h4 class="govuk-heading-s govuk-!-margin-top-6">User feedback</h4>
+            {{ govukInsetText({
+            text: "The ability to combine conditions – that's pretty wicked. I can see that being a big time-saver."
+            }) }}
+            <p class="govuk-body govuk-!-font-size-14 govuk-!-margin-top-0 govuk-!-margin-bottom-4" style="color: #505a5f;">— Participant 1, Round 13 (April 2025)</p>
+
+            {{ govukInsetText({
+            text: "You can filter pages by condition. OK, I can see that would be useful."
+            }) }}
+            <p class="govuk-body govuk-!-font-size-14 govuk-!-margin-top-0 govuk-!-margin-bottom-4" style="color: #505a5f;">— Participant 1, Round 12 (March 2025) - after moving filter to left-hand pane</p>
+
+            <h4 class="govuk-heading-s">Impact</h4>
+            <ul class="govuk-list govuk-list--bullet">
+                <li>Plain English terminology improved understanding</li>
+                <li>Better discoverability with filter in left-hand pane</li>
+                <li>Type-specific flows match question behavior</li>
+                <li>Natural language previews reduce misunderstanding</li>
+                <li>Round 13: "Very intuitive" and "super duper clear"</li>
+            </ul>
+
+            <h4 class="govuk-heading-s">Related design history</h4>
+            <ul class="govuk-list">
+                <li><a href="https://dxt-prototype-682ae311ff10.herokuapp.com/design-history/page-conditions/index.html" class="govuk-link" target="_blank" rel="noopener noreferrer">Page conditions</a></li>
+            </ul>
+
+            <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+
+            <h3 class="govuk-heading-m">11. Form Builder Approach: Component-Driven to Intent-Driven</h3>
+
+            <p class="govuk-body"><strong>Context:</strong> The original forms designer used a component-driven approach. Initial assessment (March 2024) revealed this was confusing. The redesign moved to an intent-driven approach.</p>
+
+            <div class="govuk-grid-row govuk-!-margin-top-4">
+                <div class="govuk-grid-column-full">
+                    <div style="border: 2px solid #00703c; padding: 20px; background-color: #f3f2f1; margin-bottom: 20px;">
+                        <h4 class="govuk-heading-s govuk-!-margin-top-0">Form builder approach transformation</h4>
+                        <div style="display: flex; flex-direction: column; gap: 20px; margin-top: 15px;">
+                            <div style="display: flex; align-items: flex-start; gap: 20px;">
+                                <div style="flex: 1; padding: 20px; background-color: #fff; border: 2px solid #d4351c; border-radius: 4px;">
+                                    <p class="govuk-body-s govuk-!-margin-0" style="font-weight: 700; color: #d4351c; margin-bottom: 12px; font-size: 16px;">Before: Component-driven (x-gov)</p>
+                                    <ul class="govuk-list govuk-list--bullet govuk-body-s" style="margin-left: 20px; color: #505a5f;">
+                                        <li>Build pages by dropping individual components</li>
+                                        <li>No clear hierarchy - every modal feels equal</li>
+                                        <li>Complex component selection from three categories</li>
+                                        <li>Add components one at a time to page</li>
+                                        <li>Link-based approach for conditions</li>
+                                    </ul>
+                                </div>
+                                <div style="flex: 1; padding: 20px; background-color: #fff; border: 2px solid #00703c; border-radius: 4px;">
+                                    <p class="govuk-body-s govuk-!-margin-0" style="font-weight: 700; color: #00703c; margin-bottom: 12px; font-size: 16px;">After: Intent-driven (Titan)</p>
+                                    <ul class="govuk-list govuk-list--bullet govuk-body-s" style="margin-left: 20px; color: #505a5f;">
+                                        <li>Intent-first: declare what you're adding (Question page, Guidance page)</li>
+                                        <li>Four nested levels with clear hierarchy</li>
+                                        <li>Tool narrows choices and walks you through</li>
+                                        <li>Dedicated 'Add new question' loop inside a page</li>
+                                        <li>Contextual choices revealed progressively</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <h4 class="govuk-heading-s">Key improvements</h4>
+            <ul class="govuk-list govuk-list--bullet">
+                <li><strong>From component-led to intent-led:</strong> Users begin by declaring what kind of page they need, rather than hunting through a dense catalogue of components</li>
+                <li><strong>Linear, guided editing:</strong> Designers move through steps with clear progression, replacing the modal-heavy approach</li>
+                <li><strong>Multi-question pages:</strong> Support for adding multiple questions within a single page, with intuitive reordering</li>
+                <li><strong>Consolidated page management:</strong> All page-level actions consolidated into a single Page overview screen</li>
+                <li><strong>Contextual choices:</strong> Options are revealed progressively based on user intent, reducing cognitive load</li>
+            </ul>
+
+            <h4 class="govuk-heading-s">Impact</h4>
+            <ul class="govuk-list govuk-list--bullet">
+                <li>Reduced cognitive load - clear hierarchy and progression</li>
+                <li>Faster form creation - guided flow instead of component hunting</li>
+                <li>Better user experience - matches mental model of task completion</li>
+                <li>Validated through 13 rounds of research</li>
+            </ul>
+
+            <h4 class="govuk-heading-s">Related design history</h4>
+            <ul class="govuk-list">
+                <li><a href="https://dxt-prototype-682ae311ff10.herokuapp.com/design-history/editor-redesign/index.html" class="govuk-link" target="_blank" rel="noopener noreferrer">Editor redesign</a></li>
+                <li><a href="https://dxt-prototype-682ae311ff10.herokuapp.com/design-history/forms-designer/summary-of-changes.html" class="govuk-link" target="_blank" rel="noopener noreferrer">Forms designer: Summary of changes</a></li>
+            </ul>
+
+            <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+
+            <h3 class="govuk-heading-m">Summary</h3>
+
+            <p class="govuk-body">This page showcases <strong>11 comprehensive design improvements</strong> made to the Defra Forms Designer, demonstrating how user research and iterative design led to a more intuitive and accessible service. Each change was:</p>
+
+            <ul class="govuk-list govuk-list--bullet">
+                <li><strong>User-driven:</strong> Based on specific user feedback and research findings</li>
+                <li><strong>Tested:</strong> Validated through multiple rounds of usability testing</li>
+                <li><strong>Measurable:</strong> Clear before/after comparisons showing improvement</li>
+                <li><strong>Accessible:</strong> Designed with accessibility in mind from the start</li>
+            </ul>
+
+            <p class="govuk-body">All changes are documented in the <a href="/titan-mvp-1.2/product-pages/resources/service-standard-4-evidence" class="govuk-link">Service Standard Point 4 Evidence</a> pages.</p>
+
+            {% from "govuk/components/pagination/macro.njk" import govukPagination %}
+
+            {{ govukPagination({
+            previous: {
+            labelText: "Summary",
+            href: "/titan-mvp-1.2/product-pages/resources/service-standard-4-evidence/summary"
+            }
+            }) }}
+
+        </div>
+    </div>
+</div>
+{% endblock %}
+
