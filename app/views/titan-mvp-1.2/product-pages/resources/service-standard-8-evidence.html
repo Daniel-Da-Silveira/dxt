@@ -1,0 +1,204 @@
+{% extends "layouts/main.html" %}
+{% from "components/service-header/macro.njk" import serviceHeader %}
+{% from "govuk/components/breadcrumbs/macro.njk" import govukBreadcrumbs %}
+
+{% block pageTitle %}
+Service Standard Point 8: Executive Summary – Defra Form Designer – GOV.UK Prototype Kit
+{% endblock %}
+
+{% block header %}
+
+{{ serviceHeader({
+organisationName: "Defra",
+productName: "Form Designer",
+serviceName: "Service assessment - Design team",
+homepageLink: "/titan-mvp-1.2/product-pages/homepage",
+signInLink: "/titan-mvp-1.2/library",
+showSupportLink: false,
+navigationItems: [
+{ href: "/index.html", text: "Design history", id: "nav-about" }
+],
+activeLinkId: "nav-design-history"
+}) }}
+
+<div class="x-govuk-masthead x-govuk-masthead--large">
+    <div class="govuk-width-container">
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-full-from-desktop">
+                <h1 class="x-govuk-masthead__title" id="service-standard-8-evidence">
+                    <span class="govuk-caption-l" style="color: white;">Service Standard Assessment</span>
+                    Service Standard Point 8: Iterate and improve frequently - Evidence
+                </h1>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-one-quarter app-contents-list--sticky govuk-!-padding-right-0">
+        {{ xGovukSubNavigation({
+        visuallyHiddenTitle: "Section navigation",
+        items: [{
+        text: "Service Standard Point 8 Evidence",
+        href: "/titan-mvp-1.2/product-pages/resources/service-standard-8-evidence",
+        parent: true,
+        current: true,
+        children: [{
+        text: "Executive Summary",
+        href: "/titan-mvp-1.2/product-pages/resources/service-standard-8-evidence",
+        current: true
+        }, {
+        text: "1. Before and after",
+        href: "/titan-mvp-1.2/product-pages/resources/service-standard-8-evidence/section-1"
+        }, {
+        text: "2. Continued research and iteration",
+        href: "/titan-mvp-1.2/product-pages/resources/service-standard-8-evidence/section-2"
+        }, {
+        text: "3. Iterating with time constraints",
+        href: "/titan-mvp-1.2/product-pages/resources/service-standard-8-evidence/section-3"
+        }, {
+        text: "4. Content review and maintenance",
+        href: "/titan-mvp-1.2/product-pages/resources/service-standard-8-evidence/section-4"
+        }, {
+        text: "5. Prioritising improvements",
+        href: "/titan-mvp-1.2/product-pages/resources/service-standard-8-evidence/section-5"
+        }, {
+        text: "Summary",
+        href: "/titan-mvp-1.2/product-pages/resources/service-standard-8-evidence/summary"
+        }]
+        }]
+        }) }}
+    </div>
+    <div class="govuk-grid-column-two-thirds">
+        <div class="app-prose-scope">
+
+            <p class="govuk-body">This document provides specific, detailed evidence showing how the Defra Forms Designer meets <a href="https://www.gov.uk/service-manual/service-standard/point-8-iterate-and-improve-frequently" class="govuk-link" target="_blank" rel="noopener noreferrer">Service Standard point 8</a> requirements for iterating and improving frequently, using concrete examples with dates, feedback sources, actions taken, and results.</p>
+
+            <p class="govuk-body">
+                <strong>Prototype site:</strong> <a href="https://dxt-prototype-682ae311ff10.herokuapp.com/" class="govuk-link" target="_blank" rel="noopener noreferrer">https://dxt-prototype-682ae311ff10.herokuapp.com/</a><br>
+                <strong>Design history index:</strong> <a href="https://dxt-prototype-682ae311ff10.herokuapp.com/design-history/index.html" class="govuk-link" target="_blank" rel="noopener noreferrer">https://dxt-prototype-682ae311ff10.herokuapp.com/design-history/index.html</a>
+            </p>
+
+            <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+
+            <h2 class="govuk-heading-l">Executive Summary</h2>
+
+            <p class="govuk-body">The Defra Forms Designer demonstrates comprehensive evidence of meeting Service Standard point 8 (Iterate and improve frequently) through systematic research, data-driven decision making, and continuous improvement processes that respond to user feedback, metrics, and changing needs.</p>
+
+            <h3 class="govuk-heading-m">Key Achievements</h3>
+
+            <h4 class="govuk-heading-s">Continued Research and Iteration</h4>
+            <ul class="govuk-list govuk-list--bullet">
+                <li>17 rounds of user research conducted between May 2024 and October 2025</li>
+                <li>77 research iterations across 32 features, with an average of 2.4 iterations per feature</li>
+                <li>27 features (84%) tested and validated with users</li>
+                <li>Systematic collection and use of feedback, data, and metrics to inform improvements</li>
+            </ul>
+
+            <div class="govuk-grid-row govuk-!-margin-top-4">
+                <div class="govuk-grid-column-one-half">
+                    <div style="border: 2px solid #1d70b8; padding: 20px; background-color: #f3f2f1; margin-bottom: 20px;">
+                        <h4 class="govuk-heading-s govuk-!-margin-top-0">Average iterations per feature</h4>
+                        <p class="govuk-body" style="font-size: 3rem; font-weight: 700; line-height: 1; margin: 10px 0; color: #1d70b8;">2.4</p>
+                        <p class="govuk-body-s" style="color: #505a5f; margin-top: 10px;">Across 32 features with 77 total iterations</p>
+                    </div>
+                </div>
+                <div class="govuk-grid-column-one-half">
+                    <div style="border: 2px solid #1d70b8; padding: 20px; background-color: #f3f2f1; margin-bottom: 20px;">
+                        <h4 class="govuk-heading-s govuk-!-margin-top-0">Features tested</h4>
+                        <p class="govuk-body" style="font-size: 3rem; font-weight: 700; line-height: 1; margin: 10px 0; color: #1d70b8;">27</p>
+                        <p class="govuk-body-s" style="color: #505a5f; margin-top: 10px;">Out of 32 features (84%)</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="govuk-grid-row">
+                <div class="govuk-grid-column-full">
+                    <h4 class="govuk-heading-s govuk-!-margin-top-4">Testing frequency</h4>
+
+                    <div style="margin-bottom: 30px;">
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+                            <span class="govuk-body-s"><strong>Features tested 2 or more times</strong></span>
+                            <span class="govuk-body-s"><strong>66%</strong></span>
+                        </div>
+                        <div style="background-color: #dee0e2; height: 30px; border-radius: 4px; position: relative; overflow: hidden;">
+                            <div style="background-color: #1d70b8; height: 100%; width: 66%; min-width: 80px; display: flex; align-items: center; justify-content: flex-end; padding-right: 12px; box-sizing: border-box;">
+                                <span class="govuk-body-s" style="color: white; font-weight: 700; margin-top:22px;white-space: nowrap; display: inline-block;">66%</span>
+                            </div>
+                        </div>
+                        <p class="govuk-body-s govuk-!-margin-top-5" style="color: #505a5f;">21 out of 32 features</p>
+                    </div>
+
+                    <div style="margin-bottom: 30px;">
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+                            <span class="govuk-body-s"><strong>Features tested 3 or more times</strong></span>
+                            <span class="govuk-body-s"><strong>47%</strong></span>
+                        </div>
+                        <div style="background-color: #dee0e2; height: 30px; border-radius: 4px; position: relative; overflow: hidden;">
+                            <div style="background-color: #00703c; height: 100%; width: 47%; min-width: 80px; display: flex; align-items: center; justify-content: flex-end; padding-right: 12px; box-sizing: border-box;">
+                                <span class="govuk-body-s" style="color: white; font-weight: 700; margin-top:22px; white-space: nowrap; display: inline-block;">47%</span>
+                            </div>
+                        </div>
+                        <p class="govuk-body-s govuk-!-margin-top-5" style="color: #505a5f;">15 out of 32 features</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="govuk-inset-text govuk-!-margin-top-4">
+                <p class="govuk-body"><strong>All major features validated with real users before release</strong></p>
+            </div>
+
+            <h4 class="govuk-heading-s">Iterating with Time Constraints</h4>
+            <ul class="govuk-list govuk-list--bullet">
+                <li>Established methods for rapid iteration when time is limited</li>
+                <li>Prioritised improvements based on user impact and value</li>
+                <li>Quick wins identified and implemented alongside longer-term improvements</li>
+            </ul>
+
+            <h4 class="govuk-heading-s">Content Review and Maintenance</h4>
+            <ul class="govuk-list govuk-list--bullet">
+                <li>Processes in place to review and update content regularly</li>
+                <li>Content checked against current policy and user needs</li>
+                <li>Retirement process for outdated content and features</li>
+            </ul>
+
+            <h4 class="govuk-heading-s">Prioritising Improvements</h4>
+            <ul class="govuk-list govuk-list--bullet">
+                <li>Clear framework for determining which improvements deliver most value</li>
+                <li>Team priorities aligned with user needs and service goals</li>
+                <li>Evidence-based decision making for resource allocation</li>
+            </ul>
+
+            <h3 class="govuk-heading-m">Evidence Structure</h3>
+
+            <p class="govuk-body">This document provides detailed evidence using the Situation, Task, Action, Result (STAR) format, with:</p>
+            <ul class="govuk-list govuk-list--bullet">
+                <li>Specific dates and research round references</li>
+                <li>Direct feedback sources (user quotes, metrics, data)</li>
+                <li>Concrete actions taken</li>
+                <li>Measurable results and outcomes</li>
+                <li>Links to design history documentation and prototype implementations</li>
+            </ul>
+
+            <p class="govuk-body">All evidence is verifiable through the design history documentation and live prototype, demonstrating a systematic approach to iterating and improving the service frequently.</p>
+
+            {% from "govuk/components/pagination/macro.njk" import govukPagination %}
+
+            {{ govukPagination({
+            previous: {
+            labelText: "Resources",
+            href: "/titan-mvp-1.2/product-pages/resources"
+            },
+            next: {
+            labelText: "1. Before and after",
+            href: "/titan-mvp-1.2/product-pages/resources/service-standard-8-evidence/section-1"
+            }
+            }) }}
+
+        </div>
+    </div>
+</div>
+{% endblock %}
+

@@ -1,0 +1,210 @@
+{% extends "layouts/main.html" %}
+{% from "components/service-header/macro.njk" import serviceHeader %}
+{% from "govuk/components/inset-text/macro.njk" import govukInsetText %}
+
+{% block pageTitle %}
+5. Prioritising improvements – Service Standard Point 8 Evidence – Defra Form Designer – GOV.UK Prototype Kit
+{% endblock %}
+
+{% block header %}
+{{ serviceHeader({
+organisationName: "Defra",
+productName: "Form Designer",
+serviceName: "",
+homepageLink: "/titan-mvp-1.2/product-pages/homepage",
+signInLink: "/titan-mvp-1.2/library",
+showSupportLink: false,
+navigationItems: [
+{ href: "/titan-mvp-1.2/product-pages/about", text: "About", id: "nav-about" },
+{ href: "/titan-mvp-1.2/product-pages/get-started", text: "Get started", id: "nav-get-started" },
+{ href: "/titan-mvp-1.2/product-pages/features", text: "Features", id: "nav-features" },
+{ href: "/titan-mvp-1.2/product-pages/resources", text: "Resources", id: "nav-resources" },
+{ href: "/titan-mvp-1.2/product-pages/support", text: "Support", id: "nav-support" }
+],
+activeLinkId: "nav-resources"
+}) }}
+
+<div class="x-govuk-masthead x-govuk-masthead--large">
+    <div class="govuk-width-container">
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-full-from-desktop">
+                <h1 class="x-govuk-masthead__title">
+                    <span class="govuk-caption-l" style="color: white;">Service Standard Assessment</span>
+                    Service Standard Point 8: Iterate and improve frequently - Evidence
+                </h1>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-one-quarter app-contents-list--sticky govuk-!-padding-right-0">
+        {{ xGovukSubNavigation({
+        visuallyHiddenTitle: "Section navigation",
+        items: [{
+        text: "Service Standard Point 8 Evidence",
+        href: "/titan-mvp-1.2/product-pages/resources/service-standard-8-evidence",
+        parent: true,
+        children: [{
+        text: "Executive Summary",
+        href: "/titan-mvp-1.2/product-pages/resources/service-standard-8-evidence"
+        }, {
+        text: "1. Before and after",
+        href: "/titan-mvp-1.2/product-pages/resources/service-standard-8-evidence/section-1"
+        }, {
+        text: "2. Continued research and iteration",
+        href: "/titan-mvp-1.2/product-pages/resources/service-standard-8-evidence/section-2"
+        }, {
+        text: "3. Iterating with time constraints",
+        href: "/titan-mvp-1.2/product-pages/resources/service-standard-8-evidence/section-3"
+        }, {
+        text: "4. Content review and maintenance",
+        href: "/titan-mvp-1.2/product-pages/resources/service-standard-8-evidence/section-4"
+        }, {
+        text: "5. Prioritising improvements",
+        href: "/titan-mvp-1.2/product-pages/resources/service-standard-8-evidence/section-5",
+        current: true
+        }, {
+        text: "Summary",
+        href: "/titan-mvp-1.2/product-pages/resources/service-standard-8-evidence/summary"
+        }]
+        }]
+        }) }}
+    </div>
+    <div class="govuk-grid-column-two-thirds">
+        <div class="app-prose-scope">
+
+            <h2 class="govuk-heading-l">5. Where team priorities lie and which improvements will deliver the most value</h2>
+
+            <p class="govuk-body">The team uses evidence-based decision making to prioritise improvements, focusing on changes that deliver the most value to users and the service.</p>
+
+            <h3 class="govuk-heading-m">Example 1: Prioritising Complete Redesign Based on User Impact</h3>
+
+            <p class="govuk-body"><strong>Situation:</strong><br>
+            Initial evaluation (March 2024) revealed significant usability issues. The team needed to decide whether to make incremental improvements or prioritise a complete redesign.</p>
+
+            <p class="govuk-body"><strong>Task:</strong><br>
+            Determine which approach would deliver the most value: incremental improvements or complete redesign.</p>
+
+            <p class="govuk-body"><strong>Action:</strong></p>
+            <ul class="govuk-list govuk-list--bullet">
+                <li>Evaluated severity of usability issues and user impact</li>
+                <li>Assessed that incremental improvements would not address fundamental problems</li>
+                <li>Prioritised complete redesign to address root causes</li>
+                <li>Reprioritised product backlog to focus on redesign</li>
+                <li>Transformed from component-driven to task-driven approach</li>
+            </ul>
+
+            <p class="govuk-body"><strong>Result:</strong></p>
+            <ul class="govuk-list govuk-list--bullet">
+                <li>Complete redesign validated through 13 rounds of research</li>
+                <li>Users consistently report service as "intuitive", "clean", and "methodical step by step"</li>
+                <li>Demonstrated prioritisation based on user impact rather than ease of implementation</li>
+                <li>Long-term value delivered through addressing root causes</li>
+            </ul>
+
+            <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
+
+            <h3 class="govuk-heading-m">Example 2: Prioritising Quick Wins Alongside Major Improvements</h3>
+
+            <p class="govuk-body"><strong>Situation:</strong><br>
+            Multiple issues identified in research rounds. Team needed to balance quick wins with longer-term improvements.</p>
+
+            <p class="govuk-body"><strong>Task:</strong><br>
+            Prioritise improvements to deliver value quickly while working on larger changes.</p>
+
+            <p class="govuk-body"><strong>Action:</strong></p>
+            <ul class="govuk-list govuk-list--bullet">
+                <li>Identified quick wins: terminology improvements, discoverability fixes</li>
+                <li>Implemented rapid changes (e.g., "operator" to "Condition type")</li>
+                <li>Continued work on larger improvements (e.g., question creation flow)</li>
+                <li>Balanced immediate user value with longer-term improvements</li>
+            </ul>
+
+            <p class="govuk-body"><strong>Result:</strong></p>
+            <ul class="govuk-list govuk-list--bullet">
+                <li>Users saw immediate improvements from quick wins</li>
+                <li>Larger improvements delivered over time</li>
+                <li>Demonstrated ability to prioritise based on value and feasibility</li>
+                <li>Continuous improvement maintained even with limited resources</li>
+            </ul>
+
+            <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
+
+            <h3 class="govuk-heading-m">Example 3: Using Data to Prioritise Improvements</h3>
+
+            <p class="govuk-body"><strong>Situation:</strong><br>
+            User feedback about "save and exit" feature indicated issues, but scope was unclear.</p>
+
+            <p class="govuk-body"><strong>Task:</strong><br>
+            Use data alongside feedback to understand priority and value of improvements.</p>
+
+            <p class="govuk-body"><strong>Action:</strong></p>
+            <ul class="govuk-list govuk-list--bullet">
+                <li>Analysed usage data to understand scope of issue</li>
+                <li>Found 96% success rate - feature works well for most users</li>
+                <li>When it fails, impact is significant for affected users</li>
+                <li>Used data to inform discussion about improvement priorities</li>
+                <li>Considered multiple improvement options with different effort/impact ratios</li>
+            </ul>
+
+            <p class="govuk-body"><strong>Result:</strong></p>
+            <ul class="govuk-list govuk-list--bullet">
+                <li>Data-informed prioritisation rather than assumptions</li>
+                <li>Understanding of where improvements would deliver most value</li>
+                <li>Multiple options considered with different effort/impact trade-offs</li>
+                <li>Demonstrated evidence-based approach to prioritisation</li>
+            </ul>
+
+            <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
+
+            <h3 class="govuk-heading-m">Example 4: Prioritising Features Based on User Needs</h3>
+
+            <p class="govuk-body"><strong>Situation:</strong><br>
+            Multiple features could be developed. Team needed to prioritise based on user value.</p>
+
+            <p class="govuk-body"><strong>Task:</strong><br>
+            Prioritise feature development based on user needs and value delivered.</p>
+
+            <p class="govuk-body"><strong>Action:</strong></p>
+            <ul class="govuk-list govuk-list--bullet">
+                <li>27 features (84%) tested and validated with users</li>
+                <li>Features prioritised based on user research findings</li>
+                <li>User needs drive prioritisation rather than technical ease</li>
+                <li>Average 2.4 iterations per feature to ensure quality</li>
+            </ul>
+
+            <p class="govuk-body"><strong>Result:</strong></p>
+            <ul class="govuk-list govuk-list--bullet">
+                <li>Features developed based on user value</li>
+                <li>High percentage of features tested ensures quality</li>
+                <li>Multiple iterations ensure features meet user needs</li>
+                <li>Prioritisation aligned with user needs and service goals</li>
+            </ul>
+
+            <h4 class="govuk-heading-s">Related design history</h4>
+            <ul class="govuk-list">
+                <li><a href="https://dxt-prototype-682ae311ff10.herokuapp.com/design-history/editor-redesign/index.html" class="govuk-link" target="_blank" rel="noopener noreferrer">Editor redesign</a></li>
+                <li><a href="https://dxt-prototype-682ae311ff10.herokuapp.com/design-history/index.html" class="govuk-link" target="_blank" rel="noopener noreferrer">Design history index</a></li>
+            </ul>
+
+            {% from "govuk/components/pagination/macro.njk" import govukPagination %}
+
+            {{ govukPagination({
+            previous: {
+            labelText: "4. Content review and maintenance",
+            href: "/titan-mvp-1.2/product-pages/resources/service-standard-8-evidence/section-4"
+            },
+            next: {
+            labelText: "Summary",
+            href: "/titan-mvp-1.2/product-pages/resources/service-standard-8-evidence/summary"
+            }
+            }) }}
+
+        </div>
+    </div>
+</div>
+{% endblock %}
+

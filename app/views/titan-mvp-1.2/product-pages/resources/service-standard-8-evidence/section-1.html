@@ -3,7 +3,7 @@
 {% from "govuk/components/inset-text/macro.njk" import govukInsetText %}
 
 {% block pageTitle %}
-Before and After: Design Changes – Service Standard Point 4 Evidence – Defra Form Designer – GOV.UK Prototype Kit
+1. Before and After: Design Changes – Service Standard Point 8 Evidence – Defra Form Designer – GOV.UK Prototype Kit
 {% endblock %}
 
 {% block header %}
@@ -30,7 +30,7 @@ activeLinkId: "nav-resources"
             <div class="govuk-grid-column-full-from-desktop">
                 <h1 class="x-govuk-masthead__title">
                     <span class="govuk-caption-l" style="color: white;">Service Standard Assessment</span>
-                    Before and After: Design Changes
+                    Service Standard Point 8: Iterate and improve frequently - Evidence
                 </h1>
             </div>
         </div>
@@ -44,46 +44,31 @@ activeLinkId: "nav-resources"
         {{ xGovukSubNavigation({
         visuallyHiddenTitle: "Section navigation",
         items: [{
-        text: "Service Standard Point 4 Evidence",
-        href: "/titan-mvp-1.2/product-pages/resources/service-standard-4-evidence",
+        text: "Service Standard Point 8 Evidence",
+        href: "/titan-mvp-1.2/product-pages/resources/service-standard-8-evidence",
         parent: true,
         children: [{
         text: "Executive Summary",
-        href: "/titan-mvp-1.2/product-pages/resources/service-standard-4-evidence"
+        href: "/titan-mvp-1.2/product-pages/resources/service-standard-8-evidence"
         }, {
-        text: "1. Making the service simple to use",
-        href: "/titan-mvp-1.2/product-pages/resources/service-standard-4-evidence/section-1"
-        }, {
-        text: "2. Usability testing with users",
-        href: "/titan-mvp-1.2/product-pages/resources/service-standard-4-evidence/section-2"
-        }, {
-        text: "3. Testing all parts of the service",
-        href: "/titan-mvp-1.2/product-pages/resources/service-standard-4-evidence/section-3"
-        }, {
-        text: "4. Users with lowest digital skills",
-        href: "/titan-mvp-1.2/product-pages/resources/service-standard-4-evidence/section-4"
-        }, {
-        text: "5. Accessibility requirements",
-        href: "/titan-mvp-1.2/product-pages/resources/service-standard-4-evidence/section-5"
-        }, {
-        text: "6. Performance research",
-        href: "/titan-mvp-1.2/product-pages/resources/service-standard-4-evidence/section-6"
-        }, {
-        text: "7. Continuous improvement",
-        href: "/titan-mvp-1.2/product-pages/resources/service-standard-4-evidence/section-7"
-        }, {
-        text: "8. Data-driven decisions",
-        href: "/titan-mvp-1.2/product-pages/resources/service-standard-4-evidence/section-8"
-        }, {
-        text: "9. Continual monitoring",
-        href: "/titan-mvp-1.2/product-pages/resources/service-standard-4-evidence/section-9"
-        }, {
-        text: "Before and after",
-        href: "/titan-mvp-1.2/product-pages/resources/service-standard-4-evidence/before-after",
+        text: "1. Before and after",
+        href: "/titan-mvp-1.2/product-pages/resources/service-standard-8-evidence/section-1",
         current: true
         }, {
+        text: "2. Continued research and iteration",
+        href: "/titan-mvp-1.2/product-pages/resources/service-standard-8-evidence/section-2"
+        }, {
+        text: "3. Iterating with time constraints",
+        href: "/titan-mvp-1.2/product-pages/resources/service-standard-8-evidence/section-3"
+        }, {
+        text: "4. Content review and maintenance",
+        href: "/titan-mvp-1.2/product-pages/resources/service-standard-8-evidence/section-4"
+        }, {
+        text: "5. Prioritising improvements",
+        href: "/titan-mvp-1.2/product-pages/resources/service-standard-8-evidence/section-5"
+        }, {
         text: "Summary",
-        href: "/titan-mvp-1.2/product-pages/resources/service-standard-4-evidence/summary"
+        href: "/titan-mvp-1.2/product-pages/resources/service-standard-8-evidence/summary"
         }]
         }]
         }) }}
@@ -91,9 +76,9 @@ activeLinkId: "nav-resources"
     <div class="govuk-grid-column-two-thirds">
         <div class="app-prose-scope">
 
-            <h2 class="govuk-heading-l">Before and After: Design Changes</h2>
+            <h2 class="govuk-heading-l">1. Before and After: Design Changes</h2>
 
-            <p class="govuk-body">This page showcases key design improvements made to the Defra Forms Designer, demonstrating how user research and iterative design led to a more intuitive and accessible service. Each example includes visual comparisons and specific user feedback that drove the changes.</p>
+            <p class="govuk-body">This page showcases key design improvements made to the Defra Forms Designer, demonstrating how continuous iteration and improvement based on user research, feedback, data, and metrics led to a more intuitive and accessible service. Each example includes visual comparisons and specific user feedback that drove the iterative changes.</p>
 
             <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
 
@@ -912,14 +897,18 @@ activeLinkId: "nav-resources"
                 <li><strong>Accessible:</strong> Designed with accessibility in mind from the start</li>
             </ul>
 
-            <p class="govuk-body">All changes are documented in the <a href="/titan-mvp-1.2/product-pages/resources/service-standard-4-evidence" class="govuk-link">Service Standard Point 4 Evidence</a> pages.</p>
+            <p class="govuk-body">All changes are documented in the <a href="/titan-mvp-1.2/product-pages/resources/service-standard-8-evidence" class="govuk-link">Service Standard Point 8 Evidence</a> pages.</p>
 
             {% from "govuk/components/pagination/macro.njk" import govukPagination %}
 
             {{ govukPagination({
             previous: {
-            labelText: "Summary",
-            href: "/titan-mvp-1.2/product-pages/resources/service-standard-4-evidence/summary"
+            labelText: "Executive Summary",
+            href: "/titan-mvp-1.2/product-pages/resources/service-standard-8-evidence"
+            },
+            next: {
+            labelText: "2. Continued research and iteration",
+            href: "/titan-mvp-1.2/product-pages/resources/service-standard-8-evidence/section-2"
             }
             }) }}
 

@@ -1,0 +1,104 @@
+{% extends "layouts/main.html" %}
+{% from "components/service-header/macro.njk" import serviceHeader %}
+
+{% block pageTitle %}
+Summary – Service Standard Point 8 Evidence – Defra Form Designer – GOV.UK Prototype Kit
+{% endblock %}
+
+{% block header %}
+{{ serviceHeader({
+organisationName: "Defra",
+productName: "Form Designer",
+serviceName: "",
+homepageLink: "/titan-mvp-1.2/product-pages/homepage",
+signInLink: "/titan-mvp-1.2/library",
+showSupportLink: false,
+navigationItems: [
+{ href: "/titan-mvp-1.2/product-pages/about", text: "About", id: "nav-about" },
+{ href: "/titan-mvp-1.2/product-pages/get-started", text: "Get started", id: "nav-get-started" },
+{ href: "/titan-mvp-1.2/product-pages/features", text: "Features", id: "nav-features" },
+{ href: "/titan-mvp-1.2/product-pages/resources", text: "Resources", id: "nav-resources" },
+{ href: "/titan-mvp-1.2/product-pages/support", text: "Support", id: "nav-support" }
+],
+activeLinkId: "nav-resources"
+}) }}
+
+<div class="x-govuk-masthead x-govuk-masthead--large">
+    <div class="govuk-width-container">
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-full-from-desktop">
+                <h1 class="x-govuk-masthead__title">
+                    <span class="govuk-caption-l" style="color: white;">Service Standard Assessment</span>
+                    Service Standard Point 8: Iterate and improve frequently - Evidence
+                </h1>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-one-quarter app-contents-list--sticky govuk-!-padding-right-0">
+        {{ xGovukSubNavigation({
+        visuallyHiddenTitle: "Section navigation",
+        items: [{
+        text: "Service Standard Point 8 Evidence",
+        href: "/titan-mvp-1.2/product-pages/resources/service-standard-8-evidence",
+        parent: true,
+        children: [{
+        text: "Executive Summary",
+        href: "/titan-mvp-1.2/product-pages/resources/service-standard-8-evidence"
+        }, {
+        text: "1. Before and after",
+        href: "/titan-mvp-1.2/product-pages/resources/service-standard-8-evidence/section-1"
+        }, {
+        text: "2. Continued research and iteration",
+        href: "/titan-mvp-1.2/product-pages/resources/service-standard-8-evidence/section-2"
+        }, {
+        text: "3. Iterating with time constraints",
+        href: "/titan-mvp-1.2/product-pages/resources/service-standard-8-evidence/section-3"
+        }, {
+        text: "4. Content review and maintenance",
+        href: "/titan-mvp-1.2/product-pages/resources/service-standard-8-evidence/section-4"
+        }, {
+        text: "5. Prioritising improvements",
+        href: "/titan-mvp-1.2/product-pages/resources/service-standard-8-evidence/section-5"
+        }, {
+        text: "Summary",
+        href: "/titan-mvp-1.2/product-pages/resources/service-standard-8-evidence/summary",
+        current: true
+        }]
+        }]
+        }) }}
+    </div>
+    <div class="govuk-grid-column-two-thirds">
+        <div class="app-prose-scope">
+
+            <h2 class="govuk-heading-l">Summary</h2>
+
+            <p class="govuk-body">The Defra Forms Designer demonstrates strong evidence for <a href="https://www.gov.uk/service-manual/service-standard/point-8-iterate-and-improve-frequently" class="govuk-link" target="_blank" rel="noopener noreferrer">Service Standard point 8</a> through specific, documented examples:</p>
+
+            <ol class="govuk-list govuk-list--number">
+                <li><strong>Continued research and iteration</strong> - 17 rounds of user research, 77 research iterations across 32 features, systematic use of feedback, data, and metrics to inform improvements</li>
+                <li><strong>Iterating with time constraints</strong> - Methods established for rapid iteration, quick wins identified and implemented, prioritised improvements based on user impact</li>
+                <li><strong>Content review and maintenance</strong> - Processes in place to review and update content regularly, design history maintained and kept current, feature status tracked</li>
+                <li><strong>Prioritising improvements</strong> - Evidence-based decision making for resource allocation, team priorities aligned with user needs, clear framework for determining value</li>
+            </ol>
+
+            <p class="govuk-body">All evidence includes specific dates, feedback sources, actions taken, and measurable results, demonstrating a systematic approach to iterating and improving the service frequently.</p>
+
+            {% from "govuk/components/pagination/macro.njk" import govukPagination %}
+
+            {{ govukPagination({
+            previous: {
+            labelText: "5. Prioritising improvements",
+            href: "/titan-mvp-1.2/product-pages/resources/service-standard-8-evidence/section-5"
+            }
+            }) }}
+
+        </div>
+    </div>
+</div>
+{% endblock %}
+

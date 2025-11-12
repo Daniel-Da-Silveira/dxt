@@ -1,0 +1,179 @@
+{% extends "layouts/main.html" %}
+{% from "components/service-header/macro.njk" import serviceHeader %}
+{% from "govuk/components/inset-text/macro.njk" import govukInsetText %}
+
+{% block pageTitle %}
+3. Iterating with time constraints – Service Standard Point 8 Evidence – Defra Form Designer – GOV.UK Prototype Kit
+{% endblock %}
+
+{% block header %}
+{{ serviceHeader({
+organisationName: "Defra",
+productName: "Form Designer",
+serviceName: "",
+homepageLink: "/titan-mvp-1.2/product-pages/homepage",
+signInLink: "/titan-mvp-1.2/library",
+showSupportLink: false,
+navigationItems: [
+{ href: "/titan-mvp-1.2/product-pages/about", text: "About", id: "nav-about" },
+{ href: "/titan-mvp-1.2/product-pages/get-started", text: "Get started", id: "nav-get-started" },
+{ href: "/titan-mvp-1.2/product-pages/features", text: "Features", id: "nav-features" },
+{ href: "/titan-mvp-1.2/product-pages/resources", text: "Resources", id: "nav-resources" },
+{ href: "/titan-mvp-1.2/product-pages/support", text: "Support", id: "nav-support" }
+],
+activeLinkId: "nav-resources"
+}) }}
+
+<div class="x-govuk-masthead x-govuk-masthead--large">
+    <div class="govuk-width-container">
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-full-from-desktop">
+                <h1 class="x-govuk-masthead__title">
+                    <span class="govuk-caption-l" style="color: white;">Service Standard Assessment</span>
+                    Service Standard Point 8: Iterate and improve frequently - Evidence
+                </h1>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-one-quarter app-contents-list--sticky govuk-!-padding-right-0">
+        {{ xGovukSubNavigation({
+        visuallyHiddenTitle: "Section navigation",
+        items: [{
+        text: "Service Standard Point 8 Evidence",
+        href: "/titan-mvp-1.2/product-pages/resources/service-standard-8-evidence",
+        parent: true,
+        children: [{
+        text: "Executive Summary",
+        href: "/titan-mvp-1.2/product-pages/resources/service-standard-8-evidence"
+        }, {
+        text: "1. Before and after",
+        href: "/titan-mvp-1.2/product-pages/resources/service-standard-8-evidence/section-1"
+        }, {
+        text: "2. Continued research and iteration",
+        href: "/titan-mvp-1.2/product-pages/resources/service-standard-8-evidence/section-2"
+        }, {
+        text: "3. Iterating with time constraints",
+        href: "/titan-mvp-1.2/product-pages/resources/service-standard-8-evidence/section-3",
+        current: true
+        }, {
+        text: "4. Content review and maintenance",
+        href: "/titan-mvp-1.2/product-pages/resources/service-standard-8-evidence/section-4"
+        }, {
+        text: "5. Prioritising improvements",
+        href: "/titan-mvp-1.2/product-pages/resources/service-standard-8-evidence/section-5"
+        }, {
+        text: "Summary",
+        href: "/titan-mvp-1.2/product-pages/resources/service-standard-8-evidence/summary"
+        }]
+        }]
+        }) }}
+    </div>
+    <div class="govuk-grid-column-two-thirds">
+        <div class="app-prose-scope">
+
+            <h2 class="govuk-heading-l">3. Methods to iterate and improve design when there are time constraints</h2>
+
+            <p class="govuk-body">The team has established methods for making meaningful improvements even when time is limited, focusing on quick wins and prioritising changes that deliver the most value.</p>
+
+            <h3 class="govuk-heading-m">Example 1: Rapid Terminology Improvements</h3>
+
+            <p class="govuk-body"><strong>Situation:</strong><br>
+            Round 11 (March 2025) identified that the term "operator" was confusing users. This was a terminology issue that could be addressed quickly without major design changes.</p>
+
+            <p class="govuk-body"><strong>Task:</strong><br>
+            Improve terminology to use plain English while maintaining functionality, within time constraints.</p>
+
+            <p class="govuk-body"><strong>Action:</strong></p>
+            <ul class="govuk-list govuk-list--bullet">
+                <li>Renamed "operator" to "Condition type" (plain English)</li>
+                <li>Revealed the operator field that was previously hidden</li>
+                <li>Updated all related content and labels</li>
+                <li>Tested in Round 12 (March 2025) - just weeks later</li>
+            </ul>
+
+            <p class="govuk-body"><strong>Result:</strong></p>
+            <ul class="govuk-list govuk-list--bullet">
+                <li>Round 12 testing confirmed improved understanding</li>
+                <li>Quick change that addressed user confusion without major redesign</li>
+                <li>Demonstrated ability to make rapid improvements based on feedback</li>
+            </ul>
+
+            <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
+
+            <h3 class="govuk-heading-m">Example 2: Incremental Flow Improvements</h3>
+
+            <p class="govuk-body"><strong>Situation:</strong><br>
+            Round 11 found users were confused by the question creation flow requiring options before question text. A complete redesign wasn't feasible immediately, but the flow could be improved incrementally.</p>
+
+            <p class="govuk-body"><strong>Task:</strong><br>
+            Improve the question creation flow to match user mental models while working within technical and time constraints.</p>
+
+            <p class="govuk-body"><strong>Action:</strong></p>
+            <ul class="govuk-list govuk-list--bullet">
+                <li>Changed flow to allow question text first, then options</li>
+                <li>Kept all options on same page for better visibility</li>
+                <li>Implemented bulk entry for faster option creation</li>
+                <li>Tested in Round 12 (March 2025) - rapid turnaround</li>
+            </ul>
+
+            <p class="govuk-body"><strong>Result:</strong></p>
+            <ul class="govuk-list govuk-list--bullet">
+                <li>Round 12 testing: "No usability issues observed; setup was clear"</li>
+                <li>Users successfully completed question creation without confusion</li>
+                <li>Improved logical flow matches user mental model</li>
+                <li>Demonstrated iterative improvement within time constraints</li>
+            </ul>
+
+            <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
+
+            <h3 class="govuk-heading-m">Example 3: Quick Discoverability Fixes</h3>
+
+            <p class="govuk-body"><strong>Situation:</strong><br>
+            Round 11 found that "Filter pages by condition" was hidden in a dropdown and users missed it. This was a discoverability issue that could be addressed quickly.</p>
+
+            <p class="govuk-body"><strong>Task:</strong><br>
+            Improve discoverability of condition filtering without major redesign.</p>
+
+            <p class="govuk-body"><strong>Action:</strong></p>
+            <ul class="govuk-list govuk-list--bullet">
+                <li>Moved "Filter pages by condition" to left-hand pane</li>
+                <li>Made it visible by default rather than hidden in dropdown</li>
+                <li>Tested in Round 12 (March 2025)</li>
+            </ul>
+
+            <p class="govuk-body"><strong>Result:</strong></p>
+            <ul class="govuk-list govuk-list--bullet">
+                <li>Round 12 testing: "You can filter pages by condition. OK, I can see that would be useful."</li>
+                <li>Improved discoverability with minimal design changes</li>
+                <li>Quick win that addressed user need</li>
+            </ul>
+
+            <h4 class="govuk-heading-s">Related design history</h4>
+            <ul class="govuk-list">
+                <li><a href="https://dxt-prototype-682ae311ff10.herokuapp.com/design-history/page-conditions/index.html" class="govuk-link" target="_blank" rel="noopener noreferrer">Page conditions</a></li>
+                <li><a href="https://dxt-prototype-682ae311ff10.herokuapp.com/design-history/lists/index.html" class="govuk-link" target="_blank" rel="noopener noreferrer">Lists feature</a></li>
+            </ul>
+
+            {% from "govuk/components/pagination/macro.njk" import govukPagination %}
+
+            {{ govukPagination({
+            previous: {
+            labelText: "2. Continued research and iteration",
+            href: "/titan-mvp-1.2/product-pages/resources/service-standard-8-evidence/section-2"
+            },
+            next: {
+            labelText: "4. Content review and maintenance",
+            href: "/titan-mvp-1.2/product-pages/resources/service-standard-8-evidence/section-4"
+            }
+            }) }}
+
+        </div>
+    </div>
+</div>
+{% endblock %}
+

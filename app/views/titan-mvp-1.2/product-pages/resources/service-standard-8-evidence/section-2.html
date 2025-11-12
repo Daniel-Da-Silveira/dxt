@@ -1,0 +1,186 @@
+{% extends "layouts/main.html" %}
+{% from "components/service-header/macro.njk" import serviceHeader %}
+{% from "govuk/components/inset-text/macro.njk" import govukInsetText %}
+
+{% block pageTitle %}
+2. Continued research and iteration – Service Standard Point 8 Evidence – Defra Form Designer – GOV.UK Prototype Kit
+{% endblock %}
+
+{% block header %}
+{{ serviceHeader({
+organisationName: "Defra",
+productName: "Form Designer",
+serviceName: "",
+homepageLink: "/titan-mvp-1.2/product-pages/homepage",
+signInLink: "/titan-mvp-1.2/library",
+showSupportLink: false,
+navigationItems: [
+{ href: "/titan-mvp-1.2/product-pages/about", text: "About", id: "nav-about" },
+{ href: "/titan-mvp-1.2/product-pages/get-started", text: "Get started", id: "nav-get-started" },
+{ href: "/titan-mvp-1.2/product-pages/features", text: "Features", id: "nav-features" },
+{ href: "/titan-mvp-1.2/product-pages/resources", text: "Resources", id: "nav-resources" },
+{ href: "/titan-mvp-1.2/product-pages/support", text: "Support", id: "nav-support" }
+],
+activeLinkId: "nav-resources"
+}) }}
+
+<div class="x-govuk-masthead x-govuk-masthead--large">
+    <div class="govuk-width-container">
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-full-from-desktop">
+                <h1 class="x-govuk-masthead__title">
+                    <span class="govuk-caption-l" style="color: white;">Service Standard Assessment</span>
+                    Service Standard Point 8: Iterate and improve frequently - Evidence
+                </h1>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-one-quarter app-contents-list--sticky govuk-!-padding-right-0">
+        {{ xGovukSubNavigation({
+        visuallyHiddenTitle: "Section navigation",
+        items: [{
+        text: "Service Standard Point 8 Evidence",
+        href: "/titan-mvp-1.2/product-pages/resources/service-standard-8-evidence",
+        parent: true,
+        children: [{
+        text: "Executive Summary",
+        href: "/titan-mvp-1.2/product-pages/resources/service-standard-8-evidence"
+        }, {
+        text: "1. Before and after",
+        href: "/titan-mvp-1.2/product-pages/resources/service-standard-8-evidence/section-1"
+        }, {
+        text: "2. Continued research and iteration",
+        href: "/titan-mvp-1.2/product-pages/resources/service-standard-8-evidence/section-2",
+        current: true
+        }, {
+        text: "3. Iterating with time constraints",
+        href: "/titan-mvp-1.2/product-pages/resources/service-standard-8-evidence/section-3"
+        }, {
+        text: "4. Content review and maintenance",
+        href: "/titan-mvp-1.2/product-pages/resources/service-standard-8-evidence/section-4"
+        }, {
+        text: "5. Prioritising improvements",
+        href: "/titan-mvp-1.2/product-pages/resources/service-standard-8-evidence/section-5"
+        }, {
+        text: "Summary",
+        href: "/titan-mvp-1.2/product-pages/resources/service-standard-8-evidence/summary"
+        }]
+        }]
+        }) }}
+    </div>
+    <div class="govuk-grid-column-two-thirds">
+        <div class="app-prose-scope">
+
+            <h2 class="govuk-heading-l">2. Continued research and iteration based on feedback, data, and metrics</h2>
+
+            <p class="govuk-body">The Defra Forms Designer demonstrates continuous iteration and improvement through systematic research, feedback collection, and data-driven decision making.</p>
+
+            <h3 class="govuk-heading-m">Example 1: Systematic User Research Programme</h3>
+
+            <p class="govuk-body"><strong>Situation:</strong><br>
+            The service needed to continuously improve based on real user feedback and usage data, not assumptions.</p>
+
+            <p class="govuk-body"><strong>Task:</strong><br>
+            Establish a systematic programme of user research that informs iterative improvements throughout the service lifecycle.</p>
+
+            <p class="govuk-body"><strong>Action:</strong></p>
+            <ul class="govuk-list govuk-list--bullet">
+                <li>Conducted 17 rounds of user research between May 2024 and October 2025</li>
+                <li>77 research iterations across 32 features, with an average of 2.4 iterations per feature</li>
+                <li>27 features (84%) tested and validated with users</li>
+                <li>Over 70 participants including content designers, proxy users, internal stakeholders, and Private Beta users</li>
+                <li>Each research round builds on previous findings, with issues identified in one round addressed and validated in subsequent rounds</li>
+                <li>Research findings systematically documented in design history</li>
+            </ul>
+
+            <p class="govuk-body"><strong>Result:</strong></p>
+            <ul class="govuk-list govuk-list--bullet">
+                <li>Continuous improvement cycle established and maintained</li>
+                <li>Every major change informed by user research and feedback</li>
+                <li>Service remains relevant and meets user needs as they evolve</li>
+                <li>Design history provides comprehensive record of iterations and improvements</li>
+            </ul>
+
+            <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
+
+            <h3 class="govuk-heading-m">Example 2: Using Performance Metrics to Inform Improvements</h3>
+
+            <p class="govuk-body"><strong>Situation:</strong><br>
+            User feedback about the "save and exit" feature indicated some users were being locked out, but it was unclear if this was a widespread issue or an isolated incident.</p>
+
+            <p class="govuk-body"><strong>Task:</strong><br>
+            Use performance metrics alongside user feedback to understand the real scope of issues and prioritise improvements.</p>
+
+            <p class="govuk-body"><strong>Action:</strong></p>
+            <ul class="govuk-list govuk-list--bullet">
+                <li>Analysed logs to understand actual usage patterns</li>
+                <li>Found 94 people successfully resumed a saved form on the same day as the complaint</li>
+                <li>Identified only 6 people had been locked out over the past week</li>
+                <li>Calculated 96% success rate for the feature</li>
+                <li>Combined user story with data to get rounded picture of the problem</li>
+                <li>Discussed improvements including clearer warnings, better messaging, and alternative approaches</li>
+            </ul>
+
+            <p class="govuk-body"><strong>Result:</strong></p>
+            <ul class="govuk-list govuk-list--bullet">
+                <li>Data showed feature works smoothly most of the time</li>
+                <li>When it goes wrong, consequences for users are significant</li>
+                <li>Informed discussion about improvements with both user story and data context</li>
+                <li>Demonstrated approach of combining feedback and metrics for decision making</li>
+            </ul>
+
+            <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
+
+            <h3 class="govuk-heading-m">Example 3: Iterative Feature Development</h3>
+
+            <p class="govuk-body"><strong>Situation:</strong><br>
+            Features need to be developed iteratively, with each version tested and improved based on user feedback.</p>
+
+            <p class="govuk-body"><strong>Task:</strong><br>
+            Ensure all features go through multiple iterations based on research findings.</p>
+
+            <p class="govuk-body"><strong>Action:</strong></p>
+            <ul class="govuk-list govuk-list--bullet">
+                <li>Average of 2.4 iterations per feature across 32 features</li>
+                <li>66% of features tested 2 or more times</li>
+                <li>47% of features tested 3 or more times</li>
+                <li>Each iteration addresses specific findings from previous research</li>
+                <li>Changes validated in subsequent research rounds</li>
+            </ul>
+
+            <p class="govuk-body"><strong>Result:</strong></p>
+            <ul class="govuk-list govuk-list--bullet">
+                <li>Features continuously refined based on user feedback</li>
+                <li>Issues identified early and addressed before becoming major problems</li>
+                <li>Service quality improves with each iteration</li>
+                <li>Users see their feedback leading to real improvements</li>
+            </ul>
+
+            <h4 class="govuk-heading-s">Related design history</h4>
+            <ul class="govuk-list">
+                <li><a href="https://dxt-prototype-682ae311ff10.herokuapp.com/design-history/index.html" class="govuk-link" target="_blank" rel="noopener noreferrer">Design history index</a></li>
+            </ul>
+
+            {% from "govuk/components/pagination/macro.njk" import govukPagination %}
+
+            {{ govukPagination({
+            previous: {
+            labelText: "1. Before and after",
+            href: "/titan-mvp-1.2/product-pages/resources/service-standard-8-evidence/section-1"
+            },
+            next: {
+            labelText: "3. Iterating with time constraints",
+            href: "/titan-mvp-1.2/product-pages/resources/service-standard-8-evidence/section-3"
+            }
+            }) }}
+
+        </div>
+    </div>
+</div>
+{% endblock %}
+

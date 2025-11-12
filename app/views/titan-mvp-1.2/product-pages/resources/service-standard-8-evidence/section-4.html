@@ -1,0 +1,215 @@
+{% extends "layouts/main.html" %}
+{% from "components/service-header/macro.njk" import serviceHeader %}
+{% from "govuk/components/inset-text/macro.njk" import govukInsetText %}
+
+{% block pageTitle %}
+4. Content review and maintenance – Service Standard Point 8 Evidence – Defra Form Designer – GOV.UK Prototype Kit
+{% endblock %}
+
+{% block header %}
+{{ serviceHeader({
+organisationName: "Defra",
+productName: "Form Designer",
+serviceName: "",
+homepageLink: "/titan-mvp-1.2/product-pages/homepage",
+signInLink: "/titan-mvp-1.2/library",
+showSupportLink: false,
+navigationItems: [
+{ href: "/titan-mvp-1.2/product-pages/about", text: "About", id: "nav-about" },
+{ href: "/titan-mvp-1.2/product-pages/get-started", text: "Get started", id: "nav-get-started" },
+{ href: "/titan-mvp-1.2/product-pages/features", text: "Features", id: "nav-features" },
+{ href: "/titan-mvp-1.2/product-pages/resources", text: "Resources", id: "nav-resources" },
+{ href: "/titan-mvp-1.2/product-pages/support", text: "Support", id: "nav-support" }
+],
+activeLinkId: "nav-resources"
+}) }}
+
+<div class="x-govuk-masthead x-govuk-masthead--large">
+    <div class="govuk-width-container">
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-full-from-desktop">
+                <h1 class="x-govuk-masthead__title">
+                    <span class="govuk-caption-l" style="color: white;">Service Standard Assessment</span>
+                    Service Standard Point 8: Iterate and improve frequently - Evidence
+                </h1>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-one-quarter app-contents-list--sticky govuk-!-padding-right-0">
+        {{ xGovukSubNavigation({
+        visuallyHiddenTitle: "Section navigation",
+        items: [{
+        text: "Service Standard Point 8 Evidence",
+        href: "/titan-mvp-1.2/product-pages/resources/service-standard-8-evidence",
+        parent: true,
+        children: [{
+        text: "Executive Summary",
+        href: "/titan-mvp-1.2/product-pages/resources/service-standard-8-evidence"
+        }, {
+        text: "1. Before and after",
+        href: "/titan-mvp-1.2/product-pages/resources/service-standard-8-evidence/section-1"
+        }, {
+        text: "2. Continued research and iteration",
+        href: "/titan-mvp-1.2/product-pages/resources/service-standard-8-evidence/section-2"
+        }, {
+        text: "3. Iterating with time constraints",
+        href: "/titan-mvp-1.2/product-pages/resources/service-standard-8-evidence/section-3"
+        }, {
+        text: "4. Content review and maintenance",
+        href: "/titan-mvp-1.2/product-pages/resources/service-standard-8-evidence/section-4",
+        current: true
+        }, {
+        text: "5. Prioritising improvements",
+        href: "/titan-mvp-1.2/product-pages/resources/service-standard-8-evidence/section-5"
+        }, {
+        text: "Summary",
+        href: "/titan-mvp-1.2/product-pages/resources/service-standard-8-evidence/summary"
+        }]
+        }]
+        }) }}
+    </div>
+    <div class="govuk-grid-column-two-thirds">
+        <div class="app-prose-scope">
+
+            <h2 class="govuk-heading-l">4. A process to review content and check that it's up-to-date, reflects current policy, or is retired</h2>
+
+            <p class="govuk-body">The Defra Forms Designer maintains up-to-date content through systematic review processes, ensuring guidance reflects current policy and user needs. The team has tried multiple methods for content review and maintenance, including copy decks, content dictionaries, Figma documentation, team-based content design, design history, and structured review sessions.</p>
+
+            <h3 class="govuk-heading-m">Example 1: Multiple Content Review Methods</h3>
+
+            <p class="govuk-body"><strong>Situation:</strong><br>
+            Content needs to be reviewed and maintained across the service, but different methods work better for different purposes. The team needed to find effective ways to review, document, and maintain content.</p>
+
+            <p class="govuk-body"><strong>Task:</strong><br>
+            Establish and iterate on methods for content review and maintenance that ensure content stays current and reflects policy.</p>
+
+            <p class="govuk-body"><strong>Action:</strong></p>
+            <ul class="govuk-list govuk-list--bullet">
+                <li>Tried copy deck approach - centralised document for all content</li>
+                <li>Developed content dictionary (dictionary.json) - structured data file for consistent terminology and labels</li>
+                <li>Used Figma for visual content documentation alongside design</li>
+                <li>Each method tested and evaluated for effectiveness</li>
+                <li>Methods refined based on what works best for different content types</li>
+            </ul>
+
+            <p class="govuk-body"><strong>Result:</strong></p>
+            <ul class="govuk-list govuk-list--bullet">
+                <li>Multiple methods available for different content review needs</li>
+                <li>Content dictionary provides single source of truth for terminology</li>
+                <li>Figma enables visual content review alongside design</li>
+                <li>Team can choose appropriate method based on context</li>
+                <li>Content review processes continuously improved through iteration</li>
+            </ul>
+
+            <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
+
+            <h3 class="govuk-heading-m">Example 2: Team-Based Content Design and Review</h3>
+
+            <p class="govuk-body"><strong>Situation:</strong><br>
+            Content is designed as a team activity, providing natural opportunities for review and ensuring multiple perspectives on content quality and accuracy.</p>
+
+            <p class="govuk-body"><strong>Task:</strong><br>
+            Leverage team-based content design to ensure content is reviewed, stays current, and reflects policy accurately.</p>
+
+            <p class="govuk-body"><strong>Action:</strong></p>
+            <ul class="govuk-list govuk-list--bullet">
+                <li>Content designed collaboratively with team members</li>
+                <li>Multiple team members review content during design process</li>
+                <li>Team discussions ensure content aligns with policy and user needs</li>
+                <li>Content reviewed in context of design decisions</li>
+                <li>Regular team check-ins on content accuracy and currency</li>
+            </ul>
+
+            <p class="govuk-body"><strong>Result:</strong></p>
+            <ul class="govuk-list govuk-list--bullet">
+                <li>Content benefits from multiple perspectives during design</li>
+                <li>Review happens naturally as part of design process</li>
+                <li>Team members catch issues early through collaborative design</li>
+                <li>Content stays aligned with policy through team discussions</li>
+                <li>Built-in review process ensures content quality</li>
+            </ul>
+
+            <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
+
+            <h3 class="govuk-heading-m">Example 3: Design History as Content Documentation</h3>
+
+            <p class="govuk-body"><strong>Situation:</strong><br>
+            Design history documents both design decisions and content, providing a comprehensive record that shows how content has evolved alongside design.</p>
+
+            <p class="govuk-body"><strong>Task:</strong><br>
+            Use design history to document content decisions, changes, and rationale, ensuring content evolution is tracked and reviewable.</p>
+
+            <p class="govuk-body"><strong>Action:</strong></p>
+            <ul class="govuk-list govuk-list--bullet">
+                <li>Design history includes both design and content decisions</li>
+                <li>Content changes documented alongside design changes</li>
+                <li>Rationale for content decisions recorded in design history</li>
+                <li>Content reviewed as part of design history updates</li>
+                <li>Design history serves as living record of content evolution</li>
+            </ul>
+
+            <p class="govuk-body"><strong>Result:</strong></p>
+            <ul class="govuk-list govuk-list--bullet">
+                <li>Complete record of content decisions and changes maintained</li>
+                <li>Content and design evolution tracked together</li>
+                <li>Content rationale documented for future reference</li>
+                <li>Design history provides opportunity to review content regularly</li>
+                <li>Transparent documentation of how content has changed over time</li>
+            </ul>
+
+            <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
+
+            <h3 class="govuk-heading-m">Example 4: Structured Review Sessions (2i and Crit)</h3>
+
+            <p class="govuk-body"><strong>Situation:</strong><br>
+            Structured review sessions provide formal opportunities to review content, ensuring it's checked for accuracy, currency, and alignment with policy.</p>
+
+            <p class="govuk-body"><strong>Task:</strong><br>
+            Establish regular structured review sessions (2i and crit sessions) to review content systematically.</p>
+
+            <p class="govuk-body"><strong>Action:</strong></p>
+            <ul class="govuk-list govuk-list--bullet">
+                <li>2i (second pair of eyes) sessions for content review</li>
+                <li>Crit sessions for design and content critique</li>
+                <li>Regular scheduled sessions ensure content is reviewed</li>
+                <li>Multiple reviewers provide different perspectives</li>
+                <li>Content checked against policy, user needs, and design principles</li>
+            </ul>
+
+            <p class="govuk-body"><strong>Result:</strong></p>
+            <ul class="govuk-list govuk-list--bullet">
+                <li>Systematic content review through structured sessions</li>
+                <li>Multiple perspectives catch issues that might be missed</li>
+                <li>Content regularly checked for accuracy and currency</li>
+                <li>Review sessions ensure content aligns with policy</li>
+                <li>Formal process provides accountability for content quality</li>
+            </ul>
+
+            <h4 class="govuk-heading-s">Related design history</h4>
+            <ul class="govuk-list">
+                <li><a href="https://dxt-prototype-682ae311ff10.herokuapp.com/design-history/index.html" class="govuk-link" target="_blank" rel="noopener noreferrer">Design history index</a></li>
+            </ul>
+
+            {% from "govuk/components/pagination/macro.njk" import govukPagination %}
+
+            {{ govukPagination({
+            previous: {
+            labelText: "3. Iterating with time constraints",
+            href: "/titan-mvp-1.2/product-pages/resources/service-standard-8-evidence/section-3"
+            },
+            next: {
+            labelText: "5. Prioritising improvements",
+            href: "/titan-mvp-1.2/product-pages/resources/service-standard-8-evidence/section-5"
+            }
+            }) }}
+
+        </div>
+    </div>
+</div>
+{% endblock %}
+
