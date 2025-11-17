@@ -712,7 +712,19 @@ activeLinkId: "nav-design-history"
 
             <h3 class="govuk-heading-m">10. Page Conditions: Terminology and Discoverability</h3>
 
-            <p class="govuk-body"><strong>Context:</strong> Page conditions allow users to create conditional logic for form pages. Round 11 (March 2025) found terminology issues with 'operator' and discoverability problems. Round 12 and 13 refined the approach.</p>
+            <p class="govuk-body"><strong>Context:</strong> Page conditions allow users to create conditional logic for form pages. This is a complex feature that requires careful design to be both powerful and easy to use. The feature has been iterated across multiple research rounds, with each round revealing new insights and opportunities for improvement.</p>
+
+            <h4 class="govuk-heading-s govuk-!-margin-top-6">Continuous iteration across multiple research rounds</h4>
+            <p class="govuk-body">Page conditions demonstrate how complex features evolve through systematic iteration based on user feedback:</p>
+            <ul class="govuk-list govuk-list--bullet">
+                <li><strong>Round 2 (May/June 2024):</strong> Initial testing revealed terminology issues - "Conditions" label unclear, "Add or change conditions" page not clear. Content revised for clarity.</li>
+                <li><strong>Round 11 (March 2025):</strong> Found terminology issues with 'operator' confusing users, discoverability problems with conditions hidden until after saving questions, and not obvious that conditions only work if questions are on separate pages. Improved UI flow, terminology, and discoverability.</li>
+                <li><strong>Round 12 (March 2025):</strong> Moved 'Filter pages by condition' to left-hand pane (previously hidden in dropdown), revealed operator and renamed to 'Condition type' (plain English). Participants navigated adding conditions successfully through exploration.</li>
+                <li><strong>Round 13 (April 2025):</strong> Overall setup described as "very intuitive" and "super duper clear". Positive feedback on modularity and combining conditions. Enhanced success messages with clear CTAs, improved messaging about which pages conditions apply to.</li>
+                <li><strong>Latest iteration (Current):</strong> Enhanced condition creation tools, added condition reuse features, improved previews with natural language, created overview page for managing all conditions, added warnings when deleting conditions used in multiple places, type-specific flows for different question types. Addressed challenges with non-JavaScript users by ensuring progressive enhancement and fallback functionality.</li>
+            </ul>
+
+            <p class="govuk-body"><strong>Key learning:</strong> Complex features like page conditions require multiple iterations to get right. What starts as a basic implementation needs continuous refinement based on real user feedback. The feature demonstrates that iteration is never truly complete - there are always opportunities to improve based on new insights, changing user needs, and technical considerations. Most users now find it easy to use, but we continue learning more with each research round.</p>
 
             <div class="govuk-grid-row govuk-!-margin-top-4">
                 <div class="govuk-grid-column-full">
@@ -806,13 +818,111 @@ activeLinkId: "nav-design-history"
             <p class="govuk-body govuk-!-font-size-14 govuk-!-margin-top-0 govuk-!-margin-bottom-4" style="color: #505a5f;">— Participant 1, Round 12 (March 2025) - after moving filter to left-hand pane</p>
 
             <h4 class="govuk-heading-s">Impact</h4>
-            <ul class="govuk-list govuk-list--bullet">
-                <li>Plain English terminology improved understanding</li>
-                <li>Better discoverability with filter in left-hand pane</li>
-                <li>Type-specific flows match question behavior</li>
-                <li>Natural language previews reduce misunderstanding</li>
-                <li>Round 13: "Very intuitive" and "super duper clear"</li>
-            </ul>
+            <p class="govuk-body">The following visual comparisons demonstrate the improvements made through continuous iteration:</p>
+
+            <h5 class="govuk-heading-s govuk-!-margin-top-6">1. Plain English terminology improved understanding</h5>
+            <p class="govuk-body-s" style="color: #505a5f; margin-bottom: 15px;">'operator' renamed to 'Condition type' (plain English)</p>
+            <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; margin-top: 10px;">
+                <div style="padding: 10px; background-color: #f3f2f1; border: 2px solid #d4351c; border-radius: 4px;">
+                    <p class="govuk-body-s govuk-!-margin-0" style="font-weight: 700; color: #d4351c; margin-bottom: 8px;">Before (Round 11): Technical term 'operator'</p>
+                    <img src="/public/images/conditions/r11/create.png" alt="Round 11: Condition creation form with 'operator' terminology" style="width: 100%; border: 1px solid #b1b4b6; border-radius: 4px;">
+                    <p class="govuk-body-s govuk-!-margin-top-2" style="color: #505a5f;">Technical terminology confused users</p>
+                </div>
+                <div style="padding: 10px; background-color: #f3f2f1; border: 2px solid #00703c; border-radius: 4px;">
+                    <p class="govuk-body-s govuk-!-margin-0" style="font-weight: 700; color: #00703c; margin-bottom: 8px;">After (Round 13): Plain English 'Condition type'</p>
+                    <img src="/public/images/conditions/r13/create.png" alt="Round 13: Condition creation form with 'Condition type' in plain English" style="width: 100%; border: 1px solid #00703c; border-radius: 4px;">
+                    <p class="govuk-body-s govuk-!-margin-top-2" style="color: #505a5f;">Plain English improved understanding</p>
+                </div>
+            </div>
+
+            <h5 class="govuk-heading-s govuk-!-margin-top-6">2. Better discoverability with filter moved to left-hand pane</h5>
+            <p class="govuk-body-s" style="color: #505a5f; margin-bottom: 15px;">Filter previously hidden in dropdown, now visible in left-hand pane</p>
+            <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; margin-top: 10px;">
+                <div style="padding: 10px; background-color: #f3f2f1; border: 2px solid #d4351c; border-radius: 4px;">
+                    <p class="govuk-body-s govuk-!-margin-0" style="font-weight: 700; color: #d4351c; margin-bottom: 8px;">Before (Round 11): Filter hidden in dropdown</p>
+                    <img src="/public/images/conditions/r11/condition-filter.png" alt="Round 11: Filter pages by condition hidden in dropdown menu" style="width: 100%; border: 1px solid #b1b4b6; border-radius: 4px;">
+                    <p class="govuk-body-s govuk-!-margin-top-2" style="color: #505a5f;">Filter not easily discoverable</p>
+                </div>
+                <div style="padding: 10px; background-color: #f3f2f1; border: 2px solid #00703c; border-radius: 4px;">
+                    <p class="govuk-body-s govuk-!-margin-0" style="font-weight: 700; color: #00703c; margin-bottom: 8px;">After (Round 12 onwards): Filter in left-hand pane</p>
+                    <img src="/public/images/conditions/r12/01.png" alt="Round 12: Filter pages by condition visible in left-hand pane" style="width: 100%; border: 1px solid #00703c; border-radius: 4px;">
+                    <p class="govuk-body-s govuk-!-margin-top-2" style="color: #505a5f;">Filter now easily discoverable and accessible</p>
+                </div>
+            </div>
+
+            <h5 class="govuk-heading-s govuk-!-margin-top-6">3. Feature evolved to comprehensive condition management system</h5>
+            <p class="govuk-body-s" style="color: #505a5f; margin-bottom: 15px;">From basic condition creation to comprehensive management with overview and reuse capabilities</p>
+            <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; margin-top: 10px;">
+                <div style="padding: 10px; background-color: #f3f2f1; border: 2px solid #d4351c; border-radius: 4px;">
+                    <p class="govuk-body-s govuk-!-margin-0" style="font-weight: 700; color: #d4351c; margin-bottom: 8px;">Before (Round 11): Basic condition creation</p>
+                    <img src="/public/images/conditions/r11/page-overview.png" alt="Round 11: Basic page overview with simple conditions column" style="width: 100%; border: 1px solid #b1b4b6; border-radius: 4px;">
+                    <p class="govuk-body-s govuk-!-margin-top-2" style="color: #505a5f;">Simple list with basic functionality</p>
+                </div>
+                <div style="padding: 10px; background-color: #f3f2f1; border: 2px solid #00703c; border-radius: 4px;">
+                    <p class="govuk-body-s govuk-!-margin-0" style="font-weight: 700; color: #00703c; margin-bottom: 8px;">After (Round 13): Comprehensive conditions manager</p>
+                    <img src="/public/images/conditions/r13/manager.png" alt="Round 13: Comprehensive conditions manager with reusable conditions and clearer states" style="width: 100%; border: 1px solid #00703c; border-radius: 4px;">
+                    <p class="govuk-body-s govuk-!-margin-top-2" style="color: #505a5f;">Full management system with tick icons, status tags, and reuse options</p>
+                </div>
+            </div>
+
+            <h5 class="govuk-heading-s govuk-!-margin-top-6">4. Overview page showing all conditions</h5>
+            <p class="govuk-body-s" style="color: #505a5f; margin-bottom: 15px;">Dashboard-like view showing which conditions exist and where they apply</p>
+            <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; margin-top: 10px;">
+                <div style="padding: 10px; background-color: #f3f2f1; border: 2px solid #d4351c; border-radius: 4px;">
+                    <p class="govuk-body-s govuk-!-margin-0" style="font-weight: 700; color: #d4351c; margin-bottom: 8px;">Before (Round 11): Plain list of conditions</p>
+                    <img src="/public/images/conditions/r11/page-overview.png" alt="Round 11: Basic list view of conditions" style="width: 100%; border: 1px solid #b1b4b6; border-radius: 4px;">
+                    <p class="govuk-body-s govuk-!-margin-top-2" style="color: #505a5f;">Simple list without usage information</p>
+                </div>
+                <div style="padding: 10px; background-color: #f3f2f1; border: 2px solid #00703c; border-radius: 4px;">
+                    <p class="govuk-body-s govuk-!-margin-0" style="font-weight: 700; color: #00703c; margin-bottom: 8px;">After (Round 13): Overview with usage information</p>
+                    <img src="/public/images/conditions/r13/listing.png" alt="Round 13: Listing page overview showing all conditions and their current status" style="width: 100%; border: 1px solid #00703c; border-radius: 4px;">
+                    <p class="govuk-body-s govuk-!-margin-top-2" style="color: #505a5f;">Summary cards with usage info, tick icons, and status tags</p>
+                </div>
+            </div>
+
+            <h5 class="govuk-heading-s govuk-!-margin-top-6">5. Deletion warnings prevent breaking forms</h5>
+            <p class="govuk-body-s" style="color: #505a5f; margin-bottom: 15px;">Warnings when deleting conditions used in multiple places prevent accidental form breakage</p>
+            <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; margin-top: 10px;">
+                <div style="padding: 10px; background-color: #f3f2f1; border: 2px solid #d4351c; border-radius: 4px;">
+                    <p class="govuk-body-s govuk-!-margin-0" style="font-weight: 700; color: #d4351c; margin-bottom: 8px;">Before (Round 11): Simple confirmation</p>
+                    <div style="width: 100%; height: 200px; background-color: #fff; border: 1px solid #b1b4b6; border-radius: 4px; display: flex; align-items: center; justify-content: center;">
+                        <p class="govuk-body-s" style="color: #505a5f; text-align: center; padding: 20px;">Basic "Are you sure?" confirmation<br>No warning about usage</p>
+                    </div>
+                    <p class="govuk-body-s govuk-!-margin-top-2" style="color: #505a5f;">No protection against breaking forms</p>
+                </div>
+                <div style="padding: 10px; background-color: #f3f2f1; border: 2px solid #00703c; border-radius: 4px;">
+                    <p class="govuk-body-s govuk-!-margin-0" style="font-weight: 700; color: #00703c; margin-bottom: 8px;">After (Round 13): Warning with usage information</p>
+                    <img src="/public/images/conditions/r13/delete.png" alt="Round 13: Condition deletion interface with confirmation and usage warnings" style="width: 100%; border: 1px solid #00703c; border-radius: 4px;">
+                    <p class="govuk-body-s govuk-!-margin-top-2" style="color: #505a5f;">Warns if condition is used in multiple places</p>
+                </div>
+            </div>
+
+            <h5 class="govuk-heading-s govuk-!-margin-top-6">6. Combining multiple conditions</h5>
+            <p class="govuk-body-s" style="color: #505a5f; margin-bottom: 15px;">Enhanced interface for combining conditions with AND/OR operators</p>
+            <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; margin-top: 10px;">
+                <div style="padding: 10px; background-color: #f3f2f1; border: 2px solid #d4351c; border-radius: 4px;">
+                    <p class="govuk-body-s govuk-!-margin-0" style="font-weight: 700; color: #d4351c; margin-bottom: 8px;">Before (Round 11): Basic joint condition creation</p>
+                    <img src="/public/images/conditions/r11/create-joint.png" alt="Round 11: Create joint condition interface" style="width: 100%; border: 1px solid #b1b4b6; border-radius: 4px;">
+                    <p class="govuk-body-s govuk-!-margin-top-2" style="color: #505a5f;">Possible but felt clunky as separate branch</p>
+                </div>
+                <div style="padding: 10px; background-color: #f3f2f1; border: 2px solid #00703c; border-radius: 4px;">
+                    <p class="govuk-body-s govuk-!-margin-0" style="font-weight: 700; color: #00703c; margin-bottom: 8px;">After (Round 13): Integrated multi-condition flow</p>
+                    <img src="/public/images/conditions/r13/multi-condition.png" alt="Round 13: Multi-condition setup interface with AND/OR operators" style="width: 100%; border: 1px solid #00703c; border-radius: 4px;">
+                    <p class="govuk-body-s govuk-!-margin-top-2" style="color: #505a5f;">Fully integrated with natural language preview</p>
+                </div>
+            </div>
+
+            <div class="govuk-inset-text govuk-!-margin-top-6">
+                <p class="govuk-body"><strong>Additional improvements:</strong></p>
+                <ul class="govuk-list govuk-list--bullet govuk-!-margin-bottom-0">
+                    <li>Type-specific flows match question behavior for better accuracy and control</li>
+                    <li>Natural language previews reduce misunderstanding of how conditions will work</li>
+                    <li>Challenges with non-JavaScript users considered and addressed through progressive enhancement</li>
+                    <li>Most users find it easy to use - Round 13 feedback: "very intuitive", "super duper clear", "pretty straightforward"</li>
+                    <li>Feature continues to evolve - "it's never done" - with latest iteration building on positive feedback while addressing remaining user needs</li>
+                    <li>Always learning more - each research round reveals new insights that inform the next iteration</li>
+                </ul>
+            </div>
 
             <h4 class="govuk-heading-s">Related design history</h4>
             <ul class="govuk-list">

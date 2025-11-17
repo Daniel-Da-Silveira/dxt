@@ -157,6 +157,47 @@ activeLinkId: "nav-design-history"
                 <li>Users see their feedback leading to real improvements</li>
             </ul>
 
+            <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
+
+            <h3 class="govuk-heading-m">Example 4: Page Conditions – Continuous Iteration Over Multiple Research Rounds</h3>
+
+            <p class="govuk-body"><strong>Situation:</strong><br>
+            Page conditions allow users to create conditional logic for form pages, showing different questions based on previous answers. This is a complex feature that requires careful design to be both powerful and easy to use. The feature has been iterated across multiple research rounds, with each round revealing new insights and opportunities for improvement.</p>
+
+            <p class="govuk-body"><strong>Task:</strong><br>
+            Continuously improve page conditions based on user feedback, addressing terminology, discoverability, usability, and technical challenges while ensuring the feature remains accessible and works for users without JavaScript.</p>
+
+            <p class="govuk-body"><strong>Action:</strong></p>
+            <ul class="govuk-list govuk-list--bullet">
+                <li><strong>Round 2 (May/June 2024):</strong> Initial testing revealed terminology issues - "Conditions" label unclear, "Add or change conditions" page not clear. Content revised for clarity.</li>
+                <li><strong>Round 11 (March 2025):</strong> Found terminology issues with 'operator' confusing users, discoverability problems with conditions hidden until after saving questions, and not obvious that conditions only work if questions are on separate pages. Improved UI flow, terminology, and discoverability.</li>
+                <li><strong>Round 12 (March 2025):</strong> Moved 'Filter pages by condition' to left-hand pane (previously hidden in dropdown), revealed operator and renamed to 'Condition type' (plain English). Participants navigated adding conditions successfully through exploration.</li>
+                <li><strong>Round 13 (April 2025):</strong> Overall setup described as "very intuitive" and "super duper clear". Positive feedback on modularity and combining conditions. Enhanced success messages with clear CTAs, improved messaging about which pages conditions apply to.</li>
+                <li><strong>Latest iteration (Current):</strong> Enhanced condition creation tools, added condition reuse features, improved previews with natural language, created overview page for managing all conditions, added warnings when deleting conditions used in multiple places, type-specific flows for different question types.</li>
+                <li>Addressed challenges with non-JavaScript users by ensuring progressive enhancement and fallback functionality</li>
+                <li>Continuously learning from each research round and applying insights to improve the feature</li>
+            </ul>
+
+            <p class="govuk-body"><strong>Result:</strong></p>
+            <ul class="govuk-list govuk-list--bullet">
+                <li>Feature evolved from basic condition creation to comprehensive condition management system</li>
+                <li>Most users find it easy to use - Round 13 feedback: "very intuitive", "super duper clear", "pretty straightforward"</li>
+                <li>Terminology improved from technical terms ('operator') to plain English ('Condition type')</li>
+                <li>Discoverability significantly improved - filter moved to prominent location, conditions more visible</li>
+                <li>Deletion warnings prevent users from accidentally breaking forms when conditions are used in multiple places</li>
+                <li>Type-specific flows match question behavior for better accuracy and control</li>
+                <li>Natural language previews reduce misunderstanding of how conditions will work</li>
+                <li>Feature continues to evolve - "it's never done" - with latest iteration building on positive feedback while addressing remaining user needs</li>
+                <li>Always learning more - each research round reveals new insights that inform the next iteration</li>
+                <li>Challenges with non-JavaScript users considered and addressed in design decisions</li>
+            </ul>
+
+            <p class="govuk-body"><strong>Key learning:</strong> Complex features like page conditions require multiple iterations to get right. What starts as a basic implementation needs continuous refinement based on real user feedback. The feature demonstrates that iteration is never truly complete - there are always opportunities to improve based on new insights, changing user needs, and technical considerations.</p>
+
+            <h4 class="govuk-heading-s">Related design history</h4>
+            <ul class="govuk-list">
+                <li><a href="https://dxt-prototype-682ae311ff10.herokuapp.com/design-history/page-conditions/index.html" class="govuk-link" target="_blank" rel="noopener noreferrer">Page conditions</a></li>
+            </ul>
 
             {% from "govuk/components/pagination/macro.njk" import govukPagination %}
 
