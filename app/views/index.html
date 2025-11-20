@@ -38,8 +38,8 @@ researchRounds: [
 name: "Precise location questions",
 problem: "Users need to ask for location information other than address lines, such as coordinates and grid
 references.",
-status: "In progress",
-statusClass: "orange",
+status: "Tested",
+statusClass: "green",
 phase: "Private beta",
 type: "Question types",
 category: "Form editor",
@@ -48,6 +48,45 @@ researchRounds: [
 { round: 11, date: "" }
 ]
 },
+{
+  name: "Map view for location questions",
+  problem: "Users need to see a map view for location questions to help them select the correct location.",
+  status: "In progress",
+  statusClass: "orange",
+  phase: "Private beta",
+  type: "Question types",
+  category: "Form editor",
+  designHistoryHref: "",
+  researchRounds: [
+  { round: 11, date: "" }
+  ]
+  },
+  {
+    name: "Taking payments",
+    problem: "Users need to be able to take/make payments for their forms.",
+    status: "In progress",
+    statusClass: "orange",
+    phase: "Private beta",
+    type: "Question types",
+    category: "Form editor",
+    designHistoryHref: "",
+    researchRounds: [
+    { round: 11, date: "" }
+    ]
+    },
+    {
+      name: "Download submission data",
+      problem: "Users need to be able to download submission data.",
+      status: "In progress",
+      statusClass: "orange",
+      phase: "Private beta",
+      type: "Form management",
+      category: "Form overview",
+      designHistoryHref: "",
+      researchRounds: [
+      { round: 11, date: "" }
+      ]
+      },
 
 {
 
@@ -422,8 +461,7 @@ text: "Start latest prototype (Titan MVP 1.2)"
       {% set featureRow = [
       { text: feature.name },
       { text: feature.problem },
-      { html: '<strong class="govuk-tag govuk-tag--' + feature.statusClass + '">' + feature.status + '</strong>' },
-      { html: designHistoryLink }
+      { html: '<strong class="govuk-tag govuk-tag--' + feature.statusClass + '">' + feature.status + '</strong>' }
       ] %}
       {% set inProgressTableData = (inProgressTableData.push(featureRow), inProgressTableData) %}
       {% endif %}
@@ -443,8 +481,7 @@ text: "Start latest prototype (Titan MVP 1.2)"
       head: [
       { text: "Feature", attributes: { "aria-sort": "ascending" } },
       { text: "Problem statement" },
-      { text: "Status" },
-      { text: "Design history" }
+      { text: "Status" }
       ],
       rows: inProgressTableData
       })

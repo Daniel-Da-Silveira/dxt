@@ -1,0 +1,535 @@
+{% extends "layouts/main.html" %}
+{% from "components/service-header/macro.njk" import serviceHeader %}
+{% from "govuk/components/inset-text/macro.njk" import govukInsetText %}
+
+{% block pageTitle %}
+Page Conditions Evolution: Visualizations – Service Standard Point 8 Evidence – Defra Form Designer – GOV.UK Prototype Kit
+{% endblock %}
+
+{% block header %}
+{{ serviceHeader({
+organisationName: "Defra",
+productName: "Form Designer",
+serviceName: "Service assessment - Design team",
+homepageLink: "/titan-mvp-1.2/product-pages/homepage",
+signInLink: "/titan-mvp-1.2/library",
+showSupportLink: false,
+navigationItems: [
+{ href: "/index.html", text: "Design history", id: "nav-about" }
+],
+activeLinkId: "nav-design-history"
+}) }}
+
+<div class="x-govuk-masthead x-govuk-masthead--large">
+    <div class="govuk-width-container">
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-full-from-desktop">
+                <h1 class="x-govuk-masthead__title">
+                    <span class="govuk-caption-l" style="color: white;">Service Standard Assessment</span>
+                    Page Conditions Evolution: Visualizations
+                </h1>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-one-quarter app-contents-list--sticky govuk-!-padding-right-0">
+        {{ xGovukSubNavigation({
+        visuallyHiddenTitle: "Section navigation",
+        items: [{
+        text: "Service Standard Point 8 Evidence",
+        href: "/titan-mvp-1.2/product-pages/resources/service-standard-8-evidence",
+        parent: true,
+        children: [{
+        text: "Executive Summary",
+        href: "/titan-mvp-1.2/product-pages/resources/service-standard-8-evidence"
+        }, {
+        text: "1. Before and after",
+        href: "/titan-mvp-1.2/product-pages/resources/service-standard-8-evidence/section-1"
+        }, {
+        text: "2. Continued research and iteration",
+        href: "/titan-mvp-1.2/product-pages/resources/service-standard-8-evidence/section-2"
+        }, {
+        text: "3. Iterating with time constraints",
+        href: "/titan-mvp-1.2/product-pages/resources/service-standard-8-evidence/section-3"
+        }, {
+        text: "4. Content review and maintenance",
+        href: "/titan-mvp-1.2/product-pages/resources/service-standard-8-evidence/section-4"
+        }, {
+        text: "5. Prioritising improvements",
+        href: "/titan-mvp-1.2/product-pages/resources/service-standard-8-evidence/section-5"
+        }, {
+        text: "Summary",
+        href: "/titan-mvp-1.2/product-pages/resources/service-standard-8-evidence/summary"
+        }]
+        }]
+        }) }}
+    </div>
+    <div class="govuk-grid-column-two-thirds">
+        <div class="app-prose-scope">
+
+            <p class="govuk-body">This page presents the evolution of page conditions through 10 different visualization styles. Each style tells the same story in a different way so assessors can quickly see what changed, why, and when.</p>
+
+            <h2 class="govuk-heading-m">Visual styles on this page</h2>
+            <ol class="govuk-list govuk-list--number">
+                <li><a class="govuk-link" href="#style-1-storyboard">Storyboard panels (comic strip)</a></li>
+                <li><a class="govuk-link" href="#style-2-wireframe-timeline">Wireframe timeline</a></li>
+                <li><a class="govuk-link" href="#style-3-cutaway">Cutaway comparison (50/50 split)</a></li>
+                <li><a class="govuk-link" href="#style-4-change-highlights">Overlaid “change highlights”</a></li>
+                <li><a class="govuk-link" href="#style-5-layered">Layered progressive reveal</a></li>
+                <li><a class="govuk-link" href="#style-6-journey-map">UX journey map for UI evolution</a></li>
+                <li><a class="govuk-link" href="#style-7-flow-arrows">Simplified schematic flow arrows</a></li>
+                <li><a class="govuk-link" href="#style-8-blueprint">Faux “blueprint” style</a></li>
+                <li><a class="govuk-link" href="#style-9-desk">Photographic “desk” style</a></li>
+                <li><a class="govuk-link" href="#style-10-zoom">Macro‑change zooms</a></li>
+            </ol>
+
+            <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+
+            <h2 class="govuk-heading-l" id="style-1-storyboard">1. Storyboard panels (comic strip)</h2>
+            <p class="govuk-body">A visual narrative showing the user journey through different iterations:</p>
+
+            <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; margin: 30px 0; padding: 20px; background-color: #f3f2f1; border-radius: 4px;">
+                <div style="border: 2px solid #0b0c0c; padding: 15px; background-color: #fff; border-radius: 4px;">
+                    <div style="font-size: 12px; font-weight: 700; margin-bottom: 8px; color: #d4351c;">Round 2</div>
+                    <img src="/public/images/conditions/r2/add.png" alt="Round 2: Add or change conditions page" style="width: 100%; height: 120px; object-fit: cover; border: 1px solid #b1b4b6; border-radius: 4px; margin-bottom: 8px;">
+                    <div style="font-size: 11px; color: #505a5f;">"Conditions" label unclear</div>
+                </div>
+                <div style="border: 2px solid #0b0c0c; padding: 15px; background-color: #fff; border-radius: 4px;">
+                    <div style="font-size: 12px; font-weight: 700; margin-bottom: 8px; color: #d4351c;">Round 11</div>
+                    <img src="/public/images/conditions/r11/create.png" alt="Round 11: Create condition with operator term" style="width: 100%; height: 120px; object-fit: cover; border: 1px solid #b1b4b6; border-radius: 4px; margin-bottom: 8px;">
+                    <div style="font-size: 11px; color: #505a5f;">"operator" term, filter hidden</div>
+                </div>
+                <div style="border: 2px solid #0b0c0c; padding: 15px; background-color: #fff; border-radius: 4px;">
+                    <div style="font-size: 12px; font-weight: 700; margin-bottom: 8px; color: #00703c;">Round 12</div>
+                    <img src="/public/images/conditions/r12/01.png" alt="Round 12: Filter moved to left-hand pane" style="width: 100%; height: 120px; object-fit: cover; border: 1px solid #00703c; border-radius: 4px; margin-bottom: 8px;">
+                    <div style="font-size: 11px; color: #505a5f;">Filter moved, "Condition type"</div>
+                </div>
+                <div style="border: 2px solid #0b0c0c; padding: 15px; background-color: #fff; border-radius: 4px;">
+                    <div style="font-size: 12px; font-weight: 700; margin-bottom: 8px; color: #00703c;">Round 13+</div>
+                    <img src="/public/images/conditions/r13/manager.png" alt="Round 13: Comprehensive conditions manager" style="width: 100%; height: 120px; object-fit: cover; border: 1px solid #00703c; border-radius: 4px; margin-bottom: 8px;">
+                    <div style="font-size: 11px; color: #505a5f;">"Very intuitive" - Full system</div>
+                </div>
+            </div>
+
+            <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+
+            <h2 class="govuk-heading-l" id="style-2-wireframe-timeline">2. Wireframe timeline</h2>
+            <p class="govuk-body">Low-fidelity to mid-fidelity progression showing the main changes across rounds:</p>
+
+            <div style="position: relative; margin: 40px 0; padding: 30px 0; border-top: 3px solid #0b0c0c; border-bottom: 3px solid #0b0c0c;">
+                <div style="position: absolute; top: -15px; left: 0; width: 100%; height: 3px; background: linear-gradient(to right, #d4351c 0%, #d4351c 25%, #f47738 25%, #f47738 50%, #00703c 50%, #00703c 75%, #1d70b8 75%, #1d70b8 100%);"></div>
+
+                <div style="display: flex; justify-content: space-between; margin-top: 20px;">
+                    <div style="flex: 1; text-align: center; padding: 0 10px;">
+                        <div style="font-size: 11px; font-weight: 700; color: #d4351c; margin-bottom: 10px;">Round 2<br>May 2024</div>
+                        <div style="border: 2px solid #d4351c; padding: 5px; background-color: #fff; border-radius: 4px; margin-bottom: 10px;">
+                            <img src="/public/images/conditions/r2/add.png" alt="Round 2: Add conditions page" style="width: 100%; height: 100px; object-fit: cover; border-radius: 2px;">
+                        </div>
+                        <div style="font-size: 10px; color: #505a5f; font-style: italic;">"Conditions" unclear</div>
+                    </div>
+                    <div style="flex: 1; text-align: center; padding: 0 10px;">
+                        <div style="font-size: 11px; font-weight: 700; color: #f47738; margin-bottom: 10px;">Round 11<br>Mar 2025</div>
+                        <div style="border: 2px solid #f47738; padding: 5px; background-color: #fff; border-radius: 4px; margin-bottom: 10px;">
+                            <img src="/public/images/conditions/r11/page-overview.png" alt="Round 11: Page overview with hidden filter" style="width: 100%; height: 100px; object-fit: cover; border-radius: 2px;">
+                        </div>
+                        <div style="font-size: 10px; color: #505a5f; font-style: italic;">User confusion here</div>
+                    </div>
+                    <div style="flex: 1; text-align: center; padding: 0 10px;">
+                        <div style="font-size: 11px; font-weight: 700; color: #00703c; margin-bottom: 10px;">Round 12<br>Mar 2025</div>
+                        <div style="border: 2px solid #00703c; padding: 5px; background-color: #fff; border-radius: 4px; margin-bottom: 10px;">
+                            <img src="/public/images/conditions/r12/01.png" alt="Round 12: Filter in left-hand pane" style="width: 100%; height: 100px; object-fit: cover; border-radius: 2px;">
+                        </div>
+                        <div style="font-size: 10px; color: #505a5f; font-style: italic;">Simplified grouping</div>
+                    </div>
+                    <div style="flex: 1; text-align: center; padding: 0 10px;">
+                        <div style="font-size: 11px; font-weight: 700; color: #1d70b8; margin-bottom: 10px;">Round 13+<br>Apr 2025</div>
+                        <div style="border: 2px solid #1d70b8; padding: 5px; background-color: #fff; border-radius: 4px; margin-bottom: 10px;">
+                            <img src="/public/images/conditions/r13/manager.png" alt="Round 13: Full conditions manager" style="width: 100%; height: 100px; object-fit: cover; border-radius: 2px;">
+                        </div>
+                        <div style="font-size: 10px; color: #505a5f; font-style: italic;">Refined & polished</div>
+                    </div>
+                </div>
+            </div>
+
+            <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+
+            <h2 class="govuk-heading-l" id="style-3-cutaway">3. Cutaway comparison (50/50 split)</h2>
+            <p class="govuk-body">Side-by-side comparison of before and after states:</p>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0; margin: 30px 0; border: 3px solid #0b0c0c; border-radius: 4px; overflow: hidden;">
+                <div style="padding: 20px; background-color: #fff3f3; border-right: 2px solid #0b0c0c;">
+                    <h3 class="govuk-heading-s" style="color: #d4351c; margin-top: 0;">Before (Round 11)</h3>
+                    <div style="border: 2px solid #d4351c; padding: 5px; background-color: #fff; border-radius: 4px; margin-bottom: 15px;">
+                        <img src="/public/images/conditions/r11/create.png" alt="Round 11: Condition creation with operator term" style="width: 100%; height: 250px; object-fit: cover; border-radius: 2px;">
+                    </div>
+                    <ul class="govuk-list govuk-list--bullet govuk-body-s" style="color: #505a5f;">
+                        <li>Technical terminology ("operator")</li>
+                        <li>Poor discoverability</li>
+                        <li>Basic functionality</li>
+                    </ul>
+                </div>
+                <div style="padding: 20px; background-color: #f0f9f4;">
+                    <h3 class="govuk-heading-s" style="color: #00703c; margin-top: 0;">After (Round 13+)</h3>
+                    <div style="border: 2px solid #00703c; padding: 5px; background-color: #fff; border-radius: 4px; margin-bottom: 15px;">
+                        <img src="/public/images/conditions/r13/create.png" alt="Round 13: Condition creation with Condition type" style="width: 100%; height: 250px; object-fit: cover; border-radius: 2px;">
+                    </div>
+                    <ul class="govuk-list govuk-list--bullet govuk-body-s" style="color: #505a5f;">
+                        <li>Plain English terminology ("Condition type")</li>
+                        <li>Clear discoverability</li>
+                        <li>Comprehensive system</li>
+                    </ul>
+                </div>
+            </div>
+
+            <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+
+            <h2 class="govuk-heading-l" id="style-4-change-highlights">4. Overlaid “change highlights”</h2>
+            <p class="govuk-body">Screenshot with colored callouts showing additions, removals, and changes:</p>
+
+            <div style="position: relative; margin: 30px 0; border: 2px solid #0b0c0c; border-radius: 4px; padding: 20px; background-color: #fff;">
+                <div style="position: relative; border: 1px solid #b1b4b6; border-radius: 4px; overflow: hidden;">
+                    <!-- Base screenshot -->
+                    <img src="/public/images/conditions/r13/manager.png" alt="Round 13: Conditions manager with change highlights" style="width: 100%; display: block;">
+
+                    <!-- Green highlight 1: Condition reuse -->
+                    <div style="position: absolute; top: 20%; left: 5%; width: 18%; height: 10%; border: 3px solid #00703c; background-color: rgba(0, 112, 60, 0.2); border-radius: 4px; pointer-events: none;">
+                        <div style="position: absolute; top: -30px; left: 0; font-size: 11px; font-weight: 700; color: #00703c; white-space: nowrap; background-color: #fff; padding: 2px 5px; border-radius: 2px;">
+                            ✓ Added: Condition reuse
+                        </div>
+                    </div>
+
+                    <!-- Green highlight 2: Overview cards -->
+                    <div style="position: absolute; top: 50%; right: 10%; width: 20%; height: 12%; border: 3px solid #00703c; background-color: rgba(0, 112, 60, 0.2); border-radius: 4px; pointer-events: none;">
+                        <div style="position: absolute; top: -30px; right: 0; font-size: 11px; font-weight: 700; color: #00703c; white-space: nowrap; background-color: #fff; padding: 2px 5px; border-radius: 2px;">
+                            ✓ Added: Overview cards
+                        </div>
+                    </div>
+
+                    <!-- Blue for changed: Terminology -->
+                    <div style="position: absolute; top: 35%; left: 30%; width: 22%; height: 8%; border: 3px solid #1d70b8; background-color: rgba(29, 112, 184, 0.2); border-radius: 4px; pointer-events: none;">
+                        <div style="position: absolute; top: -30px; left: 0; font-size: 11px; font-weight: 700; color: #1d70b8; white-space: nowrap; background-color: #fff; padding: 2px 5px; border-radius: 2px;">
+                            ↻ Changed: "operator" → "Condition type"
+                        </div>
+                    </div>
+
+                    <!-- Blue for changed: Multi-condition -->
+                    <div style="position: absolute; top: 70%; left: 25%; width: 25%; height: 10%; border: 3px solid #1d70b8; background-color: rgba(29, 112, 184, 0.2); border-radius: 4px; pointer-events: none;">
+                        <div style="position: absolute; top: -30px; left: 0; font-size: 11px; font-weight: 700; color: #1d70b8; white-space: nowrap; background-color: #fff; padding: 2px 5px; border-radius: 2px;">
+                            ↻ Changed: Integrated multi-condition flow
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div style="margin-top: 20px; padding: 15px; background-color: #f3f2f1; border-radius: 4px;">
+                <p class="govuk-body-s govuk-!-margin-0"><strong>Legend:</strong></p>
+                <div style="display: flex; gap: 20px; margin-top: 10px;">
+                    <div style="display: flex; align-items: center; gap: 8px;">
+                        <div style="width: 20px; height: 20px; border: 3px solid #00703c; background-color: rgba(0, 112, 60, 0.1);"></div>
+                        <span class="govuk-body-s">Added elements</span>
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 8px;">
+                        <div style="width: 20px; height: 20px; border: 2px dashed #d4351c; background-color: rgba(212, 53, 28, 0.1);"></div>
+                        <span class="govuk-body-s">Removed elements</span>
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 8px;">
+                        <div style="width: 20px; height: 20px; border: 3px solid #1d70b8; background-color: rgba(29, 112, 184, 0.1);"></div>
+                        <span class="govuk-body-s">Changed elements</span>
+                    </div>
+                </div>
+            </div>
+
+            <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+
+            <h2 class="govuk-heading-l" id="style-5-layered">5. Layered progressive reveal</h2>
+            <p class="govuk-body">Geological strata showing how each iteration builds on the previous:</p>
+
+            <div style="position: relative; margin: 40px 0; min-height: 500px;">
+                <!-- Base layer (Round 2) -->
+                <div style="position: absolute; top: 0; left: 0; right: 0; padding: 15px; background-color: rgba(243, 242, 241, 0.9); border: 2px solid #b1b4b6; border-radius: 4px; z-index: 1;">
+                    <div style="font-size: 12px; font-weight: 700; color: #505a5f; margin-bottom: 10px;">Base Layer: Round 2 (May 2024)</div>
+                    <img src="/public/images/conditions/r2/add.png" alt="Round 2: Basic condition setup" style="width: 100%; height: 150px; object-fit: cover; border: 1px dashed #b1b4b6; border-radius: 4px;">
+                    <div style="margin-top: 10px; font-size: 11px; color: #505a5f; font-style: italic;">"Conditions" label unclear</div>
+                </div>
+
+                <!-- Layer 2 (Round 11) -->
+                <div style="position: absolute; top: 30px; left: 30px; right: 30px; padding: 15px; background-color: rgba(255, 243, 243, 0.85); border: 2px solid #d4351c; border-radius: 4px; z-index: 2;">
+                    <div style="font-size: 12px; font-weight: 700; color: #d4351c; margin-bottom: 10px;">Layer 2: Round 11 (March 2025)</div>
+                    <img src="/public/images/conditions/r11/create.png" alt="Round 11: Operator term, filter hidden" style="width: 100%; height: 150px; object-fit: cover; border: 1px solid #d4351c; border-radius: 4px;">
+                    <div style="margin-top: 10px; font-size: 11px; color: #505a5f; font-style: italic;">Callout: Terminology issues identified</div>
+                </div>
+
+                <!-- Layer 3 (Round 12) -->
+                <div style="position: absolute; top: 60px; left: 60px; right: 60px; padding: 15px; background-color: rgba(255, 247, 237, 0.9); border: 2px solid #f47738; border-radius: 4px; z-index: 3;">
+                    <div style="font-size: 12px; font-weight: 700; color: #f47738; margin-bottom: 10px;">Layer 3: Round 12 (March 2025)</div>
+                    <img src="/public/images/conditions/r12/01.png" alt="Round 12: Filter moved, Condition type" style="width: 100%; height: 150px; object-fit: cover; border: 1px solid #f47738; border-radius: 4px;">
+                    <div style="margin-top: 10px; font-size: 11px; color: #505a5f; font-style: italic;">Callout: Discoverability improved</div>
+                </div>
+
+                <!-- Layer 4 (Round 13+) -->
+                <div style="position: absolute; top: 90px; left: 90px; right: 90px; padding: 15px; background-color: rgba(240, 249, 244, 0.95); border: 2px solid #00703c; border-radius: 4px; z-index: 4;">
+                    <div style="font-size: 12px; font-weight: 700; color: #00703c; margin-bottom: 10px;">Top Layer: Round 13+ (April 2025)</div>
+                    <img src="/public/images/conditions/r13/manager.png" alt="Round 13: Full management system" style="width: 100%; height: 150px; object-fit: cover; border: 2px solid #00703c; border-radius: 4px;">
+                    <div style="margin-top: 10px; font-size: 11px; color: #00703c; font-style: italic; font-weight: 700;">Callout: "Very intuitive" - User success!</div>
+                </div>
+            </div>
+
+            <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+
+            <h2 class="govuk-heading-l" id="style-6-journey-map">6. UX journey map for UI evolution</h2>
+            <p class="govuk-body">A compact journey map showing how navigation, information hierarchy, interaction patterns, accessibility and components improved across rounds:</p>
+
+            <div style="overflow-x: auto; margin: 30px 0;">
+                <table style="width: 100%; border-collapse: collapse; min-width: 800px;">
+                    <thead>
+                        <tr style="background-color: #f3f2f1;">
+                            <th style="border: 1px solid #b1b4b6; padding: 10px; text-align: left; font-size: 14px; font-weight: 700;">Theme</th>
+                            <th style="border: 1px solid #b1b4b6; padding: 10px; text-align: center; font-size: 12px; font-weight: 700; color: #d4351c;">Round 2</th>
+                            <th style="border: 1px solid #b1b4b6; padding: 10px; text-align: center; font-size: 12px; font-weight: 700; color: #d4351c;">Round 11</th>
+                            <th style="border: 1px solid #b1b4b6; padding: 10px; text-align: center; font-size: 12px; font-weight: 700; color: #f47738;">Round 12</th>
+                            <th style="border: 1px solid #b1b4b6; padding: 10px; text-align: center; font-size: 12px; font-weight: 700; color: #00703c;">Round 13+</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td style="border: 1px solid #b1b4b6; padding: 10px; font-weight: 700; background-color: #f9f9f9;">Navigation</td>
+                            <td style="border: 1px solid #b1b4b6; padding: 10px; text-align: center; font-size: 11px; color: #505a5f;">Basic links</td>
+                            <td style="border: 1px solid #b1b4b6; padding: 10px; text-align: center; font-size: 11px; color: #d4351c;">Filter hidden</td>
+                            <td style="border: 1px solid #b1b4b6; padding: 10px; text-align: center; font-size: 11px; color: #00703c; font-weight: 700;">Filter visible</td>
+                            <td style="border: 1px solid #b1b4b6; padding: 10px; text-align: center; font-size: 11px; color: #00703c; font-weight: 700;">Left pane</td>
+                        </tr>
+                        <tr>
+                            <td style="border: 1px solid #b1b4b6; padding: 10px; font-weight: 700; background-color: #f9f9f9;">Information hierarchy</td>
+                            <td style="border: 1px solid #b1b4b6; padding: 10px; text-align: center; font-size: 11px; color: #505a5f;">Unclear labels</td>
+                            <td style="border: 1px solid #b1b4b6; padding: 10px; text-align: center; font-size: 11px; color: #d4351c;">Technical terms</td>
+                            <td style="border: 1px solid #b1b4b6; padding: 10px; text-align: center; font-size: 11px; color: #00703c;">Plain English</td>
+                            <td style="border: 1px solid #b1b4b6; padding: 10px; text-align: center; font-size: 11px; color: #00703c; font-weight: 700;">Natural language</td>
+                        </tr>
+                        <tr>
+                            <td style="border: 1px solid #b1b4b6; padding: 10px; font-weight: 700; background-color: #f9f9f9;">Interaction pattern</td>
+                            <td style="border: 1px solid #b1b4b6; padding: 10px; text-align: center; font-size: 11px; color: #505a5f;">Simple forms</td>
+                            <td style="border: 1px solid #b1b4b6; padding: 10px; text-align: center; font-size: 11px; color: #d4351c;">Generic flow</td>
+                            <td style="border: 1px solid #b1b4b6; padding: 10px; text-align: center; font-size: 11px; color: #00703c;">Type-specific</td>
+                            <td style="border: 1px solid #b1b4b6; padding: 10px; text-align: center; font-size: 11px; color: #00703c; font-weight: 700;">Full system</td>
+                        </tr>
+                        <tr>
+                            <td style="border: 1px solid #b1b4b6; padding: 10px; font-weight: 700; background-color: #f9f9f9;">Accessibility</td>
+                            <td style="border: 1px solid #b1b4b6; padding: 10px; text-align: center; font-size: 11px; color: #505a5f;">Basic</td>
+                            <td style="border: 1px solid #b1b4b6; padding: 10px; text-align: center; font-size: 11px; color: #d4351c;">Issues found</td>
+                            <td style="border: 1px solid #b1b4b6; padding: 10px; text-align: center; font-size: 11px; color: #00703c;">Improved</td>
+                            <td style="border: 1px solid #b1b4b6; padding: 10px; text-align: center; font-size: 11px; color: #00703c; font-weight: 700;">Progressive enhancement</td>
+                        </tr>
+                        <tr>
+                            <td style="border: 1px solid #b1b4b6; padding: 10px; font-weight: 700; background-color: #f9f9f9;">Component changes</td>
+                            <td style="border: 1px solid #b1b4b6; padding: 10px; text-align: center; font-size: 11px; color: #505a5f;">Basic inputs</td>
+                            <td style="border: 1px solid #b1b4b6; padding: 10px; text-align: center; font-size: 11px; color: #d4351c;">Dropdown filter</td>
+                            <td style="border: 1px solid #b1b4b6; padding: 10px; text-align: center; font-size: 11px; color: #00703c;">Pane filter</td>
+                            <td style="border: 1px solid #b1b4b6; padding: 10px; text-align: center; font-size: 11px; color: #00703c; font-weight: 700;">Overview cards</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+
+            <h2 class="govuk-heading-l" id="style-7-flow-arrows">7. Simplified schematic “flow arrows”</h2>
+            <p class="govuk-body">Key screens as simple blocks, connected by arrows to show how the flow became more powerful and easier to follow:</p>
+
+            <div style="margin: 40px 0; padding: 30px; background-color: #f3f2f1; border-radius: 4px;">
+                <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 20px;">
+                    <div style="flex: 1; min-width: 150px;">
+                        <div style="border: 2px solid #d4351c; padding: 10px; background-color: #fff; border-radius: 4px; text-align: center;">
+                            <div style="font-size: 11px; font-weight: 700; color: #d4351c; margin-bottom: 10px;">Round 11</div>
+                            <img src="/public/images/conditions/r11/create.png" alt="Round 11: Basic condition creation" style="width: 100%; height: 100px; object-fit: cover; border: 1px solid #d4351c; border-radius: 4px; margin-bottom: 10px;">
+                            <div style="font-size: 10px; color: #505a5f;">Simple, generic flow</div>
+                        </div>
+                    </div>
+                    <div style="font-size: 24px; color: #00703c; font-weight: 700;">→</div>
+                    <div style="flex: 1; min-width: 150px;">
+                        <div style="border: 2px solid #f47738; padding: 10px; background-color: #fff; border-radius: 4px; text-align: center;">
+                            <div style="font-size: 11px; font-weight: 700; color: #f47738; margin-bottom: 10px;">Round 12</div>
+                            <img src="/public/images/conditions/r12/01.png" alt="Round 12: Improved terminology" style="width: 100%; height: 100px; object-fit: cover; border: 1px solid #f47738; border-radius: 4px; margin-bottom: 10px;">
+                            <div style="font-size: 10px; color: #505a5f;">Plain English terms</div>
+                        </div>
+                    </div>
+                    <div style="font-size: 24px; color: #00703c; font-weight: 700;">→</div>
+                    <div style="flex: 1; min-width: 150px;">
+                        <div style="border: 2px solid #00703c; padding: 10px; background-color: #fff; border-radius: 4px; text-align: center;">
+                            <div style="font-size: 11px; font-weight: 700; color: #00703c; margin-bottom: 10px;">Round 13+</div>
+                            <img src="/public/images/conditions/r13/multi-condition.png" alt="Round 13: Multi-condition flow" style="width: 100%; height: 100px; object-fit: cover; border: 2px solid #00703c; border-radius: 4px; margin-bottom: 10px;">
+                            <div style="font-size: 10px; color: #00703c; font-weight: 700;">Full system</div>
+                        </div>
+                    </div>
+                </div>
+                <div style="margin-top: 30px; padding: 15px; background-color: #fff; border-left: 4px solid #00703c; border-radius: 4px;">
+                    <p class="govuk-body-s govuk-!-margin-0" style="color: #505a5f;"><strong>Key improvements:</strong> Evolution from simple condition creation to comprehensive system with type-specific flows, multi-condition support, natural language previews, condition reuse, and full management capabilities.</p>
+                </div>
+            </div>
+
+            <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+
+            <h2 class="govuk-heading-l" id="style-8-blueprint">8. Faux “blueprint” style</h2>
+            <p class="govuk-body">A blueprint-style summary that shows which elements changed in which iteration:</p>
+
+            <div style="margin: 30px 0; padding: 30px; background: linear-gradient(90deg, #e8f4f8 0%, #f0f9f4 100%); border: 3px solid #1d70b8; border-radius: 4px; position: relative;">
+                <div style="position: absolute; top: 10px; right: 10px; font-size: 10px; color: #1d70b8; font-weight: 700; background-color: #fff; padding: 5px 10px; border-radius: 4px; border: 1px solid #1d70b8;">
+                    BLUEPRINT - PAGE CONDITIONS
+                </div>
+
+                <div style="border: 2px dashed #1d70b8; padding: 20px; background-color: #fff; border-radius: 4px; margin-top: 30px;">
+                    <div style="display: grid; grid-template-columns: 1fr 2fr; gap: 20px; margin-bottom: 20px;">
+                        <div style="border: 1px solid #1d70b8; padding: 15px; background-color: #f3f2f1;">
+                            <div style="font-size: 10px; color: #1d70b8; font-weight: 700; margin-bottom: 5px;">LEFT PANE</div>
+                            <div style="font-size: 9px; color: #505a5f; line-height: 1.4;">
+                                Filter pages<br>
+                                by condition<br>
+                                <span style="color: #00703c; font-weight: 700;">[Iteration 5]</span>
+                            </div>
+                        </div>
+                        <div style="border: 1px solid #1d70b8; padding: 15px; background-color: #fff;">
+                            <div style="font-size: 10px; color: #1d70b8; font-weight: 700; margin-bottom: 5px;">MAIN CONTENT</div>
+                            <div style="font-size: 9px; color: #505a5f; line-height: 1.4;">
+                                Condition type<br>
+                                <span style="color: #00703c; font-weight: 700;">[Research round 3]</span><br>
+                                Natural language preview<br>
+                                <span style="color: #00703c; font-weight: 700;">[Iteration 5]</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div style="border-top: 2px dashed #1d70b8; padding-top: 15px; margin-top: 15px;">
+                        <div style="display: flex; gap: 15px; font-size: 9px; color: #1d70b8;">
+                            <div style="flex: 1; border: 1px solid #1d70b8; padding: 8px; background-color: #fff;">
+                                <strong>Prototype 1</strong><br>
+                                Round 2 - Basic
+                            </div>
+                            <div style="flex: 1; border: 1px solid #1d70b8; padding: 8px; background-color: #fff;">
+                                <strong>Research round 3</strong><br>
+                                Round 11 - Issues found
+                            </div>
+                            <div style="flex: 1; border: 1px solid #1d70b8; padding: 8px; background-color: #fff;">
+                                <strong>Iteration 5</strong><br>
+                                Round 13+ - Refined
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+
+            <h2 class="govuk-heading-l" id="style-9-desk">9. Photographic “desk” style</h2>
+            <p class="govuk-body">Each iteration shown like printed screenshots on a designer’s desk, with Post-it notes capturing insights:</p>
+
+            <div style="margin: 40px 0; padding: 40px; background: linear-gradient(135deg, #f3f2f1 0%, #e8e8e8 100%); border-radius: 4px; position: relative; min-height: 400px;">
+                <!-- Paper 1 (Round 2) -->
+                <div style="position: absolute; top: 20px; left: 20px; width: 200px; padding: 15px; background-color: #fff; border: 1px solid #b1b4b6; box-shadow: 2px 2px 8px rgba(0,0,0,0.1); transform: rotate(-3deg);">
+                    <div style="font-size: 11px; font-weight: 700; color: #d4351c; margin-bottom: 8px;">Round 2</div>
+                    <img src="/public/images/conditions/r2/add.png" alt="Round 2: Basic design" style="width: 100%; height: 120px; object-fit: cover; border: 1px solid #b1b4b6; border-radius: 2px;">
+                    <div style="position: absolute; top: -10px; right: -10px; width: 60px; height: 60px; background-color: #ffeb3b; border: 1px solid #b1b4b6; transform: rotate(15deg); padding: 5px; font-size: 9px; color: #0b0c0c;">
+                        "Conditions" unclear
+                    </div>
+                </div>
+
+                <!-- Paper 2 (Round 11) -->
+                <div style="position: absolute; top: 60px; left: 180px; width: 200px; padding: 15px; background-color: #fff; border: 1px solid #b1b4b6; box-shadow: 2px 2px 8px rgba(0,0,0,0.1); transform: rotate(2deg);">
+                    <div style="font-size: 11px; font-weight: 700; color: #d4351c; margin-bottom: 8px;">Round 11</div>
+                    <img src="/public/images/conditions/r11/create.png" alt="Round 11: Operator term" style="width: 100%; height: 120px; object-fit: cover; border: 1px solid #d4351c; border-radius: 2px;">
+                    <div style="position: absolute; top: -10px; left: -10px; width: 60px; height: 60px; background-color: #ff9800; border: 1px solid #b1b4b6; transform: rotate(-10deg); padding: 5px; font-size: 9px; color: #fff;">
+                        Filter hidden!
+                    </div>
+                </div>
+
+                <!-- Paper 3 (Round 12) -->
+                <div style="position: absolute; top: 100px; left: 340px; width: 200px; padding: 15px; background-color: #fff; border: 1px solid #b1b4b6; box-shadow: 2px 2px 8px rgba(0,0,0,0.1); transform: rotate(-1deg);">
+                    <div style="font-size: 11px; font-weight: 700; color: #f47738; margin-bottom: 8px;">Round 12</div>
+                    <img src="/public/images/conditions/r12/01.png" alt="Round 12: Filter moved" style="width: 100%; height: 120px; object-fit: cover; border: 1px solid #f47738; border-radius: 2px;">
+                    <div style="position: absolute; top: -10px; right: -10px; width: 60px; height: 60px; background-color: #4caf50; border: 1px solid #b1b4b6; transform: rotate(12deg); padding: 5px; font-size: 9px; color: #fff;">
+                        Better!
+                    </div>
+                </div>
+
+                <!-- Paper 4 (Round 13+) -->
+                <div style="position: absolute; top: 140px; left: 500px; width: 200px; padding: 15px; background-color: #fff; border: 2px solid #00703c; box-shadow: 3px 3px 12px rgba(0,0,0,0.15); transform: rotate(1deg);">
+                    <div style="font-size: 11px; font-weight: 700; color: #00703c; margin-bottom: 8px;">Round 13+</div>
+                    <img src="/public/images/conditions/r13/manager.png" alt="Round 13: Full system" style="width: 100%; height: 120px; object-fit: cover; border: 2px solid #00703c; border-radius: 2px;">
+                    <div style="position: absolute; top: -10px; left: -10px; width: 70px; height: 70px; background-color: #00703c; border: 1px solid #b1b4b6; transform: rotate(-8deg); padding: 5px; font-size: 9px; color: #fff; font-weight: 700;">
+                        "Very intuitive"!
+                    </div>
+                </div>
+            </div>
+
+            <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+
+            <h2 class="govuk-heading-l" id="style-10-zoom">10. Macro‑change zooms</h2>
+            <p class="govuk-body">Zoomed-out page view with focused callouts on the most important changes:</p>
+
+            <div style="margin: 30px 0; position: relative;">
+                <!-- Zoomed out view -->
+                <div style="border: 2px solid #0b0c0c; padding: 15px; background-color: #f3f2f1; border-radius: 4px; margin-bottom: 30px;">
+                    <div style="font-size: 12px; font-weight: 700; margin-bottom: 10px; color: #0b0c0c;">Full Page View - Round 13+</div>
+                    <div style="position: relative; border: 1px solid #b1b4b6; border-radius: 4px; overflow: hidden;">
+                        <img src="/public/images/conditions/r13/manager.png" alt="Round 13: Full conditions manager with zoom callouts" style="width: 100%; display: block;">
+
+                        <!-- Zoom callout 1: Terminology -->
+                        <div style="position: absolute; top: 30%; left: 30%; width: 20%; height: 8%; border: 3px solid #1d70b8; background-color: rgba(29, 112, 184, 0.2); border-radius: 4px; pointer-events: none;"></div>
+                        <div style="position: absolute; top: -90px; left: 30%; width: 250px; padding: 10px; background-color: #fff; border: 2px solid #1d70b8; border-radius: 4px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
+                            <div style="font-size: 11px; font-weight: 700; color: #1d70b8; margin-bottom: 5px;">Zoom 1: Terminology Change</div>
+                            <div style="font-size: 10px; color: #505a5f; margin-bottom: 5px;"><strong>Change:</strong> "operator" → "Condition type"</div>
+                            <div style="font-size: 10px; color: #505a5f; margin-bottom: 5px;"><strong>Rationale:</strong> Plain English improved understanding</div>
+                            <div style="font-size: 10px; color: #1d70b8; font-weight: 700;"><strong>Version:</strong> Round 12</div>
+                        </div>
+
+                        <!-- Zoom callout 2: Condition reuse -->
+                        <div style="position: absolute; top: 20%; left: 5%; width: 18%; height: 10%; border: 3px solid #00703c; background-color: rgba(0, 112, 60, 0.2); border-radius: 4px; pointer-events: none;"></div>
+                        <div style="position: absolute; top: 50%; left: 5%; width: 250px; padding: 10px; background-color: #fff; border: 2px solid #00703c; border-radius: 4px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
+                            <div style="font-size: 11px; font-weight: 700; color: #00703c; margin-bottom: 5px;">Zoom 2: Condition Reuse</div>
+                            <div style="font-size: 10px; color: #505a5f; margin-bottom: 5px;"><strong>Change:</strong> Added ability to reuse existing conditions</div>
+                            <div style="font-size: 10px; color: #505a5f; margin-bottom: 5px;"><strong>Rationale:</strong> Reduces repetition, saves time</div>
+                            <div style="font-size: 10px; color: #00703c; font-weight: 700;"><strong>Version:</strong> Round 13+</div>
+                        </div>
+
+                        <!-- Zoom callout 3: Overview cards -->
+                        <div style="position: absolute; top: 50%; right: 10%; width: 20%; height: 12%; border: 3px solid #00703c; background-color: rgba(0, 112, 60, 0.2); border-radius: 4px; pointer-events: none;"></div>
+                        <div style="position: absolute; top: 75%; right: 10%; width: 250px; padding: 10px; background-color: #fff; border: 2px solid #00703c; border-radius: 4px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
+                            <div style="font-size: 11px; font-weight: 700; color: #00703c; margin-bottom: 5px;">Zoom 3: Overview Cards</div>
+                            <div style="font-size: 10px; color: #505a5f; margin-bottom: 5px;"><strong>Change:</strong> Dashboard view with usage info</div>
+                            <div style="font-size: 10px; color: #505a5f; margin-bottom: 5px;"><strong>Rationale:</strong> Better condition management</div>
+                            <div style="font-size: 10px; color: #00703c; font-weight: 700;"><strong>Version:</strong> Round 13+</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="govuk-inset-text govuk-!-margin-top-6">
+                <p class="govuk-body"><strong>Summary:</strong> These 10 visualization styles demonstrate the comprehensive evolution of page conditions from Round 2 (May 2024) through to the latest iteration (Round 13+, April 2025). Each style offers a unique perspective on how continuous iteration, based on user research and feedback, has transformed a complex feature into an intuitive and powerful tool.</p>
+            </div>
+
+            <h4 class="govuk-heading-s">Related design history</h4>
+            <ul class="govuk-list">
+                <li><a href="https://dxt-prototype-682ae311ff10.herokuapp.com/design-history/page-conditions/index.html" class="govuk-link" target="_blank" rel="noopener noreferrer">Page conditions</a></li>
+                <li><a href="/titan-mvp-1.2/product-pages/resources/service-standard-8-evidence/section-1#page-conditions" class="govuk-link">Back to Page Conditions section</a></li>
+            </ul>
+
+            {% from "govuk/components/pagination/macro.njk" import govukPagination %}
+
+            {{ govukPagination({
+            previous: {
+            labelText: "1. Before and after",
+            href: "/titan-mvp-1.2/product-pages/resources/service-standard-8-evidence/section-1"
+            },
+            next: {
+            labelText: "2. Continued research and iteration",
+            href: "/titan-mvp-1.2/product-pages/resources/service-standard-8-evidence/section-2"
+            }
+            }) }}
+
+        </div>
+    </div>
+</div>
+{% endblock %}
+
