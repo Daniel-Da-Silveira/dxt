@@ -1,0 +1,99 @@
+{% from "./_label_size_macro.html" import get_label_size -%}
+{% from "govuk/components/details/macro.njk" import govukDetails -%}
+{% from "govuk/components/radios/macro.njk" import govukRadios -%}
+
+{%- set page_heading = data['pageHeadingLocationUserChoice'] if data is defined and data['pageHeadingLocationUserChoice'] else false -%}
+{%- set question_count = currentPage.questions | length if currentPage and currentPage.questions else 1 -%}
+{%- set labelSize = get_label_size(page_heading, question_count, true) -%}
+
+<div class="govuk-form-group">
+    <fieldset class="govuk-fieldset">
+        <legend class="govuk-fieldset__legend govuk-fieldset__legend--{{ labelSize }}">
+            {{ question.label }}{% if question.isOptional %} (optional){% endif %}
+        </legend>
+
+        {%- if question.hint -%}
+        <div id="location-user-choice-hint" class="govuk-hint">{{ question.hint }}</div>
+        {%- endif -%}
+
+        {# Render radio buttons for location method selection #}
+        {%- if question.acceptAllLocationTypes -%}
+        {%- set locationMethods = ['address', 'easting_northing', 'os_grid_number', 'field_number', 'longitude_latitude'] -%}
+        {%- else -%}
+        {%- set locationMethods = question.locationMethods or [] -%}
+        {%- endif -%}
+        
+        {# Method labels mapping #}
+        {%- set methodLabels = {
+            'address': 'UK address',
+            'easting_northing': 'Easting and northing',
+            'os_grid_number': 'Ordnance Survey (OS) grid reference',
+            'field_number': 'National Grid field number',
+            'longitude_latitude': 'Latitude and longitude'
+        } -%}
+        
+        {%- set methodHints = {
+            'address': 'A street address, town or city and postcode'
+        } -%}
+
+        {%- if locationMethods | length > 0 -%}
+        <div class="govuk-radios" data-module="govuk-radios">
+            {%- for method in locationMethods -%}
+            <div class="govuk-radios__item">
+                <input class="govuk-radios__input" id="location-method-{{ question.questionId }}-{{ loop.index }}" name="location-method-choice-{{ question.questionId }}" type="radio" value="{{ method }}"{% if methodHints[method] %} aria-describedby="location-method-{{ question.questionId }}-{{ loop.index }}-hint"{% endif %}>
+                <label class="govuk-label govuk-radios__label" for="location-method-{{ question.questionId }}-{{ loop.index }}">
+                    {{ methodLabels[method] or method }}
+                </label>
+                {%- if methodHints[method] -%}
+                <div id="location-method-{{ question.questionId }}-{{ loop.index }}-hint" class="govuk-hint govuk-radios__hint">
+                    {{ methodHints[method] }}
+                </div>
+                {%- endif -%}
+            </div>
+            {%- endfor -%}
+        </div>
+        {%- else -%}
+        <p class="govuk-body">No location methods available</p>
+        {%- endif -%}
+
+        {# Help/instructions must appear directly beneath the input fields #}
+        {%- if question.showHelp and question.helpText -%}
+        <div class="govuk-form-group govuk-!-margin-bottom-2">
+            {% set helpHtml %}<div class="govuk-body markdown-content" data-markdown="{{ question.helpText | replace('"', '&quot;') }}"></div>{% endset %}
+            {{ govukDetails({
+                summaryText: "How to find location details",
+                html: helpHtml
+            }) }}
+        </div>
+        {%- endif -%}
+    </fieldset>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // Render markdown in help text if present
+        document.querySelectorAll('.markdown-content').forEach(function (element) {
+            let markdownText = element.getAttribute('data-markdown');
+            if (!markdownText) return;
+            if (window.marked) {
+                try {
+                    let unescapedText = markdownText.replace(/&quot;/g, '"');
+                    // Normalise leading indentation so markdown numbered lists don't render as code blocks
+                    if (!/```/.test(unescapedText)) {
+                        // If there are no fenced code blocks, strip all leading whitespace per line
+                        unescapedText = unescapedText.replace(/^\s+/gm, '');
+                    }
+                    // Also remove any remaining 4+ space/tab indents at line starts
+                    unescapedText = unescapedText.replace(/(^|\n)[ \t]{4,}/g, '$1');
+                    element.innerHTML = marked.parse(unescapedText);
+                } catch (e) {
+                    element.textContent = markdownText;
+                }
+            } else {
+                element.textContent = markdownText;
+            }
+        });
+    });
+</script>
+

@@ -132,11 +132,21 @@ navigationItems: [
                           {% endfor %}
                         </ul>
 
+                        {# Check if any question is location-user-choice type #}
+                        {% set hasLocationUserChoice = false %}
+                        {% for question in currentPage.questions %}
+                        {% if question.type == 'location' and (question.subType == 'location-user-choice' or question.subType == 'user-choice') %}
+                        {% set hasLocationUserChoice = true %}
+                        {% endif %}
+                        {% endfor %}
+
                         <div class="govuk-button-group govuk-!-margin-top-6">
+                          {% if not hasLocationUserChoice %}
                           <a href="/titan-mvp-1.2/form-editor/information-type-nf.html"
                             class="govuk-button hide-in-reorder-mode hide-when-edit-mode">
                             Add another question
                           </a>
+                          {% endif %}
 
 
                           {% if currentPage.questions.length > 1 %}
@@ -588,6 +598,9 @@ navigationItems: [
 
                     {% elseif question.type == 'address' or (question.type == 'location' and question.subType == 'address') %}
                     {% set previewTemplate = previewTemplate ~ 'address-preview.html' %}
+
+                    {% elseif question.type == 'location' and (question.subType == 'location-user-choice' or question.subType == 'user-choice') %}
+                    {% set previewTemplate = previewTemplate ~ 'location-user-choice-preview.html' %}
 
                     {% elseif question.type == 'location' %}
                     {% set previewTemplate = previewTemplate ~ 'coordinates-preview.html' %}

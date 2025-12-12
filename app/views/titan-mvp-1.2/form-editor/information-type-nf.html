@@ -210,6 +210,13 @@ start: "<span class='govuk-heading-s'>Licence to Import an Animal Pathogen/Carri
                           {
                           value: "longitude_latitude",
                           text: "Latitude and longitude"
+                          },
+                          {
+                          divider: "or"
+                          },
+                          {
+                          value: "user-choice",
+                          text: "Let users choose how to provide a location"
                           }
                           ]
                           }) }}
@@ -447,6 +454,8 @@ start: "<span class='govuk-heading-s'>Licence to Import an Animal Pathogen/Carri
                   locationSuffix = "Location Field Number";
                 } else if (selectedSubOption === "longitude_latitude") {
                   locationSuffix = "Location Lat Long";
+                } else if (selectedSubOption === "user-choice") {
+                  locationSuffix = "Location User Choice";
                 }
                 updateSetName(locationSuffix);
               } else if (mainOption && mainOption.value === "list") {
@@ -532,6 +541,8 @@ start: "<span class='govuk-heading-s'>Licence to Import an Animal Pathogen/Carri
                   locationSuffix = "LocationFieldNumber";
                 } else if (selectedSubOption === "longitude_latitude") {
                   locationSuffix = "LocationLatLong";
+                } else if (selectedSubOption === "user-choice") {
+                  locationSuffix = "LocationUserChoice";
                 }
                 setCustomDataAttribute(locationSuffix);
               } else if (mainOption && mainOption.value === "list") {

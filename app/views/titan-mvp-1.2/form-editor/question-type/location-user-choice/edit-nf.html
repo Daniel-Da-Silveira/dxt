@@ -1,0 +1,643 @@
+{% extends "layouts/main.html" %}
+{% from "components/service-header/macro.njk" import serviceHeader %}
+{% set pageName %}Edit page {{ pageNumber }}: question {{ questionNumber }} - {{ form.name }}{% endset %}
+{% set headingPlaceholder = "Page heading" %}
+{% set guidancePlaceholder = "" %}
+
+{% block header %}
+{{ serviceHeader({
+organisationName: "Defra",
+productName: "Form Designer",
+serviceName: "",
+containerClasses: containerClasses,
+accountName: "Chris Smith",
+homepageLink: "/",
+signOutLink: "/onboarding/sign-out-confirmation",
+navigationItems: [
+{ href: "/titan-mvp-1.2/library.html", text: "Forms library", id: "nav-library" },
+{ href: "/cph-overview/draft/complete-clean.html", text: "Overview", id: "nav-overview" },
+{ href: "/titan-mvp-1.2/form-editor/listing", text: "Editor", id: "nav-editor" } ],
+activeLinkId: "nav-editor"
+}) }}
+
+<div class="x-govuk-masthead x-govuk-masthead--large">
+    <div class="govuk-width-container">
+
+        {{ govukBackLink({ classes: "govuk-back-link--inverse govuk-!-margin-bottom-0", text:
+        commonTerms.form_editor.information_type.back, href: "/titan-mvp-1.2/form-editor/listing.html" }) }}
+
+        <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible"
+            style="border-bottom: 1px solid white; margin-bottom: 0" />
+
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-full-from-desktop">
+                <h1 class="x-govuk-masthead__title">
+                    {{ form.name }}
+                </h1>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-full">
+        <div class="govuk-grid-row">
+            <!-- Left Column for Form Controls -->
+            <div class="govuk-grid-column-one-half-from-desktop" id="container" style="flex: 1 1 75%; overflow-y: auto">
+                <div class="govuk-summary-card govuk-!-margin-top-0" style="border-left: 10px solid #008938">
+                    <div class="govuk-summary-card__content govuk-!-padding-top-0" style="background-color: #f3f2f1">
+                        <dl class="govuk-summary-list">
+                            <div class="govuk-summary-list__row">
+                                <dd class="govuk-summary-list__value">
+                                    <!-- Dynamic Summary List -->
+                                    <!-- Question Settings Container -->
+                                    <div class="govuk-grid-row" id="page-settings-container-1">
+                                        <div id="question-1">
+                                            <div class="govuk-summary-card__content" style="margin-bottom: 0">
+                                                <!-- Sub Navigation for Question -->
+                                                <nav class="moj-sub-navigation govuk-!-padding-top-0 govuk-!-margin-bottom-2 "
+                                                    aria-label="Sub navigation">
+                                                    <ul class="moj-sub-navigation__list" id="nav-list2">
+                                                        <li class="moj-sub-navigation__item">
+                                                            <a class="moj-sub-navigation__link" aria-current="page"
+                                                                href="#question-1-information-type">Question {{
+                                                                questionNumber }}</a>
+                                                        </li>
+                                                    </ul>
+                                                </nav>
+
+                                                <div class="govuk-summary-card__title-wrapper govuk-!-padding-top-0">
+                                                </div>
+
+                                                <span class="govuk-caption-l">Page {{ pageNumber }}</span>
+                                                <h2 class="govuk-heading-l">Edit question {{ questionNumber }}</h2>
+
+                                                <form id="s" action="/titan-mvp-1.2/question-configuration-save"
+                                                    method="post">
+                                                    <input type="hidden" name="questionType" value="location">
+                                                    <input type="hidden" name="locationSubType" value="user-choice">
+
+                                                    {% from "govuk/components/input/macro.njk" import govukInput %}
+                                                    {% from "govuk/components/radios/macro.njk" import govukRadios %}
+                                                    {% from "govuk/components/textarea/macro.njk" import govukTextarea %}
+                                                    {% from "govuk/components/checkboxes/macro.njk" import govukCheckboxes %}
+
+                                                    {% set currentQuestion = currentPage.questions[questionNumber - 1] if currentPage and currentPage.questions and currentPage.questions[questionNumber - 1] else null %}
+
+                                                    <!-- Question Label Input -->
+                                                    <div class="govuk-form-group">
+                                                        <label class="govuk-label govuk-label--m"
+                                                            for="question-label-input-location-user-choice">
+                                                            {{ commonTerms.form_editor.question_settings.question }}
+                                                        </label>
+                                                        {% set questionLabelValue = currentQuestion.label if currentQuestion and currentQuestion.label and currentQuestion.label | trim and currentQuestion.label != "New question" else "" %}
+                                                        <input class="govuk-input"
+                                                            id="question-label-input-location-user-choice"
+                                                            name="questionLabelInputLocationUserChoice"
+                                                            type="text"{% if questionLabelValue and questionLabelValue | trim %} value="{{ questionLabelValue }}"{% endif %}>
+                                                    </div>
+
+                                                    <!-- Hint Text -->
+                                                    {% set currentQuestion = currentPage.questions[questionNumber - 1] if currentPage and currentPage.questions and currentPage.questions[questionNumber - 1] else null %}
+                                                    {% set hintValue = currentQuestion.hint if currentQuestion and currentQuestion.hint else "" %}
+                                                    {{ govukTextarea({
+                                                    id: "hint-text-input-location-user-choice",
+                                                    name: "hintTextInputLocationUserChoice",
+                                                    label: {
+                                                    text: "Hint text (optional)",
+                                                    classes: "govuk-label--m",
+                                                    isPageHeading: false
+                                                    },
+                                                    hint: {
+                                                    text: "This location format includes default hint text. Only change the hint text if the default text does not meet your needs."
+                                                    },
+                                                    rows: 3,
+                                                    value: hintValue
+                                                    }) }}
+
+                                                    <!-- Location Methods Selection -->
+                                                    {% set selectedMethods = currentQuestion.locationMethods if currentQuestion and currentQuestion.locationMethods else [] %}
+                                                    {% set acceptAll = currentQuestion.acceptAllLocationTypes if currentQuestion and currentQuestion.acceptAllLocationTypes else false %}
+                                                    {{ govukCheckboxes({
+                                                    name: "locationMethods",
+                                                    fieldset: {
+                                                    legend: {
+                                                    text: "Select the location types you accept",
+                                                    classes: "govuk-fieldset__legend--m"
+                                                    }
+                                                    },
+                                                    hint: {
+                                                    text: "Select at least 2 options or choose to accept all location types."
+                                                    },
+                                                    items: [
+                                                    {
+                                                    value: "address",
+                                                    text: "UK address",
+                                                    hint: {
+                                                    text: "A street address, town or city and postcode"
+                                                    },
+                                                    checked: "address" in selectedMethods
+                                                    },
+                                                    {
+                                                    value: "easting_northing",
+                                                    text: "Easting and northing",
+                                                    checked: "easting_northing" in selectedMethods
+                                                    },
+                                                    {
+                                                    value: "os_grid_number",
+                                                    text: "Ordnance Survey (OS) grid reference",
+                                                    checked: "os_grid_number" in selectedMethods
+                                                    },
+                                                    {
+                                                    value: "field_number",
+                                                    text: "National Grid field number",
+                                                    checked: "field_number" in selectedMethods
+                                                    },
+                                                    {
+                                                    value: "longitude_latitude",
+                                                    text: "Latitude and longitude",
+                                                    checked: "longitude_latitude" in selectedMethods
+                                                    },
+                                                    {
+                                                    divider: "or"
+                                                    },
+                                                    {
+                                                    value: "accept_all",
+                                                    text: "Accept all location types",
+                                                    checked: acceptAll
+                                                    }
+                                                    ]
+                                                    }) }}
+
+                                                    {% set errorMessageValue = currentQuestion.errorMessage if currentQuestion and currentQuestion.errorMessage else "" %}
+                                                    {{ govukInput({
+                                                    label: {
+                                                    text:
+                                                    commonTerms.form_editor.question_settings.short_description.title,
+                                                    classes: "govuk-label--m",
+                                                    isPageHeading: false
+                                                    },
+                                                    hint: {
+                                                    text:
+                                                    commonTerms.form_editor.question_settings.short_description.hint
+                                                    },
+                                                    id: "error-message-input-location-user-choice",
+                                                    name: "errorMessageInputLocationUserChoice",
+                                                    value: errorMessageValue
+                                                    }) }}
+
+                                                    <!-- Additional Settings -->
+                                                    {% set helpTextHtml %}
+                                                    {% set helpTextValue = currentQuestion.helpText if currentQuestion and currentQuestion.helpText else "" %}
+                                                    {{ govukTextarea({
+                                                    id: "help-text-input-location-user-choice",
+                                                    name: "helpTextInputLocationUserChoice",
+                                                    label: {
+                                                    text: "Instructions to help users answer this question",
+                                                    classes: "govuk-label--s"
+                                                    },
+                                                    hint: {
+                                                    text: "You can use markdown formatting."
+                                                    },
+                                                    rows: 12,
+                                                    value: helpTextValue
+                                                    }) }}
+                                                    {% endset -%}
+
+                                                    {{ govukCheckboxes({
+                                                    name: "additionalSettings",
+                                                    classes: "govuk-checkboxes--small",
+                                                    fieldset: {
+                                                    legend: {
+                                                    text: "Additional settings (optional)",
+                                                    isPageHeading: false,
+                                                    classes: "govuk-fieldset__legend--m"
+                                                    }
+                                                    },
+                                                    items: [
+                                                    {
+                                                    value: "make-optional",
+                                                    text: commonTerms.form_editor.question_settings.optional,
+                                                    checked: currentQuestion and currentQuestion.isOptional
+                                                    }
+                                                    ]
+                                                    }) }}
+
+                                                    <!-- Section Break -->
+                                                    <hr
+                                                        class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
+
+                                                    <!-- Question Settings Summary List -->
+                                                    <h2 class="govuk-heading-m">{{
+                                                        commonTerms.form_editor.question_settings.title }}</h2>
+
+                                                    {% set locationFormatText %}
+                                                        Location pattern
+                                                    {% endset %}
+
+                                                    {{ govukSummaryList({
+                                                    "rows": [
+                                                    {
+                                                    "key": {
+                                                    "text": "Type of information"
+                                                    },
+                                                    "value": {
+                                                    "text": locationFormatText
+                                                    },
+                                                    "actions": {
+                                                    "items": [
+                                                    {
+                                                    "href": "/titan-mvp-1.2/form-editor/information-type-nf.html",
+                                                    "text": commonTerms.form_editor.common.edit,
+                                                    "visuallyHiddenText": " type"
+                                                    }
+                                                    ]
+                                                    }
+                                                    }
+                                                    ]
+                                                    }) }}
+
+                                                    <hr
+                                                        class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
+
+                                                    <!-- Submit Button -->
+                                                    <div class="moj-button-action">
+                                                        {{ govukButton({
+                                                        text: commonTerms.form_editor.common.continue,
+                                                        type: 'submit'
+                                                        }) }}
+                                                    </div>
+                                                </form>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                            </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Column for Preview -->
+            <div class="govuk-grid-column-one-half-from-desktop" id="second-container"
+                style="outline: solid 1px #008938; height: 100%; position: sticky; top: 0; padding: 20px; box-shadow: 5px 10px #008938;">
+                <!-- Before content -->
+                <div id="before-content" style=" background-color:  #cce2d8;">
+                    <p class="govuk-body-s" style="margin-bottom: 0; color: #005a30; padding: 2px 8px 3px;
+text-align: center;"> Previews
+                    </p>
+                </div>
+
+                <div style="margin-top: 60px;">
+                    {% from "govuk/components/tabs/macro.njk" import govukTabs %}
+
+                    <div class="govuk-tabs" data-module="govuk-tabs">
+                        <h2 class="govuk-tabs__title">
+                            Contents
+                        </h2>
+                        <ul class="govuk-tabs__list">
+                            <li class="govuk-tabs__list-item govuk-tabs__list-item--selected">
+                                <a class="govuk-tabs__tab" href="#tab-one">Page preview</a>
+                            </li>
+                            <li class="govuk-tabs__list-item">
+                                <a class="govuk-tabs__tab" href="#tab-two">Error messages</a>
+                            </li>
+                        </ul>
+
+                        <div class="govuk-tabs__panel" id="tab-one">
+                            <!-- Page Preview Content -->
+
+                            <p class="govuk-body-s" style="margin-bottom: 30px; border-bottom: #008938 1px;">
+                                <a href="#" class="govuk-link govuk-link--no-visited-state" rel="noreferrer noopener"
+                                    target="_blank">
+                                    Preview this page in a new tab
+                                </a>
+                            </p>
+
+                            <div class="preview-content" id="location-user-choice-preview">
+                                <!-- Preview content will be dynamically updated -->
+                                <div class="border-left-container">
+                                    <div id="location-methods-preview">
+                                        <!-- Dynamic location method selection will be inserted here -->
+                                    </div>
+                                </div>
+                            </div>
+
+                            <a href="#edit-page" class="govuk-skip-link" style="margin-bottom: 30px!important;"
+                                data-module="govuk-skip-link">
+                                Skip to edit page
+                            </a>
+                        </div>
+
+                        <div class="govuk-tabs__panel" id="tab-two">
+                            <!-- Error Messages Content -->
+                            <p class="govuk-body-s" style="margin-bottom: 30px; border-bottom: #008938 1px;">
+                                <a href="#" class="govuk-link govuk-link--no-visited-state" rel="noreferrer noopener"
+                                    target="_blank">
+                                    Preview error messages in a new tab
+                                </a>
+                            </p>
+                            <div class="govuk-error-summary" data-disable-auto-focus="true">
+                                <h2 class="govuk-error-summary__title">There is a problem</h2>
+                                <ul class="govuk-list govuk-error-summary__list" id="error-messages-list">
+                                    <!-- Dynamic error messages will be inserted here -->
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        console.log("Location User Choice JavaScript Loaded");
+
+        // DOM Elements for dynamic updates
+        const domElements = {
+            questionLabelInput: document.getElementById('question-label-input-location-user-choice'),
+            questionLabelLegend: null, // Will be set after preview is created
+            hintTextInput: document.getElementById('hint-text-input-location-user-choice'),
+            hintTextOutput: null, // Will be set after preview is created
+            locationMethodsCheckboxes: document.querySelectorAll('input[name="locationMethods"]'),
+            makeOptional: document.querySelector('input[name="additionalSettings"][value="make-optional"]'),
+            helpTextCheckbox: document.querySelector('input[name="additionalSettings"][value="add-help-text"]'),
+            helpTextInput: document.getElementById('help-text-input-location-user-choice'),
+        };
+
+        // Handle accept all checkbox - when checked, uncheck others; when others checked, uncheck accept all
+        const acceptAllCheckbox = Array.from(domElements.locationMethodsCheckboxes).find(cb => cb.value === 'accept_all');
+        const otherCheckboxes = Array.from(domElements.locationMethodsCheckboxes).filter(cb => cb.value !== 'accept_all');
+
+        if (acceptAllCheckbox) {
+            acceptAllCheckbox.addEventListener('change', function() {
+                if (this.checked) {
+                    otherCheckboxes.forEach(cb => cb.checked = false);
+                }
+                updatePreview();
+            });
+        }
+
+        otherCheckboxes.forEach(checkbox => {
+            checkbox.addEventListener('change', function() {
+                if (this.checked && acceptAllCheckbox) {
+                    acceptAllCheckbox.checked = false;
+                }
+                updatePreview();
+            });
+        });
+
+        // Initialize event listeners for dynamic updates (before preview so inputs work)
+        initializeEventListeners();
+
+        // Initial preview update (creates preview elements)
+        updatePreview();
+
+        // Set up highlighting after preview is created
+        reinitializeAfterUpdate();
+
+        // Update preview elements with initial values
+        updateQuestionLabel();
+        updateHintText();
+
+        // Update preview based on selected location methods
+        function updatePreview() {
+            const previewContainer = document.getElementById("location-methods-preview");
+            if (!previewContainer) return;
+
+            const questionText = domElements.questionLabelInput?.value || 'Question';
+            const optionalSuffix = domElements.makeOptional?.checked ? ' (optional)' : '';
+
+            const selectedMethods = Array.from(domElements.locationMethodsCheckboxes)
+                .filter(cb => cb.checked && cb.value !== 'accept_all')
+                .map(cb => cb.value);
+
+            const acceptAll = Array.from(domElements.locationMethodsCheckboxes)
+                .some(cb => cb.checked && cb.value === 'accept_all');
+
+            if (selectedMethods.length === 0 && !acceptAll) {
+                previewContainer.innerHTML = `
+                    <div class="govuk-form-group">
+                        <fieldset class="govuk-fieldset">
+                            <legend class="govuk-fieldset__legend govuk-fieldset__legend--l" id="question-label-legend">
+                                ${questionText}${optionalSuffix}
+                            </legend>
+                            <div class="govuk-hint" id="hint-text-output"></div>
+                            <p class="govuk-body">Location types go here once you select them.</p>
+                        </fieldset>
+                    </div>
+                `;
+                // Re-initialize after DOM update
+                reinitializeAfterUpdate();
+                updateQuestionLabel();
+                updateHintText();
+                return;
+            }
+
+            // If accept all is checked, show all methods
+            let methodsToShow = acceptAll ? ['address', 'easting_northing', 'os_grid_number', 'field_number', 'longitude_latitude'] : selectedMethods;
+
+            const methodOptions = methodsToShow.map(method => {
+                const methodLabels = {
+                    'address': 'UK address',
+                    'easting_northing': 'Easting and northing',
+                    'os_grid_number': 'Ordnance Survey (OS) grid reference',
+                    'field_number': 'National Grid field number',
+                    'longitude_latitude': 'Latitude and longitude'
+                };
+                return {
+                    value: method,
+                    text: methodLabels[method] || method
+                };
+            });
+
+            let previewHTML = `
+                <div class="govuk-form-group">
+                    <fieldset class="govuk-fieldset">
+                        <legend class="govuk-fieldset__legend govuk-fieldset__legend--l" id="question-label-legend">
+                            ${questionText}${optionalSuffix}
+                        </legend>
+                        <div class="govuk-hint" id="hint-text-output"></div>
+                        <div class="govuk-radios" data-module="govuk-radios">
+            `;
+
+            methodOptions.forEach((option, index) => {
+                previewHTML += `
+                            <div class="govuk-radios__item">
+                                <input class="govuk-radios__input" id="preview-location-method-${index}" name="preview-location-method" type="radio" value="${option.value}">
+                                <label class="govuk-label govuk-radios__label" for="preview-location-method-${index}">
+                                    ${option.text}
+                                </label>
+                            </div>
+                `;
+            });
+
+            previewHTML += `
+                        </div>
+                    </fieldset>
+                </div>
+            `;
+
+            previewContainer.innerHTML = previewHTML;
+
+            // Re-initialize after DOM update
+            reinitializeAfterUpdate();
+            updateQuestionLabel();
+            updateHintText();
+        }
+
+        // Re-initialize after DOM updates
+        function reinitializeAfterUpdate() {
+            // Update DOM element references
+            domElements.questionLabelLegend = document.getElementById('question-label-legend');
+            domElements.hintTextOutput = document.getElementById('hint-text-output');
+
+            // Re-apply highlighting (only if elements exist)
+            if (domElements.questionLabelInput && domElements.questionLabelLegend) {
+                applyHighlightOnFocus(domElements.questionLabelInput, domElements.questionLabelLegend);
+            }
+            if (domElements.hintTextInput && domElements.hintTextOutput) {
+                applyHighlightOnFocus(domElements.hintTextInput, domElements.hintTextOutput);
+            }
+        }
+
+        // Initialize event listeners for dynamic updates
+        function initializeEventListeners() {
+            // Update question label - always attach to input, legend will be set after preview
+            if (domElements.questionLabelInput) {
+                domElements.questionLabelInput.addEventListener('input', updateQuestionLabel);
+            }
+
+            // Update hint text and handle placeholder
+            if (domElements.hintTextInput) {
+                domElements.hintTextInput.addEventListener('input', updateHintText);
+                domElements.hintTextInput.addEventListener('focus', showPlaceholderHint);
+                domElements.hintTextInput.addEventListener('blur', clearPlaceholderHint);
+            }
+
+            // Update optional state
+            if (domElements.makeOptional) {
+                domElements.makeOptional.addEventListener('change', updateQuestionLabel);
+            }
+
+            // Update location methods
+            if (domElements.locationMethodsCheckboxes.length > 0) {
+                domElements.locationMethodsCheckboxes.forEach(checkbox => {
+                    checkbox.addEventListener('change', updatePreview);
+                });
+            }
+
+            // Update help text
+            if (domElements.helpTextCheckbox) {
+                domElements.helpTextCheckbox.addEventListener('change', updatePreview);
+            }
+
+            if (domElements.helpTextInput) {
+                domElements.helpTextInput.addEventListener('input', updatePreview);
+            }
+        }
+
+        // Update question label with optional suffix
+        function updateQuestionLabel() {
+            // Get or find the legend element
+            if (!domElements.questionLabelLegend) {
+                domElements.questionLabelLegend = document.getElementById('question-label-legend');
+            }
+
+            const suffix = domElements.makeOptional?.checked ? ' (optional)' : '';
+            const questionText = (domElements.questionLabelInput?.value || 'Question') + suffix;
+
+            if (domElements.questionLabelLegend) {
+                domElements.questionLabelLegend.textContent = questionText;
+            }
+        }
+
+        // Update hint text
+        function updateHintText() {
+            // Get or find the hint output element
+            if (!domElements.hintTextOutput) {
+                domElements.hintTextOutput = document.getElementById('hint-text-output');
+            }
+
+            if (domElements.hintTextOutput) {
+                // If custom hint text is provided, use it; otherwise use default
+                const customHint = domElements.hintTextInput?.value || '';
+                if (customHint.trim()) {
+                    domElements.hintTextOutput.textContent = customHint;
+                } else {
+                    // Use default hint text
+                    updateDefaultHintText();
+                }
+            }
+        }
+
+        // Update default hint text
+        function updateDefaultHintText() {
+            if (!domElements.hintTextOutput) return;
+            domElements.hintTextOutput.textContent = '';
+        }
+
+        // Placeholder handling for hint text
+        function showPlaceholderHint() {
+            if (!domElements.hintTextInput?.value) {
+                if (domElements.hintTextOutput) {
+                    domElements.hintTextOutput.textContent = 'Hint text';
+                }
+            }
+        }
+
+        function clearPlaceholderHint() {
+            if (!domElements.hintTextInput?.value) {
+                if (domElements.hintTextOutput) {
+                    domElements.hintTextOutput.textContent = '';
+                }
+            }
+        }
+
+        // Apply focus/blur highlighting
+        function applyHighlightOnFocus(inputElement, targetElement) {
+            if (inputElement && targetElement) {
+                inputElement.addEventListener('focus', function () {
+                    if (targetElement.length !== undefined) {
+                        // Handle NodeList (multiple elements)
+                        targetElement.forEach(target => target.classList.add('highlight'));
+                    } else {
+                        // Handle single element
+                        targetElement.classList.add('highlight');
+                    }
+                });
+                inputElement.addEventListener('blur', function () {
+                    if (targetElement.length !== undefined) {
+                        // Handle NodeList (multiple elements)
+                        targetElement.forEach(target => target.classList.remove('highlight'));
+                    } else {
+                        // Handle single element
+                        targetElement.classList.remove('highlight');
+                    }
+                });
+            }
+        }
+    });
+</script>
+
+<style>
+    .preview-content .govuk-form-group {
+        margin-bottom: 15px;
+    }
+
+    .highlight {
+        background-color: #ffe5cc;
+        border-bottom: 2px solid #ffb266;
+    }
+
+    .border-left-container {
+        border-left: 10px solid #ffb266;
+        padding-left: 20px;
+    }
+</style>
+
+{% endblock %}
+

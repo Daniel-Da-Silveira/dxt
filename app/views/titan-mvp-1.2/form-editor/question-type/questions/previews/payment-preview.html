@@ -14,13 +14,13 @@
         </p>
 
         {{ govukWarningText({
-            text: "You must pay before you can send your form",
+            text: "You may see a pending transaction in your bank account while you complete the payment and submit the form.",
             classes: "govuk-!-margin-bottom-4",
             iconFallbackText: "Warning"
         }) }}
 
         <p class="govuk-body">
-            When your payment is complete, you'll able to continue with your form.
+            You need to make a payment before you can submit the form.
         </p>
 
         <p class="govuk-body govuk-!-margin-bottom-0">
@@ -31,7 +31,7 @@
         </p>
 
         {{ govukButton({
-            text: "Pay now",
+            text: "Pay",
             classes: "govuk-button--primary govuk-!-margin-top-4 govuk-!-margin-bottom-0"
         }) }}
     </div>

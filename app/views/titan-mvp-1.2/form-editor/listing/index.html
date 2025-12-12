@@ -695,6 +695,10 @@ activeLinkId: "nav-editor"
                                                             {% set previewTemplate =
                                                             '/titan-mvp-1.2/form-editor/question-type/questions/previews/address-preview.html'
                                                             %}
+                                                            {% elif question.type == 'location' and question.subType == 'location-user-choice' %}
+                                                            {% set previewTemplate =
+                                                            '/titan-mvp-1.2/form-editor/question-type/questions/previews/location-user-choice-preview.html'
+                                                            %}
                                                             {% elif question.type == 'location' %}
                                                             {% set previewTemplate =
                                                             '/titan-mvp-1.2/form-editor/question-type/questions/previews/coordinates-preview.html'
@@ -1253,10 +1257,10 @@ activeLinkId: "nav-editor"
                                         <div class="payment-summary">
                                             <h1 class="govuk-heading-l" id="preview-question-label">Payment required</h1>
                                             <p id="preview-payment-description" class="govuk-body">{{ page.questions[0].paymentDescription or 'Payment description' }}</p>
-                                            {{ govukWarningText({ text: "You must pay before you can send your form", classes: "govuk-!-margin-bottom-4", iconFallbackText: "Warning" }) }}
-                                            <p class="govuk-body">When your payment is complete, you'll able to continue with your form.</p>
+                                            {{ govukWarningText({ text: "You may see a pending transaction in your bank account while you complete the payment and submit the form.", classes: "govuk-!-margin-bottom-4", iconFallbackText: "Warning" }) }}
+                                            <p class="govuk-body"You need to make a payment before you can submit the form.</p>
                                             <p class="govuk-body govuk-!-font-weight-bold">Total amount: <span id="preview-payment-amount" class="amount govuk-!-font-size-36 govuk-!-font-weight-bold">£{{ page.questions[0].paymentAmount or '0.00' }}</span></p>
-                                            {{ govukButton({ text: "Pay now", classes: "govuk-button--primary govuk-!-margin-top-4 govuk-!-margin-bottom-0" }) }}
+                                            {{ govukButton({ text: "Pay", classes: "govuk-button--primary govuk-!-margin-top-4 govuk-!-margin-bottom-0" }) }}
                                         </div>
                                     </div>
                                 </div>

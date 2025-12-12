@@ -2314,6 +2314,8 @@ router.post("/titan-mvp-1.2/information-type-answer-nf", function (req, res) {
       return res.redirect("/titan-mvp-1.2/question-configuration");
     } else if (["easting_northing", "os_grid_number", "field_number", "longitude_latitude"].includes(locationSubType)) {
       return res.redirect("/titan-mvp-1.2/question-configuration");
+    } else if (locationSubType === "user-choice") {
+      return res.redirect("/titan-mvp-1.2/question-configuration");
     }
   }
 
@@ -2363,6 +2365,9 @@ router.get("/titan-mvp-1.2/question-configuration", function (req, res) {
     } else if (["easting_northing", "os_grid_number", "field_number", "longitude_latitude"].includes(locationSubType)) {
       templateToRender =
         "/titan-mvp-1.2/form-editor/question-type/precise-location/edit-nf.html";
+    } else if (locationSubType === "user-choice") {
+      templateToRender =
+        "/titan-mvp-1.2/form-editor/question-type/location-user-choice/edit-nf.html";
     }
   } else if (mainType === "address") {
     templateToRender =
@@ -2524,6 +2529,8 @@ router.post("/titan-mvp-1.2/question-configuration-save", function (req, res) {
       finalSubType = "address";
     } else if (["easting_northing", "os_grid_number", "field_number", "longitude_latitude"].includes(locationSubType)) {
       finalSubType = "precise-location";
+    } else if (locationSubType === "user-choice") {
+      finalSubType = "location-user-choice";
     }
   } else if (questionType === "address") {
     finalSubType = "address";
@@ -2558,7 +2565,7 @@ router.post("/titan-mvp-1.2/question-configuration-save", function (req, res) {
       break;
     case "location":
       // Precise location label input
-      questionLabel = req.body["questionLabelInputPreciseLocation"] || "Location";
+      questionLabel = req.body["questionLabelInputPreciseLocation"] || req.body["questionLabelInputLocationUserChoice"] || "Location";
       break;
     case "address":
       questionLabel = req.body["questionLabelInputAddress"] || "Address";
@@ -2612,7 +2619,7 @@ router.post("/titan-mvp-1.2/question-configuration-save", function (req, res) {
   if (questionType === "address") {
     questionHint = req.body["hintTextInputAddress"] || "";
   } else if (questionType === "location") {
-    questionHint = req.body["hintTextInputPreciseLocation"] || "";
+    questionHint = req.body["hintTextInputPreciseLocation"] || req.body["hintTextInputLocationUserChoice"] || "";
   } else if (
     (questionType === "list" &&
       (listSubType === "select" || listSubType === "autocomplete")) ||
@@ -2808,6 +2815,11 @@ router.post("/titan-mvp-1.2/question-configuration-save", function (req, res) {
     currentPage.questions[existingQuestionIndex].label = questionLabel;
     currentPage.questions[existingQuestionIndex].hint = questionHint;
     currentPage.questions[existingQuestionIndex].options = questionOptions;
+    
+    // Update subType if finalSubType is set
+    if (finalSubType) {
+      currentPage.questions[existingQuestionIndex].subType = finalSubType;
+    }
 
     // Update declaration-specific fields for existing questions
     if (questionType === "declaration") {
@@ -2949,8 +2961,29 @@ router.post("/titan-mvp-1.2/question-configuration-save", function (req, res) {
       const addl = req.body["additionalSettings"];
       const additional = Array.isArray(addl) ? addl : (addl ? [addl] : []);
       const showHelp = additional.includes("add-help-text");
-      currentPage.questions[existingQuestionIndex].helpText = req.body["helpTextInputPreciseLocation"] || "";
+      const makeOptional = additional.includes("make-optional");
+      currentPage.questions[existingQuestionIndex].helpText = req.body["helpTextInputPreciseLocation"] || req.body["helpTextInputLocationUserChoice"] || "";
       currentPage.questions[existingQuestionIndex].showHelp = showHelp && !!currentPage.questions[existingQuestionIndex].helpText;
+      currentPage.questions[existingQuestionIndex].isOptional = makeOptional;
+      currentPage.questions[existingQuestionIndex].hint = req.body["hintTextInputPreciseLocation"] || req.body["hintTextInputLocationUserChoice"] || "";
+      currentPage.questions[existingQuestionIndex].errorMessage = req.body["errorMessageInputPreciseLocation"] || req.body["errorMessageInputLocationUserChoice"] || "";
+      
+      // Update location methods for user-choice type
+      const existingSubType = currentPage.questions[existingQuestionIndex].subType;
+      if (locationSubType === "user-choice" || finalSubType === "location-user-choice" || existingSubType === "location-user-choice" || existingSubType === "user-choice") {
+        const locationMethodsRaw = req.body["locationMethods"];
+        const locationMethods = Array.isArray(locationMethodsRaw) 
+          ? locationMethodsRaw 
+          : (locationMethodsRaw ? [locationMethodsRaw] : []);
+        const acceptAll = locationMethods.includes("accept_all");
+        if (acceptAll) {
+          currentPage.questions[existingQuestionIndex].acceptAllLocationTypes = true;
+          currentPage.questions[existingQuestionIndex].locationMethods = ["address", "easting_northing", "os_grid_number", "field_number", "longitude_latitude"];
+        } else {
+          currentPage.questions[existingQuestionIndex].acceptAllLocationTypes = false;
+          currentPage.questions[existingQuestionIndex].locationMethods = locationMethods.filter(m => m !== "accept_all");
+        }
+      }
     }
   } else {
     const newQuestion = {
@@ -3084,8 +3117,28 @@ router.post("/titan-mvp-1.2/question-configuration-save", function (req, res) {
       const addl = req.body["additionalSettings"];
       const additional = Array.isArray(addl) ? addl : (addl ? [addl] : []);
       const showHelp = additional.includes("add-help-text");
-      newQuestion.helpText = req.body["helpTextInputPreciseLocation"] || "";
+      const makeOptional = additional.includes("make-optional");
+      newQuestion.helpText = req.body["helpTextInputPreciseLocation"] || req.body["helpTextInputLocationUserChoice"] || "";
       newQuestion.showHelp = showHelp && !!newQuestion.helpText;
+      newQuestion.isOptional = makeOptional;
+      newQuestion.hint = req.body["hintTextInputPreciseLocation"] || req.body["hintTextInputLocationUserChoice"] || "";
+      newQuestion.errorMessage = req.body["errorMessageInputPreciseLocation"] || req.body["errorMessageInputLocationUserChoice"] || "";
+      
+      // Save location methods for user-choice type
+      if (locationSubType === "user-choice" || finalSubType === "location-user-choice") {
+        const locationMethodsRaw = req.body["locationMethods"];
+        const locationMethods = Array.isArray(locationMethodsRaw) 
+          ? locationMethodsRaw 
+          : (locationMethodsRaw ? [locationMethodsRaw] : []);
+        const acceptAll = locationMethods.includes("accept_all");
+        if (acceptAll) {
+          newQuestion.acceptAllLocationTypes = true;
+          newQuestion.locationMethods = ["address", "easting_northing", "os_grid_number", "field_number", "longitude_latitude"];
+        } else {
+          newQuestion.acceptAllLocationTypes = false;
+          newQuestion.locationMethods = locationMethods.filter(m => m !== "accept_all");
+        }
+      }
     }
 
     currentPage.questions.push(newQuestion);
