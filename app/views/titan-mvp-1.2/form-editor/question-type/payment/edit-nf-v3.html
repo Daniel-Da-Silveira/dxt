@@ -79,7 +79,27 @@ activeLinkId: "nav-editor"
                                                 <span class="govuk-caption-l">Page {{ pageNumber }}</span>
                                                 <h2 class="govuk-heading-l">Edit question {{ questionNumber }}</h2>
 
-                                                <p class="govuk-body">The payment screen appears after the last question in the form, before the 'Check your answers' page.</p>
+                                                <p class="govuk-body">The payment screen appears after the 'Check your answers' page.</p>
+
+                                                {% from "govuk/components/input/macro.njk" import govukInput %}
+
+{{ govukInput({
+  id: "cost",
+  name: "cost",
+  label: {
+    text: "Default payment amount",
+    classes: "govuk-label--m",
+    isPageHeading: false
+  },
+  prefix: {
+    text: "£"
+  },
+  hint: {
+    text: "This is the amount users will pay if no conditional payment applies. Enter £0 to skip the payment page."
+  },
+  classes: "govuk-input--width-5",
+  spellcheck: false
+}) }}
 
                                                 <form id="s" action="/titan-mvp-1.2/question-configuration-save"
                                                     method="post">
@@ -209,63 +229,33 @@ activeLinkId: "nav-editor"
 
                                                         <!-- Conditions Section -->
                                                         <div class="govuk-form-group">
-                                                            <h2 class="govuk-heading-m">Conditions</h2>
+                                                            <h2 class="govuk-heading-m">Charge this amount if</h2>
                                                             <p class="govuk-body">Use conditions to show different payment amounts depending on how someone answers earlier questions.</p>
 
-                                                            {{ govukWarningText({
-                                                                text: "If you add multiple payment amounts, each one must have a condition. Otherwise people could be shown the wrong amount.",
-                                                                iconFallbackText: "Warning"
+                                                            {% if selectItems %}
+                                                            {{ govukSelect({
+                                                            label: { text: "Select an existing condition", classes: "govuk-label" },
+                                                            id: "existing-condition-payment",
+                                                            name: "existing-condition-payment",
+                                                            items: selectItems
                                                             }) }}
-
-
-
-
-
-                                                            <h3 class="govuk-heading-s">Show this amount if</h3>
-
-                                                            <div class="govuk-form-group" id="conditions-container-payment">
-                                                                <div class="govuk-form-group">
-                                                                    <label class="govuk-label" for="questionSelect-payment">
-                                                                        Select a question
-                                                                    </label>
-                                                                    <select class="govuk-select" id="questionSelect-payment" name="question"
-                                                                        data-available-questions='{{ availableQuestions | dump | safe }}'>
-                                                                        <option value="">Choose a question</option>
-                                                                        {% if availableQuestions and (availableQuestions | length) > 0 %}
-                                                                        {% for question in availableQuestions %}
-                                                                        <option value="{{ question.value }}" data-type="{{ question.type }}"
-                                                                            data-options='{{ question.options | dump | safe }}'>
-                                                                            {{ question.text }}
-                                                                        </option>
-                                                                        {% endfor %}
-                                                                        {% endif %}
-                                                                    </select>
-                                                                </div>
-                                                                <div class="govuk-form-group">
-                                                                    <label class="govuk-label" for="operatorSelect-payment">
-                                                                        Condition type
-                                                                    </label>
-                                                                    <select class="govuk-select" id="operatorSelect-payment" name="operator">
-                                                                        <option value="">Select a condition type</option>
-                                                                        <option value="is">is</option>
-                                                                        <option value="is-not">is not</option>
-                                                                    </select>
-                                                                </div>
-                                                                <div class="govuk-form-group" id="valueContainer-payment" style="display: none;">
-                                                                    <!-- Value inputs will be dynamically populated here -->
-                                                                </div>
-                                                            </div>
-                                                            {# <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible"> #}
+                                                            {% elif existingConditions and (existingConditions | length) > 0 %}
                                                             <div class="govuk-form-group">
-                                                                <label class="govuk-label govuk-label--m" for="conditionName-payment">
-                                                                    Condition name
+                                                                <label class="govuk-label" for="existing-condition-payment">
+                                                                    Select an existing condition
                                                                 </label>
-                                                                <div class="govuk-hint">
-                                                                    Condition names help you to identify conditions in your form,
-                                                                    for example, 'Not a farmer'. Users will not see condition names.
-                                                                </div>
-                                                                <input class="govuk-input" id="conditionName-payment" name="conditionName" type="text">
+                                                                <select class="govuk-select" id="existing-condition-payment" name="existing-condition-payment">
+                                                                    <option value="">Select an existing condition</option>
+                                                                    {% for condition in existingConditions %}
+                                                                    <option value="{{ condition.value }}" {% if condition.hint %}data-hint="{{ condition.hint.text }}"{% endif %}>
+                                                                        {{ condition.text }}
+                                                                    </option>
+                                                                    {% endfor %}
+                                                                </select>
                                                             </div>
+                                                            {% else %}
+                                                            <p class="govuk-body">No existing conditions available. You can create conditions from the Conditions tab.</p>
+                                                            {% endif %}
                                                         </div>
 
                                                         <div class="govuk-button-group">
@@ -483,13 +473,13 @@ activeLinkId: "nav-editor"
                                     </p>
 
                                     {{ govukWarningText({
-                                        text: "You won't be charged yet. We'll only take payment when you finish your form.",
+                                        text: "You may see a pending transaction in your bank account while you complete the payment and submit the form.",
                                         classes: "govuk-!-margin-bottom-4",
                                         iconFallbackText: "Warning"
                                     }) }}
 
                                     <p class="govuk-body">
-                                        Once you've added your payment details, you can continue with your form.
+                                        You need to make a payment before you can submit the form.
                                     </p>
 
                                     <p class="govuk-body govuk-!-margin-bottom-0">
@@ -501,7 +491,7 @@ activeLinkId: "nav-editor"
                                     </div>
 
                                     {{ govukButton({
-                                        text: "Continue to payment details",
+                                        text: "Pay",
                                         classes: "govuk-button--primary govuk-!-margin-top-4 govuk-!-margin-bottom-0"
                                     }) }}
                                 </div>
@@ -632,7 +622,14 @@ activeLinkId: "nav-editor"
         }
     </style>
 
+    <script type="application/json" id="existing-conditions-data">
+        {{ (existingConditions or []) | dump | safe }}
+    </script>
     <script>
+        // Make condition data available to JavaScript
+        const existingConditionsDataEl = document.getElementById('existing-conditions-data');
+        const existingConditionsData = existingConditionsDataEl ? JSON.parse(existingConditionsDataEl.textContent) : [];
+
         document.addEventListener("DOMContentLoaded", function () {
             // Get form elements
             const paymentDescriptionInput = document.getElementById("payment-description-input");
@@ -759,49 +756,44 @@ activeLinkId: "nav-editor"
                     return;
                 }
 
-                // Get conditions data (matching page-level conditions logic)
+                // Get conditions data
                 const conditions = [];
 
-                // Creating new condition (optional)
-                const conditionName = document.getElementById('conditionName-payment')?.value.trim();
-                const mainQuestion = document.getElementById('questionSelect-payment');
-                const mainOperator = document.getElementById('operatorSelect-payment');
-                const mainValueContainer = document.getElementById('valueContainer-payment');
+                // Check for existing condition selection
+                const existingConditionSelect = document.getElementById('existing-condition-payment');
+                const selectedConditionId = existingConditionSelect?.value;
 
-                if (conditionName && mainQuestion && mainOperator && mainValueContainer) {
-                    const rules = [];
+                if (selectedConditionId) {
+                    // Get condition name from the select option
+                    const selectedOption = existingConditionSelect.options[existingConditionSelect.selectedIndex];
+                    const conditionName = selectedOption.text;
+                    const conditionId = selectedOption.value;
 
-                    // Get main condition data
-                    const mainQuestionText = mainQuestion.options[mainQuestion.selectedIndex].text;
-                    const questionType = mainQuestion.options[mainQuestion.selectedIndex].getAttribute('data-type');
+                    // Look up full condition data from existingConditionsData
+                    let conditionText = '';
+                    let conditionRules = null;
 
-                    // Handle different input types for main condition
-                    let mainValue;
-                    if (questionType === 'checkboxes') {
-                        const checkedInputs = mainValueContainer.querySelectorAll('input[type="checkbox"]:checked');
-                        mainValue = Array.from(checkedInputs).map(input => input.value);
-                    } else if (questionType === 'yes-no' || questionType === 'radios') {
-                        const checkedInput = mainValueContainer.querySelector('input:checked');
-                        mainValue = checkedInput ? checkedInput.value : null;
-                    } else {
-                        const selectElement = mainValueContainer.querySelector('select');
-                        mainValue = selectElement ? selectElement.value : null;
+                    if (typeof existingConditionsData !== 'undefined' && existingConditionsData) {
+                        const fullCondition = existingConditionsData.find(c => c.value === conditionId);
+                        if (fullCondition && fullCondition.hint) {
+                            conditionText = fullCondition.hint.text;
+                        }
                     }
 
-                    if (mainValue) {
-                        rules.push({
-                            questionText: mainQuestionText,
-                            operator: mainOperator.value,
-                            value: mainValue
-                        });
+                    // Also try to get hint from data attribute (for fallback select)
+                    const hintData = selectedOption.getAttribute('data-hint');
+                    if (hintData) {
+                        conditionText = hintData;
                     }
 
-                    if (rules.length > 0) {
-                        conditions.push({
-                            conditionName: conditionName,
-                            rules: rules
-                        });
-                    }
+                    // Store the condition with full details
+                    conditions.push({
+                        conditionId: conditionId,
+                        conditionName: conditionName,
+                        isExisting: true,
+                        text: conditionText || null,
+                        rules: conditionRules
+                    });
                 }
 
                 // Add the new payment amount
@@ -810,18 +802,26 @@ activeLinkId: "nav-editor"
 
                 // Build condition text if condition exists
                 let conditionRow = '';
-                if (conditions.length > 0 && conditions[0].rules) {
+                if (conditions.length > 0) {
                     const condition = conditions[0];
-                    const conditionText = condition.rules.map((rule, index) => {
-                        const valueText = Array.isArray(rule.value)
-                            ? rule.value.map(v => `'${v}'`).join(' or ')
-                            : `'${rule.value}'`;
-                        if (index === 0) {
-                            return `'${rule.questionText}' ${rule.operator.replace('-', ' ')} ${valueText}`;
-                        } else {
-                            return ` <span class="govuk-!-font-weight-bold">${rule.logicalOperator || 'AND'}</span> '${rule.questionText}' ${rule.operator.replace('-', ' ')} ${valueText}`;
-                        }
-                    }).join('');
+                    let conditionText = '';
+
+                    if (condition.isExisting) {
+                        // For existing conditions, use the stored text
+                        conditionText = condition.text || '';
+                    } else if (condition.rules) {
+                        // For new conditions, build the text from rules
+                        conditionText = condition.rules.map((rule, index) => {
+                            const valueText = Array.isArray(rule.value)
+                                ? rule.value.map(v => `'${v}'`).join(' or ')
+                                : `'${rule.value}'`;
+                            if (index === 0) {
+                                return `'${rule.questionText}' ${rule.operator.replace('-', ' ')} ${valueText}`;
+                            } else {
+                                return ` <span class="govuk-!-font-weight-bold">${rule.logicalOperator || 'AND'}</span> '${rule.questionText}' ${rule.operator.replace('-', ' ')} ${valueText}`;
+                            }
+                        }).join('');
+                    }
 
                     conditionRow = `
                                 <div class="govuk-summary-list__row">
@@ -836,9 +836,11 @@ activeLinkId: "nav-editor"
                                                 </svg>
                                                 <div>
                                                     <span class="govuk-!-font-weight-bold">${condition.conditionName}</span>
+                                                    ${conditionText ? `
                                                     <div class="govuk-!-margin-left-3 govuk-!-margin-top-1">
                                                         ${conditionText}
                                                     </div>
+                                                    ` : ''}
                                                 </div>
                                             </li>
                                         </ul>
@@ -895,14 +897,10 @@ activeLinkId: "nav-editor"
                 addPaymentAmountForm.style.display = 'none';
                 addPaymentAmountButton.style.display = 'inline-block';
                 newPaymentAmountInput.value = '';
-                // Reset condition form
-                document.getElementById('questionSelect-payment').value = '';
-                document.getElementById('operatorSelect-payment').value = '';
-                document.getElementById('conditionName-payment').value = '';
-                const valueContainer = document.getElementById('valueContainer-payment');
-                if (valueContainer) {
-                    valueContainer.style.display = 'none';
-                    valueContainer.innerHTML = '';
+                // Reset condition select
+                const existingConditionSelect = document.getElementById('existing-condition-payment');
+                if (existingConditionSelect) {
+                    existingConditionSelect.value = '';
                 }
                 addPaymentAmountButton.focus();
             }
@@ -956,54 +954,15 @@ activeLinkId: "nav-editor"
                         if (conditionInput && conditionInput.value) {
                             try {
                                 const condition = JSON.parse(conditionInput.value);
-                                if (condition && condition.length > 0 && condition[0].rules) {
-                                    // Set condition name
-                                    document.getElementById('conditionName-payment').value = condition[0].conditionName || '';
+                                if (condition && condition.length > 0) {
+                                    const conditionData = condition[0];
 
-                                    // Set question select
-                                    const questionSelect = document.getElementById('questionSelect-payment');
-                                    const operatorSelect = document.getElementById('operatorSelect-payment');
-
-                                    if (condition[0].rules && condition[0].rules.length > 0) {
-                                        const firstRule = condition[0].rules[0];
-                                        // Find and select the question
-                                        for (let i = 0; i < questionSelect.options.length; i++) {
-                                            if (questionSelect.options[i].text === firstRule.questionText) {
-                                                questionSelect.selectedIndex = i;
-                                                break;
-                                            }
+                                    // If it's an existing condition, set the select
+                                    if (conditionData.isExisting && conditionData.conditionId) {
+                                        const existingConditionSelect = document.getElementById('existing-condition-payment');
+                                        if (existingConditionSelect) {
+                                            existingConditionSelect.value = conditionData.conditionId;
                                         }
-
-                                        // Set operator
-                                        operatorSelect.value = firstRule.operator;
-
-                                        // Trigger value container update
-                                        updateValueContainerPayment();
-
-                                        // Set the value after a short delay to allow value container to populate
-                                        setTimeout(() => {
-                                            const valueContainer = document.getElementById('valueContainer-payment');
-                                            if (valueContainer && firstRule.value) {
-                                                if (Array.isArray(firstRule.value)) {
-                                                    // For checkboxes
-                                                    firstRule.value.forEach(val => {
-                                                        const checkbox = valueContainer.querySelector(`input[value="${val}"]`);
-                                                        if (checkbox) checkbox.checked = true;
-                                                    });
-                                                } else {
-                                                    // For radios or select
-                                                    const input = valueContainer.querySelector(`input[value="${firstRule.value}"]`) ||
-                                                                  valueContainer.querySelector(`select`);
-                                                    if (input) {
-                                                        if (input.tagName === 'SELECT') {
-                                                            input.value = firstRule.value;
-                                                        } else {
-                                                            input.checked = true;
-                                                        }
-                                                    }
-                                                }
-                                            }
-                                        }, 100);
                                     }
                                 }
                             } catch (e) {
@@ -1073,147 +1032,6 @@ activeLinkId: "nav-editor"
                 previewPaymentAmount.classList.remove('highlight');
             });
 
-            // Handle condition question selection and value input (matching page-level conditions)
-            const questionSelectPayment = document.getElementById('questionSelect-payment');
-            const operatorSelectPayment = document.getElementById('operatorSelect-payment');
-            const valueContainerPayment = document.getElementById('valueContainer-payment');
-
-            function updateValueContainerPayment() {
-                const questionSelected = questionSelectPayment.value !== "";
-                const operatorSelected = operatorSelectPayment.value !== "";
-
-                if (questionSelected && operatorSelected) {
-                    valueContainerPayment.style.display = 'block';
-                    const selectedOption = questionSelectPayment.options[questionSelectPayment.selectedIndex];
-                    const questionType = selectedOption.getAttribute('data-type');
-                    const optionsData = selectedOption.getAttribute('data-options');
-
-                    // Clear previous value inputs
-                    valueContainerPayment.innerHTML = '';
-
-                    if (optionsData) {
-                        try {
-                            const options = JSON.parse(optionsData);
-
-                            // Add the label only when we have a question selected
-                            const label = document.createElement('label');
-                            label.className = 'govuk-label';
-                            label.htmlFor = 'condition-value-payment';
-                            label.textContent = 'Select a value';
-                            valueContainerPayment.appendChild(label);
-
-                            if (questionType === 'yes-no') {
-                                // Create radio buttons for Yes/No
-                                const fieldset = document.createElement('div');
-                                fieldset.className = 'govuk-form-group';
-
-                                const radiosDiv = document.createElement('div');
-                                radiosDiv.className = 'govuk-radios govuk-radios--small';
-                                radiosDiv.setAttribute('data-module', 'govuk-radios');
-
-                                ['yes', 'no'].forEach((value, index) => {
-                                    const itemDiv = document.createElement('div');
-                                    itemDiv.className = 'govuk-radios__item';
-
-                                    const input = document.createElement('input');
-                                    input.className = 'govuk-radios__input';
-                                    input.type = 'radio';
-                                    input.id = `main-value-payment-${value}`;
-                                    input.name = 'main-value-payment';
-                                    input.value = value;
-
-                                    const label = document.createElement('label');
-                                    label.className = 'govuk-label govuk-radios__label';
-                                    label.htmlFor = `main-value-payment-${value}`;
-                                    label.textContent = value.charAt(0).toUpperCase() + value.slice(1);
-
-                                    itemDiv.appendChild(input);
-                                    itemDiv.appendChild(label);
-                                    radiosDiv.appendChild(itemDiv);
-                                });
-
-                                fieldset.appendChild(radiosDiv);
-                                valueContainerPayment.appendChild(fieldset);
-
-                            } else if (questionType === 'radios') {
-                                // Create radio buttons for options
-                                const fieldset = document.createElement('div');
-                                fieldset.className = 'govuk-form-group';
-
-                                const radiosDiv = document.createElement('div');
-                                radiosDiv.className = 'govuk-radios govuk-radios--small';
-                                radiosDiv.setAttribute('data-module', 'govuk-radios--small');
-
-                                options.forEach((option, index) => {
-                                    const itemDiv = document.createElement('div');
-                                    itemDiv.className = 'govuk-radios__item';
-
-                                    const input = document.createElement('input');
-                                    input.className = 'govuk-radios__input';
-                                    input.type = 'radio';
-                                    input.id = `value-payment-${index}`;
-                                    input.name = 'value-payment';
-                                    input.value = option.value || option.text;
-
-                                    const label = document.createElement('label');
-                                    label.className = 'govuk-label govuk-radios__label';
-                                    label.htmlFor = `value-payment-${index}`;
-                                    label.textContent = option.text || option.label;
-
-                                    itemDiv.appendChild(input);
-                                    itemDiv.appendChild(label);
-                                    radiosDiv.appendChild(itemDiv);
-                                });
-
-                                fieldset.appendChild(radiosDiv);
-                                valueContainerPayment.appendChild(fieldset);
-
-                            } else if (questionType === 'checkboxes') {
-                                // Create checkboxes for options
-                                const fieldset = document.createElement('div');
-                                fieldset.className = 'govuk-form-group';
-
-                                const checkboxesDiv = document.createElement('div');
-                                checkboxesDiv.className = 'govuk-checkboxes govuk-checkboxes--small';
-                                checkboxesDiv.setAttribute('data-module', 'govuk-checkboxes');
-
-                                options.forEach((option, index) => {
-                                    const itemDiv = document.createElement('div');
-                                    itemDiv.className = 'govuk-checkboxes__item';
-
-                                    const input = document.createElement('input');
-                                    input.className = 'govuk-checkboxes__input';
-                                    input.type = 'checkbox';
-                                    input.id = `value-payment-${index}`;
-                                    input.name = 'value-payment';
-                                    input.value = option.value || option.text;
-
-                                    const label = document.createElement('label');
-                                    label.className = 'govuk-label govuk-checkboxes__label';
-                                    label.htmlFor = `value-payment-${index}`;
-                                    label.textContent = option.text || option.label;
-
-                                    itemDiv.appendChild(input);
-                                    itemDiv.appendChild(label);
-                                    checkboxesDiv.appendChild(itemDiv);
-                                });
-
-                                fieldset.appendChild(checkboxesDiv);
-                                valueContainerPayment.appendChild(fieldset);
-                            }
-                        } catch (e) {
-                            console.error('Error parsing options:', e);
-                        }
-                    }
-                } else {
-                    valueContainerPayment.style.display = 'none';
-                }
-            }
-
-            if (questionSelectPayment && operatorSelectPayment && valueContainerPayment) {
-                questionSelectPayment.addEventListener('change', updateValueContainerPayment);
-                operatorSelectPayment.addEventListener('change', updateValueContainerPayment);
-            }
 
         });
     </script>

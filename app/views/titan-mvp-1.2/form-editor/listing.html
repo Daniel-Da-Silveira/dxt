@@ -561,46 +561,6 @@ CHECK ANSWERS PAGE
 
 {# {% if data['checkAnswersGuidanceTextInput'] %} #}
 <div class="govuk-grid-row">
-    <!-- Payment pages first -->
-    {% for page in formPages %}
-    {% if page.questions and page.questions.length > 0 or page.pageType == 'guidance' %}
-    {% set hasPaymentQuestions = page.questions and page.questions.some(q => q.type === "payment") %}
-    {% if hasPaymentQuestions %}
-    <div class="govuk-grid-column-full govuk-grid-column-one-half-from-desktop">
-        <div class="govuk-summary-card" style="border-left: 10px solid #008938;">
-            <div class="govuk-summary-card__title-wrapper">
-                <h2 class="govuk-summary-card__title">
-                    Page {{ loop.index }}:
-                    {% if page.pageHeading %}
-                    {{ page.pageHeading }}
-                    {% elif page.questions and page.questions.length == 1 %}
-                    {{ page.questions[0].label }}
-                    {% else %}
-                    {{ page.pageType | capitalize }}
-                    {% endif %}
-                </h2>
-                <ul class="govuk-summary-card__actions">
-                    <li class="govuk-summary-card__action">
-                        <a class="govuk-link govuk-link--no-visited-state" href="/titan-mvp-1.2/edit-page/{{ page.pageId }}">
-                            Edit<span class="govuk-visually-hidden"> page {{ page.pageId }}</span>
-                        </a>
-                    </li>
-                    <li class="govuk-summary-card__action">
-                        <a class="govuk-link govuk-link--no-visited-state preview-link" data-preview="preview-{{ page.pageId }}" href="#">
-                            Preview<span class="govuk-visually-hidden"> page {{ page.pageId }}</span>
-                        </a>
-                        <a class="govuk-link close-link" data-preview="preview-{{ page.pageId }}" style="display: none;" href="#">
-                            Close Preview<span class="govuk-visually-hidden"> page {{ page.pageId }}</span>
-                        </a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </div>
-    {% endif %}
-    {% endif %}
-    {% endfor %}
-
     <!-- Summary Card Column for Check Answers -->
     <div class="govuk-grid-column-full govuk-grid-column-one-half-from-desktop">
         <!-- Section Break and Heading -->
@@ -651,6 +611,44 @@ CHECK ANSWERS PAGE
             </div>
             {% endif %}
         </div>
+
+        <!-- Payment pages after check answers -->
+        {% for page in formPages %}
+        {% if page.questions and page.questions.length > 0 or page.pageType == 'guidance' %}
+        {% set hasPaymentQuestions = page.questions and page.questions.some(q => q.type === "payment") %}
+        {% if hasPaymentQuestions %}
+        <div class="govuk-summary-card govuk-!-margin-top-4" style="border-left: 10px solid #008938;">
+            <div class="govuk-summary-card__title-wrapper">
+                <h2 class="govuk-summary-card__title">
+                    Page {{ loop.index }}:
+                    {% if page.pageHeading %}
+                    {{ page.pageHeading }}
+                    {% elif page.questions and page.questions.length == 1 %}
+                    {{ page.questions[0].label }}
+                    {% else %}
+                    {{ page.pageType | capitalize }}
+                    {% endif %}
+                </h2>
+                <ul class="govuk-summary-card__actions">
+                    <li class="govuk-summary-card__action">
+                        <a class="govuk-link govuk-link--no-visited-state" href="/titan-mvp-1.2/edit-page/{{ page.pageId }}">
+                            Edit<span class="govuk-visually-hidden"> page {{ page.pageId }}</span>
+                        </a>
+                    </li>
+                    <li class="govuk-summary-card__action">
+                        <a class="govuk-link govuk-link--no-visited-state preview-link" data-preview="preview-{{ page.pageId }}" href="#">
+                            Preview<span class="govuk-visually-hidden"> page {{ page.pageId }}</span>
+                        </a>
+                        <a class="govuk-link close-link" data-preview="preview-{{ page.pageId }}" style="display: none;" href="#">
+                            Close Preview<span class="govuk-visually-hidden"> page {{ page.pageId }}</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        {% endif %}
+        {% endif %}
+        {% endfor %}
     </div>
 
     <!-- Preview Column -->
@@ -895,6 +893,7 @@ CHECK ANSWERS PAGE
         </div> <!-- End of preview-container -->
     </div>
 </div> <!-- End of govuk-grid-row -->
+
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         const filterButton = document.getElementById('apply-filter');

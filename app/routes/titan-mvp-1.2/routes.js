@@ -1888,9 +1888,14 @@ router.get("/titan-mvp-1.2/form-editor/listing", function (req, res) {
     const aIsCheckAnswers = a.pageHeading && a.pageHeading.toLowerCase().includes("check your answers");
     const bIsCheckAnswers = b.pageHeading && b.pageHeading.toLowerCase().includes("check your answers");
 
-    // Payment pages come after check answers
-    if (aHasPayment && bIsCheckAnswers) return 1;
-    if (bHasPayment && aIsCheckAnswers) return -1;
+    // Assign sort values: check answers = 1, payment = 3, others = 2
+    const aSortValue = aIsCheckAnswers ? 1 : (aHasPayment ? 3 : 2);
+    const bSortValue = bIsCheckAnswers ? 1 : (bHasPayment ? 3 : 2);
+
+    // If different categories, sort by category
+    if (aSortValue !== bSortValue) {
+      return aSortValue - bSortValue;
+    }
 
     // Otherwise maintain original order
     return 0;
@@ -1938,9 +1943,14 @@ router.get("/titan-mvp-1.2/form-editor/listing.html", function (req, res) {
     const aIsCheckAnswers = a.pageHeading && a.pageHeading.toLowerCase().includes("check your answers");
     const bIsCheckAnswers = b.pageHeading && b.pageHeading.toLowerCase().includes("check your answers");
 
-    // Payment pages come after check answers
-    if (aHasPayment && bIsCheckAnswers) return 1;
-    if (bHasPayment && aIsCheckAnswers) return -1;
+    // Assign sort values: check answers = 1, payment = 3, others = 2
+    const aSortValue = aIsCheckAnswers ? 1 : (aHasPayment ? 3 : 2);
+    const bSortValue = bIsCheckAnswers ? 1 : (bHasPayment ? 3 : 2);
+
+    // If different categories, sort by category
+    if (aSortValue !== bSortValue) {
+      return aSortValue - bSortValue;
+    }
 
     // Otherwise maintain original order
     return 0;
@@ -1990,9 +2000,14 @@ router.get("/titan-mvp-1.2/form-editor/listing-v2", function (req, res) {
     const aIsCheckAnswers = a.pageHeading && a.pageHeading.toLowerCase().includes("check your answers");
     const bIsCheckAnswers = b.pageHeading && b.pageHeading.toLowerCase().includes("check your answers");
 
-    // Payment pages come after check answers
-    if (aHasPayment && bIsCheckAnswers) return 1;
-    if (bHasPayment && aIsCheckAnswers) return -1;
+    // Assign sort values: check answers = 1, payment = 3, others = 2
+    const aSortValue = aIsCheckAnswers ? 1 : (aHasPayment ? 3 : 2);
+    const bSortValue = bIsCheckAnswers ? 1 : (bHasPayment ? 3 : 2);
+
+    // If different categories, sort by category
+    if (aSortValue !== bSortValue) {
+      return aSortValue - bSortValue;
+    }
 
     // Otherwise maintain original order
     return 0;
@@ -2045,9 +2060,14 @@ router.get("/titan-mvp-1.2/form-editor/listing-v2.html", function (req, res) {
     const aIsCheckAnswers = a.pageHeading && a.pageHeading.toLowerCase().includes("check your answers");
     const bIsCheckAnswers = b.pageHeading && b.pageHeading.toLowerCase().includes("check your answers");
 
-    // Payment pages come after check answers
-    if (aHasPayment && bIsCheckAnswers) return 1;
-    if (bHasPayment && aIsCheckAnswers) return -1;
+    // Assign sort values: check answers = 1, payment = 3, others = 2
+    const aSortValue = aIsCheckAnswers ? 1 : (aHasPayment ? 3 : 2);
+    const bSortValue = bIsCheckAnswers ? 1 : (bHasPayment ? 3 : 2);
+
+    // If different categories, sort by category
+    if (aSortValue !== bSortValue) {
+      return aSortValue - bSortValue;
+    }
 
     // Otherwise maintain original order
     return 0;
@@ -2361,7 +2381,7 @@ router.get("/titan-mvp-1.2/question-configuration", function (req, res) {
       "/titan-mvp-1.2/form-editor/question-type/declaration/edit-nf.html";
   } else if (mainType === "payment") {
     templateToRender =
-      "/titan-mvp-1.2/form-editor/question-type/payment/edit-nf-v2.html";
+      "/titan-mvp-1.2/form-editor/question-type/payment/edit-nf-v3.html";
   } else if (
     (mainType === "list" && listSubType === "select") ||
     mainType === "autocomplete" ||

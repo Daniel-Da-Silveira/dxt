@@ -442,7 +442,17 @@ activeLinkId: "nav-editor"
                 {% if formPages.length %}
                 {% for page in formPages %}
                 {% if page.questions and page.questions.length > 0 or page.pageType == 'guidance' %}
-                {% set hasPaymentQuestions = page.questions and page.questions.some(q => q.type === "payment") or (page.pageHeading and page.pageHeading.toLowerCase().includes("payment")) %}
+                {% set hasPaymentQuestions = false %}
+                {% if page.questions %}
+                    {% for question in page.questions %}
+                        {% if question.type === "payment" %}
+                            {% set hasPaymentQuestions = true %}
+                        {% endif %}
+                    {% endfor %}
+                {% endif %}
+                {% if page.pageHeading and page.pageHeading.toLowerCase().includes("payment") %}
+                    {% set hasPaymentQuestions = true %}
+                {% endif %}
                 {% if not hasPaymentQuestions %}
                 <div class="app-page-card"
                     data-conditions="{% for condition in page.conditions %}{{ condition.conditionName }}{% if not loop.last %},{% endif %}{% endfor %}">
@@ -864,7 +874,17 @@ activeLinkId: "nav-editor"
                     <!-- Payment pages first -->
                     {% for page in formPages %}
                     {% if page.questions and page.questions.length > 0 or page.pageType == 'guidance' %}
-                    {% set hasPaymentQuestions = page.questions and page.questions.some(q => q.type === "payment") or (page.pageHeading and page.pageHeading.toLowerCase().includes("payment")) %}
+                    {% set hasPaymentQuestions = false %}
+                    {% if page.questions %}
+                        {% for question in page.questions %}
+                            {% if question.type === "payment" %}
+                                {% set hasPaymentQuestions = true %}
+                            {% endif %}
+                        {% endfor %}
+                    {% endif %}
+                    {% if page.pageHeading and page.pageHeading.toLowerCase().includes("payment") %}
+                        {% set hasPaymentQuestions = true %}
+                    {% endif %}
                     {% if hasPaymentQuestions %}
                     <div class="govuk-grid-column-one-half-from-desktop govuk-grid-column-full-from-tablet govuk-grid-column-full-from-mobile">
                         <div class="govuk-summary-card govuk-!-margin-bottom-4" style="border-left: 10px solid #008938;">

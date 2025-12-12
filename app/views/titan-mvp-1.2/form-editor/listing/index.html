@@ -843,86 +843,6 @@ activeLinkId: "nav-editor"
                     </div>
                 </div>
 
-                <!-- Payment pages first -->
-                {% for page in formPages %}
-                {% if page.questions and page.questions.length > 0 or page.pageType == 'guidance' %}
-                {% set hasPaymentQuestions = false %}
-                {% if page.questions %}
-                {% for question in page.questions %}
-                {% if question.type === "payment" %}
-                {% set hasPaymentQuestions = true %}
-                {% endif %}
-                {% endfor %}
-                {% endif %}
-                {% if page.pageHeading and page.pageHeading.toLowerCase().includes("payment") %}
-                {% set hasPaymentQuestions = true %}
-                {% endif %}
-                {% if hasPaymentQuestions %}
-                <div class="govuk-grid-row">
-                    <div class="govuk-grid-column-one-half-from-desktop govuk-grid-column-full-from-tablet govuk-grid-column-full-from-mobile">
-                        <div class="govuk-summary-card govuk-!-margin-bottom-4" style="border-left: 10px solid #b1b4b6; ">
-                            <div class="govuk-summary-card__title-wrapper">
-                                <h2 class="govuk-summary-card__title" id="card-title-payment">
-                                    Payment page
-                                </h2>
-                                <ul class="govuk-summary-card__actions">
-                                    <li class="govuk-summary-card__action">
-                                        <a class="govuk-link govuk-link--no-visited-state" href="/titan-mvp-1.2/edit-page/{{ page.pageId }}">
-                                            Edit<span class="govuk-visually-hidden"> page {{ page.pageId }}</span>
-                                        </a>
-                                    </li>
-                                    <li class="govuk-summary-card__action">
-                                        <a class="govuk-link govuk-link--no-visited-state preview-link"
-                                            data-preview="preview-{{ page.pageId }}" href="#">
-                                            Preview<span class="govuk-visually-hidden"> page {{ page.pageId }}</span>
-                                        </a>
-                                        <a class="govuk-link close-link" data-preview="preview-{{ page.pageId }}"
-                                            id="close-before-content-{{ page.pageId }}" style="display: none;" href="#">
-                                            Close Preview<span class="govuk-visually-hidden"> page {{ page.pageId }}</span>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Preview Column for Payment Page -->
-                    <div class="govuk-grid-column-one-half-from-desktop govuk-grid-column-full-from-tablet govuk-grid-column-full-from-mobile">
-                        <div class="preview-container govuk-!-margin-top-1" id="preview-{{ page.pageId }}">
-                            <div id="dynamic-preview-content-{{ page.pageId }}">
-                                <!-- Preview Header -->
-                                <div id="before-content"
-                                    style="background-color: #cce2d8; display: flex; justify-content: space-between; align-items: center; padding: 8px;">
-                                    <p class="govuk-body-s" style="margin-bottom: 0; color: #005a30;">
-                                        Preview of Payment page
-                                    </p>
-                                    <a href="#" id="close-before-content-{{ page.pageId }}" class="govuk-link"
-                                        style="color: #005a30;" aria-label="Close Previews">
-                                        Close<span class="govuk-visually-hidden"> Previews
-                                            section</span>
-                                    </a>
-                                </div>
-                                <div style="margin-top: 60px;">
-                                    <!-- Payment Preview Content -->
-                                    <div class="payment-summary-wrap">
-                                        <div class="payment-summary">
-                                            <h1 class="govuk-heading-l" id="preview-question-label">Payment required</h1>
-                                            <p id="preview-payment-description" class="govuk-body">{{ page.questions[0].paymentDescription or 'Payment description' }}</p>
-                                            {{ govukWarningText({ text: "You must pay before you can send your form", classes: "govuk-!-margin-bottom-4", iconFallbackText: "Warning" }) }}
-                                            <p class="govuk-body">When your payment is complete, you'll able to continue with your form.</p>
-                                            <p class="govuk-body govuk-!-font-weight-bold">Total amount: <span id="preview-payment-amount" class="amount govuk-!-font-size-36 govuk-!-font-weight-bold">£{{ page.questions[0].paymentAmount or '0.00' }}</span></p>
-                                            {{ govukButton({ text: "Pay now", classes: "govuk-button--primary govuk-!-margin-top-4 govuk-!-margin-bottom-0" }) }}
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                {% endif %}
-                {% endif %}
-                {% endfor %}
-
                 <!-- Check Answers page -->
                 <div class="govuk-grid-row">
                     <div
@@ -1267,6 +1187,86 @@ activeLinkId: "nav-editor"
                         </div> <!-- End of preview-container -->
                     </div>
                 </div>
+
+                <!-- Payment pages after check answers -->
+                {% for page in formPages %}
+                {% if page.questions and page.questions.length > 0 or page.pageType == 'guidance' %}
+                {% set hasPaymentQuestions = false %}
+                {% if page.questions %}
+                {% for question in page.questions %}
+                {% if question.type === "payment" %}
+                {% set hasPaymentQuestions = true %}
+                {% endif %}
+                {% endfor %}
+                {% endif %}
+                {% if page.pageHeading and page.pageHeading.toLowerCase().includes("payment") %}
+                {% set hasPaymentQuestions = true %}
+                {% endif %}
+                {% if hasPaymentQuestions %}
+                <div class="govuk-grid-row">
+                    <div class="govuk-grid-column-one-half-from-desktop govuk-grid-column-full-from-tablet govuk-grid-column-full-from-mobile">
+                        <div class="govuk-summary-card govuk-!-margin-bottom-4" style="border-left: 10px solid #b1b4b6;">
+                            <div class="govuk-summary-card__title-wrapper">
+                                <h2 class="govuk-summary-card__title" id="card-title-payment">
+                                    Payment page
+                                </h2>
+                                <ul class="govuk-summary-card__actions">
+                                    <li class="govuk-summary-card__action">
+                                        <a class="govuk-link govuk-link--no-visited-state" href="/titan-mvp-1.2/edit-page/{{ page.pageId }}">
+                                            Edit<span class="govuk-visually-hidden"> page {{ page.pageId }}</span>
+                                        </a>
+                                    </li>
+                                    <li class="govuk-summary-card__action">
+                                        <a class="govuk-link govuk-link--no-visited-state preview-link"
+                                            data-preview="preview-{{ page.pageId }}" href="#">
+                                            Preview<span class="govuk-visually-hidden"> page {{ page.pageId }}</span>
+                                        </a>
+                                        <a class="govuk-link close-link" data-preview="preview-{{ page.pageId }}"
+                                            id="close-before-content-{{ page.pageId }}" style="display: none;" href="#">
+                                            Close Preview<span class="govuk-visually-hidden"> page {{ page.pageId }}</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Preview Column for Payment Page -->
+                    <div class="govuk-grid-column-one-half-from-desktop govuk-grid-column-full-from-tablet govuk-grid-column-full-from-mobile">
+                        <div class="preview-container govuk-!-margin-top-1" id="preview-{{ page.pageId }}">
+                            <div id="dynamic-preview-content-{{ page.pageId }}">
+                                <!-- Preview Header -->
+                                <div id="before-content"
+                                    style="background-color: #cce2d8; display: flex; justify-content: space-between; align-items: center; padding: 8px;">
+                                    <p class="govuk-body-s" style="margin-bottom: 0; color: #005a30;">
+                                        Preview of Payment page
+                                    </p>
+                                    <a href="#" id="close-before-content-{{ page.pageId }}" class="govuk-link"
+                                        style="color: #005a30;" aria-label="Close Previews">
+                                        Close<span class="govuk-visually-hidden"> Previews
+                                            section</span>
+                                    </a>
+                                </div>
+                                <div style="margin-top: 60px;">
+                                    <!-- Payment Preview Content -->
+                                    <div class="payment-summary-wrap">
+                                        <div class="payment-summary">
+                                            <h1 class="govuk-heading-l" id="preview-question-label">Payment required</h1>
+                                            <p id="preview-payment-description" class="govuk-body">{{ page.questions[0].paymentDescription or 'Payment description' }}</p>
+                                            {{ govukWarningText({ text: "You must pay before you can send your form", classes: "govuk-!-margin-bottom-4", iconFallbackText: "Warning" }) }}
+                                            <p class="govuk-body">When your payment is complete, you'll able to continue with your form.</p>
+                                            <p class="govuk-body govuk-!-font-weight-bold">Total amount: <span id="preview-payment-amount" class="amount govuk-!-font-size-36 govuk-!-font-weight-bold">£{{ page.questions[0].paymentAmount or '0.00' }}</span></p>
+                                            {{ govukButton({ text: "Pay now", classes: "govuk-button--primary govuk-!-margin-top-4 govuk-!-margin-bottom-0" }) }}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+                {% endif %}
+                {% endfor %}
             </div>
         </div>
 
